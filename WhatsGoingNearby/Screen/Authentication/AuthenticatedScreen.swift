@@ -13,7 +13,7 @@ struct AuthenticatedScreen: View {
     
     var body: some View {
         if authVM.authenticationState == .authenticated {
-            MainTabView()
+            PreparingSessionScreen()
                 .environmentObject(authVM)
         } else {
             AuthenticationScreen()

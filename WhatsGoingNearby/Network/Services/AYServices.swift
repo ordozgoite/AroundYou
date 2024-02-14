@@ -9,6 +9,10 @@ import Foundation
 
 protocol AYServiceable {
     
+    // User
+    func postNewUser(name: String, token: String) async -> Result<MongoUser, RequestError>
+    func getUserInfo(token: String) async -> Result<MongoUser, RequestError>
+    
     // Publication
     func postNewPublication(text: String, timestamp: Int, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError>
     func getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
@@ -18,6 +22,16 @@ struct AYServices: HTTPClient, AYServiceable {
     
     static let shared = AYServices()
     private init() {}
+    
+    //MARK: - User
+    
+    func postNewUser(name: String, token: String) async -> Result<MongoUser, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewUser(name: name, token: token), responseModel: MongoUser.self)
+    }
+    
+    func getUserInfo(token: String) async -> Result<MongoUser, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getUserInfo(token: token), responseModel: MongoUser.self)
+    }
     
     //MARK: - Publication
     

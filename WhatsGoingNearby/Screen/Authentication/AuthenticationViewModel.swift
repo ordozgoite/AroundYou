@@ -42,8 +42,8 @@ class AuthenticationViewModel: ObservableObject {
     @Published var user: User?
     
     @Published var name: String = ""
-    @Published var profilePic: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKZPMTq-wk1uOUFRgXSBzArmAOZbv79_jPnz3iKkyIUoeFo0wXX9-nGkgoiCtoWXA4kB0&usqp=CAU" // remove it
-    @Published var isAccessInfoFetched: Bool = false
+    @Published var profilePic: String?
+    @Published var isUserInfoFetched: Bool = false
     @Published var isLoading: Bool = false
     @Published var isForgotPasswordScreenDisplayed: Bool = false
     @Published var errorMessage: (String?, String?, String?, String?) = (nil, nil, nil, nil)
@@ -116,6 +116,7 @@ extension AuthenticationViewModel {
         do {
             try Auth.auth().signOut()
             authenticationState = .unauthenticated
+            resetUserInfo()
         }
         catch {
             overlayError = (true, error.localizedDescription)
@@ -150,6 +151,33 @@ extension AuthenticationViewModel {
 //MARK: - AY Methods
 
 extension AuthenticationViewModel {
+    func postNewUser(token: String) async {
+        let result = await AYServices.shared.postNewUser(name: nameInput, token: token)
+        
+        switch result {
+        case .success(let user):
+            name = user.name
+            isUserInfoFetched = true
+        case .failure(let error):
+            overlayError = (true, error.customMessage)
+        }
+    }
+    
+    func getUserInfo(token: String) async {
+        let result = await AYServices.shared.getUserInfo(token: token)
+        
+        switch result {
+        case .success(let user):
+            name = user.name
+//            profilePic = user.profilePic
+//            biography = user.biography
+            isUserInfoFetched = true
+        case .failure(let error):
+            signOut()
+            overlayError = (true, error.customMessage)
+        }
+    }
+    
     func isLoginInputValid() -> Bool {
         errorMessage = (nil, nil, nil, nil)
         if emailInput.isEmpty { errorMessage.1 = "Por favor insira seu e-mail." }
@@ -167,5 +195,11 @@ extension AuthenticationViewModel {
         if confirmPasswordInput.isEmpty { errorMessage.3 = "Por favor confirme sua senha." }
         let (a, b, c, d) = errorMessage
         return a == nil && b == nil && c == nil && d == nil ? true : false
+    }
+    
+    private func resetUserInfo() {
+        name = ""
+        profilePic = nil
+        isUserInfoFetched = false
     }
 }

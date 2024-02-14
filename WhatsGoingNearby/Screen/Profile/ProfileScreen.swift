@@ -36,10 +36,17 @@ struct ProfileScreen: View {
     @ViewBuilder
     private func ProfileHeader() -> some View {
         VStack {
-            ProfilePictureView(imageURL: authVM.profilePic)
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 128, height: 128)
-                .clipShape(Circle())
+            if let imageURL = authVM.profilePic {
+                ProfilePictureView(imageURL: imageURL)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 128, height: 128)
+                    .clipShape(Circle())
+            } else {
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 128, height: 128)
+            }
             
             Text(authVM.name)
                 .font(.title)

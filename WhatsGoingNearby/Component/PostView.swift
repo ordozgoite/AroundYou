@@ -54,9 +54,7 @@ struct PostView: View {
             Text(post.userName ?? "Anonymous")
                 .fontWeight(.semibold)
             
-            Text(post.timestamp.convertToMinutesAgo())
-                .font(.subheadline)
-                .foregroundStyle(.gray)
+            // TimerView()
             
             Spacer()
             

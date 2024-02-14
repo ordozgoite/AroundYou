@@ -69,6 +69,8 @@
 		EDA322342B7CB861009905B5 /* ProfilePictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322332B7CB861009905B5 /* ProfilePictureView.swift */; };
 		EDA322362B7CBF9B009905B5 /* NewPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322352B7CBF9B009905B5 /* NewPostViewModel.swift */; };
 		EDA322382B7CC145009905B5 /* TimestampTestScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322372B7CC145009905B5 /* TimestampTestScreen.swift */; };
+		EDA3223B2B7CCD8A009905B5 /* MongoUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3223A2B7CCD8A009905B5 /* MongoUser.swift */; };
+		EDA3223D2B7CCF64009905B5 /* PreparingSessionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3223C2B7CCF64009905B5 /* PreparingSessionScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,6 +110,8 @@
 		EDA322332B7CB861009905B5 /* ProfilePictureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePictureView.swift; sourceTree = "<group>"; };
 		EDA322352B7CBF9B009905B5 /* NewPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewModel.swift; sourceTree = "<group>"; };
 		EDA322372B7CC145009905B5 /* TimestampTestScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampTestScreen.swift; sourceTree = "<group>"; };
+		EDA3223A2B7CCD8A009905B5 /* MongoUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoUser.swift; sourceTree = "<group>"; };
+		EDA3223C2B7CCF64009905B5 /* PreparingSessionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparingSessionScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +158,7 @@
 				ED598C042B7C43A000B6C23D /* AuthenticationViewModel.swift */,
 				ED598C022B7C42B500B6C23D /* AuthenticationScreen.swift */,
 				ED598C4B2B7C587100B6C23D /* AuthenticatedScreen.swift */,
+				EDA3223C2B7CCF64009905B5 /* PreparingSessionScreen.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -182,6 +187,8 @@
 			children = (
 				ED598BEF2B7C147D00B6C23D /* Post.swift */,
 				EDA3222F2B7CB12C009905B5 /* FormattedPost.swift */,
+				EDA3223A2B7CCD8A009905B5 /* MongoUser.swift */,
+				EDA322392B7CCD79009905B5 /* Response */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -310,6 +317,13 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		EDA322392B7CCD79009905B5 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -415,6 +429,7 @@
 			files = (
 				EDA322322B7CB5DE009905B5 /* String.swift in Sources */,
 				ED598C092B7C472200B6C23D /* AYButton.swift in Sources */,
+				EDA3223B2B7CCD8A009905B5 /* MongoUser.swift in Sources */,
 				ED598C0F2B7C499400B6C23D /* AYSecureTextField.swift in Sources */,
 				EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */,
 				ED598C052B7C43A000B6C23D /* AuthenticationViewModel.swift in Sources */,
@@ -439,6 +454,7 @@
 				ED598C532B7C81CA00B6C23D /* LocationManager.swift in Sources */,
 				ED5CB1692B7C11C000C336EC /* WhatsGoingNearbyApp.swift in Sources */,
 				ED598BF52B7C16EC00B6C23D /* PostView.swift in Sources */,
+				EDA3223D2B7CCF64009905B5 /* PreparingSessionScreen.swift in Sources */,
 				ED598BF02B7C147D00B6C23D /* Post.swift in Sources */,
 				ED598C072B7C441500B6C23D /* AuthFlowSegmentedControl.swift in Sources */,
 				ED598BFE2B7C39FD00B6C23D /* MainTabView.swift in Sources */,

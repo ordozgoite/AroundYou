@@ -8,8 +8,10 @@
 import Foundation
 
 enum AYEndpoints {
+    case postNewUser(name: String, token: String)
     case postNewPublication(text: String, timestamp: Int, latitude: Double, longitude: Double, token: String)
     case getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String)
+    case getUserInfo(token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -22,6 +24,10 @@ extension AYEndpoints: Endpoint {
             return "/api/Publication/PostNewPublication"
         case .getActivePublicationsNearBy:
             return "/api/Publication/GetActivePublicationsNearBy"
+        case .postNewUser:
+            return "/api/User/PostNewUser"
+        case .getUserInfo:
+            return "/api/User/GetUserInfo"
         }
     }
     
@@ -29,9 +35,9 @@ extension AYEndpoints: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .postNewPublication:
+        case .postNewPublication, .postNewUser:
             return .post
-        case .getActivePublicationsNearBy:
+        case .getActivePublicationsNearBy, .getUserInfo:
             return .get
         }
     }
@@ -67,6 +73,18 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .postNewUser(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
+        case .getUserInfo(let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -87,7 +105,12 @@ extension AYEndpoints: Endpoint {
                 "longitude": longitude
             ]
             return params
-        case .getActivePublicationsNearBy:
+        case .postNewUser(let name, _):
+            let params: [String: Any] = [
+                "name": name
+            ]
+            return params
+        case .getActivePublicationsNearBy, .getUserInfo:
             return nil
         }
     }

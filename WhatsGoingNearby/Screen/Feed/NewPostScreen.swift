@@ -67,10 +67,17 @@ struct NewPostScreen: View {
         HStack {
             switch newPostVM.selectedPostVisibility {
             case .identified:
-                ProfilePictureView(imageURL: authVM.profilePic)
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
+                if let imageURL = authVM.profilePic {
+                    ProfilePictureView(imageURL: imageURL)
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 50, height: 50)
+                        .clipShape(Circle())
+                } else {
+                    Image(systemName: "person.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 50, height: 50)
+                }
             case .anonymous:
                 Image(systemName: "person.crop.circle.badge.questionmark.fill")
                     .resizable()
