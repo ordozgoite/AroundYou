@@ -21,15 +21,15 @@ struct AuthenticationScreen: View {
             Spacer()
             
             if authVM.flow == .signUp {
-                //                PsiTextField(textInput: $authVM.nameInput, error: $authVM.errorMessage.0, placeholder: "nome", isSecret: false, imageSystemName: "person", isEmail: false)
+                AYTextField(imageName: "person.fill", title: "Name", error: $authVM.errorMessage.0, inputText: $authVM.nameInput)
             }
             
-            //            PsiTextField(textInput: $authVM.emailInput, error: $authVM.errorMessage.1, placeholder: "e-mail", isSecret: false, imageSystemName: "envelope", isEmail: true)
+            AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.1, inputText: $authVM.emailInput)
             
-            //            PsiTextField(textInput: $authVM.passwordInput, error: $authVM.errorMessage.2, placeholder: "senha", isSecret: true, imageSystemName: "lock", isEmail: false)
+            AYSecureTextField(imageName: "lock", title: "Password", error: $authVM.errorMessage.2, inputText: $authVM.passwordInput)
             
             if authVM.flow == .signUp {
-                //                PsiTextField(textInput: $authVM.confirmPasswordInput, error: $authVM.errorMessage.3, placeholder: "confirmar senha", isSecret: true, imageSystemName: "lock", isEmail: false)
+                AYSecureTextField(imageName: "lock", title: "Confirm password", error: $authVM.errorMessage.3, inputText: $authVM.confirmPasswordInput)
             }
             
             Spacer()

@@ -14,9 +14,9 @@ enum AuthenticationFlow: Int, CaseIterable {
     var title: String {
         switch self {
         case .login:
-            return "Entrar"
+            return "Enter"
         case .signUp:
-            return "Registrar-se"
+            return "Register"
         }
     }
 }

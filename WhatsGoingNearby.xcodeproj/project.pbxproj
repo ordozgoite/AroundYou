@@ -20,6 +20,8 @@
 		ED598C052B7C43A000B6C23D /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C042B7C43A000B6C23D /* AuthenticationViewModel.swift */; };
 		ED598C072B7C441500B6C23D /* AuthFlowSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C062B7C441500B6C23D /* AuthFlowSegmentedControl.swift */; };
 		ED598C092B7C472200B6C23D /* AYButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C082B7C472200B6C23D /* AYButton.swift */; };
+		ED598C0D2B7C482A00B6C23D /* AYTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C0C2B7C482A00B6C23D /* AYTextField.swift */; };
+		ED598C0F2B7C499400B6C23D /* AYSecureTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C0E2B7C499400B6C23D /* AYSecureTextField.swift */; };
 		ED5CB1692B7C11C000C336EC /* WhatsGoingNearbyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5CB1682B7C11C000C336EC /* WhatsGoingNearbyApp.swift */; };
 		ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5CB16A2B7C11C000C336EC /* ContentView.swift */; };
 		ED5CB16D2B7C11C500C336EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED5CB16C2B7C11C500C336EC /* Assets.xcassets */; };
@@ -40,6 +42,8 @@
 		ED598C042B7C43A000B6C23D /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		ED598C062B7C441500B6C23D /* AuthFlowSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowSegmentedControl.swift; sourceTree = "<group>"; };
 		ED598C082B7C472200B6C23D /* AYButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYButton.swift; sourceTree = "<group>"; };
+		ED598C0C2B7C482A00B6C23D /* AYTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYTextField.swift; sourceTree = "<group>"; };
+		ED598C0E2B7C499400B6C23D /* AYSecureTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYSecureTextField.swift; sourceTree = "<group>"; };
 		ED5CB1652B7C11C000C336EC /* WhatsGoingNearby.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhatsGoingNearby.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED5CB1682B7C11C000C336EC /* WhatsGoingNearbyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsGoingNearbyApp.swift; sourceTree = "<group>"; };
 		ED5CB16A2B7C11C000C336EC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -61,8 +65,8 @@
 		ED598BE92B7C121000B6C23D /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				ED598C022B7C42B500B6C23D /* AuthenticationScreen.swift */,
 				ED598C042B7C43A000B6C23D /* AuthenticationViewModel.swift */,
+				ED598C022B7C42B500B6C23D /* AuthenticationScreen.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -96,10 +100,9 @@
 		ED598BF32B7C16DA00B6C23D /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				ED598C0B2B7C47FA00B6C23D /* Auth */,
+				ED598C0A2B7C47E300B6C23D /* Global */,
 				ED598BF42B7C16EC00B6C23D /* PostView.swift */,
-				ED598BF92B7C217400B6C23D /* AYProgressView.swift */,
-				ED598C062B7C441500B6C23D /* AuthFlowSegmentedControl.swift */,
-				ED598C082B7C472200B6C23D /* AYButton.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -110,6 +113,25 @@
 				ED598BF72B7C1B9400B6C23D /* Date.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		ED598C0A2B7C47E300B6C23D /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				ED598C082B7C472200B6C23D /* AYButton.swift */,
+				ED598BF92B7C217400B6C23D /* AYProgressView.swift */,
+			);
+			path = Global;
+			sourceTree = "<group>";
+		};
+		ED598C0B2B7C47FA00B6C23D /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				ED598C0C2B7C482A00B6C23D /* AYTextField.swift */,
+				ED598C0E2B7C499400B6C23D /* AYSecureTextField.swift */,
+				ED598C062B7C441500B6C23D /* AuthFlowSegmentedControl.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		ED5CB15C2B7C11C000C336EC = {
@@ -233,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED598C092B7C472200B6C23D /* AYButton.swift in Sources */,
+				ED598C0F2B7C499400B6C23D /* AYSecureTextField.swift in Sources */,
 				ED598C052B7C43A000B6C23D /* AuthenticationViewModel.swift in Sources */,
 				ED598BFC2B7C268C00B6C23D /* NewPostScreen.swift in Sources */,
 				ED598C032B7C42B500B6C23D /* AuthenticationScreen.swift in Sources */,
@@ -247,6 +270,7 @@
 				ED598BF02B7C147D00B6C23D /* Post.swift in Sources */,
 				ED598C072B7C441500B6C23D /* AuthFlowSegmentedControl.swift in Sources */,
 				ED598BFE2B7C39FD00B6C23D /* MainTabView.swift in Sources */,
+				ED598C0D2B7C482A00B6C23D /* AYTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

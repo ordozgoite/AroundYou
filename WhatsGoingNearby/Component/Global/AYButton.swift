@@ -17,8 +17,9 @@ struct AYButton: View {
             action()
         } label: {
             Text(title)
-                .fontWeight(.bold)
-                .frame(width: 256, height: 32)
+                .font(.title3)
+                .fontWeight(.semibold)
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 32)
         }
         .buttonStyle(.borderedProminent)
     }
