@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct MainTabView: View {
+    
+    @EnvironmentObject var authVM: AuthenticationViewModel
+    
     var body: some View {
         TabView {
             FeedScreen()
@@ -15,12 +18,14 @@ struct MainTabView: View {
                     Image(systemName: "location.fill")
                     Text("Around you")
                 }
+                .environmentObject(authVM)
             
             ProfileScreen()
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text("Profile")
                 }
+                .environmentObject(authVM)
         }
     }
 }

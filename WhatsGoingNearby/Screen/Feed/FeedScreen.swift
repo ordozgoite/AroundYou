@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FeedScreen: View {
     
+    @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject private var feedVM = FeedViewModel()
     
     var body: some View {

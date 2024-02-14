@@ -95,8 +95,23 @@ struct AuthenticationScreen: View {
     
     @ViewBuilder
     private func ButtonView() -> some View {
-        AYButton(title: authVM.flow.title) {
-            // auth
+        if authVM.authenticationState == .authenticating {
+            AYProgressButton(title: "Authenticating")
+        } else {
+            AYButton(title: authVM.flow.title) {
+                Task {
+                    switch authVM.flow {
+                    case .login:
+                        if authVM.isLoginInputValid() {
+                            _ = await authVM.signInWithEmailPassword()
+                        }
+                    case .signUp:
+                        if authVM.isSignupInputValid() {
+                            _ = await authVM.signUpWithEmailPassword()
+                        }
+                    }
+                }
+            }
         }
     }
 }

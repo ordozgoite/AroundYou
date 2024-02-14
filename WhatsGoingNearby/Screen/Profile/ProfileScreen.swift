@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ProfileScreen: View {
+    
+    @EnvironmentObject var authVM: AuthenticationViewModel
+    
     var body: some View {
         NavigationStack {
             VStack {
