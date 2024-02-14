@@ -53,10 +53,22 @@
 		ED598C4A2B7C576A00B6C23D /* AYProgressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C492B7C576A00B6C23D /* AYProgressButton.swift */; };
 		ED598C4C2B7C587100B6C23D /* AuthenticatedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C4B2B7C587100B6C23D /* AuthenticatedScreen.swift */; };
 		ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C4E2B7C59D700B6C23D /* SettingsScreen.swift */; };
+		ED598C512B7C80EC00B6C23D /* LocationTestScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C502B7C80EC00B6C23D /* LocationTestScreen.swift */; };
+		ED598C532B7C81CA00B6C23D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C522B7C81CA00B6C23D /* LocationManager.swift */; };
 		ED5CB1692B7C11C000C336EC /* WhatsGoingNearbyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5CB1682B7C11C000C336EC /* WhatsGoingNearbyApp.swift */; };
 		ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5CB16A2B7C11C000C336EC /* ContentView.swift */; };
 		ED5CB16D2B7C11C500C336EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED5CB16C2B7C11C500C336EC /* Assets.xcassets */; };
 		ED5CB1702B7C11C500C336EC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED5CB16F2B7C11C500C336EC /* Preview Assets.xcassets */; };
+		EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322232B7C99B6009905B5 /* CalculateDistanceTestScreen.swift */; };
+		EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322262B7CA342009905B5 /* HTTPClient.swift */; };
+		EDA322292B7CA362009905B5 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322282B7CA362009905B5 /* Endpoint.swift */; };
+		EDA3222C2B7CA3A8009905B5 /* AYServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3222B2B7CA3A8009905B5 /* AYServices.swift */; };
+		EDA3222E2B7CA490009905B5 /* AYEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3222D2B7CA490009905B5 /* AYEndpoints.swift */; };
+		EDA322302B7CB12D009905B5 /* FormattedPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3222F2B7CB12C009905B5 /* FormattedPost.swift */; };
+		EDA322322B7CB5DE009905B5 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322312B7CB5DE009905B5 /* String.swift */; };
+		EDA322342B7CB861009905B5 /* ProfilePictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322332B7CB861009905B5 /* ProfilePictureView.swift */; };
+		EDA322362B7CBF9B009905B5 /* NewPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322352B7CBF9B009905B5 /* NewPostViewModel.swift */; };
+		EDA322382B7CC145009905B5 /* TimestampTestScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322372B7CC145009905B5 /* TimestampTestScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,11 +91,23 @@
 		ED598C492B7C576A00B6C23D /* AYProgressButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYProgressButton.swift; sourceTree = "<group>"; };
 		ED598C4B2B7C587100B6C23D /* AuthenticatedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedScreen.swift; sourceTree = "<group>"; };
 		ED598C4E2B7C59D700B6C23D /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
+		ED598C502B7C80EC00B6C23D /* LocationTestScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTestScreen.swift; sourceTree = "<group>"; };
+		ED598C522B7C81CA00B6C23D /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		ED5CB1652B7C11C000C336EC /* WhatsGoingNearby.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhatsGoingNearby.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED5CB1682B7C11C000C336EC /* WhatsGoingNearbyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsGoingNearbyApp.swift; sourceTree = "<group>"; };
 		ED5CB16A2B7C11C000C336EC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ED5CB16C2B7C11C500C336EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED5CB16F2B7C11C500C336EC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		EDA322232B7C99B6009905B5 /* CalculateDistanceTestScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateDistanceTestScreen.swift; sourceTree = "<group>"; };
+		EDA322262B7CA342009905B5 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
+		EDA322282B7CA362009905B5 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		EDA3222B2B7CA3A8009905B5 /* AYServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYServices.swift; sourceTree = "<group>"; };
+		EDA3222D2B7CA490009905B5 /* AYEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYEndpoints.swift; sourceTree = "<group>"; };
+		EDA3222F2B7CB12C009905B5 /* FormattedPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedPost.swift; sourceTree = "<group>"; };
+		EDA322312B7CB5DE009905B5 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		EDA322332B7CB861009905B5 /* ProfilePictureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePictureView.swift; sourceTree = "<group>"; };
+		EDA322352B7CBF9B009905B5 /* NewPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewModel.swift; sourceTree = "<group>"; };
+		EDA322372B7CC145009905B5 /* TimestampTestScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampTestScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +163,7 @@
 			children = (
 				ED598BF12B7C167500B6C23D /* FeedViewModel.swift */,
 				ED598BEC2B7C139D00B6C23D /* FeedScreen.swift */,
+				EDA322352B7CBF9B009905B5 /* NewPostViewModel.swift */,
 				ED598BFB2B7C268C00B6C23D /* NewPostScreen.swift */,
 			);
 			path = Feed;
@@ -156,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				ED598BEF2B7C147D00B6C23D /* Post.swift */,
+				EDA3222F2B7CB12C009905B5 /* FormattedPost.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -166,6 +192,7 @@
 				ED598C0B2B7C47FA00B6C23D /* Auth */,
 				ED598C0A2B7C47E300B6C23D /* Global */,
 				ED598BF42B7C16EC00B6C23D /* PostView.swift */,
+				EDA322332B7CB861009905B5 /* ProfilePictureView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -174,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				ED598BF72B7C1B9400B6C23D /* Date.swift */,
+				EDA322312B7CB5DE009905B5 /* String.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -225,12 +253,14 @@
 		ED5CB1672B7C11C000C336EC /* WhatsGoingNearby */ = {
 			isa = PBXGroup;
 			children = (
+				EDA322252B7CA30C009905B5 /* Network */,
 				ED598BF62B7C1B6F00B6C23D /* Extension */,
 				ED598BEE2B7C147400B6C23D /* Model */,
 				ED598BF32B7C16DA00B6C23D /* Component */,
 				ED5CB1762B7C11CB00C336EC /* Screen */,
 				ED5CB1682B7C11C000C336EC /* WhatsGoingNearbyApp.swift */,
 				ED5CB16A2B7C11C000C336EC /* ContentView.swift */,
+				ED598C522B7C81CA00B6C23D /* LocationManager.swift */,
 				ED598C102B7C545600B6C23D /* GoogleService-Info.plist */,
 				ED5CB16C2B7C11C500C336EC /* Assets.xcassets */,
 				ED5CB16E2B7C11C500C336EC /* Preview Content */,
@@ -254,8 +284,30 @@
 				ED598BEA2B7C121D00B6C23D /* Feed */,
 				ED598C4D2B7C59C600B6C23D /* Settings */,
 				ED598BFD2B7C39FD00B6C23D /* MainTabView.swift */,
+				ED598C502B7C80EC00B6C23D /* LocationTestScreen.swift */,
+				EDA322232B7C99B6009905B5 /* CalculateDistanceTestScreen.swift */,
+				EDA322372B7CC145009905B5 /* TimestampTestScreen.swift */,
 			);
 			path = Screen;
+			sourceTree = "<group>";
+		};
+		EDA322252B7CA30C009905B5 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				EDA3222D2B7CA490009905B5 /* AYEndpoints.swift */,
+				EDA322262B7CA342009905B5 /* HTTPClient.swift */,
+				EDA322282B7CA362009905B5 /* Endpoint.swift */,
+				EDA3222A2B7CA396009905B5 /* Services */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		EDA3222A2B7CA396009905B5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				EDA3222B2B7CA3A8009905B5 /* AYServices.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -361,26 +413,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDA322322B7CB5DE009905B5 /* String.swift in Sources */,
 				ED598C092B7C472200B6C23D /* AYButton.swift in Sources */,
 				ED598C0F2B7C499400B6C23D /* AYSecureTextField.swift in Sources */,
+				EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */,
 				ED598C052B7C43A000B6C23D /* AuthenticationViewModel.swift in Sources */,
 				ED598BFC2B7C268C00B6C23D /* NewPostScreen.swift in Sources */,
+				EDA322302B7CB12D009905B5 /* FormattedPost.swift in Sources */,
 				ED598C032B7C42B500B6C23D /* AuthenticationScreen.swift in Sources */,
+				EDA322382B7CC145009905B5 /* TimestampTestScreen.swift in Sources */,
 				ED598BF22B7C167500B6C23D /* FeedViewModel.swift in Sources */,
+				EDA3222C2B7CA3A8009905B5 /* AYServices.swift in Sources */,
 				ED598C4A2B7C576A00B6C23D /* AYProgressButton.swift in Sources */,
 				ED598BFA2B7C217400B6C23D /* AYProgressView.swift in Sources */,
 				ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */,
 				ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */,
+				EDA322362B7CBF9B009905B5 /* NewPostViewModel.swift in Sources */,
 				ED598C4C2B7C587100B6C23D /* AuthenticatedScreen.swift in Sources */,
+				EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */,
 				ED598C012B7C3A3900B6C23D /* ProfileScreen.swift in Sources */,
 				ED598BF82B7C1B9400B6C23D /* Date.swift in Sources */,
 				ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */,
+				EDA322342B7CB861009905B5 /* ProfilePictureView.swift in Sources */,
+				EDA3222E2B7CA490009905B5 /* AYEndpoints.swift in Sources */,
+				ED598C532B7C81CA00B6C23D /* LocationManager.swift in Sources */,
 				ED5CB1692B7C11C000C336EC /* WhatsGoingNearbyApp.swift in Sources */,
 				ED598BF52B7C16EC00B6C23D /* PostView.swift in Sources */,
 				ED598BF02B7C147D00B6C23D /* Post.swift in Sources */,
 				ED598C072B7C441500B6C23D /* AuthFlowSegmentedControl.swift in Sources */,
 				ED598BFE2B7C39FD00B6C23D /* MainTabView.swift in Sources */,
 				ED598C0D2B7C482A00B6C23D /* AYTextField.swift in Sources */,
+				ED598C512B7C80EC00B6C23D /* LocationTestScreen.swift in Sources */,
+				EDA322292B7CA362009905B5 /* Endpoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,6 +581,7 @@
 				DEVELOPMENT_TEAM = 3945C3P68V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will connect you with people around you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -546,6 +611,7 @@
 				DEVELOPMENT_TEAM = 3945C3P68V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will connect you with people around you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

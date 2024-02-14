@@ -11,6 +11,7 @@ struct FeedScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject private var feedVM = FeedViewModel()
+    @ObservedObject var locationManager = LocationManager()
     
     var body: some View {
         NavigationStack {
@@ -18,7 +19,11 @@ struct FeedScreen: View {
                 if feedVM.isLoading {
                     LoadingView()
                 } else {
-                    PostsView()
+                    if feedVM.posts.isEmpty {
+                        EmptyFeed()
+                    } else {
+                        PostsView()
+                    }
                 }
             }
             
@@ -32,7 +37,9 @@ struct FeedScreen: View {
             .navigationTitle("Around you 🌐")
         }
         .onAppear {
-            feedVM.getPostsNearBy()
+            Task {
+                try await getFeedInfo()
+            }
         }
     }
     
@@ -60,8 +67,50 @@ struct FeedScreen: View {
             }
         }
         .refreshable {
-            feedVM.isLoading = true
-            print("🚀 Refreshed!")
+            Task {
+                try await getFeedInfo()
+            }
+        }
+    }
+    
+    //MARK: - Empty Feed
+    
+    @ViewBuilder
+    private func EmptyFeed() -> some View {
+        VStack {
+            Text("There are no posts around you")
+                .foregroundStyle(.gray)
+                .fontWeight(.semibold)
+            
+            Image(systemName: "arrow.clockwise")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
+                .foregroundStyle(.gray)
+                .onTapGesture {
+                    Task {
+                        try await getFeedInfo()
+                    }
+                }
+        }
+    }
+    
+    //MARK: - Auxiliary Method
+    
+    private func getFeedInfo() async throws {
+        if let location = locationManager.location {
+            let token = try await authVM.getFirebaseToken()
+            print("🔑 USER TOKEN: \(token)")
+            
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            print("📍 Latitude: \(latitude)")
+            print("📍 Longitude: \(longitude)")
+            
+            
+            locationManager.requestLocation()
+            await feedVM.getPostsNearBy(latitude: latitude, longitude: longitude, token: token)
         }
     }
 }

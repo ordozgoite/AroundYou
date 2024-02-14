@@ -42,6 +42,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var user: User?
     
     @Published var name: String = ""
+    @Published var profilePic: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKZPMTq-wk1uOUFRgXSBzArmAOZbv79_jPnz3iKkyIUoeFo0wXX9-nGkgoiCtoWXA4kB0&usqp=CAU" // remove it
     @Published var isAccessInfoFetched: Bool = false
     @Published var isLoading: Bool = false
     @Published var isForgotPasswordScreenDisplayed: Bool = false

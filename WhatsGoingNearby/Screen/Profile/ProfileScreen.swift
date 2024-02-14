@@ -36,17 +36,16 @@ struct ProfileScreen: View {
     @ViewBuilder
     private func ProfileHeader() -> some View {
         VStack {
-            Image("shaq")
-                .resizable()
+            ProfilePictureView(imageURL: authVM.profilePic)
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 128, height: 128)
                 .clipShape(Circle())
             
-            Text("Victor Rafael Ordozgoite")
+            Text(authVM.name)
                 .font(.title)
                 .fontWeight(.semibold)
             
-            Text("@victorordozgoite")
+            Text("My bio")
                 .foregroundStyle(.gray)
         }
     }

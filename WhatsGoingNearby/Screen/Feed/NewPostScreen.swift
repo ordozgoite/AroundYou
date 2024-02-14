@@ -7,28 +7,17 @@
 
 import SwiftUI
 
-enum PostVisibility: CaseIterable {
-    case identified
-    case anonymous
-    
-    var title: String {
-        switch self {
-        case .identified:
-            return "Identified"
-        case .anonymous:
-            return "Anonymous"
-        }
-    }
-}
-
 struct NewPostScreen: View {
     
+    @EnvironmentObject var authVM: AuthenticationViewModel
+    @ObservedObject private var newPostVM = NewPostViewModel()
+    @ObservedObject var locationManager = LocationManager()
     @Environment(\.presentationMode) var presentationMode
+    
     @State private var postText: String = ""
-    @State private var selectedPostVisibility: PostVisibility = .identified
     
     var userName: String {
-        switch selectedPostVisibility {
+        switch newPostVM.selectedPostVisibility {
         case .identified:
             return "Victor Ordozgoite"
         case .anonymous:
@@ -41,7 +30,6 @@ struct NewPostScreen: View {
             PreferenceView()
             
             TextField("What's going on around?", text: $postText, axis: .vertical)
-                .lineLimit(5...10)
             
             Spacer()
         }
@@ -59,7 +47,9 @@ struct NewPostScreen: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
-                    // create post
+                    Task {
+                        try await postNewPublication()
+                    }
                 }) {
                     Text("Post")
                 }
@@ -75,10 +65,9 @@ struct NewPostScreen: View {
     @ViewBuilder
     private func PreferenceView() -> some View {
         HStack {
-            switch selectedPostVisibility {
+            switch newPostVM.selectedPostVisibility {
             case .identified:
-                Image("shaq")
-                    .resizable()
+                ProfilePictureView(imageURL: authVM.profilePic)
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 50, height: 50)
                     .clipShape(Circle())
@@ -94,7 +83,7 @@ struct NewPostScreen: View {
                 Text(userName)
                     .fontWeight(.semibold)
                 
-                Picker("", selection: $selectedPostVisibility) {
+                Picker("", selection: $newPostVM.selectedPostVisibility) {
                     ForEach(PostVisibility.allCases, id: \.self) { category in
                         Text(category.title)
                             .tag(category)
@@ -105,8 +94,30 @@ struct NewPostScreen: View {
             }
         }
     }
+    
+    //MARK: - Auxiliary Methods
+    
+    private func postNewPublication() async throws {
+        if let location = locationManager.location {
+            let token = try await authVM.getFirebaseToken()
+            print("🔑 USER TOKEN: \(token)")
+            
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            print("📍 Latitude: \(latitude)")
+            print("📍 Longitude: \(longitude)")
+            
+            
+            locationManager.requestLocation()
+            await newPostVM.postNewPublication(text: self.postText, latitude: latitude, longitude: longitude, token: token) {
+                presentationMode.wrappedValue.dismiss()
+            }
+        }
+    }
 }
 
 #Preview {
     NewPostScreen()
+        .environmentObject(AuthenticationViewModel())
 }

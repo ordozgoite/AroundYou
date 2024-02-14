@@ -10,21 +10,21 @@ import Foundation
 @MainActor
 class FeedViewModel: ObservableObject {
     
-    @Published var posts: [PostData] = []
+    @Published var posts: [FormattedPost] = []
     @Published var isLoading: Bool = false
     
-    func getPostsNearBy() {
+    func getPostsNearBy(latitude: Double, longitude: Double, token: String) async {
         isLoading = true
-        // make request
+        let response = await AYServices.shared.getActivePublicationsNearBy(latitude: latitude, longitude: longitude, token: token)
         isLoading = false
         
-        posts = [
-            PostData(userProfilePic: "", userName: "Victor Ordozgoite", timestamp: Date(), text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", commentsNumber: 1, likesNumber: 3),
-            PostData(userProfilePic: "", userName: "Victor Ordozgoite", timestamp: Date(), text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", commentsNumber: 1, likesNumber: 3),
-            PostData(userProfilePic: "", userName: "Victor Ordozgoite", timestamp: Date(), text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", commentsNumber: 1, likesNumber: 3),
-            PostData(userProfilePic: "", userName: "Victor Ordozgoite", timestamp: Date(), text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", commentsNumber: 1, likesNumber: 3),
-            PostData(userProfilePic: "", userName: "Victor Ordozgoite", timestamp: Date(), text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", commentsNumber: 1, likesNumber: 3),
-            PostData(userProfilePic: "", userName: "Victor Ordozgoite", timestamp: Date(), text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", commentsNumber: 1, likesNumber: 3)
-        ]
+        switch response {
+        case .success(let posts):
+            print(posts)
+             self.posts = posts
+        case .failure(let error):
+            // Display error
+            print("❌ Error: \(error)")
+        }
     }
 }

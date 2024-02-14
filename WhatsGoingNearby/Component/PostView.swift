@@ -7,27 +7,9 @@
 
 import SwiftUI
 
-// Post Info:
-// User profile pic
-// User name
-// Post timestamp
-// Post text
-// Post comments number
-// Post likes number
-
-struct PostData: Identifiable {
-    let id = UUID()
-    let userProfilePic: String
-    let userName: String
-    let timestamp: Date
-    let text: String
-    let commentsNumber: Int
-    let likesNumber: Int
-}
-
 struct PostView: View {
     
-    let post: PostData
+    let post: FormattedPost
     @State var didLikePost: Bool = false
     
     var body: some View {
@@ -35,7 +17,7 @@ struct PostView: View {
             HStack(alignment: .top) {
                 ProfilePicView()
                 
-                VStack(spacing: 8) {
+                VStack(alignment: .leading, spacing: 8) {
                     HeaderView()
                     
                     TextView()
@@ -51,11 +33,16 @@ struct PostView: View {
     @ViewBuilder
     private func ProfilePicView() -> some View {
         VStack {
-            Image("shaq")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 64, height: 64)
-                .clipShape(Circle())
+            if let imageUrl = post.userProfilePic {
+                ProfilePictureView(imageURL: imageUrl)
+                    .scaledToFill()
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+            } else {
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .frame(width: 50, height: 50)
+            }
         }
     }
     
@@ -64,7 +51,7 @@ struct PostView: View {
     @ViewBuilder
     private func HeaderView() -> some View {
         HStack {
-            Text(post.userName)
+            Text(post.userName ?? "Anonymous")
                 .fontWeight(.semibold)
             
             Text(post.timestamp.convertToMinutesAgo())
@@ -105,7 +92,7 @@ struct PostView: View {
                         didLikePost.toggle()
                     }
                 
-                Text(String(post.likesNumber))
+                Text("2")
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
@@ -116,7 +103,7 @@ struct PostView: View {
                         // open comments
                     }
                 
-                Text(String(post.commentsNumber))
+                Text("3")
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
@@ -127,11 +114,9 @@ struct PostView: View {
 }
 
 #Preview {
-    PostView(post: PostData(
-        userProfilePic: "",
+    PostView(post: FormattedPost(
+        id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
         userName: "Victor Ordozgoite",
         timestamp: Date(),
-        text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...",
-        commentsNumber: 1,
-        likesNumber: 3))
+        text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando..."))
 }
