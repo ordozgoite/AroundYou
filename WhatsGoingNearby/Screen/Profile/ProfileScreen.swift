@@ -20,8 +20,9 @@ struct ProfileScreen: View {
             }
             .toolbar {
                 ToolbarItem {
-                    Button {
-                        // open settings
+                    NavigationLink {
+                        SettingsScreen()
+                            .environmentObject(authVM)
                     } label: {
                         Image(systemName: "gearshape.fill")
                     }

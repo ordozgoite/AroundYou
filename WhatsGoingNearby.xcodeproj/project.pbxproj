@@ -52,6 +52,7 @@
 		ED598C482B7C550400B6C23D /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = ED598C472B7C550400B6C23D /* FirebaseStorageCombine-Community */; };
 		ED598C4A2B7C576A00B6C23D /* AYProgressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C492B7C576A00B6C23D /* AYProgressButton.swift */; };
 		ED598C4C2B7C587100B6C23D /* AuthenticatedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C4B2B7C587100B6C23D /* AuthenticatedScreen.swift */; };
+		ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C4E2B7C59D700B6C23D /* SettingsScreen.swift */; };
 		ED5CB1692B7C11C000C336EC /* WhatsGoingNearbyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5CB1682B7C11C000C336EC /* WhatsGoingNearbyApp.swift */; };
 		ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5CB16A2B7C11C000C336EC /* ContentView.swift */; };
 		ED5CB16D2B7C11C500C336EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED5CB16C2B7C11C500C336EC /* Assets.xcassets */; };
@@ -77,6 +78,7 @@
 		ED598C102B7C545600B6C23D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED598C492B7C576A00B6C23D /* AYProgressButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYProgressButton.swift; sourceTree = "<group>"; };
 		ED598C4B2B7C587100B6C23D /* AuthenticatedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedScreen.swift; sourceTree = "<group>"; };
+		ED598C4E2B7C59D700B6C23D /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
 		ED5CB1652B7C11C000C336EC /* WhatsGoingNearby.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhatsGoingNearby.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED5CB1682B7C11C000C336EC /* WhatsGoingNearbyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsGoingNearbyApp.swift; sourceTree = "<group>"; };
 		ED5CB16A2B7C11C000C336EC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -196,6 +198,14 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		ED598C4D2B7C59C600B6C23D /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				ED598C4E2B7C59D700B6C23D /* SettingsScreen.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		ED5CB15C2B7C11C000C336EC = {
 			isa = PBXGroup;
 			children = (
@@ -242,6 +252,7 @@
 				ED598BE92B7C121000B6C23D /* Authentication */,
 				ED598BEB2B7C122600B6C23D /* Profile */,
 				ED598BEA2B7C121D00B6C23D /* Feed */,
+				ED598C4D2B7C59C600B6C23D /* Settings */,
 				ED598BFD2B7C39FD00B6C23D /* MainTabView.swift */,
 			);
 			path = Screen;
@@ -358,6 +369,7 @@
 				ED598BF22B7C167500B6C23D /* FeedViewModel.swift in Sources */,
 				ED598C4A2B7C576A00B6C23D /* AYProgressButton.swift in Sources */,
 				ED598BFA2B7C217400B6C23D /* AYProgressView.swift in Sources */,
+				ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */,
 				ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */,
 				ED598C4C2B7C587100B6C23D /* AuthenticatedScreen.swift in Sources */,
 				ED598C012B7C3A3900B6C23D /* ProfileScreen.swift in Sources */,
