@@ -10,7 +10,7 @@ import Foundation
 class FeedViewModel: ObservableObject {
     
     @Published var posts: [PostData] = []
-    @Published var isLoading: Bool = true
+    @Published var isLoading: Bool = false
     
     func getPostsNearBy() {
         posts = [

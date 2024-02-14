@@ -73,9 +73,16 @@ struct PostView: View {
             
             Spacer()
             
-            Image(systemName: "ellipsis")
-                .foregroundStyle(.gray)
-                .padding([.trailing], 8)
+            Menu {
+                Button(role: .destructive, action: {}) {
+                    Text("Report Post")
+                    Image(systemName: "exclamationmark.bubble")
+                }
+            } label: {
+                Image(systemName: "ellipsis")
+                    .foregroundStyle(.gray)
+                    .padding([.trailing], 8)
+            }
         }
     }
     

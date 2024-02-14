@@ -23,9 +23,7 @@ struct FeedScreen: View {
             
             .toolbar {
                 ToolbarItem {
-                    Button(action: {
-                        // Display post make new post screen
-                    }) {
+                    NavigationLink(destination: NewPostScreen()) {
                         Image(systemName: "square.and.pencil")
                     }
                 }
@@ -59,6 +57,10 @@ struct FeedScreen: View {
                 PostView(post: post)
                     .padding()
             }
+        }
+        .refreshable {
+            feedVM.isLoading = true
+            print("🚀 Refreshed!")
         }
     }
 }
