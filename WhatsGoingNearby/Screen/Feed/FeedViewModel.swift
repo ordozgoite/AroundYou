@@ -27,4 +27,26 @@ class FeedViewModel: ObservableObject {
             print("❌ Error: \(error)")
         }
     }
+    
+    func likePublication(publicationId: String, token: String) async {
+        let response = await AYServices.shared.likePublication(publicationId: publicationId, token: token)
+        
+        switch response {
+        case .success:
+            print("❤️ Publication liked!")
+        case .failure(let error):
+            print("❌ Error: \(error)")
+        }
+    }
+    
+    func unlikePublication(publicationId: String, token: String) async {
+        let response = await AYServices.shared.unlikePublication(publicationId: publicationId, token: token)
+        
+        switch response {
+        case .success:
+            print("💔 Publication unliked!")
+        case .failure(let error):
+            print("❌ Error: \(error)")
+        }
+    }
 }

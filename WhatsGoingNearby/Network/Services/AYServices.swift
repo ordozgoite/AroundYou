@@ -16,6 +16,8 @@ protocol AYServiceable {
     // Publication
     func postNewPublication(text: String, timestamp: Int, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError>
     func getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
+    func likePublication(publicationId: String, token: String) async -> Result<LikePublicationResponse, RequestError>
+    func unlikePublication(publicationId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -41,5 +43,13 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getActivePublicationsNearBy(latitude: latitude, longitude: longitude, token: token), responseModel: [FormattedPost].self)
+    }
+    
+    func likePublication(publicationId: String, token: String) async -> Result<LikePublicationResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.likePublication(publicationId: publicationId, token: token), responseModel: LikePublicationResponse.self)
+    }
+    
+    func unlikePublication(publicationId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.unlikePublication(publicationId: publicationId, token: token), responseModel: UnlikePublicationResponse.self)
     }
 }

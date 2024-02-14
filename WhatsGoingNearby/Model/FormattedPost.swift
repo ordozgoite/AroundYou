@@ -22,6 +22,7 @@ struct FormattedPost: Identifiable, Codable {
     let userName: String?
     let timestamp: Date
     let text: String
+    var likes: Int
+    var didLike: Bool
 //    let commentsNumber: Int
-//    let likesNumber: Int
 }

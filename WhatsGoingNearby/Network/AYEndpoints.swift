@@ -12,6 +12,8 @@ enum AYEndpoints {
     case postNewPublication(text: String, timestamp: Int, latitude: Double, longitude: Double, token: String)
     case getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String)
     case getUserInfo(token: String)
+    case likePublication(publicationId: String, token: String)
+    case unlikePublication(publicationId: String, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -28,6 +30,10 @@ extension AYEndpoints: Endpoint {
             return "/api/User/PostNewUser"
         case .getUserInfo:
             return "/api/User/GetUserInfo"
+        case .likePublication(let publicationId, _):
+            return "/api/Publication/LikePublication/\(publicationId)"
+        case .unlikePublication(let publicationId, _):
+            return "/api/Publication/UnlikePublication/\(publicationId)"
         }
     }
     
@@ -35,7 +41,7 @@ extension AYEndpoints: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .postNewPublication, .postNewUser:
+        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication:
             return .post
         case .getActivePublicationsNearBy, .getUserInfo:
             return .get
@@ -85,6 +91,18 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .likePublication(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
+        case .unlikePublication(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -110,7 +128,7 @@ extension AYEndpoints: Endpoint {
                 "name": name
             ]
             return params
-        case .getActivePublicationsNearBy, .getUserInfo:
+        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication:
             return nil
         }
     }

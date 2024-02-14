@@ -60,7 +60,7 @@ struct NewPostScreen: View {
         .navigationBarTitleDisplayMode(.inline)
     }
     
-    //MARK: - Adjust
+    //MARK: - Preference
     
     @ViewBuilder
     private func PreferenceView() -> some View {
@@ -87,7 +87,7 @@ struct NewPostScreen: View {
             
             
             VStack {
-                Text(userName)
+                Text(authVM.name)
                     .fontWeight(.semibold)
                 
                 Picker("", selection: $newPostVM.selectedPostVisibility) {

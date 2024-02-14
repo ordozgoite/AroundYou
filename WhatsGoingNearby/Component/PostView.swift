@@ -9,8 +9,9 @@ import SwiftUI
 
 struct PostView: View {
     
-    let post: FormattedPost
-    @State var didLikePost: Bool = false
+    @EnvironmentObject var authVM: AuthenticationViewModel
+    @ObservedObject var feedVM: FeedViewModel
+    @Binding var post: FormattedPost
     
     var body: some View {
         VStack {
@@ -84,13 +85,24 @@ struct PostView: View {
     private func InteractionsView() -> some View {
         HStack(spacing: 32) {
             HStack {
-                Image(systemName: didLikePost ? "heart.fill" : "heart")
-                    .foregroundColor(didLikePost ? .red : .gray)
+                Image(systemName: post.didLike ? "heart.fill" : "heart")
+                    .foregroundColor(post.didLike ? .red : .gray)
                     .onTapGesture {
-                        didLikePost.toggle()
+                        Task {
+                            let token = try await authVM.getFirebaseToken()
+                            if post.didLike {
+                                post.didLike = false
+                                post.likes -= 1
+                                await feedVM.unlikePublication(publicationId: post.id, token: token)
+                            } else {
+                                post.didLike = true
+                                post.likes += 1
+                                await feedVM.likePublication(publicationId: post.id, token: token)
+                            }
+                        }
                     }
                 
-                Text("2")
+                Text(String(post.likes))
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
@@ -112,9 +124,10 @@ struct PostView: View {
 }
 
 #Preview {
-    PostView(post: FormattedPost(
+    PostView(feedVM: FeedViewModel(), post: .constant(FormattedPost(
         id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
         userName: "Victor Ordozgoite",
         timestamp: Date(),
-        text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando..."))
+        text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", likes: 2, didLike: true)))
+    .environmentObject(AuthenticationViewModel())
 }

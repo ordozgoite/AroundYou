@@ -16,7 +16,7 @@ struct MainTabView: View {
             FeedScreen()
                 .tabItem {
                     Image(systemName: "location.fill")
-                    Text("Around you")
+                    Text("Around You")
                 }
                 .environmentObject(authVM)
             

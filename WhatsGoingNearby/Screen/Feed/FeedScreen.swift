@@ -34,7 +34,7 @@ struct FeedScreen: View {
                     }
                 }
             }
-            .navigationTitle("Around you 🌐")
+            .navigationTitle("Around You 🌐")
         }
         .onAppear {
             Task {
@@ -61,8 +61,8 @@ struct FeedScreen: View {
     @ViewBuilder
     private func PostsView() -> some View {
         ScrollView {
-            ForEach(feedVM.posts) { post in
-                PostView(post: post)
+            ForEach($feedVM.posts) { $post in
+                PostView(feedVM: feedVM, post: $post)
                     .padding()
             }
         }
@@ -88,6 +88,7 @@ struct FeedScreen: View {
                 .frame(width: 32, height: 32)
                 .foregroundStyle(.gray)
                 .onTapGesture {
+                    print("👉 Refresh!")
                     Task {
                         try await getFeedInfo()
                     }
@@ -98,6 +99,7 @@ struct FeedScreen: View {
     //MARK: - Auxiliary Method
     
     private func getFeedInfo() async throws {
+        locationManager.requestLocation()
         if let location = locationManager.location {
             let token = try await authVM.getFirebaseToken()
             print("🔑 USER TOKEN: \(token)")
