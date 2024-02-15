@@ -12,6 +12,7 @@ class FeedViewModel: ObservableObject {
     
     @Published var posts: [FormattedPost] = []
     @Published var isLoading: Bool = false
+    @Published var isCommentScreenPresented = false
     
     func getPostsNearBy(latitude: Double, longitude: Double, token: String) async {
         isLoading = true

@@ -29,7 +29,7 @@ struct NewPostScreen: View {
         VStack(alignment: .leading, spacing: 32) {
             PreferenceView()
             
-            TextField("What's going on around?", text: $postText, axis: .vertical)
+            TextField("What's going on around you?", text: $postText, axis: .vertical)
             
             Spacer()
         }

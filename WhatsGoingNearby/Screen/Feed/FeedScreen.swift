@@ -62,8 +62,12 @@ struct FeedScreen: View {
     private func PostsView() -> some View {
         ScrollView {
             ForEach($feedVM.posts) { $post in
-                PostView(feedVM: feedVM, post: $post)
-                    .padding()
+                NavigationLink(destination: CommentScreen(feedVM: feedVM, post: $post).environmentObject(authVM)) {
+                    PostView(feedVM: feedVM, post: $post)
+                        .padding()
+                }
+                .buttonStyle(PlainButtonStyle())
+                Divider()
             }
         }
         .refreshable {
@@ -117,6 +121,7 @@ struct FeedScreen: View {
     }
 }
 
-#Preview {
-    FeedScreen()
-}
+//#Preview {
+//    FeedScreen()
+//        .environmentObject(AuthenticationViewModel())
+//}

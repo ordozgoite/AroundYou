@@ -109,11 +109,8 @@ struct PostView: View {
             HStack {
                 Image(systemName: "bubble.left")
                     .foregroundColor(.gray)
-                    .onTapGesture {
-                        // open comments
-                    }
                 
-                Text("3")
+                Text(String(post.comment))
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
@@ -127,7 +124,7 @@ struct PostView: View {
     PostView(feedVM: FeedViewModel(), post: .constant(FormattedPost(
         id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
         userName: "Victor Ordozgoite",
-        timestamp: Date(),
-        text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", likes: 2, didLike: true)))
+        timestamp: Int(Date().timeIntervalSince1970),
+        text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", likes: 2, didLike: true, comment: 2)))
     .environmentObject(AuthenticationViewModel())
 }

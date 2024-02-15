@@ -8,9 +8,19 @@
 import Foundation
 
 extension String {
-    func convertToDate() -> Date {
+    func convertToTimestamp() -> Int? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        return dateFormatter.date(from: self)!
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        if let date = dateFormatter.date(from: self) {
+            return Int(date.timeIntervalSince1970)
+        } else {
+            return nil
+        }
     }
+    
+//    func convertToDate() -> Date {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+//        return dateFormatter.date(from: self)!
+//    }
 }

@@ -9,11 +9,14 @@ import Foundation
 
 enum AYEndpoints {
     case postNewUser(name: String, token: String)
-    case postNewPublication(text: String, timestamp: Int, latitude: Double, longitude: Double, token: String)
+    case postNewPublication(text: String, latitude: Double, longitude: Double, token: String)
     case getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String)
     case getUserInfo(token: String)
     case likePublication(publicationId: String, token: String)
     case unlikePublication(publicationId: String, token: String)
+    case getAllCommentsByPublication(publicationId: String, token: String)
+    case postNewComment(publicationId: String, text: String, token: String)
+    case deleteComment(commentId: String, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -34,6 +37,12 @@ extension AYEndpoints: Endpoint {
             return "/api/Publication/LikePublication/\(publicationId)"
         case .unlikePublication(let publicationId, _):
             return "/api/Publication/UnlikePublication/\(publicationId)"
+        case .getAllCommentsByPublication(let publicationId, _):
+            return "/api/Comment/GetAllCommentsByPublication/\(publicationId)"
+        case .postNewComment:
+            return "/api/Comment/PostNewComment"
+        case .deleteComment(let commentId, _):
+            return "/api/Comment/DeleteComment/\(commentId)"
         }
     }
     
@@ -41,9 +50,9 @@ extension AYEndpoints: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication:
+        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment:
             return .post
-        case .getActivePublicationsNearBy, .getUserInfo:
+        case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication:
             return .get
         }
     }
@@ -67,7 +76,7 @@ extension AYEndpoints: Endpoint {
     
     var header: [String : String]? {
         switch self {
-        case .postNewPublication(_, _, _, _, let token):
+        case .postNewPublication(_, _, _, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
@@ -103,6 +112,24 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .getAllCommentsByPublication(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
+        case.postNewComment(_, _, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
+        case .deleteComment(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -115,10 +142,9 @@ extension AYEndpoints: Endpoint {
     
     var body: [String : Any]? {
         switch self {
-        case .postNewPublication(let text, let timestamp, let latitude, let longitude, _):
+        case .postNewPublication(let text, let latitude, let longitude, _):
             let params: [String: Any] = [
                 "text": text,
-                "timestamp": timestamp,
                 "latitude": latitude,
                 "longitude": longitude
             ]
@@ -128,7 +154,13 @@ extension AYEndpoints: Endpoint {
                 "name": name
             ]
             return params
-        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication:
+        case .postNewComment(let publicationId, let text, _):
+            let params: [String: Any] = [
+                "publicationId": publicationId,
+                "text": text
+            ]
+            return params
+        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment:
             return nil
         }
     }

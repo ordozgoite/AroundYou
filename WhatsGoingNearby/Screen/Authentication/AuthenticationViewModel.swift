@@ -32,8 +32,8 @@ enum AuthenticationFlow: Int, CaseIterable {
 class AuthenticationViewModel: ObservableObject {
     
     @Published var nameInput: String = ""
-    @Published var emailInput: String = "ordozgoitevictor@gmail.com" // remove it
-    @Published var passwordInput: String = "TestPassword123?" // remove it
+    @Published var emailInput: String = "felipe@felipe.com" // remove it
+    @Published var passwordInput: String = "felipe123" // remove it
     @Published var confirmPasswordInput: String = ""
     @Published var flow: AuthenticationFlow = .login
     @Published var isValid  = false
@@ -173,6 +173,7 @@ extension AuthenticationViewModel {
 //            biography = user.biography
             isUserInfoFetched = true
         case .failure(let error):
+            print("❌ Error: \(error)")
             signOut()
             overlayError = (true, error.customMessage)
         }

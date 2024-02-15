@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ED41409C2B7DE41F002690A5 /* PostNewCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */; };
+		ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */; };
 		ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BEC2B7C139D00B6C23D /* FeedScreen.swift */; };
 		ED598BF02B7C147D00B6C23D /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BEF2B7C147D00B6C23D /* Post.swift */; };
 		ED598BF22B7C167500B6C23D /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BF12B7C167500B6C23D /* FeedViewModel.swift */; };
@@ -73,9 +75,15 @@
 		EDA3223D2B7CCF64009905B5 /* PreparingSessionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3223C2B7CCF64009905B5 /* PreparingSessionScreen.swift */; };
 		EDA3223F2B7D6A3F009905B5 /* LikePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3223E2B7D6A3F009905B5 /* LikePublicationResponse.swift */; };
 		EDA322412B7D6B55009905B5 /* UnlikePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322402B7D6B55009905B5 /* UnlikePublicationResponse.swift */; };
+		EDA322452B7DB07D009905B5 /* CommentScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322442B7DB07D009905B5 /* CommentScreen.swift */; };
+		EDA322472B7DB221009905B5 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322462B7DB221009905B5 /* CommentView.swift */; };
+		EDA322492B7DB2BA009905B5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322482B7DB2BA009905B5 /* Comment.swift */; };
+		EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3224A2B7DB345009905B5 /* FormattedComment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNewCommentResponse.swift; sourceTree = "<group>"; };
+		ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentResponse.swift; sourceTree = "<group>"; };
 		ED598BEC2B7C139D00B6C23D /* FeedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedScreen.swift; sourceTree = "<group>"; };
 		ED598BEF2B7C147D00B6C23D /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Post.swift; path = WhatsGoingNearby/Screen/Feed/Post.swift; sourceTree = SOURCE_ROOT; };
 		ED598BF12B7C167500B6C23D /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
@@ -116,6 +124,10 @@
 		EDA3223C2B7CCF64009905B5 /* PreparingSessionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparingSessionScreen.swift; sourceTree = "<group>"; };
 		EDA3223E2B7D6A3F009905B5 /* LikePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikePublicationResponse.swift; sourceTree = "<group>"; };
 		EDA322402B7D6B55009905B5 /* UnlikePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlikePublicationResponse.swift; sourceTree = "<group>"; };
+		EDA322442B7DB07D009905B5 /* CommentScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentScreen.swift; sourceTree = "<group>"; };
+		EDA322462B7DB221009905B5 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
+		EDA322482B7DB2BA009905B5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		EDA3224A2B7DB345009905B5 /* FormattedComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedComment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,8 +184,6 @@
 			children = (
 				ED598BF12B7C167500B6C23D /* FeedViewModel.swift */,
 				ED598BEC2B7C139D00B6C23D /* FeedScreen.swift */,
-				EDA322352B7CBF9B009905B5 /* NewPostViewModel.swift */,
-				ED598BFB2B7C268C00B6C23D /* NewPostScreen.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -190,8 +200,10 @@
 			isa = PBXGroup;
 			children = (
 				ED598BEF2B7C147D00B6C23D /* Post.swift */,
-				EDA3222F2B7CB12C009905B5 /* FormattedPost.swift */,
 				EDA3223A2B7CCD8A009905B5 /* MongoUser.swift */,
+				EDA322482B7DB2BA009905B5 /* Comment.swift */,
+				EDA3222F2B7CB12C009905B5 /* FormattedPost.swift */,
+				EDA3224A2B7DB345009905B5 /* FormattedComment.swift */,
 				EDA322392B7CCD79009905B5 /* Response */,
 			);
 			path = Model;
@@ -203,7 +215,7 @@
 				ED598C0B2B7C47FA00B6C23D /* Auth */,
 				ED598C0A2B7C47E300B6C23D /* Global */,
 				ED598BF42B7C16EC00B6C23D /* PostView.swift */,
-				EDA322332B7CB861009905B5 /* ProfilePictureView.swift */,
+				EDA322462B7DB221009905B5 /* CommentView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -220,6 +232,7 @@
 		ED598C0A2B7C47E300B6C23D /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				EDA322332B7CB861009905B5 /* ProfilePictureView.swift */,
 				ED598C082B7C472200B6C23D /* AYButton.swift */,
 				ED598C492B7C576A00B6C23D /* AYProgressButton.swift */,
 				ED598BF92B7C217400B6C23D /* AYProgressView.swift */,
@@ -293,6 +306,8 @@
 				ED598BE92B7C121000B6C23D /* Authentication */,
 				ED598BEB2B7C122600B6C23D /* Profile */,
 				ED598BEA2B7C121D00B6C23D /* Feed */,
+				EDA322432B7DB068009905B5 /* Comment */,
+				EDA322422B7DB059009905B5 /* New Post */,
 				ED598C4D2B7C59C600B6C23D /* Settings */,
 				ED598BFD2B7C39FD00B6C23D /* MainTabView.swift */,
 				ED598C502B7C80EC00B6C23D /* LocationTestScreen.swift */,
@@ -326,8 +341,27 @@
 			children = (
 				EDA3223E2B7D6A3F009905B5 /* LikePublicationResponse.swift */,
 				EDA322402B7D6B55009905B5 /* UnlikePublicationResponse.swift */,
+				ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */,
+				ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */,
 			);
 			path = Response;
+			sourceTree = "<group>";
+		};
+		EDA322422B7DB059009905B5 /* New Post */ = {
+			isa = PBXGroup;
+			children = (
+				EDA322352B7CBF9B009905B5 /* NewPostViewModel.swift */,
+				ED598BFB2B7C268C00B6C23D /* NewPostScreen.swift */,
+			);
+			path = "New Post";
+			sourceTree = "<group>";
+		};
+		EDA322432B7DB068009905B5 /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				EDA322442B7DB07D009905B5 /* CommentScreen.swift */,
+			);
+			path = Comment;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -437,6 +471,7 @@
 				ED598C092B7C472200B6C23D /* AYButton.swift in Sources */,
 				EDA3223B2B7CCD8A009905B5 /* MongoUser.swift in Sources */,
 				EDA322412B7D6B55009905B5 /* UnlikePublicationResponse.swift in Sources */,
+				ED41409C2B7DE41F002690A5 /* PostNewCommentResponse.swift in Sources */,
 				ED598C0F2B7C499400B6C23D /* AYSecureTextField.swift in Sources */,
 				EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */,
 				ED598C052B7C43A000B6C23D /* AuthenticationViewModel.swift in Sources */,
@@ -449,15 +484,19 @@
 				ED598C4A2B7C576A00B6C23D /* AYProgressButton.swift in Sources */,
 				ED598BFA2B7C217400B6C23D /* AYProgressView.swift in Sources */,
 				ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */,
+				EDA322452B7DB07D009905B5 /* CommentScreen.swift in Sources */,
 				ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */,
+				EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */,
 				EDA322362B7CBF9B009905B5 /* NewPostViewModel.swift in Sources */,
 				ED598C4C2B7C587100B6C23D /* AuthenticatedScreen.swift in Sources */,
+				EDA322472B7DB221009905B5 /* CommentView.swift in Sources */,
 				EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */,
 				ED598C012B7C3A3900B6C23D /* ProfileScreen.swift in Sources */,
 				ED598BF82B7C1B9400B6C23D /* Date.swift in Sources */,
 				ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */,
 				EDA322342B7CB861009905B5 /* ProfilePictureView.swift in Sources */,
 				EDA3223F2B7D6A3F009905B5 /* LikePublicationResponse.swift in Sources */,
+				ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */,
 				EDA3222E2B7CA490009905B5 /* AYEndpoints.swift in Sources */,
 				ED598C532B7C81CA00B6C23D /* LocationManager.swift in Sources */,
 				ED5CB1692B7C11C000C336EC /* WhatsGoingNearbyApp.swift in Sources */,
@@ -465,6 +504,7 @@
 				EDA3223D2B7CCF64009905B5 /* PreparingSessionScreen.swift in Sources */,
 				ED598BF02B7C147D00B6C23D /* Post.swift in Sources */,
 				ED598C072B7C441500B6C23D /* AuthFlowSegmentedControl.swift in Sources */,
+				EDA322492B7DB2BA009905B5 /* Comment.swift in Sources */,
 				ED598BFE2B7C39FD00B6C23D /* MainTabView.swift in Sources */,
 				ED598C0D2B7C482A00B6C23D /* AYTextField.swift in Sources */,
 				ED598C512B7C80EC00B6C23D /* LocationTestScreen.swift in Sources */,
@@ -605,6 +645,7 @@
 				DEVELOPMENT_TEAM = 3945C3P68V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Around You";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will connect you with people around you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -636,6 +677,7 @@
 				DEVELOPMENT_TEAM = 3945C3P68V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Around You";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will connect you with people around you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

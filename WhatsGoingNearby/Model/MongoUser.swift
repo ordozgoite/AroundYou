@@ -10,4 +10,6 @@ import Foundation
 struct MongoUser: Codable {
     let userUid: String
     let name: String
+    let profilePic: String?
+    let biography: String?
 }

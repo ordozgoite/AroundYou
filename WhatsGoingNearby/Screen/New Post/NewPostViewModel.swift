@@ -30,7 +30,7 @@ class NewPostViewModel: ObservableObject {
     
     func postNewPublication(text: String, latitude: Double, longitude: Double, token: String, completionHandler: () -> ()) async {
         isLoading = true
-        let result = await AYServices.shared.postNewPublication(text: text, timestamp: Int(Date().timeIntervalSince1970), latitude: latitude, longitude: longitude, token: token)
+        let result = await AYServices.shared.postNewPublication(text: text, latitude: latitude, longitude: longitude, token: token)
         isLoading = false
         
         switch result {

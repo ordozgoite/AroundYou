@@ -14,10 +14,15 @@ protocol AYServiceable {
     func getUserInfo(token: String) async -> Result<MongoUser, RequestError>
     
     // Publication
-    func postNewPublication(text: String, timestamp: Int, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError>
+    func postNewPublication(text: String, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError>
     func getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
     func likePublication(publicationId: String, token: String) async -> Result<LikePublicationResponse, RequestError>
     func unlikePublication(publicationId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError>
+    
+    // Comment
+    func postNewComment(publicationId: String, text: String, token: String) async -> Result<PostNewCommentResponse, RequestError>
+    func deleteComment(commentId: String, token: String) async -> Result<DeleteCommentResponse, RequestError>
+    func getAllCommentsByPublication(publicationId: String, token: String) async -> Result<[FormattedComment], RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -37,8 +42,8 @@ struct AYServices: HTTPClient, AYServiceable {
     
     //MARK: - Publication
     
-    func postNewPublication(text: String, timestamp: Int, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.postNewPublication(text: text, timestamp: timestamp, latitude: latitude, longitude: longitude, token: token), responseModel: Post.self)
+    func postNewPublication(text: String, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewPublication(text: text, latitude: latitude, longitude: longitude, token: token), responseModel: Post.self)
     }
     
     func getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError> {
@@ -51,5 +56,19 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func unlikePublication(publicationId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.unlikePublication(publicationId: publicationId, token: token), responseModel: UnlikePublicationResponse.self)
+    }
+    
+    //MARK: - Comment
+    
+    func postNewComment(publicationId: String, text: String, token: String) async -> Result<PostNewCommentResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewComment(publicationId: publicationId, text: text, token: token), responseModel: PostNewCommentResponse.self)
+    }
+    
+    func deleteComment(commentId: String, token: String) async -> Result<DeleteCommentResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteComment(commentId: commentId, token: token), responseModel: DeleteCommentResponse.self)
+    }
+    
+    func getAllCommentsByPublication(publicationId: String, token: String) async -> Result<[FormattedComment], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getAllCommentsByPublication(publicationId: publicationId, token: token), responseModel: [FormattedComment].self)
     }
 }
