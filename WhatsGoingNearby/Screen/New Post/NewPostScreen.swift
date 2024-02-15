@@ -15,6 +15,8 @@ struct NewPostScreen: View {
     @Environment(\.presentationMode) var presentationMode
     
     @State private var postText: String = ""
+    @State private var isLoading: Bool = false
+    let refresh: () -> ()
     
     var userName: String {
         switch newPostVM.selectedPostVisibility {
@@ -46,14 +48,18 @@ struct NewPostScreen: View {
             }
             
             ToolbarItem(placement: .topBarTrailing) {
-                Button(action: {
-                    Task {
-                        try await postNewPublication()
+                if isLoading {
+                    ProgressView()
+                } else {
+                    Button(action: {
+                        Task {
+                            try await postNewPublication()
+                        }
+                    }) {
+                        Text("Post")
                     }
-                }) {
-                    Text("Post")
+                    .disabled(postText.isEmpty)
                 }
-                .disabled(postText.isEmpty)
             }
         }
         .navigationTitle("Create new post")
@@ -106,25 +112,26 @@ struct NewPostScreen: View {
     
     private func postNewPublication() async throws {
         if let location = locationManager.location {
-            let token = try await authVM.getFirebaseToken()
-            print("🔑 USER TOKEN: \(token)")
-            
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
+            isLoading = true
+            let token = try await authVM.getFirebaseToken()
+            let result = await AYServices.shared.postNewPublication(text: postText, latitude: latitude, longitude: longitude, token: token)
+            isLoading = false
             
-            print("📍 Latitude: \(latitude)")
-            print("📍 Longitude: \(longitude)")
-            
-            
-            locationManager.requestLocation()
-            await newPostVM.postNewPublication(text: self.postText, latitude: latitude, longitude: longitude, token: token) {
+            switch result {
+            case .success:
                 presentationMode.wrappedValue.dismiss()
+                refresh()
+            case .failure(let error):
+                // Display error
+                print("❌ Error: \(error)")
             }
         }
     }
 }
 
 #Preview {
-    NewPostScreen()
+    NewPostScreen(refresh: {})
         .environmentObject(AuthenticationViewModel())
 }

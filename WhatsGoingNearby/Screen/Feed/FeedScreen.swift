@@ -13,13 +13,19 @@ struct FeedScreen: View {
     @ObservedObject private var feedVM = FeedViewModel()
     @ObservedObject var locationManager = LocationManager()
     
+    @State private var currentTimeStamp: Int = Int(Date().timeIntervalSince1970)
+    
+    var activePostsQuantity: Int {
+        return feedVM.posts.filter { $0.expirationDate.timeIntervalSince1970InSeconds > currentTimeStamp }.count
+    }
+    
     var body: some View {
         NavigationStack {
             VStack {
                 if feedVM.isLoading {
                     LoadingView()
                 } else {
-                    if feedVM.posts.isEmpty {
+                    if activePostsQuantity == 0 {
                         EmptyFeed()
                     } else {
                         PostsView()
@@ -29,7 +35,11 @@ struct FeedScreen: View {
             
             .toolbar {
                 ToolbarItem {
-                    NavigationLink(destination: NewPostScreen()) {
+                    NavigationLink(destination: NewPostScreen() {
+                        Task {
+                            try await getFeedInfo()
+                        }
+                    }) {
                         Image(systemName: "square.and.pencil")
                     }
                 }
@@ -37,6 +47,7 @@ struct FeedScreen: View {
             .navigationTitle("Around You 🌐")
         }
         .onAppear {
+            startTimer()
             Task {
                 try await getFeedInfo()
             }
@@ -62,17 +73,19 @@ struct FeedScreen: View {
     private func PostsView() -> some View {
         ScrollView {
             ForEach($feedVM.posts) { $post in
-                NavigationLink(destination: CommentScreen(feedVM: feedVM, post: $post).environmentObject(authVM)) {
-                    PostView(feedVM: feedVM, post: $post) {
-                        Task {
-                            let token = try await authVM.getFirebaseToken()
-                            await feedVM.deletePublication(publicationId: post.id, token: token)
+                if post.expirationDate.timeIntervalSince1970InSeconds > currentTimeStamp {
+                    NavigationLink(destination: CommentScreen(feedVM: feedVM, post: $post).environmentObject(authVM)) {
+                        PostView(feedVM: feedVM, post: $post) {
+                            Task {
+                                let token = try await authVM.getFirebaseToken()
+                                await feedVM.deletePublication(publicationId: post.id, token: token)
+                            }
                         }
-                    }
                         .padding()
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    Divider()
                 }
-                .buttonStyle(PlainButtonStyle())
-                Divider()
             }
         }
         .refreshable {
@@ -106,6 +119,17 @@ struct FeedScreen: View {
     }
     
     //MARK: - Auxiliary Method
+    
+    private func startTimer() {
+        let timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            updateCurrentTime()
+        }
+        timer.fire()
+    }
+    
+    private func updateCurrentTime() {
+        currentTimeStamp = Int(Date().timeIntervalSince1970)
+    }
     
     private func getFeedInfo() async throws {
         locationManager.requestLocation()

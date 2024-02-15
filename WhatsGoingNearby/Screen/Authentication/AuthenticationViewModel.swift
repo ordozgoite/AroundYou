@@ -169,7 +169,7 @@ extension AuthenticationViewModel {
         switch result {
         case .success(let user):
             name = user.name
-//            profilePic = user.profilePic
+            profilePic = user.profilePic
 //            biography = user.biography
             isUserInfoFetched = true
         case .failure(let error):
