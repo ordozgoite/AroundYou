@@ -29,6 +29,20 @@ class FeedViewModel: ObservableObject {
         }
     }
     
+    func deletePublication(publicationId: String, token: String) async {
+        isLoading = true
+        let response = await AYServices.shared.deletePublication(publicationId: publicationId, token: token)
+        isLoading = false
+        
+        switch response {
+        case .success:
+            posts.removeAll { $0.id == publicationId }
+        case .failure(let error):
+            // Display error
+            print("❌ Error: \(error)")
+        }
+    }
+    
     func likePublication(publicationId: String, token: String) async {
         let response = await AYServices.shared.likePublication(publicationId: publicationId, token: token)
         

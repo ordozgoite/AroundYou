@@ -25,6 +25,7 @@ struct FormattedPost: Identifiable, Codable {
     var likes: Int
     var didLike: Bool
     var comment: Int
+    let isFromRecipientUser: Bool
     var date: Date {
         return NSDate(timeIntervalSince1970: TimeInterval(self.timestamp / 1000)) as Date
     }

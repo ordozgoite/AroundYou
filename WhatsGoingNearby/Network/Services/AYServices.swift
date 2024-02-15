@@ -15,6 +15,7 @@ protocol AYServiceable {
     
     // Publication
     func postNewPublication(text: String, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError>
+    func deletePublication(publicationId: String, token: String) async -> Result<DeletePublicationResponse, RequestError>
     func getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
     func likePublication(publicationId: String, token: String) async -> Result<LikePublicationResponse, RequestError>
     func unlikePublication(publicationId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError>
@@ -44,6 +45,10 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func postNewPublication(text: String, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.postNewPublication(text: text, latitude: latitude, longitude: longitude, token: token), responseModel: Post.self)
+    }
+    
+    func deletePublication(publicationId: String, token: String) async -> Result<DeletePublicationResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deletePublication(publicationId: publicationId, token: token), responseModel: DeletePublicationResponse.self)
     }
     
     func getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError> {

@@ -63,7 +63,12 @@ struct FeedScreen: View {
         ScrollView {
             ForEach($feedVM.posts) { $post in
                 NavigationLink(destination: CommentScreen(feedVM: feedVM, post: $post).environmentObject(authVM)) {
-                    PostView(feedVM: feedVM, post: $post)
+                    PostView(feedVM: feedVM, post: $post) {
+                        Task {
+                            let token = try await authVM.getFirebaseToken()
+                            await feedVM.deletePublication(publicationId: post.id, token: token)
+                        }
+                    }
                         .padding()
                 }
                 .buttonStyle(PlainButtonStyle())

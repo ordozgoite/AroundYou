@@ -12,6 +12,7 @@ struct PostView: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject var feedVM: FeedViewModel
     @Binding var post: FormattedPost
+    let deletePost: () -> ()
     
     var body: some View {
         VStack {
@@ -60,6 +61,15 @@ struct PostView: View {
             Spacer()
             
             Menu {
+                if post.isFromRecipientUser {
+                    Button(role: .destructive, action: {
+                        deletePost()
+                    }) {
+                        Text("Delete Post")
+                        Image(systemName: "trash")
+                    }
+                }
+                
                 Button(role: .destructive, action: {}) {
                     Text("Report Post")
                     Image(systemName: "exclamationmark.bubble")
@@ -125,6 +135,6 @@ struct PostView: View {
         id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
         userName: "Victor Ordozgoite",
         timestamp: Int(Date().timeIntervalSince1970),
-        text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", likes: 2, didLike: true, comment: 2)))
+        text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", likes: 2, didLike: true, comment: 2, isFromRecipientUser: true)), deletePost: {})
     .environmentObject(AuthenticationViewModel())
 }

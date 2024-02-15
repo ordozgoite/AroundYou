@@ -12,6 +12,7 @@ struct CommentScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject var feedVM: FeedViewModel
     @Binding var post: FormattedPost
+    @Environment(\.presentationMode) var presentationMode
     
     @FocusState private var commentIsFocused: Bool
     
@@ -23,7 +24,11 @@ struct CommentScreen: View {
     var body: some View {
         VStack {
             ScrollView {
-                PostView(feedVM: feedVM, post: $post)
+                PostView(feedVM: feedVM, post: $post) {
+                    Task {
+                        try await deletePost()
+                    }
+                }
                     .padding()
                 
                 Divider()
@@ -143,6 +148,19 @@ struct CommentScreen: View {
     private func popComment(commentId: String) {
         comments.removeAll { $0.id == commentId }
     }
+    
+    private func deletePost() async throws {
+        let token = try await authVM.getFirebaseToken()
+        let response = await AYServices.shared.deletePublication(publicationId: post.id, token: token)
+        
+        switch response {
+        case .success:
+            presentationMode.wrappedValue.dismiss()
+        case .failure(let error):
+            // Display error
+            print("❌ Error: \(error)")
+        }
+    }
 }
 
 #Preview {
@@ -150,5 +168,5 @@ struct CommentScreen: View {
         id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
         userName: "Tim Cook",
         timestamp: Int(Date().timeIntervalSince1970),
-        text: "Alguém sabe quando lança o Apple Vision Pro?", likes: 2, didLike: true, comment: 2)))
+        text: "Alguém sabe quando lança o Apple Vision Pro?", likes: 2, didLike: true, comment: 2, isFromRecipientUser: true)))
 }
