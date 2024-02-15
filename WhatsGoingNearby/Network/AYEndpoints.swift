@@ -18,6 +18,7 @@ enum AYEndpoints {
     case postNewComment(publicationId: String, text: String, token: String)
     case deleteComment(commentId: String, token: String)
     case deletePublication(publicationId: String, token: String)
+    case getUserProfile(userUid: String, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -46,6 +47,8 @@ extension AYEndpoints: Endpoint {
             return "/api/Comment/DeleteComment/\(commentId)"
         case .deletePublication(let publicationId, _):
             return "/api/Publication/DeletePublication/\(publicationId)"
+        case .getUserProfile(let userUid, _):
+            return "/api/User/GetUserProfile/\(userUid)"
         }
     }
     
@@ -55,7 +58,7 @@ extension AYEndpoints: Endpoint {
         switch self {
         case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication:
             return .post
-        case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication:
+        case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile:
             return .get
         }
     }
@@ -139,6 +142,12 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .getUserProfile(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -169,7 +178,7 @@ extension AYEndpoints: Endpoint {
                 "text": text
             ]
             return params
-        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication:
+        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile:
             return nil
         }
     }

@@ -43,6 +43,7 @@ class AuthenticationViewModel: ObservableObject {
     
     @Published var name: String = ""
     @Published var profilePic: String?
+    @Published var biography: String?
     @Published var isUserInfoFetched: Bool = false
     @Published var isLoading: Bool = false
     @Published var isForgotPasswordScreenDisplayed: Bool = false
@@ -170,7 +171,7 @@ extension AuthenticationViewModel {
         case .success(let user):
             name = user.name
             profilePic = user.profilePic
-//            biography = user.biography
+            biography = user.biography
             isUserInfoFetched = true
         case .failure(let error):
             print("❌ Error: \(error)")

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProfileScreen: View {
+struct AccountScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     
@@ -37,7 +37,7 @@ struct ProfileScreen: View {
     private func ProfileHeader() -> some View {
         VStack {
             if let imageURL = authVM.profilePic {
-                ProfilePictureView(imageURL: imageURL)
+                URLImageView(imageURL: imageURL)
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 128, height: 128)
                     .clipShape(Circle())
@@ -52,12 +52,12 @@ struct ProfileScreen: View {
                 .font(.title)
                 .fontWeight(.semibold)
             
-            Text("My bio")
+            Text(authVM.biography ?? "No bio")
                 .foregroundStyle(.gray)
         }
     }
 }
 
 #Preview {
-    ProfileScreen()
+    AccountScreen()
 }

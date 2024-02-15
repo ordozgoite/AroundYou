@@ -53,7 +53,7 @@ struct SettingsScreen: View {
                     Section {
                         HStack {
                             Spacer()
-                            Button("End Session") {
+                            Button("Sign Out") {
                                 print("👉 SIGN OUT")
                                 authVM.signOut()
                             }
@@ -61,21 +61,6 @@ struct SettingsScreen: View {
                             Spacer()
                         }
                     }
-                    
-                    VStack {
-                        HStack {
-                            Spacer()
-                            Image(systemName: "location.circle")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 64, height: 64)
-                            Spacer()
-                        }
-                        
-                        Text("Version 0.1.0")
-                            .fontWeight(.light)
-                    }
-                    .listRowBackground(colorScheme == .dark ? Color.black : Color.white)
                     
                     //MARK: - Delete Account
                     Section {
@@ -94,6 +79,23 @@ struct SettingsScreen: View {
                     } footer: {
                         Text("For account deletions, remember that this action is irreversible.")
                     }
+                    
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Image(systemName: "location.circle")
+                                .resizable()
+                                .scaledToFill()
+                                .foregroundStyle(.gray)
+                                .frame(width: 64, height: 64)
+                            Spacer()
+                        }
+                        
+                        Text("Version 0.1.0")
+                            .foregroundStyle(.gray)
+                            .fontWeight(.light)
+                    }
+                    .listRowBackground(colorScheme == .dark ? Color.black : Color.white)
                 }
                 .scrollContentBackground(.hidden)
             }

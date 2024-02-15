@@ -12,6 +12,13 @@
 		ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */; };
 		ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4140A12B7E1D26002690A5 /* CircleTimerView.swift */; };
 		ED50C44A2B7E2CBC0001EDF6 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4492B7E2CBC0001EDF6 /* Int.swift */; };
+		ED50C44C2B7E396C0001EDF6 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C44B2B7E396C0001EDF6 /* View.swift */; };
+		ED50C44E2B7E3BE20001EDF6 /* PostVisibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C44D2B7E3BE20001EDF6 /* PostVisibility.swift */; };
+		ED50C4502B7E4AB70001EDF6 /* AYErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C44F2B7E4AB70001EDF6 /* AYErrorAlert.swift */; };
+		ED50C4532B7E4CCC0001EDF6 /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4522B7E4CCC0001EDF6 /* ErrorMessage.swift */; };
+		ED50C4552B7E94030001EDF6 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4542B7E94030001EDF6 /* UserProfile.swift */; };
+		ED50C4572B7E951D0001EDF6 /* UserProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4562B7E951D0001EDF6 /* UserProfileScreen.swift */; };
+		ED50C4592B7E98370001EDF6 /* ProfilePicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4582B7E98370001EDF6 /* ProfilePicView.swift */; };
 		ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BEC2B7C139D00B6C23D /* FeedScreen.swift */; };
 		ED598BF02B7C147D00B6C23D /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BEF2B7C147D00B6C23D /* Post.swift */; };
 		ED598BF22B7C167500B6C23D /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BF12B7C167500B6C23D /* FeedViewModel.swift */; };
@@ -20,7 +27,7 @@
 		ED598BFA2B7C217400B6C23D /* AYProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BF92B7C217400B6C23D /* AYProgressView.swift */; };
 		ED598BFC2B7C268C00B6C23D /* NewPostScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BFB2B7C268C00B6C23D /* NewPostScreen.swift */; };
 		ED598BFE2B7C39FD00B6C23D /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BFD2B7C39FD00B6C23D /* MainTabView.swift */; };
-		ED598C012B7C3A3900B6C23D /* ProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C002B7C3A3900B6C23D /* ProfileScreen.swift */; };
+		ED598C012B7C3A3900B6C23D /* AccountScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C002B7C3A3900B6C23D /* AccountScreen.swift */; };
 		ED598C032B7C42B500B6C23D /* AuthenticationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C022B7C42B500B6C23D /* AuthenticationScreen.swift */; };
 		ED598C052B7C43A000B6C23D /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C042B7C43A000B6C23D /* AuthenticationViewModel.swift */; };
 		ED598C072B7C441500B6C23D /* AuthFlowSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598C062B7C441500B6C23D /* AuthFlowSegmentedControl.swift */; };
@@ -71,7 +78,7 @@
 		EDA3222E2B7CA490009905B5 /* AYEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3222D2B7CA490009905B5 /* AYEndpoints.swift */; };
 		EDA322302B7CB12D009905B5 /* FormattedPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3222F2B7CB12C009905B5 /* FormattedPost.swift */; };
 		EDA322322B7CB5DE009905B5 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322312B7CB5DE009905B5 /* String.swift */; };
-		EDA322342B7CB861009905B5 /* ProfilePictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322332B7CB861009905B5 /* ProfilePictureView.swift */; };
+		EDA322342B7CB861009905B5 /* URLImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322332B7CB861009905B5 /* URLImageView.swift */; };
 		EDA322362B7CBF9B009905B5 /* NewPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322352B7CBF9B009905B5 /* NewPostViewModel.swift */; };
 		EDA322382B7CC145009905B5 /* TimestampTestScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322372B7CC145009905B5 /* TimestampTestScreen.swift */; };
 		EDA3223B2B7CCD8A009905B5 /* MongoUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3223A2B7CCD8A009905B5 /* MongoUser.swift */; };
@@ -90,6 +97,13 @@
 		ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePublicationResponse.swift; sourceTree = "<group>"; };
 		ED4140A12B7E1D26002690A5 /* CircleTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleTimerView.swift; sourceTree = "<group>"; };
 		ED50C4492B7E2CBC0001EDF6 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
+		ED50C44B2B7E396C0001EDF6 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		ED50C44D2B7E3BE20001EDF6 /* PostVisibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVisibility.swift; sourceTree = "<group>"; };
+		ED50C44F2B7E4AB70001EDF6 /* AYErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYErrorAlert.swift; sourceTree = "<group>"; };
+		ED50C4522B7E4CCC0001EDF6 /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
+		ED50C4542B7E94030001EDF6 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		ED50C4562B7E951D0001EDF6 /* UserProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileScreen.swift; sourceTree = "<group>"; };
+		ED50C4582B7E98370001EDF6 /* ProfilePicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicView.swift; sourceTree = "<group>"; };
 		ED598BEC2B7C139D00B6C23D /* FeedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedScreen.swift; sourceTree = "<group>"; };
 		ED598BEF2B7C147D00B6C23D /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Post.swift; path = WhatsGoingNearby/Screen/Feed/Post.swift; sourceTree = SOURCE_ROOT; };
 		ED598BF12B7C167500B6C23D /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
@@ -98,7 +112,7 @@
 		ED598BF92B7C217400B6C23D /* AYProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYProgressView.swift; sourceTree = "<group>"; };
 		ED598BFB2B7C268C00B6C23D /* NewPostScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostScreen.swift; sourceTree = "<group>"; };
 		ED598BFD2B7C39FD00B6C23D /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		ED598C002B7C3A3900B6C23D /* ProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreen.swift; sourceTree = "<group>"; };
+		ED598C002B7C3A3900B6C23D /* AccountScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountScreen.swift; sourceTree = "<group>"; };
 		ED598C022B7C42B500B6C23D /* AuthenticationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationScreen.swift; sourceTree = "<group>"; };
 		ED598C042B7C43A000B6C23D /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		ED598C062B7C441500B6C23D /* AuthFlowSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowSegmentedControl.swift; sourceTree = "<group>"; };
@@ -123,7 +137,7 @@
 		EDA3222D2B7CA490009905B5 /* AYEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYEndpoints.swift; sourceTree = "<group>"; };
 		EDA3222F2B7CB12C009905B5 /* FormattedPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedPost.swift; sourceTree = "<group>"; };
 		EDA322312B7CB5DE009905B5 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
-		EDA322332B7CB861009905B5 /* ProfilePictureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePictureView.swift; sourceTree = "<group>"; };
+		EDA322332B7CB861009905B5 /* URLImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageView.swift; sourceTree = "<group>"; };
 		EDA322352B7CBF9B009905B5 /* NewPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewModel.swift; sourceTree = "<group>"; };
 		EDA322372B7CC145009905B5 /* TimestampTestScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampTestScreen.swift; sourceTree = "<group>"; };
 		EDA3223A2B7CCD8A009905B5 /* MongoUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoUser.swift; sourceTree = "<group>"; };
@@ -174,6 +188,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		ED50C4512B7E4CC20001EDF6 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				ED50C4522B7E4CCC0001EDF6 /* ErrorMessage.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		ED598BE92B7C121000B6C23D /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -194,22 +216,25 @@
 			path = Feed;
 			sourceTree = "<group>";
 		};
-		ED598BEB2B7C122600B6C23D /* Profile */ = {
+		ED598BEB2B7C122600B6C23D /* Account */ = {
 			isa = PBXGroup;
 			children = (
-				ED598C002B7C3A3900B6C23D /* ProfileScreen.swift */,
+				ED598C002B7C3A3900B6C23D /* AccountScreen.swift */,
+				ED50C4562B7E951D0001EDF6 /* UserProfileScreen.swift */,
 			);
-			path = Profile;
+			path = Account;
 			sourceTree = "<group>";
 		};
 		ED598BEE2B7C147400B6C23D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				ED50C44D2B7E3BE20001EDF6 /* PostVisibility.swift */,
 				ED598BEF2B7C147D00B6C23D /* Post.swift */,
 				EDA3223A2B7CCD8A009905B5 /* MongoUser.swift */,
 				EDA322482B7DB2BA009905B5 /* Comment.swift */,
 				EDA3222F2B7CB12C009905B5 /* FormattedPost.swift */,
 				EDA3224A2B7DB345009905B5 /* FormattedComment.swift */,
+				ED50C4542B7E94030001EDF6 /* UserProfile.swift */,
 				EDA322392B7CCD79009905B5 /* Response */,
 			);
 			path = Model;
@@ -223,6 +248,8 @@
 				ED598BF42B7C16EC00B6C23D /* PostView.swift */,
 				EDA322462B7DB221009905B5 /* CommentView.swift */,
 				ED4140A12B7E1D26002690A5 /* CircleTimerView.swift */,
+				ED50C44F2B7E4AB70001EDF6 /* AYErrorAlert.swift */,
+				ED50C4582B7E98370001EDF6 /* ProfilePicView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -233,6 +260,7 @@
 				ED598BF72B7C1B9400B6C23D /* Date.swift */,
 				EDA322312B7CB5DE009905B5 /* String.swift */,
 				ED50C4492B7E2CBC0001EDF6 /* Int.swift */,
+				ED50C44B2B7E396C0001EDF6 /* View.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -240,7 +268,7 @@
 		ED598C0A2B7C47E300B6C23D /* Global */ = {
 			isa = PBXGroup;
 			children = (
-				EDA322332B7CB861009905B5 /* ProfilePictureView.swift */,
+				EDA322332B7CB861009905B5 /* URLImageView.swift */,
 				ED598C082B7C472200B6C23D /* AYButton.swift */,
 				ED598C492B7C576A00B6C23D /* AYProgressButton.swift */,
 				ED598BF92B7C217400B6C23D /* AYProgressView.swift */,
@@ -285,6 +313,7 @@
 		ED5CB1672B7C11C000C336EC /* WhatsGoingNearby */ = {
 			isa = PBXGroup;
 			children = (
+				ED50C4512B7E4CC20001EDF6 /* Util */,
 				EDA322252B7CA30C009905B5 /* Network */,
 				ED598BF62B7C1B6F00B6C23D /* Extension */,
 				ED598BEE2B7C147400B6C23D /* Model */,
@@ -312,7 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				ED598BE92B7C121000B6C23D /* Authentication */,
-				ED598BEB2B7C122600B6C23D /* Profile */,
+				ED598BEB2B7C122600B6C23D /* Account */,
 				ED598BEA2B7C121D00B6C23D /* Feed */,
 				EDA322432B7DB068009905B5 /* Comment */,
 				EDA322422B7DB059009905B5 /* New Post */,
@@ -484,6 +513,7 @@
 				ED598C0F2B7C499400B6C23D /* AYSecureTextField.swift in Sources */,
 				EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */,
 				ED598C052B7C43A000B6C23D /* AuthenticationViewModel.swift in Sources */,
+				ED50C4532B7E4CCC0001EDF6 /* ErrorMessage.swift in Sources */,
 				ED598BFC2B7C268C00B6C23D /* NewPostScreen.swift in Sources */,
 				EDA322302B7CB12D009905B5 /* FormattedPost.swift in Sources */,
 				ED598C032B7C42B500B6C23D /* AuthenticationScreen.swift in Sources */,
@@ -493,21 +523,26 @@
 				ED598C4A2B7C576A00B6C23D /* AYProgressButton.swift in Sources */,
 				ED598BFA2B7C217400B6C23D /* AYProgressView.swift in Sources */,
 				ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */,
+				ED50C4572B7E951D0001EDF6 /* UserProfileScreen.swift in Sources */,
 				EDA322452B7DB07D009905B5 /* CommentScreen.swift in Sources */,
 				ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */,
 				ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */,
 				EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */,
+				ED50C4592B7E98370001EDF6 /* ProfilePicView.swift in Sources */,
+				ED50C4552B7E94030001EDF6 /* UserProfile.swift in Sources */,
 				EDA322362B7CBF9B009905B5 /* NewPostViewModel.swift in Sources */,
 				ED598C4C2B7C587100B6C23D /* AuthenticatedScreen.swift in Sources */,
 				EDA322472B7DB221009905B5 /* CommentView.swift in Sources */,
 				EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */,
-				ED598C012B7C3A3900B6C23D /* ProfileScreen.swift in Sources */,
+				ED50C4502B7E4AB70001EDF6 /* AYErrorAlert.swift in Sources */,
+				ED598C012B7C3A3900B6C23D /* AccountScreen.swift in Sources */,
 				ED598BF82B7C1B9400B6C23D /* Date.swift in Sources */,
 				ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */,
-				EDA322342B7CB861009905B5 /* ProfilePictureView.swift in Sources */,
+				EDA322342B7CB861009905B5 /* URLImageView.swift in Sources */,
 				EDA3223F2B7D6A3F009905B5 /* LikePublicationResponse.swift in Sources */,
 				ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */,
 				ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */,
+				ED50C44C2B7E396C0001EDF6 /* View.swift in Sources */,
 				EDA3222E2B7CA490009905B5 /* AYEndpoints.swift in Sources */,
 				ED598C532B7C81CA00B6C23D /* LocationManager.swift in Sources */,
 				ED5CB1692B7C11C000C336EC /* WhatsGoingNearbyApp.swift in Sources */,
@@ -519,6 +554,7 @@
 				ED598BFE2B7C39FD00B6C23D /* MainTabView.swift in Sources */,
 				ED598C0D2B7C482A00B6C23D /* AYTextField.swift in Sources */,
 				ED50C44A2B7E2CBC0001EDF6 /* Int.swift in Sources */,
+				ED50C44E2B7E3BE20001EDF6 /* PostVisibility.swift in Sources */,
 				ED598C512B7C80EC00B6C23D /* LocationTestScreen.swift in Sources */,
 				EDA322292B7CA362009905B5 /* Endpoint.swift in Sources */,
 			);

@@ -15,14 +15,21 @@ struct CircleTimerView: View {
     @State private var progress: CGFloat = 0.0
     
     var body: some View {
-        Circle()
-            .trim(from: 0.0, to: progress)
-            .stroke(Color.blue, lineWidth: 8)
-            .rotationEffect(.degrees(-90))
-            .frame(width: 20, height: 20)
-            .onAppear {
-                startTimer()
-            }
+        ZStack {
+            Circle()
+                .stroke(Color.gray, lineWidth: 4)
+                .frame(width: 20, height: 20)
+                .opacity(0.5)
+            
+            Circle()
+                .trim(from: 0.0, to: progress)
+                .stroke(progress < 0.05 ? .red : .blue, lineWidth: 4)
+                .rotationEffect(.degrees(-90))
+                .frame(width: 20, height: 20)
+                .onAppear {
+                    startTimer()
+                }
+        }
     }
     
     private func startTimer() {

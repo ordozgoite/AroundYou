@@ -24,7 +24,7 @@ class ImageLoader: ObservableObject {
     }
 }
 
-struct ProfilePictureView: View {
+struct URLImageView: View {
     
     let imageURL: String
     @State private var image: UIImage? = nil
@@ -35,8 +35,6 @@ struct ProfilePictureView: View {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-            } else {
-                Image("placeholder")
             }
         }
         .onAppear {
@@ -58,5 +56,5 @@ struct ProfilePictureView: View {
 }
 
 #Preview {
-    ProfilePictureView(imageURL: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg")
+    URLImageView(imageURL: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg")
 }

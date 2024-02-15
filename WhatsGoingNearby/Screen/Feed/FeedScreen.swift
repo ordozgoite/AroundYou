@@ -21,15 +21,21 @@ struct FeedScreen: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                if feedVM.isLoading {
-                    LoadingView()
-                } else {
-                    if activePostsQuantity == 0 {
-                        EmptyFeed()
+            ZStack {
+                VStack {
+                    if feedVM.isLoading {
+                        LoadingView()
                     } else {
-                        PostsView()
+                        if activePostsQuantity == 0 {
+                            EmptyFeed()
+                        } else {
+                            PostsView()
+                        }
                     }
+                }
+                
+                if feedVM.overlayError.0 {
+                    AYErrorAlert(message: feedVM.overlayError.1 , isErrorAlertPresented: $feedVM.overlayError.0)
                 }
             }
             

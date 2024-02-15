@@ -16,7 +16,7 @@ struct CommentView: View {
     var body: some View {
         VStack {
             HStack(alignment: .top) {
-                ProfilePicView()
+                ProfilePic()
                 
                 VStack(alignment: .leading, spacing: 8) {
                     HeaderView()
@@ -30,18 +30,12 @@ struct CommentView: View {
     //MARK: - ProfilePic
     
     @ViewBuilder
-    private func ProfilePicView() -> some View {
+    private func ProfilePic() -> some View {
         VStack {
-            if let imageUrl = comment.userProfilePic {
-                ProfilePictureView(imageURL: imageUrl)
-                    .scaledToFill()
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-            } else {
-                Image(systemName: "person.circle.fill")
-                    .resizable()
-                    .frame(width: 50, height: 50)
+            NavigationLink(destination: UserProfileScreen(userUid: comment.userUid).environmentObject(authVM)) {
+                ProfilePicView(profilePic: comment.userProfilePic)
             }
+            .buttonStyle(PlainButtonStyle())
         }
     }
     

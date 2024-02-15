@@ -17,7 +17,7 @@ struct PostView: View {
     var body: some View {
         VStack {
             HStack(alignment: .top) {
-                ProfilePicView()
+                ProfilePic()
                 
                 VStack(alignment: .leading, spacing: 8) {
                     HeaderView()
@@ -33,18 +33,12 @@ struct PostView: View {
     //MARK: - ProfilePic
     
     @ViewBuilder
-    private func ProfilePicView() -> some View {
+    private func ProfilePic() -> some View {
         VStack {
-            if let imageUrl = post.userProfilePic {
-                ProfilePictureView(imageURL: imageUrl)
-                    .scaledToFill()
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-            } else {
-                Image(systemName: "person.circle.fill")
-                    .resizable()
-                    .frame(width: 50, height: 50)
+            NavigationLink(destination: UserProfileScreen(userUid: post.userUid).environmentObject(authVM)) {
+                ProfilePicView(profilePic: post.userProfilePic)
             }
+            .buttonStyle(PlainButtonStyle())
         }
     }
     
@@ -105,6 +99,7 @@ struct PostView: View {
                                 post.likes -= 1
                                 await feedVM.unlikePublication(publicationId: post.id, token: token)
                             } else {
+                                hapticFeedback()
                                 post.didLike = true
                                 post.likes += 1
                                 await feedVM.likePublication(publicationId: post.id, token: token)

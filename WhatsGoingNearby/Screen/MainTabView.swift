@@ -20,7 +20,7 @@ struct MainTabView: View {
                 }
                 .environmentObject(authVM)
             
-            ProfileScreen()
+            AccountScreen()
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text("Profile")

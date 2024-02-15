@@ -12,6 +12,7 @@ protocol AYServiceable {
     // User
     func postNewUser(name: String, token: String) async -> Result<MongoUser, RequestError>
     func getUserInfo(token: String) async -> Result<MongoUser, RequestError>
+    func getUserProfile(userUid: String, token: String) async ->Result<UserProfile, RequestError>
     
     // Publication
     func postNewPublication(text: String, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError>
@@ -39,6 +40,10 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getUserInfo(token: String) async -> Result<MongoUser, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getUserInfo(token: token), responseModel: MongoUser.self)
+    }
+    
+    func getUserProfile(userUid: String, token: String) async -> Result<UserProfile, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getUserProfile(userUid: userUid, token: token), responseModel: UserProfile.self)
     }
     
     //MARK: - Publication

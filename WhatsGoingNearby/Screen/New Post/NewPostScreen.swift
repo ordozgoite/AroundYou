@@ -10,22 +10,12 @@ import SwiftUI
 struct NewPostScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject private var newPostVM = NewPostViewModel()
     @ObservedObject var locationManager = LocationManager()
     @Environment(\.presentationMode) var presentationMode
     
     @State private var postText: String = ""
     @State private var isLoading: Bool = false
     let refresh: () -> ()
-    
-    var userName: String {
-        switch newPostVM.selectedPostVisibility {
-        case .identified:
-            return "Victor Ordozgoite"
-        case .anonymous:
-            return "Anonymous"
-        }
-    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 32) {
@@ -71,40 +61,20 @@ struct NewPostScreen: View {
     @ViewBuilder
     private func PreferenceView() -> some View {
         HStack {
-            switch newPostVM.selectedPostVisibility {
-            case .identified:
-                if let imageURL = authVM.profilePic {
-                    ProfilePictureView(imageURL: imageURL)
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                } else {
-                    Image(systemName: "person.circle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 50, height: 50)
-                }
-            case .anonymous:
-                Image(systemName: "person.crop.circle.badge.questionmark.fill")
+            if let imageURL = authVM.profilePic {
+                URLImageView(imageURL: imageURL)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+            } else {
+                Image(systemName: "person.circle.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 50, height: 50)
             }
             
-            
-            VStack {
-                Text(authVM.name)
-                    .fontWeight(.semibold)
-                
-                Picker("", selection: $newPostVM.selectedPostVisibility) {
-                    ForEach(PostVisibility.allCases, id: \.self) { category in
-                        Text(category.title)
-                            .tag(category)
-                    }
-                }
-                .pickerStyle(.menu)
-                .buttonStyle(.bordered)
-            }
+            Text(authVM.name)
+                .fontWeight(.semibold)
         }
     }
     
