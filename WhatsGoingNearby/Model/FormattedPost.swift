@@ -21,12 +21,13 @@ struct FormattedPost: Identifiable, Codable {
     let userProfilePic: String?
     let userName: String?
     let timestamp: Int
+    let expirationDate: Int
     let text: String
     var likes: Int
     var didLike: Bool
     var comment: Int
     let isFromRecipientUser: Bool
     var date: Date {
-        return NSDate(timeIntervalSince1970: TimeInterval(self.timestamp / 1000)) as Date
+        return NSDate(timeIntervalSince1970: TimeInterval(self.timestamp.timeIntervalSince1970InSeconds)) as Date
     }
 }

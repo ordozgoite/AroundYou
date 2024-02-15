@@ -167,6 +167,6 @@ struct CommentScreen: View {
     CommentScreen(feedVM: FeedViewModel(), post: .constant(FormattedPost(
         id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
         userName: "Tim Cook",
-        timestamp: Int(Date().timeIntervalSince1970),
+        timestamp: Int(Date().timeIntervalSince1970), expirationDate: Int(Date().timeIntervalSince1970),
         text: "Alguém sabe quando lança o Apple Vision Pro?", likes: 2, didLike: true, comment: 2, isFromRecipientUser: true)))
 }

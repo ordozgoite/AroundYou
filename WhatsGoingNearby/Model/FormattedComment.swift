@@ -17,6 +17,6 @@ struct FormattedComment: Codable, Identifiable {
     let userName: String?
     let isFromRecipientUser: Bool
     var date: Date {
-        return NSDate(timeIntervalSince1970: TimeInterval(self.timestamp / 1000)) as Date
+        return NSDate(timeIntervalSince1970: TimeInterval(self.timestamp.timeIntervalSince1970InSeconds)) as Date
     }
 }
