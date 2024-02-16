@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NewPostScreen: View {
     
+    private let maxPostLength = 250
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var newPostVM = NewPostViewModel()
     @ObservedObject var locationManager = LocationManager()
@@ -18,9 +19,14 @@ struct NewPostScreen: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 32) {
-            PreferenceView()
+            Header()
             
             TextField("What's going on around you?", text: $newPostVM.postText, axis: .vertical)
+                .onChange(of: newPostVM.postText) { newValue in
+                    if newValue.count > maxPostLength {
+                        newPostVM.postText = String(newValue.prefix(maxPostLength))
+                    }
+                }
             
             Spacer()
         }
@@ -55,10 +61,10 @@ struct NewPostScreen: View {
         .navigationBarTitleDisplayMode(.inline)
     }
     
-    //MARK: - Preference
+    //MARK: - Header
     
     @ViewBuilder
-    private func PreferenceView() -> some View {
+    private func Header() -> some View {
         HStack {
             if let imageURL = authVM.profilePic {
                 URLImageView(imageURL: imageURL)
@@ -72,8 +78,14 @@ struct NewPostScreen: View {
                     .frame(width: 50, height: 50)
             }
             
-            Text(authVM.name)
-                .fontWeight(.semibold)
+            VStack(alignment: .leading) {
+                Text(authVM.name)
+                    .fontWeight(.semibold)
+                
+                Text("\(newPostVM.postText.count)/\(maxPostLength)")
+                    .foregroundStyle(.gray)
+                    .font(.subheadline)
+            }
         }
     }
     
