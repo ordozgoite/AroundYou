@@ -27,7 +27,7 @@ struct FeedScreen: View {
                         LoadingView()
                     } else {
                         if activePostsQuantity == 0 {
-                            EmptyFeed()
+                            EmptyFeedView()
                         } else {
                             PostsView()
                         }
@@ -66,7 +66,7 @@ struct FeedScreen: View {
     @ViewBuilder
     private func LoadingView() -> some View {
         VStack {
-            AYProgressView()
+            ProgressView()
             
             Text("Looking around you...")
                 .foregroundStyle(.gray)
@@ -97,29 +97,6 @@ struct FeedScreen: View {
         }
     }
     
-    //MARK: - Empty Feed
-    
-    @ViewBuilder
-    private func EmptyFeed() -> some View {
-        VStack {
-            Text("There are no posts around you")
-                .foregroundStyle(.gray)
-                .fontWeight(.semibold)
-            
-            Image(systemName: "arrow.clockwise")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 32, height: 32)
-                .foregroundStyle(.gray)
-                .onTapGesture {
-                    print("👉 Refresh!")
-                    Task {
-                        try await getFeedInfo()
-                    }
-                }
-        }
-    }
-    
     //MARK: - Auxiliary Method
     
     private func startTimer() {
@@ -137,7 +114,6 @@ struct FeedScreen: View {
         locationManager.requestLocation()
         if let location = locationManager.location {
             let token = try await authVM.getFirebaseToken()
-            print("🔑 USER TOKEN: \(token)")
             
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
