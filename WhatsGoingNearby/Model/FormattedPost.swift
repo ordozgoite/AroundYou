@@ -30,4 +30,12 @@ struct FormattedPost: Identifiable, Codable {
     var date: Date {
         return NSDate(timeIntervalSince1970: TimeInterval(self.timestamp.timeIntervalSince1970InSeconds)) as Date
     }
+    
+    var type: PostType {
+        if expirationDate > Int(Date().timeIntervalSince1970) {
+            return .active
+        } else {
+            return .inactive
+        }
+    }
 }

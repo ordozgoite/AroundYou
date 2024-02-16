@@ -82,7 +82,7 @@ struct FeedScreen: View {
             ForEach($feedVM.posts) { $post in
                 if post.expirationDate.timeIntervalSince1970InSeconds > currentTimeStamp {
                     NavigationLink(destination: CommentScreen(postId: post.id, feedVM: feedVM, post: $post).environmentObject(authVM)) {
-                        PostView(feedVM: feedVM, post: $post) {
+                        PostView(post: $post) {
                             Task {
                                 let token = try await authVM.getFirebaseToken()
                                 await feedVM.deletePublication(publicationId: post.id, token: token)

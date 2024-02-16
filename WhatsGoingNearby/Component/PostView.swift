@@ -10,7 +10,6 @@ import SwiftUI
 struct PostView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject var feedVM: FeedViewModel
     @Binding var post: FormattedPost
     let deletePost: () -> ()
     
@@ -100,12 +99,12 @@ struct PostView: View {
                             if post.didLike {
                                 post.didLike = false
                                 post.likes -= 1
-                                await feedVM.unlikePublication(publicationId: post.id, token: token)
+                                await unlikePublication(publicationId: post.id, token: token)
                             } else {
                                 hapticFeedback()
                                 post.didLike = true
                                 post.likes += 1
-                                await feedVM.likePublication(publicationId: post.id, token: token)
+                                await likePublication(publicationId: post.id, token: token)
                             }
                         }
                     }
@@ -126,10 +125,34 @@ struct PostView: View {
         }
     }
     
+    //MARK: - Auxiliary Methods
+    
+    private func likePublication(publicationId: String, token: String) async {
+        let response = await AYServices.shared.likePublication(publicationId: publicationId, token: token)
+        
+        switch response {
+        case .success:
+            print("❤️ Publication liked!")
+        case .failure(let error):
+            print("❌ Error: \(error)")
+        }
+    }
+    
+    private func unlikePublication(publicationId: String, token: String) async {
+        let response = await AYServices.shared.unlikePublication(publicationId: publicationId, token: token)
+        
+        switch response {
+        case .success:
+            print("💔 Publication unliked!")
+        case .failure(let error):
+            print("❌ Error: \(error)")
+        }
+    }
+    
 }
 
 #Preview {
-    PostView(feedVM: FeedViewModel(), post: .constant(FormattedPost(
+    PostView(post: .constant(FormattedPost(
         id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
         userName: "Victor Ordozgoite",
         timestamp: Int(Date().timeIntervalSince1970), expirationDate: Int(Date().timeIntervalSince1970),

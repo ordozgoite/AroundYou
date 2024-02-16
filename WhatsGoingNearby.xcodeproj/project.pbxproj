@@ -82,6 +82,9 @@
 		EDA30DEE2B7FBAF8003EB22D /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DED2B7FBAF8003EB22D /* LaunchScreen.swift */; };
 		EDA30DF02B7FC620003EB22D /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DEF2B7FC620003EB22D /* AccountViewModel.swift */; };
 		EDA30DF22B7FCDE3003EB22D /* EditBiographyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DF12B7FCDE3003EB22D /* EditBiographyResponse.swift */; };
+		EDA30DF42B7FDE4F003EB22D /* HistoryPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DF32B7FDE4F003EB22D /* HistoryPostView.swift */; };
+		EDA30DF62B7FE816003EB22D /* PostTypeSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DF52B7FE816003EB22D /* PostTypeSegmentedControl.swift */; };
+		EDA30DF82B7FE9B6003EB22D /* PostType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DF72B7FE9B6003EB22D /* PostType.swift */; };
 		EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322232B7C99B6009905B5 /* CalculateDistanceTestScreen.swift */; };
 		EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322262B7CA342009905B5 /* HTTPClient.swift */; };
 		EDA322292B7CA362009905B5 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322282B7CA362009905B5 /* Endpoint.swift */; };
@@ -151,6 +154,9 @@
 		EDA30DED2B7FBAF8003EB22D /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		EDA30DEF2B7FC620003EB22D /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		EDA30DF12B7FCDE3003EB22D /* EditBiographyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBiographyResponse.swift; sourceTree = "<group>"; };
+		EDA30DF32B7FDE4F003EB22D /* HistoryPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryPostView.swift; sourceTree = "<group>"; };
+		EDA30DF52B7FE816003EB22D /* PostTypeSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTypeSegmentedControl.swift; sourceTree = "<group>"; };
+		EDA30DF72B7FE9B6003EB22D /* PostType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostType.swift; sourceTree = "<group>"; };
 		EDA322232B7C99B6009905B5 /* CalculateDistanceTestScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateDistanceTestScreen.swift; sourceTree = "<group>"; };
 		EDA322262B7CA342009905B5 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		EDA322282B7CA362009905B5 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
@@ -262,6 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				ED50C44D2B7E3BE20001EDF6 /* PostVisibility.swift */,
+				EDA30DF72B7FE9B6003EB22D /* PostType.swift */,
 				ED598BEF2B7C147D00B6C23D /* Post.swift */,
 				EDA3223A2B7CCD8A009905B5 /* MongoUser.swift */,
 				EDA322482B7DB2BA009905B5 /* Comment.swift */,
@@ -279,12 +286,14 @@
 				ED50C4652B7FA2BF0001EDF6 /* Feed */,
 				ED598C0B2B7C47FA00B6C23D /* Auth */,
 				ED598C0A2B7C47E300B6C23D /* Global */,
+				EDA30DF32B7FDE4F003EB22D /* HistoryPostView.swift */,
 				ED598BF42B7C16EC00B6C23D /* PostView.swift */,
 				EDA322462B7DB221009905B5 /* CommentView.swift */,
 				ED4140A12B7E1D26002690A5 /* CircleTimerView.swift */,
 				ED50C44F2B7E4AB70001EDF6 /* AYErrorAlert.swift */,
 				ED50C4582B7E98370001EDF6 /* ProfilePicView.swift */,
 				EDA30DEB2B7FABA9003EB22D /* LottieView.swift */,
+				EDA30DF52B7FE816003EB22D /* PostTypeSegmentedControl.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -569,6 +578,7 @@
 				ED50C4532B7E4CCC0001EDF6 /* ErrorMessage.swift in Sources */,
 				ED598BFC2B7C268C00B6C23D /* NewPostScreen.swift in Sources */,
 				EDA322302B7CB12D009905B5 /* FormattedPost.swift in Sources */,
+				EDA30DF82B7FE9B6003EB22D /* PostType.swift in Sources */,
 				ED598C032B7C42B500B6C23D /* AuthenticationScreen.swift in Sources */,
 				ED50C4602B7F98620001EDF6 /* Sizes.swift in Sources */,
 				EDA322382B7CC145009905B5 /* TimestampTestScreen.swift in Sources */,
@@ -579,6 +589,7 @@
 				ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */,
 				ED50C4572B7E951D0001EDF6 /* UserProfileScreen.swift in Sources */,
 				EDA30DEC2B7FABA9003EB22D /* LottieView.swift in Sources */,
+				EDA30DF62B7FE816003EB22D /* PostTypeSegmentedControl.swift in Sources */,
 				EDA322452B7DB07D009905B5 /* CommentScreen.swift in Sources */,
 				ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */,
 				ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */,
@@ -602,6 +613,7 @@
 				ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */,
 				ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */,
 				ED50C44C2B7E396C0001EDF6 /* View.swift in Sources */,
+				EDA30DF42B7FDE4F003EB22D /* HistoryPostView.swift in Sources */,
 				EDA3222E2B7CA490009905B5 /* AYEndpoints.swift in Sources */,
 				ED598C532B7C81CA00B6C23D /* LocationManager.swift in Sources */,
 				ED5CB1692B7C11C000C336EC /* WhatsGoingNearbyApp.swift in Sources */,

@@ -22,7 +22,7 @@ struct CommentScreen: View {
         ZStack {
             VStack {
                 ScrollView {
-                    PostView(feedVM: feedVM, post: $post) {
+                    PostView(post: $post) {
                         Task {
                             let token = try await authVM.getFirebaseToken()
                             await commentVM.deletePost(publicationId: postId, token: token) {

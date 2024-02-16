@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 struct AccountScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
@@ -15,11 +16,17 @@ struct AccountScreen: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                ProfileHeader()
-                
-                Divider()
-                
-                History()
+                VStack(spacing: 32) {
+                    ProfileHeader()
+                    
+                    History()
+                }
+            }
+            .onAppear {
+                Task {
+                    let token = try await authVM.getFirebaseToken()
+                    await accountVM.getUserPosts(token: token)
+                }
             }
             .toolbar {
                 ToolbarItem {
@@ -89,30 +96,46 @@ struct AccountScreen: View {
     
     @ViewBuilder
     private func History() -> some View {
-        VStack(alignment: .leading) {
-            Text("History")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-            
-            Text("Your inactive posts can only be seen by you.")
-                .font(.subheadline)
-                .foregroundStyle(.gray)
+        VStack(spacing: 32) {
+            PostTypeSegmentedControl(selectedFilter: $accountVM.selectedPostType)
             
             PostsView()
         }
-        .padding()
     }
     
     //MARK: - Posts View
     
     @ViewBuilder
     private func PostsView() -> some View {
-        ScrollView {
-            ForEach($accountVM.posts) { $post in
-                // Post View
-                //                    .buttonStyle(PlainButtonStyle())
-                Divider()
+        if accountVM.isLoadingposts {
+            ProgressView()
+        } else {
+            ScrollView {
+                ForEach($accountVM.posts) { $post in
+                    if shouldDisplay(post: post) {
+                        PostView(post: $post) {
+                            Task {
+                                let token = try await authVM.getFirebaseToken()
+                                await accountVM.deletePublication(publicationId: post.id, token: token)
+                            }
+                        }
+                        Divider()
+                    }
+                }
             }
+        }
+    }
+    
+    //MARK: - Auxiliary Methods
+    
+    private func shouldDisplay(post: FormattedPost) -> Bool {
+        switch accountVM.selectedPostType {
+        case .all:
+            return true
+        case .active:
+            return post.type == .active
+        case .inactive:
+            return post.type == .inactive
         }
     }
 }
