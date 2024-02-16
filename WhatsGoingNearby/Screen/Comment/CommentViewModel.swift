@@ -14,6 +14,7 @@ class CommentViewModel: ObservableObject {
     @Published var comments: [FormattedComment] = []
     @Published var newCommentText: String = ""
     @Published var isPostingComment: Bool = false
+    @Published var overlayError: (Bool, String) = (false, "")
     
     func getAllComments(publicationId: String, token: String) async {
         let response = await AYServices.shared.getAllCommentsByPublication(publicationId: publicationId, token: token)
@@ -22,7 +23,6 @@ class CommentViewModel: ObservableObject {
         case .success(let comments):
             self.comments = comments
         case .failure(let error):
-            // Display error
             print("❌ Error: \(error)")
         }
     }
@@ -38,9 +38,8 @@ class CommentViewModel: ObservableObject {
         case .success:
             //            post.comment += 1
             await getAllComments(publicationId: publicationId, token: token)
-        case .failure(let error):
-            // Display error
-            print("❌ Error: \(error)")
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
     }
     
@@ -50,9 +49,8 @@ class CommentViewModel: ObservableObject {
         switch response {
         case .success:
             popComment(commentId: commentId)
-        case .failure(let error):
-            // Display error
-            print("❌ Error: \(error)")
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
     }
     
@@ -66,9 +64,8 @@ class CommentViewModel: ObservableObject {
         switch response {
         case .success:
             dismissScreen()
-        case .failure(let error):
-            // Display error
-            print("❌ Error: \(error)")
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
     }
     

@@ -9,5 +9,5 @@ import Foundation
 
 struct ErrorMessage {
     
-    static let defaultErrorMessage = "Oops! Parece que algo saiu dos trilhos."
+    static let defaultErrorMessage = "Oops! Looks like something went wrong."
 }

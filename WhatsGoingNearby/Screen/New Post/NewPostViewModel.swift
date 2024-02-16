@@ -12,6 +12,7 @@ class NewPostViewModel: ObservableObject {
     
     @Published var postText: String = ""
     @Published var isLoading: Bool = false
+    @Published var overlayError: (Bool, String) = (false, "")
     
     func postNewPublication(latitude: Double, longitude: Double, token: String, dismissScreen: () -> ()) async {
             isLoading = true
@@ -21,9 +22,8 @@ class NewPostViewModel: ObservableObject {
             switch result {
             case .success:
                 dismissScreen()
-            case .failure(let error):
-                // Display error
-                print("❌ Error: \(error)")
+            case .failure:
+                overlayError = (true, ErrorMessage.defaultErrorMessage)
             }
     }
 }

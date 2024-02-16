@@ -12,41 +12,47 @@ struct AuthenticationScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     
     var body: some View {
-        VStack(spacing: 16) {
-            LogoView()
-            
-            AuthFlowSegmentedControl(selectedFilter: $authVM.flow)
-                .padding([.top, .bottom], 16)
-            
-            Spacer()
-            
-            if authVM.flow == .signUp {
-                AYTextField(imageName: "person.fill", title: "Name", error: $authVM.errorMessage.0, inputText: $authVM.nameInput)
-            }
-            
-            AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.1, inputText: $authVM.emailInput)
-            
-            AYSecureTextField(imageName: "lock", title: "Password", error: $authVM.errorMessage.2, inputText: $authVM.passwordInput)
-            
-            if authVM.flow == .signUp {
-                AYSecureTextField(imageName: "lock", title: "Confirm password", error: $authVM.errorMessage.3, inputText: $authVM.confirmPasswordInput)
-            }
-            
-            Spacer()
-            Spacer()
-            
-            ButtonView()
-            
-            if authVM.flow == .signUp {
-                TermsAndPrivacyView()
-            } else {
-                Button("Esqueceu a senha?") {
-                    authVM.isForgotPasswordScreenDisplayed = true
+        ZStack {
+            VStack(spacing: 16) {
+                LogoView()
+                
+                AuthFlowSegmentedControl(selectedFilter: $authVM.flow)
+                    .padding([.top, .bottom], 16)
+                
+                Spacer()
+                
+                if authVM.flow == .signUp {
+                    AYTextField(imageName: "person.fill", title: "Name", error: $authVM.errorMessage.0, inputText: $authVM.nameInput)
                 }
-                .padding()
+                
+                AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.1, inputText: $authVM.emailInput)
+                
+                AYSecureTextField(imageName: "lock", title: "Password", error: $authVM.errorMessage.2, inputText: $authVM.passwordInput)
+                
+                if authVM.flow == .signUp {
+                    AYSecureTextField(imageName: "lock", title: "Confirm password", error: $authVM.errorMessage.3, inputText: $authVM.confirmPasswordInput)
+                }
+                
+                Spacer()
+                Spacer()
+                
+                ButtonView()
+                
+                if authVM.flow == .signUp {
+                    TermsAndPrivacyView()
+                } else {
+                    Button("Esqueceu a senha?") {
+                        authVM.isForgotPasswordScreenDisplayed = true
+                    }
+                    .padding()
+                }
+            }
+            .padding()
+            
+            if authVM.overlayError.0 {
+                AYErrorAlert(message: authVM.overlayError.1 , isErrorAlertPresented: $authVM.overlayError.0)
             }
         }
-        .padding()
     }
     
     //MARK: - Logo View

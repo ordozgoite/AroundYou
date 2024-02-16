@@ -12,25 +12,30 @@ struct UserProfileScreen: View {
     let userUid: String
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    
-    @State private var userProfile: UserProfile? = nil
-    @State private var isLoading: Bool = false
+    @StateObject private var userProfileVM = UserProfileViewModel()
     
     var body: some View {
-        VStack {
-            if isLoading {
-                ProgressView()
-            } else {
-                VStack {
-                    ProfileHeader()
-                    
-                    Spacer()
+        ZStack {
+            VStack {
+                if userProfileVM.isLoading {
+                    ProgressView()
+                } else {
+                    VStack {
+                        ProfileHeader()
+                        
+                        Spacer()
+                    }
                 }
+            }
+            
+            if userProfileVM.overlayError.0 {
+                AYErrorAlert(message: userProfileVM.overlayError.1 , isErrorAlertPresented: $userProfileVM.overlayError.0)
             }
         }
         .onAppear {
             Task {
-                try await getUserProfile()
+                let token = try await authVM.getFirebaseToken()
+                await userProfileVM.getUserProfile(userUid: userUid, token: token)
             }
         }
         .navigationTitle("Profile")
@@ -42,7 +47,7 @@ struct UserProfileScreen: View {
     @ViewBuilder
     private func ProfileHeader() -> some View {
         VStack {
-            if let imageURL = userProfile?.profilePic {
+            if let imageURL = userProfileVM.userProfile?.profilePic {
                 URLImageView(imageURL: imageURL)
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 128, height: 128)
@@ -55,29 +60,12 @@ struct UserProfileScreen: View {
                     .frame(width: 128, height: 128)
             }
             
-            Text(userProfile?.name ?? "")
+            Text(userProfileVM.userProfile?.name ?? "")
                 .font(.title)
                 .fontWeight(.semibold)
             
-            Text(userProfile?.biography ?? "No bio.")
+            Text(userProfileVM.userProfile?.biography ?? "No bio.")
                 .foregroundStyle(.gray)
-        }
-    }
-    
-    //MARK: - Auxiliary Methods
-    
-    private func getUserProfile() async throws {
-        isLoading = true
-        let token = try await authVM.getFirebaseToken()
-        let response = await AYServices.shared.getUserProfile(userUid: userUid, token: token)
-        isLoading = false
-        
-        switch response {
-        case .success(let user):
-            userProfile = user
-        case .failure(let error):
-            // Display error
-            print("❌ Error: \(error)")
         }
     }
 }

@@ -15,7 +15,6 @@ class FeedViewModel: ObservableObject {
     @Published var isCommentScreenPresented = false
     @Published var overlayError: (Bool, String) = (false, "")
     
-    
     func getPostsNearBy(latitude: Double, longitude: Double, token: String) async {
         isLoading = true
         let response = await AYServices.shared.getActivePublicationsNearBy(latitude: latitude, longitude: longitude, token: token)
@@ -25,7 +24,7 @@ class FeedViewModel: ObservableObject {
         case .success(let posts):
              self.posts = posts
         case .failure(let error):
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            print("❌ Error: \(error)")
         }
     }
     
@@ -49,7 +48,6 @@ class FeedViewModel: ObservableObject {
         case .success:
             print("❤️ Publication liked!")
         case .failure(let error):
-            // Unlike publication
             print("❌ Error: \(error)")
         }
     }
@@ -61,7 +59,6 @@ class FeedViewModel: ObservableObject {
         case .success:
             print("💔 Publication unliked!")
         case .failure(let error):
-            // like publication
             print("❌ Error: \(error)")
         }
     }

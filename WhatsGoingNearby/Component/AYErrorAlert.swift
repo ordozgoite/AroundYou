@@ -16,28 +16,27 @@ struct AYErrorAlert: View {
         ZStack {
             VStack(spacing: 32) {
                 Text("Error")
+                    .font(.title)
                     .fontWeight(.semibold)
-                    .foregroundStyle(.white)
                 
                 Text(message)
-                    .fontWeight(.light)
-                    .foregroundStyle(.white)
-                
-                Text("OK")
                     .font(.title3)
-                    .fontWeight(.black)
-                    .foregroundStyle(.white)
-                    .onTapGesture {
-                        isErrorAlertPresented = false
-                    }
+                    .fontWeight(.light)
+                    .multilineTextAlignment(.center)
+                
+                Button("OK") {
+                    isErrorAlertPresented = false
+                }
+                .foregroundStyle(.gray)
+                .buttonStyle(.bordered)
             }
         }
-        .frame(width: 256, height: 176)
+        .frame(width: screenWidth - 64, height: 240)
         .background(.thinMaterial)
         .cornerRadius(16)
     }
 }
 
 #Preview {
-    AYErrorAlert(message: "An error ocurred.", isErrorAlertPresented: .constant(true))
+    AYErrorAlert(message: ErrorMessage.defaultErrorMessage, isErrorAlertPresented: .constant(true))
 }

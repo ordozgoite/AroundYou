@@ -19,24 +19,30 @@ struct CommentScreen: View {
     @FocusState private var commentIsFocused: Bool
     
     var body: some View {
-        VStack {
-            ScrollView {
-                PostView(feedVM: feedVM, post: $post) {
-                    Task {
-                        let token = try await authVM.getFirebaseToken()
-                        await commentVM.deletePost(publicationId: postId, token: token) {
-                            presentationMode.wrappedValue.dismiss()
+        ZStack {
+            VStack {
+                ScrollView {
+                    PostView(feedVM: feedVM, post: $post) {
+                        Task {
+                            let token = try await authVM.getFirebaseToken()
+                            await commentVM.deletePost(publicationId: postId, token: token) {
+                                presentationMode.wrappedValue.dismiss()
+                            }
                         }
                     }
+                    .padding()
+                    
+                    Divider()
+                    
+                    Comments()
                 }
-                .padding()
                 
-                Divider()
-                
-                Comments()
+                CommentTextField()
             }
             
-            CommentTextField()
+            if commentVM.overlayError.0 {
+                AYErrorAlert(message: commentVM.overlayError.1 , isErrorAlertPresented: $commentVM.overlayError.0)
+            }
         }
         .onAppear {
             startUpdatingComments()

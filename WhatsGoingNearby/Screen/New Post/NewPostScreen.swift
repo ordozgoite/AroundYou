@@ -18,19 +18,25 @@ struct NewPostScreen: View {
     let refresh: () -> ()
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 32) {
-            Header()
-            
-            TextField("What's going on around you?", text: $newPostVM.postText, axis: .vertical)
-                .onChange(of: newPostVM.postText) { newValue in
-                    if newValue.count > maxPostLength {
-                        newPostVM.postText = String(newValue.prefix(maxPostLength))
+        ZStack {
+            VStack(alignment: .leading, spacing: 32) {
+                Header()
+                
+                TextField("What's going on around you?", text: $newPostVM.postText, axis: .vertical)
+                    .onChange(of: newPostVM.postText) { newValue in
+                        if newValue.count > maxPostLength {
+                            newPostVM.postText = String(newValue.prefix(maxPostLength))
+                        }
                     }
-                }
+                
+                Spacer()
+            }
+            .padding()
             
-            Spacer()
+            if newPostVM.overlayError.0 {
+                AYErrorAlert(message: newPostVM.overlayError.1 , isErrorAlertPresented: $newPostVM.overlayError.0)
+            }
         }
-        .padding()
         
         .navigationBarBackButtonHidden()
         .toolbar {

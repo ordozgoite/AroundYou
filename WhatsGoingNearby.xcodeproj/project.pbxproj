@@ -20,6 +20,8 @@
 		ED50C4572B7E951D0001EDF6 /* UserProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4562B7E951D0001EDF6 /* UserProfileScreen.swift */; };
 		ED50C4592B7E98370001EDF6 /* ProfilePicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4582B7E98370001EDF6 /* ProfilePicView.swift */; };
 		ED50C45E2B7F86A30001EDF6 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C45D2B7F86A30001EDF6 /* CommentViewModel.swift */; };
+		ED50C4602B7F98620001EDF6 /* Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C45F2B7F98620001EDF6 /* Sizes.swift */; };
+		ED50C4622B7F9C030001EDF6 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4612B7F9C030001EDF6 /* UserProfileViewModel.swift */; };
 		ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BEC2B7C139D00B6C23D /* FeedScreen.swift */; };
 		ED598BF02B7C147D00B6C23D /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BEF2B7C147D00B6C23D /* Post.swift */; };
 		ED598BF22B7C167500B6C23D /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BF12B7C167500B6C23D /* FeedViewModel.swift */; };
@@ -106,6 +108,8 @@
 		ED50C4562B7E951D0001EDF6 /* UserProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileScreen.swift; sourceTree = "<group>"; };
 		ED50C4582B7E98370001EDF6 /* ProfilePicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicView.swift; sourceTree = "<group>"; };
 		ED50C45D2B7F86A30001EDF6 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
+		ED50C45F2B7F98620001EDF6 /* Sizes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sizes.swift; sourceTree = "<group>"; };
+		ED50C4612B7F9C030001EDF6 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
 		ED598BEC2B7C139D00B6C23D /* FeedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedScreen.swift; sourceTree = "<group>"; };
 		ED598BEF2B7C147D00B6C23D /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Post.swift; path = WhatsGoingNearby/Screen/Feed/Post.swift; sourceTree = SOURCE_ROOT; };
 		ED598BF12B7C167500B6C23D /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
@@ -194,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				ED50C4522B7E4CCC0001EDF6 /* ErrorMessage.swift */,
+				ED50C45F2B7F98620001EDF6 /* Sizes.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -222,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				ED598C002B7C3A3900B6C23D /* AccountScreen.swift */,
+				ED50C4612B7F9C030001EDF6 /* UserProfileViewModel.swift */,
 				ED50C4562B7E951D0001EDF6 /* UserProfileScreen.swift */,
 			);
 			path = Account;
@@ -520,6 +526,7 @@
 				ED598BFC2B7C268C00B6C23D /* NewPostScreen.swift in Sources */,
 				EDA322302B7CB12D009905B5 /* FormattedPost.swift in Sources */,
 				ED598C032B7C42B500B6C23D /* AuthenticationScreen.swift in Sources */,
+				ED50C4602B7F98620001EDF6 /* Sizes.swift in Sources */,
 				EDA322382B7CC145009905B5 /* TimestampTestScreen.swift in Sources */,
 				ED598BF22B7C167500B6C23D /* FeedViewModel.swift in Sources */,
 				EDA3222C2B7CA3A8009905B5 /* AYServices.swift in Sources */,
@@ -534,6 +541,7 @@
 				ED50C4592B7E98370001EDF6 /* ProfilePicView.swift in Sources */,
 				ED50C4552B7E94030001EDF6 /* UserProfile.swift in Sources */,
 				EDA322362B7CBF9B009905B5 /* NewPostViewModel.swift in Sources */,
+				ED50C4622B7F9C030001EDF6 /* UserProfileViewModel.swift in Sources */,
 				ED598C4C2B7C587100B6C23D /* AuthenticatedScreen.swift in Sources */,
 				EDA322472B7DB221009905B5 /* CommentView.swift in Sources */,
 				EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */,
