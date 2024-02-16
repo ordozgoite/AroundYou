@@ -23,7 +23,6 @@ class FeedViewModel: ObservableObject {
         
         switch response {
         case .success(let posts):
-            print(posts)
              self.posts = posts
         case .failure(let error):
             overlayError = (true, ErrorMessage.defaultErrorMessage)

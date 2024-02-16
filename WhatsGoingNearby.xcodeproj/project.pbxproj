@@ -19,6 +19,7 @@
 		ED50C4552B7E94030001EDF6 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4542B7E94030001EDF6 /* UserProfile.swift */; };
 		ED50C4572B7E951D0001EDF6 /* UserProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4562B7E951D0001EDF6 /* UserProfileScreen.swift */; };
 		ED50C4592B7E98370001EDF6 /* ProfilePicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4582B7E98370001EDF6 /* ProfilePicView.swift */; };
+		ED50C45E2B7F86A30001EDF6 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C45D2B7F86A30001EDF6 /* CommentViewModel.swift */; };
 		ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BEC2B7C139D00B6C23D /* FeedScreen.swift */; };
 		ED598BF02B7C147D00B6C23D /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BEF2B7C147D00B6C23D /* Post.swift */; };
 		ED598BF22B7C167500B6C23D /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BF12B7C167500B6C23D /* FeedViewModel.swift */; };
@@ -104,6 +105,7 @@
 		ED50C4542B7E94030001EDF6 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		ED50C4562B7E951D0001EDF6 /* UserProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileScreen.swift; sourceTree = "<group>"; };
 		ED50C4582B7E98370001EDF6 /* ProfilePicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicView.swift; sourceTree = "<group>"; };
+		ED50C45D2B7F86A30001EDF6 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		ED598BEC2B7C139D00B6C23D /* FeedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedScreen.swift; sourceTree = "<group>"; };
 		ED598BEF2B7C147D00B6C23D /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Post.swift; path = WhatsGoingNearby/Screen/Feed/Post.swift; sourceTree = SOURCE_ROOT; };
 		ED598BF12B7C167500B6C23D /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 		EDA322432B7DB068009905B5 /* Comment */ = {
 			isa = PBXGroup;
 			children = (
+				ED50C45D2B7F86A30001EDF6 /* CommentViewModel.swift */,
 				EDA322442B7DB07D009905B5 /* CommentScreen.swift */,
 			);
 			path = Comment;
@@ -535,6 +538,7 @@
 				EDA322472B7DB221009905B5 /* CommentView.swift in Sources */,
 				EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */,
 				ED50C4502B7E4AB70001EDF6 /* AYErrorAlert.swift in Sources */,
+				ED50C45E2B7F86A30001EDF6 /* CommentViewModel.swift in Sources */,
 				ED598C012B7C3A3900B6C23D /* AccountScreen.swift in Sources */,
 				ED598BF82B7C1B9400B6C23D /* Date.swift in Sources */,
 				ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */,

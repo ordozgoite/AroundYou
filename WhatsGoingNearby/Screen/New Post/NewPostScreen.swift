@@ -10,18 +10,17 @@ import SwiftUI
 struct NewPostScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @StateObject private var newPostVM = NewPostViewModel()
     @ObservedObject var locationManager = LocationManager()
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var postText: String = ""
-    @State private var isLoading: Bool = false
     let refresh: () -> ()
     
     var body: some View {
         VStack(alignment: .leading, spacing: 32) {
             PreferenceView()
             
-            TextField("What's going on around you?", text: $postText, axis: .vertical)
+            TextField("What's going on around you?", text: $newPostVM.postText, axis: .vertical)
             
             Spacer()
         }
@@ -38,7 +37,7 @@ struct NewPostScreen: View {
             }
             
             ToolbarItem(placement: .topBarTrailing) {
-                if isLoading {
+                if newPostVM.isLoading {
                     ProgressView()
                 } else {
                     Button(action: {
@@ -48,7 +47,7 @@ struct NewPostScreen: View {
                     }) {
                         Text("Post")
                     }
-                    .disabled(postText.isEmpty)
+                    .disabled(newPostVM.postText.isEmpty)
                 }
             }
         }
@@ -81,21 +80,15 @@ struct NewPostScreen: View {
     //MARK: - Auxiliary Methods
     
     private func postNewPublication() async throws {
+        locationManager.requestLocation()
         if let location = locationManager.location {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
-            isLoading = true
-            let token = try await authVM.getFirebaseToken()
-            let result = await AYServices.shared.postNewPublication(text: postText, latitude: latitude, longitude: longitude, token: token)
-            isLoading = false
             
-            switch result {
-            case .success:
+            let token = try await authVM.getFirebaseToken()
+            await newPostVM.postNewPublication(latitude: latitude, longitude: longitude, token: token) {
                 presentationMode.wrappedValue.dismiss()
                 refresh()
-            case .failure(let error):
-                // Display error
-                print("❌ Error: \(error)")
             }
         }
     }

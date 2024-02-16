@@ -23,7 +23,7 @@ struct CircleTimerView: View {
             
             Circle()
                 .trim(from: 0.0, to: progress)
-                .stroke(progress < 0.05 ? .red : .blue, lineWidth: 4)
+                .stroke(progress < 0.1 ? .red : .blue, lineWidth: 4)
                 .rotationEffect(.degrees(-90))
                 .frame(width: 20, height: 20)
                 .onAppear {

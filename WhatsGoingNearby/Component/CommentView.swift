@@ -72,8 +72,11 @@ struct CommentView: View {
                 }
             } label: {
                 Image(systemName: "ellipsis")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 20, height: 20)
                     .foregroundStyle(.gray)
-                    .padding([.trailing], 8)
+                    .padding([.trailing], 10)
             }
         }
     }

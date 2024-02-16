@@ -70,8 +70,11 @@ struct PostView: View {
                 }
             } label: {
                 Image(systemName: "ellipsis")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 24, height: 24)
                     .foregroundStyle(.gray)
-                    .padding([.trailing], 8)
+                    .padding([.trailing], 10)
             }
         }
     }

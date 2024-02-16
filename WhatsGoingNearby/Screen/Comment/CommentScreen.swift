@@ -10,26 +10,24 @@ import SwiftUI
 struct CommentScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @StateObject private var commentVM = CommentViewModel()
     @ObservedObject var feedVM: FeedViewModel
     @Binding var post: FormattedPost
     @Environment(\.presentationMode) var presentationMode
-    
     @FocusState private var commentIsFocused: Bool
-    
-    @State private var comments: [FormattedComment] = []
-    @State private var isLoadingComments: Bool = false
-    @State private var newCommentText: String = ""
-    @State private var isPostingComment: Bool = false
     
     var body: some View {
         VStack {
             ScrollView {
                 PostView(feedVM: feedVM, post: $post) {
                     Task {
-                        try await deletePost()
+                        let token = try await authVM.getFirebaseToken()
+                        await commentVM.deletePost(publicationId: post.id, token: token) {
+                            presentationMode.wrappedValue.dismiss()
+                        }
                     }
                 }
-                    .padding()
+                .padding()
                 
                 Divider()
                 
@@ -39,9 +37,7 @@ struct CommentScreen: View {
             CommentTextField()
         }
         .onAppear {
-            Task {
-                try await getAllComments()
-            }
+            startUpdatingComments()
         }
         .navigationTitle("Post")
         .navigationBarTitleDisplayMode(.inline)
@@ -52,18 +48,15 @@ struct CommentScreen: View {
     @ViewBuilder
     private func Comments() -> some View {
         VStack {
-            if isLoadingComments {
-                ProgressView()
-            } else {
-                ForEach($comments) { $comment in
-                    CommentView(comment: $comment) { 
-                        Task {
-                            try await deleteComment(commentId: comment.id)
-                        }
+            ForEach($commentVM.comments) { $comment in
+                CommentView(comment: $comment) {
+                    Task {
+                        let token = try await authVM.getFirebaseToken()
+                        await commentVM.deleteComment(commentId: comment.id, token: token)
                     }
-                        .padding()
-                    Divider()
                 }
+                .padding()
+                Divider()
             }
         }
     }
@@ -73,16 +66,17 @@ struct CommentScreen: View {
     @ViewBuilder
     private func CommentTextField() -> some View {
         HStack {
-            TextField("Comment this post", text: $newCommentText)
+            TextField("Comment this post", text: $commentVM.newCommentText)
                 .textFieldStyle(.roundedBorder)
                 .focused($commentIsFocused)
             
-            if isPostingComment {
+            if commentVM.isPostingComment {
                 ProgressView()
             } else {
                 Button(action: {
                     Task {
-                        try await postNewComment(text: newCommentText)
+                        let token = try await authVM.getFirebaseToken()
+                        await commentVM.postNewComment(publicationId: post.id, text: commentVM.newCommentText, token: token)
                     }
                 }) {
                     Image(systemName: "paperplane.fill")
@@ -98,68 +92,14 @@ struct CommentScreen: View {
     
     //MARK: - Auxiliary methods
     
-    private func getAllComments() async throws {
-        isLoadingComments = true
-        let token = try await authVM.getFirebaseToken()
-        let response = await AYServices.shared.getAllCommentsByPublication(publicationId: post.id, token: token)
-        isLoadingComments = false
-        
-        switch response {
-        case .success(let comments):
-            self.comments = comments
-        case .failure(let error):
-            // Display error
-            print("❌ Error: \(error)")
+    private func startUpdatingComments() {
+        let timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+            Task {
+                let token = try await authVM.getFirebaseToken()
+                await commentVM.getAllComments(publicationId: post.id, token: token)
+            }
         }
-    }
-    
-    private func postNewComment(text: String) async throws {
-        commentIsFocused = false
-        newCommentText = ""
-        
-        isPostingComment = true
-        let token = try await authVM.getFirebaseToken()
-        let response = await AYServices.shared.postNewComment(publicationId: post.id, text: text, token: token)
-        isPostingComment = false
-        
-        switch response {
-        case .success:
-            post.comment += 1
-            try await getAllComments()
-        case .failure(let error):
-            // Display error
-            print("❌ Error: \(error)")
-        }
-    }
-    
-    private func deleteComment(commentId: String) async throws {
-        let token = try await authVM.getFirebaseToken()
-        let response = await AYServices.shared.deleteComment(commentId: commentId, token: token)
-        
-        switch response {
-        case .success:
-            popComment(commentId: commentId)
-        case .failure(let error):
-            // Display error
-            print("❌ Error: \(error)")
-        }
-    }
-    
-    private func popComment(commentId: String) {
-        comments.removeAll { $0.id == commentId }
-    }
-    
-    private func deletePost() async throws {
-        let token = try await authVM.getFirebaseToken()
-        let response = await AYServices.shared.deletePublication(publicationId: post.id, token: token)
-        
-        switch response {
-        case .success:
-            presentationMode.wrappedValue.dismiss()
-        case .failure(let error):
-            // Display error
-            print("❌ Error: \(error)")
-        }
+        timer.fire()
     }
 }
 

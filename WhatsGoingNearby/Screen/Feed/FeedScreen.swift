@@ -45,7 +45,7 @@ struct FeedScreen: View {
                         Task {
                             try await getFeedInfo()
                         }
-                    }) {
+                    }.environmentObject(authVM)) {
                         Image(systemName: "square.and.pencil")
                     }
                 }
@@ -54,6 +54,7 @@ struct FeedScreen: View {
         }
         .onAppear {
             startTimer()
+            startUpdatingFeed()
             Task {
                 try await getFeedInfo()
             }
@@ -92,11 +93,6 @@ struct FeedScreen: View {
                     .buttonStyle(PlainButtonStyle())
                     Divider()
                 }
-            }
-        }
-        .refreshable {
-            Task {
-                try await getFeedInfo()
             }
         }
     }
@@ -148,11 +144,38 @@ struct FeedScreen: View {
             
             print("📍 Latitude: \(latitude)")
             print("📍 Longitude: \(longitude)")
-            
-            
-            locationManager.requestLocation()
             await feedVM.getPostsNearBy(latitude: latitude, longitude: longitude, token: token)
         }
+    }
+    
+    private func startUpdatingFeed() {
+        let timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+            Task {
+                try await updateFeed()
+            }
+        }
+        timer.fire()
+    }
+    
+    private func updateFeed() async throws {
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let token = try await authVM.getFirebaseToken()
+            
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            let response = await AYServices.shared.getActivePublicationsNearBy(latitude: latitude, longitude: longitude, token: token)
+            
+            switch response {
+            case .success(let posts):
+                feedVM.posts = posts
+            case .failure:
+                feedVM.overlayError = (true, ErrorMessage.defaultErrorMessage)
+            }
+        }
+        
+        
     }
 }
 
