@@ -80,6 +80,8 @@
 		EDA30DEA2B7FAB69003EB22D /* map.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE82B7FAB69003EB22D /* map.json */; };
 		EDA30DEC2B7FABA9003EB22D /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DEB2B7FABA9003EB22D /* LottieView.swift */; };
 		EDA30DEE2B7FBAF8003EB22D /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DED2B7FBAF8003EB22D /* LaunchScreen.swift */; };
+		EDA30DF02B7FC620003EB22D /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DEF2B7FC620003EB22D /* AccountViewModel.swift */; };
+		EDA30DF22B7FCDE3003EB22D /* EditBiographyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DF12B7FCDE3003EB22D /* EditBiographyResponse.swift */; };
 		EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322232B7C99B6009905B5 /* CalculateDistanceTestScreen.swift */; };
 		EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322262B7CA342009905B5 /* HTTPClient.swift */; };
 		EDA322292B7CA362009905B5 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322282B7CA362009905B5 /* Endpoint.swift */; };
@@ -147,6 +149,8 @@
 		EDA30DE82B7FAB69003EB22D /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
 		EDA30DEB2B7FABA9003EB22D /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		EDA30DED2B7FBAF8003EB22D /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
+		EDA30DEF2B7FC620003EB22D /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
+		EDA30DF12B7FCDE3003EB22D /* EditBiographyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBiographyResponse.swift; sourceTree = "<group>"; };
 		EDA322232B7C99B6009905B5 /* CalculateDistanceTestScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateDistanceTestScreen.swift; sourceTree = "<group>"; };
 		EDA322262B7CA342009905B5 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		EDA322282B7CA362009905B5 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
@@ -246,6 +250,7 @@
 		ED598BEB2B7C122600B6C23D /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				EDA30DEF2B7FC620003EB22D /* AccountViewModel.swift */,
 				ED598C002B7C3A3900B6C23D /* AccountScreen.swift */,
 				ED50C4612B7F9C030001EDF6 /* UserProfileViewModel.swift */,
 				ED50C4562B7E951D0001EDF6 /* UserProfileScreen.swift */,
@@ -373,10 +378,10 @@
 			children = (
 				EDA30DED2B7FBAF8003EB22D /* LaunchScreen.swift */,
 				ED598BE92B7C121000B6C23D /* Authentication */,
-				ED598BEB2B7C122600B6C23D /* Account */,
 				ED598BEA2B7C121D00B6C23D /* Feed */,
 				EDA322432B7DB068009905B5 /* Comment */,
 				EDA322422B7DB059009905B5 /* New Post */,
+				ED598BEB2B7C122600B6C23D /* Account */,
 				ED598C4D2B7C59C600B6C23D /* Settings */,
 				ED598BFD2B7C39FD00B6C23D /* MainTabView.swift */,
 				ED598C502B7C80EC00B6C23D /* LocationTestScreen.swift */,
@@ -422,6 +427,7 @@
 				ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */,
 				ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */,
 				ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */,
+				EDA30DF12B7FCDE3003EB22D /* EditBiographyResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -557,6 +563,7 @@
 				EDA322412B7D6B55009905B5 /* UnlikePublicationResponse.swift in Sources */,
 				ED41409C2B7DE41F002690A5 /* PostNewCommentResponse.swift in Sources */,
 				ED598C0F2B7C499400B6C23D /* AYSecureTextField.swift in Sources */,
+				EDA30DF02B7FC620003EB22D /* AccountViewModel.swift in Sources */,
 				EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */,
 				ED598C052B7C43A000B6C23D /* AuthenticationViewModel.swift in Sources */,
 				ED50C4532B7E4CCC0001EDF6 /* ErrorMessage.swift in Sources */,
@@ -586,6 +593,7 @@
 				EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */,
 				ED50C4502B7E4AB70001EDF6 /* AYErrorAlert.swift in Sources */,
 				ED50C45E2B7F86A30001EDF6 /* CommentViewModel.swift in Sources */,
+				EDA30DF22B7FCDE3003EB22D /* EditBiographyResponse.swift in Sources */,
 				ED598C012B7C3A3900B6C23D /* AccountScreen.swift in Sources */,
 				ED598BF82B7C1B9400B6C23D /* Date.swift in Sources */,
 				ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */,

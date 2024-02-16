@@ -19,6 +19,7 @@ enum AYEndpoints {
     case deleteComment(commentId: String, token: String)
     case deletePublication(publicationId: String, token: String)
     case getUserProfile(userUid: String, token: String)
+    case editBiography(biography: String, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -49,6 +50,8 @@ extension AYEndpoints: Endpoint {
             return "/api/Publication/DeletePublication/\(publicationId)"
         case .getUserProfile(let userUid, _):
             return "/api/User/GetUserProfile/\(userUid)"
+        case .editBiography:
+            return "/api/User/EditBiography"
         }
     }
     
@@ -56,7 +59,7 @@ extension AYEndpoints: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication:
+        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editBiography:
             return .post
         case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile:
             return .get
@@ -148,6 +151,12 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .editBiography(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -176,6 +185,11 @@ extension AYEndpoints: Endpoint {
             let params: [String: Any] = [
                 "publicationId": publicationId,
                 "text": text
+            ]
+            return params
+        case .editBiography(let biography, _):
+            let params: [String: Any] = [
+                "biography": biography
             ]
             return params
         case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile:

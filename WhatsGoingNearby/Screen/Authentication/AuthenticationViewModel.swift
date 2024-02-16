@@ -41,7 +41,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var overlayError: (Bool, String) = (false, "")
     @Published var user: User?
     
-    @Published var name: String = ""
+    @Published var name: String = "Victor Rafael Ordozgoite" // remove it
     @Published var profilePic: String?
     @Published var biography: String?
     @Published var isUserInfoFetched: Bool = false

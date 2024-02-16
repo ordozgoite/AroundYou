@@ -80,27 +80,27 @@ struct SettingsScreen: View {
                         Text("For account deletions, remember that this action is irreversible.")
                     }
                     
-                    VStack {
-                        HStack {
-                            Spacer()
-                            Image(systemName: "location.circle")
-                                .resizable()
-                                .scaledToFill()
-                                .foregroundStyle(.gray)
-                                .frame(width: 64, height: 64)
-                            Spacer()
-                        }
-                        
-                        Text("Version 0.1.0")
-                            .foregroundStyle(.gray)
-                            .fontWeight(.light)
-                    }
-                    .listRowBackground(colorScheme == .dark ? Color.black : Color.white)
+                    //MARK: - Logo
+                    
+//                    VStack {
+//                        HStack {
+//                            Spacer()
+//                            Image(systemName: "location.circle")
+//                                .resizable()
+//                                .scaledToFill()
+//                                .foregroundStyle(.gray)
+//                                .frame(width: 64, height: 64)
+//                            Spacer()
+//                        }
+//                        
+//                        Text("Version 0.1.0")
+//                            .foregroundStyle(.gray)
+//                            .fontWeight(.light)
+//                    }
+//                    .listRowBackground(colorScheme == .dark ? Color.black : Color.white)
                 }
-                .scrollContentBackground(.hidden)
             }
             .navigationTitle("Settings")
-            
         }
     }
 }
