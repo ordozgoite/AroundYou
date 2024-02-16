@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CommentScreen: View {
     
+    let postId: String
+    private let maxCommentLength = 250
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var commentVM = CommentViewModel()
     @ObservedObject var feedVM: FeedViewModel
@@ -22,7 +24,7 @@ struct CommentScreen: View {
                 PostView(feedVM: feedVM, post: $post) {
                     Task {
                         let token = try await authVM.getFirebaseToken()
-                        await commentVM.deletePost(publicationId: post.id, token: token) {
+                        await commentVM.deletePost(publicationId: postId, token: token) {
                             presentationMode.wrappedValue.dismiss()
                         }
                     }
@@ -65,29 +67,49 @@ struct CommentScreen: View {
     
     @ViewBuilder
     private func CommentTextField() -> some View {
-        HStack {
-            TextField("Comment this post", text: $commentVM.newCommentText)
-                .textFieldStyle(.roundedBorder)
-                .focused($commentIsFocused)
-            
-            if commentVM.isPostingComment {
-                ProgressView()
-            } else {
-                Button(action: {
-                    Task {
-                        let token = try await authVM.getFirebaseToken()
-                        await commentVM.postNewComment(publicationId: post.id, text: commentVM.newCommentText, token: token)
+        VStack {
+            if commentIsFocused {
+                HStack {
+                    Text("Answering " + (post.userName ?? ""))
+                        .font(.subheadline)
+                        .foregroundStyle(.gray)
+                    Spacer()
+                    Text("\(commentVM.newCommentText.count)/250")
+                        .font(.subheadline)
+                        .foregroundStyle(.gray)
+                }
+                .padding([.leading, .trailing], 10)
+            }
+            HStack {
+                TextField("Comment this post", text: $commentVM.newCommentText, axis: .vertical)
+                    .textFieldStyle(.roundedBorder)
+                    .focused($commentIsFocused)
+                    .onChange(of: commentVM.newCommentText) { newValue in
+                        if newValue.count > maxCommentLength {
+                            commentVM.newCommentText = String(newValue.prefix(maxCommentLength))
+                        }
                     }
-                }) {
-                    Image(systemName: "paperplane.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 24)
-                        .foregroundColor(.blue)
+                
+                if commentVM.isPostingComment {
+                    ProgressView()
+                } else {
+                    Button(action: {
+                        commentIsFocused = false
+                        Task {
+                            let token = try await authVM.getFirebaseToken()
+                            await commentVM.postNewComment(publicationId: post.id, text: commentVM.newCommentText, token: token)
+                        }
+                    }) {
+                        Image(systemName: "paperplane.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 24)
+                            .foregroundColor(.blue)
+                    }
                 }
             }
+            .padding()
         }
-        .padding()
     }
     
     //MARK: - Auxiliary methods
@@ -96,7 +118,7 @@ struct CommentScreen: View {
         let timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
             Task {
                 let token = try await authVM.getFirebaseToken()
-                await commentVM.getAllComments(publicationId: post.id, token: token)
+                await commentVM.getAllComments(publicationId: postId, token: token)
             }
         }
         timer.fire()
@@ -104,7 +126,7 @@ struct CommentScreen: View {
 }
 
 #Preview {
-    CommentScreen(feedVM: FeedViewModel(), post: .constant(FormattedPost(
+    CommentScreen(postId: "", feedVM: FeedViewModel(), post: .constant(FormattedPost(
         id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
         userName: "Tim Cook",
         timestamp: Int(Date().timeIntervalSince1970), expirationDate: Int(Date().timeIntervalSince1970),

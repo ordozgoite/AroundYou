@@ -36,7 +36,7 @@ class CommentViewModel: ObservableObject {
         
         switch response {
         case .success:
-//            post.comment += 1
+            //            post.comment += 1
             await getAllComments(publicationId: publicationId, token: token)
         case .failure(let error):
             // Display error

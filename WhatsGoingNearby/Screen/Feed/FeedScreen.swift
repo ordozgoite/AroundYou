@@ -81,7 +81,7 @@ struct FeedScreen: View {
         ScrollView {
             ForEach($feedVM.posts) { $post in
                 if post.expirationDate.timeIntervalSince1970InSeconds > currentTimeStamp {
-                    NavigationLink(destination: CommentScreen(feedVM: feedVM, post: $post).environmentObject(authVM)) {
+                    NavigationLink(destination: CommentScreen(postId: post.id, feedVM: feedVM, post: $post).environmentObject(authVM)) {
                         PostView(feedVM: feedVM, post: $post) {
                             Task {
                                 let token = try await authVM.getFirebaseToken()
