@@ -11,7 +11,8 @@ struct PostView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @Binding var post: FormattedPost
-    @State private var isPopoverShowing: Bool = false
+    @State private var isTimeLeftPopoverDisplayed: Bool = false
+    @State private var isOptionsPopoverDisplayed: Bool = false
     let deletePost: () -> ()
     
     var body: some View {
@@ -52,7 +53,7 @@ struct PostView: View {
             
             if post.type == .active {
                 CircleTimerView(postDate: post.timestamp.timeIntervalSince1970InSeconds, expirationDate: post.expirationDate.timeIntervalSince1970InSeconds)
-                    .popover(isPresented: $isPopoverShowing) {
+                    .popover(isPresented: $isTimeLeftPopoverDisplayed) {
                         Text(getTimeLeftText())
                             .font(.subheadline)
                             .foregroundStyle(.gray)
@@ -60,37 +61,66 @@ struct PostView: View {
                             .presentationCompactAdaptation(.popover)
                     }
                     .onTapGesture {
-                        isPopoverShowing = true
+                        isTimeLeftPopoverDisplayed = true
                     }
             } else {
                 Text("Expired")
                     .foregroundStyle(.gray)
                     .font(.subheadline)
             }
-                
+            
             
             Spacer()
             
-            Menu {
-                if post.isFromRecipientUser {
-                    Button(role: .destructive, action: {
-                        deletePost()
-                    }) {
-                        Text("Delete Post")
-                        Image(systemName: "trash")
+            Image(systemName: "ellipsis")
+                .foregroundStyle(.gray)
+                .popover(isPresented: $isOptionsPopoverDisplayed) {
+                    VStack {
+                        if post.isFromRecipientUser {
+                            Button(role: .destructive, action: {
+                                deletePost()
+                            }) {
+                                Text("Delete Post")
+                                Image(systemName: "trash")
+                            }
+                            .padding()
+                            
+                            Divider()
+                        }
+                        
+                        
+                        Button(role: .destructive, action: {}) {
+                            Text("Report Post")
+                            Image(systemName: "exclamationmark.bubble")
+                        }
+                        .padding()
                     }
+                    .presentationCompactAdaptation(.popover)
                 }
-                
-                Button(role: .destructive, action: {}) {
-                    Text("Report Post")
-                    Image(systemName: "exclamationmark.bubble")
+                .onTapGesture {
+                    isOptionsPopoverDisplayed = true
                 }
-            } label: {
-                Image(systemName: "ellipsis")
-                    .frame(width: 44, height: 44)
-                    .foregroundStyle(.gray)
-                    .padding([.trailing], 10)
-            }
+            
+            //            Menu {
+            //                if post.isFromRecipientUser {
+            //                    Button(role: .destructive, action: {
+            //                        deletePost()
+            //                    }) {
+            //                        Text("Delete Post")
+            //                        Image(systemName: "trash")
+            //                    }
+            //                }
+            //
+            //                Button(role: .destructive, action: {}) {
+            //                    Text("Report Post")
+            //                    Image(systemName: "exclamationmark.bubble")
+            //                }
+            //            } label: {
+            //                Image(systemName: "ellipsis")
+            //                    .frame(width: 44, height: 44)
+            //                    .foregroundStyle(.gray)
+            //                    .padding([.trailing], 10)
+            //            }
         }
     }
     
@@ -169,7 +199,7 @@ struct PostView: View {
         var timeLeftText = ""
         var timeUnityMeasure = ""
         var pluralModifier = ""
-    
+        
         let timeLeftInSeconds = post.expirationDate.timeIntervalSince1970InSeconds - getCurrentDateTimestamp()
         if timeLeftInSeconds < 60 {
             timeUnityMeasure = "second"

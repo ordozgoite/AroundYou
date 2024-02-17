@@ -84,7 +84,7 @@ struct UserProfileScreen: View {
                     .fontWeight(.semibold)
                     .padding()
             } else {
-                Text("You can't see other people's posts.")
+                Text("You can't see other people's post history.")
                     .foregroundStyle(.gray)
                     .multilineTextAlignment(.center)
                     .fontWeight(.semibold)
