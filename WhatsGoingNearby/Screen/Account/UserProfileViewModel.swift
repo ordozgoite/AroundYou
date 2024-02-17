@@ -13,6 +13,7 @@ class UserProfileViewModel: ObservableObject {
     @Published var userProfile: UserProfile? = nil
     @Published var isLoading: Bool = false
     @Published var overlayError: (Bool, String) = (false, "")
+    @Published var isReportScreenPresented: Bool = false
     
     func getUserProfile(userUid: String, token: String) async {
         isLoading = true

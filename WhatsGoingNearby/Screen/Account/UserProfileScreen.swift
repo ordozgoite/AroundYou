@@ -34,11 +34,35 @@ struct UserProfileScreen: View {
             if userProfileVM.overlayError.0 {
                 AYErrorAlert(message: userProfileVM.overlayError.1 , isErrorAlertPresented: $userProfileVM.overlayError.0)
             }
+            NavigationLink(
+                destination: ReportScreen(reportedUserUid: userUid, publicationId: nil, commentId: nil).environmentObject(authVM),
+                isActive: $userProfileVM.isReportScreenPresented,
+                label: { EmptyView() }
+            )
         }
         .onAppear {
             Task {
                 let token = try await authVM.getFirebaseToken()
                 await userProfileVM.getUserProfile(userUid: userUid, token: token)
+            }
+        }
+        .toolbar {
+            ToolbarItem {
+                if let myId = authVM.user?.uid {
+                    if self.userUid != myId {
+                        Menu {
+                            Button(role: .destructive) {
+                                userProfileVM.isReportScreenPresented = true
+                            } label: {
+                                Text("Report Account")
+                                Image(systemName: "exclamationmark.bubble")
+                            }
+                            
+                        } label: {
+                            Image(systemName: "ellipsis.circle")
+                        }
+                    }
+                }
             }
         }
         .navigationTitle("Profile")

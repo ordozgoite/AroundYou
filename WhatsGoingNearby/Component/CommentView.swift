@@ -12,6 +12,7 @@ struct CommentView: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @Binding var comment: FormattedComment
     let deleteComment: () -> ()
+    @State private var isReportScreenPresented: Bool = false
     
     var body: some View {
         VStack {
@@ -24,6 +25,11 @@ struct CommentView: View {
                     TextView()
                 }
             }
+            NavigationLink(
+                destination: ReportScreen(reportedUserUid: comment.userUid, publicationId: nil, commentId: comment.id).environmentObject(authVM),
+                isActive: $isReportScreenPresented,
+                label: { EmptyView() }
+            )
         }
     }
     
@@ -62,13 +68,15 @@ struct CommentView: View {
                         Text("Delete Comment")
                         Image(systemName: "trash")
                     }
-                    
-                    Divider()
                 }
                 
-                Button(role: .destructive, action: {}) {
-                    Text("Report Post")
-                    Image(systemName: "exclamationmark.bubble")
+                if !comment.isFromRecipientUser {
+                    Button(role: .destructive, action: {
+                        isReportScreenPresented = true
+                    }) {
+                        Text("Report Post")
+                        Image(systemName: "exclamationmark.bubble")
+                    }
                 }
             } label: {
                 Image(systemName: "ellipsis")
