@@ -22,6 +22,7 @@ enum AYEndpoints {
     case editBiography(biography: String, token: String)
     case getAllPublicationsByUser(token: String)
     case postNewReport(report: ReportDTO, token: String)
+    case postNewBugReport(bugDescription: String, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -58,6 +59,8 @@ extension AYEndpoints: Endpoint {
             return "/api/Publication/GetAllPublicationsByUser"
         case .postNewReport:
             return "/api/Report/PostNewReport"
+        case .postNewBugReport:
+            return "/api/BugReport/PostNewBugReport"
         }
     }
     
@@ -65,7 +68,7 @@ extension AYEndpoints: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editBiography, .postNewReport:
+        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editBiography, .postNewReport, .postNewBugReport:
             return .post
         case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser:
             return .get
@@ -175,6 +178,12 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .postNewBugReport(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -217,6 +226,11 @@ extension AYEndpoints: Endpoint {
             if let publicationId = report.publicationId { params["publicationId"] = publicationId }
             if let commentId = report.commentId { params["commentId"] = commentId }
             if let reportDescription = report.reportDescription { params["reportDescription"] = reportDescription }
+            return params
+        case .postNewBugReport(let bugDescription, _):
+            let params: [String: Any] = [
+                "bugDescription": bugDescription
+            ]
             return params
         case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser:
             return nil

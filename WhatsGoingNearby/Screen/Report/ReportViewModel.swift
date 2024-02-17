@@ -23,7 +23,7 @@ class ReportViewModel: ObservableObject {
         switch response {
         case .success:
             dismissScreen()
-        case .failure(let failure):
+        case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
     }

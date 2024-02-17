@@ -16,6 +16,15 @@ class BugViewModel: ObservableObject {
     @Published var overlayError: (Bool, String) = (false, "")
     
     func postReport(token: String, dismissScreen: () -> ()) async {
+        isPostingReport = true
+        let response = await AYServices.shared.postNewBugReport(bugDescription: descriptionTextInput, token: token)
+        isPostingReport = false
         
+        switch response {
+        case .success:
+            dismissScreen()
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
     }
 }

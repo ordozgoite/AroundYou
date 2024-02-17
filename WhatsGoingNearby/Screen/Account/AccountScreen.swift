@@ -107,21 +107,17 @@ struct AccountScreen: View {
     
     @ViewBuilder
     private func PostsView() -> some View {
-        if accountVM.isLoadingposts {
-            ProgressView()
-        } else {
-            ScrollView {
-                ForEach($accountVM.posts) { $post in
-                    if shouldDisplay(post: post) {
-                        PostView(post: $post) {
-                            Task {
-                                let token = try await authVM.getFirebaseToken()
-                                await accountVM.deletePublication(publicationId: post.id, token: token)
-                            }
+        ScrollView {
+            ForEach($accountVM.posts) { $post in
+                if shouldDisplay(post: post) {
+                    PostView(post: $post) {
+                        Task {
+                            let token = try await authVM.getFirebaseToken()
+                            await accountVM.deletePublication(publicationId: post.id, token: token)
                         }
-                        .padding()
-                        Divider()
                     }
+                    .padding()
+                    Divider()
                 }
             }
         }

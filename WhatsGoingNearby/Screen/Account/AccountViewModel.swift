@@ -14,13 +14,10 @@ class AccountViewModel: ObservableObject {
     @Published var selectedPostType: PostHistoryOption = .all
     @Published var newBioTextInput: String = ""
     @Published var isEditBioAlertPresented: Bool = false
-    @Published var isLoadingposts: Bool = false
     @Published var overlayError: (Bool, String) = (false, "")
     
     func getUserPosts(token: String) async {
-        isLoadingposts = true
         let response = await AYServices.shared.getAllPublicationsByUser(token: token)
-        isLoadingposts = false
         
         switch response {
         case .success(let posts):
@@ -43,9 +40,7 @@ class AccountViewModel: ObservableObject {
     }
     
     func deletePublication(publicationId: String, token: String) async {
-        isLoadingposts = true
         let response = await AYServices.shared.deletePublication(publicationId: publicationId, token: token)
-        isLoadingposts = false
         
         switch response {
         case .success:

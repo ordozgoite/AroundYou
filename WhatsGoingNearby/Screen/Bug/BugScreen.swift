@@ -12,6 +12,7 @@ struct BugScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var bugVM = BugViewModel()
     @Environment(\.presentationMode) var presentationMode
+    @FocusState private var reportDescriptionIsFocused: Bool
     
     var body: some View {
         VStack {
@@ -28,6 +29,7 @@ struct BugScreen: View {
             TextField("Describe the bug you encountered...", text: $bugVM.descriptionTextInput, axis: .vertical)
                 .textFieldStyle(.roundedBorder)
                 .lineLimit(10...10)
+                .focused($reportDescriptionIsFocused)
                 .onChange(of: bugVM.descriptionTextInput) { newValue in
                     if newValue.count > bugVM.maxDescriptionLenght {
                         bugVM.descriptionTextInput = String(newValue.prefix(bugVM.maxDescriptionLenght))
@@ -48,12 +50,14 @@ struct BugScreen: View {
             } else {
                 AYButton(title: "Report") {
                     Task {
+                        reportDescriptionIsFocused = false
                         let token = try await authVM.getFirebaseToken()
                         await bugVM.postReport(token: token) {
                             presentationMode.wrappedValue.dismiss()
                         }
                     }
                 }
+                .disabled(bugVM.descriptionTextInput.isEmpty)
             }
         }
         .padding()

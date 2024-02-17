@@ -30,6 +30,9 @@ protocol AYServiceable {
     
     // Report
     func postNewReport(report: ReportDTO, token: String) async -> Result<Report, RequestError>
+    
+    // BugReport
+    func postNewBugReport(bugDescription: String, token: String) async -> Result<BugReport, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -99,5 +102,11 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func postNewReport(report: ReportDTO, token: String) async -> Result<Report, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.postNewReport(report: report, token: token), responseModel: Report.self)
+    }
+    
+    //MARK: - Bug Report
+    
+    func postNewBugReport(bugDescription: String, token: String) async -> Result<BugReport, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewBugReport(bugDescription: bugDescription, token: token), responseModel: BugReport.self)
     }
 }

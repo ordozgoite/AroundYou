@@ -21,6 +21,7 @@ struct ReportScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var reportVM = ReportViewModel()
     @Environment(\.presentationMode) var presentationMode
+    @FocusState private var reportDescriptionIsFocused: Bool
     
     var body: some View {
         VStack {
@@ -37,6 +38,7 @@ struct ReportScreen: View {
             TextField("Describe what happened...", text: $reportVM.descriptionTextInput, axis: .vertical)
                 .textFieldStyle(.roundedBorder)
                 .lineLimit(10...10)
+                .focused($reportDescriptionIsFocused)
                 .onChange(of: reportVM.descriptionTextInput) { newValue in
                     if newValue.count > reportVM.maxDescriptionLenght {
                         reportVM.descriptionTextInput = String(newValue.prefix(reportVM.maxDescriptionLenght))
@@ -57,6 +59,7 @@ struct ReportScreen: View {
             } else {
                 AYButton(title: "Report") {
                     Task {
+                        reportDescriptionIsFocused = false
                         let token = try await authVM.getFirebaseToken()
                         var reportDescription: String?
                         if !reportVM.descriptionTextInput.isEmpty { reportDescription = reportVM.descriptionTextInput  }

@@ -19,7 +19,7 @@ struct AYProgressButton: View {
                 Text(title)
                     .font(.title3)
                     .fontWeight(.semibold)
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 32)
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44)
             }
         }
         .buttonStyle(.borderedProminent)
