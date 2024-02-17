@@ -74,4 +74,5 @@ struct ReportScreen: View {
 
 #Preview {
     ReportScreen(reportedUserUid: "", publicationId: "", commentId: "")
+        .environmentObject(AuthenticationViewModel())
 }

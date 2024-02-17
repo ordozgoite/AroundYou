@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ED0652572B813832005B6413 /* BugScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0652562B813832005B6413 /* BugScreen.swift */; };
+		ED0652592B813859005B6413 /* BugViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0652582B813859005B6413 /* BugViewModel.swift */; };
 		ED41409C2B7DE41F002690A5 /* PostNewCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */; };
 		ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */; };
 		ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */; };
@@ -110,6 +112,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		ED0652562B813832005B6413 /* BugScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugScreen.swift; sourceTree = "<group>"; };
+		ED0652582B813859005B6413 /* BugViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugViewModel.swift; sourceTree = "<group>"; };
 		ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNewCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePublicationResponse.swift; sourceTree = "<group>"; };
@@ -224,6 +228,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		ED0652552B813823005B6413 /* Bug */ = {
+			isa = PBXGroup;
+			children = (
+				ED0652582B813859005B6413 /* BugViewModel.swift */,
+				ED0652562B813832005B6413 /* BugScreen.swift */,
+			);
+			path = Bug;
+			sourceTree = "<group>";
+		};
 		ED50C4512B7E4CC20001EDF6 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -403,6 +416,7 @@
 				ED598BEB2B7C122600B6C23D /* Account */,
 				ED598C4D2B7C59C600B6C23D /* Settings */,
 				EDA30E012B811FBD003EB22D /* Report */,
+				ED0652552B813823005B6413 /* Bug */,
 				ED598BFD2B7C39FD00B6C23D /* MainTabView.swift */,
 				ED598C502B7C80EC00B6C23D /* LocationTestScreen.swift */,
 				EDA322232B7C99B6009905B5 /* CalculateDistanceTestScreen.swift */,
@@ -600,8 +614,10 @@
 				EDA322302B7CB12D009905B5 /* FormattedPost.swift in Sources */,
 				EDA30DF82B7FE9B6003EB22D /* PostType.swift in Sources */,
 				ED598C032B7C42B500B6C23D /* AuthenticationScreen.swift in Sources */,
+				ED0652592B813859005B6413 /* BugViewModel.swift in Sources */,
 				ED50C4602B7F98620001EDF6 /* Sizes.swift in Sources */,
 				EDA30E032B811FD4003EB22D /* ReportViewModel.swift in Sources */,
+				ED0652572B813832005B6413 /* BugScreen.swift in Sources */,
 				EDA30E002B804FD1003EB22D /* ReportScreen.swift in Sources */,
 				EDA322382B7CC145009905B5 /* TimestampTestScreen.swift in Sources */,
 				ED598BF22B7C167500B6C23D /* FeedViewModel.swift in Sources */,
