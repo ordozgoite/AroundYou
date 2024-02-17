@@ -30,6 +30,7 @@ struct AYErrorAlert: View {
                 .foregroundStyle(.gray)
                 .buttonStyle(.bordered)
             }
+            .padding()
         }
         .frame(width: screenWidth - 64, height: 240)
         .background(.thinMaterial)

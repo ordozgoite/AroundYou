@@ -11,6 +11,7 @@ struct SettingsScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @Environment(\.colorScheme) var colorScheme
+    @State private var isDeleteAccountAlertDisplayed: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -67,11 +68,7 @@ struct SettingsScreen: View {
                         HStack {
                             Spacer()
                             Button("Delete Account") {
-                                print("👉 Clicou em deletar conta")
-                                Task {
-                                    let response = await authVM.deleteAccount()
-                                    print("🔴 Response: \(response)")
-                                }
+                                isDeleteAccountAlertDisplayed = true
                             }
                             .foregroundStyle(.red)
                             Spacer()
@@ -99,6 +96,19 @@ struct SettingsScreen: View {
                     //                    }
                     //                    .listRowBackground(colorScheme == .dark ? Color.black : Color.white)
                 }
+            }
+            .alert(isPresented: $isDeleteAccountAlertDisplayed) {
+                Alert(
+                    title: Text("Account Deletion"),
+                    message: Text("Deleting your account is permanent. Are you sure you want to proceed?."),
+                    primaryButton: .destructive(Text("Delete")) {
+                        Task {
+                            let response = await authVM.deleteAccount()
+                            print("🔴 Response: \(response)")
+                        }
+                    },
+                    secondaryButton: .cancel(Text("Cancel")) {}
+                )
             }
             .navigationTitle("Settings")
         }

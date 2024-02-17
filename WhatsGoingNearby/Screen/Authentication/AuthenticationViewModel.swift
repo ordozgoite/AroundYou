@@ -127,6 +127,8 @@ extension AuthenticationViewModel {
     func deleteAccount() async -> Bool {
         do {
             try await user?.delete()
+            authenticationState = .unauthenticated
+            resetUserInfo()
             return true
         }
         catch {

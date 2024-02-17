@@ -10,6 +10,7 @@
 		ED0652572B813832005B6413 /* BugScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0652562B813832005B6413 /* BugScreen.swift */; };
 		ED0652592B813859005B6413 /* BugViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0652582B813859005B6413 /* BugViewModel.swift */; };
 		ED06525B2B814722005B6413 /* BugReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525A2B814722005B6413 /* BugReport.swift */; };
+		ED06525D2B8171C5005B6413 /* ForgotPasswordScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525C2B8171C5005B6413 /* ForgotPasswordScreen.swift */; };
 		ED41409C2B7DE41F002690A5 /* PostNewCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */; };
 		ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */; };
 		ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */; };
@@ -116,6 +117,7 @@
 		ED0652562B813832005B6413 /* BugScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugScreen.swift; sourceTree = "<group>"; };
 		ED0652582B813859005B6413 /* BugViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugViewModel.swift; sourceTree = "<group>"; };
 		ED06525A2B814722005B6413 /* BugReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugReport.swift; sourceTree = "<group>"; };
+		ED06525C2B8171C5005B6413 /* ForgotPasswordScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordScreen.swift; sourceTree = "<group>"; };
 		ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNewCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePublicationResponse.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				ED598C022B7C42B500B6C23D /* AuthenticationScreen.swift */,
 				ED598C4B2B7C587100B6C23D /* AuthenticatedScreen.swift */,
 				EDA3223C2B7CCF64009905B5 /* PreparingSessionScreen.swift */,
+				ED06525C2B8171C5005B6413 /* ForgotPasswordScreen.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -316,7 +319,6 @@
 				ED598BF42B7C16EC00B6C23D /* PostView.swift */,
 				EDA322462B7DB221009905B5 /* CommentView.swift */,
 				ED4140A12B7E1D26002690A5 /* CircleTimerView.swift */,
-				ED50C44F2B7E4AB70001EDF6 /* AYErrorAlert.swift */,
 				ED50C4582B7E98370001EDF6 /* ProfilePicView.swift */,
 				EDA30DEB2B7FABA9003EB22D /* LottieView.swift */,
 				EDA30DF52B7FE816003EB22D /* PostTypeSegmentedControl.swift */,
@@ -342,6 +344,7 @@
 				ED598C082B7C472200B6C23D /* AYButton.swift */,
 				ED598C492B7C576A00B6C23D /* AYProgressButton.swift */,
 				ED598BF92B7C217400B6C23D /* AYProgressView.swift */,
+				ED50C44F2B7E4AB70001EDF6 /* AYErrorAlert.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -655,6 +658,7 @@
 				EDA322342B7CB861009905B5 /* URLImageView.swift in Sources */,
 				EDA3223F2B7D6A3F009905B5 /* LikePublicationResponse.swift in Sources */,
 				ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */,
+				ED06525D2B8171C5005B6413 /* ForgotPasswordScreen.swift in Sources */,
 				ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */,
 				ED50C44C2B7E396C0001EDF6 /* View.swift in Sources */,
 				EDA3222E2B7CA490009905B5 /* AYEndpoints.swift in Sources */,
