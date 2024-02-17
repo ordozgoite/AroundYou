@@ -11,7 +11,6 @@ struct CircleTimerView: View {
     
     let postDate: Int
     let expirationDate: Int
-    
     @State private var progress: CGFloat = 0.0
     
     var body: some View {
@@ -46,10 +45,6 @@ struct CircleTimerView: View {
         withAnimation {
             self.progress = newProgress
         }
-    }
-    
-    private func getCurrentDateTimestamp() -> Int {
-        return Int(Date().timeIntervalSince1970)
     }
 }
 

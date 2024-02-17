@@ -53,10 +53,12 @@ struct FeedScreen: View {
             .navigationTitle("Around You 🌐")
         }
         .onAppear {
-            startTimer()
-            startUpdatingFeed()
-            Task {
-                try await getFeedInfo()
+            if !feedVM.initialPostsFetched {
+                startTimer()
+                startUpdatingFeed()
+                Task {
+                    try await getFeedInfo()
+                }
             }
         }
     }

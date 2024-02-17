@@ -20,10 +20,13 @@ struct UserProfileScreen: View {
                 if userProfileVM.isLoading {
                     ProgressView()
                 } else {
-                    VStack {
-                        ProfileHeader()
+                    ZStack {
+                        VStack {
+                            ProfileHeader()
+                            Spacer()
+                        }
                         
-                        Spacer()
+                        Warning()
                     }
                 }
             }
@@ -66,6 +69,27 @@ struct UserProfileScreen: View {
             
             Text(userProfileVM.userProfile?.biography ?? "No bio.")
                 .foregroundStyle(.gray)
+        }
+    }
+    
+    //MARK: - Warning
+    
+    @ViewBuilder
+    private func Warning() -> some View {
+        if let myId = authVM.user?.uid {
+            if userUid == myId {
+                Text("That's how people see you.")
+                    .foregroundStyle(.gray)
+                    .multilineTextAlignment(.center)
+                    .fontWeight(.semibold)
+                    .padding()
+            } else {
+                Text("You can't see other people's posts.")
+                    .foregroundStyle(.gray)
+                    .multilineTextAlignment(.center)
+                    .fontWeight(.semibold)
+                    .padding()
+            }
         }
     }
 }

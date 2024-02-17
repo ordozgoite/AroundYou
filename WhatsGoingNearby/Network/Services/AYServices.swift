@@ -27,6 +27,9 @@ protocol AYServiceable {
     func postNewComment(publicationId: String, text: String, token: String) async -> Result<PostNewCommentResponse, RequestError>
     func deleteComment(commentId: String, token: String) async -> Result<DeleteCommentResponse, RequestError>
     func getAllCommentsByPublication(publicationId: String, token: String) async -> Result<[FormattedComment], RequestError>
+    
+    // Report
+    func postNewReport(report: ReportDTO, token: String) async -> Result<Report, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -90,5 +93,11 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getAllCommentsByPublication(publicationId: String, token: String) async -> Result<[FormattedComment], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getAllCommentsByPublication(publicationId: publicationId, token: token), responseModel: [FormattedComment].self)
+    }
+    
+    //MARK: - Report
+    
+    func postNewReport(report: ReportDTO, token: String) async -> Result<Report, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewReport(report: report, token: token), responseModel: Report.self)
     }
 }

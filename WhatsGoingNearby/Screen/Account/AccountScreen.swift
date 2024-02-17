@@ -96,7 +96,7 @@ struct AccountScreen: View {
     
     @ViewBuilder
     private func History() -> some View {
-        VStack(spacing: 32) {
+        VStack {
             PostTypeSegmentedControl(selectedFilter: $accountVM.selectedPostType)
             
             PostsView()
@@ -119,6 +119,7 @@ struct AccountScreen: View {
                                 await accountVM.deletePublication(publicationId: post.id, token: token)
                             }
                         }
+                        .padding()
                         Divider()
                     }
                 }

@@ -11,6 +11,7 @@ struct PostView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @Binding var post: FormattedPost
+    @State private var isPopoverShowing: Bool = false
     let deletePost: () -> ()
     
     var body: some View {
@@ -49,7 +50,24 @@ struct PostView: View {
             Text(post.userName ?? "Anonymous")
                 .fontWeight(.semibold)
             
-            CircleTimerView(postDate: post.timestamp.timeIntervalSince1970InSeconds, expirationDate: post.expirationDate.timeIntervalSince1970InSeconds)
+            if post.type == .active {
+                CircleTimerView(postDate: post.timestamp.timeIntervalSince1970InSeconds, expirationDate: post.expirationDate.timeIntervalSince1970InSeconds)
+                    .popover(isPresented: $isPopoverShowing) {
+                        Text(getTimeLeftText())
+                            .font(.subheadline)
+                            .foregroundStyle(.gray)
+                            .padding([.leading, .trailing], 10)
+                            .presentationCompactAdaptation(.popover)
+                    }
+                    .onTapGesture {
+                        isPopoverShowing = true
+                    }
+            } else {
+                Text("Expired")
+                    .foregroundStyle(.gray)
+                    .font(.subheadline)
+            }
+                
             
             Spacer()
             
@@ -69,9 +87,7 @@ struct PostView: View {
                 }
             } label: {
                 Image(systemName: "ellipsis")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 24, height: 24)
+                    .frame(width: 44, height: 44)
                     .foregroundStyle(.gray)
                     .padding([.trailing], 10)
             }
@@ -149,6 +165,23 @@ struct PostView: View {
         }
     }
     
+    private func getTimeLeftText() -> String {
+        var timeLeftText = ""
+        var timeUnityMeasure = ""
+        var pluralModifier = ""
+    
+        let timeLeftInSeconds = post.expirationDate.timeIntervalSince1970InSeconds - getCurrentDateTimestamp()
+        if timeLeftInSeconds < 60 {
+            timeUnityMeasure = "second"
+            timeLeftText = String(timeLeftInSeconds)
+            if timeLeftText != "1" { pluralModifier = "s" }
+        } else {
+            timeUnityMeasure = "minute"
+            timeLeftText = String(Int(timeLeftInSeconds / 60))
+            if timeLeftText != "1" { pluralModifier = "s" }
+        }
+        return timeLeftText + " " + timeUnityMeasure + pluralModifier + " to expire"
+    }
 }
 
 #Preview {

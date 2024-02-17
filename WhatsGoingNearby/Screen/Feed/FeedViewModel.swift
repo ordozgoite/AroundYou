@@ -14,8 +14,10 @@ class FeedViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var isCommentScreenPresented = false
     @Published var overlayError: (Bool, String) = (false, "")
+    @Published var initialPostsFetched: Bool = false
     
     func getPostsNearBy(latitude: Double, longitude: Double, token: String) async {
+        initialPostsFetched = true
         isLoading = true
         let response = await AYServices.shared.getActivePublicationsNearBy(latitude: latitude, longitude: longitude, token: token)
         isLoading = false

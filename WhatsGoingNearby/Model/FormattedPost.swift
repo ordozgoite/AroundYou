@@ -32,7 +32,7 @@ struct FormattedPost: Identifiable, Codable {
     }
     
     var type: PostType {
-        if expirationDate > Int(Date().timeIntervalSince1970) {
+        if expirationDate.timeIntervalSince1970InSeconds > getCurrentDateTimestamp() {
             return .active
         } else {
             return .inactive

@@ -21,6 +21,7 @@ enum AYEndpoints {
     case getUserProfile(userUid: String, token: String)
     case editBiography(biography: String, token: String)
     case getAllPublicationsByUser(token: String)
+    case postNewReport(report: ReportDTO, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -55,6 +56,8 @@ extension AYEndpoints: Endpoint {
             return "/api/User/EditBiography"
         case .getAllPublicationsByUser:
             return "/api/Publication/GetAllPublicationsByUser"
+        case .postNewReport:
+            return "/api/Report/PostNewReport"
         }
     }
     
@@ -62,7 +65,7 @@ extension AYEndpoints: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editBiography:
+        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editBiography, .postNewReport:
             return .post
         case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser:
             return .get
@@ -166,6 +169,12 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .postNewReport(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -200,6 +209,14 @@ extension AYEndpoints: Endpoint {
             let params: [String: Any] = [
                 "biography": biography
             ]
+            return params
+        case .postNewReport(let report, _):
+            var params: [String: Any] = [
+                "reportedUserUid": report.reportedUserUid
+            ]
+            if let publicationId = report.publicationId { params["publicationId"] = publicationId }
+            if let commentId = report.commentId { params["commentId"] = commentId }
+            if let reportDescription = report.reportDescription { params["reportDescription"] = reportDescription }
             return params
         case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser:
             return nil

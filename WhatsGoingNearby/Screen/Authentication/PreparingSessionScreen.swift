@@ -10,6 +10,7 @@ import SwiftUI
 struct PreparingSessionScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @Environment(\.colorScheme) var colorScheme
     @State private var minAnimDisplayTimeReached = false
     
     var body: some View {
@@ -42,9 +43,16 @@ struct PreparingSessionScreen: View {
     @ViewBuilder
     private func PreparingSessionAnimation() -> some View {
         VStack {
-            LottieView(name: "map", loopMode: .loop)
-                .scaleEffect(0.5)
-                .frame(width: screenWidth * 0.5, height: screenHeight * 0.5)
+            if colorScheme == .dark {
+                LottieView(name: "map", loopMode: .loop)
+                    .scaleEffect(0.5)
+                    .frame(width: screenWidth * 0.5, height: screenHeight * 0.5)
+                    .colorInvert()
+            } else {
+                LottieView(name: "map", loopMode: .loop)
+                    .scaleEffect(0.5)
+                    .frame(width: screenWidth * 0.5, height: screenHeight * 0.5)
+            }
             
             Text("We use your location to know what's going on around you.")
                 .multilineTextAlignment(.center)
