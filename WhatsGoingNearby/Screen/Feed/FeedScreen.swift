@@ -51,6 +51,7 @@ struct FeedScreen: View {
                 }
             }
             .navigationTitle("Around You 🌐")
+            .navigationBarTitleDisplayMode(.large)
         }
         .onAppear {
             if !feedVM.initialPostsFetched {

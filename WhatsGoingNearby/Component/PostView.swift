@@ -13,6 +13,7 @@ struct PostView: View {
     @Binding var post: FormattedPost
     @State private var isTimeLeftPopoverDisplayed: Bool = false
     @State private var isOptionsPopoverDisplayed: Bool = false
+    @State private var isReportScreenPresented: Bool = false
     let deletePost: () -> ()
     
     var body: some View {
@@ -28,7 +29,13 @@ struct PostView: View {
                     InteractionsView()
                 }
             }
+            NavigationLink(
+                destination: ReportScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil),
+                isActive: $isReportScreenPresented,
+                label: { EmptyView() }
+            )
         }
+        
     }
     
     //MARK: - ProfilePic
@@ -84,43 +91,24 @@ struct PostView: View {
                                 Image(systemName: "trash")
                             }
                             .padding()
-                            
-                            Divider()
                         }
                         
-                        
-                        Button(role: .destructive, action: {}) {
-                            Text("Report Post")
-                            Image(systemName: "exclamationmark.bubble")
+                        if !post.isFromRecipientUser {
+                            Button(role: .destructive, action: {
+                                isOptionsPopoverDisplayed = false
+                                isReportScreenPresented = true
+                            }) {
+                                Text("Report Post")
+                                Image(systemName: "exclamationmark.bubble")
+                            }
+                            .padding()
                         }
-                        .padding()
                     }
                     .presentationCompactAdaptation(.popover)
                 }
                 .onTapGesture {
                     isOptionsPopoverDisplayed = true
                 }
-            
-            //            Menu {
-            //                if post.isFromRecipientUser {
-            //                    Button(role: .destructive, action: {
-            //                        deletePost()
-            //                    }) {
-            //                        Text("Delete Post")
-            //                        Image(systemName: "trash")
-            //                    }
-            //                }
-            //
-            //                Button(role: .destructive, action: {}) {
-            //                    Text("Report Post")
-            //                    Image(systemName: "exclamationmark.bubble")
-            //                }
-            //            } label: {
-            //                Image(systemName: "ellipsis")
-            //                    .frame(width: 44, height: 44)
-            //                    .foregroundStyle(.gray)
-            //                    .padding([.trailing], 10)
-            //            }
         }
     }
     

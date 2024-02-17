@@ -88,6 +88,7 @@
 		EDA30DFC2B804BE6003EB22D /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DFB2B804BE5003EB22D /* Report.swift */; };
 		EDA30DFE2B804DBB003EB22D /* ReportDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DFD2B804DBB003EB22D /* ReportDTO.swift */; };
 		EDA30E002B804FD1003EB22D /* ReportScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DFF2B804FD1003EB22D /* ReportScreen.swift */; };
+		EDA30E032B811FD4003EB22D /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30E022B811FD4003EB22D /* ReportViewModel.swift */; };
 		EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322232B7C99B6009905B5 /* CalculateDistanceTestScreen.swift */; };
 		EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322262B7CA342009905B5 /* HTTPClient.swift */; };
 		EDA322292B7CA362009905B5 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322282B7CA362009905B5 /* Endpoint.swift */; };
@@ -163,6 +164,7 @@
 		EDA30DFB2B804BE5003EB22D /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		EDA30DFD2B804DBB003EB22D /* ReportDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDTO.swift; sourceTree = "<group>"; };
 		EDA30DFF2B804FD1003EB22D /* ReportScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreen.swift; sourceTree = "<group>"; };
+		EDA30E022B811FD4003EB22D /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		EDA322232B7C99B6009905B5 /* CalculateDistanceTestScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateDistanceTestScreen.swift; sourceTree = "<group>"; };
 		EDA322262B7CA342009905B5 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		EDA322282B7CA362009905B5 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
@@ -400,11 +402,11 @@
 				EDA322422B7DB059009905B5 /* New Post */,
 				ED598BEB2B7C122600B6C23D /* Account */,
 				ED598C4D2B7C59C600B6C23D /* Settings */,
+				EDA30E012B811FBD003EB22D /* Report */,
 				ED598BFD2B7C39FD00B6C23D /* MainTabView.swift */,
 				ED598C502B7C80EC00B6C23D /* LocationTestScreen.swift */,
 				EDA322232B7C99B6009905B5 /* CalculateDistanceTestScreen.swift */,
 				EDA322372B7CC145009905B5 /* TimestampTestScreen.swift */,
-				EDA30DFF2B804FD1003EB22D /* ReportScreen.swift */,
 			);
 			path = Screen;
 			sourceTree = "<group>";
@@ -416,6 +418,15 @@
 				EDA30DE72B7FAB68003EB22D /* radar.json */,
 			);
 			path = Animation;
+			sourceTree = "<group>";
+		};
+		EDA30E012B811FBD003EB22D /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				EDA30E022B811FD4003EB22D /* ReportViewModel.swift */,
+				EDA30DFF2B804FD1003EB22D /* ReportScreen.swift */,
+			);
+			path = Report;
 			sourceTree = "<group>";
 		};
 		EDA322252B7CA30C009905B5 /* Network */ = {
@@ -590,6 +601,7 @@
 				EDA30DF82B7FE9B6003EB22D /* PostType.swift in Sources */,
 				ED598C032B7C42B500B6C23D /* AuthenticationScreen.swift in Sources */,
 				ED50C4602B7F98620001EDF6 /* Sizes.swift in Sources */,
+				EDA30E032B811FD4003EB22D /* ReportViewModel.swift in Sources */,
 				EDA30E002B804FD1003EB22D /* ReportScreen.swift in Sources */,
 				EDA322382B7CC145009905B5 /* TimestampTestScreen.swift in Sources */,
 				ED598BF22B7C167500B6C23D /* FeedViewModel.swift in Sources */,
