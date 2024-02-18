@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CommentView: View {
     
+    let isPostFromRecipientUser: Bool
     @EnvironmentObject var authVM: AuthenticationViewModel
     @Binding var comment: FormattedComment
     let deleteComment: () -> ()
@@ -61,7 +62,7 @@ struct CommentView: View {
             Spacer()
             
             Menu {
-                if comment.isFromRecipientUser {
+                if comment.isFromRecipientUser || isPostFromRecipientUser {
                     Button(role: .destructive, action: {
                         deleteComment()
                     }) {
@@ -99,7 +100,7 @@ struct CommentView: View {
 }
 
 #Preview {
-    CommentView(comment: .constant(FormattedComment(
+    CommentView(isPostFromRecipientUser: true, comment: .constant(FormattedComment(
         id: "", userUid: "", publicationId: "", text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...",
         timestamp: Int(Date().timeIntervalSince1970),
         userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
