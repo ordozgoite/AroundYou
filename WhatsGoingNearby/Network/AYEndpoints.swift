@@ -24,6 +24,7 @@ enum AYEndpoints {
     case postNewReport(report: ReportDTO, token: String)
     case postNewBugReport(bugDescription: String, token: String)
     case blockUser(blockedUserUid: String, token: String)
+    case getBlockedUsers(token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -64,6 +65,8 @@ extension AYEndpoints: Endpoint {
             return "/api/BugReport/PostNewBugReport"
         case .blockUser:
             return "/api/Block/BlockUser"
+        case .getBlockedUsers:
+            return "/api/Block/GetBlockedUsers"
         }
     }
     
@@ -73,7 +76,7 @@ extension AYEndpoints: Endpoint {
         switch self {
         case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser:
             return .post
-        case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser:
+        case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers:
             return .get
         }
     }
@@ -193,6 +196,12 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .getBlockedUsers(let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -247,7 +256,7 @@ extension AYEndpoints: Endpoint {
                 "blockedUserUid": blockedUserUid
             ]
             return params
-        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser:
+        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers:
             return nil
         }
     }

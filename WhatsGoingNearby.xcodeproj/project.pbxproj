@@ -82,6 +82,8 @@
 		ED5CB1702B7C11C500C336EC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED5CB16F2B7C11C500C336EC /* Preview Assets.xcassets */; };
 		ED6DD48B2B81908F00ADBB64 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD48A2B81908F00ADBB64 /* EditProfileViewModel.swift */; };
 		ED6DD48D2B82685D00ADBB64 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD48C2B82685D00ADBB64 /* Block.swift */; };
+		ED6DD4902B8272DD00ADBB64 /* BlockedUserScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD48F2B8272DD00ADBB64 /* BlockedUserScreen.swift */; };
+		ED6DD4922B82739400ADBB64 /* BlockedUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD4912B82739400ADBB64 /* BlockedUserViewModel.swift */; };
 		EDA30DE52B7FAB20003EB22D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EDA30DE42B7FAB20003EB22D /* Lottie */; };
 		EDA30DE92B7FAB69003EB22D /* radar.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE72B7FAB68003EB22D /* radar.json */; };
 		EDA30DEA2B7FAB69003EB22D /* map.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE82B7FAB69003EB22D /* map.json */; };
@@ -166,6 +168,8 @@
 		ED5CB16F2B7C11C500C336EC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		ED6DD48A2B81908F00ADBB64 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		ED6DD48C2B82685D00ADBB64 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		ED6DD48F2B8272DD00ADBB64 /* BlockedUserScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserScreen.swift; sourceTree = "<group>"; };
+		ED6DD4912B82739400ADBB64 /* BlockedUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserViewModel.swift; sourceTree = "<group>"; };
 		EDA30DE72B7FAB68003EB22D /* radar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = radar.json; sourceTree = "<group>"; };
 		EDA30DE82B7FAB69003EB22D /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
 		EDA30DEB2B7FABA9003EB22D /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
@@ -432,12 +436,22 @@
 				ED598C4D2B7C59C600B6C23D /* Settings */,
 				EDA30E012B811FBD003EB22D /* Report */,
 				ED0652552B813823005B6413 /* Bug */,
+				ED6DD48E2B82729C00ADBB64 /* Block */,
 				ED598BFD2B7C39FD00B6C23D /* MainTabView.swift */,
 				ED598C502B7C80EC00B6C23D /* LocationTestScreen.swift */,
 				EDA322232B7C99B6009905B5 /* CalculateDistanceTestScreen.swift */,
 				EDA322372B7CC145009905B5 /* TimestampTestScreen.swift */,
 			);
 			path = Screen;
+			sourceTree = "<group>";
+		};
+		ED6DD48E2B82729C00ADBB64 /* Block */ = {
+			isa = PBXGroup;
+			children = (
+				ED6DD4912B82739400ADBB64 /* BlockedUserViewModel.swift */,
+				ED6DD48F2B8272DD00ADBB64 /* BlockedUserScreen.swift */,
+			);
+			path = Block;
 			sourceTree = "<group>";
 		};
 		EDA30DE62B7FAB41003EB22D /* Animation */ = {
@@ -634,6 +648,7 @@
 				ED50C4602B7F98620001EDF6 /* Sizes.swift in Sources */,
 				EDA30E032B811FD4003EB22D /* ReportViewModel.swift in Sources */,
 				ED0652572B813832005B6413 /* BugScreen.swift in Sources */,
+				ED6DD4902B8272DD00ADBB64 /* BlockedUserScreen.swift in Sources */,
 				EDA30E002B804FD1003EB22D /* ReportScreen.swift in Sources */,
 				EDA322382B7CC145009905B5 /* TimestampTestScreen.swift in Sources */,
 				ED6DD48D2B82685D00ADBB64 /* Block.swift in Sources */,
@@ -678,6 +693,7 @@
 				ED5CB1692B7C11C000C336EC /* WhatsGoingNearbyApp.swift in Sources */,
 				ED598BF52B7C16EC00B6C23D /* PostView.swift in Sources */,
 				EDA30DFA2B7FF228003EB22D /* Time.swift in Sources */,
+				ED6DD4922B82739400ADBB64 /* BlockedUserViewModel.swift in Sources */,
 				EDA3223D2B7CCF64009905B5 /* PreparingSessionScreen.swift in Sources */,
 				ED598BF02B7C147D00B6C23D /* Post.swift in Sources */,
 				ED598C072B7C441500B6C23D /* AuthFlowSegmentedControl.swift in Sources */,

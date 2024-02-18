@@ -18,6 +18,19 @@ struct SettingsScreen: View {
             VStack {
                 Form {
                     
+                    //MARK: - Privacy
+                    
+                    Section {
+                        NavigationLink {
+                            BlockedUserScreen()
+                                .environmentObject(authVM)
+                        } label: {
+                            Text("Blocked Users")
+                        }
+                    } header: {
+                        Text("Privacy")
+                    }
+                    
                     //MARK: - Help
                     
                     Section {
@@ -94,6 +107,7 @@ struct SettingsScreen: View {
                 )
             }
             .navigationTitle("Settings")
+            .navigationBarTitleDisplayMode(.large)
         }
     }
 }

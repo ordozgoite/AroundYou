@@ -7,10 +7,11 @@
 
 import Foundation
 
-struct UserProfile: Codable {
+struct UserProfile: Codable, Identifiable {
+    var id: String
     let userUid: String
     let name: String
     let profilePic: String?
     let biography: String?
-    let likes: Int
+//    let likes: Int
 }
