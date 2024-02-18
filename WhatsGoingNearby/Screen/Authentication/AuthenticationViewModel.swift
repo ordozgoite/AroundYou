@@ -184,19 +184,19 @@ extension AuthenticationViewModel {
     
     func isLoginInputValid() -> Bool {
         errorMessage = (nil, nil, nil, nil)
-        if emailInput.isEmpty { errorMessage.1 = "Por favor insira seu e-mail." }
-        if passwordInput.isEmpty { errorMessage.2 = "Por favor insira sua senha." }
+        if emailInput.isEmpty { errorMessage.1 = "Please enter your email." }
+        if passwordInput.isEmpty { errorMessage.2 = "Please enter your password." }
         let (_, b, c, _) = errorMessage
         return b == nil && c == nil ? true : false
     }
-    
+
     func isSignupInputValid() -> Bool {
         errorMessage = (nil, nil, nil, nil)
-        if nameInput.isEmpty { errorMessage.0 = "Por favor insira seu nome." }
-        if emailInput.isEmpty { errorMessage.1 = "Por favor insira seu e-mail." }
-        if passwordInput.isEmpty { errorMessage.2 = "Por favor insira sua senha." }
-        if confirmPasswordInput != passwordInput { errorMessage.3 = "Suas senhas não combinam." }
-        if confirmPasswordInput.isEmpty { errorMessage.3 = "Por favor confirme sua senha." }
+        if nameInput.isEmpty { errorMessage.0 = "Please enter your name." }
+        if emailInput.isEmpty { errorMessage.1 = "Please enter your email." }
+        if passwordInput.isEmpty { errorMessage.2 = "Please enter your password." }
+        if confirmPasswordInput != passwordInput { errorMessage.3 = "Your passwords do not match." }
+        if confirmPasswordInput.isEmpty { errorMessage.3 = "Please confirm your password." }
         let (a, b, c, d) = errorMessage
         return a == nil && b == nil && c == nil && d == nil ? true : false
     }
