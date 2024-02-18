@@ -13,6 +13,7 @@ struct UserProfileScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var userProfileVM = UserProfileViewModel()
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack {
@@ -46,16 +47,38 @@ struct UserProfileScreen: View {
                 await userProfileVM.getUserProfile(userUid: userUid, token: token)
             }
         }
+        .alert(isPresented: $userProfileVM.isBlockAlertPresented) {
+            Alert(
+                title: Text("Block User"),
+                message: Text("This user will not be able to see your posts and profile, and you will not be able to see this user's posts and profile."),
+                primaryButton: .destructive(Text("Block")) {
+                    Task {
+                        let token = try await authVM.getFirebaseToken()
+                        await userProfileVM.blockUser(blockedUserUid: userUid, token: token) {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    }
+                },
+                secondaryButton: .cancel(Text("Cancel")) {}
+            )
+        }
         .toolbar {
             ToolbarItem {
                 if let myId = authVM.user?.uid {
                     if self.userUid != myId {
                         Menu {
-                            Button(role: .destructive) {
+                            Button {
                                 userProfileVM.isReportScreenPresented = true
                             } label: {
                                 Text("Report Account")
                                 Image(systemName: "exclamationmark.bubble")
+                            }
+                            
+                            Button {
+                                userProfileVM.isBlockAlertPresented = true
+                            } label: {
+                                Text("Block User")
+                                Image(systemName: "person.fill.xmark")
                             }
                             
                         } label: {
@@ -90,9 +113,11 @@ struct UserProfileScreen: View {
             Text(userProfileVM.userProfile?.name ?? "")
                 .font(.title)
                 .fontWeight(.semibold)
+                .multilineTextAlignment(.center)
             
             Text(userProfileVM.userProfile?.biography ?? "No bio.")
                 .foregroundStyle(.gray)
+                .multilineTextAlignment(.center)
         }
     }
     

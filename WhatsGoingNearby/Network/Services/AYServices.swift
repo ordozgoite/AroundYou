@@ -33,6 +33,9 @@ protocol AYServiceable {
     
     // BugReport
     func postNewBugReport(bugDescription: String, token: String) async -> Result<BugReport, RequestError>
+    
+    // Block
+    func blockUser(blockedUserUid: String, token: String) async -> Result<Block, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -108,5 +111,11 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func postNewBugReport(bugDescription: String, token: String) async -> Result<BugReport, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.postNewBugReport(bugDescription: bugDescription, token: token), responseModel: BugReport.self)
+    }
+    
+    //MARK: - Block
+    
+    func blockUser(blockedUserUid: String, token: String) async -> Result<Block, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.blockUser(blockedUserUid: blockedUserUid, token: token), responseModel: Block.self)
     }
 }

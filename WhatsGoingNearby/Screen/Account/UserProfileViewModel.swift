@@ -14,13 +14,14 @@ class UserProfileViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var overlayError: (Bool, String) = (false, "")
     @Published var isReportScreenPresented: Bool = false
+    @Published var isBlockAlertPresented: Bool = false
     
     func getUserProfile(userUid: String, token: String) async {
         isLoading = true
-        let response = await AYServices.shared.getUserProfile(userUid: userUid, token: token)
+        let result = await AYServices.shared.getUserProfile(userUid: userUid, token: token)
         isLoading = false
         
-        switch response {
+        switch result {
         case .success(let user):
             userProfile = user
         case .failure:
@@ -28,4 +29,16 @@ class UserProfileViewModel: ObservableObject {
         }
     }
     
+    func blockUser(blockedUserUid: String, token: String, dismissScreen: () -> ()) async {
+        isLoading = true
+        let result = await AYServices.shared.blockUser(blockedUserUid: blockedUserUid, token: token)
+        isLoading = false
+        
+        switch result {
+        case .success:
+            dismissScreen()
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
 }

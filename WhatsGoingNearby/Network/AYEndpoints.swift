@@ -23,6 +23,7 @@ enum AYEndpoints {
     case getAllPublicationsByUser(token: String)
     case postNewReport(report: ReportDTO, token: String)
     case postNewBugReport(bugDescription: String, token: String)
+    case blockUser(blockedUserUid: String, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -61,6 +62,8 @@ extension AYEndpoints: Endpoint {
             return "/api/Report/PostNewReport"
         case .postNewBugReport:
             return "/api/BugReport/PostNewBugReport"
+        case .blockUser:
+            return "/api/Block/BlockUser"
         }
     }
     
@@ -68,7 +71,7 @@ extension AYEndpoints: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport:
+        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser:
             return .post
         case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser:
             return .get
@@ -184,6 +187,12 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .blockUser(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -231,6 +240,11 @@ extension AYEndpoints: Endpoint {
         case .postNewBugReport(let bugDescription, _):
             let params: [String: Any] = [
                 "bugDescription": bugDescription
+            ]
+            return params
+        case .blockUser(let blockedUserUid, _):
+            let params: [String: Any] = [
+                "blockedUserUid": blockedUserUid
             ]
             return params
         case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser:
