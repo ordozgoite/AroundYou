@@ -25,6 +25,7 @@ enum AYEndpoints {
     case postNewBugReport(bugDescription: String, token: String)
     case blockUser(blockedUserUid: String, token: String)
     case getBlockedUsers(token: String)
+    case unblockUser(blockedUserUid: String, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -67,6 +68,8 @@ extension AYEndpoints: Endpoint {
             return "/api/Block/BlockUser"
         case .getBlockedUsers:
             return "/api/Block/GetBlockedUsers"
+        case .unblockUser:
+            return "/api/Block/UnblockUser"
         }
     }
     
@@ -74,7 +77,7 @@ extension AYEndpoints: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser:
+        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser:
             return .post
         case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers:
             return .get
@@ -202,6 +205,12 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .unblockUser(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -252,6 +261,11 @@ extension AYEndpoints: Endpoint {
             ]
             return params
         case .blockUser(let blockedUserUid, _):
+            let params: [String: Any] = [
+                "blockedUserUid": blockedUserUid
+            ]
+            return params
+        case .unblockUser(let blockedUserUid, _):
             let params: [String: Any] = [
                 "blockedUserUid": blockedUserUid
             ]

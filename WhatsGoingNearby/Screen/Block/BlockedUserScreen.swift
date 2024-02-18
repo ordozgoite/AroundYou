@@ -24,6 +24,10 @@ struct BlockedUserScreen: View {
                             
                             Text(user.name)
                         }
+                        .onTapGesture {
+                            blockedUserVM.selectedUser = user
+                            blockedUserVM.isUnblockAlertDisplayed = true
+                        }
                     }
                 }
             }
@@ -37,6 +41,21 @@ struct BlockedUserScreen: View {
                 let token = try await authVM.getFirebaseToken()
                 await blockedUserVM.getBockeUser(token: token)
             }
+        }
+        .alert(isPresented: $blockedUserVM.isUnblockAlertDisplayed) {
+            Alert(
+                title: Text("Unblock User"),
+                message: Text("This user will be able to see your posts and profile, and you will be able to see this user's posts and profile."),
+                primaryButton: .destructive(Text("Unblock")) {
+                    Task {
+                        if let blockedUserUid = blockedUserVM.selectedUser?.userUid {
+                            let token = try await authVM.getFirebaseToken()
+                            await blockedUserVM.unblockUser(blockedUserUid: blockedUserUid, token: token)
+                        }
+                    }
+                },
+                secondaryButton: .cancel(Text("Cancel")) {}
+            )
         }
         .navigationTitle("Blocked Users")
         .navigationBarTitleDisplayMode(.large)

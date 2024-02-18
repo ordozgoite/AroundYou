@@ -37,6 +37,7 @@ protocol AYServiceable {
     // Block
     func blockUser(blockedUserUid: String, token: String) async -> Result<Block, RequestError>
     func getBlockedUsers(token: String) async -> Result<[UserProfile], RequestError>
+    func unblockUser(blockedUserUid: String, token: String) async -> Result<UnblockUserResponse, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -122,5 +123,9 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getBlockedUsers(token: String) async -> Result<[UserProfile], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getBlockedUsers(token: token), responseModel: [UserProfile].self)
+    }
+    
+    func unblockUser(blockedUserUid: String, token: String) async -> Result<UnblockUserResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.unblockUser(blockedUserUid: blockedUserUid, token: token), responseModel: UnblockUserResponse.self)
     }
 }
