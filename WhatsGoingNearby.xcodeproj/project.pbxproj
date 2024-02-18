@@ -11,6 +11,7 @@
 		ED0652592B813859005B6413 /* BugViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0652582B813859005B6413 /* BugViewModel.swift */; };
 		ED06525B2B814722005B6413 /* BugReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525A2B814722005B6413 /* BugReport.swift */; };
 		ED06525D2B8171C5005B6413 /* ForgotPasswordScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525C2B8171C5005B6413 /* ForgotPasswordScreen.swift */; };
+		ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525E2B817A31005B6413 /* EditProfileScreen.swift */; };
 		ED41409C2B7DE41F002690A5 /* PostNewCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */; };
 		ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */; };
 		ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */; };
@@ -79,13 +80,14 @@
 		ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5CB16A2B7C11C000C336EC /* ContentView.swift */; };
 		ED5CB16D2B7C11C500C336EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED5CB16C2B7C11C500C336EC /* Assets.xcassets */; };
 		ED5CB1702B7C11C500C336EC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED5CB16F2B7C11C500C336EC /* Preview Assets.xcassets */; };
+		ED6DD48B2B81908F00ADBB64 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD48A2B81908F00ADBB64 /* EditProfileViewModel.swift */; };
 		EDA30DE52B7FAB20003EB22D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EDA30DE42B7FAB20003EB22D /* Lottie */; };
 		EDA30DE92B7FAB69003EB22D /* radar.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE72B7FAB68003EB22D /* radar.json */; };
 		EDA30DEA2B7FAB69003EB22D /* map.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE82B7FAB69003EB22D /* map.json */; };
 		EDA30DEC2B7FABA9003EB22D /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DEB2B7FABA9003EB22D /* LottieView.swift */; };
 		EDA30DEE2B7FBAF8003EB22D /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DED2B7FBAF8003EB22D /* LaunchScreen.swift */; };
 		EDA30DF02B7FC620003EB22D /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DEF2B7FC620003EB22D /* AccountViewModel.swift */; };
-		EDA30DF22B7FCDE3003EB22D /* EditBiographyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DF12B7FCDE3003EB22D /* EditBiographyResponse.swift */; };
+		EDA30DF22B7FCDE3003EB22D /* EditProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DF12B7FCDE3003EB22D /* EditProfileResponse.swift */; };
 		EDA30DF62B7FE816003EB22D /* PostTypeSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DF52B7FE816003EB22D /* PostTypeSegmentedControl.swift */; };
 		EDA30DF82B7FE9B6003EB22D /* PostType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DF72B7FE9B6003EB22D /* PostType.swift */; };
 		EDA30DFA2B7FF228003EB22D /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA30DF92B7FF228003EB22D /* Time.swift */; };
@@ -118,6 +120,7 @@
 		ED0652582B813859005B6413 /* BugViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugViewModel.swift; sourceTree = "<group>"; };
 		ED06525A2B814722005B6413 /* BugReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugReport.swift; sourceTree = "<group>"; };
 		ED06525C2B8171C5005B6413 /* ForgotPasswordScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordScreen.swift; sourceTree = "<group>"; };
+		ED06525E2B817A31005B6413 /* EditProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileScreen.swift; sourceTree = "<group>"; };
 		ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNewCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePublicationResponse.swift; sourceTree = "<group>"; };
@@ -160,12 +163,13 @@
 		ED5CB16A2B7C11C000C336EC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ED5CB16C2B7C11C500C336EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED5CB16F2B7C11C500C336EC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		ED6DD48A2B81908F00ADBB64 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		EDA30DE72B7FAB68003EB22D /* radar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = radar.json; sourceTree = "<group>"; };
 		EDA30DE82B7FAB69003EB22D /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
 		EDA30DEB2B7FABA9003EB22D /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		EDA30DED2B7FBAF8003EB22D /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		EDA30DEF2B7FC620003EB22D /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
-		EDA30DF12B7FCDE3003EB22D /* EditBiographyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBiographyResponse.swift; sourceTree = "<group>"; };
+		EDA30DF12B7FCDE3003EB22D /* EditProfileResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileResponse.swift; sourceTree = "<group>"; };
 		EDA30DF52B7FE816003EB22D /* PostTypeSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTypeSegmentedControl.swift; sourceTree = "<group>"; };
 		EDA30DF72B7FE9B6003EB22D /* PostType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostType.swift; sourceTree = "<group>"; };
 		EDA30DF92B7FF228003EB22D /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
@@ -287,6 +291,8 @@
 				ED598C002B7C3A3900B6C23D /* AccountScreen.swift */,
 				ED50C4612B7F9C030001EDF6 /* UserProfileViewModel.swift */,
 				ED50C4562B7E951D0001EDF6 /* UserProfileScreen.swift */,
+				ED6DD48A2B81908F00ADBB64 /* EditProfileViewModel.swift */,
+				ED06525E2B817A31005B6413 /* EditProfileScreen.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -476,7 +482,7 @@
 				ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */,
 				ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */,
 				ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */,
-				EDA30DF12B7FCDE3003EB22D /* EditBiographyResponse.swift */,
+				EDA30DF12B7FCDE3003EB22D /* EditProfileResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -647,12 +653,14 @@
 				ED50C4622B7F9C030001EDF6 /* UserProfileViewModel.swift in Sources */,
 				ED598C4C2B7C587100B6C23D /* AuthenticatedScreen.swift in Sources */,
 				EDA322472B7DB221009905B5 /* CommentView.swift in Sources */,
+				ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */,
 				EDA30DFC2B804BE6003EB22D /* Report.swift in Sources */,
 				EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */,
 				ED50C4502B7E4AB70001EDF6 /* AYErrorAlert.swift in Sources */,
 				ED50C45E2B7F86A30001EDF6 /* CommentViewModel.swift in Sources */,
-				EDA30DF22B7FCDE3003EB22D /* EditBiographyResponse.swift in Sources */,
+				EDA30DF22B7FCDE3003EB22D /* EditProfileResponse.swift in Sources */,
 				ED598C012B7C3A3900B6C23D /* AccountScreen.swift in Sources */,
+				ED6DD48B2B81908F00ADBB64 /* EditProfileViewModel.swift in Sources */,
 				ED598BF82B7C1B9400B6C23D /* Date.swift in Sources */,
 				ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */,
 				EDA322342B7CB861009905B5 /* URLImageView.swift in Sources */,

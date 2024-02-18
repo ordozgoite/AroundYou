@@ -13,7 +13,7 @@ class AccountViewModel: ObservableObject {
     @Published var posts: [FormattedPost] = []
     @Published var selectedPostType: PostHistoryOption = .all
     @Published var newBioTextInput: String = ""
-    @Published var isEditBioAlertPresented: Bool = false
+    @Published var isEditProfileScreenPresented: Bool = false
     @Published var overlayError: (Bool, String) = (false, "")
     
     func getUserPosts(token: String) async {
@@ -22,18 +22,6 @@ class AccountViewModel: ObservableObject {
         switch response {
         case .success(let posts):
             self.posts = posts
-        case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
-        }
-    }
-    
-    func editBio(bio: String, token: String, updateBio: (String) -> ()) async {
-        newBioTextInput = ""
-        let response = await AYServices.shared.editBiography(biography: bio, token: token)
-        
-        switch response {
-        case .success:
-            updateBio(bio)
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }

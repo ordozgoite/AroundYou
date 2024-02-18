@@ -19,7 +19,7 @@ enum AYEndpoints {
     case deleteComment(commentId: String, token: String)
     case deletePublication(publicationId: String, token: String)
     case getUserProfile(userUid: String, token: String)
-    case editBiography(biography: String, token: String)
+    case editProfile(name: String, biography: String, token: String)
     case getAllPublicationsByUser(token: String)
     case postNewReport(report: ReportDTO, token: String)
     case postNewBugReport(bugDescription: String, token: String)
@@ -53,8 +53,8 @@ extension AYEndpoints: Endpoint {
             return "/api/Publication/DeletePublication/\(publicationId)"
         case .getUserProfile(let userUid, _):
             return "/api/User/GetUserProfile/\(userUid)"
-        case .editBiography:
-            return "/api/User/EditBiography"
+        case .editProfile:
+            return "/api/User/EditProfile"
         case .getAllPublicationsByUser:
             return "/api/Publication/GetAllPublicationsByUser"
         case .postNewReport:
@@ -68,7 +68,7 @@ extension AYEndpoints: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editBiography, .postNewReport, .postNewBugReport:
+        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport:
             return .post
         case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser:
             return .get
@@ -160,7 +160,7 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
-        case .editBiography(_, let token):
+        case .editProfile(_, _, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
@@ -214,8 +214,9 @@ extension AYEndpoints: Endpoint {
                 "text": text
             ]
             return params
-        case .editBiography(let biography, _):
+        case .editProfile(let name, let biography, _):
             let params: [String: Any] = [
+                "name": name,
                 "biography": biography
             ]
             return params

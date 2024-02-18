@@ -38,6 +38,11 @@ struct AccountScreen: View {
                     }
                 }
             }
+            NavigationLink(
+                destination: EditProfileScreen(),
+                isActive: $accountVM.isEditProfileScreenPresented,
+                label: { EmptyView() }
+            )
         }
     }
     
@@ -62,33 +67,15 @@ struct AccountScreen: View {
                 Text(authVM.name)
                     .font(.title)
                     .fontWeight(.semibold)
+                    .multilineTextAlignment(.center)
                 
-                ZStack(alignment: .topTrailing) {
-                    Text(authVM.biography ?? "No bio")
-                        .foregroundStyle(.gray)
-                    
-                    Image(systemName: "pencil.circle")
-                        .foregroundStyle(.gray)
-                        .offset(x: 32)
-                        .onTapGesture {
-                            accountVM.isEditBioAlertPresented = true
-                        }
-                }
-                .alert("Edit your biography.", isPresented: $accountVM.isEditBioAlertPresented) {
-                    TextField("Enter your bio", text: $accountVM.newBioTextInput)
-                    Button("Cancel", role: .cancel) { }
-                    Button("Edit") {
-                        Task {
-                            let token = try await authVM.getFirebaseToken()
-                            await accountVM.editBio(bio: accountVM.newBioTextInput, token: token) { bio in
-                                authVM.biography = bio
-                            }
-                        }
-                    }
-                } message: {
-                    Text("Your biography can be seen by anyone who visits your profile.")
-                }
+                Text(authVM.biography ?? "No bio")
+                    .foregroundStyle(.gray)
+                    .multilineTextAlignment(.center)
             }
+        }
+        .onTapGesture {
+            accountVM.isEditProfileScreenPresented = true
         }
     }
     

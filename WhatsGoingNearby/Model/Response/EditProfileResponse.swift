@@ -7,6 +7,7 @@
 
 import Foundation
 
-struct EditBiographyResponse: Codable {
-    let message: String
+struct EditProfileResponse: Codable {
+    let name: String
+    let biography: String?
 }

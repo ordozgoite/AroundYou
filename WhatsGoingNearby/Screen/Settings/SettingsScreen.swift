@@ -17,22 +17,6 @@ struct SettingsScreen: View {
         NavigationStack {
             VStack {
                 Form {
-                    //                    HStack(alignment: .top) {
-                    //                        VStack {
-                    //                            Image(systemName: "person.circle.fill")
-                    //                                .resizable()
-                    //                                .scaledToFill()
-                    //                                .frame(width: 128, height: 128)
-                    //                                .clipShape(Circle())
-                    //
-                    //                            Text(authVM.name)
-                    //                                .font(.title)
-                    //                                .fontWeight(.medium)
-                    //                        }.padding()
-                    //
-                    //                    }
-                    //                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                    //                    .listRowInsets(EdgeInsets())
                     
                     //MARK: - Help
                     
@@ -79,22 +63,22 @@ struct SettingsScreen: View {
                     
                     //MARK: - Logo
                     
-                    //                    VStack {
-                    //                        HStack {
-                    //                            Spacer()
-                    //                            Image(systemName: "location.circle")
-                    //                                .resizable()
-                    //                                .scaledToFill()
-                    //                                .foregroundStyle(.gray)
-                    //                                .frame(width: 64, height: 64)
-                    //                            Spacer()
-                    //                        }
-                    //
-                    //                        Text("Version 0.1.0")
-                    //                            .foregroundStyle(.gray)
-                    //                            .fontWeight(.light)
-                    //                    }
-                    //                    .listRowBackground(colorScheme == .dark ? Color.black : Color.white)
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Image(systemName: "location.circle")
+                                .resizable()
+                                .scaledToFill()
+                                .foregroundStyle(.gray)
+                                .frame(width: 64, height: 64)
+                            Spacer()
+                        }
+                        
+                        Text("Version 0.1.0")
+                            .foregroundStyle(.gray)
+                            .fontWeight(.light)
+                    }
+                    .listRowBackground(Color(.systemGroupedBackground))
                 }
             }
             .alert(isPresented: $isDeleteAccountAlertDisplayed) {
@@ -104,7 +88,6 @@ struct SettingsScreen: View {
                     primaryButton: .destructive(Text("Delete")) {
                         Task {
                             let response = await authVM.deleteAccount()
-                            print("🔴 Response: \(response)")
                         }
                     },
                     secondaryButton: .cancel(Text("Cancel")) {}
