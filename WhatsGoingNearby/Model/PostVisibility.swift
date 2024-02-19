@@ -28,4 +28,13 @@ enum PostLocationVisibility: CaseIterable {
             return false
         }
     }
+    
+    var imageName: String {
+        switch self {
+        case .hidden:
+            return "mappin.slash"
+        case .visible:
+            return "mappin"
+        }
+    }
 }

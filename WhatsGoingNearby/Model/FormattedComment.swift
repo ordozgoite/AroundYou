@@ -16,6 +16,8 @@ struct FormattedComment: Codable, Identifiable {
     let userProfilePic: String?
     let userName: String?
     let isFromRecipientUser: Bool
+    var didLike: Bool
+    var likes: Int
     var date: Date {
         return NSDate(timeIntervalSince1970: TimeInterval(self.timestamp.timeIntervalSince1970InSeconds)) as Date
     }

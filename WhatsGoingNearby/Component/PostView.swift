@@ -27,9 +27,9 @@ struct PostView: View {
                     
                     TextView()
                     
-                    if post.isLocationVisible {
-                        Location()
-                    }
+//                    if post.isLocationVisible {
+//                        Location()
+//                    }
                     
                     InteractionsView()
                 }
@@ -183,6 +183,21 @@ struct PostView: View {
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
+            
+            if post.isLocationVisible {
+                HStack {
+                    Image(systemName: "map")
+                        .foregroundStyle(.gray)
+                    
+                    Text("\(post.formattedDistanceToMe!)m")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+                .onTapGesture {
+                    isMapScreenPresented = true
+                }
+            }
+            
             Spacer()
         }
     }

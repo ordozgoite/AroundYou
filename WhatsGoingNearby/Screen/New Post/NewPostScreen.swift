@@ -90,8 +90,11 @@ struct NewPostScreen: View {
                 
                 Picker("", selection: $newPostVM.selectedPostLocationVisibilty) {
                     ForEach(PostLocationVisibility.allCases, id: \.self) { category in
-                        Text(category.title)
-                            .tag(category)
+                        HStack {
+                            Text(category.title)
+                            Image(systemName: category.imageName)
+                        }
+                        .tag(category)
                     }
                 }
                 .labelsHidden()

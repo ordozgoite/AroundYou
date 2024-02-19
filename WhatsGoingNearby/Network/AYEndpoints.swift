@@ -26,6 +26,8 @@ enum AYEndpoints {
     case blockUser(blockedUserUid: String, token: String)
     case getBlockedUsers(token: String)
     case unblockUser(blockedUserUid: String, token: String)
+    case likeComment(commentId: String, token: String)
+    case unlikeComment(commentId: String, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -70,6 +72,10 @@ extension AYEndpoints: Endpoint {
             return "/api/Block/GetBlockedUsers"
         case .unblockUser:
             return "/api/Block/UnblockUser"
+        case .likeComment(let commentId, _):
+            return "/api/Comment/LikeComment/\(commentId)"
+        case .unlikeComment(let commentId, _):
+            return "/api/Comment/UnlikeComment/\(commentId)"
         }
     }
     
@@ -77,7 +83,7 @@ extension AYEndpoints: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser:
+        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser, .likeComment, .unlikeComment:
             return .post
         case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers:
             return .get
@@ -211,6 +217,18 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .likeComment(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
+        case .unlikeComment(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -271,7 +289,7 @@ extension AYEndpoints: Endpoint {
                 "blockedUserUid": blockedUserUid
             ]
             return params
-        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers:
+        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment:
             return nil
         }
     }

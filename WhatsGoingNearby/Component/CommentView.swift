@@ -20,10 +20,12 @@ struct CommentView: View {
             HStack(alignment: .top) {
                 ProfilePic()
                 
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 16) {
                     HeaderView()
                     
                     TextView()
+                    
+                    InteractionsView()
                 }
             }
             NavigationLink(
@@ -97,6 +99,62 @@ struct CommentView: View {
         Text(comment.text)
     }
     
+    //MARK: - Interactions
+    
+    @ViewBuilder
+    private func InteractionsView() -> some View {
+        HStack(spacing: 32) {
+            HStack {
+                Image(systemName: comment.didLike ? "heart.fill" : "heart")
+                    .foregroundColor(comment.didLike ? .red : .gray)
+                    .onTapGesture {
+                        Task {
+                            let token = try await authVM.getFirebaseToken()
+                            if comment.didLike {
+                                comment.didLike = false
+                                comment.likes -= 1
+                                await unlikeComment(commentId: comment.id, token: token)
+                            } else {
+                                hapticFeedback()
+                                comment.didLike = true
+                                comment.likes += 1
+                                await likeComment(commentId: comment.id, token: token)
+                            }
+                        }
+                    }
+                
+                Text(String(comment.likes))
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+            }
+            
+            Spacer()
+        }
+    }
+    
+    //MARK: - Auxiliary Methods
+    
+    private func likeComment(commentId: String, token: String) async {
+        let result = await AYServices.shared.likeComment(commentId: commentId, token: token)
+        
+        switch result {
+        case .success:
+            print("❤️ Publication liked!")
+        case .failure(let error):
+            print("❌ Error: \(error)")
+        }
+    }
+    
+    private func unlikeComment(commentId: String, token: String) async {
+        let result = await AYServices.shared.unlikeComment(commentId: commentId, token: token)
+        
+        switch result {
+        case .success:
+            print("💔 Publication unliked!")
+        case .failure(let error):
+            print("❌ Error: \(error)")
+        }
+    }
 }
 
 #Preview {
@@ -104,6 +162,6 @@ struct CommentView: View {
         id: "", userUid: "", publicationId: "", text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...",
         timestamp: Int(Date().timeIntervalSince1970),
         userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
-        userName: "Victor Ordozgoite", isFromRecipientUser: true)), deleteComment: {})
+        userName: "Victor Ordozgoite", isFromRecipientUser: true, didLike: true, likes: 5)), deleteComment: {})
     .environmentObject(AuthenticationViewModel())
 }

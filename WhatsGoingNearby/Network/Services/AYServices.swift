@@ -27,6 +27,8 @@ protocol AYServiceable {
     func postNewComment(publicationId: String, text: String, token: String) async -> Result<PostNewCommentResponse, RequestError>
     func deleteComment(commentId: String, token: String) async -> Result<DeleteCommentResponse, RequestError>
     func getAllCommentsByPublication(publicationId: String, token: String) async -> Result<[FormattedComment], RequestError>
+    func likeComment(commentId: String, token: String) async -> Result<LikePublicationResponse, RequestError> // criar response model
+    func unlikeComment(commentId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError> // criar response model
     
     // Report
     func postNewReport(report: ReportDTO, token: String) async -> Result<Report, RequestError>
@@ -101,6 +103,14 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getAllCommentsByPublication(publicationId: String, token: String) async -> Result<[FormattedComment], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getAllCommentsByPublication(publicationId: publicationId, token: token), responseModel: [FormattedComment].self)
+    }
+    
+    func likeComment(commentId: String, token: String) async -> Result<LikePublicationResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.likeComment(commentId: commentId, token: token), responseModel: LikePublicationResponse.self )
+    }
+    
+    func unlikeComment(commentId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.unlikeComment(commentId: commentId, token: token), responseModel: UnlikePublicationResponse.self)
     }
     
     //MARK: - Report
