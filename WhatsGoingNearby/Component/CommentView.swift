@@ -72,10 +72,10 @@ struct CommentView: View {
                 }
                 
                 if !comment.isFromRecipientUser {
-                    Button(role: .destructive, action: {
+                    Button(action: {
                         isReportScreenPresented = true
                     }) {
-                        Text("Report Post")
+                        Text("Report Comment")
                         Image(systemName: "exclamationmark.bubble")
                     }
                 }

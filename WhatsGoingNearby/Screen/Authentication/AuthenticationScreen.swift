@@ -24,9 +24,11 @@ struct AuthenticationScreen: View {
                     
                     if authVM.flow == .signUp {
                         AYTextField(imageName: "person.fill", title: "Name", error: $authVM.errorMessage.0, inputText: $authVM.nameInput)
+                            .textInputAutocapitalization(.words)
                     }
                     
                     AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.1, inputText: $authVM.emailInput)
+                        .keyboardType(.emailAddress)
                     
                     AYSecureTextField(imageName: "lock", title: "Password", error: $authVM.errorMessage.2, inputText: $authVM.passwordInput)
                     

@@ -85,6 +85,8 @@
 		ED6DD4902B8272DD00ADBB64 /* BlockedUserScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD48F2B8272DD00ADBB64 /* BlockedUserScreen.swift */; };
 		ED6DD4922B82739400ADBB64 /* BlockedUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD4912B82739400ADBB64 /* BlockedUserViewModel.swift */; };
 		ED6DD4942B8284ED00ADBB64 /* UnblockUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD4932B8284ED00ADBB64 /* UnblockUserResponse.swift */; };
+		ED6DD4962B82E5B900ADBB64 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD4952B82E5B900ADBB64 /* MapView.swift */; };
+		ED6DD4992B82E5E900ADBB64 /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD4982B82E5E900ADBB64 /* MapScreen.swift */; };
 		EDA30DE52B7FAB20003EB22D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EDA30DE42B7FAB20003EB22D /* Lottie */; };
 		EDA30DE92B7FAB69003EB22D /* radar.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE72B7FAB68003EB22D /* radar.json */; };
 		EDA30DEA2B7FAB69003EB22D /* map.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE82B7FAB69003EB22D /* map.json */; };
@@ -172,6 +174,8 @@
 		ED6DD48F2B8272DD00ADBB64 /* BlockedUserScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserScreen.swift; sourceTree = "<group>"; };
 		ED6DD4912B82739400ADBB64 /* BlockedUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserViewModel.swift; sourceTree = "<group>"; };
 		ED6DD4932B8284ED00ADBB64 /* UnblockUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnblockUserResponse.swift; sourceTree = "<group>"; };
+		ED6DD4952B82E5B900ADBB64 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		ED6DD4982B82E5E900ADBB64 /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
 		EDA30DE72B7FAB68003EB22D /* radar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = radar.json; sourceTree = "<group>"; };
 		EDA30DE82B7FAB69003EB22D /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
 		EDA30DEB2B7FABA9003EB22D /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
@@ -337,6 +341,7 @@
 				ED50C4582B7E98370001EDF6 /* ProfilePicView.swift */,
 				EDA30DEB2B7FABA9003EB22D /* LottieView.swift */,
 				EDA30DF52B7FE816003EB22D /* PostTypeSegmentedControl.swift */,
+				ED6DD4952B82E5B900ADBB64 /* MapView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -432,6 +437,7 @@
 				EDA30DED2B7FBAF8003EB22D /* LaunchScreen.swift */,
 				ED598BE92B7C121000B6C23D /* Authentication */,
 				ED598BEA2B7C121D00B6C23D /* Feed */,
+				ED6DD4972B82E5DB00ADBB64 /* Map */,
 				EDA322432B7DB068009905B5 /* Comment */,
 				EDA322422B7DB059009905B5 /* New Post */,
 				ED598BEB2B7C122600B6C23D /* Account */,
@@ -454,6 +460,14 @@
 				ED6DD48F2B8272DD00ADBB64 /* BlockedUserScreen.swift */,
 			);
 			path = Block;
+			sourceTree = "<group>";
+		};
+		ED6DD4972B82E5DB00ADBB64 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				ED6DD4982B82E5E900ADBB64 /* MapScreen.swift */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 		EDA30DE62B7FAB41003EB22D /* Animation */ = {
@@ -640,6 +654,7 @@
 				ED598C0F2B7C499400B6C23D /* AYSecureTextField.swift in Sources */,
 				EDA30DF02B7FC620003EB22D /* AccountViewModel.swift in Sources */,
 				EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */,
+				ED6DD4992B82E5E900ADBB64 /* MapScreen.swift in Sources */,
 				ED06525B2B814722005B6413 /* BugReport.swift in Sources */,
 				ED598C052B7C43A000B6C23D /* AuthenticationViewModel.swift in Sources */,
 				ED50C4532B7E4CCC0001EDF6 /* ErrorMessage.swift in Sources */,
@@ -675,6 +690,7 @@
 				EDA322362B7CBF9B009905B5 /* NewPostViewModel.swift in Sources */,
 				ED50C4622B7F9C030001EDF6 /* UserProfileViewModel.swift in Sources */,
 				ED598C4C2B7C587100B6C23D /* AuthenticatedScreen.swift in Sources */,
+				ED6DD4962B82E5B900ADBB64 /* MapView.swift in Sources */,
 				EDA322472B7DB221009905B5 /* CommentView.swift in Sources */,
 				ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */,
 				EDA30DFC2B804BE6003EB22D /* Report.swift in Sources */,

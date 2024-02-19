@@ -16,7 +16,7 @@ protocol AYServiceable {
     func editProfile(name: String, biography: String, token: String) async -> Result<EditProfileResponse, RequestError>
     
     // Publication
-    func postNewPublication(text: String, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError>
+    func postNewPublication(text: String, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError>
     func deletePublication(publicationId: String, token: String) async -> Result<DeletePublicationResponse, RequestError>
     func getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
     func getAllPublicationsByUser(token: String) async -> Result<[FormattedPost], RequestError>
@@ -65,8 +65,8 @@ struct AYServices: HTTPClient, AYServiceable {
     
     //MARK: - Publication
     
-    func postNewPublication(text: String, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.postNewPublication(text: text, latitude: latitude, longitude: longitude, token: token), responseModel: Post.self)
+    func postNewPublication(text: String, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewPublication(text: text, latitude: latitude, longitude: longitude, isLocationVisible: isLocationVisible, token: token), responseModel: Post.self)
     }
     
     func deletePublication(publicationId: String, token: String) async -> Result<DeletePublicationResponse, RequestError> {

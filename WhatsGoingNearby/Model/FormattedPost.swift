@@ -26,9 +26,20 @@ struct FormattedPost: Identifiable, Codable {
     var likes: Int
     var didLike: Bool
     var comment: Int
+    let latitude: Double?
+    let longitude: Double?
+    let distanceToMe: Double?
     let isFromRecipientUser: Bool
+    let isLocationVisible: Bool
     var date: Date {
         return NSDate(timeIntervalSince1970: TimeInterval(self.timestamp.timeIntervalSince1970InSeconds)) as Date
+    }
+    var formattedDistanceToMe: String? {
+        if let distance = distanceToMe {
+            return String(Int(distance))
+        } else {
+            return nil
+        }
     }
     
     var type: PostType {

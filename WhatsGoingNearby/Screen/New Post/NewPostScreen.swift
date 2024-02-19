@@ -88,6 +88,16 @@ struct NewPostScreen: View {
                 Text(authVM.name)
                     .fontWeight(.semibold)
                 
+                Picker("", selection: $newPostVM.selectedPostLocationVisibilty) {
+                    ForEach(PostLocationVisibility.allCases, id: \.self) { category in
+                        Text(category.title)
+                            .tag(category)
+                    }
+                }
+                .labelsHidden()
+                .pickerStyle(.menu)
+                .offset(x: -11)
+                
                 Text("\(newPostVM.postText.count)/\(maxPostLength)")
                     .foregroundStyle(.gray)
                     .font(.subheadline)

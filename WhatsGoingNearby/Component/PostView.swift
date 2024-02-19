@@ -14,17 +14,22 @@ struct PostView: View {
     @State private var isTimeLeftPopoverDisplayed: Bool = false
     @State private var isOptionsPopoverDisplayed: Bool = false
     @State private var isReportScreenPresented: Bool = false
+    @State private var isMapScreenPresented: Bool = false
     let deletePost: () -> ()
     
     var body: some View {
         VStack {
-            HStack(alignment: .top) {
+            HStack(alignment: .top, spacing: 8) {
                 ProfilePic()
                 
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 16) {
                     HeaderView()
                     
                     TextView()
+                    
+                    if post.isLocationVisible {
+                        Location()
+                    }
                     
                     InteractionsView()
                 }
@@ -32,6 +37,12 @@ struct PostView: View {
             NavigationLink(
                 destination: ReportScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil).environmentObject(authVM),
                 isActive: $isReportScreenPresented,
+                label: { EmptyView() }
+            )
+            
+            NavigationLink(
+                destination: MapScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0).environmentObject(authVM),
+                isActive: $isMapScreenPresented,
                 label: { EmptyView() }
             )
         }
@@ -94,7 +105,7 @@ struct PostView: View {
                         }
                         
                         if !post.isFromRecipientUser {
-                            Button(role: .destructive, action: {
+                            Button(action: {
                                 isOptionsPopoverDisplayed = false
                                 isReportScreenPresented = true
                             }) {
@@ -117,6 +128,23 @@ struct PostView: View {
     @ViewBuilder
     private func TextView() -> some View {
         Text(post.text)
+    }
+    
+    //MARK: - Location
+    
+    @ViewBuilder
+    private func Location() -> some View {
+        HStack {
+            Image(systemName: "map")
+                .foregroundStyle(.blue)
+            
+            Text("Posted \(post.formattedDistanceToMe!) meters from you")
+                .font(.subheadline)
+                .foregroundStyle(.blue)
+        }
+        .onTapGesture {
+            isMapScreenPresented = true
+        }
     }
     
     //MARK: - Interactions
@@ -207,6 +235,6 @@ struct PostView: View {
         id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
         userName: "Victor Ordozgoite",
         timestamp: Int(Date().timeIntervalSince1970), expirationDate: Int(Date().timeIntervalSince1970),
-        text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", likes: 2, didLike: true, comment: 2, isFromRecipientUser: true)), deletePost: {})
+        text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", likes: 2, didLike: true, comment: 2, latitude: -3.125847431319091, longitude: -60.022035207661695, distanceToMe: 50.0, isFromRecipientUser: true, isLocationVisible: false)), deletePost: {})
     .environmentObject(AuthenticationViewModel())
 }

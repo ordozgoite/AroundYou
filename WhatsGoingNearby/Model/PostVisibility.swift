@@ -7,16 +7,25 @@
 
 import Foundation
 
-enum PostVisibility: CaseIterable {
-    case identified
-    case anonymous
+enum PostLocationVisibility: CaseIterable {
+    case hidden
+    case visible
     
     var title: String {
         switch self {
-        case .identified:
-            return "Identified"
-        case .anonymous:
-            return "Anonymous"
+        case .visible:
+            return "Show my location"
+        case .hidden:
+            return "Hide my location"
+        }
+    }
+    
+    var isLocationVisible: Bool {
+        switch self {
+        case .visible:
+            return true
+        case .hidden:
+            return false
         }
     }
 }

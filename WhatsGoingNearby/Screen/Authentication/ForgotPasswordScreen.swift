@@ -17,6 +17,7 @@ struct ForgotPasswordScreen: View {
             Spacer()
             
             AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.1, inputText: $authVM.emailInput)
+                .keyboardType(.emailAddress)
             
             Spacer()
             

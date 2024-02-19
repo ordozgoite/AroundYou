@@ -17,16 +17,21 @@ struct BlockedUserScreen: View {
             if blockedUserVM.isLoading {
                 ProgressView()
             } else {
-                VStack {
-                    List(blockedUserVM.blockedUsers) { user in
-                        HStack {
-                            ProfilePicView(profilePic: user.profilePic)
-                            
-                            Text(user.name)
-                        }
-                        .onTapGesture {
-                            blockedUserVM.selectedUser = user
-                            blockedUserVM.isUnblockAlertDisplayed = true
+                if blockedUserVM.blockedUsers.isEmpty {
+                    Text("You haven't blocked any users.")
+                        .foregroundStyle(.gray)
+                } else {
+                    VStack {
+                        List(blockedUserVM.blockedUsers) { user in
+                            HStack {
+                                ProfilePicView(profilePic: user.profilePic)
+                                
+                                Text(user.name)
+                            }
+                            .onTapGesture {
+                                blockedUserVM.selectedUser = user
+                                blockedUserVM.isUnblockAlertDisplayed = true
+                            }
                         }
                     }
                 }
