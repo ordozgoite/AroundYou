@@ -103,7 +103,7 @@ struct CommentScreen: View {
                         commentIsFocused = false
                         Task {
                             let token = try await authVM.getFirebaseToken()
-                            await commentVM.postNewComment(publicationId: post.id, text: commentVM.newCommentText, token: token)
+                            await commentVM.postNewComment(publicationId: postId, text: commentVM.newCommentText, token: token)
                         }
                     }) {
                         Image(systemName: "paperplane.fill")

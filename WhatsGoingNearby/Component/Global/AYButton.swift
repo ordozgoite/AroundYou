@@ -19,7 +19,7 @@ struct AYButton: View {
             Text(title)
                 .font(.title3)
                 .fontWeight(.semibold)
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44)
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44, maxHeight: 44)
         }
         .buttonStyle(.borderedProminent)
     }

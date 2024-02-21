@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import AuthenticationServices
 
 struct AuthenticationScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         NavigationStack {
@@ -37,17 +39,17 @@ struct AuthenticationScreen: View {
                     }
                     
                     Spacer()
-                    Spacer()
                     
                     ButtonView()
                     
-                    if authVM.flow == .signUp {
-                        TermsAndPrivacyView()
-                    } else {
+                    Or()
+                    
+                    SiwAButton()
+                    
+                    if authVM.flow == .login  {
                         Button("Forgot your password?") {
                             authVM.isForgotPasswordScreenDisplayed = true
                         }
-                        .padding()
                     }
                 }
                 .padding()
@@ -90,7 +92,6 @@ struct AuthenticationScreen: View {
     private func TermsAndPrivacyView() -> some View {
         VStack(alignment: .center, spacing: nil) {
             Text("Ao tocar em Registrar-se, concordo com os")
-            //            .multilineTextAlignment(.center)
                 .font(.callout)
                 .foregroundStyle(.gray)
             
@@ -129,6 +130,39 @@ struct AuthenticationScreen: View {
                 }
             }
         }
+    }
+    
+    //MARK: - Or
+    
+    @ViewBuilder
+    private func Or() -> some View {
+        HStack {
+            Rectangle()
+                .frame(width: screenWidth/4, height: 1)
+                .foregroundStyle(.gray)
+            
+            Text("or")
+                .foregroundStyle(.gray)
+                .font(.subheadline)
+            
+            Rectangle()
+                .frame(width: screenWidth/4, height: 1)
+                .foregroundStyle(.gray)
+        }
+    }
+    
+    //MARK: - Sign in with Apple Button
+    
+    @ViewBuilder
+    private func SiwAButton() -> some View {
+        SignInWithAppleButton(.continue) { request in
+            authVM.handleSignInWithAppleRequest(request)
+        } onCompletion: { result in
+            authVM.handleSignInWithAppleCompletion(result)
+        }
+        .signInWithAppleButtonStyle(colorScheme == .light ? .black : .white)
+        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 58, maxHeight: 58)
+        .cornerRadius(10)
     }
 }
 

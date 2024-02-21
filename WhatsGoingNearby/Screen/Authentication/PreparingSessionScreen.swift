@@ -26,11 +26,7 @@ struct PreparingSessionScreen: View {
                                 print("⚠️ Começou a carregar a sessão")
                                 let token = try await authVM.getFirebaseToken()
                                 print("🔑 USER TOKEN: \(token)")
-                                if authVM.flow == .login {
-                                    await authVM.getUserInfo(token: token)
-                                } else {
-                                    await authVM.postNewUser(token: token)
-                                }
+                                await authVM.getUserInfo(token: token)
                             }
                         }
                     }
