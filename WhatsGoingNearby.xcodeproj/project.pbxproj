@@ -208,6 +208,7 @@
 		EDA322482B7DB2BA009905B5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		EDA3224A2B7DB345009905B5 /* FormattedComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedComment.swift; sourceTree = "<group>"; };
 		EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhatsGoingNearby.entitlements; sourceTree = "<group>"; };
+		EDF43E912B869F3E0037CC9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -407,6 +408,7 @@
 		ED5CB1672B7C11C000C336EC /* WhatsGoingNearby */ = {
 			isa = PBXGroup;
 			children = (
+				EDF43E912B869F3E0037CC9F /* Info.plist */,
 				EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */,
 				EDA30DE62B7FAB41003EB22D /* Animation */,
 				ED50C4512B7E4CC20001EDF6 /* Util */,
@@ -864,6 +866,7 @@
 				DEVELOPMENT_TEAM = 3945C3P68V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WhatsGoingNearby/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Around You";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will connect you with people around you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -897,6 +900,7 @@
 				DEVELOPMENT_TEAM = 3945C3P68V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WhatsGoingNearby/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Around You";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will connect you with people around you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
