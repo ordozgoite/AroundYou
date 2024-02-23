@@ -24,14 +24,12 @@ struct LikeScreen: View {
                 } else {
                     VStack {
                         List(likeVM.users) { user in
-                            HStack {
+                            NavigationLink(destination: UserProfileScreen(userUid: user.userUid).environmentObject(authVM)) {
                                 ProfilePicView(profilePic: user.profilePic)
                                 
                                 Text(user.name)
                             }
-                            .onTapGesture {
-                                // Go to user profile
-                            }
+                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                 }

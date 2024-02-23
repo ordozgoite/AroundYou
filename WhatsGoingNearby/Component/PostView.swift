@@ -15,6 +15,7 @@ struct PostView: View {
     @State private var isOptionsPopoverDisplayed: Bool = false
     @State private var isReportScreenPresented: Bool = false
     @State private var isMapScreenPresented: Bool = false
+    @State private var isLikeScreenDisplayed: Bool = false
     let deletePost: () -> ()
     
     var body: some View {
@@ -43,6 +44,12 @@ struct PostView: View {
             NavigationLink(
                 destination: MapScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0).environmentObject(authVM),
                 isActive: $isMapScreenPresented,
+                label: { EmptyView() }
+            )
+            
+            NavigationLink(
+                destination: LikeScreen(publicationId: post.id).environmentObject(authVM),
+                isActive: $isLikeScreenDisplayed,
                 label: { EmptyView() }
             )
         }
@@ -174,6 +181,9 @@ struct PostView: View {
                 Text(String(post.likes))
                     .font(.subheadline)
                     .foregroundColor(.gray)
+                    .onTapGesture {
+                        isLikeScreenDisplayed = true
+                    }
             }
             HStack {
                 Image(systemName: "bubble.left")
