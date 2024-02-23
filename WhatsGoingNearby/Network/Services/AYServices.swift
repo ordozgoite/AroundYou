@@ -10,7 +10,7 @@ import Foundation
 protocol AYServiceable {
     
     // User
-    func postNewUser(name: String, token: String) async -> Result<MongoUser, RequestError>
+    func postNewUser(name: String, userRegistrationToken: String, token: String) async -> Result<MongoUser, RequestError>
     func getUserInfo(token: String) async -> Result<MongoUser, RequestError>
     func getUserProfile(userUid: String, token: String) async -> Result<UserProfile, RequestError>
     func editProfile(name: String, biography: String, token: String) async -> Result<EditProfileResponse, RequestError>
@@ -22,6 +22,8 @@ protocol AYServiceable {
     func getAllPublicationsByUser(token: String) async -> Result<[FormattedPost], RequestError>
     func likePublication(publicationId: String, token: String) async -> Result<LikePublicationResponse, RequestError>
     func unlikePublication(publicationId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError>
+    func getPublicationLikes(publicationId: String, token: String) async -> Result<[UserProfile], RequestError>
+    func checkNearByPublications(userUid: String, latitude: Double, longitude: Double) async -> Result<CheckNearByPublicationsResponse, RequestError>
     
     // Comment
     func postNewComment(publicationId: String, text: String, token: String) async -> Result<PostNewCommentResponse, RequestError>
@@ -49,8 +51,8 @@ struct AYServices: HTTPClient, AYServiceable {
     
     //MARK: - User
     
-    func postNewUser(name: String, token: String) async -> Result<MongoUser, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.postNewUser(name: name, token: token), responseModel: MongoUser.self)
+    func postNewUser(name: String, userRegistrationToken: String, token: String) async -> Result<MongoUser, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewUser(name: name, userRegistrationToken: userRegistrationToken, token: token), responseModel: MongoUser.self)
     }
     
     func getUserInfo(token: String) async -> Result<MongoUser, RequestError> {
@@ -89,6 +91,14 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func unlikePublication(publicationId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.unlikePublication(publicationId: publicationId, token: token), responseModel: UnlikePublicationResponse.self)
+    }
+    
+    func getPublicationLikes(publicationId: String, token: String) async -> Result<[UserProfile], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getPublicationLikes(publicationId: publicationId, token: token), responseModel: [UserProfile].self)
+    }
+    
+    func checkNearByPublications(userUid: String, latitude: Double, longitude: Double) async -> Result<CheckNearByPublicationsResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.checkNearByPublications(userUid: userUid, latitude: latitude, longitude: longitude), responseModel: CheckNearByPublicationsResponse.self)
     }
     
     //MARK: - Comment

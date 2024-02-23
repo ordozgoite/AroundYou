@@ -82,7 +82,7 @@ class AuthenticationViewModel: ObservableObject {
     }
 }
 
-//MARK: - Sihn in with Apple
+//MARK: - Sign in with Apple
 
 extension AuthenticationViewModel {
     func handleSignInWithAppleRequest(_ request: ASAuthorizationAppleIDRequest) {
@@ -113,7 +113,7 @@ extension AuthenticationViewModel {
                 let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
                 Task {
                     do {
-                        let result = try await Auth.auth().signIn(with: credential)
+                        _ = try await Auth.auth().signIn(with: credential)
                         if let name = appleIDCredential.fullName?.givenName {
                             print("🙋‍♂️ NAME: \(name)")
                             self.name = name
@@ -249,7 +249,7 @@ extension AuthenticationViewModel {
 
 extension AuthenticationViewModel {
     func postNewUser(token: String, name: String) async {
-        let result = await AYServices.shared.postNewUser(name: name, token: token)
+        let result = await AYServices.shared.postNewUser(name: name, userRegistrationToken: LocalState.userRegistrationToken, token: token)
         
         switch result {
         case .success(let user):
@@ -266,6 +266,7 @@ extension AuthenticationViewModel {
         
         switch result {
         case .success(let user):
+            LocalState.currentUserUid = user.userUid
             name = user.name
             profilePic = user.profilePic
             biography = user.biography

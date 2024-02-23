@@ -8,7 +8,7 @@
 import Foundation
 
 enum AYEndpoints {
-    case postNewUser(name: String, token: String)
+    case postNewUser(name: String, userRegistrationToken: String, token: String)
     case postNewPublication(text: String, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String)
     case getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String)
     case getUserInfo(token: String)
@@ -28,6 +28,8 @@ enum AYEndpoints {
     case unblockUser(blockedUserUid: String, token: String)
     case likeComment(commentId: String, token: String)
     case unlikeComment(commentId: String, token: String)
+    case checkNearByPublications(userUid: String, latitude: Double, longitude: Double)
+    case getPublicationLikes(publicationId: String, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -76,6 +78,10 @@ extension AYEndpoints: Endpoint {
             return "/api/Comment/LikeComment/\(commentId)"
         case .unlikeComment(let commentId, _):
             return "/api/Comment/UnlikeComment/\(commentId)"
+        case .checkNearByPublications:
+            return "/api/Publication/CheckNearByPublications"
+        case .getPublicationLikes(let publicationId, _):
+            return "/api/Publication/GetPublicationLikes/\(publicationId)"
         }
     }
     
@@ -85,7 +91,7 @@ extension AYEndpoints: Endpoint {
         switch self {
         case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser, .likeComment, .unlikeComment:
             return .post
-        case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers:
+        case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .checkNearByPublications, .getPublicationLikes:
             return .get
         }
     }
@@ -96,6 +102,13 @@ extension AYEndpoints: Endpoint {
         switch self {
         case .getActivePublicationsNearBy(let latitude, let longitude, _):
             let params: [String: Any] = [
+                "latitude": latitude,
+                "longitude": longitude
+            ]
+            return params
+        case .checkNearByPublications(let userUid, let latitude, let longitude):
+            let params: [String: Any] = [
+                "userUid": userUid,
                 "latitude": latitude,
                 "longitude": longitude
             ]
@@ -121,7 +134,7 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
-        case .postNewUser(_, let token):
+        case .postNewUser(_, _, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
@@ -229,6 +242,12 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .getPublicationLikes(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -249,9 +268,10 @@ extension AYEndpoints: Endpoint {
                 "isLocationVisible": isLocationVisible
             ]
             return params
-        case .postNewUser(let name, _):
+        case .postNewUser(let name, let userRegistrationToken, _):
             let params: [String: Any] = [
-                "name": name
+                "name": name,
+                "userRegistrationToken": userRegistrationToken
             ]
             return params
         case .postNewComment(let publicationId, let text, _):
@@ -289,7 +309,7 @@ extension AYEndpoints: Endpoint {
                 "blockedUserUid": blockedUserUid
             ]
             return params
-        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment:
+        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment, .checkNearByPublications, .getPublicationLikes:
             return nil
         }
     }

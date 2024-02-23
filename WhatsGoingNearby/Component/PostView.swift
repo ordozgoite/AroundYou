@@ -236,11 +236,16 @@ struct PostView: View {
             timeUnityMeasure = "second"
             timeLeftText = String(timeLeftInSeconds)
             if timeLeftText != "1" { pluralModifier = "s" }
-        } else {
+        } else if timeLeftInSeconds < 3600 {
             timeUnityMeasure = "minute"
             timeLeftText = String(Int(timeLeftInSeconds / 60))
             if timeLeftText != "1" { pluralModifier = "s" }
+        } else {
+            timeUnityMeasure = "hour"
+            timeLeftText = String(Int(timeLeftInSeconds / 3600))
+            if timeLeftText != "1" { pluralModifier = "s" }
         }
+        
         return timeLeftText + " " + timeUnityMeasure + pluralModifier + " to expire"
     }
 }
