@@ -99,33 +99,25 @@ struct WhatsGoingNearbyApp: App {
             ContentView()
         }
         .backgroundTask(.appRefresh(taskId)) {
-            print("⏰ backgroundTask!")
             scheduleAppRefresh()
             if await isPostNearBy() {
-                print("⏰ isPostNearBy!")
                 await notifyNearByPost()
             }
         }
     }
     
     func isPostNearBy() async -> Bool {
-        print("⏰ isPostNearBy!")
         if checkNotificationDelayPassed() {
             if let location = locationManager.location {
                 let latitude = location.coordinate.latitude
                 let longitude = location.coordinate.longitude
                 
-                print("⏰ latitude e longitude!")
-                
                 let result = await AYServices.shared.checkNearByPublications(userUid: LocalState.currentUserUid, latitude: latitude, longitude: longitude)
                 
-                print("⏰ result!")
                 switch result {
                 case .success:
-                    print("⏰ true!")
                     return true
                 case .failure:
-                    print("⏰ false!")
                     return false
                 }
             }

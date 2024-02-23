@@ -263,7 +263,7 @@ extension AuthenticationViewModel {
     }
     
     func getUserInfo(token: String) async {
-        let result = await AYServices.shared.getUserInfo(token: token)
+        let result = await AYServices.shared.getUserInfo(userRegistrationToken: LocalState.userRegistrationToken.isEmpty ? nil : LocalState.userRegistrationToken, token: token)
         
         switch result {
         case .success(let user):

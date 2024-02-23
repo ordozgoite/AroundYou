@@ -11,7 +11,7 @@ enum AYEndpoints {
     case postNewUser(name: String, userRegistrationToken: String, token: String)
     case postNewPublication(text: String, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String)
     case getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String)
-    case getUserInfo(token: String)
+    case getUserInfo(userRegistrationToken: String?, token: String)
     case likePublication(publicationId: String, token: String)
     case unlikePublication(publicationId: String, token: String)
     case getAllCommentsByPublication(publicationId: String, token: String)
@@ -113,6 +113,15 @@ extension AYEndpoints: Endpoint {
                 "longitude": longitude
             ]
             return params
+        case .getUserInfo(let userRegistrationToken, _):
+            if let token = userRegistrationToken {
+                let params: [String: Any] = [
+                    "userRegistrationToken": token
+                ]
+                return params
+            } else {
+                return nil
+            }
         default:
             return nil
         }
@@ -140,7 +149,7 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
-        case .getUserInfo(let token):
+        case .getUserInfo(_, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",

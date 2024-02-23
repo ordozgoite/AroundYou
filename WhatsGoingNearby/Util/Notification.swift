@@ -22,7 +22,6 @@ public func nearByNotification() -> UNNotificationRequest {
 }
 
 public func scheduleAppRefresh() {
-    print("⏰ SCHEDULED!")
     let now = Date()
     let oneHourFromNow = Calendar.current.date(byAdding: .hour, value: 1, to: now)!
     
@@ -37,7 +36,6 @@ public func scheduleAppRefresh() {
 }
 
 public func notifyNearByPost() async {
-    print("⏰ notifyNearByPost!")
     let notificationRequest = nearByNotification()
     do {
         try await UNUserNotificationCenter.current().add(notificationRequest)
