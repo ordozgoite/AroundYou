@@ -11,8 +11,8 @@ public class LocalState {
     
     private enum Keys: String {
         case userRegistrationToken
-        case taskRunCount
         case currentUserUid
+        case lastNotificationTime
     }
     
     public static var userRegistrationToken: String {
@@ -33,12 +33,12 @@ public class LocalState {
         }
     }
     
-    public static var taskRunCount: Int {
+    public static var lastNotificationTime: Int {
         get {
-            return UserDefaults.standard.integer(forKey: Keys.taskRunCount.rawValue)
+            return UserDefaults.standard.integer(forKey: Keys.lastNotificationTime.rawValue)
         }
         set(newValue) {
-            UserDefaults.standard.set(newValue, forKey: Keys.taskRunCount.rawValue)
+            UserDefaults.standard.set(newValue, forKey: Keys.lastNotificationTime.rawValue)
         }
     }
 }

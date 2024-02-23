@@ -61,6 +61,7 @@ struct AccountScreen: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 128, height: 128)
+                    .foregroundStyle(.gray)
             }
             
             VStack {

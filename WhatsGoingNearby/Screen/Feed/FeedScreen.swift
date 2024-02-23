@@ -53,15 +53,15 @@ struct FeedScreen: View {
             .navigationTitle("Around You 🌐")
             .navigationBarTitleDisplayMode(.large)
         }
-        .onAppear {
-            if !feedVM.initialPostsFetched {
-                startTimer()
-                startUpdatingFeed()
-                Task {
-                    try await getFeedInfo()
-                }
-            }
-        }
+//        .onAppear {
+//            if !feedVM.initialPostsFetched {
+//                startTimer()
+//                startUpdatingFeed()
+//                Task {
+//                    try await getFeedInfo()
+//                }
+//            }
+//        }
     }
     
     //MARK: - Loading
@@ -153,8 +153,6 @@ struct FeedScreen: View {
                 feedVM.overlayError = (true, ErrorMessage.defaultErrorMessage)
             }
         }
-        
-        
     }
 }
 

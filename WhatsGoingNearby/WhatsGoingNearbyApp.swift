@@ -13,9 +13,6 @@ import BackgroundTasks
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
     
-    let taskId = "ordozgoite.WhatsGoingNearby.backgroundTask"
-    @ObservedObject var locationManager = LocationManager()
-    
     func application( _ application: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
         
@@ -38,75 +35,10 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
             }
         }
         
-        // Background Fetch
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: taskId, using: nil) { task in
-            guard let task = task as? BGAppRefreshTask else { return }
-            Task {
-                await self.handleTask(task)
-            }
-        }
-        
-        print("🔄 Task ran \(LocalState.taskRunCount) times!")
-        
-        schedule()
+        scheduleAppRefresh()
         
         return true
     }
-    
-    private func handleTask(_ task: BGAppRefreshTask) async {
-        if let location = locationManager.location {
-            let latitude = location.coordinate.latitude
-            let longitude = location.coordinate.longitude
-            
-            if !LocalState.currentUserUid.isEmpty {
-                let result = await AYServices.shared.checkNearByPublications(userUid: LocalState.currentUserUid, latitude: latitude, longitude: longitude)
-                
-                switch result {
-                case .success:
-                    displayNotification()
-                case .failure(let error):
-                    print("❌ Error: \(error)")
-                }
-            }
-        }
-        
-        LocalState.taskRunCount += 1
-        // make request
-        task.setTaskCompleted(success: true)
-    }
-    
-    private func displayNotification() {
-        let content = UNMutableNotificationContent()
-        content.title = "AroundYou 🌐"
-        content.body = "Você tem novas publicações próximas!"
-        content.sound = .default
-        
-        let request = UNNotificationRequest(identifier: "nearby_publications", content: content, trigger: nil)
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("Error adding notification request: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    private func schedule() {
-        BGTaskScheduler.shared.getPendingTaskRequests { requests in
-            print("\(requests.count) BGTasks pending...")
-            guard requests.isEmpty else {
-                return
-            }
-            do {
-                let newTask = BGAppRefreshTaskRequest(identifier: self.taskId)
-                newTask.earliestBeginDate = Date().addingTimeInterval(300)
-                try BGTaskScheduler.shared.submit(newTask)
-                print("✅ Task scheduled!")
-            } catch {
-                print("❌ Failed to schedule: \(error)")
-            }
-        }
-    }
-    
-    
     
     func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Oh no! Failed to register for remote notifications with error \(error)")
@@ -127,8 +59,6 @@ extension AppDelegate: MessagingDelegate {
             object: nil,
             userInfo: dataDict
         )
-        // TODO: If necessary send token to application server.
-        // Note: This callback is fired at each app startup and whenever a new token is generated.
         
         if let token = fcmToken {
             LocalState.userRegistrationToken = token
@@ -160,12 +90,46 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
 @main
 struct WhatsGoingNearbyApp: App {
-    // register app delegate for Firebase setup
+    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @ObservedObject public var locationManager = LocationManager()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
+        .backgroundTask(.appRefresh(taskId)) {
+            print("⏰ backgroundTask!")
+            scheduleAppRefresh()
+            if await isPostNearBy() {
+                print("⏰ isPostNearBy!")
+                await notifyNearByPost()
+            }
+        }
+    }
+    
+    func isPostNearBy() async -> Bool {
+        print("⏰ isPostNearBy!")
+        if checkNotificationDelayPassed() {
+            if let location = locationManager.location {
+                let latitude = location.coordinate.latitude
+                let longitude = location.coordinate.longitude
+                
+                print("⏰ latitude e longitude!")
+                
+                let result = await AYServices.shared.checkNearByPublications(userUid: LocalState.currentUserUid, latitude: latitude, longitude: longitude)
+                
+                print("⏰ result!")
+                switch result {
+                case .success:
+                    print("⏰ true!")
+                    return true
+                case .failure:
+                    print("⏰ false!")
+                    return false
+                }
+            }
+        }
+        return false
     }
 }
