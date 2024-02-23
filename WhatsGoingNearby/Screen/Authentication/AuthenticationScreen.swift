@@ -12,6 +12,7 @@ struct AuthenticationScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @Environment(\.colorScheme) var colorScheme
+    @FocusState private var authInputIsFocused: Bool
     
     var body: some View {
         NavigationStack {
@@ -27,15 +28,19 @@ struct AuthenticationScreen: View {
                     if authVM.flow == .signUp {
                         AYTextField(imageName: "person.fill", title: "Name", error: $authVM.errorMessage.0, inputText: $authVM.nameInput)
                             .textInputAutocapitalization(.words)
+                            .focused($authInputIsFocused)
                     }
                     
                     AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.1, inputText: $authVM.emailInput)
                         .keyboardType(.emailAddress)
+                        .focused($authInputIsFocused)
                     
                     AYSecureTextField(imageName: "lock", title: "Password", error: $authVM.errorMessage.2, inputText: $authVM.passwordInput)
+                        .focused($authInputIsFocused)
                     
                     if authVM.flow == .signUp {
                         AYSecureTextField(imageName: "lock", title: "Confirm password", error: $authVM.errorMessage.3, inputText: $authVM.confirmPasswordInput)
+                            .focused($authInputIsFocused)
                     }
                     
                     Spacer()
@@ -116,6 +121,7 @@ struct AuthenticationScreen: View {
             AYProgressButton(title: "Authenticating")
         } else {
             AYButton(title: authVM.flow.title) {
+                authInputIsFocused = false
                 Task {
                     switch authVM.flow {
                     case .login:

@@ -194,6 +194,7 @@ extension AuthenticationViewModel {
     func signUpWithEmailPassword() async -> Bool {
         authenticationState = .authenticating
         do  {
+            self.name = nameInput
             let authResult = try await Auth.auth().createUser(withEmail: emailInput, password: passwordInput)
             user = authResult.user
             print("🤝 User \(authResult.user.uid) signed in.")
