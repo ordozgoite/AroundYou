@@ -30,6 +30,7 @@ enum AYEndpoints {
     case unlikeComment(commentId: String, token: String)
     case checkNearByPublications(userUid: String, latitude: Double, longitude: Double)
     case getPublicationLikes(publicationId: String, token: String)
+    case getCommentLikes(commentId: String, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -82,6 +83,8 @@ extension AYEndpoints: Endpoint {
             return "/api/Publication/CheckNearByPublications"
         case .getPublicationLikes(let publicationId, _):
             return "/api/Publication/GetPublicationLikes/\(publicationId)"
+        case .getCommentLikes(let commentId, _):
+            return "/api/Comment/GetCommentLikes/\(commentId)"
         }
     }
     
@@ -91,7 +94,7 @@ extension AYEndpoints: Endpoint {
         switch self {
         case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser, .likeComment, .unlikeComment:
             return .post
-        case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .checkNearByPublications, .getPublicationLikes:
+        case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .checkNearByPublications, .getPublicationLikes, .getCommentLikes:
             return .get
         }
     }
@@ -257,6 +260,12 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .getCommentLikes(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -318,7 +327,7 @@ extension AYEndpoints: Endpoint {
                 "blockedUserUid": blockedUserUid
             ]
             return params
-        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment, .checkNearByPublications, .getPublicationLikes:
+        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment, .checkNearByPublications, .getPublicationLikes, .getCommentLikes:
             return nil
         }
     }

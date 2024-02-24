@@ -7,9 +7,15 @@
 
 import SwiftUI
 
+enum LikeScreenType {
+    case publication
+    case comment
+}
+
 struct LikeScreen: View {
     
-    let publicationId: String
+    let id: String
+    let type: LikeScreenType
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var likeVM = LikeViewModel()
     
@@ -40,9 +46,15 @@ struct LikeScreen: View {
             }
         }
         .onAppear {
-            Task {
-                let token = try await authVM.getFirebaseToken()
-                await likeVM.getPublicationLikes(publicationId: publicationId, token: token)
+            if !likeVM.usersFetched {
+                Task {
+                    let token = try await authVM.getFirebaseToken()
+                    if type == .publication {
+                        await likeVM.getPublicationLikes(publicationId: id, token: token)
+                    } else {
+                        await likeVM.getCommentLikes(commentId: id, token: token)
+                    }
+                }
             }
         }
         .navigationTitle("Likes")
@@ -51,5 +63,5 @@ struct LikeScreen: View {
 }
 
 #Preview {
-    LikeScreen(publicationId: "")
+    LikeScreen(id: "", type: .publication)
 }

@@ -70,7 +70,7 @@ struct FeedScreen: View {
     @ViewBuilder
     private func LoadingView() -> some View {
         VStack {
-            ProgressView()
+            AYProgressView()
             
             Text("Looking around you...")
                 .foregroundStyle(.gray)

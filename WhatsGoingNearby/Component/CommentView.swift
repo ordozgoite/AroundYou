@@ -14,6 +14,7 @@ struct CommentView: View {
     @Binding var comment: FormattedComment
     let deleteComment: () -> ()
     @State private var isReportScreenPresented: Bool = false
+    @State private var isLikeScreenDisplayed: Bool = false
     
     var body: some View {
         VStack {
@@ -31,6 +32,12 @@ struct CommentView: View {
             NavigationLink(
                 destination: ReportScreen(reportedUserUid: comment.userUid, publicationId: nil, commentId: comment.id).environmentObject(authVM),
                 isActive: $isReportScreenPresented,
+                label: { EmptyView() }
+            )
+            
+            NavigationLink(
+                destination: LikeScreen(id: comment.id, type: .comment).environmentObject(authVM),
+                isActive: $isLikeScreenDisplayed,
                 label: { EmptyView() }
             )
         }
@@ -126,6 +133,9 @@ struct CommentView: View {
                 Text(String(comment.likes))
                     .font(.subheadline)
                     .foregroundColor(.gray)
+                    .onTapGesture {
+                        isLikeScreenDisplayed = true
+                    }
             }
             
             Spacer()

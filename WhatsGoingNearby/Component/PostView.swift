@@ -48,7 +48,7 @@ struct PostView: View {
             )
             
             NavigationLink(
-                destination: LikeScreen(publicationId: post.id).environmentObject(authVM),
+                destination: LikeScreen(id: post.id, type: .publication).environmentObject(authVM),
                 isActive: $isLikeScreenDisplayed,
                 label: { EmptyView() }
             )
