@@ -12,12 +12,17 @@ struct PreparingSessionScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @Environment(\.colorScheme) var colorScheme
     @State private var minAnimDisplayTimeReached = false
+    @State private var hasCompletedOnboarding = LocalState.hasCompletedOnboarding
     
     var body: some View {
         VStack {
             if authVM.isUserInfoFetched && minAnimDisplayTimeReached {
-                MainTabView()
-                    .environmentObject(authVM)
+                if !hasCompletedOnboarding {
+                    OnBoardingScreen(hasCompletedOnboarding: $hasCompletedOnboarding)
+                } else {
+                    MainTabView()
+                        .environmentObject(authVM)
+                }
             } else {
                 PreparingSessionAnimation()
                     .onAppear {

@@ -14,6 +14,7 @@ public class LocalState {
         case currentUserUid
         case lastNotificationTime
         case isPostLocationVisible
+        case hasCompletedOnboarding
     }
     
     public static var userRegistrationToken: String {
@@ -49,6 +50,15 @@ public class LocalState {
         }
         set(newValue) {
             UserDefaults.standard.set(newValue, forKey: Keys.isPostLocationVisible.rawValue)
+        }
+    }
+    
+    public static var hasCompletedOnboarding: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: Keys.hasCompletedOnboarding.rawValue)
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.hasCompletedOnboarding.rawValue)
         }
     }
 }

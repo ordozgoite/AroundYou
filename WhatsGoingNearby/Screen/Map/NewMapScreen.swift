@@ -24,9 +24,10 @@ struct NewMapScreen: View {
                 coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
                 anchor: .bottom
             ) {
-                Image("shaq")
+                Image(systemName: "person.circle.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
+                    .foregroundStyle(.gray)
                     .frame(width: 50, height: 50)
                     .clipShape(Circle())
             }

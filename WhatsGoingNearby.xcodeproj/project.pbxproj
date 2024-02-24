@@ -124,6 +124,10 @@
 		EDA322472B7DB221009905B5 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322462B7DB221009905B5 /* CommentView.swift */; };
 		EDA322492B7DB2BA009905B5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322482B7DB2BA009905B5 /* Comment.swift */; };
 		EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3224A2B7DB345009905B5 /* FormattedComment.swift */; };
+		EDEECA212B8A6DA100BD517D /* OnBoardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */; };
+		EDEECA232B8A77CE00BD517D /* meet.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA222B8A77CE00BD517D /* meet.json */; };
+		EDEECA252B8A77D500BD517D /* party.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA242B8A77D500BD517D /* party.json */; };
+		EDEECA272B8A7CD400BD517D /* TimerAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEECA262B8A7CD400BD517D /* TimerAnimation.swift */; };
 		EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF43E922B86E6B60037CC9F /* LocalState.swift */; };
 /* End PBXBuildFile section */
 
@@ -218,6 +222,10 @@
 		EDA322462B7DB221009905B5 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		EDA322482B7DB2BA009905B5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		EDA3224A2B7DB345009905B5 /* FormattedComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedComment.swift; sourceTree = "<group>"; };
+		EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingScreen.swift; sourceTree = "<group>"; };
+		EDEECA222B8A77CE00BD517D /* meet.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = meet.json; sourceTree = "<group>"; };
+		EDEECA242B8A77D500BD517D /* party.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = party.json; sourceTree = "<group>"; };
+		EDEECA262B8A7CD400BD517D /* TimerAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerAnimation.swift; sourceTree = "<group>"; };
 		EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhatsGoingNearby.entitlements; sourceTree = "<group>"; };
 		EDF43E912B869F3E0037CC9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EDF43E922B86E6B60037CC9F /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
@@ -358,6 +366,7 @@
 				EDA30DEB2B7FABA9003EB22D /* LottieView.swift */,
 				EDA30DF52B7FE816003EB22D /* PostTypeSegmentedControl.swift */,
 				ED6DD4952B82E5B900ADBB64 /* MapView.swift */,
+				EDEECA262B8A7CD400BD517D /* TimerAnimation.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -468,6 +477,7 @@
 				ED598C502B7C80EC00B6C23D /* LocationTestScreen.swift */,
 				EDA322232B7C99B6009905B5 /* CalculateDistanceTestScreen.swift */,
 				EDA322372B7CC145009905B5 /* TimestampTestScreen.swift */,
+				EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */,
 			);
 			path = Screen;
 			sourceTree = "<group>";
@@ -502,8 +512,10 @@
 		EDA30DE62B7FAB41003EB22D /* Animation */ = {
 			isa = PBXGroup;
 			children = (
+				EDEECA222B8A77CE00BD517D /* meet.json */,
 				EDA30DE82B7FAB69003EB22D /* map.json */,
 				EDA30DE72B7FAB68003EB22D /* radar.json */,
+				EDEECA242B8A77D500BD517D /* party.json */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -661,10 +673,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDEECA232B8A77CE00BD517D /* meet.json in Resources */,
 				EDA30DE92B7FAB69003EB22D /* radar.json in Resources */,
 				ED5CB1702B7C11C500C336EC /* Preview Assets.xcassets in Resources */,
 				EDA30DEA2B7FAB69003EB22D /* map.json in Resources */,
 				ED5CB16D2B7C11C500C336EC /* Assets.xcassets in Resources */,
+				EDEECA252B8A77D500BD517D /* party.json in Resources */,
 				ED598C112B7C545600B6C23D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -733,6 +747,7 @@
 				EDA30DF22B7FCDE3003EB22D /* EditProfileResponse.swift in Sources */,
 				ED598C012B7C3A3900B6C23D /* AccountScreen.swift in Sources */,
 				ED6DD48B2B81908F00ADBB64 /* EditProfileViewModel.swift in Sources */,
+				EDEECA272B8A7CD400BD517D /* TimerAnimation.swift in Sources */,
 				ED598BF82B7C1B9400B6C23D /* Date.swift in Sources */,
 				ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */,
 				EDA322342B7CB861009905B5 /* URLImageView.swift in Sources */,
@@ -754,6 +769,7 @@
 				EDA322492B7DB2BA009905B5 /* Comment.swift in Sources */,
 				ED598BFE2B7C39FD00B6C23D /* MainTabView.swift in Sources */,
 				ED598C0D2B7C482A00B6C23D /* AYTextField.swift in Sources */,
+				EDEECA212B8A6DA100BD517D /* OnBoardingScreen.swift in Sources */,
 				ED50C44A2B7E2CBC0001EDF6 /* Int.swift in Sources */,
 				ED50C4642B7FA2B80001EDF6 /* EmptyFeedView.swift in Sources */,
 				ED6E84CE2B882DED00B94F5C /* LikeScreen.swift in Sources */,
