@@ -7,6 +7,16 @@
 
 import SwiftUI
 
+struct OvalTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .padding(10)
+            .background(LinearGradient(gradient: Gradient(colors: [Color.orange, Color.orange]), startPoint: .topLeading, endPoint: .bottomTrailing))
+            .cornerRadius(20)
+            .shadow(color: .gray, radius: 10)
+    }
+}
+
 struct CommentScreen: View {
     
     let postId: String
@@ -88,7 +98,12 @@ struct CommentScreen: View {
             }
             HStack {
                 TextField("Comment this post", text: $commentVM.newCommentText, axis: .vertical)
-                    .textFieldStyle(.roundedBorder)
+                    .padding(10)
+                    .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .cornerRadius(20)
+                    .shadow(color: .gray, radius: 10)
+                
+//                    .textFieldStyle(.roundedBorder)
                     .focused($commentIsFocused)
                     .onChange(of: commentVM.newCommentText) { newValue in
                         if newValue.count > maxCommentLength {
@@ -118,6 +133,7 @@ struct CommentScreen: View {
         }
     }
     
+    
     //MARK: - Auxiliary methods
     
     private func startUpdatingComments() {
@@ -137,4 +153,5 @@ struct CommentScreen: View {
         userName: "Tim Cook",
         timestamp: Int(Date().timeIntervalSince1970), expirationDate: Int(Date().timeIntervalSince1970),
         text: "Alguém sabe quando lança o Apple Vision Pro?", likes: 2, didLike: true, comment: 2, latitude: -3.125847431319091, longitude: -60.022035207661695, distanceToMe: 50.0,  isFromRecipientUser: true, isLocationVisible: false)))
+    .environmentObject(AuthenticationViewModel())
 }
