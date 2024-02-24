@@ -15,6 +15,9 @@ class FeedViewModel: ObservableObject {
     @Published var isCommentScreenPresented = false
     @Published var overlayError: (Bool, String) = (false, "")
     @Published var initialPostsFetched: Bool = false
+    @Published var timer: Timer?
+    @Published var feedTimer: Timer?
+    @Published var currentTimeStamp: Int = Int(Date().timeIntervalSince1970)
     
     func getPostsNearBy(latitude: Double, longitude: Double, token: String) async {
         initialPostsFetched = true

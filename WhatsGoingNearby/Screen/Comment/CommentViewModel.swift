@@ -15,6 +15,7 @@ class CommentViewModel: ObservableObject {
     @Published var newCommentText: String = ""
     @Published var isPostingComment: Bool = false
     @Published var overlayError: (Bool, String) = (false, "")
+    @Published var timer: Timer?
     
     func getAllComments(publicationId: String, token: String) async {
         let response = await AYServices.shared.getAllCommentsByPublication(publicationId: publicationId, token: token)

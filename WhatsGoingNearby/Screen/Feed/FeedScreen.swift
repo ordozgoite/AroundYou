@@ -13,10 +13,8 @@ struct FeedScreen: View {
     @ObservedObject private var feedVM = FeedViewModel()
     @ObservedObject var locationManager = LocationManager()
     
-    @State private var currentTimeStamp: Int = Int(Date().timeIntervalSince1970)
-    
     var activePostsQuantity: Int {
-        return feedVM.posts.filter { $0.expirationDate.timeIntervalSince1970InSeconds > currentTimeStamp }.count
+        return feedVM.posts.filter { $0.expirationDate.timeIntervalSince1970InSeconds > feedVM.currentTimeStamp }.count
     }
     
     var body: some View {
@@ -53,15 +51,18 @@ struct FeedScreen: View {
             .navigationTitle("Around You 🌐")
             .navigationBarTitleDisplayMode(.large)
         }
-//        .onAppear {
-//            if !feedVM.initialPostsFetched {
-//                startTimer()
-//                startUpdatingFeed()
-//                Task {
-//                    try await getFeedInfo()
-//                }
-//            }
-//        }
+        .onAppear {
+            if !feedVM.initialPostsFetched {
+                Task {
+                    try await getFeedInfo()
+                }
+            }
+            startUpdatingTime()
+            startUpdatingFeed()
+        }
+        .onDisappear {
+            stopTimers()
+        }
     }
     
     //MARK: - Loading
@@ -83,7 +84,7 @@ struct FeedScreen: View {
     private func PostsView() -> some View {
         ScrollView {
             ForEach($feedVM.posts) { $post in
-                if post.expirationDate.timeIntervalSince1970InSeconds > currentTimeStamp {
+                if post.expirationDate.timeIntervalSince1970InSeconds > feedVM.currentTimeStamp {
                     NavigationLink(destination: CommentScreen(postId: post.id, feedVM: feedVM, post: $post).environmentObject(authVM)) {
                         PostView(post: $post) {
                             Task {
@@ -102,15 +103,15 @@ struct FeedScreen: View {
     
     //MARK: - Auxiliary Method
     
-    private func startTimer() {
-        let timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+    private func startUpdatingTime() {
+        feedVM.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             updateCurrentTime()
         }
-        timer.fire()
+        feedVM.timer?.fire()
     }
     
     private func updateCurrentTime() {
-        currentTimeStamp = Int(Date().timeIntervalSince1970)
+        feedVM.currentTimeStamp = Int(Date().timeIntervalSince1970)
     }
     
     private func getFeedInfo() async throws {
@@ -128,12 +129,17 @@ struct FeedScreen: View {
     }
     
     private func startUpdatingFeed() {
-        let timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+        feedVM.feedTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
             Task {
                 try await updateFeed()
             }
         }
-        timer.fire()
+        feedVM.feedTimer?.fire()
+    }
+    
+    private func stopTimers() {
+        feedVM.timer?.invalidate()
+        feedVM.feedTimer?.invalidate()
     }
     
     private func updateFeed() async throws {

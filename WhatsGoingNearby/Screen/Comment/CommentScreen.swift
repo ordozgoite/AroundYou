@@ -7,20 +7,11 @@
 
 import SwiftUI
 
-struct OvalTextFieldStyle: TextFieldStyle {
-    func _body(configuration: TextField<Self._Label>) -> some View {
-        configuration
-            .padding(10)
-            .background(LinearGradient(gradient: Gradient(colors: [Color.orange, Color.orange]), startPoint: .topLeading, endPoint: .bottomTrailing))
-            .cornerRadius(20)
-            .shadow(color: .gray, radius: 10)
-    }
-}
-
 struct CommentScreen: View {
     
     let postId: String
     private let maxCommentLength = 250
+    
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var commentVM = CommentViewModel()
     @ObservedObject var feedVM: FeedViewModel
@@ -56,6 +47,9 @@ struct CommentScreen: View {
         }
         .onAppear {
             startUpdatingComments()
+        }
+        .onDisappear {
+            stopTimer()
         }
         .navigationTitle("Post")
         .navigationBarTitleDisplayMode(.inline)
@@ -102,8 +96,6 @@ struct CommentScreen: View {
                     .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
                     .cornerRadius(20)
                     .shadow(color: .gray, radius: 10)
-                
-//                    .textFieldStyle(.roundedBorder)
                     .focused($commentIsFocused)
                     .onChange(of: commentVM.newCommentText) { newValue in
                         if newValue.count > maxCommentLength {
@@ -111,9 +103,7 @@ struct CommentScreen: View {
                         }
                     }
                 
-                if commentVM.isPostingComment {
-                    ProgressView()
-                } else {
+                if !commentVM.newCommentText.isEmpty {
                     Button(action: {
                         commentIsFocused = false
                         Task {
@@ -137,13 +127,17 @@ struct CommentScreen: View {
     //MARK: - Auxiliary methods
     
     private func startUpdatingComments() {
-        let timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+        commentVM.timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
             Task {
                 let token = try await authVM.getFirebaseToken()
                 await commentVM.getAllComments(publicationId: postId, token: token)
             }
         }
-        timer.fire()
+        commentVM.timer?.fire()
+    }
+    
+    private func stopTimer() {
+        commentVM.timer?.invalidate()
     }
 }
 
