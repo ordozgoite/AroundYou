@@ -33,9 +33,7 @@ struct NewPostScreen: View {
             }
             .padding()
             
-            if newPostVM.overlayError.0 {
-                AYErrorAlert(message: newPostVM.overlayError.1 , isErrorAlertPresented: $newPostVM.overlayError.0)
-            }
+            AYErrorAlert(message: newPostVM.overlayError.1 , isErrorAlertPresented: $newPostVM.overlayError.0)
         }
         
         .navigationBarBackButtonHidden()

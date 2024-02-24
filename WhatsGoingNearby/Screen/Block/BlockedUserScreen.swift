@@ -37,9 +37,7 @@ struct BlockedUserScreen: View {
                 }
             }
             
-            if blockedUserVM.overlayError.0 {
-                AYErrorAlert(message: blockedUserVM.overlayError.1, isErrorAlertPresented: $blockedUserVM.overlayError.0)
-            }
+            AYErrorAlert(message: blockedUserVM.overlayError.1, isErrorAlertPresented: $blockedUserVM.overlayError.0)
         }
         .onAppear {
             Task {

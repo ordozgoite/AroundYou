@@ -32,9 +32,7 @@ struct FeedScreen: View {
                     }
                 }
                 
-                if feedVM.overlayError.0 {
-                    AYErrorAlert(message: feedVM.overlayError.1 , isErrorAlertPresented: $feedVM.overlayError.0)
-                }
+                AYErrorAlert(message: feedVM.overlayError.1 , isErrorAlertPresented: $feedVM.overlayError.0)
             }
             
             .toolbar {

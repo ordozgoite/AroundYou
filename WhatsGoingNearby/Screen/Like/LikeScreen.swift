@@ -41,9 +41,7 @@ struct LikeScreen: View {
                 }
             }
             
-            if likeVM.overlayError.0 {
-                AYErrorAlert(message: likeVM.overlayError.1, isErrorAlertPresented: $likeVM.overlayError.0)
-            }
+            AYErrorAlert(message: likeVM.overlayError.1, isErrorAlertPresented: $likeVM.overlayError.0)
         }
         .onAppear {
             if !likeVM.usersFetched {

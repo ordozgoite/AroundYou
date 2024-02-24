@@ -59,9 +59,7 @@ struct AuthenticationScreen: View {
                 }
                 .padding()
                 
-                if authVM.overlayError.0 {
-                    AYErrorAlert(message: authVM.overlayError.1 , isErrorAlertPresented: $authVM.overlayError.0)
-                }
+                AYErrorAlert(message: authVM.overlayError.1 , isErrorAlertPresented: $authVM.overlayError.0)
                 
                 NavigationLink(
                     destination: ForgotPasswordScreen().environmentObject(authVM),

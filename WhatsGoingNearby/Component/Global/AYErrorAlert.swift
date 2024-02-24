@@ -13,28 +13,30 @@ struct AYErrorAlert: View {
     @Binding var isErrorAlertPresented: Bool
     
     var body: some View {
-        ZStack {
-            VStack(spacing: 32) {
-                Text("Error")
-                    .font(.title)
-                    .fontWeight(.semibold)
-                
-                Text(message)
-                    .font(.title3)
-                    .fontWeight(.light)
-                    .multilineTextAlignment(.center)
-                
-                Button("OK") {
-                    isErrorAlertPresented = false
+        if isErrorAlertPresented {
+            ZStack {
+                VStack(spacing: 32) {
+                    Text("Error")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                    
+                    Text(message)
+                        .font(.title3)
+                        .fontWeight(.light)
+                        .multilineTextAlignment(.center)
+                    
+                    Button("OK") {
+                        isErrorAlertPresented = false
+                    }
+                    .foregroundStyle(.gray)
+                    .buttonStyle(.bordered)
                 }
-                .foregroundStyle(.gray)
-                .buttonStyle(.bordered)
+                .padding()
             }
-            .padding()
+            .frame(width: screenWidth - 64, height: 240)
+            .background(.thinMaterial)
+            .cornerRadius(16)
         }
-        .frame(width: screenWidth - 64, height: 240)
-        .background(.thinMaterial)
-        .cornerRadius(16)
     }
 }
 

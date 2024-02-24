@@ -32,9 +32,8 @@ struct UserProfileScreen: View {
                 }
             }
             
-            if userProfileVM.overlayError.0 {
-                AYErrorAlert(message: userProfileVM.overlayError.1 , isErrorAlertPresented: $userProfileVM.overlayError.0)
-            }
+            AYErrorAlert(message: userProfileVM.overlayError.1 , isErrorAlertPresented: $userProfileVM.overlayError.0)
+            
             NavigationLink(
                 destination: ReportScreen(reportedUserUid: userUid, publicationId: nil, commentId: nil).environmentObject(authVM),
                 isActive: $userProfileVM.isReportScreenPresented,

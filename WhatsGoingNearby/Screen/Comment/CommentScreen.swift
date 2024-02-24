@@ -41,9 +41,7 @@ struct CommentScreen: View {
                 CommentTextField()
             }
             
-            if commentVM.overlayError.0 {
-                AYErrorAlert(message: commentVM.overlayError.1 , isErrorAlertPresented: $commentVM.overlayError.0)
-            }
+            AYErrorAlert(message: commentVM.overlayError.1 , isErrorAlertPresented: $commentVM.overlayError.0)
         }
         .onAppear {
             startUpdatingComments()
