@@ -35,7 +35,21 @@ struct NewPostScreen: View {
             
             AYErrorAlert(message: newPostVM.overlayError.1 , isErrorAlertPresented: $newPostVM.overlayError.0)
         }
-        
+        .onAppear {
+            setPostVisibilty()
+        }
+        .alert(isPresented: $newPostVM.isShareLocationAlertDisplayed) {
+            Alert(
+                title: Text("Share Location 🌐"),
+                message: Text("You are about to share your current location within your post. This means that anyone nearby will be able to see the place where you made the post. Are you sure you want to proceed?"),
+                primaryButton: .default((Text("Post"))) {
+                    Task {
+                        try await postNewPublication()
+                    }
+                },
+                secondaryButton: .cancel(Text("Cancel")) {}
+            )
+        }
         .navigationBarBackButtonHidden()
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -51,8 +65,12 @@ struct NewPostScreen: View {
                     ProgressView()
                 } else {
                     Button(action: {
-                        Task {
-                            try await postNewPublication()
+                        if newPostVM.selectedPostLocationVisibilty == .visible {
+                            newPostVM.isShareLocationAlertDisplayed = true
+                        } else {
+                            Task {
+                                try await postNewPublication()
+                            }
                         }
                     }) {
                         Text("Post")
@@ -120,6 +138,10 @@ struct NewPostScreen: View {
                 refresh()
             }
         }
+    }
+    
+    public func setPostVisibilty() {
+        newPostVM.selectedPostLocationVisibilty = LocalState.isPostLocationVisible ? .visible : .hidden
     }
 }
 

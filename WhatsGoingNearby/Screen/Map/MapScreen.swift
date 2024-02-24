@@ -2,7 +2,7 @@
 //  MapScreen.swift
 //  WhatsGoingNearby
 //
-//  Created by Victor Ordozgoite on 18/02/24.
+//  Created by Victor Ordozgoite on 24/02/24.
 //
 
 import SwiftUI
@@ -18,8 +18,4 @@ struct MapScreen: View {
             .navigationTitle("Post Location")
             .navigationBarTitleDisplayMode(.large)
     }
-}
-
-#Preview {
-    MapScreen(latitude: -3.125847431319091, longitude: -60.022035207661695)
 }

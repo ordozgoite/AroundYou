@@ -86,11 +86,12 @@
 		ED6DD4922B82739400ADBB64 /* BlockedUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD4912B82739400ADBB64 /* BlockedUserViewModel.swift */; };
 		ED6DD4942B8284ED00ADBB64 /* UnblockUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD4932B8284ED00ADBB64 /* UnblockUserResponse.swift */; };
 		ED6DD4962B82E5B900ADBB64 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD4952B82E5B900ADBB64 /* MapView.swift */; };
-		ED6DD4992B82E5E900ADBB64 /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD4982B82E5E900ADBB64 /* MapScreen.swift */; };
+		ED6DD4992B82E5E900ADBB64 /* NewMapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD4982B82E5E900ADBB64 /* NewMapScreen.swift */; };
 		ED6E84CB2B87EA9C00B94F5C /* CheckNearByPublicationsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84CA2B87EA9C00B94F5C /* CheckNearByPublicationsResponse.swift */; };
 		ED6E84CE2B882DED00B94F5C /* LikeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84CD2B882DED00B94F5C /* LikeScreen.swift */; };
 		ED6E84D02B882E4B00B94F5C /* LikeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84CF2B882E4B00B94F5C /* LikeViewModel.swift */; };
 		ED6E84D62B887B3000B94F5C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84D52B887B3000B94F5C /* Notification.swift */; };
+		ED6E84F42B89C82C00B94F5C /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84F32B89C82C00B94F5C /* MapScreen.swift */; };
 		EDA30DE52B7FAB20003EB22D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EDA30DE42B7FAB20003EB22D /* Lottie */; };
 		EDA30DE92B7FAB69003EB22D /* radar.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE72B7FAB68003EB22D /* radar.json */; };
 		EDA30DEA2B7FAB69003EB22D /* map.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE82B7FAB69003EB22D /* map.json */; };
@@ -180,11 +181,12 @@
 		ED6DD4912B82739400ADBB64 /* BlockedUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserViewModel.swift; sourceTree = "<group>"; };
 		ED6DD4932B8284ED00ADBB64 /* UnblockUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnblockUserResponse.swift; sourceTree = "<group>"; };
 		ED6DD4952B82E5B900ADBB64 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		ED6DD4982B82E5E900ADBB64 /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
+		ED6DD4982B82E5E900ADBB64 /* NewMapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMapScreen.swift; sourceTree = "<group>"; };
 		ED6E84CA2B87EA9C00B94F5C /* CheckNearByPublicationsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckNearByPublicationsResponse.swift; sourceTree = "<group>"; };
 		ED6E84CD2B882DED00B94F5C /* LikeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeScreen.swift; sourceTree = "<group>"; };
 		ED6E84CF2B882E4B00B94F5C /* LikeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewModel.swift; sourceTree = "<group>"; };
 		ED6E84D52B887B3000B94F5C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		ED6E84F32B89C82C00B94F5C /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
 		EDA30DE72B7FAB68003EB22D /* radar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = radar.json; sourceTree = "<group>"; };
 		EDA30DE82B7FAB69003EB22D /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
 		EDA30DEB2B7FABA9003EB22D /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
@@ -482,7 +484,8 @@
 		ED6DD4972B82E5DB00ADBB64 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				ED6DD4982B82E5E900ADBB64 /* MapScreen.swift */,
+				ED6DD4982B82E5E900ADBB64 /* NewMapScreen.swift */,
+				ED6E84F32B89C82C00B94F5C /* MapScreen.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -682,7 +685,7 @@
 				ED598C0F2B7C499400B6C23D /* AYSecureTextField.swift in Sources */,
 				EDA30DF02B7FC620003EB22D /* AccountViewModel.swift in Sources */,
 				EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */,
-				ED6DD4992B82E5E900ADBB64 /* MapScreen.swift in Sources */,
+				ED6DD4992B82E5E900ADBB64 /* NewMapScreen.swift in Sources */,
 				ED06525B2B814722005B6413 /* BugReport.swift in Sources */,
 				ED598C052B7C43A000B6C23D /* AuthenticationViewModel.swift in Sources */,
 				ED50C4532B7E4CCC0001EDF6 /* ErrorMessage.swift in Sources */,
@@ -702,6 +705,7 @@
 				EDA3222C2B7CA3A8009905B5 /* AYServices.swift in Sources */,
 				ED6E84CB2B87EA9C00B94F5C /* CheckNearByPublicationsResponse.swift in Sources */,
 				ED598C4A2B7C576A00B6C23D /* AYProgressButton.swift in Sources */,
+				ED6E84F42B89C82C00B94F5C /* MapScreen.swift in Sources */,
 				ED598BFA2B7C217400B6C23D /* AYProgressView.swift in Sources */,
 				ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */,
 				ED50C4572B7E951D0001EDF6 /* UserProfileScreen.swift in Sources */,
@@ -900,8 +904,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -934,8 +938,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

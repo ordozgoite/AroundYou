@@ -13,7 +13,12 @@ class NewPostViewModel: ObservableObject {
     @Published var postText: String = ""
     @Published var isLoading: Bool = false
     @Published var overlayError: (Bool, String) = (false, "")
-    @Published var selectedPostLocationVisibilty: PostLocationVisibility = .hidden
+    @Published var selectedPostLocationVisibilty: PostLocationVisibility = .hidden {
+        didSet {
+            LocalState.isPostLocationVisible = selectedPostLocationVisibilty == .visible
+        }
+    }
+    @Published var isShareLocationAlertDisplayed: Bool = false
     
     func postNewPublication(latitude: Double, longitude: Double, token: String, dismissScreen: () -> ()) async {
             isLoading = true

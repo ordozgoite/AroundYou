@@ -19,7 +19,7 @@ struct FormattedPost: Identifiable, Codable {
     let id: String
     let userUid: String
     let userProfilePic: String?
-    let userName: String?
+    let userName: String
     let timestamp: Int
     let expirationDate: Int
     let text: String

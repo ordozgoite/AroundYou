@@ -13,6 +13,7 @@ public class LocalState {
         case userRegistrationToken
         case currentUserUid
         case lastNotificationTime
+        case isPostLocationVisible
     }
     
     public static var userRegistrationToken: String {
@@ -39,6 +40,15 @@ public class LocalState {
         }
         set(newValue) {
             UserDefaults.standard.set(newValue, forKey: Keys.lastNotificationTime.rawValue)
+        }
+    }
+    
+    public static var isPostLocationVisible: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: Keys.isPostLocationVisible.rawValue)
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.isPostLocationVisible.rawValue)
         }
     }
 }

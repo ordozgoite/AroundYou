@@ -28,10 +28,6 @@ struct PostView: View {
                     
                     TextView()
                     
-//                    if post.isLocationVisible {
-//                        Location()
-//                    }
-                    
                     InteractionsView()
                 }
             }
@@ -41,11 +37,19 @@ struct PostView: View {
                 label: { EmptyView() }
             )
             
-            NavigationLink(
-                destination: MapScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0).environmentObject(authVM),
-                isActive: $isMapScreenPresented,
-                label: { EmptyView() }
-            )
+            if #available(iOS 17.0, *) {
+                NavigationLink(
+                    destination: NewMapScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, userName: post.userName).environmentObject(authVM),
+                    isActive: $isMapScreenPresented,
+                    label: { EmptyView() }
+                )
+            } else {
+                NavigationLink(
+                    destination: MapScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0).environmentObject(authVM),
+                    isActive: $isMapScreenPresented,
+                    label: { EmptyView() }
+                )
+            }
             
             NavigationLink(
                 destination: LikeScreen(id: post.id, type: .publication).environmentObject(authVM),
@@ -135,23 +139,6 @@ struct PostView: View {
     @ViewBuilder
     private func TextView() -> some View {
         Text(post.text)
-    }
-    
-    //MARK: - Location
-    
-    @ViewBuilder
-    private func Location() -> some View {
-        HStack {
-            Image(systemName: "map")
-                .foregroundStyle(.blue)
-            
-            Text("Posted \(post.formattedDistanceToMe!) meters from you")
-                .font(.subheadline)
-                .foregroundStyle(.blue)
-        }
-        .onTapGesture {
-            isMapScreenPresented = true
-        }
     }
     
     //MARK: - Interactions
