@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct ErrorMessage {
     
-    static let defaultErrorMessage = "Oops! Looks like something went wrong."
+    static let defaultErrorMessage: LocalizedStringKey = "Oops! Looks like something went wrong."
 }

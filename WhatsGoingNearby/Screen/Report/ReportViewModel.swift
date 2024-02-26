@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class ReportViewModel: ObservableObject {
@@ -13,7 +14,7 @@ class ReportViewModel: ObservableObject {
     let maxDescriptionLenght = 500
     @Published var descriptionTextInput: String = ""
     @Published var isPostingReport: Bool = false
-    @Published var overlayError: (Bool, String) = (false, "")
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     
     func postReport(reportedUserUid: String, publicationId: String?, commentId: String?, reportDescription: String?, token: String, dismissScreen: () -> ()) async {
         isPostingReport = true

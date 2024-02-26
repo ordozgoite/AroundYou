@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class AccountViewModel: ObservableObject {
@@ -14,7 +15,7 @@ class AccountViewModel: ObservableObject {
     @Published var selectedPostType: PostHistoryOption = .all
     @Published var newBioTextInput: String = ""
     @Published var isEditProfileScreenPresented: Bool = false
-    @Published var overlayError: (Bool, String) = (false, "")
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     
     func getUserPosts(token: String) async {
         let response = await AYServices.shared.getAllPublicationsByUser(token: token)

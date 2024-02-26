@@ -121,7 +121,9 @@ struct PostView: View {
                                 isReportScreenPresented = true
                             }) {
                                 Text("Report Post")
+                                    .foregroundStyle(.gray)
                                 Image(systemName: "exclamationmark.bubble")
+                                    .foregroundStyle(.gray)
                             }
                             .padding()
                         }

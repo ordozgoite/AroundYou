@@ -12,7 +12,7 @@ enum PostHistoryOption: Int, CaseIterable, Codable  {
     case active
     case inactive
     
-    var title: String {
+    var title: LocalizedStringKey {
         switch self {
         case .all:
             return "All"

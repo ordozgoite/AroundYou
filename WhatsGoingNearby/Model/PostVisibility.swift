@@ -6,12 +6,13 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum PostLocationVisibility: CaseIterable {
     case hidden
     case visible
     
-    var title: String {
+    var title: LocalizedStringKey {
         switch self {
         case .visible:
             return "Show my location"

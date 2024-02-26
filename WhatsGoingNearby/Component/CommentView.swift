@@ -85,7 +85,9 @@ struct CommentView: View {
                         isReportScreenPresented = true
                     }) {
                         Text("Report Comment")
+                            .foregroundStyle(.gray)
                         Image(systemName: "exclamationmark.bubble")
+                            .foregroundStyle(.gray)
                     }
                 }
             } label: {

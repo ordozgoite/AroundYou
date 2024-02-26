@@ -9,6 +9,7 @@ import Foundation
 import FirebaseAuth
 import AuthenticationServices
 import CryptoKit
+import SwiftUI
 
 enum AuthenticationState {
     case unauthenticated
@@ -20,7 +21,7 @@ enum AuthenticationFlow: Int, CaseIterable {
     case login
     case signUp
     
-    var title: String {
+    var title: LocalizedStringKey {
         switch self {
         case .login:
             return "Enter"
@@ -40,7 +41,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var flow: AuthenticationFlow = .login
     @Published var isValid  = false
     @Published var authenticationState: AuthenticationState = .unauthenticated
-    @Published var overlayError: (Bool, String) = (false, "")
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var user: User?
     
     @Published var name: String = ""
@@ -49,7 +50,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var isUserInfoFetched: Bool = false
     @Published var isLoading: Bool = false
     @Published var isForgotPasswordScreenDisplayed: Bool = false
-    @Published var errorMessage: (String?, String?, String?, String?) = (nil, nil, nil, nil)
+    @Published var errorMessage: (LocalizedStringKey?, LocalizedStringKey?, LocalizedStringKey?, LocalizedStringKey?) = (nil, nil, nil, nil)
     
     init() {
         registerAuthStateHandler()
@@ -94,7 +95,7 @@ extension AuthenticationViewModel {
     
     func handleSignInWithAppleCompletion(_ result: Result<ASAuthorization, Error>) {
         if case .failure(let failure) = result {
-            overlayError = (true, failure.localizedDescription)
+            print("❌ Error: \(failure)")
         }
         else if case .success(let authorization) = result {
             if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
@@ -185,7 +186,7 @@ extension AuthenticationViewModel {
         }
         catch  {
             print(error)
-            overlayError = (true, error.localizedDescription)
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
             authenticationState = .unauthenticated
             return false
         }
@@ -202,7 +203,7 @@ extension AuthenticationViewModel {
         }
         catch {
             print(error)
-            overlayError = (true, error.localizedDescription)
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
             authenticationState = .unauthenticated
             return false
         }
@@ -216,7 +217,7 @@ extension AuthenticationViewModel {
             resetInputs()
         }
         catch {
-            overlayError = (true, error.localizedDescription)
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
     }
     
@@ -228,7 +229,7 @@ extension AuthenticationViewModel {
             return true
         }
         catch {
-            overlayError = (true, error.localizedDescription)
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
             return false
         }
     }
@@ -240,7 +241,7 @@ extension AuthenticationViewModel {
             self.isLoading = false
             return true
         } catch {
-            overlayError = (true, error.localizedDescription)
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
             self.isLoading = false
             return false
         }
@@ -259,7 +260,7 @@ extension AuthenticationViewModel {
             isUserInfoFetched = true
         case .failure(let error):
             signOut()
-            overlayError = (true, error.customMessage)
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
     }
     
@@ -279,7 +280,7 @@ extension AuthenticationViewModel {
                 await postNewUser(token: token, name: self.name)
             } else {
                 signOut()
-                overlayError = (true, error.customMessage)
+                overlayError = (true, ErrorMessage.defaultErrorMessage)
             }
         }
     }

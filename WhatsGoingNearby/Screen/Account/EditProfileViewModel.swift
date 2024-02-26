@@ -27,7 +27,7 @@ class EditProfileViewModel: ObservableObject {
     
     @Published var isSuccessAlertDisplayed: Bool = false
     @Published var isChangeAlertDisplayed: Bool = false
-    @Published var overlayError: (Bool, String) = (false, "")
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     
     // Profile Image
     @Published var imageSelection: PhotosPickerItem?

@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class NewPostViewModel: ObservableObject {
     
     @Published var postText: String = ""
     @Published var isLoading: Bool = false
-    @Published var overlayError: (Bool, String) = (false, "")
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var selectedPostLocationVisibilty: PostLocationVisibility = .hidden {
         didSet {
             LocalState.isPostLocationVisible = selectedPostLocationVisibilty == .visible

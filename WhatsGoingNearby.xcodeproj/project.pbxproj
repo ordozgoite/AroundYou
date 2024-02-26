@@ -92,6 +92,7 @@
 		ED6E84D02B882E4B00B94F5C /* LikeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84CF2B882E4B00B94F5C /* LikeViewModel.swift */; };
 		ED6E84D62B887B3000B94F5C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84D52B887B3000B94F5C /* Notification.swift */; };
 		ED6E84F42B89C82C00B94F5C /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84F32B89C82C00B94F5C /* MapScreen.swift */; };
+		ED884BEB2B8CF3D80071E1C4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = ED884BEA2B8CF3D80071E1C4 /* Localizable.xcstrings */; };
 		EDA30DE52B7FAB20003EB22D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EDA30DE42B7FAB20003EB22D /* Lottie */; };
 		EDA30DE92B7FAB69003EB22D /* radar.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE72B7FAB68003EB22D /* radar.json */; };
 		EDA30DEA2B7FAB69003EB22D /* map.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE82B7FAB69003EB22D /* map.json */; };
@@ -192,6 +193,7 @@
 		ED6E84CF2B882E4B00B94F5C /* LikeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewModel.swift; sourceTree = "<group>"; };
 		ED6E84D52B887B3000B94F5C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		ED6E84F32B89C82C00B94F5C /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
+		ED884BEA2B8CF3D80071E1C4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		EDA30DE72B7FAB68003EB22D /* radar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = radar.json; sourceTree = "<group>"; };
 		EDA30DE82B7FAB69003EB22D /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
 		EDA30DEB2B7FABA9003EB22D /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
@@ -436,6 +438,7 @@
 			children = (
 				EDF43E912B869F3E0037CC9F /* Info.plist */,
 				EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */,
+				ED884BE92B8CF3C70071E1C4 /* Local */,
 				EDA30DE62B7FAB41003EB22D /* Animation */,
 				ED50C4512B7E4CC20001EDF6 /* Util */,
 				EDA322252B7CA30C009905B5 /* Network */,
@@ -510,6 +513,14 @@
 				ED6E84CD2B882DED00B94F5C /* LikeScreen.swift */,
 			);
 			path = Like;
+			sourceTree = "<group>";
+		};
+		ED884BE92B8CF3C70071E1C4 /* Local */ = {
+			isa = PBXGroup;
+			children = (
+				ED884BEA2B8CF3D80071E1C4 /* Localizable.xcstrings */,
+			);
+			path = Local;
 			sourceTree = "<group>";
 		};
 		EDA30DE62B7FAB41003EB22D /* Animation */ = {
@@ -656,6 +667,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"pt-BR",
 			);
 			mainGroup = ED5CB15C2B7C11C000C336EC;
 			packageReferences = (
@@ -678,6 +690,7 @@
 			files = (
 				EDEECA232B8A77CE00BD517D /* meet.json in Resources */,
 				EDA30DE92B7FAB69003EB22D /* radar.json in Resources */,
+				ED884BEB2B8CF3D80071E1C4 /* Localizable.xcstrings in Resources */,
 				ED5CB1702B7C11C500C336EC /* Preview Assets.xcassets in Resources */,
 				EDA30DEA2B7FAB69003EB22D /* map.json in Resources */,
 				ED5CB16D2B7C11C500C336EC /* Assets.xcassets in Resources */,

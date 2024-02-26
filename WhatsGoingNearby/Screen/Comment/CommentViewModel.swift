@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class CommentViewModel: ObservableObject {
@@ -14,7 +15,7 @@ class CommentViewModel: ObservableObject {
     @Published var comments: [FormattedComment] = []
     @Published var newCommentText: String = ""
     @Published var isPostingComment: Bool = false
-    @Published var overlayError: (Bool, String) = (false, "")
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var timer: Timer?
     
     func getAllComments(publicationId: String, token: String) async {

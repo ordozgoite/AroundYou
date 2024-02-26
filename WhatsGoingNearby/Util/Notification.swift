@@ -15,7 +15,7 @@ public let taskId = "ordozgoite.WhatsGoingNearby.backgroundTask"
 public func nearByNotification() -> UNNotificationRequest {
     let content = UNMutableNotificationContent()
     content.title = "AroundYou 🌐"
-    content.body = "Você tem novas publicações próximas!"
+    content.body = "There are new posts around you!"
     content.sound = .default
     let request = UNNotificationRequest(identifier: "nearby_publications", content: content, trigger: nil)
     return request

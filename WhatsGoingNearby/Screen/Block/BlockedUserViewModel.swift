@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class BlockedUserViewModel: ObservableObject {
@@ -14,7 +15,7 @@ class BlockedUserViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var isUnblockAlertDisplayed: Bool = false
     @Published var selectedUser: UserProfile?
-    @Published var overlayError: (Bool, String) = (false, "")
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     
     func getBockeUser(token: String) async {
         isLoading = true

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class FeedViewModel: ObservableObject {
@@ -13,7 +14,7 @@ class FeedViewModel: ObservableObject {
     @Published var posts: [FormattedPost] = []
     @Published var isLoading: Bool = false
     @Published var isCommentScreenPresented = false
-    @Published var overlayError: (Bool, String) = (false, "")
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var initialPostsFetched: Bool = false
     @Published var timer: Timer?
     @Published var feedTimer: Timer?

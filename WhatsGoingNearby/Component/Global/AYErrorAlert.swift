@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AYErrorAlert: View {
     
-    let message: String
+    let message: LocalizedStringKey
     @Binding var isErrorAlertPresented: Bool
     
     var body: some View {

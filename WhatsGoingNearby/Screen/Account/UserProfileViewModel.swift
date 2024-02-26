@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class UserProfileViewModel: ObservableObject {
     
     @Published var userProfile: UserProfile? = nil
     @Published var isLoading: Bool = false
-    @Published var overlayError: (Bool, String) = (false, "")
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var isReportScreenPresented: Bool = false
     @Published var isBlockAlertPresented: Bool = false
     @Published var isProfilePicFullScreen: Bool = false

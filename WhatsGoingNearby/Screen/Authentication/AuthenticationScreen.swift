@@ -89,34 +89,12 @@ struct AuthenticationScreen: View {
         .padding()
     }
     
-    //MARK: - Terms Service
-    
-    @ViewBuilder
-    private func TermsAndPrivacyView() -> some View {
-        VStack(alignment: .center, spacing: nil) {
-            Text("Ao tocar em Registrar-se, concordo com os")
-                .font(.callout)
-                .foregroundStyle(.gray)
-            
-            HStack {
-                Button("Termos de Serviço ") {}
-                    .font(.callout)
-                Text("e")
-                    .font(.callout)
-                    .foregroundStyle(.gray)
-                Button("Política de Privacidade") {}
-                    .font(.callout)
-            }
-        }
-        .padding()
-    }
-    
     //MARK: - Button View
     
     @ViewBuilder
     private func ButtonView() -> some View {
         if authVM.authenticationState == .authenticating {
-            AYProgressButton(title: "Authenticating")
+            AYProgressButton(title: "Authenticating...")
         } else {
             AYButton(title: authVM.flow.title) {
                 authInputIsFocused = false

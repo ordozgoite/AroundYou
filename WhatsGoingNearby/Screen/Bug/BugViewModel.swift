@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class BugViewModel: ObservableObject {
@@ -13,7 +14,7 @@ class BugViewModel: ObservableObject {
     let maxDescriptionLenght = 500
     @Published var descriptionTextInput: String = ""
     @Published var isPostingReport: Bool = false
-    @Published var overlayError: (Bool, String) = (false, "")
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     
     func postReport(token: String, dismissScreen: () -> ()) async {
         isPostingReport = true

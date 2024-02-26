@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class LikeViewModel: ObservableObject {
     
     @Published var users: [UserProfile] = []
     @Published var isLoading: Bool = false
-    @Published var overlayError: (Bool, String) = (false, "")
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var usersFetched: Bool = false
     
     func getPublicationLikes(publicationId: String, token: String) async {

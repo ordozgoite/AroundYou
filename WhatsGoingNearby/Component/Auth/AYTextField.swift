@@ -10,8 +10,8 @@ import SwiftUI
 struct AYTextField: View {
     
     var imageName: String
-    var title: String
-    @Binding var error: String?
+    var title: LocalizedStringKey
+    @Binding var error: LocalizedStringKey?
     @Binding var inputText: String
     
     var body: some View {

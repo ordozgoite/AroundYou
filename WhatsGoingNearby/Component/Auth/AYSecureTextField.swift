@@ -10,9 +10,9 @@ import SwiftUI
 struct AYSecureTextField: View {
     
     var imageName: String
-    var title: String
+    var title: LocalizedStringKey
     @State var isSecured: Bool = true
-    @Binding var error: String?
+    @Binding var error: LocalizedStringKey?
     @Binding var inputText: String
     
     var body: some View {

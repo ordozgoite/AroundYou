@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AYProgressButton: View {
     
-    let title: String
+    let title: LocalizedStringKey
     
     var body: some View {
         Button {} label: {
