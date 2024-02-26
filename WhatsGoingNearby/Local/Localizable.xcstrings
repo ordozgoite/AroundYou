@@ -7,6 +7,71 @@
     "%@m" : {
 
     },
+    "%lld %@%@ to expire" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld %2$@%3$@ to expire"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld %2$@%3$@ para expirar"
+          }
+        }
+      }
+    },
+    "%lld hour%@ to expire" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld hour%2$@ to expire"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld hora%2$@ para expirar"
+          }
+        }
+      }
+    },
+    "%lld minute%@ to expire" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld minute%2$@ to expire"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld minuto%2$@ para expirar"
+          }
+        }
+      }
+    },
+    "%lld second%@ to expire" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld second%2$@ to expire"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld segundo%2$@ para expirar"
+          }
+        }
+      }
+    },
     "%lld/%lld" : {
       "localizations" : {
         "en" : {
@@ -53,6 +118,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Todos"
+          }
+        }
+      }
+    },
+    "Answering %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respondendo %@"
           }
         }
       }

@@ -78,7 +78,7 @@ struct CommentScreen: View {
         VStack {
             if commentIsFocused {
                 HStack {
-                    Text("Answering " + (post.userName ?? ""))
+                    Text("Answering \(post.userName)")
                         .font(.subheadline)
                         .foregroundStyle(.gray)
                     Spacer()

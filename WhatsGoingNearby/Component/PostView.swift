@@ -39,7 +39,7 @@ struct PostView: View {
             
             if #available(iOS 17.0, *) {
                 NavigationLink(
-                    destination: NewMapScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, userName: post.userName).environmentObject(authVM),
+                    destination: NewMapScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, userName: post.userName, profilePic: post.userProfilePic).environmentObject(authVM),
                     isActive: $isMapScreenPresented,
                     label: { EmptyView() }
                 )
@@ -77,7 +77,7 @@ struct PostView: View {
     @ViewBuilder
     private func HeaderView() -> some View {
         HStack {
-            Text(post.userName ?? "Anonymous")
+            Text(post.userName)
                 .fontWeight(.semibold)
             
             if post.type == .active {
@@ -225,27 +225,24 @@ struct PostView: View {
         }
     }
     
-    private func getTimeLeftText() -> String {
-        var timeLeftText = ""
-        var timeUnityMeasure = ""
-        var pluralModifier = ""
+    private func getTimeLeftText() -> LocalizedStringKey {
+        var timeLeft: Int
+        var pluralModifier: String = ""
         
         let timeLeftInSeconds = post.expirationDate.timeIntervalSince1970InSeconds - getCurrentDateTimestamp()
         if timeLeftInSeconds < 60 {
-            timeUnityMeasure = "second"
-            timeLeftText = String(timeLeftInSeconds)
-            if timeLeftText != "1" { pluralModifier = "s" }
+            timeLeft = timeLeftInSeconds
+            if timeLeft != 1 { pluralModifier = "s" }
+            return LocalizedStringKey("\(timeLeft) second\(pluralModifier) to expire")
         } else if timeLeftInSeconds < 3600 {
-            timeUnityMeasure = "minute"
-            timeLeftText = String(Int(timeLeftInSeconds / 60))
-            if timeLeftText != "1" { pluralModifier = "s" }
+            timeLeft = Int(timeLeftInSeconds / 60)
+            if timeLeft != 1 { pluralModifier = "s" }
+            return LocalizedStringKey("\(timeLeft) minute\(pluralModifier) to expire")
         } else {
-            timeUnityMeasure = "hour"
-            timeLeftText = String(Int(timeLeftInSeconds / 3600))
-            if timeLeftText != "1" { pluralModifier = "s" }
+            timeLeft = Int(timeLeftInSeconds / 3600)
+            if timeLeft != 1 { pluralModifier = "s" }
+            return LocalizedStringKey("\(timeLeft) hour\(pluralModifier) to expire")
         }
-        
-        return timeLeftText + " " + timeUnityMeasure + pluralModifier + " to expire"
     }
 }
 

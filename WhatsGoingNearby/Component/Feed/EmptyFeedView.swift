@@ -32,6 +32,7 @@ struct EmptyFeedView: View {
                         .foregroundStyle(.gray)
                         .fontWeight(.semibold)
                         .multilineTextAlignment(.center)
+                        .frame(width: screenWidth - 32)
                 }
             }
         }
