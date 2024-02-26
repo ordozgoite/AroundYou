@@ -18,48 +18,38 @@ class EditProfileViewModel: ObservableObject {
     
     @Published var nameInput: String = ""
     @Published var bioInput: String = ""
+    @Published var profilePicUrl: String?
+    
+    @Published var isLoading: Bool = false
     @Published var isEditingProfile: Bool = false
     @Published var isStoringPhoto: Bool = false
+    
     @Published var isSuccessAlertDisplayed: Bool = false
     @Published var isActionSheetDisplayed: Bool = false
     @Published var overlayError: (Bool, String) = (false, "")
     
     // Profile Image
-    
-    enum ImageState {
-        case empty, loading(Progress), success(Image), failure(Error), stored
-    }
-    
-    @Published var imageState: ImageState = .empty
-    @Published var imageSelection: PhotosPickerItem? {
-        didSet {
-            if let imageSelection {
-                let progress = loadTransferable(from: imageSelection)
-                imageState = .loading(progress)
-            } else {
-                imageState = .empty
-            }
-        }
-    }
+    @Published var imageSelection: PhotosPickerItem?
     @Published var imageData: Data? = nil
     
-    private func loadTransferable(from imageSelection: PhotosPickerItem) -> Progress {
-        return imageSelection.loadTransferable(type: Image.self) { result in
-            DispatchQueue.main.async {
-                guard imageSelection == self.imageSelection else { return }
-                switch result {
-                case .success(let image?):
-                    self.imageState = .success(image)
-                case .success(nil):
-                    self.imageState = .empty
-                case .failure(let error):
-                    self.imageState = .failure(error)
-                }
+    func getUserInfo(token: String) async {
+        isLoading = true
+        let result = await AYServices.shared.getUserInfo(token: token)
+        isLoading = false
+        
+        switch result {
+        case .success(let user):
+            nameInput = user.name
+            bioInput = user.biography ?? ""
+            if let url = user.profilePic {
+                profilePicUrl = url
             }
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
     }
     
-    func editProfile(token: String, updateUserData: (EditProfileResponse) -> ()) async {
+    func editProfile(token: String) async {
         let profile = UserProfileDTO(name: nameInput.isEmpty ? nil : nameInput, profilePic: nil, biography: bioInput.isEmpty ? nil : bioInput)
         
         isEditingProfile = true
@@ -68,14 +58,14 @@ class EditProfileViewModel: ObservableObject {
         
         switch result {
         case .success(let response):
-            updateUserData(response)
+            await getUserInfo(token: token)
             isSuccessAlertDisplayed = true
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
     }
     
-    func storeImage(forUser userUid: String, token: String, updateUserData: (EditProfileResponse) -> ()) async throws {
+    func storeImage(forUser userUid: String, token: String) async throws {
         isStoringPhoto = true
         guard imageData != nil else { return }
         let storageRef = Storage.storage().reference()
@@ -91,9 +81,25 @@ class EditProfileViewModel: ObservableObject {
         
         switch result {
         case .success(let response):
-            updateUserData(response)
+            await getUserInfo(token: token)
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
+    private func loadTransferable(from imageSelection: PhotosPickerItem) -> Progress {
+        return imageSelection.loadTransferable(type: Image.self) { result in
+            DispatchQueue.main.async {
+                guard imageSelection == self.imageSelection else { return }
+                switch result {
+                case .success(let image?):
+                    print("✅ Success!")
+                case .success(nil):
+                    print("✅ Success!")
+                case .failure(let error):
+                    print("❌ Error: \(error)")
+                }
+            }
         }
     }
 }

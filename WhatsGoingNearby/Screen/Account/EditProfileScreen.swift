@@ -25,89 +25,89 @@ struct EditProfileScreen: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Form {
-                    Section {
-                            HStack {
-                                Spacer()
-                                ProfileImage(imageState: editProfileVM.imageState, urlImage: authVM.profilePic)
-                                Spacer()
-                            }
-                    }
-                    .listRowBackground(Color(.systemGroupedBackground))
-                    
-                    if authVM.profilePic != nil {
+                if editProfileVM.isLoading {
+                    ProgressView()
+                } else {
+                    Form {
                         Section {
                             HStack {
                                 Spacer()
-                                Button("Remove photo") {
-                                    // remove photo
-                                }
-                                .foregroundStyle(.red)
+                                ProfileImage()
                                 Spacer()
                             }
                         }
-                    }
-                    
-                    Section {
-                        if editProfileVM.isStoringPhoto {
-                            HStack {
-                                Spacer()
-                                ProgressView()
-                                Text("Updating photo")
-                                    .foregroundStyle(.gray)
-                                Spacer()
-                            }
-                        } else {
-                            HStack {
-                                Spacer()
-                                PhotosPicker(selection: $editProfileVM.imageSelection, matching: .images, preferredItemEncoding: .automatic) {
-                                    Text("Edit photo")
-                                        .foregroundStyle(.blue)
+                        .listRowBackground(Color(.systemGroupedBackground))
+                        
+                        if editProfileVM.profilePicUrl != nil {
+                            Section {
+                                HStack {
+                                    Spacer()
+                                    Button("Remove photo") {
+                                        // remove photo
+                                    }
+                                    .foregroundStyle(.red)
+                                    Spacer()
                                 }
-                                Spacer()
                             }
                         }
-                    }
-                    
-                    Section {
-                        VStack {
-                            HStack {
-                                Text("Name")
-                                    .frame(width: 80)
-                                
-                                TextField("Name", text: $editProfileVM.nameInput)
-                                    .onChange(of: editProfileVM.nameInput) { newValue in
-                                        if newValue.count > editProfileVM.maxNameLenght {
-                                            editProfileVM.nameInput = String(newValue.prefix(editProfileVM.maxNameLenght))
-                                        }
+                        
+                        Section {
+                            if editProfileVM.isStoringPhoto {
+                                HStack {
+                                    Spacer()
+                                    Text("Updating photo...")
+                                        .foregroundStyle(.gray)
+                                    Spacer()
+                                }
+                            } else {
+                                HStack {
+                                    Spacer()
+                                    PhotosPicker(selection: $editProfileVM.imageSelection, matching: .images, preferredItemEncoding: .automatic) {
+                                        Text("Edit photo")
+                                            .foregroundStyle(.blue)
                                     }
+                                    Spacer()
+                                }
                             }
-                            
-                            Divider()
-                                .padding(.leading, 80)
-                            
-                            HStack(alignment: .top) {
-                                Text("Biography")
-                                    .frame(width: 80)
-                                
-                                TextField("Biography", text: $editProfileVM.bioInput, axis: .vertical)
-                                    .onChange(of: editProfileVM.bioInput) { newValue in
-                                        if newValue.count > editProfileVM.maxBioLenght {
-                                            editProfileVM.bioInput = String(newValue.prefix(editProfileVM.maxBioLenght))
+                        }
+                        
+                        Section {
+                            VStack {
+                                HStack {
+                                    Text("Name")
+                                        .frame(width: 80)
+                                    
+                                    TextField("Name", text: $editProfileVM.nameInput)
+                                        .onChange(of: editProfileVM.nameInput) { newValue in
+                                            if newValue.count > editProfileVM.maxNameLenght {
+                                                editProfileVM.nameInput = String(newValue.prefix(editProfileVM.maxNameLenght))
+                                            }
                                         }
-                                    }
+                                }
+                                
+                                Divider()
+                                    .padding(.leading, 80)
+                                
+                                HStack(alignment: .top) {
+                                    Text("Biography")
+                                        .frame(width: 80)
+                                    
+                                    TextField("Biography", text: $editProfileVM.bioInput, axis: .vertical)
+                                        .onChange(of: editProfileVM.bioInput) { newValue in
+                                            if newValue.count > editProfileVM.maxBioLenght {
+                                                editProfileVM.bioInput = String(newValue.prefix(editProfileVM.maxBioLenght))
+                                            }
+                                        }
+                                }
                             }
                         }
                     }
                 }
             }
             .onAppear {
-                editProfileVM.nameInput = authVM.name
-                if let bio = authVM.biography {
-                    editProfileVM.bioInput = bio
-                }
-                if let pic = authVM.profilePic {
-                    editProfileVM.imageState = .stored
+                Task {
+                    let token = try await authVM.getFirebaseToken()
+                    await editProfileVM.getUserInfo(token: token)
                 }
             }
             .onChange(of: editProfileVM.imageSelection) { newItem in
@@ -115,9 +115,7 @@ struct EditProfileScreen: View {
                     if let data = try? await newItem?.loadTransferable(type: Data.self) {
                         editProfileVM.imageData = data
                         let token = try await authVM.getFirebaseToken()
-                        try await editProfileVM.storeImage(forUser: LocalState.currentUserUid, token: token) { response in
-                            updateUserData(with: response)
-                        }
+                        try await editProfileVM.storeImage(forUser: LocalState.currentUserUid, token: token)
                     }
                 }
             }
@@ -139,9 +137,7 @@ struct EditProfileScreen: View {
                         Button("Confirm") {
                             Task {
                                 let token = try await authVM.getFirebaseToken()
-                                await editProfileVM.editProfile(token: token) { response in
-                                    updateUserData(with: response)
-                                }
+                                await editProfileVM.editProfile(token: token)
                             }
                         }
                     }
@@ -150,49 +146,34 @@ struct EditProfileScreen: View {
         }
     }
     
-    private func updateUserData(with response: EditProfileResponse) {
-        authVM.name = response.name
-        if let bio = response.biography {
-            authVM.biography = bio
+    //MARK: - Profile Image
+    
+    @ViewBuilder
+    private func ProfileImage() -> some View {
+        if editProfileVM.isStoringPhoto {
+            ProgressView()
+        } else if let url = editProfileVM.profilePicUrl {
+            URLImageView(imageURL: url)
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 128, height: 128)
+                .clipShape(Circle())
+        } else {
+            Image(systemName: "person.fill")
+                .font(.system(size: 40))
+                .foregroundStyle(.white)
+                .frame(width: 128, height: 128)
+                .clipShape(Circle())
         }
+    }
+    
+    //MARK: - Auxiliary Method
+    
+    private func updateUserData(with response: EditProfileResponse) {
+        
     }
 }
 
 #Preview {
     EditProfileScreen()
         .environmentObject(AuthenticationViewModel())
-}
-
-struct ProfileImage: View {
-    
-    let imageState: EditProfileViewModel.ImageState
-    var urlImage: String?
-    
-    var body: some View {
-        switch imageState {
-        case .empty:
-            Image(systemName: "person.fill")
-                .font(.system(size: 40))
-                .foregroundStyle(.white)
-                .frame(width: 128, height: 128)
-                .clipShape(Circle())
-        case .loading:
-            ProgressView()
-        case .success(let image):
-            image.resizable().scaledToFill()
-                .frame(width: 128, height: 128)
-                .clipShape(Circle())
-        case .failure:
-            Image(systemName: "exclamationmark.triangle.fill")
-                .font(.system(size: 40))
-                .foregroundStyle(.white)
-                .frame(width: 128, height: 128)
-                .clipShape(Circle())
-        case .stored:
-            URLImageView(imageURL: urlImage ?? "")
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 128, height: 128)
-                .clipShape(Circle())
-        }
-    }
 }
