@@ -19,7 +19,7 @@ enum AYEndpoints {
     case deleteComment(commentId: String, token: String)
     case deletePublication(publicationId: String, token: String)
     case getUserProfile(userUid: String, token: String)
-    case editProfile(name: String, biography: String, token: String)
+    case editProfile(profile: UserProfileDTO, token: String)
     case getAllPublicationsByUser(token: String)
     case postNewReport(report: ReportDTO, token: String)
     case postNewBugReport(bugDescription: String, token: String)
@@ -200,7 +200,7 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
-        case .editProfile(_, _, let token):
+        case .editProfile(_, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
@@ -298,11 +298,11 @@ extension AYEndpoints: Endpoint {
                 "text": text
             ]
             return params
-        case .editProfile(let name, let biography, _):
-            let params: [String: Any] = [
-                "name": name,
-                "biography": biography
-            ]
+        case .editProfile(let profile, _):
+            var params: [String: Any] = [:]
+            if let name = profile.name { params["name"] = name }
+            if let biography = profile.biography { params["biography"] = biography }
+            if let profilePic = profile.profilePic { params["profilePic"] = profilePic }
             return params
         case .postNewReport(let report, _):
             var params: [String: Any] = [

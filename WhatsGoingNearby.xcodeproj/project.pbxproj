@@ -128,6 +128,7 @@
 		EDEECA232B8A77CE00BD517D /* meet.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA222B8A77CE00BD517D /* meet.json */; };
 		EDEECA252B8A77D500BD517D /* party.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA242B8A77D500BD517D /* party.json */; };
 		EDEECA272B8A7CD400BD517D /* TimerAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEECA262B8A7CD400BD517D /* TimerAnimation.swift */; };
+		EDEECA292B8C09D000BD517D /* UserProfileDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEECA282B8C09D000BD517D /* UserProfileDTO.swift */; };
 		EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF43E922B86E6B60037CC9F /* LocalState.swift */; };
 /* End PBXBuildFile section */
 
@@ -226,6 +227,7 @@
 		EDEECA222B8A77CE00BD517D /* meet.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = meet.json; sourceTree = "<group>"; };
 		EDEECA242B8A77D500BD517D /* party.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = party.json; sourceTree = "<group>"; };
 		EDEECA262B8A7CD400BD517D /* TimerAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerAnimation.swift; sourceTree = "<group>"; };
+		EDEECA282B8C09D000BD517D /* UserProfileDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileDTO.swift; sourceTree = "<group>"; };
 		EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhatsGoingNearby.entitlements; sourceTree = "<group>"; };
 		EDF43E912B869F3E0037CC9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EDF43E922B86E6B60037CC9F /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 				EDA30DFB2B804BE5003EB22D /* Report.swift */,
 				ED06525A2B814722005B6413 /* BugReport.swift */,
 				EDA30DFD2B804DBB003EB22D /* ReportDTO.swift */,
+				EDEECA282B8C09D000BD517D /* UserProfileDTO.swift */,
 				EDA322392B7CCD79009905B5 /* Response */,
 			);
 			path = Model;
@@ -728,6 +731,7 @@
 				EDA322452B7DB07D009905B5 /* CommentScreen.swift in Sources */,
 				EDA30DFE2B804DBB003EB22D /* ReportDTO.swift in Sources */,
 				ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */,
+				EDEECA292B8C09D000BD517D /* UserProfileDTO.swift in Sources */,
 				ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */,
 				EDA30DEE2B7FBAF8003EB22D /* LaunchScreen.swift in Sources */,
 				EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */,

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct EditProfileScreen: View {
     
@@ -25,25 +26,48 @@ struct EditProfileScreen: View {
         NavigationStack {
             VStack {
                 Form {
-                    
-                    //MARK: - Profile Picture
-                    
                     Section {
-                        VStack(spacing: 16) {
                             HStack {
                                 Spacer()
-                                ProfilePicView(profilePic: authVM.profilePic, size: 128)
+                                ProfileImage(imageState: editProfileVM.imageState, urlImage: authVM.profilePic)
                                 Spacer()
                             }
-                            
-                            Button("Edit photo") {
-                                
-                            }
-                        }
                     }
                     .listRowBackground(Color(.systemGroupedBackground))
                     
-                    //MARK: - Name and Bio
+                    if authVM.profilePic != nil {
+                        Section {
+                            HStack {
+                                Spacer()
+                                Button("Remove photo") {
+                                    // remove photo
+                                }
+                                .foregroundStyle(.red)
+                                Spacer()
+                            }
+                        }
+                    }
+                    
+                    Section {
+                        if editProfileVM.isStoringPhoto {
+                            HStack {
+                                Spacer()
+                                ProgressView()
+                                Text("Updating photo")
+                                    .foregroundStyle(.gray)
+                                Spacer()
+                            }
+                        } else {
+                            HStack {
+                                Spacer()
+                                PhotosPicker(selection: $editProfileVM.imageSelection, matching: .images, preferredItemEncoding: .automatic) {
+                                    Text("Edit photo")
+                                        .foregroundStyle(.blue)
+                                }
+                                Spacer()
+                            }
+                        }
+                    }
                     
                     Section {
                         VStack {
@@ -82,6 +106,20 @@ struct EditProfileScreen: View {
                 if let bio = authVM.biography {
                     editProfileVM.bioInput = bio
                 }
+                if let pic = authVM.profilePic {
+                    editProfileVM.imageState = .stored
+                }
+            }
+            .onChange(of: editProfileVM.imageSelection) { newItem in
+                Task {
+                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                        editProfileVM.imageData = data
+                        let token = try await authVM.getFirebaseToken()
+                        try await editProfileVM.storeImage(forUser: LocalState.currentUserUid, token: token) { response in
+                            updateUserData(with: response)
+                        }
+                    }
+                }
             }
             .alert(isPresented: $editProfileVM.isSuccessAlertDisplayed) {
                 Alert(
@@ -92,7 +130,7 @@ struct EditProfileScreen: View {
             .navigationTitle("Edit profile")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                if editProfileVM.isLoading {
+                if editProfileVM.isEditingProfile {
                     ToolbarItem {
                         ProgressView()
                     }
@@ -123,4 +161,38 @@ struct EditProfileScreen: View {
 #Preview {
     EditProfileScreen()
         .environmentObject(AuthenticationViewModel())
+}
+
+struct ProfileImage: View {
+    
+    let imageState: EditProfileViewModel.ImageState
+    var urlImage: String?
+    
+    var body: some View {
+        switch imageState {
+        case .empty:
+            Image(systemName: "person.fill")
+                .font(.system(size: 40))
+                .foregroundStyle(.white)
+                .frame(width: 128, height: 128)
+                .clipShape(Circle())
+        case .loading:
+            ProgressView()
+        case .success(let image):
+            image.resizable().scaledToFill()
+                .frame(width: 128, height: 128)
+                .clipShape(Circle())
+        case .failure:
+            Image(systemName: "exclamationmark.triangle.fill")
+                .font(.system(size: 40))
+                .foregroundStyle(.white)
+                .frame(width: 128, height: 128)
+                .clipShape(Circle())
+        case .stored:
+            URLImageView(imageURL: urlImage ?? "")
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 128, height: 128)
+                .clipShape(Circle())
+        }
+    }
 }

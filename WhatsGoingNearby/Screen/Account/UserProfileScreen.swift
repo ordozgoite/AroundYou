@@ -28,6 +28,8 @@ struct UserProfileScreen: View {
                         }
                         
                         Warning()
+                        
+                        FullScreenPicture()
                     }
                 }
             }
@@ -96,18 +98,10 @@ struct UserProfileScreen: View {
     @ViewBuilder
     private func ProfileHeader() -> some View {
         VStack {
-            if let imageURL = userProfileVM.userProfile?.profilePic {
-                URLImageView(imageURL: imageURL)
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 128, height: 128)
-                    .clipShape(Circle())
-            } else {
-                Image(systemName: "person.circle.fill")
-                    .resizable()
-                    .foregroundStyle(.gray)
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 128, height: 128)
-            }
+            ProfilePic(frame: 128)
+                .onTapGesture {
+                    userProfileVM.isProfilePicFullScreen = true
+                }
             
             Text(userProfileVM.userProfile?.name ?? "")
                 .font(.title)
@@ -117,6 +111,24 @@ struct UserProfileScreen: View {
             Text(userProfileVM.userProfile?.biography ?? "No bio.")
                 .foregroundStyle(.gray)
                 .multilineTextAlignment(.center)
+        }
+    }
+    
+    //MARK: - Profile Pic
+    
+    @ViewBuilder
+    private func ProfilePic(frame: CGFloat) -> some View {
+        if let imageURL = userProfileVM.userProfile?.profilePic {
+            URLImageView(imageURL: imageURL)
+                .aspectRatio(contentMode: .fill)
+                .frame(width: frame, height: frame)
+                .clipShape(Circle())
+        } else {
+            Image(systemName: "person.circle.fill")
+                .resizable()
+                .foregroundStyle(.gray)
+                .aspectRatio(contentMode: .fill)
+                .frame(width: frame, height: frame)
         }
     }
     
@@ -138,6 +150,21 @@ struct UserProfileScreen: View {
                     .fontWeight(.semibold)
                     .padding()
             }
+        }
+    }
+    
+    //MARK: - FullScreen Picture
+    
+    @ViewBuilder
+    private func FullScreenPicture() -> some View {
+        if userProfileVM.isProfilePicFullScreen {
+            ProfilePic(frame: screenWidth - 32)
+                .frame(width: screenWidth, height: screenHeight)
+                .background(.thinMaterial)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    userProfileVM.isProfilePicFullScreen = false
+                }
         }
     }
 }

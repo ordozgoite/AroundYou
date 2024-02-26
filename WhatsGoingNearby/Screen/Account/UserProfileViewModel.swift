@@ -15,6 +15,7 @@ class UserProfileViewModel: ObservableObject {
     @Published var overlayError: (Bool, String) = (false, "")
     @Published var isReportScreenPresented: Bool = false
     @Published var isBlockAlertPresented: Bool = false
+    @Published var isProfilePicFullScreen: Bool = false
     
     func getUserProfile(userUid: String, token: String) async {
         isLoading = true
