@@ -213,6 +213,7 @@ extension AuthenticationViewModel {
             try Auth.auth().signOut()
             authenticationState = .unauthenticated
             resetUserInfo()
+            resetInputs()
         }
         catch {
             overlayError = (true, error.localizedDescription)
@@ -306,5 +307,12 @@ extension AuthenticationViewModel {
         name = ""
         profilePic = nil
         isUserInfoFetched = false
+    }
+    
+    private func resetInputs() {
+        nameInput = ""
+        emailInput = ""
+        passwordInput = ""
+        confirmPasswordInput = ""
     }
 }

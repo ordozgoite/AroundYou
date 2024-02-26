@@ -14,6 +14,7 @@ protocol AYServiceable {
     func getUserInfo(userRegistrationToken: String?, token: String) async -> Result<MongoUser, RequestError>
     func getUserProfile(userUid: String, token: String) async -> Result<UserProfile, RequestError>
     func editProfile(profile: UserProfileDTO, token: String) async -> Result<EditProfileResponse, RequestError>
+    func deleteProfilePic(token: String) async -> Result<EditProfileResponse, RequestError>
     
     // Publication
     func postNewPublication(text: String, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError>
@@ -66,6 +67,10 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func editProfile(profile: UserProfileDTO, token: String) async -> Result<EditProfileResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.editProfile(profile: profile, token: token), responseModel: EditProfileResponse.self)
+    }
+    
+    func deleteProfilePic(token: String) async -> Result<EditProfileResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteProfilePic(token: token), responseModel: EditProfileResponse.self)
     }
     
     //MARK: - Publication

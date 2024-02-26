@@ -13,6 +13,7 @@ struct EditProfileScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var editProfileVM = EditProfileViewModel()
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.presentationMode) var presentationMode
     
     private var hasChangedProfile: Bool {
         let nameChanged = editProfileVM.nameInput != authVM.name
@@ -42,10 +43,19 @@ struct EditProfileScreen: View {
                             Section {
                                 HStack {
                                     Spacer()
-                                    Button("Remove photo") {
-                                        // remove photo
+                                    if editProfileVM.isRemovingPhoto {
+                                        Text("Removing photo...")
+                                            .foregroundStyle(.gray)
+                                    } else {
+                                        Button("Remove photo") {
+                                            Task {
+                                                let token = try await authVM.getFirebaseToken()
+                                                await editProfileVM.removePhoto(token: token)
+                                                authVM.profilePic = nil
+                                            }
+                                        }
+                                        .foregroundStyle(.red)
                                     }
-                                    .foregroundStyle(.red)
                                     Spacer()
                                 }
                             }
@@ -101,6 +111,16 @@ struct EditProfileScreen: View {
                                 }
                             }
                         }
+                        .alert(isPresented: $editProfileVM.isChangeAlertDisplayed) {
+                            Alert(
+                                title: Text("Discard changes?"),
+                                message: Text("If you quit this screen, you will lose your changes."),
+                                primaryButton: .destructive(Text("Discard")) {
+                                    presentationMode.wrappedValue.dismiss()
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
                     }
                 }
             }
@@ -115,7 +135,9 @@ struct EditProfileScreen: View {
                     if let data = try? await newItem?.loadTransferable(type: Data.self) {
                         editProfileVM.imageData = data
                         let token = try await authVM.getFirebaseToken()
-                        try await editProfileVM.storeImage(forUser: LocalState.currentUserUid, token: token)
+                        if let url = try await editProfileVM.storeImage(forUser: LocalState.currentUserUid, token: token) {
+                            authVM.profilePic = url
+                        }
                     }
                 }
             }
@@ -127,6 +149,7 @@ struct EditProfileScreen: View {
             }
             .navigationTitle("Edit profile")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden()
             .toolbar {
                 if editProfileVM.isEditingProfile {
                     ToolbarItem {
@@ -136,10 +159,29 @@ struct EditProfileScreen: View {
                     ToolbarItem {
                         Button("Confirm") {
                             Task {
+                                let name = editProfileVM.nameInput
+                                let bio = editProfileVM.bioInput
+                                
                                 let token = try await authVM.getFirebaseToken()
                                 await editProfileVM.editProfile(token: token)
+                                
+                                if !name.isEmpty { authVM.name = name }
+                                if !bio.isEmpty { authVM.biography = bio }
                             }
                         }
+                    }
+                }
+                
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        if hasChangedProfile {
+                            editProfileVM.isChangeAlertDisplayed = true
+                        } else {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    } label: {
+                        Image(systemName: "xmark")
+                            .foregroundStyle(.gray)
                     }
                 }
             }
@@ -158,18 +200,12 @@ struct EditProfileScreen: View {
                 .frame(width: 128, height: 128)
                 .clipShape(Circle())
         } else {
-            Image(systemName: "person.fill")
-                .font(.system(size: 40))
-                .foregroundStyle(.white)
+            Image(systemName: "person.circle.fill")
+                .resizable()
+                .foregroundStyle(.gray)
                 .frame(width: 128, height: 128)
                 .clipShape(Circle())
         }
-    }
-    
-    //MARK: - Auxiliary Method
-    
-    private func updateUserData(with response: EditProfileResponse) {
-        
     }
 }
 

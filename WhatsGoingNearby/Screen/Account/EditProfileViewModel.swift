@@ -23,9 +23,10 @@ class EditProfileViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var isEditingProfile: Bool = false
     @Published var isStoringPhoto: Bool = false
+    @Published var isRemovingPhoto: Bool = false
     
     @Published var isSuccessAlertDisplayed: Bool = false
-    @Published var isActionSheetDisplayed: Bool = false
+    @Published var isChangeAlertDisplayed: Bool = false
     @Published var overlayError: (Bool, String) = (false, "")
     
     // Profile Image
@@ -39,11 +40,8 @@ class EditProfileViewModel: ObservableObject {
         
         switch result {
         case .success(let user):
-            nameInput = user.name
-            bioInput = user.biography ?? ""
-            if let url = user.profilePic {
-                profilePicUrl = url
-            }
+            updateInfo(forUser: user)
+            // update enviroment
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
@@ -57,7 +55,7 @@ class EditProfileViewModel: ObservableObject {
         isEditingProfile = false
         
         switch result {
-        case .success(let response):
+        case .success:
             await getUserInfo(token: token)
             isSuccessAlertDisplayed = true
         case .failure:
@@ -65,9 +63,9 @@ class EditProfileViewModel: ObservableObject {
         }
     }
     
-    func storeImage(forUser userUid: String, token: String) async throws {
+    func storeImage(forUser userUid: String, token: String) async throws -> String? {
         isStoringPhoto = true
-        guard imageData != nil else { return }
+        guard imageData != nil else { return nil }
         let storageRef = Storage.storage().reference()
         let fileRef = storageRef.child("profile-pic/\(userUid).jpg")
         
@@ -80,10 +78,35 @@ class EditProfileViewModel: ObservableObject {
         isStoringPhoto = false
         
         switch result {
-        case .success(let response):
+        case .success:
+            await getUserInfo(token: token)
+            return imageUrl.absoluteString
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+        return nil
+    }
+    
+    func removePhoto(token: String) async {
+        isRemovingPhoto = true
+        let result = await AYServices.shared.deleteProfilePic(token: token)
+        isRemovingPhoto = false
+        
+        switch result {
+        case .success:
             await getUserInfo(token: token)
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
+    private func updateInfo(forUser user: MongoUser) {
+        nameInput = user.name
+        bioInput = user.biography ?? ""
+        if let url = user.profilePic {
+            profilePicUrl = url
+        } else {
+            profilePicUrl = nil
         }
     }
     
