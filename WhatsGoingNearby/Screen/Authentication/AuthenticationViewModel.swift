@@ -256,7 +256,10 @@ extension AuthenticationViewModel {
         
         switch result {
         case .success(let user):
+            LocalState.currentUserUid = user.userUid
             self.name = user.name
+            profilePic = user.profilePic
+            biography = user.biography
             isUserInfoFetched = true
         case .failure(let error):
             signOut()
