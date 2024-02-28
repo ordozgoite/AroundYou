@@ -64,6 +64,9 @@ struct CommentScreen: View {
                         let token = try await authVM.getFirebaseToken()
                         await commentVM.deleteComment(commentId: comment.id, token: token)
                     }
+                } reply: {
+                    commentIsFocused = true
+                    commentVM.repliedComment = comment
                 }
                 .padding()
                 Divider()
@@ -76,20 +79,28 @@ struct CommentScreen: View {
     @ViewBuilder
     private func CommentTextField() -> some View {
         VStack {
-            if commentIsFocused {
+            if let comment = commentVM.repliedComment {
                 HStack {
-                    Text("Answering \(post.userName)")
-                        .font(.subheadline)
-                        .foregroundStyle(.gray)
+                    HStack {
+                        Text("Replying to \(comment.userName)")
+                            .font(.subheadline)
+                            .foregroundStyle(.blue)
+                        
+                        Image(systemName: "xmark")
+                            .scaleEffect(0.8)
+                            .foregroundStyle(.blue)
+                    }
+                    .onTapGesture {
+                        commentVM.repliedComment = nil
+                    }
+                    
                     Spacer()
-                    Text("\(commentVM.newCommentText.count)/250")
-                        .font(.subheadline)
-                        .foregroundStyle(.gray)
                 }
-                .padding([.leading, .trailing], 10)
+                .padding(10)
             }
+            
             HStack {
-                TextField("Comment this post", text: $commentVM.newCommentText, axis: .vertical)
+                TextField(commentVM.repliedComment == nil ? "Add a comment... " : "Add a reply...", text: $commentVM.newCommentText, axis: .vertical)
                     .padding(10)
                     .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
                     .cornerRadius(20)

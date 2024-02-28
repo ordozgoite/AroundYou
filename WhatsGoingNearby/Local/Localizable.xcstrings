@@ -4,6 +4,9 @@
     "" : {
 
     },
+    "%@" : {
+
+    },
     "%@m" : {
 
     },
@@ -83,6 +86,7 @@
       }
     },
     "%lld/250" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -112,6 +116,12 @@
         }
       }
     },
+    "Add a comment... " : {
+
+    },
+    "Add a reply..." : {
+
+    },
     "All" : {
       "localizations" : {
         "pt-BR" : {
@@ -123,6 +133,7 @@
       }
     },
     "Answering %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -230,6 +241,7 @@
       }
     },
     "Comment this post" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -854,6 +866,12 @@
           }
         }
       }
+    },
+    "Reply" : {
+
+    },
+    "Replying to %@" : {
+
     },
     "Report" : {
       "localizations" : {

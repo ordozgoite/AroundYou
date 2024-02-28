@@ -15,18 +15,19 @@ struct CommentView: View {
     let deleteComment: () -> ()
     @State private var isReportScreenPresented: Bool = false
     @State private var isLikeScreenDisplayed: Bool = false
+    var reply: () -> ()
     
     var body: some View {
         VStack {
             HStack(alignment: .top) {
                 ProfilePic()
                 
-                VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading) {
                     HeaderView()
                     
                     TextView()
-                    
-                    InteractionsView()
+                
+                    Footer()
                 }
             }
             NavigationLink(
@@ -60,13 +61,11 @@ struct CommentView: View {
     @ViewBuilder
     private func HeaderView() -> some View {
         HStack {
-            Text(comment.userName ?? "")
+            Text(comment.userName)
                 .fontWeight(.semibold)
                 .fixedSize(horizontal: false, vertical: true)
             
-            Text(comment.date.timeAgoDisplay())
-                .foregroundStyle(.gray)
-                .font(.subheadline)
+            Reply()
             
             Spacer()
             
@@ -94,7 +93,7 @@ struct CommentView: View {
                 Image(systemName: "ellipsis")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 20, height: 20)
+                    .frame(width: 16, height: 16)
                     .foregroundStyle(.gray)
                     .padding([.trailing], 10)
             }
@@ -108,10 +107,30 @@ struct CommentView: View {
         Text(comment.text)
     }
     
-    //MARK: - Interactions
+    //MARK: - Reply
     
     @ViewBuilder
-    private func InteractionsView() -> some View {
+    private func Reply() -> some View {
+        if let name = comment.repliedUserFirstName {
+            HStack {
+                Image(systemName: "arrowtriangle.forward.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 10, height: 10)
+                    .foregroundStyle(.gray)
+                
+                Text("\(name)")
+                    .foregroundStyle(.gray)
+                    .font(.subheadline)
+            }
+            .scaleEffect(0.9)
+        }
+    }
+    
+    //MARK: - Footer
+    
+    @ViewBuilder
+    private func Footer() -> some View {
         HStack(spacing: 32) {
             HStack {
                 Image(systemName: comment.didLike ? "heart.fill" : "heart")
@@ -140,8 +159,27 @@ struct CommentView: View {
                     }
             }
             
+            Text(comment.date.timeAgoDisplay())
+                .foregroundStyle(.gray)
+                .font(.subheadline)
+            
+            if comment.userUid != LocalState.currentUserUid {
+                HStack {
+                    Image(systemName: "arrow.turn.up.left")
+                        .foregroundStyle(.gray)
+                    
+                    Text("Reply")
+                        .foregroundStyle(.gray)
+                        .font(.subheadline)
+                }
+                .onTapGesture {
+                    reply()
+                }
+            }
+            
             Spacer()
         }
+        .padding(.top, 1)
     }
     
     //MARK: - Auxiliary Methods
@@ -171,9 +209,9 @@ struct CommentView: View {
 
 #Preview {
     CommentView(isPostFromRecipientUser: true, comment: .constant(FormattedComment(
-        id: "", userUid: "", publicationId: "", text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...",
+        id: "", userUid: "", publicationId: "", text: "Acho que mês que vem",
         timestamp: Int(Date().timeIntervalSince1970),
         userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
-        userName: "Victor Ordozgoite", isFromRecipientUser: true, didLike: true, likes: 5)), deleteComment: {})
+        userName: "Victor Ordozgoite", isFromRecipientUser: true, didLike: true, likes: 5, repliedUserName: "Dean Batista")), deleteComment: {}, reply: {})
     .environmentObject(AuthenticationViewModel())
 }

@@ -27,7 +27,7 @@ protocol AYServiceable {
     func checkNearByPublications(userUid: String, latitude: Double, longitude: Double) async -> Result<CheckNearByPublicationsResponse, RequestError>
     
     // Comment
-    func postNewComment(publicationId: String, text: String, token: String) async -> Result<PostNewCommentResponse, RequestError>
+    func postNewComment(comment: CommentDTO, token: String) async -> Result<PostNewCommentResponse, RequestError>
     func deleteComment(commentId: String, token: String) async -> Result<DeleteCommentResponse, RequestError>
     func getAllCommentsByPublication(publicationId: String, token: String) async -> Result<[FormattedComment], RequestError>
     func likeComment(commentId: String, token: String) async -> Result<LikePublicationResponse, RequestError> // criar response model
@@ -109,8 +109,8 @@ struct AYServices: HTTPClient, AYServiceable {
     
     //MARK: - Comment
     
-    func postNewComment(publicationId: String, text: String, token: String) async -> Result<PostNewCommentResponse, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.postNewComment(publicationId: publicationId, text: text, token: token), responseModel: PostNewCommentResponse.self)
+    func postNewComment(comment: CommentDTO, token: String) async -> Result<PostNewCommentResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewComment(comment: comment, token: token), responseModel: PostNewCommentResponse.self)
     }
     
     func deleteComment(commentId: String, token: String) async -> Result<DeleteCommentResponse, RequestError> {

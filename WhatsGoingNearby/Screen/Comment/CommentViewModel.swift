@@ -14,7 +14,9 @@ class CommentViewModel: ObservableObject {
     @Published var post: FormattedPost?
     @Published var comments: [FormattedComment] = []
     @Published var newCommentText: String = ""
+    @Published var repliedComment: FormattedComment?
     @Published var isPostingComment: Bool = false
+    
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var timer: Timer?
     
@@ -30,15 +32,17 @@ class CommentViewModel: ObservableObject {
     }
     
     func postNewComment(publicationId: String, text: String, token: String) async {
+        let comment = CommentDTO(publicationId: publicationId, text: text, repliedUserUid: repliedComment?.userUid, repliedUserName: repliedComment?.userName)
+        
         newCommentText = ""
+        repliedComment = nil
         
         isPostingComment = true
-        let response = await AYServices.shared.postNewComment(publicationId: publicationId, text: text, token: token)
+        let response = await AYServices.shared.postNewComment(comment: comment, token: token)
         isPostingComment = false
         
         switch response {
         case .success:
-            //            post.comment += 1
             await getAllComments(publicationId: publicationId, token: token)
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)

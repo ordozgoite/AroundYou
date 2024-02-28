@@ -15,7 +15,7 @@ enum AYEndpoints {
     case likePublication(publicationId: String, token: String)
     case unlikePublication(publicationId: String, token: String)
     case getAllCommentsByPublication(publicationId: String, token: String)
-    case postNewComment(publicationId: String, text: String, token: String)
+    case postNewComment(comment: CommentDTO, token: String)
     case deleteComment(commentId: String, token: String)
     case deletePublication(publicationId: String, token: String)
     case getUserProfile(userUid: String, token: String)
@@ -179,7 +179,7 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
-        case.postNewComment(_, _, let token):
+        case.postNewComment(_, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
@@ -301,11 +301,13 @@ extension AYEndpoints: Endpoint {
                 "userRegistrationToken": userRegistrationToken
             ]
             return params
-        case .postNewComment(let publicationId, let text, _):
-            let params: [String: Any] = [
-                "publicationId": publicationId,
-                "text": text
+        case .postNewComment(let comment, _):
+            var params: [String: Any] = [
+                "publicationId": comment.publicationId,
+                "text": comment.text
             ]
+            if let repliedUserUid = comment.repliedUserUid { params["repliedUserUid"] = repliedUserUid }
+            if let repliedUserName = comment.repliedUserName { params["repliedUserName"] = repliedUserName }
             return params
         case .editProfile(let profile, _):
             var params: [String: Any] = [:]

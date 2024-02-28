@@ -75,6 +75,7 @@ struct AccountScreen: View {
                     .multilineTextAlignment(.center)
             }
         }
+        .padding()
         .onTapGesture {
             accountVM.isEditProfileScreenPresented = true
         }
