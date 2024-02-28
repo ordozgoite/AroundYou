@@ -15,6 +15,7 @@ struct CommentView: View {
     let deleteComment: () -> ()
     @State private var isReportScreenPresented: Bool = false
     @State private var isLikeScreenDisplayed: Bool = false
+    @State private var isUserProfileScreenDisplayed: Bool = false
     var reply: () -> ()
     
     var body: some View {
@@ -39,6 +40,12 @@ struct CommentView: View {
             NavigationLink(
                 destination: LikeScreen(id: comment.id, type: .comment).environmentObject(authVM),
                 isActive: $isLikeScreenDisplayed,
+                label: { EmptyView() }
+            )
+            
+            NavigationLink(
+                destination: UserProfileScreen(userUid: comment.repliedUserUid ?? "").environmentObject(authVM),
+                isActive: $isUserProfileScreenDisplayed,
                 label: { EmptyView() }
             )
         }
@@ -124,6 +131,9 @@ struct CommentView: View {
                     .font(.subheadline)
             }
             .scaleEffect(0.9)
+            .onTapGesture {
+                isUserProfileScreenDisplayed = true
+            }
         }
     }
     
@@ -212,6 +222,6 @@ struct CommentView: View {
         id: "", userUid: "", publicationId: "", text: "Acho que mês que vem",
         timestamp: Int(Date().timeIntervalSince1970),
         userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
-        userName: "Victor Ordozgoite", isFromRecipientUser: true, didLike: true, likes: 5, repliedUserName: "Dean Batista")), deleteComment: {}, reply: {})
+        userName: "Victor Ordozgoite", isFromRecipientUser: true, didLike: true, likes: 5, repliedUserName: "Dean Batista", repliedUserUid: nil)), deleteComment: {}, reply: {})
     .environmentObject(AuthenticationViewModel())
 }

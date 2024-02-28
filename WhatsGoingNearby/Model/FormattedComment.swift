@@ -19,6 +19,7 @@ struct FormattedComment: Codable, Identifiable {
     var didLike: Bool
     var likes: Int
     let repliedUserName: String?
+    let repliedUserUid: String?
     var date: Date {
         return NSDate(timeIntervalSince1970: TimeInterval(self.timestamp.timeIntervalSince1970InSeconds)) as Date
     }

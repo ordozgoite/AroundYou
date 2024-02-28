@@ -112,6 +112,7 @@ struct UserProfileScreen: View {
                 .foregroundStyle(.gray)
                 .multilineTextAlignment(.center)
         }
+        .padding()
     }
     
     //MARK: - Profile Pic
