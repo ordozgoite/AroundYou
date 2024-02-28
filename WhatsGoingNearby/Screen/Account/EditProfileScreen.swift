@@ -30,6 +30,9 @@ struct EditProfileScreen: View {
                     ProgressView()
                 } else {
                     Form {
+                        
+                        //MARK: - Profile Photo
+                        
                         Section {
                             HStack {
                                 Spacer()
@@ -38,6 +41,8 @@ struct EditProfileScreen: View {
                             }
                         }
                         .listRowBackground(Color(.systemGroupedBackground))
+                        
+                        //MARK: - Remove Photo
                         
                         if editProfileVM.profilePicUrl != nil {
                             Section {
@@ -61,6 +66,8 @@ struct EditProfileScreen: View {
                             }
                         }
                         
+                        //MARK: - Edit Photo
+                        
                         Section {
                             if editProfileVM.isStoringPhoto {
                                 HStack {
@@ -78,8 +85,25 @@ struct EditProfileScreen: View {
                                     }
                                     Spacer()
                                 }
+                                .fullScreenCover(isPresented: $editProfileVM.isCropViewDisplayed) {
+                                    editProfileVM.selectedImage = nil
+                                } content: {
+                                    CropScreen(size: CGSize(width: 300, height: 300), image: editProfileVM.selectedImage) { croppedImage, status in
+                                        if let croppedImage {
+                                            editProfileVM.croppedImage = croppedImage
+                                            Task {
+                                                let token = try await authVM.getFirebaseToken()
+                                                if let url = try await editProfileVM.storeImage(forUser: LocalState.currentUserUid, token: token) {
+                                                    authVM.profilePic = url
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
+                        
+                        //MARK: - Edit Info
                         
                         Section {
                             VStack {
@@ -132,12 +156,9 @@ struct EditProfileScreen: View {
             }
             .onChange(of: editProfileVM.imageSelection) { newItem in
                 Task {
-                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                        editProfileVM.imageData = data
-                        let token = try await authVM.getFirebaseToken()
-                        if let url = try await editProfileVM.storeImage(forUser: LocalState.currentUserUid, token: token) {
-                            authVM.profilePic = url
-                        }
+                    if let data = try? await newItem?.loadTransferable(type: Data.self), let image = UIImage(data: data) {
+                        editProfileVM.selectedImage = image
+                        editProfileVM.isCropViewDisplayed = true
                     }
                 }
             }

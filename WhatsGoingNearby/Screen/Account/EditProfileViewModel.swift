@@ -31,7 +31,9 @@ class EditProfileViewModel: ObservableObject {
     
     // Profile Image
     @Published var imageSelection: PhotosPickerItem?
-    @Published var imageData: Data? = nil
+    @Published var selectedImage: UIImage?
+    @Published var croppedImage: UIImage?
+    @Published var isCropViewDisplayed: Bool = false
     
     func getUserInfo(token: String) async {
         isLoading = true
@@ -65,11 +67,12 @@ class EditProfileViewModel: ObservableObject {
     
     func storeImage(forUser userUid: String, token: String) async throws -> String? {
         isStoringPhoto = true
-        guard imageData != nil else { return nil }
+        guard croppedImage != nil else { return nil }
         let storageRef = Storage.storage().reference()
         let fileRef = storageRef.child("profile-pic/\(userUid).jpg")
         
-        _ = try await fileRef.putDataAsync(self.imageData!)
+        let imageData = croppedImage?.jpegData(compressionQuality: 0.8)
+        _ = try await fileRef.putDataAsync(imageData!)
         
         let imageUrl = try await fileRef.downloadURL()
         let profile = UserProfileDTO(name: nil, profilePic: imageUrl.absoluteString, biography: nil)
