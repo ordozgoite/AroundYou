@@ -44,6 +44,12 @@ struct FeedScreen: View {
             
             .toolbar {
                 ToolbarItem {
+                    NavigationLink(destination: NotificationScreen().environmentObject(authVM)) {
+                        Image(systemName: "bell")
+                    }
+                }
+                
+                ToolbarItem {
                     NavigationLink(destination: NewPostScreen() {
                         Task {
                             try await getFeedInfo()
@@ -62,8 +68,8 @@ struct FeedScreen: View {
                     try await getFeedInfo()
                 }
             }
-//            startUpdatingTime()
-//            startUpdatingFeed()
+            startUpdatingTime()
+            startUpdatingFeed()
         }
         .onDisappear {
             stopTimers()

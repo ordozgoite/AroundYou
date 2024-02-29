@@ -7,6 +7,16 @@
     "%@" : {
 
     },
+    "%@ your %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ your %2$@"
+          }
+        }
+      }
+    },
     "%@m" : {
 
     },
@@ -669,6 +679,9 @@
           }
         }
       }
+    },
+    "Notifications" : {
+
     },
     "OK" : {
       "localizations" : {
