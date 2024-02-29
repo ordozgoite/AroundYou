@@ -32,6 +32,7 @@ enum AYEndpoints {
     case getPublicationLikes(publicationId: String, token: String)
     case getCommentLikes(commentId: String, token: String)
     case deleteProfilePic(token: String)
+    case getPublication(publicationId: String, latitude: Double, longitude: Double, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -88,6 +89,8 @@ extension AYEndpoints: Endpoint {
             return "/api/Comment/GetCommentLikes/\(commentId)"
         case .deleteProfilePic:
             return "/api/User/DeleteProfilePic"
+        case .getPublication:
+            return "/api/Publication/GetPublication"
         }
     }
     
@@ -97,7 +100,7 @@ extension AYEndpoints: Endpoint {
         switch self {
         case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser, .likeComment, .unlikeComment, .deleteProfilePic:
             return .post
-        case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .checkNearByPublications, .getPublicationLikes, .getCommentLikes:
+        case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .getPublication:
             return .get
         }
     }
@@ -128,6 +131,13 @@ extension AYEndpoints: Endpoint {
             } else {
                 return nil
             }
+        case .getPublication(let publicationId, let latitude, let longitude, _):
+            let params: [String: Any] = [
+                "publicationId": publicationId,
+                "latitude": latitude,
+                "longitude": longitude
+            ]
+            return params
         default:
             return nil
         }
@@ -275,6 +285,12 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .getPublication(_, _, _, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -338,7 +354,7 @@ extension AYEndpoints: Endpoint {
                 "blockedUserUid": blockedUserUid
             ]
             return params
-        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .deleteProfilePic:
+        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .deleteProfilePic, .getPublication:
             return nil
         }
     }

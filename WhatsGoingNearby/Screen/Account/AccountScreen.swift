@@ -12,6 +12,7 @@ struct AccountScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject private var accountVM = AccountViewModel()
+    @ObservedObject var locationManager = LocationManager()
     
     var body: some View {
         NavigationStack {
@@ -99,13 +100,17 @@ struct AccountScreen: View {
         ScrollView {
             ForEach($accountVM.posts) { $post in
                 if shouldDisplay(post: post) {
-                    PostView(post: $post) {
-                        Task {
-                            let token = try await authVM.getFirebaseToken()
-                            await accountVM.deletePublication(publicationId: post.id, token: token)
+                    NavigationLink(destination: PostScreen(postId: post.id, location: $locationManager.location)) {
+                        PostView(post: $post) {
+                            Task {
+                                let token = try await authVM.getFirebaseToken()
+                                await accountVM.deletePublication(publicationId: post.id, token: token)
+                            }
                         }
+                        .padding()
                     }
-                    .padding()
+                    .buttonStyle(PlainButtonStyle())
+                    
                     Divider()
                 }
             }

@@ -14,6 +14,10 @@
 		ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525E2B817A31005B6413 /* EditProfileScreen.swift */; };
 		ED22678B2B8EED56006FE9D3 /* CommentDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22678A2B8EED56006FE9D3 /* CommentDTO.swift */; };
 		ED22678D2B8FCB93006FE9D3 /* CropScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22678C2B8FCB93006FE9D3 /* CropScreen.swift */; };
+		ED22678F2B9026C1006FE9D3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22678E2B9026C1006FE9D3 /* NotificationManager.swift */; };
+		ED2267912B9027F2006FE9D3 /* NextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2267902B9027F2006FE9D3 /* NextView.swift */; };
+		ED2F1A6B2B9048DC001F4300 /* PostScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2F1A6A2B9048DC001F4300 /* PostScreen.swift */; };
+		ED2F1A6E2B90E4FA001F4300 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2F1A6D2B90E4FA001F4300 /* PostViewModel.swift */; };
 		ED41409C2B7DE41F002690A5 /* PostNewCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */; };
 		ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */; };
 		ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */; };
@@ -143,6 +147,10 @@
 		ED06525E2B817A31005B6413 /* EditProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileScreen.swift; sourceTree = "<group>"; };
 		ED22678A2B8EED56006FE9D3 /* CommentDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDTO.swift; sourceTree = "<group>"; };
 		ED22678C2B8FCB93006FE9D3 /* CropScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropScreen.swift; sourceTree = "<group>"; };
+		ED22678E2B9026C1006FE9D3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		ED2267902B9027F2006FE9D3 /* NextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextView.swift; sourceTree = "<group>"; };
+		ED2F1A6A2B9048DC001F4300 /* PostScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostScreen.swift; sourceTree = "<group>"; };
+		ED2F1A6D2B90E4FA001F4300 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNewCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePublicationResponse.swift; sourceTree = "<group>"; };
@@ -297,6 +305,15 @@
 			path = "Data Transfer";
 			sourceTree = "<group>";
 		};
+		ED2F1A6C2B9049FE001F4300 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				ED2F1A6D2B90E4FA001F4300 /* PostViewModel.swift */,
+				ED2F1A6A2B9048DC001F4300 /* PostScreen.swift */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
 		ED50C4512B7E4CC20001EDF6 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -368,6 +385,7 @@
 				ED06525A2B814722005B6413 /* BugReport.swift */,
 				ED2267892B8EED3D006FE9D3 /* Data Transfer */,
 				EDA322392B7CCD79009905B5 /* Response */,
+				ED2267902B9027F2006FE9D3 /* NextView.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -462,6 +480,7 @@
 				ED5CB1762B7C11CB00C336EC /* Screen */,
 				ED5CB1682B7C11C000C336EC /* WhatsGoingNearbyApp.swift */,
 				ED5CB16A2B7C11C000C336EC /* ContentView.swift */,
+				ED22678E2B9026C1006FE9D3 /* NotificationManager.swift */,
 				ED598C522B7C81CA00B6C23D /* LocationManager.swift */,
 				ED598C102B7C545600B6C23D /* GoogleService-Info.plist */,
 				ED5CB16C2B7C11C500C336EC /* Assets.xcassets */,
@@ -488,6 +507,7 @@
 				EDA322432B7DB068009905B5 /* Comment */,
 				EDA322422B7DB059009905B5 /* New Post */,
 				ED598BEB2B7C122600B6C23D /* Account */,
+				ED2F1A6C2B9049FE001F4300 /* Post */,
 				ED598C4D2B7C59C600B6C23D /* Settings */,
 				EDA30E012B811FBD003EB22D /* Report */,
 				ED0652552B813823005B6413 /* Bug */,
@@ -752,12 +772,15 @@
 				ED6E84CB2B87EA9C00B94F5C /* CheckNearByPublicationsResponse.swift in Sources */,
 				ED598C4A2B7C576A00B6C23D /* AYProgressButton.swift in Sources */,
 				ED6E84F42B89C82C00B94F5C /* MapScreen.swift in Sources */,
+				ED22678F2B9026C1006FE9D3 /* NotificationManager.swift in Sources */,
 				ED598BFA2B7C217400B6C23D /* AYProgressView.swift in Sources */,
+				ED2F1A6B2B9048DC001F4300 /* PostScreen.swift in Sources */,
 				ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */,
 				ED50C4572B7E951D0001EDF6 /* UserProfileScreen.swift in Sources */,
 				EDA30DEC2B7FABA9003EB22D /* LottieView.swift in Sources */,
 				EDA30DF62B7FE816003EB22D /* PostTypeSegmentedControl.swift in Sources */,
 				EDA322452B7DB07D009905B5 /* CommentScreen.swift in Sources */,
+				ED2267912B9027F2006FE9D3 /* NextView.swift in Sources */,
 				EDA30DFE2B804DBB003EB22D /* ReportDTO.swift in Sources */,
 				ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */,
 				EDEECA292B8C09D000BD517D /* UserProfileDTO.swift in Sources */,
@@ -791,6 +814,7 @@
 				ED50C44C2B7E396C0001EDF6 /* View.swift in Sources */,
 				EDA3222E2B7CA490009905B5 /* AYEndpoints.swift in Sources */,
 				ED598C532B7C81CA00B6C23D /* LocationManager.swift in Sources */,
+				ED2F1A6E2B90E4FA001F4300 /* PostViewModel.swift in Sources */,
 				ED5CB1692B7C11C000C336EC /* WhatsGoingNearbyApp.swift in Sources */,
 				ED598BF52B7C16EC00B6C23D /* PostView.swift in Sources */,
 				EDA30DFA2B7FF228003EB22D /* Time.swift in Sources */,

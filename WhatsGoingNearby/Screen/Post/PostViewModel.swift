@@ -1,24 +1,41 @@
 //
-//  CommentViewModel.swift
+//  PostViewModel.swift
 //  WhatsGoingNearby
 //
-//  Created by Victor Ordozgoite on 16/02/24.
+//  Created by Victor Ordozgoite on 29/02/24.
 //
 
 import Foundation
 import SwiftUI
 
 @MainActor
-class CommentViewModel: ObservableObject {
+class PostViewModel: ObservableObject {
     
-//    @Published var post: FormattedPost?
+    @Published var post: FormattedPost = FormattedPost(id: "", userUid: "", userProfilePic: nil, userName: "", timestamp: 0, expirationDate: 0, text: "", likes: 0, didLike: false, comment: 0, latitude: nil, longitude: nil, distanceToMe: nil, isFromRecipientUser: false, isLocationVisible: false)
+    
     @Published var comments: [FormattedComment] = []
     @Published var newCommentText: String = ""
     @Published var repliedComment: FormattedComment?
     @Published var isPostingComment: Bool = false
+    @Published var isLoadingPost: Bool = false
+    @Published var isPostFetched: Bool = false
     
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var timer: Timer?
+    
+    func getPublication(publicationId: String, latitude: Double, longitude: Double, token: String) async {
+        isLoadingPost = true
+        let result = await AYServices.shared.getPublication(publicationId: publicationId, latitude: latitude, longitude: longitude, token: token)
+        isLoadingPost = false
+        
+        switch result {
+        case .success(let post):
+            self.post = post
+            isPostFetched = true
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
     
     func getAllComments(publicationId: String, token: String) async {
         let response = await AYServices.shared.getAllCommentsByPublication(publicationId: publicationId, token: token)

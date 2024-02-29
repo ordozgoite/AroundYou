@@ -20,7 +20,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         
         Messaging.messaging().delegate = self
         
-        UNUserNotificationCenter.current().delegate = self
+//        UNUserNotificationCenter.current().delegate = self
         
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: { _, _ in })
@@ -66,26 +66,23 @@ extension AppDelegate: MessagingDelegate {
     }
 }
 
-extension AppDelegate: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_: UNUserNotificationCenter, willPresent _: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        let options: UNNotificationPresentationOptions = [.badge, .banner, .sound]
-        completionHandler(options)
-    }
-    
-    func userNotificationCenter(
-        _: UNUserNotificationCenter,
-        didReceive response: UNNotificationResponse,
-        withCompletionHandler completionHandler: @escaping () -> Void
-    ) {
-        let userInfo = response.notification.request.content.userInfo
-        NotificationCenter.default.post(
-            name: Notification.Name("didReceiveRemoteNotification"),
-            object: nil,
-            userInfo: userInfo
-        )
-        completionHandler()
-    }
-}
+//extension AppDelegate: UNUserNotificationCenterDelegate {
+//    func userNotificationCenter(_: UNUserNotificationCenter, willPresent _: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        let options: UNNotificationPresentationOptions = [.badge, .banner, .sound]
+//        completionHandler(options)
+//    }
+//    
+//    func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+//        let userInfo = response.notification.request.content.userInfo
+//        print("⚠️ USER INFO: \(userInfo)")
+//        NotificationCenter.default.post(
+//            name: Notification.Name("didReceiveRemoteNotification"),
+//            object: nil,
+//            userInfo: userInfo
+//        )
+//        completionHandler()
+//    }
+//}
 
 
 @main

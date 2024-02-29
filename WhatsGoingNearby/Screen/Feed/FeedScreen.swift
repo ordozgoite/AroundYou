@@ -12,6 +12,7 @@ struct FeedScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject private var feedVM = FeedViewModel()
     @ObservedObject var locationManager = LocationManager()
+    @ObservedObject public var notificationManagaer = NotificationManager()
     
     var activePostsQuantity: Int {
         return feedVM.posts.filter { $0.expirationDate.timeIntervalSince1970InSeconds > feedVM.currentTimeStamp }.count
@@ -33,6 +34,12 @@ struct FeedScreen: View {
                 }
                 
                 AYErrorAlert(message: feedVM.overlayError.1 , isErrorAlertPresented: $feedVM.overlayError.0)
+                
+                NavigationLink(
+                    destination: PostScreen(postId: notificationManagaer.id ?? "", location: $locationManager.location),
+                    isActive: $notificationManagaer.isPublicationDisplayed,
+                    label: { EmptyView() }
+                )
             }
             
             .toolbar {
@@ -55,8 +62,8 @@ struct FeedScreen: View {
                     try await getFeedInfo()
                 }
             }
-            startUpdatingTime()
-            startUpdatingFeed()
+//            startUpdatingTime()
+//            startUpdatingFeed()
         }
         .onDisappear {
             stopTimers()
@@ -83,7 +90,7 @@ struct FeedScreen: View {
         ScrollView {
             ForEach($feedVM.posts) { $post in
                 if post.expirationDate.timeIntervalSince1970InSeconds > feedVM.currentTimeStamp {
-                    NavigationLink(destination: CommentScreen(postId: post.id, feedVM: feedVM, post: $post).environmentObject(authVM)) {
+                    NavigationLink(destination: CommentScreen(postId: post.id, post: $post).environmentObject(authVM)) {
                         PostView(post: $post) {
                             Task {
                                 let token = try await authVM.getFirebaseToken()
