@@ -6,30 +6,60 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct NotificationScreen: View {
     
     @StateObject private var notificationVM = NotificationViewModel()
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @Binding var location: CLLocation?
     
     var body: some View {
         VStack {
-            List {
-                ForEach(notificationVM.notifications) { notification in
-                    NotificationView(notification: notification)
+            if notificationVM.isLoading {
+                ProgressView()
+            } else {
+                if notificationVM.notifications.isEmpty {
+                    EmptyNotifications()
+                } else {
+                    Notifications()
                 }
             }
         }
         .navigationTitle("Notifications")
         .onAppear {
-            Task {
-                let token = try await authVM.getFirebaseToken()
-                await notificationVM.getNotifications(token: token)
+            if !notificationVM.isNotificationsFetched {
+                Task {
+                    let token = try await authVM.getFirebaseToken()
+                    await notificationVM.getNotifications(token: token)
+                }
             }
         }
     }
-}
-
-#Preview {
-    NotificationScreen()
+    
+    //MARK: - Empty View
+    
+    @ViewBuilder
+    private func EmptyNotifications() -> some View {
+        Text("You have no notifications yet.")
+            .foregroundStyle(.gray)
+            .fontWeight(.semibold)
+    }
+    
+    //MARK: - Notifications
+    
+    @ViewBuilder
+    private func Notifications() -> some View {
+        ScrollView {
+            ForEach(notificationVM.notifications) { notification in
+                NavigationLink(destination: PostScreen(postId: notification.targetId, location: $location)) {
+                    NotificationView(notification: notification)
+                        .padding()
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                Divider()
+            }
+        }
+    }
 }

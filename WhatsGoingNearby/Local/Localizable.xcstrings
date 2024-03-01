@@ -1139,6 +1139,9 @@
         }
       }
     },
+    "You have no notifications yet." : {
+
+    },
     "You haven't blocked any users." : {
       "localizations" : {
         "pt-BR" : {

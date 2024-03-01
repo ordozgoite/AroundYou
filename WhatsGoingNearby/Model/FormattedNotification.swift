@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-enum NotificationAction: Codable {
+enum NotificationAction: String, Codable {
     case like
     case comment
     
@@ -22,7 +22,7 @@ enum NotificationAction: Codable {
     }
 }
 
-enum ActionTarget: Codable {
+enum ActionTarget: String, Codable {
     case publication
     case comment
     
@@ -38,9 +38,14 @@ enum ActionTarget: Codable {
 
 struct FormattedNotification: Identifiable, Codable {
     let id: String
+    let sendingUserUid: String
     let sendingUserName: String
     let sendingUserProfilePic: String?
     let action: NotificationAction
     let target: ActionTarget
     let targetId: String
+    let notificationDateTime: Int
+    var date: Date {
+        return NSDate(timeIntervalSince1970: TimeInterval(self.notificationDateTime.timeIntervalSince1970InSeconds)) as Date
+    }
 }

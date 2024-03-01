@@ -44,7 +44,7 @@ struct FeedScreen: View {
             
             .toolbar {
                 ToolbarItem {
-                    NavigationLink(destination: NotificationScreen().environmentObject(authVM)) {
+                    NavigationLink(destination: NotificationScreen(location: $locationManager.location).environmentObject(authVM)) {
                         Image(systemName: "bell")
                     }
                 }
