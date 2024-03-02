@@ -48,6 +48,11 @@ protocol AYServiceable {
     
     // Notification
     func getUserNotifications(token: String) async -> Result<[FormattedNotification], RequestError>
+    func deleteNotification(notificationId: String, token: String) async -> Result<DeleteNotificationResponse, RequestError>
+    
+    // Subscription
+    func subscribeUserToPublication(publicationId: String, token: String) async -> Result<Subscription, RequestError>
+    func unsubscribeUser(publicationId: String, token: String) async -> Result<Subscription, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -171,5 +176,19 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getUserNotifications(token: String) async -> Result<[FormattedNotification], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getUserNotifications(token: token), responseModel: [FormattedNotification].self)
+    }
+    
+    func deleteNotification(notificationId: String, token: String) async -> Result<DeleteNotificationResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteNotification(notificationId: notificationId, token: token), responseModel: DeleteNotificationResponse.self)
+    }
+    
+    //MARK: - Subscription
+    
+    func subscribeUserToPublication(publicationId: String, token: String) async -> Result<Subscription, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.subscribeUserToPublication(publicationId: publicationId, token: token), responseModel: Subscription.self)
+    }
+    
+    func unsubscribeUser(publicationId: String, token: String) async -> Result<Subscription, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.unsubscribeUser(publicationId: publicationId, token: token), responseModel: Subscription.self)
     }
 }

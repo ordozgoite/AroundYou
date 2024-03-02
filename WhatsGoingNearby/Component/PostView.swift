@@ -11,11 +11,16 @@ struct PostView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @Binding var post: FormattedPost
+    
     @State private var isTimeLeftPopoverDisplayed: Bool = false
     @State private var isOptionsPopoverDisplayed: Bool = false
     @State private var isReportScreenPresented: Bool = false
     @State private var isMapScreenPresented: Bool = false
     @State private var isLikeScreenDisplayed: Bool = false
+    
+    @State private var isFollowingPost: Bool = false
+    @State private var isUnfollowingPost: Bool = false
+    
     let deletePost: () -> ()
     
     var body: some View {
@@ -116,6 +121,48 @@ struct PostView: View {
                         }
                         
                         if !post.isFromRecipientUser {
+                            if post.isSubscribed {
+                                Button(action: {
+                                    Task {
+                                        let token = try await authVM.getFirebaseToken()
+                                        await unfollowPost(token: token)
+                                    }
+                                }) {
+                                    if isUnfollowingPost {
+                                        Text("Unfollowing post")
+                                            .foregroundStyle(.gray)
+                                        ProgressView()
+                                    } else {
+                                        Text("Unfollow post")
+                                            .foregroundStyle(.gray)
+                                        Image(systemName: "bell.slash.fill")
+                                            .foregroundStyle(.gray)
+                                    }
+                                }
+                                .padding()
+                            } else {
+                                Button(action: {
+                                    Task {
+                                        let token = try await authVM.getFirebaseToken()
+                                        await followPost(token: token)
+                                    }
+                                }) {
+                                    if isFollowingPost {
+                                        Text("Following post")
+                                            .foregroundStyle(.gray)
+                                        ProgressView()
+                                    } else {
+                                        Text("Follow post")
+                                            .foregroundStyle(.gray)
+                                        Image(systemName: "bell.and.waves.left.and.right")
+                                            .foregroundStyle(.gray)
+                                    }
+                                }
+                                .padding()
+                            }
+                            
+                            Divider()
+                            
                             Button(action: {
                                 isOptionsPopoverDisplayed = false
                                 isReportScreenPresented = true
@@ -225,6 +272,32 @@ struct PostView: View {
         }
     }
     
+    private func followPost(token: String) async {
+        isFollowingPost = true
+        let result = await AYServices.shared.subscribeUserToPublication(publicationId: self.post.id, token: token)
+        isFollowingPost = false
+        
+        switch result {
+        case .success:
+            post.isSubscribed = true
+        case .failure(let error):
+            print("❌ Error: \(error)")
+        }
+    }
+    
+    private func unfollowPost(token: String) async {
+        isUnfollowingPost = true
+        let result = await AYServices.shared.unsubscribeUser(publicationId: self.post.id, token: token)
+        isUnfollowingPost = false
+        
+        switch result {
+        case .success:
+            post.isSubscribed = false
+        case .failure(let error):
+            print("❌ Error: \(error)")
+        }
+    }
+    
     private func getTimeLeftText() -> LocalizedStringKey {
         var timeLeft: Int
         var pluralModifier: String = ""
@@ -251,6 +324,6 @@ struct PostView: View {
         id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
         userName: "Victor Ordozgoite",
         timestamp: Int(Date().timeIntervalSince1970), expirationDate: Int(Date().timeIntervalSince1970),
-        text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", likes: 2, didLike: true, comment: 2, latitude: -3.125847431319091, longitude: -60.022035207661695, distanceToMe: 50.0, isFromRecipientUser: true, isLocationVisible: false)), deletePost: {})
+        text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", likes: 2, didLike: true, comment: 2, latitude: -3.125847431319091, longitude: -60.022035207661695, distanceToMe: 50.0, isFromRecipientUser: true, isLocationVisible: false, isSubscribed: false)), deletePost: {})
     .environmentObject(AuthenticationViewModel())
 }

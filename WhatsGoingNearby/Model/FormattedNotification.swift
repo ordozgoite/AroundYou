@@ -11,6 +11,7 @@ import SwiftUI
 enum NotificationAction: String, Codable {
     case like
     case comment
+    case reply
     
     var text: String {
         switch self {
@@ -18,6 +19,8 @@ enum NotificationAction: String, Codable {
             return "liked"
         case .comment:
             return "commented"
+        case .reply:
+            return "replied"
         }
     }
 }
@@ -43,7 +46,7 @@ struct FormattedNotification: Identifiable, Codable {
     let sendingUserProfilePic: String?
     let action: NotificationAction
     let target: ActionTarget
-    let targetId: String
+    let publicationId: String
     let notificationDateTime: Int
     var date: Date {
         return NSDate(timeIntervalSince1970: TimeInterval(self.notificationDateTime.timeIntervalSince1970InSeconds)) as Date

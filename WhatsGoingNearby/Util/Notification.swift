@@ -23,7 +23,7 @@ public func nearByNotification() -> UNNotificationRequest {
 
 public func scheduleAppRefresh() {
     let now = Date()
-    let oneHourFromNow = Calendar.current.date(byAdding: .hour, value: 1, to: now)!
+    let oneHourFromNow = Calendar.current.date(byAdding: .hour, value: 8, to: now)!
     
     do {
         let request = BGAppRefreshTaskRequest(identifier: taskId)

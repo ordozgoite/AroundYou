@@ -50,15 +50,21 @@ struct NotificationScreen: View {
     
     @ViewBuilder
     private func Notifications() -> some View {
-        ScrollView {
+        List {
             ForEach(notificationVM.notifications) { notification in
-                NavigationLink(destination: PostScreen(postId: notification.targetId, location: $location)) {
+                NavigationLink(destination: PostScreen(postId: notification.publicationId, location: $location)) {
                     NotificationView(notification: notification)
-                        .padding()
+                        .swipeActions(edge: .trailing) {
+                            Button(role: .destructive) {
+                                Task {
+                                    let token = try await authVM.getFirebaseToken()
+                                    await notificationVM.deleteNotification(notificationId: notification.id, token: token)
+                                }
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        }
                 }
-                .buttonStyle(PlainButtonStyle())
-                
-                Divider()
             }
         }
     }

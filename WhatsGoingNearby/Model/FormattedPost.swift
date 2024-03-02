@@ -31,6 +31,7 @@ struct FormattedPost: Identifiable, Codable {
     let distanceToMe: Double?
     let isFromRecipientUser: Bool
     let isLocationVisible: Bool
+    var isSubscribed: Bool
     var date: Date {
         return NSDate(timeIntervalSince1970: TimeInterval(self.timestamp.timeIntervalSince1970InSeconds)) as Date
     }

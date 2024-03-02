@@ -85,57 +85,59 @@ struct PostScreen: View {
     
     @ViewBuilder
     private func CommentTextField() -> some View {
-        VStack {
-            if let comment = postVM.repliedComment {
-                HStack {
+        if postVM.post.type == .active {
+            VStack {
+                if let comment = postVM.repliedComment {
                     HStack {
-                        Text("Replying to \(comment.userName)")
-                            .font(.subheadline)
-                            .foregroundStyle(.blue)
+                        HStack {
+                            Text("Replying to \(comment.userName)")
+                                .font(.subheadline)
+                                .foregroundStyle(.blue)
+                            
+                            Image(systemName: "xmark")
+                                .scaleEffect(0.8)
+                                .foregroundStyle(.blue)
+                        }
+                        .onTapGesture {
+                            postVM.repliedComment = nil
+                        }
                         
-                        Image(systemName: "xmark")
-                            .scaleEffect(0.8)
-                            .foregroundStyle(.blue)
+                        Spacer()
                     }
-                    .onTapGesture {
-                        postVM.repliedComment = nil
-                    }
-                    
-                    Spacer()
-                }
-                .padding(10)
-            }
-            
-            HStack {
-                TextField(postVM.repliedComment == nil ? "Add a comment... " : "Add a reply...", text: $postVM.newCommentText, axis: .vertical)
                     .padding(10)
-                    .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                    .cornerRadius(20)
-                    .shadow(color: .gray, radius: 10)
-                    .focused($commentIsFocused)
-                    .onChange(of: postVM.newCommentText) { newValue in
-                        if newValue.count > maxCommentLength {
-                            postVM.newCommentText = String(newValue.prefix(maxCommentLength))
-                        }
-                    }
+                }
                 
-                if !postVM.newCommentText.isEmpty {
-                    Button(action: {
-                        commentIsFocused = false
-                        Task {
-                            let token = try await authVM.getFirebaseToken()
-                            await postVM.postNewComment(publicationId: postId, text: postVM.newCommentText, token: token)
+                HStack {
+                    TextField(postVM.repliedComment == nil ? "Add a comment... " : "Add a reply...", text: $postVM.newCommentText, axis: .vertical)
+                        .padding(10)
+                        .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .cornerRadius(20)
+                        .shadow(color: .gray, radius: 10)
+                        .focused($commentIsFocused)
+                        .onChange(of: postVM.newCommentText) { newValue in
+                            if newValue.count > maxCommentLength {
+                                postVM.newCommentText = String(newValue.prefix(maxCommentLength))
+                            }
                         }
-                    }) {
-                        Image(systemName: "paperplane.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 24)
-                            .foregroundColor(.blue)
+                    
+                    if !postVM.newCommentText.isEmpty {
+                        Button(action: {
+                            commentIsFocused = false
+                            Task {
+                                let token = try await authVM.getFirebaseToken()
+                                await postVM.postNewComment(publicationId: postId, text: postVM.newCommentText, token: token)
+                            }
+                        }) {
+                            Image(systemName: "paperplane.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 24)
+                                .foregroundColor(.blue)
+                        }
                     }
                 }
+                .padding()
             }
-            .padding()
         }
     }
     

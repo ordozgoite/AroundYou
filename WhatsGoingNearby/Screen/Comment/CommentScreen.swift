@@ -77,57 +77,59 @@ struct CommentScreen: View {
     
     @ViewBuilder
     private func CommentTextField() -> some View {
-        VStack {
-            if let comment = commentVM.repliedComment {
-                HStack {
+        if post.type == .active {
+            VStack {
+                if let comment = commentVM.repliedComment {
                     HStack {
-                        Text("Replying to \(comment.userName)")
-                            .font(.subheadline)
-                            .foregroundStyle(.blue)
+                        HStack {
+                            Text("Replying to \(comment.userName)")
+                                .font(.subheadline)
+                                .foregroundStyle(.blue)
+                            
+                            Image(systemName: "xmark")
+                                .scaleEffect(0.8)
+                                .foregroundStyle(.blue)
+                        }
+                        .onTapGesture {
+                            commentVM.repliedComment = nil
+                        }
                         
-                        Image(systemName: "xmark")
-                            .scaleEffect(0.8)
-                            .foregroundStyle(.blue)
+                        Spacer()
                     }
-                    .onTapGesture {
-                        commentVM.repliedComment = nil
-                    }
-                    
-                    Spacer()
-                }
-                .padding(10)
-            }
-            
-            HStack {
-                TextField(commentVM.repliedComment == nil ? "Add a comment... " : "Add a reply...", text: $commentVM.newCommentText, axis: .vertical)
                     .padding(10)
-                    .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                    .cornerRadius(20)
-                    .shadow(color: .gray, radius: 10)
-                    .focused($commentIsFocused)
-                    .onChange(of: commentVM.newCommentText) { newValue in
-                        if newValue.count > maxCommentLength {
-                            commentVM.newCommentText = String(newValue.prefix(maxCommentLength))
-                        }
-                    }
+                }
                 
-                if !commentVM.newCommentText.isEmpty {
-                    Button(action: {
-                        commentIsFocused = false
-                        Task {
-                            let token = try await authVM.getFirebaseToken()
-                            await commentVM.postNewComment(publicationId: postId, text: commentVM.newCommentText, token: token)
+                HStack {
+                    TextField(commentVM.repliedComment == nil ? "Add a comment... " : "Add a reply...", text: $commentVM.newCommentText, axis: .vertical)
+                        .padding(10)
+                        .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .cornerRadius(20)
+                        .shadow(color: .gray, radius: 10)
+                        .focused($commentIsFocused)
+                        .onChange(of: commentVM.newCommentText) { newValue in
+                            if newValue.count > maxCommentLength {
+                                commentVM.newCommentText = String(newValue.prefix(maxCommentLength))
+                            }
                         }
-                    }) {
-                        Image(systemName: "paperplane.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 24)
-                            .foregroundColor(.blue)
+                    
+                    if !commentVM.newCommentText.isEmpty {
+                        Button(action: {
+                            commentIsFocused = false
+                            Task {
+                                let token = try await authVM.getFirebaseToken()
+                                await commentVM.postNewComment(publicationId: postId, text: commentVM.newCommentText, token: token)
+                            }
+                        }) {
+                            Image(systemName: "paperplane.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 24)
+                                .foregroundColor(.blue)
+                        }
                     }
                 }
+                .padding()
             }
-            .padding()
         }
     }
     
@@ -154,6 +156,6 @@ struct CommentScreen: View {
         id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
         userName: "Tim Cook",
         timestamp: Int(Date().timeIntervalSince1970), expirationDate: Int(Date().timeIntervalSince1970),
-        text: "Alguém sabe quando lança o Apple Vision Pro?", likes: 2, didLike: true, comment: 2, latitude: -3.125847431319091, longitude: -60.022035207661695, distanceToMe: 50.0,  isFromRecipientUser: true, isLocationVisible: false)))
+        text: "Alguém sabe quando lança o Apple Vision Pro?", likes: 2, didLike: true, comment: 2, latitude: -3.125847431319091, longitude: -60.022035207661695, distanceToMe: 50.0,  isFromRecipientUser: true, isLocationVisible: false, isSubscribed: false)))
     .environmentObject(AuthenticationViewModel())
 }

@@ -29,4 +29,15 @@ class NotificationViewModel: ObservableObject {
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
     }
+    
+    func deleteNotification(notificationId: String, token: String) async {
+        let result = await AYServices.shared.deleteNotification(notificationId: notificationId, token: token)
+        
+        switch result {
+        case .success:
+            notifications = notifications.filter { $0.id != notificationId }
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
 }

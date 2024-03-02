@@ -504,6 +504,12 @@
         }
       }
     },
+    "Follow post" : {
+
+    },
+    "Following post" : {
+
+    },
     "For account deletions, remember that this action is irreversible." : {
       "localizations" : {
         "pt-BR" : {
@@ -1068,6 +1074,12 @@
           }
         }
       }
+    },
+    "Unfollow post" : {
+
+    },
+    "Unfollowing post" : {
+
     },
     "Updating photo..." : {
       "localizations" : {

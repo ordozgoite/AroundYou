@@ -22,6 +22,7 @@
 		ED2F1A752B9142AA001F4300 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2F1A742B9142AA001F4300 /* NotificationViewModel.swift */; };
 		ED2F1A772B9142D3001F4300 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2F1A762B9142D3001F4300 /* NotificationView.swift */; };
 		ED2F1A7C2B91440E001F4300 /* FormattedNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2F1A7B2B91440E001F4300 /* FormattedNotification.swift */; };
+		ED2F1A7E2B927D9B001F4300 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2F1A7D2B927D9B001F4300 /* Subscription.swift */; };
 		ED41409C2B7DE41F002690A5 /* PostNewCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */; };
 		ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */; };
 		ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */; };
@@ -90,6 +91,7 @@
 		ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5CB16A2B7C11C000C336EC /* ContentView.swift */; };
 		ED5CB16D2B7C11C500C336EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED5CB16C2B7C11C500C336EC /* Assets.xcassets */; };
 		ED5CB1702B7C11C500C336EC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED5CB16F2B7C11C500C336EC /* Preview Assets.xcassets */; };
+		ED6D82BF2B938E4E00C57937 /* DeleteNotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6D82BE2B938E4E00C57937 /* DeleteNotificationResponse.swift */; };
 		ED6DD48B2B81908F00ADBB64 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD48A2B81908F00ADBB64 /* EditProfileViewModel.swift */; };
 		ED6DD48D2B82685D00ADBB64 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD48C2B82685D00ADBB64 /* Block.swift */; };
 		ED6DD4902B8272DD00ADBB64 /* BlockedUserScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD48F2B8272DD00ADBB64 /* BlockedUserScreen.swift */; };
@@ -159,6 +161,7 @@
 		ED2F1A742B9142AA001F4300 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		ED2F1A762B9142D3001F4300 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		ED2F1A7B2B91440E001F4300 /* FormattedNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedNotification.swift; sourceTree = "<group>"; };
+		ED2F1A7D2B927D9B001F4300 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNewCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePublicationResponse.swift; sourceTree = "<group>"; };
@@ -201,6 +204,7 @@
 		ED5CB16A2B7C11C000C336EC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ED5CB16C2B7C11C500C336EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED5CB16F2B7C11C500C336EC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		ED6D82BE2B938E4E00C57937 /* DeleteNotificationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteNotificationResponse.swift; sourceTree = "<group>"; };
 		ED6DD48A2B81908F00ADBB64 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		ED6DD48C2B82685D00ADBB64 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		ED6DD48F2B8272DD00ADBB64 /* BlockedUserScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserScreen.swift; sourceTree = "<group>"; };
@@ -410,6 +414,7 @@
 				EDA30DFB2B804BE5003EB22D /* Report.swift */,
 				ED06525A2B814722005B6413 /* BugReport.swift */,
 				ED2267902B9027F2006FE9D3 /* NextView.swift */,
+				ED2F1A7D2B927D9B001F4300 /* Subscription.swift */,
 				ED2267892B8EED3D006FE9D3 /* Data Transfer */,
 				EDA322392B7CCD79009905B5 /* Response */,
 			);
@@ -635,6 +640,7 @@
 				EDA30DF12B7FCDE3003EB22D /* EditProfileResponse.swift */,
 				ED6DD4932B8284ED00ADBB64 /* UnblockUserResponse.swift */,
 				ED6E84CA2B87EA9C00B94F5C /* CheckNearByPublicationsResponse.swift */,
+				ED6D82BE2B938E4E00C57937 /* DeleteNotificationResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -783,6 +789,7 @@
 				ED06525B2B814722005B6413 /* BugReport.swift in Sources */,
 				ED598C052B7C43A000B6C23D /* AuthenticationViewModel.swift in Sources */,
 				ED50C4532B7E4CCC0001EDF6 /* ErrorMessage.swift in Sources */,
+				ED2F1A7E2B927D9B001F4300 /* Subscription.swift in Sources */,
 				ED598BFC2B7C268C00B6C23D /* NewPostScreen.swift in Sources */,
 				EDA322302B7CB12D009905B5 /* FormattedPost.swift in Sources */,
 				EDA30DF82B7FE9B6003EB22D /* PostType.swift in Sources */,
@@ -815,6 +822,7 @@
 				ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */,
 				EDEECA292B8C09D000BD517D /* UserProfileDTO.swift in Sources */,
 				ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */,
+				ED6D82BF2B938E4E00C57937 /* DeleteNotificationResponse.swift in Sources */,
 				EDA30DEE2B7FBAF8003EB22D /* LaunchScreen.swift in Sources */,
 				EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */,
 				ED50C4592B7E98370001EDF6 /* ProfilePicView.swift in Sources */,

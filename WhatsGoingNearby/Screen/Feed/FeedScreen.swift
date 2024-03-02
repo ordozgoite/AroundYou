@@ -166,8 +166,8 @@ struct FeedScreen: View {
             switch response {
             case .success(let posts):
                 feedVM.posts = posts
-            case .failure:
-                feedVM.overlayError = (true, ErrorMessage.defaultErrorMessage)
+            case .failure(let error):
+                print("❌ Error: \(error)")
             }
         }
     }

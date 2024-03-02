@@ -34,6 +34,9 @@ enum AYEndpoints {
     case deleteProfilePic(token: String)
     case getPublication(publicationId: String, latitude: Double, longitude: Double, token: String)
     case getUserNotifications(token: String)
+    case subscribeUserToPublication(publicationId: String, token: String)
+    case unsubscribeUser(publicationId: String, token: String)
+    case deleteNotification(notificationId: String, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -94,6 +97,12 @@ extension AYEndpoints: Endpoint {
             return "/api/Publication/GetPublication"
         case .getUserNotifications:
             return "/api/Notification/GetUserNotifications"
+        case .subscribeUserToPublication(let publicationId, _):
+            return "/api/Subscription/SubscribeUserToPublication/\(publicationId)"
+        case .unsubscribeUser(let publicationId, _):
+            return "/api/Subscription/UnsubscribeUser/\(publicationId)"
+        case .deleteNotification(let notificationId, _):
+            return "/api/Notification/DeleteNotification/\(notificationId)"
         }
     }
     
@@ -101,7 +110,7 @@ extension AYEndpoints: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser, .likeComment, .unlikeComment, .deleteProfilePic:
+        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser, .likeComment, .unlikeComment, .deleteProfilePic, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification:
             return .post
         case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .getPublication, .getUserNotifications:
             return .get
@@ -300,6 +309,24 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .subscribeUserToPublication(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
+        case .unsubscribeUser(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
+        case .deleteNotification(_, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -363,7 +390,7 @@ extension AYEndpoints: Endpoint {
                 "blockedUserUid": blockedUserUid
             ]
             return params
-        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .deleteProfilePic, .getPublication, .getUserNotifications:
+        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .deleteProfilePic, .getPublication, .getUserNotifications, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification:
             return nil
         }
     }
