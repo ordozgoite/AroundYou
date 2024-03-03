@@ -26,7 +26,10 @@ struct AuthenticationScreen: View {
                     Spacer()
                     
                     if authVM.flow == .signUp {
-                        AYTextField(imageName: "person.fill", title: "Name", error: $authVM.errorMessage.0, inputText: $authVM.nameInput)
+                        AYTextField(imageName: "person.fill", title: "Username", error: $authVM.errorMessage.0, inputText: $authVM.fullNameInput)
+                            .focused($authInputIsFocused)
+                        
+                        AYTextField(imageName: "person.fill", title: "Full name", error: $authVM.errorMessage.0, inputText: $authVM.fullNameInput)
                             .textInputAutocapitalization(.words)
                             .focused($authInputIsFocused)
                     }
@@ -37,11 +40,6 @@ struct AuthenticationScreen: View {
                     
                     AYSecureTextField(imageName: "lock", title: "Password", error: $authVM.errorMessage.2, inputText: $authVM.passwordInput)
                         .focused($authInputIsFocused)
-                    
-                    if authVM.flow == .signUp {
-                        AYSecureTextField(imageName: "lock", title: "Confirm password", error: $authVM.errorMessage.3, inputText: $authVM.confirmPasswordInput)
-                            .focused($authInputIsFocused)
-                    }
                     
                     Spacer()
                     

@@ -8,7 +8,7 @@
 import Foundation
 
 enum AYEndpoints {
-    case postNewUser(name: String, userRegistrationToken: String, token: String)
+    case postNewUser(username: String, name: String?, userRegistrationToken: String, token: String)
     case postNewPublication(text: String, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String)
     case getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String)
     case getUserInfo(userRegistrationToken: String?, token: String)
@@ -171,7 +171,7 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
-        case .postNewUser(_, _, let token):
+        case .postNewUser(_, _, _, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
@@ -347,11 +347,12 @@ extension AYEndpoints: Endpoint {
                 "isLocationVisible": isLocationVisible
             ]
             return params
-        case .postNewUser(let name, let userRegistrationToken, _):
-            let params: [String: Any] = [
-                "name": name,
+        case .postNewUser(let username, let name, let userRegistrationToken, _):
+            var params: [String: Any] = [
+                "username": username,
                 "userRegistrationToken": userRegistrationToken
             ]
+            if let name = name { params["name"] = name }
             return params
         case .postNewComment(let comment, _):
             var params: [String: Any] = [
@@ -363,6 +364,7 @@ extension AYEndpoints: Endpoint {
             return params
         case .editProfile(let profile, _):
             var params: [String: Any] = [:]
+            if let username = profile.username { params["username"] = username }
             if let name = profile.name { params["name"] = name }
             if let biography = profile.biography { params["biography"] = biography }
             if let profilePic = profile.profilePic { params["profilePic"] = profilePic }

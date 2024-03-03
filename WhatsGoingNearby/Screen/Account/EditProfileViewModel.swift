@@ -14,8 +14,10 @@ import FirebaseStorage
 class EditProfileViewModel: ObservableObject {
     
     let maxNameLenght = 20
+    let maxUsernameLenght = 20
     let maxBioLenght = 250
     
+    @Published var usernameInput: String = ""
     @Published var nameInput: String = ""
     @Published var bioInput: String = ""
     @Published var profilePicUrl: String?
@@ -43,14 +45,22 @@ class EditProfileViewModel: ObservableObject {
         switch result {
         case .success(let user):
             updateInfo(forUser: user)
-            // update enviroment
-        case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        case .failure(let error):
+            if error == .conflict {
+                overlayError = (true, ErrorMessage.usernameInUseMessage)
+            } else {
+                overlayError = (true, ErrorMessage.defaultErrorMessage)
+            }
         }
     }
     
-    func editProfile(token: String) async {
-        let profile = UserProfileDTO(name: nameInput.isEmpty ? nil : nameInput, profilePic: nil, biography: bioInput.isEmpty ? nil : bioInput)
+    func editProfile(token: String) async -> Bool {
+        if !validateUsername() {
+            overlayError = (true, ErrorMessage.invalidUsernameMessage)
+            return false
+        }
+        
+        let profile = UserProfileDTO(username: usernameInput, name: nameInput.isEmpty ? nil : nameInput, profilePic: nil, biography: bioInput.isEmpty ? nil : bioInput)
         
         isEditingProfile = true
         let result = await AYServices.shared.editProfile(profile: profile, token: token)
@@ -60,9 +70,11 @@ class EditProfileViewModel: ObservableObject {
         case .success:
             await getUserInfo(token: token)
             isSuccessAlertDisplayed = true
+            return true
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
+        return false
     }
     
     func storeImage(forUser userUid: String, token: String) async throws -> String? {
@@ -75,7 +87,7 @@ class EditProfileViewModel: ObservableObject {
         _ = try await fileRef.putDataAsync(imageData!)
         
         let imageUrl = try await fileRef.downloadURL()
-        let profile = UserProfileDTO(name: nil, profilePic: imageUrl.absoluteString, biography: nil)
+        let profile = UserProfileDTO(username: nil, name: nil, profilePic: imageUrl.absoluteString, biography: nil)
         
         let result = await AYServices.shared.editProfile(profile: profile, token: token)
         isStoringPhoto = false
@@ -104,13 +116,19 @@ class EditProfileViewModel: ObservableObject {
     }
     
     private func updateInfo(forUser user: MongoUser) {
-        nameInput = user.name
+        usernameInput = user.username
+        nameInput = user.name ?? ""
         bioInput = user.biography ?? ""
         if let url = user.profilePic {
             profilePicUrl = url
         } else {
             profilePicUrl = nil
         }
+    }
+    
+    private func validateUsername() -> Bool {
+        let allowedCharacters = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._")
+        return usernameInput.rangeOfCharacter(from: allowedCharacters.inverted) == nil
     }
     
     private func loadTransferable(from imageSelection: PhotosPickerItem) -> Progress {

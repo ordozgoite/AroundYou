@@ -65,11 +65,18 @@ struct AccountScreen: View {
                     .foregroundStyle(.gray)
             }
             
-            VStack {
-                Text(authVM.name)
-                    .font(.title)
-                    .fontWeight(.semibold)
-                    .multilineTextAlignment(.center)
+            VStack(spacing: 16) {
+                VStack {
+                    Text(authVM.name ?? "")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                        .multilineTextAlignment(.center)
+                    
+                    Text("@\(authVM.username)")
+                        .foregroundStyle(.gray)
+                        .fontWeight(.semibold)
+                        .font(.subheadline)
+                }
                 
                 Text(authVM.biography ?? "No bio")
                     .foregroundStyle(.gray)

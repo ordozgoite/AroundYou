@@ -33,7 +33,7 @@ struct LikeScreen: View {
                             NavigationLink(destination: UserProfileScreen(userUid: user.userUid).environmentObject(authVM)) {
                                 ProfilePicView(profilePic: user.profilePic)
                                 
-                                Text(user.name)
+                                Text(user.username)
                             }
                             .buttonStyle(PlainButtonStyle())
                         }

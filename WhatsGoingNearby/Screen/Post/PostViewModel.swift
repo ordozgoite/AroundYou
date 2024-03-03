@@ -11,7 +11,7 @@ import SwiftUI
 @MainActor
 class PostViewModel: ObservableObject {
     
-    @Published var post: FormattedPost = FormattedPost(id: "", userUid: "", userProfilePic: nil, userName: "", timestamp: 0, expirationDate: 0, text: "", likes: 0, didLike: false, comment: 0, latitude: nil, longitude: nil, distanceToMe: nil, isFromRecipientUser: false, isLocationVisible: false, isSubscribed: false)
+    @Published var post: FormattedPost = FormattedPost(id: "", userUid: "", userProfilePic: nil, username: "", timestamp: 0, expirationDate: 0, text: "", likes: 0, didLike: false, comment: 0, latitude: nil, longitude: nil, distanceToMe: nil, isFromRecipientUser: false, isLocationVisible: false, isSubscribed: false)
     
     @Published var comments: [FormattedComment] = []
     @Published var newCommentText: String = ""

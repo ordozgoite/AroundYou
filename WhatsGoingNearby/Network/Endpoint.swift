@@ -39,6 +39,7 @@ enum RequestError: Error {
     case noResponse
     case unauthorized
     case dataNotFound
+    case conflict
     case incorrectOTP
     case unexpectedStatusCode
     case forbidden
@@ -57,6 +58,8 @@ enum RequestError: Error {
             return "Data not found"
         case .incorrectOTP:
             return "You entered incorrect OTP"
+        case .conflict:
+            return "Conflict data"
         default:
             return "Unknown error"
         }

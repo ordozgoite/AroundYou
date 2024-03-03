@@ -44,13 +44,13 @@ struct PostView: View {
             
             if #available(iOS 17.0, *) {
                 NavigationLink(
-                    destination: NewMapScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, userName: post.userName, profilePic: post.userProfilePic).environmentObject(authVM),
+                    destination: NewPostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, username: post.username, profilePic: post.userProfilePic).environmentObject(authVM),
                     isActive: $isMapScreenPresented,
                     label: { EmptyView() }
                 )
             } else {
                 NavigationLink(
-                    destination: MapScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0).environmentObject(authVM),
+                    destination: PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0).environmentObject(authVM),
                     isActive: $isMapScreenPresented,
                     label: { EmptyView() }
                 )
@@ -82,7 +82,7 @@ struct PostView: View {
     @ViewBuilder
     private func HeaderView() -> some View {
         HStack {
-            Text(post.userName)
+            Text(post.username)
                 .fontWeight(.semibold)
             
             if post.type == .active {
@@ -322,7 +322,7 @@ struct PostView: View {
 #Preview {
     PostView(post: .constant(FormattedPost(
         id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
-        userName: "Victor Ordozgoite",
+        username: "ordozgoite",
         timestamp: Int(Date().timeIntervalSince1970), expirationDate: Int(Date().timeIntervalSince1970),
         text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", likes: 2, didLike: true, comment: 2, latitude: -3.125847431319091, longitude: -60.022035207661695, distanceToMe: 50.0, isFromRecipientUser: true, isLocationVisible: false, isSubscribed: false)), deletePost: {})
     .environmentObject(AuthenticationViewModel())

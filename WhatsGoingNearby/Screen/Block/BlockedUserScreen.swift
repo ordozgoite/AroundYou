@@ -26,7 +26,7 @@ struct BlockedUserScreen: View {
                             HStack {
                                 ProfilePicView(profilePic: user.profilePic)
                                 
-                                Text(user.name)
+                                Text(user.username)
                             }
                             .onTapGesture {
                                 blockedUserVM.selectedUser = user

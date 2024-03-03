@@ -97,20 +97,29 @@ struct UserProfileScreen: View {
     
     @ViewBuilder
     private func ProfileHeader() -> some View {
-        VStack {
+        VStack(spacing: 16) {
             ProfilePic(frame: 128)
                 .onTapGesture {
                     userProfileVM.isProfilePicFullScreen = true
                 }
             
-            Text(userProfileVM.userProfile?.name ?? "")
-                .font(.title)
-                .fontWeight(.semibold)
-                .multilineTextAlignment(.center)
-            
-            Text(userProfileVM.userProfile?.biography ?? "No bio.")
-                .foregroundStyle(.gray)
-                .multilineTextAlignment(.center)
+            VStack(spacing: 16) {
+                VStack {
+                    Text(userProfileVM.userProfile?.name ?? "")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                        .multilineTextAlignment(.center)
+                    
+                    Text("@" + (userProfileVM.userProfile?.username ?? ""))
+                        .foregroundStyle(.gray)
+                        .fontWeight(.semibold)
+                        .font(.subheadline)
+                }
+                
+                Text(userProfileVM.userProfile?.biography ?? "No bio.")
+                    .foregroundStyle(.gray)
+                    .multilineTextAlignment(.center)
+            }
         }
         .padding()
     }

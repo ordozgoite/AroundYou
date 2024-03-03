@@ -9,11 +9,11 @@ import SwiftUI
 import MapKit
 
 @available(iOS 17.0, *)
-struct NewMapScreen: View {
+struct NewPostLocationScreen: View {
     
     let latitude: Double
     let longitude: Double
-    let userName: String
+    let username: String
     let profilePic: String?
     
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
@@ -21,7 +21,7 @@ struct NewMapScreen: View {
     var body: some View {
         Map(position: $position) {
             Annotation(
-                userName,
+                username,
                 coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
                 anchor: .bottom
             ) {

@@ -13,6 +13,7 @@ struct PreparingSessionScreen: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var minAnimDisplayTimeReached = false
     @State private var hasCompletedOnboarding = LocalState.hasCompletedOnboarding
+    @State private var isMissingUsername: Bool = false
     
     var body: some View {
         VStack {
@@ -24,17 +25,20 @@ struct PreparingSessionScreen: View {
                         .environmentObject(authVM)
                 }
             } else {
-                PreparingSessionAnimation()
-                    .onAppear {
-                        Task {
-                            if authVM.authenticationState == .authenticated {
-                                print("⚠️ Começou a carregar a sessão")
-                                let token = try await authVM.getFirebaseToken()
-                                print("🔑 USER TOKEN: \(token)")
-                                await authVM.getUserInfo(token: token)
+                if isMissingUsername {
+                    UsernameScreen()
+                        .environmentObject(authVM)
+                } else {
+                    PreparingSessionAnimation()
+                        .onAppear {
+                            Task {
+                                if authVM.authenticationState == .authenticated {
+                                    let token = try await authVM.getFirebaseToken()
+                                    isMissingUsername = await authVM.getUserInfo(token: token)
+                                }
                             }
                         }
-                    }
+                }
             }
         }
     }

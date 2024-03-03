@@ -15,8 +15,15 @@ struct MainTabView: View {
         TabView {
             FeedScreen()
                 .tabItem {
-                    Image(systemName: "location.fill")
+                    Image(systemName: "globe")
                     Text("Around You")
+                }
+                .environmentObject(authVM)
+            
+            MapScreen()
+                .tabItem {
+                    Image(systemName: "mappin.and.ellipse")
+                    Text("Map")
                 }
                 .environmentObject(authVM)
             
@@ -28,8 +35,4 @@ struct MainTabView: View {
                 .environmentObject(authVM)
         }
     }
-}
-
-#Preview {
-    MainTabView()
 }

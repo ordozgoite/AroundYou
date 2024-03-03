@@ -10,7 +10,7 @@ import Foundation
 protocol AYServiceable {
     
     // User
-    func postNewUser(name: String, userRegistrationToken: String, token: String) async -> Result<MongoUser, RequestError>
+    func postNewUser(username: String, name: String?, userRegistrationToken: String, token: String) async -> Result<MongoUser, RequestError>
     func getUserInfo(userRegistrationToken: String?, token: String) async -> Result<MongoUser, RequestError>
     func getUserProfile(userUid: String, token: String) async -> Result<UserProfile, RequestError>
     func editProfile(profile: UserProfileDTO, token: String) async -> Result<EditProfileResponse, RequestError>
@@ -62,8 +62,8 @@ struct AYServices: HTTPClient, AYServiceable {
     
     //MARK: - User
     
-    func postNewUser(name: String, userRegistrationToken: String, token: String) async -> Result<MongoUser, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.postNewUser(name: name, userRegistrationToken: userRegistrationToken, token: token), responseModel: MongoUser.self)
+    func postNewUser(username: String, name: String?, userRegistrationToken: String, token: String) async -> Result<MongoUser, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewUser(username: username, name: name, userRegistrationToken: userRegistrationToken, token: token), responseModel: MongoUser.self)
     }
     
     func getUserInfo(userRegistrationToken: String? = nil, token: String) async -> Result<MongoUser, RequestError> {

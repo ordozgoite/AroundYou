@@ -2,20 +2,62 @@
 //  MapScreen.swift
 //  WhatsGoingNearby
 //
-//  Created by Victor Ordozgoite on 24/02/24.
+//  Created by Victor Ordozgoite on 02/03/24.
 //
 
 import SwiftUI
+import MapKit
 
+@available(iOS 17.0, *)
 struct MapScreen: View {
     
-    let latitude: Double
-    let longitude: Double
+    @EnvironmentObject var authVM: AuthenticationViewModel
+    @ObservedObject private var mapVM = MapViewModel()
+    
+    @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
+    @State private var visibleRegion: MKCoordinateRegion?
     
     var body: some View {
-        MapView(latitude: latitude, longitude: longitude)
-            .edgesIgnoringSafeArea(.all)
-            .navigationTitle("Post Location")
-            .navigationBarTitleDisplayMode(.large)
+        Map(position: $position) {
+            UserAnnotation()
+            
+            ForEach(mapVM.posts) { post in
+                if let latitude = post.latitude, let longitude = post.longitude {
+                    Annotation(
+                        post.username,
+                        coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
+                        anchor: .bottom
+                    ) {
+                        Image(systemName: "bubble.left.fill")
+                            .resizable()
+                            .frame(width: 32, height: 32, alignment: .center)
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundStyle(.white)
+                            .shadow(color: .black, radius: 2.5, x: 1, y: 1)
+                    }
+                }
+            }
+        }
+        .safeAreaInset(edge: .bottom) {
+            HStack {
+                AYButton(title: "Search Around You") {
+                    Task {
+                        if let latitude = visibleRegion?.center.latitude, let longitude = visibleRegion?.center.longitude {
+                            let token = try await authVM.getFirebaseToken()
+                            await mapVM.getPostsNearBy(latitude: latitude, longitude: longitude, token: token)
+                        }
+                    }
+                }.padding()
+            }
+            .background(.thinMaterial)
+        }
+        .onMapCameraChange { context in
+            visibleRegion = context.region
+        }
+        .navigationTitle("Map")
     }
+}
+
+#Preview {
+    MapScreen()
 }

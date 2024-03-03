@@ -122,6 +122,8 @@ extension HTTPClient {
                 return .failure(.forbidden)
             case 404:
                 return .failure(.dataNotFound)
+            case 409:
+                return .failure(.conflict)
             case 412:
                 return .failure(.incorrectOTP)
             case 500...502:

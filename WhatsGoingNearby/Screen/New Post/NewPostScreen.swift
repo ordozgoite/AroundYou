@@ -101,7 +101,7 @@ struct NewPostScreen: View {
             }
             
             VStack(alignment: .leading) {
-                Text(authVM.name)
+                Text(authVM.username)
                     .fontWeight(.semibold)
                 
                 Picker("", selection: $newPostVM.selectedPostLocationVisibilty) {

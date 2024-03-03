@@ -92,18 +92,21 @@
 		ED5CB16D2B7C11C500C336EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED5CB16C2B7C11C500C336EC /* Assets.xcassets */; };
 		ED5CB1702B7C11C500C336EC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED5CB16F2B7C11C500C336EC /* Preview Assets.xcassets */; };
 		ED6D82BF2B938E4E00C57937 /* DeleteNotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6D82BE2B938E4E00C57937 /* DeleteNotificationResponse.swift */; };
+		ED6D82C32B93D1E700C57937 /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6D82C22B93D1E700C57937 /* MapScreen.swift */; };
+		ED6D82C52B93D7BE00C57937 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6D82C42B93D7BE00C57937 /* MapViewModel.swift */; };
+		ED6D82C72B941F8000C57937 /* UsernameScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6D82C62B941F8000C57937 /* UsernameScreen.swift */; };
 		ED6DD48B2B81908F00ADBB64 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD48A2B81908F00ADBB64 /* EditProfileViewModel.swift */; };
 		ED6DD48D2B82685D00ADBB64 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD48C2B82685D00ADBB64 /* Block.swift */; };
 		ED6DD4902B8272DD00ADBB64 /* BlockedUserScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD48F2B8272DD00ADBB64 /* BlockedUserScreen.swift */; };
 		ED6DD4922B82739400ADBB64 /* BlockedUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD4912B82739400ADBB64 /* BlockedUserViewModel.swift */; };
 		ED6DD4942B8284ED00ADBB64 /* UnblockUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD4932B8284ED00ADBB64 /* UnblockUserResponse.swift */; };
 		ED6DD4962B82E5B900ADBB64 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD4952B82E5B900ADBB64 /* MapView.swift */; };
-		ED6DD4992B82E5E900ADBB64 /* NewMapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD4982B82E5E900ADBB64 /* NewMapScreen.swift */; };
+		ED6DD4992B82E5E900ADBB64 /* NewPostLocationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6DD4982B82E5E900ADBB64 /* NewPostLocationScreen.swift */; };
 		ED6E84CB2B87EA9C00B94F5C /* CheckNearByPublicationsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84CA2B87EA9C00B94F5C /* CheckNearByPublicationsResponse.swift */; };
 		ED6E84CE2B882DED00B94F5C /* LikeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84CD2B882DED00B94F5C /* LikeScreen.swift */; };
 		ED6E84D02B882E4B00B94F5C /* LikeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84CF2B882E4B00B94F5C /* LikeViewModel.swift */; };
 		ED6E84D62B887B3000B94F5C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84D52B887B3000B94F5C /* Notification.swift */; };
-		ED6E84F42B89C82C00B94F5C /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84F32B89C82C00B94F5C /* MapScreen.swift */; };
+		ED6E84F42B89C82C00B94F5C /* PostLocationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84F32B89C82C00B94F5C /* PostLocationScreen.swift */; };
 		ED884BEB2B8CF3D80071E1C4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = ED884BEA2B8CF3D80071E1C4 /* Localizable.xcstrings */; };
 		EDA30DE52B7FAB20003EB22D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EDA30DE42B7FAB20003EB22D /* Lottie */; };
 		EDA30DE92B7FAB69003EB22D /* radar.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE72B7FAB68003EB22D /* radar.json */; };
@@ -205,18 +208,21 @@
 		ED5CB16C2B7C11C500C336EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED5CB16F2B7C11C500C336EC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		ED6D82BE2B938E4E00C57937 /* DeleteNotificationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteNotificationResponse.swift; sourceTree = "<group>"; };
+		ED6D82C22B93D1E700C57937 /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
+		ED6D82C42B93D7BE00C57937 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		ED6D82C62B941F8000C57937 /* UsernameScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameScreen.swift; sourceTree = "<group>"; };
 		ED6DD48A2B81908F00ADBB64 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		ED6DD48C2B82685D00ADBB64 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		ED6DD48F2B8272DD00ADBB64 /* BlockedUserScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserScreen.swift; sourceTree = "<group>"; };
 		ED6DD4912B82739400ADBB64 /* BlockedUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserViewModel.swift; sourceTree = "<group>"; };
 		ED6DD4932B8284ED00ADBB64 /* UnblockUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnblockUserResponse.swift; sourceTree = "<group>"; };
 		ED6DD4952B82E5B900ADBB64 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		ED6DD4982B82E5E900ADBB64 /* NewMapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMapScreen.swift; sourceTree = "<group>"; };
+		ED6DD4982B82E5E900ADBB64 /* NewPostLocationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostLocationScreen.swift; sourceTree = "<group>"; };
 		ED6E84CA2B87EA9C00B94F5C /* CheckNearByPublicationsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckNearByPublicationsResponse.swift; sourceTree = "<group>"; };
 		ED6E84CD2B882DED00B94F5C /* LikeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeScreen.swift; sourceTree = "<group>"; };
 		ED6E84CF2B882E4B00B94F5C /* LikeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewModel.swift; sourceTree = "<group>"; };
 		ED6E84D52B887B3000B94F5C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
-		ED6E84F32B89C82C00B94F5C /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
+		ED6E84F32B89C82C00B94F5C /* PostLocationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLocationScreen.swift; sourceTree = "<group>"; };
 		ED884BEA2B8CF3D80071E1C4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		EDA30DE72B7FAB68003EB22D /* radar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = radar.json; sourceTree = "<group>"; };
 		EDA30DE82B7FAB69003EB22D /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
@@ -371,6 +377,7 @@
 				ED598C4B2B7C587100B6C23D /* AuthenticatedScreen.swift */,
 				EDA3223C2B7CCF64009905B5 /* PreparingSessionScreen.swift */,
 				ED06525C2B8171C5005B6413 /* ForgotPasswordScreen.swift */,
+				ED6D82C62B941F8000C57937 /* UsernameScreen.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -401,16 +408,16 @@
 		ED598BEE2B7C147400B6C23D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				EDA3222F2B7CB12C009905B5 /* FormattedPost.swift */,
+				EDA3224A2B7DB345009905B5 /* FormattedComment.swift */,
+				ED2F1A7B2B91440E001F4300 /* FormattedNotification.swift */,
+				ED50C4542B7E94030001EDF6 /* UserProfile.swift */,
 				ED6DD48C2B82685D00ADBB64 /* Block.swift */,
 				ED50C44D2B7E3BE20001EDF6 /* PostVisibility.swift */,
 				EDA30DF72B7FE9B6003EB22D /* PostType.swift */,
 				ED598BEF2B7C147D00B6C23D /* Post.swift */,
 				EDA3223A2B7CCD8A009905B5 /* MongoUser.swift */,
 				EDA322482B7DB2BA009905B5 /* Comment.swift */,
-				EDA3222F2B7CB12C009905B5 /* FormattedPost.swift */,
-				EDA3224A2B7DB345009905B5 /* FormattedComment.swift */,
-				ED2F1A7B2B91440E001F4300 /* FormattedNotification.swift */,
-				ED50C4542B7E94030001EDF6 /* UserProfile.swift */,
 				EDA30DFB2B804BE5003EB22D /* Report.swift */,
 				ED06525A2B814722005B6413 /* BugReport.swift */,
 				ED2267902B9027F2006FE9D3 /* NextView.swift */,
@@ -534,8 +541,9 @@
 			children = (
 				EDA30DED2B7FBAF8003EB22D /* LaunchScreen.swift */,
 				ED598BE92B7C121000B6C23D /* Authentication */,
+				ED6D82C12B93D1BE00C57937 /* Map */,
 				ED598BEA2B7C121D00B6C23D /* Feed */,
-				ED6DD4972B82E5DB00ADBB64 /* Map */,
+				ED6DD4972B82E5DB00ADBB64 /* Location */,
 				ED2F1A712B91426F001F4300 /* Notification */,
 				EDA322432B7DB068009905B5 /* Comment */,
 				EDA322422B7DB059009905B5 /* New Post */,
@@ -555,6 +563,15 @@
 			path = Screen;
 			sourceTree = "<group>";
 		};
+		ED6D82C12B93D1BE00C57937 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				ED6D82C42B93D7BE00C57937 /* MapViewModel.swift */,
+				ED6D82C22B93D1E700C57937 /* MapScreen.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		ED6DD48E2B82729C00ADBB64 /* Block */ = {
 			isa = PBXGroup;
 			children = (
@@ -564,13 +581,13 @@
 			path = Block;
 			sourceTree = "<group>";
 		};
-		ED6DD4972B82E5DB00ADBB64 /* Map */ = {
+		ED6DD4972B82E5DB00ADBB64 /* Location */ = {
 			isa = PBXGroup;
 			children = (
-				ED6DD4982B82E5E900ADBB64 /* NewMapScreen.swift */,
-				ED6E84F32B89C82C00B94F5C /* MapScreen.swift */,
+				ED6DD4982B82E5E900ADBB64 /* NewPostLocationScreen.swift */,
+				ED6E84F32B89C82C00B94F5C /* PostLocationScreen.swift */,
 			);
-			path = Map;
+			path = Location;
 			sourceTree = "<group>";
 		};
 		ED6E84CC2B882DD800B94F5C /* Like */ = {
@@ -785,7 +802,7 @@
 				ED598C0F2B7C499400B6C23D /* AYSecureTextField.swift in Sources */,
 				EDA30DF02B7FC620003EB22D /* AccountViewModel.swift in Sources */,
 				EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */,
-				ED6DD4992B82E5E900ADBB64 /* NewMapScreen.swift in Sources */,
+				ED6DD4992B82E5E900ADBB64 /* NewPostLocationScreen.swift in Sources */,
 				ED06525B2B814722005B6413 /* BugReport.swift in Sources */,
 				ED598C052B7C43A000B6C23D /* AuthenticationViewModel.swift in Sources */,
 				ED50C4532B7E4CCC0001EDF6 /* ErrorMessage.swift in Sources */,
@@ -807,7 +824,7 @@
 				EDA3222C2B7CA3A8009905B5 /* AYServices.swift in Sources */,
 				ED6E84CB2B87EA9C00B94F5C /* CheckNearByPublicationsResponse.swift in Sources */,
 				ED598C4A2B7C576A00B6C23D /* AYProgressButton.swift in Sources */,
-				ED6E84F42B89C82C00B94F5C /* MapScreen.swift in Sources */,
+				ED6E84F42B89C82C00B94F5C /* PostLocationScreen.swift in Sources */,
 				ED22678F2B9026C1006FE9D3 /* NotificationManager.swift in Sources */,
 				ED598BFA2B7C217400B6C23D /* AYProgressView.swift in Sources */,
 				ED2F1A6B2B9048DC001F4300 /* PostScreen.swift in Sources */,
@@ -821,10 +838,12 @@
 				EDA30DFE2B804DBB003EB22D /* ReportDTO.swift in Sources */,
 				ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */,
 				EDEECA292B8C09D000BD517D /* UserProfileDTO.swift in Sources */,
+				ED6D82C52B93D7BE00C57937 /* MapViewModel.swift in Sources */,
 				ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */,
 				ED6D82BF2B938E4E00C57937 /* DeleteNotificationResponse.swift in Sources */,
 				EDA30DEE2B7FBAF8003EB22D /* LaunchScreen.swift in Sources */,
 				EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */,
+				ED6D82C32B93D1E700C57937 /* MapScreen.swift in Sources */,
 				ED50C4592B7E98370001EDF6 /* ProfilePicView.swift in Sources */,
 				ED50C4552B7E94030001EDF6 /* UserProfile.swift in Sources */,
 				ED6DD4942B8284ED00ADBB64 /* UnblockUserResponse.swift in Sources */,
@@ -863,6 +882,7 @@
 				ED598C072B7C441500B6C23D /* AuthFlowSegmentedControl.swift in Sources */,
 				EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */,
 				EDA322492B7DB2BA009905B5 /* Comment.swift in Sources */,
+				ED6D82C72B941F8000C57937 /* UsernameScreen.swift in Sources */,
 				ED598BFE2B7C39FD00B6C23D /* MainTabView.swift in Sources */,
 				ED598C0D2B7C482A00B6C23D /* AYTextField.swift in Sources */,
 				EDEECA212B8A6DA100BD517D /* OnBoardingScreen.swift in Sources */,
@@ -1019,7 +1039,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1053,7 +1073,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

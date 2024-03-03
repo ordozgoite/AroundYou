@@ -34,17 +34,18 @@ enum AuthenticationFlow: Int, CaseIterable {
 @MainActor
 class AuthenticationViewModel: ObservableObject {
     
-    @Published var nameInput: String = ""
+    @Published var usernameInput: String = ""
+    @Published var fullNameInput: String = ""
     @Published var emailInput: String = ""
     @Published var passwordInput: String = ""
-    @Published var confirmPasswordInput: String = ""
     @Published var flow: AuthenticationFlow = .login
     @Published var isValid  = false
     @Published var authenticationState: AuthenticationState = .unauthenticated
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var user: User?
     
-    @Published var name: String = ""
+    @Published var username: String = ""
+    @Published var name: String?
     @Published var profilePic: String?
     @Published var biography: String?
     @Published var isUserInfoFetched: Bool = false
@@ -56,11 +57,11 @@ class AuthenticationViewModel: ObservableObject {
         registerAuthStateHandler()
         
         $flow
-            .combineLatest($emailInput, $passwordInput, $confirmPasswordInput)
-            .map { flow, email, password, confirmPassword in
+            .combineLatest($emailInput, $passwordInput)
+            .map { flow, email, password in
                 flow == .login
                 ? !(email.isEmpty || password.isEmpty)
-                : !(email.isEmpty || password.isEmpty || confirmPassword.isEmpty)
+                : !(email.isEmpty || password.isEmpty)
             }
             .assign(to: &$isValid)
     }
@@ -195,7 +196,7 @@ extension AuthenticationViewModel {
     func signUpWithEmailPassword() async -> Bool {
         authenticationState = .authenticating
         do  {
-            self.name = nameInput
+            self.name = fullNameInput
             let authResult = try await Auth.auth().createUser(withEmail: emailInput, password: passwordInput)
             user = authResult.user
             print("🤝 User \(authResult.user.uid) signed in.")
@@ -251,58 +252,63 @@ extension AuthenticationViewModel {
 //MARK: - AY Methods
 
 extension AuthenticationViewModel {
-    func postNewUser(token: String, name: String) async {
-        let result = await AYServices.shared.postNewUser(name: name, userRegistrationToken: LocalState.userRegistrationToken, token: token)
+    func postNewUser(username: String, name: String?, token: String) async {
+        let result = await AYServices.shared.postNewUser(username: username, name: name, userRegistrationToken: LocalState.userRegistrationToken, token: token)
         
         switch result {
         case .success(let user):
             LocalState.currentUserUid = user.userUid
-            self.name = user.name
+            self.username = user.username
+            self.name = user.name ?? ""
             profilePic = user.profilePic
             biography = user.biography
             isUserInfoFetched = true
-        case .failure(let error):
+        case .failure:
             signOut()
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
     }
     
-    func getUserInfo(token: String) async {
+    func getUserInfo(token: String) async -> Bool {
         let result = await AYServices.shared.getUserInfo(userRegistrationToken: LocalState.userRegistrationToken.isEmpty ? nil : LocalState.userRegistrationToken, token: token)
         
         switch result {
         case .success(let user):
             LocalState.currentUserUid = user.userUid
-            name = user.name
+            username = user.username
+            name = user.name ?? ""
             profilePic = user.profilePic
             biography = user.biography
             isUserInfoFetched = true
         case .failure(let error):
             print("❌ Error: \(error)")
             if error == .dataNotFound {
-                await postNewUser(token: token, name: self.name)
+                if usernameInput.isEmpty {
+                    return true
+                } else {
+                    await postNewUser(username: usernameInput, name: fullNameInput.isEmpty ? nil : fullNameInput, token: token)
+                }
             } else {
                 signOut()
                 overlayError = (true, ErrorMessage.defaultErrorMessage)
             }
         }
+        return false
     }
     
     func isLoginInputValid() -> Bool {
         errorMessage = (nil, nil, nil, nil)
-        if emailInput.isEmpty { errorMessage.1 = "Please enter your email." }
-        if passwordInput.isEmpty { errorMessage.2 = "Please enter your password." }
+        if emailInput.isEmpty { errorMessage.2 = "Please enter your email." }
+        if passwordInput.isEmpty { errorMessage.3 = "Please enter your password." }
         let (_, b, c, _) = errorMessage
         return b == nil && c == nil ? true : false
     }
 
     func isSignupInputValid() -> Bool {
         errorMessage = (nil, nil, nil, nil)
-        if nameInput.isEmpty { errorMessage.0 = "Please enter your name." }
-        if emailInput.isEmpty { errorMessage.1 = "Please enter your email." }
-        if passwordInput.isEmpty { errorMessage.2 = "Please enter your password." }
-        if confirmPasswordInput != passwordInput { errorMessage.3 = "Your passwords do not match." }
-        if confirmPasswordInput.isEmpty { errorMessage.3 = "Please confirm your password." }
+        if usernameInput.isEmpty { errorMessage.0 = "Please enter your username." }
+        if emailInput.isEmpty { errorMessage.2 = "Please enter your email." }
+        if passwordInput.isEmpty { errorMessage.3 = "Please enter your password." }
         let (a, b, c, d) = errorMessage
         return a == nil && b == nil && c == nil && d == nil ? true : false
     }
@@ -314,9 +320,8 @@ extension AuthenticationViewModel {
     }
     
     private func resetInputs() {
-        nameInput = ""
+        fullNameInput = ""
         emailInput = ""
         passwordInput = ""
-        confirmPasswordInput = ""
     }
 }

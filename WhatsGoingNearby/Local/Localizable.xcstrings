@@ -4,6 +4,9 @@
     "" : {
 
     },
+    "@%@" : {
+
+    },
     "%@" : {
 
     },
@@ -250,6 +253,9 @@
         }
       }
     },
+    "Choose a username" : {
+
+    },
     "Comment this post" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -272,6 +278,7 @@
       }
     },
     "Confirm password" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -530,6 +537,9 @@
         }
       }
     },
+    "Full name" : {
+
+    },
     "Help" : {
       "localizations" : {
         "pt-BR" : {
@@ -646,6 +656,9 @@
         }
       }
     },
+    "Map" : {
+
+    },
     "Name" : {
       "localizations" : {
         "pt-BR" : {
@@ -750,6 +763,7 @@
       }
     },
     "Please confirm your password." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -770,6 +784,7 @@
       }
     },
     "Please enter your name." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -788,6 +803,9 @@
           }
         }
       }
+    },
+    "Please enter your username." : {
+
     },
     "Post" : {
       "localizations" : {
@@ -955,6 +973,9 @@
         }
       }
     },
+    "Search Around You" : {
+
+    },
     "Second Location" : {
       "localizations" : {
         "pt-BR" : {
@@ -1055,6 +1076,9 @@
         }
       }
     },
+    "This username isn't available. Please try another." : {
+
+    },
     "Unblock" : {
       "localizations" : {
         "pt-BR" : {
@@ -1090,6 +1114,12 @@
           }
         }
       }
+    },
+    "Username" : {
+
+    },
+    "Username can only contain letters and numbers." : {
+
     },
     "Version 0.1.0" : {
       "localizations" : {
@@ -1185,6 +1215,7 @@
       }
     },
     "Your passwords do not match." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {

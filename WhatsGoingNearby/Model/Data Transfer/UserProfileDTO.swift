@@ -8,6 +8,7 @@
 import Foundation
 
 struct UserProfileDTO: Codable {
+    let username: String?
     let name: String?
     let profilePic: String?
     let biography: String?

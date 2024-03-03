@@ -16,137 +16,159 @@ struct EditProfileScreen: View {
     @Environment(\.presentationMode) var presentationMode
     
     private var hasChangedProfile: Bool {
+        let usernameChanged = editProfileVM.usernameInput != authVM.username
         let nameChanged = editProfileVM.nameInput != authVM.name
         var bioChanged = editProfileVM.bioInput != authVM.biography
         if authVM.biography == nil && editProfileVM.bioInput.isEmpty { bioChanged = false }
         
-        return nameChanged || bioChanged
+        return usernameChanged || nameChanged || bioChanged
     }
     
     var body: some View {
         NavigationStack {
-            VStack {
-                if editProfileVM.isLoading {
-                    ProgressView()
-                } else {
-                    Form {
-                        
-                        //MARK: - Profile Photo
-                        
-                        Section {
-                            HStack {
-                                Spacer()
-                                ProfileImage()
-                                Spacer()
-                            }
-                        }
-                        .listRowBackground(Color(.systemGroupedBackground))
-                        
-                        //MARK: - Remove Photo
-                        
-                        if editProfileVM.profilePicUrl != nil {
+            ZStack {
+                VStack {
+                    if editProfileVM.isLoading {
+                        ProgressView()
+                    } else {
+                        Form {
+                            
+                            //MARK: - Profile Photo
+                            
                             Section {
                                 HStack {
                                     Spacer()
-                                    if editProfileVM.isRemovingPhoto {
-                                        Text("Removing photo...")
-                                            .foregroundStyle(.gray)
-                                    } else {
-                                        Button("Remove photo") {
-                                            Task {
-                                                let token = try await authVM.getFirebaseToken()
-                                                await editProfileVM.removePhoto(token: token)
-                                                authVM.profilePic = nil
-                                            }
-                                        }
-                                        .foregroundStyle(.red)
-                                    }
+                                    ProfileImage()
                                     Spacer()
                                 }
                             }
-                        }
-                        
-                        //MARK: - Edit Photo
-                        
-                        Section {
-                            if editProfileVM.isStoringPhoto {
-                                HStack {
-                                    Spacer()
-                                    Text("Updating photo...")
-                                        .foregroundStyle(.gray)
-                                    Spacer()
-                                }
-                            } else {
-                                HStack {
-                                    Spacer()
-                                    PhotosPicker(selection: $editProfileVM.imageSelection, matching: .images, preferredItemEncoding: .automatic) {
-                                        Text("Edit photo")
-                                            .foregroundStyle(.blue)
+                            .listRowBackground(Color(.systemGroupedBackground))
+                            
+                            //MARK: - Remove Photo
+                            
+                            if editProfileVM.profilePicUrl != nil {
+                                Section {
+                                    HStack {
+                                        Spacer()
+                                        if editProfileVM.isRemovingPhoto {
+                                            Text("Removing photo...")
+                                                .foregroundStyle(.gray)
+                                        } else {
+                                            Button("Remove photo") {
+                                                Task {
+                                                    let token = try await authVM.getFirebaseToken()
+                                                    await editProfileVM.removePhoto(token: token)
+                                                    authVM.profilePic = nil
+                                                }
+                                            }
+                                            .foregroundStyle(.red)
+                                        }
+                                        Spacer()
                                     }
-                                    Spacer()
                                 }
-                                .fullScreenCover(isPresented: $editProfileVM.isCropViewDisplayed) {
-                                    editProfileVM.selectedImage = nil
-                                } content: {
-                                    CropScreen(size: CGSize(width: 300, height: 300), image: editProfileVM.selectedImage) { croppedImage, status in
-                                        if let croppedImage {
-                                            editProfileVM.croppedImage = croppedImage
-                                            Task {
-                                                let token = try await authVM.getFirebaseToken()
-                                                if let url = try await editProfileVM.storeImage(forUser: LocalState.currentUserUid, token: token) {
-                                                    authVM.profilePic = url
+                            }
+                            
+                            //MARK: - Edit Photo
+                            
+                            Section {
+                                if editProfileVM.isStoringPhoto {
+                                    HStack {
+                                        Spacer()
+                                        Text("Updating photo...")
+                                            .foregroundStyle(.gray)
+                                        Spacer()
+                                    }
+                                } else {
+                                    HStack {
+                                        Spacer()
+                                        PhotosPicker(selection: $editProfileVM.imageSelection, matching: .images, preferredItemEncoding: .automatic) {
+                                            Text("Edit photo")
+                                                .foregroundStyle(.blue)
+                                        }
+                                        Spacer()
+                                    }
+                                    .fullScreenCover(isPresented: $editProfileVM.isCropViewDisplayed) {
+                                        editProfileVM.selectedImage = nil
+                                    } content: {
+                                        CropScreen(size: CGSize(width: 300, height: 300), image: editProfileVM.selectedImage) { croppedImage, status in
+                                            if let croppedImage {
+                                                editProfileVM.croppedImage = croppedImage
+                                                Task {
+                                                    let token = try await authVM.getFirebaseToken()
+                                                    if let url = try await editProfileVM.storeImage(forUser: LocalState.currentUserUid, token: token) {
+                                                        authVM.profilePic = url
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
-                        
-                        //MARK: - Edit Info
-                        
-                        Section {
-                            VStack {
-                                HStack {
-                                    Text("Name")
-                                        .frame(width: 80)
-                                    
-                                    TextField("Name", text: $editProfileVM.nameInput)
-                                        .onChange(of: editProfileVM.nameInput) { newValue in
-                                            if newValue.count > editProfileVM.maxNameLenght {
-                                                editProfileVM.nameInput = String(newValue.prefix(editProfileVM.maxNameLenght))
+                            
+                            //MARK: - Edit Info
+                            
+                            Section {
+                                VStack {
+                                    HStack {
+                                        Text("Username")
+                                            .frame(width: 80)
+                                        
+                                        TextField("Username", text: $editProfileVM.usernameInput)
+                                            .textInputAutocapitalization(.never)
+                                            .onChange(of: editProfileVM.usernameInput) { newValue in
+                                                if newValue.count > editProfileVM.maxUsernameLenght {
+                                                    editProfileVM.usernameInput = String(newValue.prefix(editProfileVM.maxUsernameLenght))
+                                                }
                                             }
-                                        }
-                                }
-                                
-                                Divider()
-                                    .padding(.leading, 80)
-                                
-                                HStack(alignment: .top) {
-                                    Text("Biography")
-                                        .frame(width: 80)
+                                    }
                                     
-                                    TextField("Biography", text: $editProfileVM.bioInput, axis: .vertical)
-                                        .onChange(of: editProfileVM.bioInput) { newValue in
-                                            if newValue.count > editProfileVM.maxBioLenght {
-                                                editProfileVM.bioInput = String(newValue.prefix(editProfileVM.maxBioLenght))
+                                    Divider()
+                                        .padding(.leading, 80)
+                                    
+                                    HStack {
+                                        Text("Name")
+                                            .frame(width: 80)
+                                        
+                                        TextField("Name", text: $editProfileVM.nameInput)
+                                            .textInputAutocapitalization(.words)
+                                            .onChange(of: editProfileVM.nameInput) { newValue in
+                                                if newValue.count > editProfileVM.maxNameLenght {
+                                                    editProfileVM.nameInput = String(newValue.prefix(editProfileVM.maxNameLenght))
+                                                }
                                             }
-                                        }
+                                    }
+                                    
+                                    Divider()
+                                        .padding(.leading, 80)
+                                    
+                                    HStack(alignment: .top) {
+                                        Text("Biography")
+                                            .frame(width: 80)
+                                        
+                                        TextField("Biography", text: $editProfileVM.bioInput, axis: .vertical)
+                                            .onChange(of: editProfileVM.bioInput) { newValue in
+                                                if newValue.count > editProfileVM.maxBioLenght {
+                                                    editProfileVM.bioInput = String(newValue.prefix(editProfileVM.maxBioLenght))
+                                                }
+                                            }
+                                    }
                                 }
                             }
-                        }
-                        .alert(isPresented: $editProfileVM.isChangeAlertDisplayed) {
-                            Alert(
-                                title: Text("Discard changes?"),
-                                message: Text("If you quit this screen, you will lose your changes."),
-                                primaryButton: .destructive(Text("Discard")) {
-                                    presentationMode.wrappedValue.dismiss()
-                                },
-                                secondaryButton: .cancel()
-                            )
+                            .alert(isPresented: $editProfileVM.isChangeAlertDisplayed) {
+                                Alert(
+                                    title: Text("Discard changes?"),
+                                    message: Text("If you quit this screen, you will lose your changes."),
+                                    primaryButton: .destructive(Text("Discard")) {
+                                        presentationMode.wrappedValue.dismiss()
+                                    },
+                                    secondaryButton: .cancel()
+                                )
+                            }
                         }
                     }
                 }
+                
+                AYErrorAlert(message: editProfileVM.overlayError.1, isErrorAlertPresented: $editProfileVM.overlayError.0)
             }
             .onAppear {
                 Task {
@@ -180,14 +202,16 @@ struct EditProfileScreen: View {
                     ToolbarItem {
                         Button("Confirm") {
                             Task {
+                                let username = editProfileVM.usernameInput
                                 let name = editProfileVM.nameInput
                                 let bio = editProfileVM.bioInput
                                 
                                 let token = try await authVM.getFirebaseToken()
-                                await editProfileVM.editProfile(token: token)
-                                
-                                if !name.isEmpty { authVM.name = name }
-                                if !bio.isEmpty { authVM.biography = bio }
+                                if await editProfileVM.editProfile(token: token) {
+                                    authVM.username = username
+                                    if !name.isEmpty { authVM.name = name }
+                                    if !bio.isEmpty { authVM.biography = bio }
+                                }
                             }
                         }
                     }
