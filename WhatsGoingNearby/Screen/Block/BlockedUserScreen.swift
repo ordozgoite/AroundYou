@@ -27,10 +27,14 @@ struct BlockedUserScreen: View {
                                 ProfilePicView(profilePic: user.profilePic)
                                 
                                 Text(user.username)
-                            }
-                            .onTapGesture {
-                                blockedUserVM.selectedUser = user
-                                blockedUserVM.isUnblockAlertDisplayed = true
+                                
+                                Spacer()
+                                
+                                Button("Unblock") {
+                                    blockedUserVM.selectedUser = user
+                                    blockedUserVM.isUnblockAlertDisplayed = true
+                                }
+                                .buttonStyle(.borderedProminent)
                             }
                         }
                     }
