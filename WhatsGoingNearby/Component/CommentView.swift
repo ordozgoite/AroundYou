@@ -68,7 +68,7 @@ struct CommentView: View {
     @ViewBuilder
     private func HeaderView() -> some View {
         HStack {
-            Text(comment.userName)
+            Text(comment.username)
                 .fontWeight(.semibold)
                 .fixedSize(horizontal: false, vertical: true)
             
@@ -118,7 +118,7 @@ struct CommentView: View {
     
     @ViewBuilder
     private func Reply() -> some View {
-        if let name = comment.repliedUserFirstName {
+        if let username = comment.repliedUserUsername {
             HStack {
                 Image(systemName: "arrowtriangle.forward.fill")
                     .resizable()
@@ -126,7 +126,7 @@ struct CommentView: View {
                     .frame(width: 10, height: 10)
                     .foregroundStyle(.gray)
                 
-                Text("\(name)")
+                Text("\(username)")
                     .foregroundStyle(.gray)
                     .font(.subheadline)
             }
@@ -222,6 +222,6 @@ struct CommentView: View {
         id: "", userUid: "", publicationId: "", text: "Acho que mês que vem",
         timestamp: Int(Date().timeIntervalSince1970),
         userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
-        userName: "Victor Ordozgoite", isFromRecipientUser: true, didLike: true, likes: 5, repliedUserName: "Dean Batista", repliedUserUid: nil)), deleteComment: {}, reply: {})
+        username: "Victor Ordozgoite", isFromRecipientUser: true, didLike: true, likes: 5, repliedUserUsername: "Dean Batista", repliedUserUid: nil)), deleteComment: {}, reply: {})
     .environmentObject(AuthenticationViewModel())
 }

@@ -360,7 +360,7 @@ extension AYEndpoints: Endpoint {
                 "text": comment.text
             ]
             if let repliedUserUid = comment.repliedUserUid { params["repliedUserUid"] = repliedUserUid }
-            if let repliedUserName = comment.repliedUserName { params["repliedUserName"] = repliedUserName }
+            if let repliedUserUsername = comment.repliedUserUsername { params["repliedUserUsername"] = repliedUserUsername }
             return params
         case .editProfile(let profile, _):
             var params: [String: Any] = [:]

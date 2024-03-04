@@ -42,7 +42,7 @@ enum ActionTarget: String, Codable {
 struct FormattedNotification: Identifiable, Codable {
     let id: String
     let sendingUserUid: String
-    let sendingUserName: String
+    let sendingUsername: String
     let sendingUserProfilePic: String?
     let action: NotificationAction
     let target: ActionTarget

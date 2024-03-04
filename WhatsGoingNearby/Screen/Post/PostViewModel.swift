@@ -49,7 +49,7 @@ class PostViewModel: ObservableObject {
     }
     
     func postNewComment(publicationId: String, text: String, token: String) async {
-        let comment = CommentDTO(publicationId: publicationId, text: text, repliedUserUid: repliedComment?.userUid, repliedUserName: repliedComment?.userName)
+        let comment = CommentDTO(publicationId: publicationId, text: text, repliedUserUid: repliedComment?.userUid, repliedUserUsername: repliedComment?.username)
         
         newCommentText = ""
         repliedComment = nil

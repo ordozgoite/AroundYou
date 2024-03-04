@@ -34,6 +34,7 @@ struct LikeScreen: View {
                                 ProfilePicView(profilePic: user.profilePic)
                                 
                                 Text(user.username)
+                                    .fontWeight(.semibold)
                             }
                             .buttonStyle(PlainButtonStyle())
                         }

@@ -14,6 +14,7 @@ struct UserProfileScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var userProfileVM = UserProfileViewModel()
     @Environment(\.presentationMode) var presentationMode
+    @Namespace private var profileAnimation
     
     var body: some View {
         ZStack {
@@ -28,11 +29,11 @@ struct UserProfileScreen: View {
                         }
                         
                         Warning()
-                        
-                        FullScreenPicture()
                     }
                 }
             }
+            
+            FullScreenPicture()
             
             AYErrorAlert(message: userProfileVM.overlayError.1 , isErrorAlertPresented: $userProfileVM.overlayError.0)
             
@@ -98,10 +99,11 @@ struct UserProfileScreen: View {
     @ViewBuilder
     private func ProfileHeader() -> some View {
         VStack(spacing: 16) {
-            ProfilePic(frame: 128)
-                .onTapGesture {
-                    userProfileVM.isProfilePicFullScreen = true
-                }
+            if !userProfileVM.isProfilePicFullScreen {
+                ProfilePic
+                    .matchedGeometryEffect(id: "Image", in: profileAnimation)
+                    .frame(width: 128, height: 128)
+            }
             
             VStack(spacing: 16) {
                 VStack {
@@ -122,24 +124,6 @@ struct UserProfileScreen: View {
             }
         }
         .padding()
-    }
-    
-    //MARK: - Profile Pic
-    
-    @ViewBuilder
-    private func ProfilePic(frame: CGFloat) -> some View {
-        if let imageURL = userProfileVM.userProfile?.profilePic {
-            URLImageView(imageURL: imageURL)
-                .aspectRatio(contentMode: .fill)
-                .frame(width: frame, height: frame)
-                .clipShape(Circle())
-        } else {
-            Image(systemName: "person.circle.fill")
-                .resizable()
-                .foregroundStyle(.gray)
-                .aspectRatio(contentMode: .fill)
-                .frame(width: frame, height: frame)
-        }
     }
     
     //MARK: - Warning
@@ -168,13 +152,34 @@ struct UserProfileScreen: View {
     @ViewBuilder
     private func FullScreenPicture() -> some View {
         if userProfileVM.isProfilePicFullScreen {
-            ProfilePic(frame: screenWidth - 32)
+            ProfilePic
+                .matchedGeometryEffect(id: "Image", in: profileAnimation)
+                .frame(width: screenWidth - 32, height: screenWidth - 32)
                 .frame(width: screenWidth, height: screenHeight)
                 .background(.thinMaterial)
                 .ignoresSafeArea()
-                .onTapGesture {
-                    userProfileVM.isProfilePicFullScreen = false
-                }
+        }
+    }
+    
+    //MARK: - Profile Pic
+    
+    private var ProfilePic: some View {
+        VStack {
+            if let imageURL = userProfileVM.userProfile?.profilePic {
+                URLImageView(imageURL: imageURL)
+                    .aspectRatio(contentMode: .fill)
+                    .clipShape(Circle())
+            } else {
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .foregroundStyle(.gray)
+                    .aspectRatio(contentMode: .fill)
+            }
+        }
+        .onTapGesture {
+            withAnimation(.spring()) {
+                userProfileVM.isProfilePicFullScreen.toggle()
+            }
         }
     }
 }

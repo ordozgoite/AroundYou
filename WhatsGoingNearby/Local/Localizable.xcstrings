@@ -660,6 +660,7 @@
 
     },
     "Name" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -974,6 +975,9 @@
       }
     },
     "Search Around You" : {
+
+    },
+    "Search for a restaurant" : {
 
     },
     "Second Location" : {

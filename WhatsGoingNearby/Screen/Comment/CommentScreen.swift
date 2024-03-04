@@ -82,7 +82,7 @@ struct CommentScreen: View {
                 if let comment = commentVM.repliedComment {
                     HStack {
                         HStack {
-                            Text("Replying to \(comment.userName)")
+                            Text("Replying to \(comment.username)")
                                 .font(.subheadline)
                                 .foregroundStyle(.blue)
                             

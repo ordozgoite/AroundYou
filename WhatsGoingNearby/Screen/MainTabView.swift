@@ -20,12 +20,12 @@ struct MainTabView: View {
                 }
                 .environmentObject(authVM)
             
-            MapScreen()
-                .tabItem {
-                    Image(systemName: "mappin.and.ellipse")
-                    Text("Map")
-                }
-                .environmentObject(authVM)
+//            MapScreen()
+//                .tabItem {
+//                    Image(systemName: "mappin.and.ellipse")
+//                    Text("Map")
+//                }
+//                .environmentObject(authVM)
             
             AccountScreen()
                 .tabItem {

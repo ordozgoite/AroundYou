@@ -284,8 +284,10 @@ extension AuthenticationViewModel {
             print("❌ Error: \(error)")
             if error == .dataNotFound {
                 if usernameInput.isEmpty {
+                    print("🔴 true")
                     return true
                 } else {
+                    print("🔴 post")
                     await postNewUser(username: usernameInput, name: fullNameInput.isEmpty ? nil : fullNameInput, token: token)
                 }
             } else {

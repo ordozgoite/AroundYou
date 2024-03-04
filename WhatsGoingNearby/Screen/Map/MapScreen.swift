@@ -17,6 +17,8 @@ struct MapScreen: View {
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var visibleRegion: MKCoordinateRegion?
     
+    @State private var isSheetPresented: Bool = true
+    
     var body: some View {
         Map(position: $position) {
             UserAnnotation()
@@ -28,17 +30,33 @@ struct MapScreen: View {
                         coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
                         anchor: .bottom
                     ) {
-                        Image(systemName: "bubble.left.fill")
+                        Image(systemName: "bubble.left.circle.fill")
                             .resizable()
                             .frame(width: 32, height: 32, alignment: .center)
                             .aspectRatio(contentMode: .fit)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.red, .blue]), startPoint: .topLeading, endPoint: .bottomTrailing))
                             .shadow(color: .black, radius: 2.5, x: 1, y: 1)
                     }
                 }
             }
         }
-        .safeAreaInset(edge: .bottom) {
+        //        .safeAreaInset(edge: .bottom) {
+        //            Search()
+        //        }
+//        .sheet(isPresented: $isSheetPresented) {
+//            SheetView()
+//        }
+        .onMapCameraChange { context in
+            visibleRegion = context.region
+        }
+        .navigationTitle("Map")
+    }
+    
+    //MARK: - Search Settings
+    
+    @ViewBuilder
+    private func Search() -> some View {
+        VStack {
             HStack {
                 AYButton(title: "Search Around You") {
                     Task {
@@ -47,17 +65,14 @@ struct MapScreen: View {
                             await mapVM.getPostsNearBy(latitude: latitude, longitude: longitude, token: token)
                         }
                     }
-                }.padding()
+                }
             }
-            .background(.thinMaterial)
+            .padding()
         }
-        .onMapCameraChange { context in
-            visibleRegion = context.region
-        }
-        .navigationTitle("Map")
+        .background(.thinMaterial)
     }
 }
 
-#Preview {
-    MapScreen()
-}
+//#Preview {
+//    MapScreen()
+//}

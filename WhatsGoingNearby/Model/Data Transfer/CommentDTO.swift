@@ -11,5 +11,5 @@ struct CommentDTO: Codable {
     let publicationId: String
     let text: String
     let repliedUserUid: String?
-    let repliedUserName: String?
+    let repliedUserUsername: String?
 }

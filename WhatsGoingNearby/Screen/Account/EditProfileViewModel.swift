@@ -45,12 +45,8 @@ class EditProfileViewModel: ObservableObject {
         switch result {
         case .success(let user):
             updateInfo(forUser: user)
-        case .failure(let error):
-            if error == .conflict {
-                overlayError = (true, ErrorMessage.usernameInUseMessage)
-            } else {
-                overlayError = (true, ErrorMessage.defaultErrorMessage)
-            }
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
     }
     
@@ -71,8 +67,12 @@ class EditProfileViewModel: ObservableObject {
             await getUserInfo(token: token)
             isSuccessAlertDisplayed = true
             return true
-        case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        case .failure(let error):
+            if error == .conflict {
+                overlayError = (true, ErrorMessage.usernameInUseMessage)
+            } else {
+                overlayError = (true, ErrorMessage.defaultErrorMessage)
+            }
         }
         return false
     }

@@ -126,10 +126,10 @@ struct EditProfileScreen: View {
                                         .padding(.leading, 80)
                                     
                                     HStack {
-                                        Text("Name")
+                                        Text("Full name")
                                             .frame(width: 80)
                                         
-                                        TextField("Name", text: $editProfileVM.nameInput)
+                                        TextField("Full name", text: $editProfileVM.nameInput)
                                             .textInputAutocapitalization(.words)
                                             .onChange(of: editProfileVM.nameInput) { newValue in
                                                 if newValue.count > editProfileVM.maxNameLenght {
