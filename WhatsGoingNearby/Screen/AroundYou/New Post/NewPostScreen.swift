@@ -73,7 +73,7 @@ struct NewPostScreen: View {
                             }
                         }
                     }) {
-                        Text("Post")
+                        Text("Post", comment: "Action")
                     }
                     .disabled(newPostVM.postText.isEmpty)
                 }

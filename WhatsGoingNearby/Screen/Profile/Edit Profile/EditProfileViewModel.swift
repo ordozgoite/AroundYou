@@ -142,6 +142,7 @@ class EditProfileViewModel: ObservableObject {
                     print("✅ Success!")
                 case .failure(let error):
                     print("❌ Error: \(error)")
+                    self.overlayError = (true, ErrorMessage.selectPhotoErrorMessage)
                 }
             }
         }

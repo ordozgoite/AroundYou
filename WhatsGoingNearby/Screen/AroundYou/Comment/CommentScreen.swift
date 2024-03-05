@@ -50,7 +50,7 @@ struct CommentScreen: View {
         .onDisappear {
             stopTimer()
         }
-        .navigationTitle("Post")
+        .navigationTitle(Text("Publication", comment: "Noun"))
         .navigationBarTitleDisplayMode(.inline)
     }
     

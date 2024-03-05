@@ -5,7 +5,14 @@
 
     },
     "@%@" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "@%@"
+          }
+        }
+      }
     },
     "%@" : {
 
@@ -16,6 +23,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$@ your %2$@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ seu %2$@"
           }
         }
       }
@@ -127,10 +140,24 @@
       }
     },
     "Add a comment... " : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione um comentário..."
+          }
+        }
+      }
     },
     "Add a reply..." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione uma resposta..."
+          }
+        }
+      }
     },
     "All" : {
       "localizations" : {
@@ -251,7 +278,14 @@
       }
     },
     "Choose a username" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha um nome de usuário"
+          }
+        }
+      }
     },
     "Comment this post" : {
       "extractionState" : "stale",
@@ -488,6 +522,9 @@
         }
       }
     },
+    "Error trying to select photo." : {
+
+    },
     "Expired" : {
       "localizations" : {
         "pt-BR" : {
@@ -509,10 +546,24 @@
       }
     },
     "Follow post" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seguir publicação"
+          }
+        }
+      }
     },
     "Following post" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seguindo publicação"
+          }
+        }
+      }
     },
     "For account deletions, remember that this action is irreversible." : {
       "localizations" : {
@@ -535,7 +586,14 @@
       }
     },
     "Full name" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome completo"
+          }
+        }
+      }
     },
     "Help" : {
       "localizations" : {
@@ -597,6 +655,9 @@
         }
       }
     },
+    "Key" : {
+      "extractionState" : "manual"
+    },
     "Latitude" : {
       "localizations" : {
         "pt-BR" : {
@@ -654,7 +715,14 @@
       }
     },
     "Map" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mapa"
+          }
+        }
+      }
     },
     "Name" : {
       "extractionState" : "stale",
@@ -698,7 +766,14 @@
       }
     },
     "Notifications" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notificações"
+          }
+        }
+      }
     },
     "OK" : {
       "localizations" : {
@@ -803,9 +878,17 @@
       }
     },
     "Please enter your username." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por favor insira seu nome de usuário."
+          }
+        }
+      }
     },
     "Post" : {
+      "comment" : "Noun",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -865,6 +948,23 @@
         }
       }
     },
+    "Publication" : {
+      "comment" : "noun\nNoun",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publicação"
+          }
+        }
+      }
+    },
     "Recover Password" : {
       "localizations" : {
         "pt-BR" : {
@@ -906,10 +1006,24 @@
       }
     },
     "Reply" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Responder"
+          }
+        }
+      }
     },
     "Replying to %@" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respondendo %@"
+          }
+        }
+      }
     },
     "Report" : {
       "localizations" : {
@@ -1038,7 +1152,14 @@
       }
     },
     "Sorry, you're too far away to comment on this post." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desculpe, você está longe demais para comentar nessa publicação."
+          }
+        }
+      }
     },
     "Temporary posts ⏳" : {
       "localizations" : {
@@ -1056,6 +1177,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Assim que as pessoas te vêm."
+          }
+        }
+      }
+    },
+    "The username you have chosen contains invalid characters. Please try another." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O nome de usuário que você escolheu contém caracteres inválidos. Por favor tente outro."
           }
         }
       }
@@ -1081,7 +1212,14 @@
       }
     },
     "This username isn't available. Please try another." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esse nome de usuário está indisponível. Por favor tente outro."
+          }
+        }
+      }
     },
     "Unblock" : {
       "localizations" : {
@@ -1104,10 +1242,24 @@
       }
     },
     "Unfollow post" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixar de seguir publicação"
+          }
+        }
+      }
     },
     "Unfollowing post" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixando de seguir publicação"
+          }
+        }
+      }
     },
     "Updating photo..." : {
       "localizations" : {
@@ -1120,10 +1272,14 @@
       }
     },
     "Username" : {
-
-    },
-    "Username can only contain letters and numbers." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome de usuário"
+          }
+        }
+      }
     },
     "Version 0.1.0" : {
       "localizations" : {
@@ -1186,7 +1342,14 @@
       }
     },
     "You have no notifications yet." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você não tem nenhuma notificação."
+          }
+        }
+      }
     },
     "You haven't blocked any users." : {
       "localizations" : {

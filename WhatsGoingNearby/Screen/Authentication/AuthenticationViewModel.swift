@@ -316,12 +316,14 @@ extension AuthenticationViewModel {
     }
     
     private func resetUserInfo() {
-        name = ""
+        username = ""
+        name = nil
         profilePic = nil
         isUserInfoFetched = false
     }
     
     private func resetInputs() {
+        usernameInput = ""
         fullNameInput = ""
         emailInput = ""
         passwordInput = ""

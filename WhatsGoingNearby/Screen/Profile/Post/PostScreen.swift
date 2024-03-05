@@ -56,7 +56,7 @@ struct PostScreen: View {
         .onDisappear {
             stopTimer()
         }
-        .navigationTitle("Post")
+        .navigationTitle(Text("Publication", comment: "noun"))
         .navigationBarTitleDisplayMode(.inline)
     }
     
