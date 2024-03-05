@@ -37,7 +37,11 @@ struct FormattedPost: Identifiable, Codable {
     }
     var formattedDistanceToMe: String? {
         if let distance = distanceToMe {
-            return String(Int(distance))
+            if distance > 1000 {
+                return String(Int(distance) / 1000) + "km"
+            } else {
+                return String(Int(distance)) + "m"
+            }
         } else {
             return nil
         }

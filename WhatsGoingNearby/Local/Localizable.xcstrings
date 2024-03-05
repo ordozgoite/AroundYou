@@ -20,9 +20,6 @@
         }
       }
     },
-    "%@m" : {
-
-    },
     "%lld %@%@ to expire" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1039,6 +1036,9 @@
           }
         }
       }
+    },
+    "Sorry, you're too far away to comment on this post." : {
+
     },
     "Temporary posts ⏳" : {
       "localizations" : {

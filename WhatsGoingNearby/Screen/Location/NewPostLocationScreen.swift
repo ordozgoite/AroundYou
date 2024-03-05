@@ -15,8 +15,7 @@ struct NewPostLocationScreen: View {
     let longitude: Double
     let username: String
     let profilePic: String?
-    
-    @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
+    @State private var position: MapCameraPosition = .automatic
     
     var body: some View {
         Map(position: $position) {
@@ -29,6 +28,12 @@ struct NewPostLocationScreen: View {
             }
             
             UserAnnotation()
+        }
+        .onAppear {
+            position = .region(MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
+                span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+            ))
         }
         .navigationTitle("Post Location")
     }

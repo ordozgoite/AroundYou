@@ -96,8 +96,8 @@ struct FeedScreen: View {
         ScrollView {
             ForEach($feedVM.posts) { $post in
                 if post.expirationDate.timeIntervalSince1970InSeconds > feedVM.currentTimeStamp {
-                    NavigationLink(destination: CommentScreen(postId: post.id, post: $post).environmentObject(authVM)) {
-                        PostView(post: $post) {
+                    NavigationLink(destination: CommentScreen(postId: post.id, post: $post, location: $locationManager.location).environmentObject(authVM)) {
+                        PostView(post: $post, location: $locationManager.location) {
                             Task {
                                 let token = try await authVM.getFirebaseToken()
                                 await feedVM.deletePublication(publicationId: post.id, token: token)

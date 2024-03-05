@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct CommentScreen: View {
     
@@ -17,12 +18,13 @@ struct CommentScreen: View {
     @Binding var post: FormattedPost
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var commentIsFocused: Bool
+    @Binding var location: CLLocation?
     
     var body: some View {
         ZStack {
             VStack {
                 ScrollView {
-                    PostView(post: $post) {
+                    PostView(post: $post, location: $location) {
                         Task {
                             let token = try await authVM.getFirebaseToken()
                             await commentVM.deletePost(publicationId: postId, token: token) {
@@ -58,15 +60,15 @@ struct CommentScreen: View {
     private func Comments() -> some View {
         VStack {
             ForEach($commentVM.comments) { $comment in
-                CommentView(isPostFromRecipientUser: post.isFromRecipientUser, comment: $comment) {
+                CommentView(isPostFromRecipientUser: post.isFromRecipientUser, comment: $comment, deleteComment: {
                     Task {
                         let token = try await authVM.getFirebaseToken()
                         await commentVM.deleteComment(commentId: comment.id, token: token)
                     }
-                } reply: {
+                }, reply: {
                     commentIsFocused = true
                     commentVM.repliedComment = comment
-                }
+                }, location: $location)
                 .padding()
                 Divider()
             }
@@ -116,8 +118,7 @@ struct CommentScreen: View {
                         Button(action: {
                             commentIsFocused = false
                             Task {
-                                let token = try await authVM.getFirebaseToken()
-                                await commentVM.postNewComment(publicationId: postId, text: commentVM.newCommentText, token: token)
+                                try await postNewComment()
                             }
                         }) {
                             Image(systemName: "paperplane.fill")
@@ -136,6 +137,17 @@ struct CommentScreen: View {
     
     //MARK: - Auxiliary methods
     
+    private func postNewComment() async throws {
+        if let location = location {
+            let token = try await authVM.getFirebaseToken()
+            
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            await commentVM.postNewComment(publicationId: postId, text: commentVM.newCommentText, latitude: latitude, longitude: longitude, token: token)
+        }
+    }
+    
     private func startUpdatingComments() {
         commentVM.timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
             Task {
@@ -151,11 +163,11 @@ struct CommentScreen: View {
     }
 }
 
-#Preview {
-    CommentScreen(postId: "", post: .constant(FormattedPost(
-        id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
-        username: "TimCook",
-        timestamp: Int(Date().timeIntervalSince1970), expirationDate: Int(Date().timeIntervalSince1970),
-        text: "Alguém sabe quando lança o Apple Vision Pro?", likes: 2, didLike: true, comment: 2, latitude: -3.125847431319091, longitude: -60.022035207661695, distanceToMe: 50.0,  isFromRecipientUser: true, isLocationVisible: false, isSubscribed: false)))
-    .environmentObject(AuthenticationViewModel())
-}
+//#Preview {
+//    CommentScreen(postId: "", post: .constant(FormattedPost(
+//        id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
+//        username: "TimCook",
+//        timestamp: Int(Date().timeIntervalSince1970), expirationDate: Int(Date().timeIntervalSince1970),
+//        text: "Alguém sabe quando lança o Apple Vision Pro?", likes: 2, didLike: true, comment: 2, latitude: -3.125847431319091, longitude: -60.022035207661695, distanceToMe: 50.0,  isFromRecipientUser: true, isLocationVisible: false, isSubscribed: false)), location: <#Binding<CLLocation?>#>)
+//    .environmentObject(AuthenticationViewModel())
+//}

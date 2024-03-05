@@ -11,7 +11,6 @@ import SwiftUI
 @MainActor
 class CommentViewModel: ObservableObject {
     
-//    @Published var post: FormattedPost?
     @Published var comments: [FormattedComment] = []
     @Published var newCommentText: String = ""
     @Published var repliedComment: FormattedComment?
@@ -31,21 +30,25 @@ class CommentViewModel: ObservableObject {
         }
     }
     
-    func postNewComment(publicationId: String, text: String, token: String) async {
+    func postNewComment(publicationId: String, text: String, latitude: Double, longitude: Double, token: String) async {
         let comment = CommentDTO(publicationId: publicationId, text: text, repliedUserUid: repliedComment?.userUid, repliedUserUsername: repliedComment?.username)
         
         newCommentText = ""
         repliedComment = nil
         
         isPostingComment = true
-        let response = await AYServices.shared.postNewComment(comment: comment, token: token)
+        let response = await AYServices.shared.postNewComment(comment: comment, latitude: latitude, longitude: longitude, token: token)
         isPostingComment = false
         
         switch response {
         case .success:
             await getAllComments(publicationId: publicationId, token: token)
-        case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        case .failure(let error):
+            if error == .forbidden {
+                overlayError = (true, ErrorMessage.distanceLimitExceededMessage)
+            } else {
+                overlayError = (true, ErrorMessage.defaultErrorMessage)
+            }
         }
     }
     

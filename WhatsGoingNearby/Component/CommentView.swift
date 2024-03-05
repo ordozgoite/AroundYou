@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct CommentView: View {
     
@@ -17,6 +18,7 @@ struct CommentView: View {
     @State private var isLikeScreenDisplayed: Bool = false
     @State private var isUserProfileScreenDisplayed: Bool = false
     var reply: () -> ()
+    @Binding var location: CLLocation?
     
     var body: some View {
         VStack {
@@ -195,33 +197,37 @@ struct CommentView: View {
     //MARK: - Auxiliary Methods
     
     private func likeComment(commentId: String, token: String) async {
-        let result = await AYServices.shared.likeComment(commentId: commentId, token: token)
-        
-        switch result {
-        case .success:
-            print("❤️ Publication liked!")
-        case .failure(let error):
-            print("❌ Error: \(error)")
+        if let latitude = location?.coordinate.latitude, let longitude = location?.coordinate.longitude {
+            let result = await AYServices.shared.likeComment(commentId: commentId, latitude: latitude, longitude: longitude, token: token)
+            
+            switch result {
+            case .success:
+                print("❤️ Publication liked!")
+            case .failure(let error):
+                print("❌ Error: \(error)")
+            }
         }
     }
     
     private func unlikeComment(commentId: String, token: String) async {
-        let result = await AYServices.shared.unlikeComment(commentId: commentId, token: token)
-        
-        switch result {
-        case .success:
-            print("💔 Publication unliked!")
-        case .failure(let error):
-            print("❌ Error: \(error)")
+        if let latitude = location?.coordinate.latitude, let longitude = location?.coordinate.longitude {
+            let result = await AYServices.shared.unlikeComment(commentId: commentId, latitude: latitude, longitude: longitude, token: token)
+            
+            switch result {
+            case .success:
+                print("💔 Publication unliked!")
+            case .failure(let error):
+                print("❌ Error: \(error)")
+            }
         }
     }
 }
 
-#Preview {
-    CommentView(isPostFromRecipientUser: true, comment: .constant(FormattedComment(
-        id: "", userUid: "", publicationId: "", text: "Acho que mês que vem",
-        timestamp: Int(Date().timeIntervalSince1970),
-        userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
-        username: "Victor Ordozgoite", isFromRecipientUser: true, didLike: true, likes: 5, repliedUserUsername: "Dean Batista", repliedUserUid: nil)), deleteComment: {}, reply: {})
-    .environmentObject(AuthenticationViewModel())
-}
+//#Preview {
+//    CommentView(isPostFromRecipientUser: true, comment: .constant(FormattedComment(
+//        id: "", userUid: "", publicationId: "", text: "Acho que mês que vem",
+//        timestamp: Int(Date().timeIntervalSince1970),
+//        userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
+//        username: "Victor Ordozgoite", isFromRecipientUser: true, didLike: true, likes: 5, repliedUserUsername: "Dean Batista", repliedUserUid: nil)), deleteComment: {}, reply: {})
+//    .environmentObject(AuthenticationViewModel())
+//}

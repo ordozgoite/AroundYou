@@ -270,7 +270,7 @@ extension AuthenticationViewModel {
     }
     
     func getUserInfo(token: String) async -> Bool {
-        let result = await AYServices.shared.getUserInfo(userRegistrationToken: LocalState.userRegistrationToken.isEmpty ? nil : LocalState.userRegistrationToken, token: token)
+        let result = await AYServices.shared.getUserInfo(userRegistrationToken: LocalState.userRegistrationToken.isEmpty ? nil : LocalState.userRegistrationToken, preferredLanguage: getPreferredLanguage(), token: token)
         
         switch result {
         case .success(let user):
@@ -325,5 +325,14 @@ extension AuthenticationViewModel {
         fullNameInput = ""
         emailInput = ""
         passwordInput = ""
+    }
+    
+    private func getPreferredLanguage() -> String? {
+        let preferredLanguages = Locale.preferredLanguages
+        print("📚 Languages: \(preferredLanguages)")
+        if let preferredLanguage = preferredLanguages.first {
+            return preferredLanguage
+        }
+        return nil
     }
 }

@@ -11,11 +11,11 @@ enum AYEndpoints {
     case postNewUser(username: String, name: String?, userRegistrationToken: String, token: String)
     case postNewPublication(text: String, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String)
     case getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String)
-    case getUserInfo(userRegistrationToken: String?, token: String)
-    case likePublication(publicationId: String, token: String)
-    case unlikePublication(publicationId: String, token: String)
+    case getUserInfo(userRegistrationToken: String?, preferredLanguage: String?, token: String)
+    case likePublication(publicationId: String, latitude: Double, longitude: Double, token: String)
+    case unlikePublication(publicationId: String, latitude: Double, longitude: Double, token: String)
     case getAllCommentsByPublication(publicationId: String, token: String)
-    case postNewComment(comment: CommentDTO, token: String)
+    case postNewComment(comment: CommentDTO, latitude: Double, longitude: Double, token: String)
     case deleteComment(commentId: String, token: String)
     case deletePublication(publicationId: String, token: String)
     case getUserProfile(userUid: String, token: String)
@@ -26,8 +26,8 @@ enum AYEndpoints {
     case blockUser(blockedUserUid: String, token: String)
     case getBlockedUsers(token: String)
     case unblockUser(blockedUserUid: String, token: String)
-    case likeComment(commentId: String, token: String)
-    case unlikeComment(commentId: String, token: String)
+    case likeComment(commentId: String, latitude: Double, longitude: Double, token: String)
+    case unlikeComment(commentId: String, latitude: Double, longitude: Double, token: String)
     case checkNearByPublications(userUid: String, latitude: Double, longitude: Double)
     case getPublicationLikes(publicationId: String, token: String)
     case getCommentLikes(commentId: String, token: String)
@@ -53,10 +53,10 @@ extension AYEndpoints: Endpoint {
             return "/api/User/PostNewUser"
         case .getUserInfo:
             return "/api/User/GetUserInfo"
-        case .likePublication(let publicationId, _):
-            return "/api/Publication/LikePublication/\(publicationId)"
-        case .unlikePublication(let publicationId, _):
-            return "/api/Publication/UnlikePublication/\(publicationId)"
+        case .likePublication:
+            return "/api/Publication/LikePublication"
+        case .unlikePublication:
+            return "/api/Publication/UnlikePublication"
         case .getAllCommentsByPublication(let publicationId, _):
             return "/api/Comment/GetAllCommentsByPublication/\(publicationId)"
         case .postNewComment:
@@ -81,10 +81,10 @@ extension AYEndpoints: Endpoint {
             return "/api/Block/GetBlockedUsers"
         case .unblockUser:
             return "/api/Block/UnblockUser"
-        case .likeComment(let commentId, _):
-            return "/api/Comment/LikeComment/\(commentId)"
-        case .unlikeComment(let commentId, _):
-            return "/api/Comment/UnlikeComment/\(commentId)"
+        case .likeComment:
+            return "/api/Comment/LikeComment"
+        case .unlikeComment:
+            return "/api/Comment/UnlikeComment"
         case .checkNearByPublications:
             return "/api/Publication/CheckNearByPublications"
         case .getPublicationLikes(let publicationId, _):
@@ -134,11 +134,12 @@ extension AYEndpoints: Endpoint {
                 "longitude": longitude
             ]
             return params
-        case .getUserInfo(let userRegistrationToken, _):
+        case .getUserInfo(let userRegistrationToken, let preferredLanguage, _):
             if let token = userRegistrationToken {
-                let params: [String: Any] = [
+                var params: [String: Any] = [
                     "userRegistrationToken": token
                 ]
+                if let preferredLanguage = preferredLanguage { params["preferredLanguage"] = preferredLanguage }
                 return params
             } else {
                 return nil
@@ -146,6 +147,34 @@ extension AYEndpoints: Endpoint {
         case .getPublication(let publicationId, let latitude, let longitude, _):
             let params: [String: Any] = [
                 "publicationId": publicationId,
+                "latitude": latitude,
+                "longitude": longitude
+            ]
+            return params
+        case .likePublication(let publicationId, let latitude, let longitude, _):
+            let params: [String: Any] = [
+                "publicationId": publicationId,
+                "latitude": latitude,
+                "longitude": longitude
+            ]
+            return params
+        case .unlikePublication(let publicationId, let latitude, let longitude, _):
+            let params: [String: Any] = [
+                "publicationId": publicationId,
+                "latitude": latitude,
+                "longitude": longitude
+            ]
+            return params
+        case .likeComment(let commentId, let latitude, let longitude, _):
+            let params: [String: Any] = [
+                "commentId": commentId,
+                "latitude": latitude,
+                "longitude": longitude
+            ]
+            return params
+        case .unlikeComment(let commentId, let latitude, let longitude, _):
+            let params: [String: Any] = [
+                "commentId": commentId,
                 "latitude": latitude,
                 "longitude": longitude
             ]
@@ -177,19 +206,19 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
-        case .getUserInfo(_, let token):
+        case .getUserInfo(_, _, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
-        case .likePublication(_, let token):
+        case .likePublication(_, _, _, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
-        case .unlikePublication(_, let token):
+        case .unlikePublication(_, _, _, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
@@ -201,7 +230,7 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
-        case.postNewComment(_, let token):
+        case.postNewComment(_, _, _, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
@@ -267,13 +296,13 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
-        case .likeComment(_, let token):
+        case .likeComment(_, _, _, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
-        case .unlikeComment(_, let token):
+        case .unlikeComment(_, _, _, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
@@ -354,10 +383,12 @@ extension AYEndpoints: Endpoint {
             ]
             if let name = name { params["name"] = name }
             return params
-        case .postNewComment(let comment, _):
+        case .postNewComment(let comment, let latitude, let longitude, _):
             var params: [String: Any] = [
                 "publicationId": comment.publicationId,
-                "text": comment.text
+                "text": comment.text,
+                "latitude": latitude,
+                "longitude": longitude
             ]
             if let repliedUserUid = comment.repliedUserUid { params["repliedUserUid"] = repliedUserUid }
             if let repliedUserUsername = comment.repliedUserUsername { params["repliedUserUsername"] = repliedUserUsername }

@@ -108,7 +108,7 @@ struct AccountScreen: View {
             ForEach($accountVM.posts) { $post in
                 if shouldDisplay(post: post) {
                     NavigationLink(destination: PostScreen(postId: post.id, location: $locationManager.location)) {
-                        PostView(post: $post) {
+                        PostView(post: $post, location: $locationManager.location) {
                             Task {
                                 let token = try await authVM.getFirebaseToken()
                                 await accountVM.deletePublication(publicationId: post.id, token: token)

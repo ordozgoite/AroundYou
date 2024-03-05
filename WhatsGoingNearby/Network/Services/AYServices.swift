@@ -11,7 +11,7 @@ protocol AYServiceable {
     
     // User
     func postNewUser(username: String, name: String?, userRegistrationToken: String, token: String) async -> Result<MongoUser, RequestError>
-    func getUserInfo(userRegistrationToken: String?, token: String) async -> Result<MongoUser, RequestError>
+    func getUserInfo(userRegistrationToken: String?, preferredLanguage: String?, token: String) async -> Result<MongoUser, RequestError>
     func getUserProfile(userUid: String, token: String) async -> Result<UserProfile, RequestError>
     func editProfile(profile: UserProfileDTO, token: String) async -> Result<EditProfileResponse, RequestError>
     func deleteProfilePic(token: String) async -> Result<EditProfileResponse, RequestError>
@@ -22,17 +22,17 @@ protocol AYServiceable {
     func getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
     func getAllPublicationsByUser(token: String) async -> Result<[FormattedPost], RequestError>
     func getPublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<FormattedPost, RequestError>
-    func likePublication(publicationId: String, token: String) async -> Result<LikePublicationResponse, RequestError>
-    func unlikePublication(publicationId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError>
+    func likePublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<LikePublicationResponse, RequestError>
+    func unlikePublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<UnlikePublicationResponse, RequestError>
     func getPublicationLikes(publicationId: String, token: String) async -> Result<[UserProfile], RequestError>
     func checkNearByPublications(userUid: String, latitude: Double, longitude: Double) async -> Result<CheckNearByPublicationsResponse, RequestError>
     
     // Comment
-    func postNewComment(comment: CommentDTO, token: String) async -> Result<PostNewCommentResponse, RequestError>
+    func postNewComment(comment: CommentDTO, latitude: Double, longitude: Double, token: String) async -> Result<PostNewCommentResponse, RequestError>
     func deleteComment(commentId: String, token: String) async -> Result<DeleteCommentResponse, RequestError>
     func getAllCommentsByPublication(publicationId: String, token: String) async -> Result<[FormattedComment], RequestError>
-    func likeComment(commentId: String, token: String) async -> Result<LikePublicationResponse, RequestError> // criar response model
-    func unlikeComment(commentId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError> // criar response model
+    func likeComment(commentId: String, latitude: Double, longitude: Double, token: String) async -> Result<LikePublicationResponse, RequestError> // criar response model
+    func unlikeComment(commentId: String, latitude: Double, longitude: Double, token: String) async -> Result<UnlikePublicationResponse, RequestError> // criar response model
     func getCommentLikes(commentId: String, token: String) async -> Result<[UserProfile], RequestError>
     
     // Report
@@ -66,8 +66,8 @@ struct AYServices: HTTPClient, AYServiceable {
         return await sendRequest(endpoint: AYEndpoints.postNewUser(username: username, name: name, userRegistrationToken: userRegistrationToken, token: token), responseModel: MongoUser.self)
     }
     
-    func getUserInfo(userRegistrationToken: String? = nil, token: String) async -> Result<MongoUser, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.getUserInfo(userRegistrationToken: userRegistrationToken, token: token), responseModel: MongoUser.self)
+    func getUserInfo(userRegistrationToken: String? = nil, preferredLanguage: String? = nil, token: String) async -> Result<MongoUser, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getUserInfo(userRegistrationToken: userRegistrationToken, preferredLanguage: preferredLanguage, token: token), responseModel: MongoUser.self)
     }
     
     func getUserProfile(userUid: String, token: String) async -> Result<UserProfile, RequestError> {
@@ -104,12 +104,12 @@ struct AYServices: HTTPClient, AYServiceable {
         return await sendRequest(endpoint: AYEndpoints.getPublication(publicationId: publicationId, latitude: latitude,longitude: longitude, token: token), responseModel: FormattedPost.self)
     }
     
-    func likePublication(publicationId: String, token: String) async -> Result<LikePublicationResponse, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.likePublication(publicationId: publicationId, token: token), responseModel: LikePublicationResponse.self)
+    func likePublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<LikePublicationResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.likePublication(publicationId: publicationId, latitude: latitude, longitude: longitude, token: token), responseModel: LikePublicationResponse.self)
     }
     
-    func unlikePublication(publicationId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.unlikePublication(publicationId: publicationId, token: token), responseModel: UnlikePublicationResponse.self)
+    func unlikePublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<UnlikePublicationResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.unlikePublication(publicationId: publicationId, latitude: latitude, longitude: longitude, token: token), responseModel: UnlikePublicationResponse.self)
     }
     
     func getPublicationLikes(publicationId: String, token: String) async -> Result<[UserProfile], RequestError> {
@@ -122,8 +122,8 @@ struct AYServices: HTTPClient, AYServiceable {
     
     //MARK: - Comment
     
-    func postNewComment(comment: CommentDTO, token: String) async -> Result<PostNewCommentResponse, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.postNewComment(comment: comment, token: token), responseModel: PostNewCommentResponse.self)
+    func postNewComment(comment: CommentDTO, latitude: Double, longitude: Double, token: String) async -> Result<PostNewCommentResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewComment(comment: comment, latitude: latitude, longitude: longitude, token: token), responseModel: PostNewCommentResponse.self)
     }
     
     func deleteComment(commentId: String, token: String) async -> Result<DeleteCommentResponse, RequestError> {
@@ -134,12 +134,12 @@ struct AYServices: HTTPClient, AYServiceable {
         return await sendRequest(endpoint: AYEndpoints.getAllCommentsByPublication(publicationId: publicationId, token: token), responseModel: [FormattedComment].self)
     }
     
-    func likeComment(commentId: String, token: String) async -> Result<LikePublicationResponse, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.likeComment(commentId: commentId, token: token), responseModel: LikePublicationResponse.self )
+    func likeComment(commentId: String, latitude: Double, longitude: Double, token: String) async -> Result<LikePublicationResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.likeComment(commentId: commentId, latitude: latitude, longitude: longitude, token: token), responseModel: LikePublicationResponse.self )
     }
     
-    func unlikeComment(commentId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.unlikeComment(commentId: commentId, token: token), responseModel: UnlikePublicationResponse.self)
+    func unlikeComment(commentId: String, latitude: Double, longitude: Double, token: String) async -> Result<UnlikePublicationResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.unlikeComment(commentId: commentId, latitude: latitude, longitude: longitude, token: token), responseModel: UnlikePublicationResponse.self)
     }
     
     func getCommentLikes(commentId: String, token: String) async -> Result<[UserProfile], RequestError> {

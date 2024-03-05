@@ -24,7 +24,7 @@ struct PostScreen: View {
             VStack {
                 ScrollView {
                     if postVM.isPostFetched {
-                        PostView(post: $postVM.post) {
+                        PostView(post: $postVM.post, location: $location) {
                             Task {
                                 let token = try await authVM.getFirebaseToken()
                                 await postVM.deletePost(publicationId: postId, token: token) {
@@ -66,15 +66,15 @@ struct PostScreen: View {
     private func Comments() -> some View {
         VStack {
             ForEach($postVM.comments) { $comment in
-                CommentView(isPostFromRecipientUser: true, comment: $comment) { // mudar para valor dinâmico
+                CommentView(isPostFromRecipientUser: true, comment: $comment, deleteComment: {
                     Task {
                         let token = try await authVM.getFirebaseToken()
                         await postVM.deleteComment(commentId: comment.id, token: token)
                     }
-                } reply: {
+                }, reply: {
                     commentIsFocused = true
                     postVM.repliedComment = comment
-                }
+                }, location: $location)
                 .padding()
                 Divider()
             }
@@ -124,8 +124,7 @@ struct PostScreen: View {
                         Button(action: {
                             commentIsFocused = false
                             Task {
-                                let token = try await authVM.getFirebaseToken()
-                                await postVM.postNewComment(publicationId: postId, text: postVM.newCommentText, token: token)
+                                try await postNewComment()
                             }
                         }) {
                             Image(systemName: "paperplane.fill")
@@ -152,6 +151,17 @@ struct PostScreen: View {
             let longitude = location.coordinate.longitude
             
             await postVM.getPublication(publicationId: self.postId, latitude: latitude, longitude: longitude, token: token)
+        }
+    }
+    
+    private func postNewComment() async throws {
+        if let location = location {
+            let token = try await authVM.getFirebaseToken()
+            
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            await postVM.postNewComment(publicationId: postId, text: postVM.newCommentText, latitude: latitude, longitude: longitude, token: token)
         }
     }
     

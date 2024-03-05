@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct PostView: View {
     
@@ -20,6 +21,7 @@ struct PostView: View {
     
     @State private var isFollowingPost: Bool = false
     @State private var isUnfollowingPost: Bool = false
+    @Binding var location: CLLocation?
     
     let deletePost: () -> ()
     
@@ -235,7 +237,7 @@ struct PostView: View {
                     Image(systemName: "map")
                         .foregroundStyle(.gray)
                     
-                    Text("\(post.formattedDistanceToMe!)m")
+                    Text(post.formattedDistanceToMe!)
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
@@ -251,24 +253,28 @@ struct PostView: View {
     //MARK: - Auxiliary Methods
     
     private func likePublication(publicationId: String, token: String) async {
-        let response = await AYServices.shared.likePublication(publicationId: publicationId, token: token)
-        
-        switch response {
-        case .success:
-            print("❤️ Publication liked!")
-        case .failure(let error):
-            print("❌ Error: \(error)")
+        if let latitude = location?.coordinate.latitude, let longitude = location?.coordinate.longitude {
+            let response = await AYServices.shared.likePublication(publicationId: publicationId, latitude: latitude, longitude: longitude, token: token)
+            
+            switch response {
+            case .success:
+                print("❤️ Publication liked!")
+            case .failure(let error):
+                print("❌ Error: \(error)")
+            }
         }
     }
     
     private func unlikePublication(publicationId: String, token: String) async {
-        let response = await AYServices.shared.unlikePublication(publicationId: publicationId, token: token)
-        
-        switch response {
-        case .success:
-            print("💔 Publication unliked!")
-        case .failure(let error):
-            print("❌ Error: \(error)")
+        if let latitude = location?.coordinate.latitude, let longitude = location?.coordinate.longitude {
+            let response = await AYServices.shared.unlikePublication(publicationId: publicationId, latitude: latitude, longitude: longitude, token: token)
+            
+            switch response {
+            case .success:
+                print("💔 Publication unliked!")
+            case .failure(let error):
+                print("❌ Error: \(error)")
+            }
         }
     }
     
@@ -319,11 +325,11 @@ struct PostView: View {
     }
 }
 
-#Preview {
-    PostView(post: .constant(FormattedPost(
-        id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
-        username: "ordozgoite",
-        timestamp: Int(Date().timeIntervalSince1970), expirationDate: Int(Date().timeIntervalSince1970),
-        text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", likes: 2, didLike: true, comment: 2, latitude: -3.125847431319091, longitude: -60.022035207661695, distanceToMe: 50.0, isFromRecipientUser: true, isLocationVisible: false, isSubscribed: false)), deletePost: {})
-    .environmentObject(AuthenticationViewModel())
-}
+//#Preview {
+//    PostView(post: .constant(FormattedPost(
+//        id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
+//        username: "ordozgoite",
+//        timestamp: Int(Date().timeIntervalSince1970), expirationDate: Int(Date().timeIntervalSince1970),
+//        text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", likes: 2, didLike: true, comment: 2, latitude: -3.125847431319091, longitude: -60.022035207661695, distanceToMe: 50.0, isFromRecipientUser: true, isLocationVisible: false, isSubscribed: false)), deletePost: {})
+//    .environmentObject(AuthenticationViewModel())
+//}
