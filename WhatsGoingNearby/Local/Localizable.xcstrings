@@ -1151,6 +1151,9 @@
         }
       }
     },
+    "Sorry, you have reached the maximum allowed number of active publications." : {
+
+    },
     "Sorry, you're too far away to comment on this post." : {
       "localizations" : {
         "pt-BR" : {

@@ -29,8 +29,12 @@ class NewPostViewModel: ObservableObject {
             switch result {
             case .success:
                 dismissScreen()
-            case .failure:
-                overlayError = (true, ErrorMessage.defaultErrorMessage)
+            case .failure(let error):
+                if error == .forbidden {
+                    overlayError = (true, ErrorMessage.publicationLimitExceededErrorMessage)
+                } else {
+                    overlayError = (true, ErrorMessage.defaultErrorMessage)
+                }
             }
     }
 }

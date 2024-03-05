@@ -420,9 +420,9 @@
 				ED06525A2B814722005B6413 /* BugReport.swift */,
 				ED2267902B9027F2006FE9D3 /* NextView.swift */,
 				ED2F1A7D2B927D9B001F4300 /* Subscription.swift */,
+				ED5CC51F2B97C13A009B17E3 /* Post.swift */,
 				ED2267892B8EED3D006FE9D3 /* Data Transfer */,
 				EDA322392B7CCD79009905B5 /* Response */,
-				ED5CC51F2B97C13A009B17E3 /* Post.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
