@@ -118,7 +118,7 @@ struct UserProfileScreen: View {
                         .font(.subheadline)
                 }
                 
-                Text(userProfileVM.userProfile?.biography ?? "No bio.")
+                Text(userProfileVM.userProfile?.biography ?? "")
                     .foregroundStyle(.gray)
                     .multilineTextAlignment(.center)
             }

@@ -8,7 +8,8 @@
 import Foundation
 
 struct EditProfileResponse: Codable {
-    let name: String
+    let username: String
+    let name: String?
     let biography: String?
     let profilePic: String?
 }

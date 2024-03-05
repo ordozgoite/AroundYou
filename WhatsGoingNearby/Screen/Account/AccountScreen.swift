@@ -78,7 +78,7 @@ struct AccountScreen: View {
                         .font(.subheadline)
                 }
                 
-                Text(authVM.biography ?? "No bio")
+                Text(authVM.biography ?? "")
                     .foregroundStyle(.gray)
                     .multilineTextAlignment(.center)
             }
