@@ -35,6 +35,8 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         
         scheduleAppRefresh()
         
+        print("💾 Last notification: \(LocalState.lastNotificationTime)")
+        
         return true
     }
     
@@ -79,25 +81,22 @@ struct WhatsGoingNearbyApp: App {
             scheduleAppRefresh()
             if await isPostNearBy() {
                 await notifyNearByPost()
-                LocalState.lastNotificationTime = Int(Date().timeIntervalSince1970)
             }
         }
     }
     
     func isPostNearBy() async -> Bool {
-        if checkNotificationDelayPassed() {
-            if let location = locationManager.location {
-                let latitude = location.coordinate.latitude
-                let longitude = location.coordinate.longitude
-                
-                let result = await AYServices.shared.checkNearByPublications(userUid: LocalState.currentUserUid, latitude: latitude, longitude: longitude)
-                
-                switch result {
-                case .success:
-                    return true
-                case .failure:
-                    return false
-                }
+        if let location = locationManager.location {
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            let result = await AYServices.shared.checkNearByPublications(userUid: LocalState.currentUserUid, latitude: latitude, longitude: longitude)
+            
+            switch result {
+            case .success:
+                return true
+            case .failure:
+                return false
             }
         }
         return false

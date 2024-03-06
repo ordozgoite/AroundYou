@@ -113,7 +113,8 @@ struct CommentView: View {
     
     @ViewBuilder
     private func TextView() -> some View {
-        Text(comment.text)
+        Text(LocalizedStringKey(comment.text))
+            .textSelection(.enabled)
     }
     
     //MARK: - Reply

@@ -15,6 +15,7 @@ public class LocalState {
         case lastNotificationTime
         case isPostLocationVisible
         case hasCompletedOnboarding
+        case preferredLanguage
     }
     
     public static var userRegistrationToken: String {
@@ -59,6 +60,15 @@ public class LocalState {
         }
         set(newValue) {
             UserDefaults.standard.set(newValue, forKey: Keys.hasCompletedOnboarding.rawValue)
+        }
+    }
+    
+    public static var preferredLanguage: String {
+        get {
+            return UserDefaults.standard.string(forKey: Keys.preferredLanguage.rawValue) ?? "en-US"
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.preferredLanguage.rawValue)
         }
     }
 }

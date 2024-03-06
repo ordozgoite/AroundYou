@@ -13,7 +13,7 @@ enum NotificationAction: String, Codable {
     case comment
     case reply
     
-    var text: String {
+    var text: LocalizedStringKey {
         switch self {
         case .like:
             return "liked"
@@ -29,12 +29,12 @@ enum ActionTarget: String, Codable {
     case publication
     case comment
     
-    var text: String {
+    var text: LocalizedStringKey {
         switch self {
         case .publication:
-            return "publication"
+            return " your publication"
         case .comment:
-            return "comment"
+            return " your comment"
         }
     }
 }

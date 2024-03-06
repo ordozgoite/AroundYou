@@ -22,14 +22,7 @@ struct NotificationView: View {
                         isUserProfileDisplayed = true
                     }
                 
-                VStack(alignment: .leading) {
-                    Text(notification.sendingUsername)
-                        .fontWeight(.medium)
-                    
-                    Text(getNotificationText())
-                        .fontWeight(.light)
-                }
-                .padding(.leading, 8)
+                NotificationText()
                 
                 Spacer()
                 
@@ -46,10 +39,21 @@ struct NotificationView: View {
         }
     }
     
-    //MARK: - Auxiliary Methods
+    //MARK: - Body
     
-    private func getNotificationText() -> LocalizedStringKey {
-        return LocalizedStringKey("\(notification.action.text) your \(notification.target.text)")
+    @ViewBuilder
+    private func NotificationText() -> some View {
+        VStack(alignment: .leading) {
+            Text(notification.sendingUsername)
+                .fontWeight(.medium)
+            
+            Text(notification.action.text)
+                .fontWeight(.light)
+            +
+            Text(notification.target.text)
+                .fontWeight(.light)
+        }
+        .padding(.leading, 8)
     }
 }
 

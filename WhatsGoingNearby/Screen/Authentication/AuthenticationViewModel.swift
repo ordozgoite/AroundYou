@@ -337,6 +337,7 @@ extension AuthenticationViewModel {
         let preferredLanguages = Locale.preferredLanguages
         print("📚 Languages: \(preferredLanguages)")
         if let preferredLanguage = preferredLanguages.first {
+            LocalState.preferredLanguage = preferredLanguage
             return preferredLanguage
         }
         return nil

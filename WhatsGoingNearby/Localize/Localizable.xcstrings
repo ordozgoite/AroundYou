@@ -4,6 +4,37 @@
     "" : {
 
     },
+    " your " : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " seu(sua)"
+          }
+        }
+      }
+    },
+    " your comment" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " seu comentário"
+          }
+        }
+      }
+    },
+    " your publication" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " sua publicação"
+          }
+        }
+      }
+    },
     "@%@" : {
       "localizations" : {
         "pt-BR" : {
@@ -18,6 +49,7 @@
 
     },
     "%@ your %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -316,6 +348,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Comentar essa publicação"
+          }
+        }
+      }
+    },
+    "commented" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "comentou"
           }
         }
       }
@@ -731,6 +773,16 @@
     "Latitude: %lf" : {
 
     },
+    "liked" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "curtiu"
+          }
+        }
+      }
+    },
     "Likes" : {
       "localizations" : {
         "pt-BR" : {
@@ -1019,8 +1071,19 @@
         }
       }
     },
+    "publication" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "publicação"
+          }
+        }
+      }
+    },
     "Publication" : {
-      "comment" : "noun\nNoun",
+      "comment" : "Noun\nnoun",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1072,6 +1135,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Removendo foto..."
+          }
+        }
+      }
+    },
+    "replied" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "respondeu"
           }
         }
       }
@@ -1257,7 +1330,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Assim que as pessoas te vêm."
+            "value" : "Assim que as pessoas te veem."
           }
         }
       }
@@ -1304,6 +1377,7 @@
       }
     },
     "There are new posts around you!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1489,6 +1563,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você não bloqueou nenhum usuário."
+          }
+        }
+      }
+    },
+    "your" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "seu(sua)"
           }
         }
       }

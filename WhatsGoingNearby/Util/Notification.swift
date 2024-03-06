@@ -12,12 +12,13 @@ import BackgroundTasks
 import SwiftUI
 
 public let taskId = "ordozgoite.WhatsGoingNearby.backgroundTask"
-public let notificationBody: LocalizedStringKey = "There are new posts around you!"
+public let enNotificationBody: String = "There are new posts around you!"
+public let ptNotificationBody: String = "Há novas publicações perto de você!"
 
 public func nearByNotification() -> UNNotificationRequest {
     let content = UNMutableNotificationContent()
     content.title = "AroundYou 🌐"
-    content.body = notificationBody.stringKey
+    content.body = LocalState.preferredLanguage.prefix(2) == "pt" ? ptNotificationBody : enNotificationBody
     content.sound = .default
     let request = UNNotificationRequest(identifier: "nearby_publications", content: content, trigger: nil)
     return request
@@ -25,7 +26,7 @@ public func nearByNotification() -> UNNotificationRequest {
 
 public func scheduleAppRefresh() {
     let now = Date()
-    let oneHourFromNow = Calendar.current.date(byAdding: .hour, value: 8, to: now)!
+    let oneHourFromNow = Calendar.current.date(byAdding: .hour, value: Constants.backgroundTaskDelayHours, to: now)!
     
     do {
         let request = BGAppRefreshTaskRequest(identifier: taskId)
@@ -38,6 +39,8 @@ public func scheduleAppRefresh() {
 }
 
 public func notifyNearByPost() async {
+    if isNotificationInDelay { return }
+    
     let notificationRequest = nearByNotification()
     do {
         try await UNUserNotificationCenter.current().add(notificationRequest)
@@ -46,8 +49,8 @@ public func notifyNearByPost() async {
     }
 }
 
-public func checkNotificationDelayPassed() -> Bool {
-    let minDelayInSeconds = 43200
+private var isNotificationInDelay: Bool {
     let now = Int(Date().timeIntervalSince1970)
-    return now > LocalState.lastNotificationTime + minDelayInSeconds
+    let nextNotificationEarliestDate = LocalState.lastNotificationTime + Constants.notificationDelaySeconds
+    return now < nextNotificationEarliestDate
 }

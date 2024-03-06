@@ -189,7 +189,8 @@ struct PostView: View {
     
     @ViewBuilder
     private func TextView() -> some View {
-        Text(post.text)
+        Text(LocalizedStringKey(post.text))
+            .textSelection(.enabled)
     }
     
     //MARK: - Interactions
