@@ -17,10 +17,14 @@ struct AccountScreen: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 32) {
-                    ProfileHeader()
+                ZStack {
+                    VStack(spacing: 32) {
+                        ProfileHeader()
+                        
+                        History()
+                    }
                     
-                    History()
+                    AYErrorAlert(message: accountVM.overlayError.1, isErrorAlertPresented: $accountVM.overlayError.0)
                 }
             }
             .onAppear {

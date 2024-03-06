@@ -9,13 +9,15 @@ import Foundation
 import UserNotifications
 import CoreLocation
 import BackgroundTasks
+import SwiftUI
 
 public let taskId = "ordozgoite.WhatsGoingNearby.backgroundTask"
+public let notificationBody: LocalizedStringKey = "There are new posts around you!"
 
 public func nearByNotification() -> UNNotificationRequest {
     let content = UNMutableNotificationContent()
     content.title = "AroundYou 🌐"
-    content.body = "There are new posts around you!"
+    content.body = notificationBody.stringKey
     content.sound = .default
     let request = UNNotificationRequest(identifier: "nearby_publications", content: content, trigger: nil)
     return request

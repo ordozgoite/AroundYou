@@ -13,10 +13,6 @@ import FirebaseStorage
 @MainActor
 class EditProfileViewModel: ObservableObject {
     
-    let maxNameLenght = 20
-    let maxUsernameLenght = 20
-    let maxBioLenght = 250
-    
     @Published var usernameInput: String = ""
     @Published var nameInput: String = ""
     @Published var bioInput: String = ""

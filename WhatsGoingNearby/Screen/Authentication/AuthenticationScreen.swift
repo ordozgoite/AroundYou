@@ -26,19 +26,19 @@ struct AuthenticationScreen: View {
                     Spacer()
                     
                     if authVM.flow == .signUp {
-                        AYTextField(imageName: "person.fill", title: "Username", error: $authVM.errorMessage.0, inputText: $authVM.fullNameInput)
+                        AYTextField(imageName: "person.fill", title: "Username", error: $authVM.errorMessage.0, inputText: $authVM.usernameInput)
                             .focused($authInputIsFocused)
                         
-                        AYTextField(imageName: "person.fill", title: "Full name", error: $authVM.errorMessage.0, inputText: $authVM.fullNameInput)
+                        AYTextField(imageName: "person.fill", title: "Full name", error: $authVM.errorMessage.1, inputText: $authVM.fullNameInput)
                             .textInputAutocapitalization(.words)
                             .focused($authInputIsFocused)
                     }
                     
-                    AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.1, inputText: $authVM.emailInput)
+                    AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.2, inputText: $authVM.emailInput)
                         .keyboardType(.emailAddress)
                         .focused($authInputIsFocused)
                     
-                    AYSecureTextField(imageName: "lock", title: "Password", error: $authVM.errorMessage.2, inputText: $authVM.passwordInput)
+                    AYSecureTextField(imageName: "lock", title: "Password", error: $authVM.errorMessage.3, inputText: $authVM.passwordInput)
                         .focused($authInputIsFocused)
                     
                     Spacer()

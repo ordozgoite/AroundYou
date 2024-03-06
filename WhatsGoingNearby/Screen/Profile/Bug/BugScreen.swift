@@ -15,52 +15,56 @@ struct BugScreen: View {
     @FocusState private var reportDescriptionIsFocused: Bool
     
     var body: some View {
-        VStack {
-            Spacer()
-            
-            HStack {
-                Text("Your feedback helps us improve the app experience for everyone.")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.leading)
+        ZStack {
+            VStack {
                 Spacer()
-            }
-            
-            TextField("Describe the bug you encountered...", text: $bugVM.descriptionTextInput, axis: .vertical)
-                .textFieldStyle(.roundedBorder)
-                .lineLimit(10...10)
-                .focused($reportDescriptionIsFocused)
-                .onChange(of: bugVM.descriptionTextInput) { newValue in
-                    if newValue.count > bugVM.maxDescriptionLenght {
-                        bugVM.descriptionTextInput = String(newValue.prefix(bugVM.maxDescriptionLenght))
-                    }
+                
+                HStack {
+                    Text("Your feedback helps us improve the app experience for everyone.")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.leading)
+                    Spacer()
                 }
-            
-            HStack {
-                Spacer()
-                Text("\(bugVM.descriptionTextInput.count)/\(bugVM.maxDescriptionLenght)")
-                    .foregroundStyle(.gray)
-                    .font(.subheadline)
-            }
-            
-            Spacer()
-            
-            if bugVM.isPostingReport {
-                AYProgressButton(title: "Reporting...")
-            } else {
-                AYButton(title: "Report") {
-                    Task {
-                        reportDescriptionIsFocused = false
-                        let token = try await authVM.getFirebaseToken()
-                        await bugVM.postReport(token: token) {
-                            presentationMode.wrappedValue.dismiss()
+                
+                TextField("Describe the bug you encountered...", text: $bugVM.descriptionTextInput, axis: .vertical)
+                    .textFieldStyle(.roundedBorder)
+                    .lineLimit(10...10)
+                    .focused($reportDescriptionIsFocused)
+                    .onChange(of: bugVM.descriptionTextInput) { newValue in
+                        if newValue.count > bugVM.maxDescriptionLenght {
+                            bugVM.descriptionTextInput = String(newValue.prefix(bugVM.maxDescriptionLenght))
                         }
                     }
+                
+                HStack {
+                    Spacer()
+                    Text("\(bugVM.descriptionTextInput.count)/\(bugVM.maxDescriptionLenght)")
+                        .foregroundStyle(.gray)
+                        .font(.subheadline)
                 }
-                .disabled(bugVM.descriptionTextInput.isEmpty)
+                
+                Spacer()
+                
+                if bugVM.isPostingReport {
+                    AYProgressButton(title: "Reporting...")
+                } else {
+                    AYButton(title: "Report") {
+                        Task {
+                            reportDescriptionIsFocused = false
+                            let token = try await authVM.getFirebaseToken()
+                            await bugVM.postReport(token: token) {
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        }
+                    }
+                    .disabled(bugVM.descriptionTextInput.isEmpty)
+                }
             }
+            .padding()
+            
+            AYErrorAlert(message: bugVM.overlayError.1 , isErrorAlertPresented: $bugVM.overlayError.0)
         }
-        .padding()
         .navigationTitle("Report Bug")
         .navigationBarTitleDisplayMode(.large)
     }

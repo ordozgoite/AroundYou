@@ -187,7 +187,7 @@ extension AuthenticationViewModel {
         }
         catch  {
             print(error)
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, LocalizedStringKey(stringLiteral: error.localizedDescription))
             authenticationState = .unauthenticated
             return false
         }
@@ -204,7 +204,7 @@ extension AuthenticationViewModel {
         }
         catch {
             print(error)
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, LocalizedStringKey(stringLiteral: error.localizedDescription))
             authenticationState = .unauthenticated
             return false
         }
@@ -263,9 +263,13 @@ extension AuthenticationViewModel {
             profilePic = user.profilePic
             biography = user.biography
             isUserInfoFetched = true
-        case .failure:
-            signOut()
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        case .failure(let error):
+            if error == .conflict {
+                overlayError = (true, ErrorMessage.usernameInUseMessage)
+            } else {
+                signOut()
+                overlayError = (true, ErrorMessage.defaultErrorMessage)
+            }
         }
     }
     

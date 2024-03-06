@@ -88,7 +88,7 @@ struct SettingsScreen: View {
                                 Spacer()
                             }
                             
-                            Text("Version 0.1.0")
+                            Text("Version \(Constants.appVersion)")
                                 .foregroundStyle(.gray)
                                 .fontWeight(.light)
                         }
@@ -96,9 +96,7 @@ struct SettingsScreen: View {
                     }
                 }
                 
-                if authVM.overlayError.0 {
-                    AYErrorAlert(message: authVM.overlayError.1 , isErrorAlertPresented: $authVM.overlayError.0)
-                }
+                AYErrorAlert(message: authVM.overlayError.1 , isErrorAlertPresented: $authVM.overlayError.0)
             }
             .alert(isPresented: $isDeleteAccountAlertDisplayed) {
                 Alert(

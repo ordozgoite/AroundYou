@@ -24,53 +24,57 @@ struct ReportScreen: View {
     @FocusState private var reportDescriptionIsFocused: Bool
     
     var body: some View {
-        VStack {
-            HStack {
-                Text("What type of issue are you reporting?")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.leading)
-                Spacer()
-            }
-            
-            Spacer()
-            
-            TextField("Describe what happened...", text: $reportVM.descriptionTextInput, axis: .vertical)
-                .textFieldStyle(.roundedBorder)
-                .lineLimit(10...10)
-                .focused($reportDescriptionIsFocused)
-                .onChange(of: reportVM.descriptionTextInput) { newValue in
-                    if newValue.count > reportVM.maxDescriptionLenght {
-                        reportVM.descriptionTextInput = String(newValue.prefix(reportVM.maxDescriptionLenght))
-                    }
+        ZStack {
+            VStack {
+                HStack {
+                    Text("What type of issue are you reporting?")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.leading)
+                    Spacer()
                 }
-            
-            HStack {
+                
                 Spacer()
-                Text("\(reportVM.descriptionTextInput.count)/\(reportVM.maxDescriptionLenght)")
-                    .foregroundStyle(.gray)
-                    .font(.subheadline)
-            }
-            
-            Spacer()
-            
-            if reportVM.isPostingReport {
-                AYProgressButton(title: "Reporting...")
-            } else {
-                AYButton(title: "Report") {
-                    Task {
-                        reportDescriptionIsFocused = false
-                        let token = try await authVM.getFirebaseToken()
-                        var reportDescription: String?
-                        if !reportVM.descriptionTextInput.isEmpty { reportDescription = reportVM.descriptionTextInput  }
-                        await reportVM.postReport(reportedUserUid: reportedUserUid, publicationId: publicationId, commentId: commentId, reportDescription: reportDescription, token: token) {
-                            presentationMode.wrappedValue.dismiss()
+                
+                TextField("Describe what happened...", text: $reportVM.descriptionTextInput, axis: .vertical)
+                    .textFieldStyle(.roundedBorder)
+                    .lineLimit(10...10)
+                    .focused($reportDescriptionIsFocused)
+                    .onChange(of: reportVM.descriptionTextInput) { newValue in
+                        if newValue.count > reportVM.maxDescriptionLenght {
+                            reportVM.descriptionTextInput = String(newValue.prefix(reportVM.maxDescriptionLenght))
+                        }
+                    }
+                
+                HStack {
+                    Spacer()
+                    Text("\(reportVM.descriptionTextInput.count)/\(reportVM.maxDescriptionLenght)")
+                        .foregroundStyle(.gray)
+                        .font(.subheadline)
+                }
+                
+                Spacer()
+                
+                if reportVM.isPostingReport {
+                    AYProgressButton(title: "Reporting...")
+                } else {
+                    AYButton(title: "Report") {
+                        Task {
+                            reportDescriptionIsFocused = false
+                            let token = try await authVM.getFirebaseToken()
+                            var reportDescription: String?
+                            if !reportVM.descriptionTextInput.isEmpty { reportDescription = reportVM.descriptionTextInput  }
+                            await reportVM.postReport(reportedUserUid: reportedUserUid, publicationId: publicationId, commentId: commentId, reportDescription: reportDescription, token: token) {
+                                presentationMode.wrappedValue.dismiss()
+                            }
                         }
                     }
                 }
             }
+            .padding()
+            
+            AYErrorAlert(message: reportVM.overlayError.1, isErrorAlertPresented: $reportVM.overlayError.0)
         }
-        .padding()
         .navigationBarTitleDisplayMode(.inline)
     }
 }

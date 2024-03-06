@@ -55,7 +55,7 @@ struct OnBoardingScreen: View {
                     Spacer()
                 }
                 
-                Text("AroundYou uses your location to show posts only to those nearby, ensuring that you connect with people and events in your immediate vicinity.")
+                Text("AroundYou uses your location, displaying posts exclusively to those within a **1km radius**, ensuring you connect with nearby people and events.")
                     .fontWeight(.light)
                     .multilineTextAlignment(.leading)
             }
@@ -83,7 +83,7 @@ struct OnBoardingScreen: View {
                     
                     Spacer()
                 }
-                Text("Posts on AroundYou stay visible for a short period of time, making it easier for you to discover timely and relevant information.")
+                Text("Posts on AroundYou remain active for just **8 hours**, ensuring you discover timely and relevant information effortlessly.")
                     .multilineTextAlignment(.leading)
             }
             .frame(width: screenWidth - 32)

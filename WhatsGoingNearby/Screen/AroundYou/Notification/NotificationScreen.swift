@@ -15,16 +15,20 @@ struct NotificationScreen: View {
     @Binding var location: CLLocation?
     
     var body: some View {
-        VStack {
-            if notificationVM.isLoading {
-                ProgressView()
-            } else {
-                if notificationVM.notifications.isEmpty {
-                    EmptyNotifications()
+        ZStack {
+            VStack {
+                if notificationVM.isLoading {
+                    ProgressView()
                 } else {
-                    Notifications()
+                    if notificationVM.notifications.isEmpty {
+                        EmptyNotifications()
+                    } else {
+                        Notifications()
+                    }
                 }
             }
+            
+            AYErrorAlert(message: notificationVM.overlayError.1, isErrorAlertPresented: $notificationVM.overlayError.0)
         }
         .navigationTitle("Notifications")
         .onAppear {

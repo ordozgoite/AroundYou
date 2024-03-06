@@ -187,11 +187,22 @@
 
     },
     "AroundYou uses your location to show posts only to those nearby, ensuring that you connect with people and events in your immediate vicinity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "AroundYou usa sua localização para mostrar publicações apenas para aqueles que estão por perto, para que você se conecte com pessoas e eventos na sua vizinhança."
+          }
+        }
+      }
+    },
+    "AroundYou uses your location, displaying posts exclusively to those within a **1km radius**, ensuring you connect with nearby people and events." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ArondYou usa a sua localização para exibir apenas publicações que estão em um **raio de 1km**. Dessa forma você se conecta apenas com pessoas e eventos próximos de você."
           }
         }
       }
@@ -278,11 +289,22 @@
       }
     },
     "Choose a username" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escolha um nome de usuário"
+          }
+        }
+      }
+    },
+    "Choose a username..." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha um nome de usuário..."
           }
         }
       }
@@ -496,6 +518,37 @@
         }
       }
     },
+    "Enable Location Service" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativar Serviço de Localização"
+          }
+        }
+      }
+    },
+    "Enable Location Services" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativar Acesso à Localização"
+          }
+        }
+      }
+    },
+    "Enable Precise Location" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativar Localização Precisa"
+          }
+        }
+      }
+    },
     "Enter" : {
       "localizations" : {
         "pt-BR" : {
@@ -523,7 +576,14 @@
       }
     },
     "Error trying to select photo." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao tentar selecionar uma foto."
+          }
+        }
+      }
     },
     "Expired" : {
       "localizations" : {
@@ -908,7 +968,18 @@
         }
       }
     },
+    "Posts on AroundYou remain active for just **8 hours**, ensuring you discover timely and relevant information effortlessly." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publicações no AroundYou ficam disponíveis por apenas **8 horas**, portanto mostramos apenas o que é relevante no momento."
+          }
+        }
+      }
+    },
     "Posts on AroundYou stay visible for a short period of time, making it easier for you to discover timely and relevant information." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1152,7 +1223,14 @@
       }
     },
     "Sorry, you have reached the maximum allowed number of active publications." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desculpe, você atingiu o limite máximo de publicações ativas simultâneas. "
+          }
+        }
+      }
     },
     "Sorry, you're too far away to comment on this post." : {
       "localizations" : {
@@ -1184,12 +1262,53 @@
         }
       }
     },
+    "The **location service** is disabled. Please enable it to unlock the full functionality of AroundYou." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O **acesso à localização** está desativado. Por favor, ative-o para desbloquear todas as funcionalidades de AroundYou."
+          }
+        }
+      }
+    },
+    "The **location services** are disabled. Please enable it to unlock the full functionality of AroundYou." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O **acesso à localização** está desativado. Por favor, ative-o para desbloquear todas as funcionalidades de AroundYou."
+          }
+        }
+      }
+    },
+    "The **precise location** is disabled. Please enable it to unlock the full functionality of AroundYou." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A **localização precisa** está desativada. Por favor, ative-a para desbloquear todas as funcionalidades de AroundYou."
+          }
+        }
+      }
+    },
     "The username you have chosen contains invalid characters. Please try another." : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "O nome de usuário que você escolheu contém caracteres inválidos. Por favor tente outro."
+          }
+        }
+      }
+    },
+    "There are new posts around you!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não há publicações ao seu redor."
           }
         }
       }
@@ -1284,12 +1403,12 @@
         }
       }
     },
-    "Version 0.1.0" : {
+    "Version %@" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Versão 0.1.0"
+            "value" : "Versão %@"
           }
         }
       }
@@ -1360,6 +1479,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você não bloqueou nenhum usuário."
+          }
+        }
+      }
+    },
+    "Your **precise location** access is disabled. Please enable it to unlock the full functionality of AroundYou." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua **localização precisa** está desativada. Por favor, ative-a para desbloquear todas as funcionalidades de AroundYou."
           }
         }
       }

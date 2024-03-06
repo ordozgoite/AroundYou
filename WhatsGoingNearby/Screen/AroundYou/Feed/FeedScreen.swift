@@ -22,9 +22,13 @@ struct FeedScreen: View {
         NavigationStack {
             ZStack {
                 VStack {
-                    if feedVM.isLoading {
+                    if !locationManager.isLocationAuthorized {
+                        EnableLocationView()
+                    } else if !locationManager.isUsingFullAccuracy {
+                        EnableFullAccuracyView()
+                    } else if feedVM.isLoading {
                         LoadingView()
-                    } else {
+                    } else if feedVM.initialPostsFetched {
                         if activePostsQuantity == 0 {
                             EmptyFeedView()
                         } else {
@@ -63,11 +67,6 @@ struct FeedScreen: View {
             .navigationBarTitleDisplayMode(.large)
         }
         .onAppear {
-            if !feedVM.initialPostsFetched {
-                Task {
-                    try await getFeedInfo()
-                }
-            }
             startUpdatingTime()
             startUpdatingFeed()
         }
@@ -154,6 +153,12 @@ struct FeedScreen: View {
     }
     
     private func updateFeed() async throws {
+        if !feedVM.initialPostsFetched {
+            Task {
+                try await getFeedInfo()
+            }
+        }
+        
         locationManager.requestLocation()
         if let location = locationManager.location {
             let token = try await authVM.getFirebaseToken()

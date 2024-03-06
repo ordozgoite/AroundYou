@@ -13,23 +13,27 @@ struct ForgotPasswordScreen: View {
     @State private var displayAlert: Bool = false
     
     var body: some View {
-        VStack {
-            Spacer()
-            
-            AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.1, inputText: $authVM.emailInput)
-                .keyboardType(.emailAddress)
-            
-            Spacer()
-            
-            AYButton(title: "Send Email") {
-                authVM.errorMessage = (nil, nil, nil, nil)
-                Task {
-                    self.displayAlert = await authVM.sendPasswordReset()
+        ZStack {
+            VStack {
+                Spacer()
+                
+                AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.1, inputText: $authVM.emailInput)
+                    .keyboardType(.emailAddress)
+                
+                Spacer()
+                
+                AYButton(title: "Send Email") {
+                    authVM.errorMessage = (nil, nil, nil, nil)
+                    Task {
+                        self.displayAlert = await authVM.sendPasswordReset()
+                    }
                 }
+                .disabled(authVM.emailInput.isEmpty)
             }
-            .disabled(authVM.emailInput.isEmpty)
+            .padding()
+            
+            AYErrorAlert(message: authVM.overlayError.1, isErrorAlertPresented: $authVM.overlayError.0)
         }
-        .padding()
         .navigationBarTitleDisplayMode(.large)
         .navigationTitle("Recover Password")
         .alert(isPresented: $displayAlert) {
