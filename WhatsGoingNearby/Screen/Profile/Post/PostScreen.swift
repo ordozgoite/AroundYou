@@ -151,6 +151,8 @@ struct PostScreen: View {
             let longitude = location.coordinate.longitude
             
             await postVM.getPublication(publicationId: self.postId, latitude: latitude, longitude: longitude, token: token)
+        } else {
+            postVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
         }
     }
     

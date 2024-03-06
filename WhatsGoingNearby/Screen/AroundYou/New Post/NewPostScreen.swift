@@ -137,6 +137,8 @@ struct NewPostScreen: View {
                 presentationMode.wrappedValue.dismiss()
                 refresh()
             }
+        } else {
+            newPostVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
         }
     }
     

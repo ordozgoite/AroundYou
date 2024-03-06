@@ -11,6 +11,7 @@ import SwiftUI
 struct ErrorMessage {
     
     static let defaultErrorMessage: LocalizedStringKey = "Oops! Looks like something went wrong."
+    static let locationDisabledErrorMessage: LocalizedStringKey = "We couldn't access your location. Please make sure to allow access in your device's settings."
     static let invalidUsernameMessage: LocalizedStringKey = "The username you have chosen contains invalid characters. Please try another."
     static let usernameInUseMessage: LocalizedStringKey = "This username isn't available. Please try another."
     static let commentDistanceLimitExceededErrorMessage: LocalizedStringKey = "Sorry, you're too far away to comment on this post."

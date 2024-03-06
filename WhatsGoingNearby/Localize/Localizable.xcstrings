@@ -1413,6 +1413,16 @@
         }
       }
     },
+    "We couldn't access your location. Please make sure to allow access in your device's settings." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível ter acesso à sua localização. Certifique-se de permitir acesso nos ajustes de seu dispositivo."
+          }
+        }
+      }
+    },
     "We use your location to know what's going on around you." : {
       "localizations" : {
         "pt-BR" : {
