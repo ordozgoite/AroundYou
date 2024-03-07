@@ -224,6 +224,9 @@ extension AuthenticationViewModel {
     
     func deleteAccount() async -> Bool {
         do {
+            let isUserDeleted = try await deleteUser()
+            if !isUserDeleted { return false }
+            
             try await user?.delete()
             authenticationState = .unauthenticated
             resetUserInfo()
@@ -300,6 +303,18 @@ extension AuthenticationViewModel {
             }
         }
         return false
+    }
+    
+    private func deleteUser() async throws -> Bool {
+        let token = try await getFirebaseToken()
+        let result = await AYServices.shared.deleteUser(token: token)
+        
+        switch result {
+        case .success:
+            return true
+        case .failure:
+            return false
+        }
     }
     
     func isLoginInputValid() -> Bool {
