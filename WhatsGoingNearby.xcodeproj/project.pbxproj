@@ -23,6 +23,7 @@
 		ED2F1A772B9142D3001F4300 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2F1A762B9142D3001F4300 /* NotificationView.swift */; };
 		ED2F1A7C2B91440E001F4300 /* FormattedNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2F1A7B2B91440E001F4300 /* FormattedNotification.swift */; };
 		ED2F1A7E2B927D9B001F4300 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2F1A7D2B927D9B001F4300 /* Subscription.swift */; };
+		ED3775A32B99795600BEF3D8 /* notification-sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED3775A22B99795500BEF3D8 /* notification-sound.wav */; };
 		ED41409C2B7DE41F002690A5 /* PostNewCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */; };
 		ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */; };
 		ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */; };
@@ -171,6 +172,7 @@
 		ED2F1A762B9142D3001F4300 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		ED2F1A7B2B91440E001F4300 /* FormattedNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedNotification.swift; sourceTree = "<group>"; };
 		ED2F1A7D2B927D9B001F4300 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
+		ED3775A22B99795500BEF3D8 /* notification-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "notification-sound.wav"; sourceTree = "<group>"; };
 		ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNewCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePublicationResponse.swift; sourceTree = "<group>"; };
@@ -519,6 +521,7 @@
 		ED5CB1672B7C11C000C336EC /* WhatsGoingNearby */ = {
 			isa = PBXGroup;
 			children = (
+				ED3775A22B99795500BEF3D8 /* notification-sound.wav */,
 				EDF43E912B869F3E0037CC9F /* Info.plist */,
 				EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */,
 				ED5CC51B2B97BF7D009B17E3 /* Test */,
@@ -853,6 +856,7 @@
 				ED5CB1702B7C11C500C336EC /* Preview Assets.xcassets in Resources */,
 				EDA30DEA2B7FAB69003EB22D /* map.json in Resources */,
 				ED5CB16D2B7C11C500C336EC /* Assets.xcassets in Resources */,
+				ED3775A32B99795600BEF3D8 /* notification-sound.wav in Resources */,
 				EDEECA252B8A77D500BD517D /* party.json in Resources */,
 				ED598C112B7C545600B6C23D /* GoogleService-Info.plist in Resources */,
 			);

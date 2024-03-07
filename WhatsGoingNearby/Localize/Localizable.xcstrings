@@ -466,6 +466,16 @@
         }
       }
     },
+    "Disable notifications" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desativar notificações"
+          }
+        }
+      }
+    },
     "Discard" : {
       "localizations" : {
         "pt-BR" : {
@@ -581,6 +591,16 @@
         }
       }
     },
+    "Enable notifications" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativar notificações"
+          }
+        }
+      }
+    },
     "Enable Precise Location" : {
       "localizations" : {
         "pt-BR" : {
@@ -648,6 +668,7 @@
       }
     },
     "Follow post" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -658,6 +679,7 @@
       }
     },
     "Following post" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1083,7 +1105,7 @@
       }
     },
     "Publication" : {
-      "comment" : "Noun\nnoun",
+      "comment" : "noun\nNoun",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1438,6 +1460,7 @@
       }
     },
     "Unfollow post" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1448,6 +1471,7 @@
       }
     },
     "Unfollowing post" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {

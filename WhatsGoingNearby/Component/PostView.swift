@@ -19,8 +19,6 @@ struct PostView: View {
     @State private var isMapScreenPresented: Bool = false
     @State private var isLikeScreenDisplayed: Bool = false
     
-    @State private var isFollowingPost: Bool = false
-    @State private var isUnfollowingPost: Bool = false
     @Binding var location: CLLocation?
     
     let deletePost: () -> ()
@@ -125,40 +123,30 @@ struct PostView: View {
                         if !post.isFromRecipientUser {
                             if post.isSubscribed {
                                 Button(action: {
+                                    isOptionsPopoverDisplayed = false
                                     Task {
                                         let token = try await authVM.getFirebaseToken()
                                         await unfollowPost(token: token)
                                     }
                                 }) {
-                                    if isUnfollowingPost {
-                                        Text("Unfollowing post")
-                                            .foregroundStyle(.gray)
-                                        ProgressView()
-                                    } else {
-                                        Text("Unfollow post")
-                                            .foregroundStyle(.gray)
-                                        Image(systemName: "bell.slash.fill")
-                                            .foregroundStyle(.gray)
-                                    }
+                                    Text("Disable notifications")
+                                        .foregroundStyle(.gray)
+                                    Image(systemName: "bell.slash.fill")
+                                        .foregroundStyle(.gray)
                                 }
                                 .padding()
                             } else {
                                 Button(action: {
+                                    isOptionsPopoverDisplayed = false
                                     Task {
                                         let token = try await authVM.getFirebaseToken()
                                         await followPost(token: token)
                                     }
                                 }) {
-                                    if isFollowingPost {
-                                        Text("Following post")
-                                            .foregroundStyle(.gray)
-                                        ProgressView()
-                                    } else {
-                                        Text("Follow post")
-                                            .foregroundStyle(.gray)
-                                        Image(systemName: "bell.and.waves.left.and.right")
-                                            .foregroundStyle(.gray)
-                                    }
+                                    Text("Enable notifications")
+                                        .foregroundStyle(.gray)
+                                    Image(systemName: "bell.and.waves.left.and.right")
+                                        .foregroundStyle(.gray)
                                 }
                                 .padding()
                             }
@@ -280,9 +268,7 @@ struct PostView: View {
     }
     
     private func followPost(token: String) async {
-        isFollowingPost = true
         let result = await AYServices.shared.subscribeUserToPublication(publicationId: self.post.id, token: token)
-        isFollowingPost = false
         
         switch result {
         case .success:
@@ -293,9 +279,7 @@ struct PostView: View {
     }
     
     private func unfollowPost(token: String) async {
-        isUnfollowingPost = true
         let result = await AYServices.shared.unsubscribeUser(publicationId: self.post.id, token: token)
-        isUnfollowingPost = false
         
         switch result {
         case .success:

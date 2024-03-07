@@ -19,7 +19,8 @@ public func nearByNotification() -> UNNotificationRequest {
     let content = UNMutableNotificationContent()
     content.title = "AroundYou 🌐"
     content.body = LocalState.preferredLanguage.prefix(2) == "pt" ? ptNotificationBody : enNotificationBody
-    content.sound = .default
+    content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "notification-sound.wav"))
+    
     let request = UNNotificationRequest(identifier: "nearby_publications", content: content, trigger: nil)
     return request
 }
