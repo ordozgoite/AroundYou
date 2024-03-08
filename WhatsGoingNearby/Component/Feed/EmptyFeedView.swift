@@ -27,7 +27,7 @@ struct EmptyFeedView: View {
                         .fontWeight(.semibold)
                         .multilineTextAlignment(.center)
                     
-                    Text("No worries, we are always looking around you...")
+                    Text("Be the first to make a post in your region...")
                         .font(.subheadline)
                         .foregroundStyle(.gray)
                         .fontWeight(.semibold)

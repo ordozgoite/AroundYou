@@ -25,21 +25,23 @@ struct AuthenticationScreen: View {
                     
                     Spacer()
                     
-                    if authVM.flow == .signUp {
-                        AYTextField(imageName: "person.fill", title: "Username", error: $authVM.errorMessage.0, inputText: $authVM.usernameInput)
+                    VStack {
+                        if authVM.flow == .signUp {
+                            AYTextField(imageName: "person.fill", title: "Username", error: $authVM.errorMessage.0, inputText: $authVM.usernameInput)
+                                .focused($authInputIsFocused)
+                            
+                            AYTextField(imageName: "person.fill", title: "Full name", error: $authVM.errorMessage.1, inputText: $authVM.fullNameInput)
+                                .textInputAutocapitalization(.words)
+                                .focused($authInputIsFocused)
+                        }
+                        
+                        AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.2, inputText: $authVM.emailInput)
+                            .keyboardType(.emailAddress)
                             .focused($authInputIsFocused)
                         
-                        AYTextField(imageName: "person.fill", title: "Full name", error: $authVM.errorMessage.1, inputText: $authVM.fullNameInput)
-                            .textInputAutocapitalization(.words)
+                        AYSecureTextField(imageName: "lock", title: "Password", error: $authVM.errorMessage.3, inputText: $authVM.passwordInput)
                             .focused($authInputIsFocused)
                     }
-                    
-                    AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.2, inputText: $authVM.emailInput)
-                        .keyboardType(.emailAddress)
-                        .focused($authInputIsFocused)
-                    
-                    AYSecureTextField(imageName: "lock", title: "Password", error: $authVM.errorMessage.3, inputText: $authVM.passwordInput)
-                        .focused($authInputIsFocused)
                     
                     Spacer()
                     
@@ -53,6 +55,12 @@ struct AuthenticationScreen: View {
                         Button("Forgot your password?") {
                             authVM.isForgotPasswordScreenDisplayed = true
                         }
+                    } else {
+                        Text("By signing up, you agree to our [Terms of Use](https://drive.google.com/file/d/1MH4FPfCjpERj1gIdlA2OsnCPgIytN9Qn/view?usp=sharing) and [Privacy Policy](https://drive.google.com/file/d/1-xlikrlgg3llvTtHuffs_NPoOooGMY7g/view?usp=sharing).")
+                            .padding([.leading, .trailing], 10)
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(.gray)
+                            .font(.caption)
                     }
                 }
                 .padding()

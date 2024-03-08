@@ -260,6 +260,16 @@
         }
       }
     },
+    "Be the first to make a post in your region..." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seja o primeiro a fazer uma publicação  na sua região..."
+          }
+        }
+      }
+    },
     "Biography" : {
       "localizations" : {
         "pt-BR" : {
@@ -296,6 +306,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Usuários bloqueados"
+          }
+        }
+      }
+    },
+    "By signing up, you agree to our [Terms of Use](https://drive.google.com/file/d/1MH4FPfCjpERj1gIdlA2OsnCPgIytN9Qn/view?usp=sharing) and [Privacy Policy](https://drive.google.com/file/d/1-xlikrlgg3llvTtHuffs_NPoOooGMY7g/view?usp=sharing)." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao registrar, você concorda com nossos [Termos de Uso](https://drive.google.com/file/d/14cy7HJhqBrcs16AePs3x3SXEAZqtCZEv/view?usp=sharing) e [Política de Privacidade](https://drive.google.com/file/d/1y4SZTg9n1urZ_rtECre2IN8w_LJi3s5R/view?usp=sharing)."
           }
         }
       }
@@ -358,6 +378,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "comentou"
+          }
+        }
+      }
+    },
+    "Comments" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comentários"
           }
         }
       }
@@ -890,6 +920,7 @@
       }
     },
     "No worries, we are always looking around you..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1105,7 +1136,7 @@
       }
     },
     "Publication" : {
-      "comment" : "Noun\nnoun",
+      "comment" : "noun",
       "localizations" : {
         "en" : {
           "stringUnit" : {
