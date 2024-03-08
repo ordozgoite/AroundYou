@@ -41,6 +41,16 @@ struct UsernameScreen: View {
                 AYErrorAlert(message: authVM.overlayError.1, isErrorAlertPresented: $authVM.overlayError.0)
             }
             .navigationTitle("Username")
+            .toolbar {
+                ToolbarItem {
+                    Button {
+                        authVM.signOut()
+                    } label: {
+                        Image(systemName: "rectangle.portrait.and.arrow.right")
+                            .foregroundStyle(.gray)
+                    }
+                }
+            }
         }
     }
 }

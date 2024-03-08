@@ -25,6 +25,7 @@
 		ED2F1A7E2B927D9B001F4300 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2F1A7D2B927D9B001F4300 /* Subscription.swift */; };
 		ED3775A32B99795600BEF3D8 /* notification-sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED3775A22B99795500BEF3D8 /* notification-sound.wav */; };
 		ED3775A52B9A5E5200BEF3D8 /* DeleteUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3775A42B9A5E5200BEF3D8 /* DeleteUserResponse.swift */; };
+		ED3775A72B9ABD1000BEF3D8 /* PreparingSessionAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3775A62B9ABD1000BEF3D8 /* PreparingSessionAnimationView.swift */; };
 		ED41409C2B7DE41F002690A5 /* PostNewCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */; };
 		ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */; };
 		ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */; };
@@ -175,6 +176,7 @@
 		ED2F1A7D2B927D9B001F4300 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		ED3775A22B99795500BEF3D8 /* notification-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "notification-sound.wav"; sourceTree = "<group>"; };
 		ED3775A42B9A5E5200BEF3D8 /* DeleteUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserResponse.swift; sourceTree = "<group>"; };
+		ED3775A62B9ABD1000BEF3D8 /* PreparingSessionAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparingSessionAnimationView.swift; sourceTree = "<group>"; };
 		ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNewCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePublicationResponse.swift; sourceTree = "<group>"; };
@@ -492,6 +494,7 @@
 				ED598C0C2B7C482A00B6C23D /* AYTextField.swift */,
 				ED598C0E2B7C499400B6C23D /* AYSecureTextField.swift */,
 				ED598C062B7C441500B6C23D /* AuthFlowSegmentedControl.swift */,
+				ED3775A62B9ABD1000BEF3D8 /* PreparingSessionAnimationView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -968,6 +971,7 @@
 				EDA3223D2B7CCF64009905B5 /* PreparingSessionScreen.swift in Sources */,
 				ED2F1A772B9142D3001F4300 /* NotificationView.swift in Sources */,
 				ED598C072B7C441500B6C23D /* AuthFlowSegmentedControl.swift in Sources */,
+				ED3775A72B9ABD1000BEF3D8 /* PreparingSessionAnimationView.swift in Sources */,
 				EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */,
 				EDA322492B7DB2BA009905B5 /* Comment.swift in Sources */,
 				ED6D82C72B941F8000C57937 /* UsernameScreen.swift in Sources */,

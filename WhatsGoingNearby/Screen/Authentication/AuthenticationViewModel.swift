@@ -230,6 +230,7 @@ extension AuthenticationViewModel {
             try await user?.delete()
             authenticationState = .unauthenticated
             resetUserInfo()
+            resetInputs()
             return true
         }
         catch {
@@ -255,7 +256,7 @@ extension AuthenticationViewModel {
 //MARK: - AY Methods
 
 extension AuthenticationViewModel {
-    func postNewUser(username: String, name: String?, token: String) async {
+    func postNewUser(username: String, name: String?, token: String) async -> Bool {
         let result = await AYServices.shared.postNewUser(username: username, name: name, userRegistrationToken: LocalState.userRegistrationToken, token: token)
         
         switch result {
@@ -269,11 +270,13 @@ extension AuthenticationViewModel {
         case .failure(let error):
             if error == .conflict {
                 overlayError = (true, ErrorMessage.usernameInUseMessage)
+                return true
             } else {
                 signOut()
                 overlayError = (true, ErrorMessage.defaultErrorMessage)
             }
         }
+        return false
     }
     
     func getUserInfo(token: String) async -> Bool {
@@ -291,11 +294,10 @@ extension AuthenticationViewModel {
             print("❌ Error: \(error)")
             if error == .dataNotFound {
                 if usernameInput.isEmpty {
-                    print("🔴 true")
                     return true
                 } else {
-                    print("🔴 post")
-                    await postNewUser(username: usernameInput, name: fullNameInput.isEmpty ? nil : fullNameInput, token: token)
+                    let isUsernameConflict = await postNewUser(username: usernameInput, name: fullNameInput.isEmpty ? nil : fullNameInput, token: token)
+                    if isUsernameConflict { return true }
                 }
             } else {
                 signOut()
