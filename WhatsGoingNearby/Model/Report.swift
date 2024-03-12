@@ -7,6 +7,8 @@
 
 import Foundation
 
+import Foundation
+
 struct Report: Codable {
     let reporterUserUid: String
     let reportedUserUid: String

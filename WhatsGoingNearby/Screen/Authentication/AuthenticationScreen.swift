@@ -17,13 +17,14 @@ struct AuthenticationScreen: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                VStack(spacing: 16) {
-                    LogoView()
-                    
-                    AuthFlowSegmentedControl(selectedFilter: $authVM.flow)
-                        .padding([.top, .bottom], 16)
-                    
-                    Spacer()
+                VStack {
+                    VStack {
+                        LogoView()
+                        
+                        AuthFlowSegmentedControl(selectedFilter: $authVM.flow)
+                            .padding([.top, .bottom], 16)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                     
                     VStack {
                         if authVM.flow == .signUp {
@@ -42,26 +43,27 @@ struct AuthenticationScreen: View {
                         AYSecureTextField(imageName: "lock", title: "Password", error: $authVM.errorMessage.3, inputText: $authVM.passwordInput)
                             .focused($authInputIsFocused)
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     
-                    Spacer()
-                    
-                    ButtonView()
-                    
-                    Or()
-                    
-                    SiwAButton()
-                    
-                    if authVM.flow == .login  {
-                        Button("Forgot your password?") {
-                            authVM.isForgotPasswordScreenDisplayed = true
+                    VStack {
+                        ButtonView()
+                        
+                        Or()
+                        
+                        SiwAButton()
+                        
+                        if authVM.flow == .login  {
+                            Button("Forgot your password?") {
+                                authVM.isForgotPasswordScreenDisplayed = true
+                            }
+                        } else {
+                            Text("By signing up, you agree to our [Terms of Use](https://aroundyou3.wordpress.com/terms-of-use) and [Privacy Policy](https://aroundyou3.wordpress.com/policy-privacy).")
+                                .multilineTextAlignment(.center)
+                                .foregroundStyle(.gray)
+                                .font(.caption)
                         }
-                    } else {
-                        Text("By signing up, you agree to our [Terms of Use](https://drive.google.com/file/d/1MH4FPfCjpERj1gIdlA2OsnCPgIytN9Qn/view?usp=sharing) and [Privacy Policy](https://drive.google.com/file/d/1-xlikrlgg3llvTtHuffs_NPoOooGMY7g/view?usp=sharing).")
-                            .padding([.leading, .trailing], 10)
-                            .multilineTextAlignment(.center)
-                            .foregroundStyle(.gray)
-                            .font(.caption)
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
                 }
                 .padding()
                 

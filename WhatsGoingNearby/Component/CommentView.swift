@@ -29,7 +29,7 @@ struct CommentView: View {
                     HeaderView()
                     
                     TextView()
-                
+                    
                     Footer()
                 }
             }

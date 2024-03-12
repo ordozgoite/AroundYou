@@ -310,7 +310,18 @@
         }
       }
     },
+    "By signing up, you agree to our [Terms of Use](https://aroundyou3.wordpress.com/terms-of-use) and [Privacy Policy](https://aroundyou3.wordpress.com/policy-privacy)." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao registrar-se, você aceita nossos [Termos de Uso](https://aroundyou3.wordpress.com/terms-of-use) e [Política de Privacidade](https://aroundyou3.wordpress.com/policy-privacy)."
+          }
+        }
+      }
+    },
     "By signing up, you agree to our [Terms of Use](https://drive.google.com/file/d/1MH4FPfCjpERj1gIdlA2OsnCPgIytN9Qn/view?usp=sharing) and [Privacy Policy](https://drive.google.com/file/d/1-xlikrlgg3llvTtHuffs_NPoOooGMY7g/view?usp=sharing)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1283,9 +1294,6 @@
       }
     },
     "Search Around You" : {
-
-    },
-    "Search for a restaurant" : {
 
     },
     "Second Location" : {
