@@ -299,6 +299,12 @@ extension AuthenticationViewModel {
                     let isUsernameConflict = await postNewUser(username: usernameInput, name: fullNameInput.isEmpty ? nil : fullNameInput, token: token)
                     if isUsernameConflict { return true }
                 }
+            } else if error == .forbidden {
+                signOut()
+                overlayError = (true, ErrorMessage.permaBannedErrorMessage)
+            } else if error == .unauthorized {
+                signOut()
+                overlayError = (true, ErrorMessage.tempBannedErrorMessage)
             } else {
                 signOut()
                 overlayError = (true, ErrorMessage.defaultErrorMessage)

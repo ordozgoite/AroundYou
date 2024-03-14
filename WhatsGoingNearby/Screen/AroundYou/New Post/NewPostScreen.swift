@@ -35,9 +35,6 @@ struct NewPostScreen: View {
             
             AYErrorAlert(message: newPostVM.overlayError.1 , isErrorAlertPresented: $newPostVM.overlayError.0)
         }
-        .onAppear {
-            setPostVisibilty()
-        }
         .alert(isPresented: $newPostVM.isShareLocationAlertDisplayed) {
             Alert(
                 title: Text("Share Location 🌐"),
@@ -124,7 +121,7 @@ struct NewPostScreen: View {
         }
     }
     
-    //MARK: - Auxiliary Methods
+    //MARK: - Private Methods
     
     private func postNewPublication() async throws {
         locationManager.requestLocation()
@@ -140,10 +137,6 @@ struct NewPostScreen: View {
         } else {
             newPostVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
         }
-    }
-    
-    public func setPostVisibilty() {
-        newPostVM.selectedPostLocationVisibilty = LocalState.isPostLocationVisible ? .visible : .hidden
     }
 }
 

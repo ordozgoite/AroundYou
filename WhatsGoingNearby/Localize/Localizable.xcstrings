@@ -1652,6 +1652,12 @@
         }
       }
     },
+    "Your account has been permanently banned." : {
+
+    },
+    "Your account has been temporarily banned." : {
+
+    },
     "Your feedback helps us improve the app experience for everyone." : {
       "localizations" : {
         "pt-BR" : {

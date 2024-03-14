@@ -17,4 +17,6 @@ struct ErrorMessage {
     static let commentDistanceLimitExceededErrorMessage: LocalizedStringKey = "Sorry, you're too far away to comment on this post."
     static let publicationLimitExceededErrorMessage: LocalizedStringKey = "Sorry, you have reached the maximum allowed number of active publications."
     static let selectPhotoErrorMessage: LocalizedStringKey = "Error trying to select photo."
+    static let tempBannedErrorMessage: LocalizedStringKey = "Your account has been temporarily banned."
+    static let permaBannedErrorMessage: LocalizedStringKey = "Your account has been permanently banned."
 }
