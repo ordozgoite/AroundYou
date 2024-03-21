@@ -187,23 +187,21 @@ struct PostView: View {
     private func InteractionsView() -> some View {
         HStack(spacing: 32) {
             HStack {
-                Image(systemName: post.didLike ? "heart.fill" : "heart")
-                    .foregroundColor(post.didLike ? .red : .gray)
-                    .onTapGesture {
-                        Task {
-                            let token = try await authVM.getFirebaseToken()
-                            if post.didLike {
-                                post.didLike = false
-                                post.likes -= 1
-                                await unlikePublication(publicationId: post.id, token: token)
-                            } else {
-                                hapticFeedback()
-                                post.didLike = true
-                                post.likes += 1
-                                await likePublication(publicationId: post.id, token: token)
-                            }
+                HeartView(isLiked: $post.didLike) {
+                    Task {
+                        let token = try await authVM.getFirebaseToken()
+                        if post.didLike {
+                            post.didLike = false
+                            post.likes -= 1
+                            await unlikePublication(publicationId: post.id, token: token)
+                        } else {
+                            hapticFeedback()
+                            post.didLike = true
+                            post.likes += 1
+                            await likePublication(publicationId: post.id, token: token)
                         }
                     }
+                }
                 
                 Text(String(post.likes))
                     .font(.subheadline)

@@ -146,23 +146,21 @@ struct CommentView: View {
     private func Footer() -> some View {
         HStack(spacing: 32) {
             HStack {
-                Image(systemName: comment.didLike ? "heart.fill" : "heart")
-                    .foregroundColor(comment.didLike ? .red : .gray)
-                    .onTapGesture {
-                        Task {
-                            let token = try await authVM.getFirebaseToken()
-                            if comment.didLike {
-                                comment.didLike = false
-                                comment.likes -= 1
-                                await unlikeComment(commentId: comment.id, token: token)
-                            } else {
-                                hapticFeedback()
-                                comment.didLike = true
-                                comment.likes += 1
-                                await likeComment(commentId: comment.id, token: token)
-                            }
+                HeartView(isLiked: $comment.didLike) {
+                    Task {
+                        let token = try await authVM.getFirebaseToken()
+                        if comment.didLike {
+                            comment.didLike = false
+                            comment.likes -= 1
+                            await unlikeComment(commentId: comment.id, token: token)
+                        } else {
+                            hapticFeedback()
+                            comment.didLike = true
+                            comment.likes += 1
+                            await likeComment(commentId: comment.id, token: token)
                         }
                     }
+                }
                 
                 Text(String(comment.likes))
                     .font(.subheadline)

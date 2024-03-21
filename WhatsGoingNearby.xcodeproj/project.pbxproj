@@ -121,6 +121,7 @@
 		ED6E84D62B887B3000B94F5C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84D52B887B3000B94F5C /* Notification.swift */; };
 		ED6E84F42B89C82C00B94F5C /* PostLocationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84F32B89C82C00B94F5C /* PostLocationScreen.swift */; };
 		ED884BEB2B8CF3D80071E1C4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = ED884BEA2B8CF3D80071E1C4 /* Localizable.xcstrings */; };
+		ED8E6AF62BACD36D002D633D /* HeartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8E6AF52BACD36D002D633D /* HeartView.swift */; };
 		EDA30DE52B7FAB20003EB22D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EDA30DE42B7FAB20003EB22D /* Lottie */; };
 		EDA30DE92B7FAB69003EB22D /* radar.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE72B7FAB68003EB22D /* radar.json */; };
 		EDA30DEA2B7FAB69003EB22D /* map.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE82B7FAB69003EB22D /* map.json */; };
@@ -247,6 +248,7 @@
 		ED6E84D52B887B3000B94F5C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		ED6E84F32B89C82C00B94F5C /* PostLocationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLocationScreen.swift; sourceTree = "<group>"; };
 		ED884BEA2B8CF3D80071E1C4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		ED8E6AF52BACD36D002D633D /* HeartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartView.swift; sourceTree = "<group>"; };
 		EDA30DE72B7FAB68003EB22D /* radar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = radar.json; sourceTree = "<group>"; };
 		EDA30DE82B7FAB69003EB22D /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
 		EDA30DEB2B7FABA9003EB22D /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
@@ -454,6 +456,7 @@
 				EDA30DF52B7FE816003EB22D /* PostTypeSegmentedControl.swift */,
 				ED6DD4952B82E5B900ADBB64 /* MapView.swift */,
 				EDEECA262B8A7CD400BD517D /* TimerAnimation.swift */,
+				ED8E6AF52BACD36D002D633D /* HeartView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -883,6 +886,7 @@
 				EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */,
 				ED6DD4992B82E5E900ADBB64 /* NewPostLocationScreen.swift in Sources */,
 				ED06525B2B814722005B6413 /* BugReport.swift in Sources */,
+				ED8E6AF62BACD36D002D633D /* HeartView.swift in Sources */,
 				ED5CC5262B982121009B17E3 /* EnableLocationView.swift in Sources */,
 				ED598C052B7C43A000B6C23D /* AuthenticationViewModel.swift in Sources */,
 				ED50C4532B7E4CCC0001EDF6 /* ErrorMessage.swift in Sources */,
