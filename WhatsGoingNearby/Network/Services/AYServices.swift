@@ -54,6 +54,9 @@ protocol AYServiceable {
     // Subscription
     func subscribeUserToPublication(publicationId: String, token: String) async -> Result<Subscription, RequestError>
     func unsubscribeUser(publicationId: String, token: String) async -> Result<Subscription, RequestError>
+    
+    // Ban
+    func getUserBanExpireDate(token: String) async -> Result<GetUserBanExpireDateResponse, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -195,5 +198,11 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func unsubscribeUser(publicationId: String, token: String) async -> Result<Subscription, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.unsubscribeUser(publicationId: publicationId, token: token), responseModel: Subscription.self)
+    }
+    
+    //MARK: - Ban
+    
+    func getUserBanExpireDate(token: String) async -> Result<GetUserBanExpireDateResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getUserBanExpireDate(token: token), responseModel: GetUserBanExpireDateResponse.self)
     }
 }

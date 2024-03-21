@@ -201,6 +201,26 @@
         }
       }
     },
+    "Allow 'AroundYou' to display your location on map?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permitir que 'AroundYou' exibida sua localização no mapa?"
+          }
+        }
+      }
+    },
+    "Allow Once" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permitir Uma Vez"
+          }
+        }
+      }
+    },
     "Answering %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -315,18 +335,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ao registrar-se, você aceita nossos [Termos de Uso](https://aroundyou3.wordpress.com/terms-of-use) e [Política de Privacidade](https://aroundyou3.wordpress.com/policy-privacy)."
-          }
-        }
-      }
-    },
-    "By signing up, you agree to our [Terms of Use](https://drive.google.com/file/d/1MH4FPfCjpERj1gIdlA2OsnCPgIytN9Qn/view?usp=sharing) and [Privacy Policy](https://drive.google.com/file/d/1-xlikrlgg3llvTtHuffs_NPoOooGMY7g/view?usp=sharing)." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ao registrar, você concorda com nossos [Termos de Uso](https://drive.google.com/file/d/14cy7HJhqBrcs16AePs3x3SXEAZqtCZEv/view?usp=sharing) e [Política de Privacidade](https://drive.google.com/file/d/1y4SZTg9n1urZ_rtECre2IN8w_LJi3s5R/view?usp=sharing)."
+            "value" : "Ao registrar-se, você aceita nossos [Termos de Uso](https://aroundyou3.wordpress.com/termos-de-uso/) e [Política de Privacidade](https://aroundyou3.wordpress.com/politica-de-privacidade/)."
           }
         }
       }
@@ -553,6 +562,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Distância: %@ metros"
+          }
+        }
+      }
+    },
+    "Don't Allow" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não Permitir"
           }
         }
       }
@@ -962,11 +981,22 @@
       }
     },
     "Oops! Looks like something went wrong." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Oops! Parece que algo fugiu do controle."
+          }
+        }
+      }
+    },
+    "Oops! Looks like something went wrong. Try again later." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oops! Parece que algo deu errado. Tente novamente mais tarde."
           }
         }
       }
@@ -1064,7 +1094,7 @@
       }
     },
     "Post" : {
-      "comment" : "Noun",
+      "comment" : "Action",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1327,6 +1357,7 @@
       }
     },
     "Share Location 🌐" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1337,11 +1368,22 @@
       }
     },
     "Show my location" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar minha localização"
+          }
+        }
+      }
+    },
+    "Show my location on map" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar minha localização no mapa"
           }
         }
       }
@@ -1591,6 +1633,7 @@
       }
     },
     "You are about to share your current location within your post. This means that anyone nearby will be able to see the place where you made the post. Are you sure you want to proceed?" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1653,10 +1696,35 @@
       }
     },
     "Your account has been permanently banned." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua conta foi permanentemente banida."
+          }
+        }
+      }
+    },
+    "Your account has been temporarily banned until %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua conta foi temporariamente banida até %@"
+          }
+        }
+      }
     },
     "Your account has been temporarily banned." : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua conta foi temporariamente banida."
+          }
+        }
+      }
     },
     "Your feedback helps us improve the app experience for everyone." : {
       "localizations" : {
@@ -1685,6 +1753,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Suas senhas não correspondem."
+          }
+        }
+      }
+    },
+    "Your precise location will be used to display on the map where you made this post." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua localização precisa será usada para exibir no mapa onde você fez essa publicação."
           }
         }
       }

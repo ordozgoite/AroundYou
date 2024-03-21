@@ -13,4 +13,11 @@ extension Date {
         formatter.unitsStyle = .abbreviated
         return formatter.localizedString(for: self, relativeTo: Date())
     }
+    
+    func convertDateToString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.current
+        dateFormatter.dateStyle = .short
+        return dateFormatter.string(from: self)
+    }
 }

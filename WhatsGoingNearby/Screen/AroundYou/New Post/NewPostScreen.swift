@@ -37,14 +37,14 @@ struct NewPostScreen: View {
         }
         .alert(isPresented: $newPostVM.isShareLocationAlertDisplayed) {
             Alert(
-                title: Text("Share Location 🌐"),
-                message: Text("You are about to share your current location within your post. This means that anyone nearby will be able to see the place where you made the post. Are you sure you want to proceed?"),
-                primaryButton: .default((Text("Post"))) {
+                title: Text("Allow 'AroundYou' to display your location on map?"),
+                message: Text("Your precise location will be used to display on the map where you made this post."),
+                primaryButton: .default((Text("Allow Once"))) {
                     Task {
                         try await postNewPublication()
                     }
                 },
-                secondaryButton: .cancel(Text("Cancel")) {}
+                secondaryButton: .cancel(Text("Don't Allow")) {}
             )
         }
         .navigationBarBackButtonHidden()

@@ -15,7 +15,7 @@ enum PostLocationVisibility: CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .visible:
-            return "Show my location"
+            return "Show my location on map"
         case .hidden:
             return "Hide my location"
         }

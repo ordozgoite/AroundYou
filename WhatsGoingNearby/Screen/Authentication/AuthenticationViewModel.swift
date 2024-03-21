@@ -261,12 +261,7 @@ extension AuthenticationViewModel {
         
         switch result {
         case .success(let user):
-            LocalState.currentUserUid = user.userUid
-            self.username = user.username
-            self.name = user.name ?? ""
-            profilePic = user.profilePic
-            biography = user.biography
-            isUserInfoFetched = true
+            updateCurrentInformation(for: user)
         case .failure(let error):
             if error == .conflict {
                 overlayError = (true, ErrorMessage.usernameInUseMessage)
@@ -284,14 +279,8 @@ extension AuthenticationViewModel {
         
         switch result {
         case .success(let user):
-            LocalState.currentUserUid = user.userUid
-            username = user.username
-            name = user.name ?? ""
-            profilePic = user.profilePic
-            biography = user.biography
-            isUserInfoFetched = true
+            updateCurrentInformation(for: user)
         case .failure(let error):
-            print("❌ Error: \(error)")
             if error == .dataNotFound {
                 if usernameInput.isEmpty {
                     return true
@@ -303,8 +292,7 @@ extension AuthenticationViewModel {
                 signOut()
                 overlayError = (true, ErrorMessage.permaBannedErrorMessage)
             } else if error == .unauthorized {
-                signOut()
-                overlayError = (true, ErrorMessage.tempBannedErrorMessage)
+                await getUserBanExpirationDate(token: token)
             } else {
                 signOut()
                 overlayError = (true, ErrorMessage.defaultErrorMessage)
@@ -322,6 +310,28 @@ extension AuthenticationViewModel {
             return true
         case .failure:
             return false
+        }
+    }
+    
+    private func updateCurrentInformation(for user: MongoUser) {
+        LocalState.currentUserUid = user.userUid
+        self.username = user.username
+        self.name = user.name ?? ""
+        self.profilePic = user.profilePic
+        self.biography = user.biography
+        self.isUserInfoFetched = true
+    }
+    
+    private func getUserBanExpirationDate(token: String) async {
+        let result = await AYServices.shared.getUserBanExpireDate(token: token)
+        
+        switch result {
+        case .success(let expirationDate):
+            signOut()
+            overlayError = (true, ErrorMessage.getTempBannedErrorMessage(expirationDate: expirationDate.banExpirationDateTime))
+        case .failure:
+            signOut()
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
     }
     

@@ -33,6 +33,7 @@
 		ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */; };
 		ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */; };
 		ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4140A12B7E1D26002690A5 /* CircleTimerView.swift */; };
+		ED5023FC2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5023FB2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift */; };
 		ED50C44A2B7E2CBC0001EDF6 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4492B7E2CBC0001EDF6 /* Int.swift */; };
 		ED50C44C2B7E396C0001EDF6 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C44B2B7E396C0001EDF6 /* View.swift */; };
 		ED50C44E2B7E3BE20001EDF6 /* PostVisibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C44D2B7E3BE20001EDF6 /* PostVisibility.swift */; };
@@ -184,6 +185,7 @@
 		ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePublicationResponse.swift; sourceTree = "<group>"; };
 		ED4140A12B7E1D26002690A5 /* CircleTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleTimerView.swift; sourceTree = "<group>"; };
+		ED5023FB2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserBanExpireDateResponse.swift; sourceTree = "<group>"; };
 		ED50C4492B7E2CBC0001EDF6 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		ED50C44B2B7E396C0001EDF6 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		ED50C44D2B7E3BE20001EDF6 /* PostVisibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVisibility.swift; sourceTree = "<group>"; };
@@ -733,6 +735,7 @@
 				ED6E84CA2B87EA9C00B94F5C /* CheckNearByPublicationsResponse.swift */,
 				ED6D82BE2B938E4E00C57937 /* DeleteNotificationResponse.swift */,
 				ED3775A42B9A5E5200BEF3D8 /* DeleteUserResponse.swift */,
+				ED5023FB2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -950,6 +953,7 @@
 				ED06525D2B8171C5005B6413 /* ForgotPasswordScreen.swift in Sources */,
 				ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */,
 				ED50C44C2B7E396C0001EDF6 /* View.swift in Sources */,
+				ED5023FC2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift in Sources */,
 				EDA3222E2B7CA490009905B5 /* AYEndpoints.swift in Sources */,
 				ED598C532B7C81CA00B6C23D /* LocationManager.swift in Sources */,
 				ED24FAF82B9E6535002F7A11 /* ReportDTO.swift in Sources */,
