@@ -45,6 +45,7 @@ public func notifyNearByPost() async {
     let notificationRequest = nearByNotification()
     do {
         try await UNUserNotificationCenter.current().add(notificationRequest)
+        LocalState.lastNotificationTime = Int(Date().timeIntervalSince1970)
     } catch {
         print("Notification failed with error: \(String(describing: error))")
     }

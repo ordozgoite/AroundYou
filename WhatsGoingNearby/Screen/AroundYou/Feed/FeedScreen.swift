@@ -56,7 +56,7 @@ struct FeedScreen: View {
                 ToolbarItem {
                     NavigationLink(destination: NewPostScreen() {
                         Task {
-                            try await getFeedInfo()
+                            try await getNearByPosts()
                         }
                     }.environmentObject(authVM)) {
                         Image(systemName: "square.and.pencil")
@@ -124,41 +124,16 @@ struct FeedScreen: View {
         feedVM.currentTimeStamp = Int(Date().timeIntervalSince1970)
     }
     
-    private func getFeedInfo() async throws {
-        locationManager.requestLocation()
-        if let location = locationManager.location {
-            let token = try await authVM.getFirebaseToken()
-            
-            let latitude = location.coordinate.latitude
-            let longitude = location.coordinate.longitude
-            
-            print("📍 Latitude: \(latitude)")
-            print("📍 Longitude: \(longitude)")
-            await feedVM.getPostsNearBy(latitude: latitude, longitude: longitude, token: token)
-        }
-    }
-    
     private func startUpdatingFeed() {
         feedVM.feedTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
             Task {
-                try await updateFeed()
+                try await getNearByPosts()
             }
         }
         feedVM.feedTimer?.fire()
     }
     
-    private func stopTimers() {
-        feedVM.timer?.invalidate()
-        feedVM.feedTimer?.invalidate()
-    }
-    
-    private func updateFeed() async throws {
-        if !feedVM.initialPostsFetched {
-            Task {
-                try await getFeedInfo()
-            }
-        }
-        
+    private func getNearByPosts() async throws {
         locationManager.requestLocation()
         if let location = locationManager.location {
             let token = try await authVM.getFirebaseToken()
@@ -166,15 +141,13 @@ struct FeedScreen: View {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             
-            let response = await AYServices.shared.getActivePublicationsNearBy(latitude: latitude, longitude: longitude, token: token)
-            
-            switch response {
-            case .success(let posts):
-                feedVM.posts = posts
-            case .failure(let error):
-                print("❌ Error: \(error)")
-            }
+            await feedVM.getPostsNearBy(latitude: latitude, longitude: longitude, token: token)
         }
+    }
+    
+    private func stopTimers() {
+        feedVM.timer?.invalidate()
+        feedVM.feedTimer?.invalidate()
     }
 }
 

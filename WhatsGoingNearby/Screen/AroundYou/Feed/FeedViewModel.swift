@@ -21,16 +21,25 @@ class FeedViewModel: ObservableObject {
     @Published var currentTimeStamp: Int = Int(Date().timeIntervalSince1970)
     
     func getPostsNearBy(latitude: Double, longitude: Double, token: String) async {
-        initialPostsFetched = true
-        isLoading = true
+        if !initialPostsFetched { isLoading = true }
         let response = await AYServices.shared.getActivePublicationsNearBy(latitude: latitude, longitude: longitude, token: token)
-        isLoading = false
+        if !initialPostsFetched { isLoading = false }
         
         switch response {
         case .success(let posts):
-             self.posts = posts
+            updatePosts(with: posts)
+            initialPostsFetched = true
         case .failure(let error):
             print("❌ Error: \(error)")
+        }
+    }
+    
+    private func updatePosts(with posts: [FormattedPost]) {
+        let existingPostIDs = Set(self.posts.map { $0.id })
+        let newPostIDs = Set(posts.map { $0.id })
+        if existingPostIDs != newPostIDs {
+            self.posts = posts
+            print("🙋‍♂️ UPDATED FEED!")
         }
     }
     
