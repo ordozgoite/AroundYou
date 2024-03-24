@@ -96,11 +96,13 @@ struct FeedScreen: View {
             ForEach($feedVM.posts) { $post in
                 if post.expirationDate.timeIntervalSince1970InSeconds > feedVM.currentTimeStamp {
                     NavigationLink(destination: CommentScreen(postId: post.id, post: $post, location: $locationManager.location).environmentObject(authVM)) {
-                        PostView(post: $post, location: $locationManager.location) {
+                        PostView(post: $post, location: $locationManager.location, deletePost: {
                             Task {
                                 let token = try await authVM.getFirebaseToken()
                                 await feedVM.deletePublication(publicationId: post.id, token: token)
                             }
+                        }) { shouldUpdate in
+                            feedVM.shouldUpdateFeed = shouldUpdate
                         }
                         .padding()
                     }

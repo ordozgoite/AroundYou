@@ -31,7 +31,7 @@ struct PostScreen: View {
                                     presentationMode.wrappedValue.dismiss()
                                 }
                             }
-                        }
+                        } toggleFeedUpdate: { _ in }
                         .padding()
                         
                         Divider()

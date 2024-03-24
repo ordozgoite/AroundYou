@@ -12,16 +12,15 @@ struct PostView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @Binding var post: FormattedPost
+    @Binding var location: CLLocation?
+    let deletePost: () -> ()
+    let toggleFeedUpdate: (Bool) -> ()
     
     @State private var isTimeLeftPopoverDisplayed: Bool = false
     @State private var isOptionsPopoverDisplayed: Bool = false
     @State private var isReportScreenPresented: Bool = false
     @State private var isMapScreenPresented: Bool = false
     @State private var isLikeScreenDisplayed: Bool = false
-    
-    @Binding var location: CLLocation?
-    
-    let deletePost: () -> ()
     
     var body: some View {
         VStack {
@@ -240,8 +239,10 @@ struct PostView: View {
     //MARK: - Auxiliary Methods
     
     private func likePublication(publicationId: String, token: String) async {
+        toggleFeedUpdate(false)
         if let latitude = location?.coordinate.latitude, let longitude = location?.coordinate.longitude {
             let response = await AYServices.shared.likePublication(publicationId: publicationId, latitude: latitude, longitude: longitude, token: token)
+            toggleFeedUpdate(true)
             
             switch response {
             case .success:
@@ -253,8 +254,10 @@ struct PostView: View {
     }
     
     private func unlikePublication(publicationId: String, token: String) async {
+        toggleFeedUpdate(false)
         if let latitude = location?.coordinate.latitude, let longitude = location?.coordinate.longitude {
             let response = await AYServices.shared.unlikePublication(publicationId: publicationId, latitude: latitude, longitude: longitude, token: token)
+            toggleFeedUpdate(true)
             
             switch response {
             case .success:

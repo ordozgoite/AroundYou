@@ -117,7 +117,7 @@ struct AccountScreen: View {
                                 let token = try await authVM.getFirebaseToken()
                                 await accountVM.deletePublication(publicationId: post.id, token: token)
                             }
-                        }
+                        } toggleFeedUpdate: { _ in }
                         .padding()
                     }
                     .buttonStyle(PlainButtonStyle())

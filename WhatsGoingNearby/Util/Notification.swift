@@ -12,8 +12,8 @@ import BackgroundTasks
 import SwiftUI
 
 public let taskId = "ordozgoite.WhatsGoingNearby.backgroundTask"
-public let enNotificationBody: String = "There are new posts around you!"
-public let ptNotificationBody: String = "Há novas publicações perto de você!"
+public let enNotificationBody: String = "There are posts around you!"
+public let ptNotificationBody: String = "Há publicações ao seu redor!"
 
 public func nearByNotification() -> UNNotificationRequest {
     let content = UNMutableNotificationContent()

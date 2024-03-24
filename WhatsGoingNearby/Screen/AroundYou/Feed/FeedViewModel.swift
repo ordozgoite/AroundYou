@@ -19,6 +19,7 @@ class FeedViewModel: ObservableObject {
     @Published var timer: Timer?
     @Published var feedTimer: Timer?
     @Published var currentTimeStamp: Int = Int(Date().timeIntervalSince1970)
+    @Published var shouldUpdateFeed: Bool = true
     
     func getPostsNearBy(latitude: Double, longitude: Double, token: String) async {
         if !initialPostsFetched { isLoading = true }
@@ -35,11 +36,8 @@ class FeedViewModel: ObservableObject {
     }
     
     private func updatePosts(with posts: [FormattedPost]) {
-        let existingPostIDs = Set(self.posts.map { $0.id })
-        let newPostIDs = Set(posts.map { $0.id })
-        if existingPostIDs != newPostIDs {
+        if shouldUpdateFeed {
             self.posts = posts
-            print("🙋‍♂️ UPDATED FEED!")
         }
     }
     

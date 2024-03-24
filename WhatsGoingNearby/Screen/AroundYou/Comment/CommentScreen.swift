@@ -31,7 +31,7 @@ struct CommentScreen: View {
                                 presentationMode.wrappedValue.dismiss()
                             }
                         }
-                    }
+                    } toggleFeedUpdate: { _ in }
                     .padding()
                     
                     Divider()
