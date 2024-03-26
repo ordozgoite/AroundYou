@@ -151,6 +151,46 @@
         }
       }
     },
+    "1 hour" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 hora"
+          }
+        }
+      }
+    },
+    "2 hours" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2 horas"
+          }
+        }
+      }
+    },
+    "3 hours" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3 horas"
+          }
+        }
+      }
+    },
+    "4 hours" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 horas"
+          }
+        }
+      }
+    },
     "Account Deletion" : {
       "localizations" : {
         "pt-BR" : {
@@ -259,6 +299,16 @@
         }
       }
     },
+    "Asking for information" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pedindo informação"
+          }
+        }
+      }
+    },
     "Authenticating" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -356,6 +406,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cancelar"
+          }
+        }
+      }
+    },
+    "Chatting" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batendo papo"
           }
         }
       }
@@ -799,7 +859,18 @@
         }
       }
     },
+    "Hide location" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esconder localização"
+          }
+        }
+      }
+    },
     "Hide my location" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -835,6 +906,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Interaja com pessoas 🌐"
+          }
+        }
+      }
+    },
+    "Just chilling" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só de boas"
           }
         }
       }
@@ -904,6 +985,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Procurando ao redor de você..."
+          }
+        }
+      }
+    },
+    "Looking for help" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pedindo ajuda"
           }
         }
       }
@@ -1110,6 +1201,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Localização"
+          }
+        }
+      }
+    },
+    "Post will stay active for:" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publicação ficará ativa por:"
           }
         }
       }
@@ -1336,6 +1437,16 @@
         }
       }
     },
+    "Seeking Hangout" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscando companhia"
+          }
+        }
+      }
+    },
     "Send Email" : {
       "localizations" : {
         "pt-BR" : {
@@ -1367,6 +1478,26 @@
         }
       }
     },
+    "Sharing news" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartilhando notícias"
+          }
+        }
+      }
+    },
+    "Show location" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar localização"
+          }
+        }
+      }
+    },
     "Show my location" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1379,6 +1510,7 @@
       }
     },
     "Show my location on map" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {

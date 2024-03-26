@@ -28,7 +28,11 @@ struct PostView: View {
                 ProfilePic()
                 
                 VStack(alignment: .leading, spacing: 16) {
-                    HeaderView()
+                    VStack(alignment: .leading, spacing: 0) {
+                        HeaderView()
+                        
+                        Tag()
+                    }
                     
                     TextView()
                     
@@ -169,6 +173,23 @@ struct PostView: View {
                 .onTapGesture {
                     isOptionsPopoverDisplayed = true
                 }
+        }
+    }
+    
+    //MARK: - Tag
+    
+    @ViewBuilder
+    private func Tag() -> some View {
+        if let postTag = post.postTag {
+            HStack {
+                Image(systemName: postTag.iconName)
+                    .foregroundStyle(.gray)
+                    .scaleEffect(0.8)
+                
+                Text(postTag.title)
+                    .foregroundStyle(.gray)
+                    .font(.caption)
+            }
         }
     }
     

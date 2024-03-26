@@ -15,11 +15,14 @@ class NewPostViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var selectedPostLocationVisibilty: PostLocationVisibility = .hidden
+    @Published var selectedPostTag: PostTag = .chat
+    @Published var selectedPostDuration: PostDuration = .fourHours
     @Published var isShareLocationAlertDisplayed: Bool = false
     
     func postNewPublication(latitude: Double, longitude: Double, token: String, dismissScreen: () -> ()) async {
             isLoading = true
-        let result = await AYServices.shared.postNewPublication(text: postText, latitude: latitude, longitude: longitude, isLocationVisible: selectedPostLocationVisibilty.isLocationVisible, token: token)
+        print(selectedPostTag.hashValue.description)
+        let result = await AYServices.shared.postNewPublication(text: postText, tag: selectedPostTag.rawValue, latitude: latitude, longitude: longitude, isLocationVisible: selectedPostLocationVisibilty.isLocationVisible, token: token)
             isLoading = false
             
             switch result {

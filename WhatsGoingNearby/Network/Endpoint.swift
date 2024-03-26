@@ -21,6 +21,7 @@ protocol Endpoint {
 extension Endpoint {
     
     var baseUrl: URL {
+//        return URL(string: "https://lucky-sundae-2f573c.netlify.app")! // teste
         return URL(string: "https://odd-rose-moose-sock.cyclic.app")!
 //        return URL(string: "http://localhost:3000")!
     }
