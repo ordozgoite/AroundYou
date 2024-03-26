@@ -22,7 +22,7 @@ class NewPostViewModel: ObservableObject {
     func postNewPublication(latitude: Double, longitude: Double, token: String, dismissScreen: () -> ()) async {
             isLoading = true
         print(selectedPostTag.hashValue.description)
-        let result = await AYServices.shared.postNewPublication(text: postText, tag: selectedPostTag.rawValue, latitude: latitude, longitude: longitude, isLocationVisible: selectedPostLocationVisibilty.isLocationVisible, token: token)
+        let result = await AYServices.shared.postNewPublication(text: postText, tag: selectedPostTag.rawValue, postDuration: selectedPostDuration.value, latitude: latitude, longitude: longitude, isLocationVisible: selectedPostLocationVisibilty.isLocationVisible, token: token)
             isLoading = false
             
             switch result {

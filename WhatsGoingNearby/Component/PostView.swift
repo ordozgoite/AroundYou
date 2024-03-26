@@ -181,7 +181,7 @@ struct PostView: View {
     @ViewBuilder
     private func Tag() -> some View {
         if let postTag = post.postTag {
-            HStack {
+            HStack(spacing: 2) {
                 Image(systemName: postTag.iconName)
                     .foregroundStyle(.gray)
                     .scaleEffect(0.8)

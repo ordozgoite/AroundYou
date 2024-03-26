@@ -39,4 +39,17 @@ enum PostDuration: Int, CaseIterable {
             return "4 h"
         }
     }
+    
+    var value: Int {
+        switch self {
+        case .oneHour:
+            return 1
+        case .twoHours:
+            return 2
+        case .threeHours:
+            return 3
+        case .fourHours:
+            return 4
+        }
+    }
 }
