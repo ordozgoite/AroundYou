@@ -1,0 +1,42 @@
+//
+//  PostDuration.swift
+//  WhatsGoingNearby
+//
+//  Created by Victor Ordozgoite on 25/03/24.
+//
+
+import Foundation
+import SwiftUI
+
+enum PostDuration: Int, CaseIterable {
+    case oneHour = 1
+    case twoHours = 2
+    case threeHours = 3
+    case fourHours = 4
+    
+    var title: LocalizedStringKey {
+        switch self {
+        case .oneHour:
+            return "1 hour"
+        case .twoHours:
+            return "2 hours"
+        case .threeHours:
+            return "3 hours"
+        case .fourHours:
+            return "4 hours"
+        }
+    }
+    
+    var abbreviatedTitle: String {
+        switch self {
+        case .oneHour:
+            return "1 h"
+        case .twoHours:
+            return "2 h"
+        case .threeHours:
+            return "3 h"
+        case .fourHours:
+            return "4 h"
+        }
+    }
+}

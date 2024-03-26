@@ -14,6 +14,7 @@ struct NewPostScreen: View {
     @StateObject private var newPostVM = NewPostViewModel()
     @ObservedObject var locationManager = LocationManager()
     @Environment(\.presentationMode) var presentationMode
+    @FocusState private var isFocused: Bool
     
     let refresh: () -> ()
     
@@ -23,6 +24,7 @@ struct NewPostScreen: View {
                 Header()
                 
                 TextField("What's going on around you?", text: $newPostVM.postText, axis: .vertical)
+                    .focused($isFocused)
                     .onChange(of: newPostVM.postText) { newValue in
                         if newValue.count > maxPostLength {
                             newPostVM.postText = String(newValue.prefix(maxPostLength))
@@ -30,6 +32,8 @@ struct NewPostScreen: View {
                     }
                 
                 Spacer()
+                
+                Footer()
             }
             .padding()
             
@@ -76,6 +80,9 @@ struct NewPostScreen: View {
                 }
             }
         }
+        .onAppear {
+            self.isFocused = true
+        }
         .navigationTitle("Create new post")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -85,38 +92,122 @@ struct NewPostScreen: View {
     @ViewBuilder
     private func Header() -> some View {
         HStack {
-            if let imageURL = authVM.profilePic {
-                URLImageView(imageURL: imageURL)
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-            } else {
-                Image(systemName: "person.circle.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 50, height: 50)
-            }
+            ProfilePic()
             
-            VStack(alignment: .leading) {
-                Text(authVM.username)
-                    .fontWeight(.semibold)
-                
-                Picker("", selection: $newPostVM.selectedPostLocationVisibilty) {
-                    ForEach(PostLocationVisibility.allCases, id: \.self) { category in
-                        HStack {
-                            Text(category.title)
-                            Image(systemName: category.imageName)
-                        }
-                        .tag(category)
-                    }
+            Text(authVM.username)
+                .fontWeight(.semibold)
+        }
+    }
+    
+    //MARK: - Profile Pic
+    
+    @ViewBuilder
+    private func ProfilePic() -> some View {
+        if let imageURL = authVM.profilePic {
+            URLImageView(imageURL: imageURL)
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 50, height: 50)
+                .clipShape(Circle())
+        } else {
+            Image(systemName: "person.circle.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 50, height: 50)
+        }
+    }
+    
+    //MARK: - Footer
+    
+    @ViewBuilder
+    private func Footer() -> some View {
+        VStack {
+            Divider()
+            
+            HStack {
+                HStack(spacing: 16) {
+                    Location()
+                    
+                    Tag()
+                    
+                    Duration()
                 }
-                .labelsHidden()
-                .pickerStyle(.menu)
-                .offset(x: -11)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 
                 Text("\(newPostVM.postText.count)/\(maxPostLength)")
                     .foregroundStyle(.gray)
                     .font(.subheadline)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            }
+        }
+        .frame(height: 32)
+    }
+    
+    //MARK: - Location
+    
+    @ViewBuilder
+    private func Location() -> some View {
+        Menu {
+            ForEach(PostLocationVisibility.allCases, id: \.self) { visibility in
+                Button {
+                    newPostVM.selectedPostLocationVisibilty = visibility
+                } label: {
+                    Image(systemName: visibility.imageName)
+                    Text(visibility.title)
+                }
+            }
+        } label: {
+            HStack(spacing: 0) {
+                Image(systemName: newPostVM.selectedPostLocationVisibilty.imageName)
+                Image(systemName: "chevron.up.chevron.down")
+                    .scaleEffect(0.8)
+            }
+        }
+    }
+    
+    //MARK: - Tag
+    
+    @ViewBuilder
+    private func Tag() -> some View {
+        Menu {
+            ForEach(PostTag.allCases, id: \.self) { tag in
+                Button {
+                    newPostVM.selectedPostTag = tag
+                } label: {
+                    Image(systemName: tag.iconName)
+                    Text(tag.title)
+                }
+            }
+        } label: {
+            HStack(spacing: 0) {
+                Image(systemName: newPostVM.selectedPostTag.iconName)
+                Image(systemName: "chevron.up.chevron.down")
+                    .scaleEffect(0.8)
+            }
+        }
+    }
+    
+    //MARK: - Duration
+    
+    @ViewBuilder
+    private func Duration() -> some View {
+        Menu {
+            
+            ForEach(PostDuration.allCases, id: \.self) { duration in
+                Button {
+                    newPostVM.selectedPostDuration = duration
+                } label: {
+                    Text(duration.title)
+                }
+            }
+            Text("Post will stay active for:")
+        } label: {
+            HStack(spacing: 0) {
+                HStack {
+                    Image(systemName: "clock")
+                    Text(newPostVM.selectedPostDuration.abbreviatedTitle)
+                }
+                Image(systemName: "chevron.up.chevron.down")
+                    .scaleEffect(0.8)
             }
         }
     }

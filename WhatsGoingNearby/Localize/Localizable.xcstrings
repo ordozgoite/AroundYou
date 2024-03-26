@@ -151,6 +151,18 @@
         }
       }
     },
+    "1 hour" : {
+
+    },
+    "2 hours" : {
+
+    },
+    "3 hours" : {
+
+    },
+    "4 hours" : {
+
+    },
     "Account Deletion" : {
       "localizations" : {
         "pt-BR" : {
@@ -259,6 +271,9 @@
         }
       }
     },
+    "Asking for information" : {
+
+    },
     "Authenticating" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -359,6 +374,9 @@
           }
         }
       }
+    },
+    "Chatting" : {
+
     },
     "Choose a username" : {
       "extractionState" : "stale",
@@ -799,7 +817,11 @@
         }
       }
     },
+    "Hide location" : {
+
+    },
     "Hide my location" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -838,6 +860,9 @@
           }
         }
       }
+    },
+    "Just chilling" : {
+
     },
     "Key" : {
       "extractionState" : "manual"
@@ -907,6 +932,9 @@
           }
         }
       }
+    },
+    "Looking for help" : {
+
     },
     "Map" : {
       "localizations" : {
@@ -1113,6 +1141,9 @@
           }
         }
       }
+    },
+    "Post will stay active for:" : {
+
     },
     "Posts on AroundYou remain active for just **8 hours**, ensuring you discover timely and relevant information effortlessly." : {
       "localizations" : {
@@ -1336,6 +1367,9 @@
         }
       }
     },
+    "Seeking Hangout" : {
+
+    },
     "Send Email" : {
       "localizations" : {
         "pt-BR" : {
@@ -1367,6 +1401,12 @@
         }
       }
     },
+    "Sharing news" : {
+
+    },
+    "Show location" : {
+
+    },
     "Show my location" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1379,6 +1419,7 @@
       }
     },
     "Show my location on map" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
