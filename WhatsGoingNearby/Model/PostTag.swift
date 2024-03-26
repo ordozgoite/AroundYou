@@ -8,11 +8,11 @@
 import Foundation
 import SwiftUI
 
-enum PostTag: CaseIterable {
+enum PostTag: String, CaseIterable, Decodable {
     case chat
     case help
     case info
-    case company
+    case hangout
     case news
     case chilling
     
@@ -24,7 +24,7 @@ enum PostTag: CaseIterable {
             return "Asking for information"
         case .chat:
             return "Chatting"
-        case .company:
+        case .hangout:
             return "Seeking Hangout"
         case .news:
             return "Sharing news"
@@ -36,15 +36,15 @@ enum PostTag: CaseIterable {
     var iconName: String {
         switch self {
         case .help:
-            return "figure.wave.circle"
+            return "hand.raised"
         case .info:
             return "questionmark.bubble"
         case .chat:
             return "bubble.left.and.bubble.right"
-        case .company:
+        case .hangout:
             return "party.popper"
         case .news:
-            return "newspaper"
+            return "megaphone"
         case .chilling:
             return "face.smiling"
         }

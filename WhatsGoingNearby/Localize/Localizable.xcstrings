@@ -152,16 +152,44 @@
       }
     },
     "1 hour" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 hora"
+          }
+        }
+      }
     },
     "2 hours" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2 horas"
+          }
+        }
+      }
     },
     "3 hours" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3 horas"
+          }
+        }
+      }
     },
     "4 hours" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 horas"
+          }
+        }
+      }
     },
     "Account Deletion" : {
       "localizations" : {
@@ -272,7 +300,14 @@
       }
     },
     "Asking for information" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pedindo informação"
+          }
+        }
+      }
     },
     "Authenticating" : {
       "extractionState" : "stale",
@@ -376,7 +411,14 @@
       }
     },
     "Chatting" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batendo papo"
+          }
+        }
+      }
     },
     "Choose a username" : {
       "extractionState" : "stale",
@@ -818,7 +860,14 @@
       }
     },
     "Hide location" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esconder localização"
+          }
+        }
+      }
     },
     "Hide my location" : {
       "extractionState" : "stale",
@@ -862,7 +911,14 @@
       }
     },
     "Just chilling" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só de boas"
+          }
+        }
+      }
     },
     "Key" : {
       "extractionState" : "manual"
@@ -934,7 +990,14 @@
       }
     },
     "Looking for help" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pedindo ajuda"
+          }
+        }
+      }
     },
     "Map" : {
       "localizations" : {
@@ -1143,7 +1206,14 @@
       }
     },
     "Post will stay active for:" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publicação ficará ativa por:"
+          }
+        }
+      }
     },
     "Posts on AroundYou remain active for just **8 hours**, ensuring you discover timely and relevant information effortlessly." : {
       "localizations" : {
@@ -1368,7 +1438,14 @@
       }
     },
     "Seeking Hangout" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscando companhia"
+          }
+        }
+      }
     },
     "Send Email" : {
       "localizations" : {
@@ -1402,10 +1479,24 @@
       }
     },
     "Sharing news" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartilhando notícias"
+          }
+        }
+      }
     },
     "Show location" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar localização"
+          }
+        }
+      }
     },
     "Show my location" : {
       "extractionState" : "stale",

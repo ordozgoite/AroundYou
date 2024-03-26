@@ -9,7 +9,7 @@ import Foundation
 
 enum AYEndpoints {
     case postNewUser(username: String, name: String?, userRegistrationToken: String, token: String)
-    case postNewPublication(text: String, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String)
+    case postNewPublication(text: String, tag: String, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String)
     case getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String)
     case getUserInfo(userRegistrationToken: String?, preferredLanguage: String?, token: String)
     case likePublication(publicationId: String, latitude: Double, longitude: Double, token: String)
@@ -194,7 +194,7 @@ extension AYEndpoints: Endpoint {
     
     var header: [String : String]? {
         switch self {
-        case .postNewPublication(_, _, _, _, let token):
+        case .postNewPublication(_, _, _, _, _, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
@@ -386,9 +386,10 @@ extension AYEndpoints: Endpoint {
     
     var body: [String : Any]? {
         switch self {
-        case .postNewPublication(let text, let latitude, let longitude, let isLocationVisible, _):
+        case .postNewPublication(let text, let tag, let latitude, let longitude, let isLocationVisible, _):
             let params: [String: Any] = [
                 "text": text,
+                "tag": tag,
                 "latitude": latitude,
                 "longitude": longitude,
                 "isLocationVisible": isLocationVisible

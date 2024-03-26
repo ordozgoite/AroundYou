@@ -439,9 +439,9 @@
 				ED24FAF32B9E6530002F7A11 /* CommentDTO.swift */,
 				ED24FAF52B9E6533002F7A11 /* UserProfileDTO.swift */,
 				ED24FAF72B9E6535002F7A11 /* ReportDTO.swift */,
-				EDA322392B7CCD79009905B5 /* Response */,
 				ED8CDFC12BB2702E00B8852E /* PostTag.swift */,
 				ED8CDFC32BB2704700B8852E /* PostDuration.swift */,
+				EDA322392B7CCD79009905B5 /* Response */,
 			);
 			path = Model;
 			sourceTree = "<group>";

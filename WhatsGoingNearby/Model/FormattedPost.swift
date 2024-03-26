@@ -31,6 +31,25 @@ struct FormattedPost: Identifiable, Codable {
     let distanceToMe: Double?
     let isFromRecipientUser: Bool
     let isLocationVisible: Bool
+    let tag: String?
+    var postTag: PostTag? {
+        switch tag {
+        case "chat":
+            return .chat
+        case "help":
+            return .help
+        case "info":
+            return .info
+        case "hangout":
+            return .hangout
+        case "news":
+            return .news
+        case "chilling":
+            return .chilling
+        default:
+            return nil
+        }
+    }
     var isSubscribed: Bool
     var date: Date {
         return NSDate(timeIntervalSince1970: TimeInterval(self.timestamp.timeIntervalSince1970InSeconds)) as Date
