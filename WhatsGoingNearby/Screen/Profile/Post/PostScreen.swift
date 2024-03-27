@@ -40,6 +40,7 @@ struct PostScreen: View {
                     }
                     
                     Comments()
+                        .opacity(postVM.post.type == .inactive ? 0.5 : 1)
                 }
                 
                 CommentTextField()
@@ -66,7 +67,7 @@ struct PostScreen: View {
     private func Comments() -> some View {
         VStack {
             ForEach($postVM.comments) { $comment in
-                CommentView(isPostFromRecipientUser: true, comment: $comment, deleteComment: {
+                CommentView(isPostFromRecipientUser: true, postType: postVM.post.type, comment: $comment, deleteComment: {
                     Task {
                         let token = try await authVM.getFirebaseToken()
                         await postVM.deleteComment(commentId: comment.id, token: token)

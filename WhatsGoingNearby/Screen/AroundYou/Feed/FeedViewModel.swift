@@ -12,7 +12,6 @@ import SwiftUI
 class FeedViewModel: ObservableObject {
     
     @Published var posts: [FormattedPost] = []
-    @Published var selectedFeed: FeedType = .now
     @Published var isLoading: Bool = false
     @Published var isCommentScreenPresented = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
@@ -22,19 +21,12 @@ class FeedViewModel: ObservableObject {
     @Published var currentTimeStamp: Int = Int(Date().timeIntervalSince1970)
     @Published var shouldUpdateFeed: Bool = true
     
-//    func getNowPosts(latitude: Double, longitude: Double, token: String) async {
-//        if !initialPostsFetched { isLoading = true }
-//        let response = await AYServices.shared.getActivePublicationsNearBy(latitude: latitude, longitude: longitude, token: token)
-//        if !initialPostsFetched { isLoading = false }
-//        
-//        switch response {
-//        case .success(let posts):
-//            updatePosts(with: posts)
-//            initialPostsFetched = true
-//        case .failure(let error):
-//            print("❌ Error: \(error)")
-//        }
-//    }
+    var groupedPosts: [(Date, [FormattedPost])] {
+        let groupedDict = Dictionary(grouping: posts) { (post) -> Date in
+            return Date(timeIntervalSince1970: TimeInterval(post.timestamp))
+        }
+        return groupedDict.sorted { $0.key > $1.key }
+    }
     
     func getPosts(latitude: Double, longitude: Double, token: String) async {
         if !initialPostsFetched { isLoading = true }

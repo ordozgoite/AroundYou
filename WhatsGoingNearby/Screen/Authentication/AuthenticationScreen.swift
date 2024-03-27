@@ -87,10 +87,10 @@ struct AuthenticationScreen: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 100)
-                .foregroundStyle(.accent)
+                .foregroundStyle(.blue)
             
             Text("Around You")
-                .foregroundStyle(.accent)
+                .foregroundStyle(.blue)
                 .font(.largeTitle)
                 .fontWeight(.bold)
         }

@@ -20,4 +20,12 @@ extension Date {
         dateFormatter.dateStyle = .short
         return dateFormatter.string(from: self)
     }
+    
+    func formatDatetoPost() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm · dd/MM/yy"
+        dateFormatter.locale = Locale(identifier: "pt_BR") // Define o local para exibição no formato desejado
+        
+        return dateFormatter.string(from: self)
+    }
 }

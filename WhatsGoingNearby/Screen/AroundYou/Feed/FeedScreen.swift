@@ -26,14 +26,12 @@ struct FeedScreen: View {
                         EnableLocationView()
                     } else if !locationManager.isUsingFullAccuracy {
                         EnableFullAccuracyView()
+                    } else if feedVM.isLoading {
+                        LoadingView()
+                    } else if feedVM.posts.isEmpty {
+                        EmptyFeedView()
                     } else {
-                        if feedVM.isLoading {
-                            LoadingView()
-                        } else {
-                            FeedTypeSegmentedControl(selectedFilter: $feedVM.selectedFeed)
-                            
-                            Posts()
-                        }
+                        Feed()
                     }
                 }
                 
@@ -70,9 +68,6 @@ struct FeedScreen: View {
             startUpdatingTime()
             startUpdatingFeed()
         }
-        .onChange(of: feedVM.selectedFeed) { type in
-            changeFeedTo(type)
-        }
         .onDisappear {
             stopTimers()
         }
@@ -91,27 +86,45 @@ struct FeedScreen: View {
         }
     }
     
+    //MARK: - Feed
+    
+    @ViewBuilder
+    private func Feed() -> some View {
+        ScrollView {
+            Posts(ofType: .active)
+            
+            if hasInactivePublication() {
+                Text("Expired")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                    .padding()
+            }
+            
+            Posts(ofType: .inactive)
+        }
+    }
+    
     //MARK: - Posts
     
     @ViewBuilder
-    private func Posts() -> some View {
-        ScrollView {
-            ForEach($feedVM.posts) { $post in
-                if displayPost(withExpiration: post.expirationDate) {
-                    NavigationLink(destination: CommentScreen(postId: post.id, post: $post, location: $locationManager.location).environmentObject(authVM)) {
-                        PostView(post: $post, location: $locationManager.location, deletePost: {
-                            Task {
-                                let token = try await authVM.getFirebaseToken()
-                                await feedVM.deletePublication(publicationId: post.id, token: token)
-                            }
-                        }) { shouldUpdate in
-                            feedVM.shouldUpdateFeed = shouldUpdate
+    private func Posts(ofType postType: PostType) -> some View {
+        ForEach($feedVM.posts) { $post in
+            if post.type == postType {
+                NavigationLink(destination: CommentScreen(postId: post.id, post: $post, location: $locationManager.location).environmentObject(authVM)) {
+                    PostView(post: $post, location: $locationManager.location, deletePost: {
+                        Task {
+                            let token = try await authVM.getFirebaseToken()
+                            await feedVM.deletePublication(publicationId: post.id, token: token)
                         }
-                        .padding()
+                    }) { shouldUpdate in
+                        feedVM.shouldUpdateFeed = shouldUpdate
                     }
-                    .buttonStyle(PlainButtonStyle())
-                    Divider()
+                    .padding()
                 }
+                .buttonStyle(PlainButtonStyle())
+                
+                Divider()
             }
         }
     }
@@ -155,19 +168,13 @@ struct FeedScreen: View {
         feedVM.feedTimer?.invalidate()
     }
     
-    private func changeFeedTo(_ type: FeedType) {
-        stopTimers()
-        startUpdatingTime()
-        startUpdatingFeed()
-    }
-    
-    private func displayPost(withExpiration expirationDate: Int) -> Bool {
-        switch feedVM.selectedFeed {
-        case .old:
-            return expirationDate.timeIntervalSince1970InSeconds <= feedVM.currentTimeStamp
-        case .now:
-            return expirationDate.timeIntervalSince1970InSeconds > feedVM.currentTimeStamp
+    private func hasInactivePublication() -> Bool {
+        for publication in feedVM.posts {
+            if publication.type == .inactive {
+                return true
+            }
         }
+        return false
     }
 }
 

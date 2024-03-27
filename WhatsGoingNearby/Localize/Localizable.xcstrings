@@ -768,7 +768,6 @@
       }
     },
     "Expired" : {
-      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
