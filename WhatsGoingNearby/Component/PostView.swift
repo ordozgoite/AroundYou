@@ -100,10 +100,6 @@ struct PostView: View {
                     .onTapGesture {
                         isTimeLeftPopoverDisplayed = true
                     }
-            } else {
-                Text("Expired")
-                    .foregroundStyle(.gray)
-                    .font(.subheadline)
             }
             
             

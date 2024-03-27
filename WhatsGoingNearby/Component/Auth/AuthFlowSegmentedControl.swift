@@ -19,11 +19,11 @@ struct AuthFlowSegmentedControl: View {
                     Text(item.title)
                         .font(.subheadline)
                         .fontWeight(selectedFilter == item ? .semibold : .regular)
-                        .foregroundColor(selectedFilter == item ? .blue : .gray)
+                        .foregroundColor(selectedFilter == item ? .accent : .gray)
                     
                     if selectedFilter == item {
                         Capsule()
-                            .foregroundColor(.blue)
+                            .foregroundColor(.accent)
                             .frame(height: 3)
                             .matchedGeometryEffect(id: "filter", in: animation)
                     } else {

@@ -768,6 +768,7 @@
       }
     },
     "Expired" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1060,6 +1061,9 @@
           }
         }
       }
+    },
+    "Now" : {
+
     },
     "OK" : {
       "localizations" : {
@@ -1651,6 +1655,9 @@
           }
         }
       }
+    },
+    "Timeline" : {
+
     },
     "Unblock" : {
       "localizations" : {

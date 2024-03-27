@@ -12,6 +12,7 @@ import SwiftUI
 class FeedViewModel: ObservableObject {
     
     @Published var posts: [FormattedPost] = []
+    @Published var selectedFeed: FeedType = .now
     @Published var isLoading: Bool = false
     @Published var isCommentScreenPresented = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
@@ -21,9 +22,23 @@ class FeedViewModel: ObservableObject {
     @Published var currentTimeStamp: Int = Int(Date().timeIntervalSince1970)
     @Published var shouldUpdateFeed: Bool = true
     
-    func getPostsNearBy(latitude: Double, longitude: Double, token: String) async {
+//    func getNowPosts(latitude: Double, longitude: Double, token: String) async {
+//        if !initialPostsFetched { isLoading = true }
+//        let response = await AYServices.shared.getActivePublicationsNearBy(latitude: latitude, longitude: longitude, token: token)
+//        if !initialPostsFetched { isLoading = false }
+//        
+//        switch response {
+//        case .success(let posts):
+//            updatePosts(with: posts)
+//            initialPostsFetched = true
+//        case .failure(let error):
+//            print("❌ Error: \(error)")
+//        }
+//    }
+    
+    func getPosts(latitude: Double, longitude: Double, token: String) async {
         if !initialPostsFetched { isLoading = true }
-        let response = await AYServices.shared.getActivePublicationsNearBy(latitude: latitude, longitude: longitude, token: token)
+        let response = await AYServices.shared.getAllPublicationsNearBy(latitude: latitude, longitude: longitude, token: token)
         if !initialPostsFetched { isLoading = false }
         
         switch response {

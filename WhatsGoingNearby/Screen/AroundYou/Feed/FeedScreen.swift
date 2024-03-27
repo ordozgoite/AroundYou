@@ -26,13 +26,13 @@ struct FeedScreen: View {
                         EnableLocationView()
                     } else if !locationManager.isUsingFullAccuracy {
                         EnableFullAccuracyView()
-                    } else if feedVM.isLoading {
-                        LoadingView()
-                    } else if feedVM.initialPostsFetched {
-                        if activePostsQuantity == 0 {
-                            EmptyFeedView()
+                    } else {
+                        if feedVM.isLoading {
+                            LoadingView()
                         } else {
-                            PostsView()
+                            FeedTypeSegmentedControl(selectedFilter: $feedVM.selectedFeed)
+                            
+                            Posts()
                         }
                     }
                 }
@@ -70,6 +70,9 @@ struct FeedScreen: View {
             startUpdatingTime()
             startUpdatingFeed()
         }
+        .onChange(of: feedVM.selectedFeed) { type in
+            changeFeedTo(type)
+        }
         .onDisappear {
             stopTimers()
         }
@@ -88,13 +91,13 @@ struct FeedScreen: View {
         }
     }
     
-    //MARK: - Posts View
+    //MARK: - Posts
     
     @ViewBuilder
-    private func PostsView() -> some View {
+    private func Posts() -> some View {
         ScrollView {
             ForEach($feedVM.posts) { $post in
-                if post.expirationDate.timeIntervalSince1970InSeconds > feedVM.currentTimeStamp {
+                if displayPost(withExpiration: post.expirationDate) {
                     NavigationLink(destination: CommentScreen(postId: post.id, post: $post, location: $locationManager.location).environmentObject(authVM)) {
                         PostView(post: $post, location: $locationManager.location, deletePost: {
                             Task {
@@ -143,13 +146,28 @@ struct FeedScreen: View {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             
-            await feedVM.getPostsNearBy(latitude: latitude, longitude: longitude, token: token)
+            await feedVM.getPosts(latitude: latitude, longitude: longitude, token: token)
         }
     }
     
     private func stopTimers() {
         feedVM.timer?.invalidate()
         feedVM.feedTimer?.invalidate()
+    }
+    
+    private func changeFeedTo(_ type: FeedType) {
+        stopTimers()
+        startUpdatingTime()
+        startUpdatingFeed()
+    }
+    
+    private func displayPost(withExpiration expirationDate: Int) -> Bool {
+        switch feedVM.selectedFeed {
+        case .old:
+            return expirationDate.timeIntervalSince1970InSeconds <= feedVM.currentTimeStamp
+        case .now:
+            return expirationDate.timeIntervalSince1970InSeconds > feedVM.currentTimeStamp
+        }
     }
 }
 

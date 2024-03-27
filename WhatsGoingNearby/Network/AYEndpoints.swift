@@ -39,6 +39,7 @@ enum AYEndpoints {
     case deleteNotification(notificationId: String, token: String)
     case deleteUser(token: String)
     case getUserBanExpireDate(token: String)
+    case getAllPublicationsNearBy(latitude: Double, longitude: Double, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -109,6 +110,8 @@ extension AYEndpoints: Endpoint {
             return "/api/User/DeleteUser"
         case .getUserBanExpireDate:
             return "/api/Ban/GetUserBanExpireDate"
+        case .getAllPublicationsNearBy:
+            return "/api/Publication/GetAllPublicationsNearBy"
         }
     }
     
@@ -118,7 +121,7 @@ extension AYEndpoints: Endpoint {
         switch self {
         case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser, .likeComment, .unlikeComment, .deleteProfilePic, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification, .deleteUser:
             return .post
-        case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .getPublication, .getUserNotifications, .getUserBanExpireDate:
+        case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .getPublication, .getUserNotifications, .getUserBanExpireDate, .getAllPublicationsNearBy:
             return .get
         }
     }
@@ -128,6 +131,12 @@ extension AYEndpoints: Endpoint {
     var query: [String: Any]? {
         switch self {
         case .getActivePublicationsNearBy(let latitude, let longitude, _):
+            let params: [String: Any] = [
+                "latitude": latitude,
+                "longitude": longitude
+            ]
+            return params
+        case .getAllPublicationsNearBy(let latitude, let longitude, _):
             let params: [String: Any] = [
                 "latitude": latitude,
                 "longitude": longitude
@@ -374,6 +383,12 @@ extension AYEndpoints: Endpoint {
                 "Accept": "application/x-www-form-urlencoded",
                 "Content-Type": "application/json"
             ]
+        case .getAllPublicationsNearBy(_, _, let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         default:
             return [
                 "Accept": "application/x-www-form-urlencoded",
@@ -443,7 +458,7 @@ extension AYEndpoints: Endpoint {
                 "blockedUserUid": blockedUserUid
             ]
             return params
-        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .deleteProfilePic, .getPublication, .getUserNotifications, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification, .deleteUser, .getUserBanExpireDate:
+        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .deleteProfilePic, .getPublication, .getUserNotifications, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification, .deleteUser, .getUserBanExpireDate, .getAllPublicationsNearBy:
             return nil
         }
     }

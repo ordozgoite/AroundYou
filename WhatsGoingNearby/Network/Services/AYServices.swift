@@ -20,7 +20,8 @@ protocol AYServiceable {
     // Publication
     func postNewPublication(text: String, tag: String, postDuration: Int, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError>
     func deletePublication(publicationId: String, token: String) async -> Result<DeletePublicationResponse, RequestError>
-    func getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
+//    func getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
+    func getAllPublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
     func getAllPublicationsByUser(token: String) async -> Result<[FormattedPost], RequestError>
     func getPublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<FormattedPost, RequestError>
     func likePublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<LikePublicationResponse, RequestError>
@@ -60,7 +61,7 @@ protocol AYServiceable {
 }
 
 struct AYServices: HTTPClient, AYServiceable {
-        
+       
     static let shared = AYServices()
     private init() {}
     
@@ -102,6 +103,10 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getActivePublicationsNearBy(latitude: latitude, longitude: longitude, token: token), responseModel: [FormattedPost].self)
+    }
+    
+    func getAllPublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getAllPublicationsNearBy(latitude: latitude, longitude: longitude, token: token), responseModel: [FormattedPost].self)
     }
     
     func getAllPublicationsByUser(token: String) async -> Result<[FormattedPost], RequestError> {
