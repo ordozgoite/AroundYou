@@ -28,12 +28,10 @@ struct FeedScreen: View {
                         EnableFullAccuracyView()
                     } else if feedVM.isLoading {
                         LoadingView()
-                    } else if feedVM.initialPostsFetched {
-                        if activePostsQuantity == 0 {
-                            EmptyFeedView()
-                        } else {
-                            PostsView()
-                        }
+                    } else if feedVM.posts.isEmpty {
+                        EmptyFeedView()
+                    } else {
+                        Feed()
                     }
                 }
                 
@@ -88,27 +86,45 @@ struct FeedScreen: View {
         }
     }
     
-    //MARK: - Posts View
+    //MARK: - Feed
     
     @ViewBuilder
-    private func PostsView() -> some View {
+    private func Feed() -> some View {
         ScrollView {
-            ForEach($feedVM.posts) { $post in
-                if post.expirationDate.timeIntervalSince1970InSeconds > feedVM.currentTimeStamp {
-                    NavigationLink(destination: CommentScreen(postId: post.id, post: $post, location: $locationManager.location).environmentObject(authVM)) {
-                        PostView(post: $post, location: $locationManager.location, deletePost: {
-                            Task {
-                                let token = try await authVM.getFirebaseToken()
-                                await feedVM.deletePublication(publicationId: post.id, token: token)
-                            }
-                        }) { shouldUpdate in
-                            feedVM.shouldUpdateFeed = shouldUpdate
+            Posts(ofType: .active)
+            
+            if hasInactivePublication() {
+                Text("Expired")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                    .padding()
+            }
+            
+            Posts(ofType: .inactive)
+        }
+    }
+    
+    //MARK: - Posts
+    
+    @ViewBuilder
+    private func Posts(ofType postType: PostType) -> some View {
+        ForEach($feedVM.posts) { $post in
+            if post.type == postType {
+                NavigationLink(destination: CommentScreen(postId: post.id, post: $post, location: $locationManager.location).environmentObject(authVM)) {
+                    PostView(post: $post, location: $locationManager.location, deletePost: {
+                        Task {
+                            let token = try await authVM.getFirebaseToken()
+                            await feedVM.deletePublication(publicationId: post.id, token: token)
                         }
-                        .padding()
+                    }) { shouldUpdate in
+                        feedVM.shouldUpdateFeed = shouldUpdate
                     }
-                    .buttonStyle(PlainButtonStyle())
-                    Divider()
+                    .padding()
                 }
+                .buttonStyle(PlainButtonStyle())
+                
+                Divider()
             }
         }
     }
@@ -143,13 +159,22 @@ struct FeedScreen: View {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             
-            await feedVM.getPostsNearBy(latitude: latitude, longitude: longitude, token: token)
+            await feedVM.getPosts(latitude: latitude, longitude: longitude, token: token)
         }
     }
     
     private func stopTimers() {
         feedVM.timer?.invalidate()
         feedVM.feedTimer?.invalidate()
+    }
+    
+    private func hasInactivePublication() -> Bool {
+        for publication in feedVM.posts {
+            if publication.type == .inactive {
+                return true
+            }
+        }
+        return false
     }
 }
 

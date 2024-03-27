@@ -11,6 +11,7 @@ import CoreLocation
 struct CommentView: View {
     
     let isPostFromRecipientUser: Bool
+    let postType: PostType
     @EnvironmentObject var authVM: AuthenticationViewModel
     @Binding var comment: FormattedComment
     let deleteComment: () -> ()
@@ -147,17 +148,19 @@ struct CommentView: View {
         HStack(spacing: 32) {
             HStack {
                 HeartView(isLiked: $comment.didLike) {
-                    Task {
-                        let token = try await authVM.getFirebaseToken()
-                        if comment.didLike {
-                            comment.didLike = false
-                            comment.likes -= 1
-                            await unlikeComment(commentId: comment.id, token: token)
-                        } else {
-                            hapticFeedback()
-                            comment.didLike = true
-                            comment.likes += 1
-                            await likeComment(commentId: comment.id, token: token)
+                    if postType == .active {
+                        Task {
+                            let token = try await authVM.getFirebaseToken()
+                            if comment.didLike {
+                                comment.didLike = false
+                                comment.likes -= 1
+                                await unlikeComment(commentId: comment.id, token: token)
+                            } else {
+                                hapticFeedback()
+                                comment.didLike = true
+                                comment.likes += 1
+                                await likeComment(commentId: comment.id, token: token)
+                            }
                         }
                     }
                 }

@@ -80,7 +80,6 @@ class EditProfileViewModel: ObservableObject {
         let fileRef = storageRef.child("profile-pic/\(userUid).jpg")
         
         let imageData = croppedImage?.jpegData(compressionQuality: 0.8)
-        if imageData == nil { return nil }
         _ = try await fileRef.putDataAsync(imageData!)
         
         let imageUrl = try await fileRef.downloadURL()

@@ -39,6 +39,8 @@ struct PostView: View {
                     InteractionsView()
                 }
             }
+            .opacity(post.type == .inactive ? 0.5 : 1)
+            
             NavigationLink(
                 destination: ReportScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil).environmentObject(authVM),
                 isActive: $isReportScreenPresented,
@@ -101,9 +103,9 @@ struct PostView: View {
                         isTimeLeftPopoverDisplayed = true
                     }
             } else {
-                Text("Expired")
+                Text(post.timestamp.convertTimestampToDate().formatDatetoPost())
                     .foregroundStyle(.gray)
-                    .font(.subheadline)
+                    .font(.caption)
             }
             
             
@@ -208,17 +210,19 @@ struct PostView: View {
         HStack(spacing: 32) {
             HStack {
                 HeartView(isLiked: $post.didLike) {
-                    Task {
-                        let token = try await authVM.getFirebaseToken()
-                        if post.didLike {
-                            post.didLike = false
-                            post.likes -= 1
-                            await unlikePublication(publicationId: post.id, token: token)
-                        } else {
-                            hapticFeedback()
-                            post.didLike = true
-                            post.likes += 1
-                            await likePublication(publicationId: post.id, token: token)
+                    if post.type == .active {
+                        Task {
+                            let token = try await authVM.getFirebaseToken()
+                            if post.didLike {
+                                post.didLike = false
+                                post.likes -= 1
+                                await unlikePublication(publicationId: post.id, token: token)
+                            } else {
+                                hapticFeedback()
+                                post.didLike = true
+                                post.likes += 1
+                                await likePublication(publicationId: post.id, token: token)
+                            }
                         }
                     }
                 }
