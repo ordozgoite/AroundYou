@@ -1009,6 +1009,9 @@
         }
       }
     },
+    "Messages" : {
+
+    },
     "Name" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1720,6 +1723,9 @@
         }
       }
     },
+    "vanylton" : {
+
+    },
     "Version %@" : {
       "localizations" : {
         "pt-BR" : {
@@ -1769,6 +1775,9 @@
           }
         }
       }
+    },
+    "Write a message..." : {
+
     },
     "You are about to share your current location within your post. This means that anyone nearby will be able to see the place where you made the post. Are you sure you want to proceed?" : {
       "extractionState" : "stale",

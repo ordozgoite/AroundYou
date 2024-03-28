@@ -120,6 +120,12 @@
 		ED6E84D02B882E4B00B94F5C /* LikeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84CF2B882E4B00B94F5C /* LikeViewModel.swift */; };
 		ED6E84D62B887B3000B94F5C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84D52B887B3000B94F5C /* Notification.swift */; };
 		ED6E84F42B89C82C00B94F5C /* PostLocationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84F32B89C82C00B94F5C /* PostLocationScreen.swift */; };
+		ED755F132BB4D625004BC6C3 /* ChatListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F122BB4D625004BC6C3 /* ChatListScreen.swift */; };
+		ED755F152BB4DBA5004BC6C3 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F142BB4DBA5004BC6C3 /* ChatView.swift */; };
+		ED755F1B2BB4E54F004BC6C3 /* MessageScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F1A2BB4E54F004BC6C3 /* MessageScreen.swift */; };
+		ED755F1D2BB50D56004BC6C3 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F1C2BB50D56004BC6C3 /* MessageView.swift */; };
+		ED755F1F2BB52BE8004BC6C3 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F1E2BB52BE7004BC6C3 /* MessageViewModel.swift */; };
+		ED755F212BB52C35004BC6C3 /* FormattedMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F202BB52C35004BC6C3 /* FormattedMessage.swift */; };
 		ED884BEB2B8CF3D80071E1C4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = ED884BEA2B8CF3D80071E1C4 /* Localizable.xcstrings */; };
 		ED8CDFC22BB2702E00B8852E /* PostTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8CDFC12BB2702E00B8852E /* PostTag.swift */; };
 		ED8CDFC42BB2704700B8852E /* PostDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8CDFC32BB2704700B8852E /* PostDuration.swift */; };
@@ -250,6 +256,12 @@
 		ED6E84CF2B882E4B00B94F5C /* LikeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewModel.swift; sourceTree = "<group>"; };
 		ED6E84D52B887B3000B94F5C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		ED6E84F32B89C82C00B94F5C /* PostLocationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLocationScreen.swift; sourceTree = "<group>"; };
+		ED755F122BB4D625004BC6C3 /* ChatListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListScreen.swift; sourceTree = "<group>"; };
+		ED755F142BB4DBA5004BC6C3 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		ED755F1A2BB4E54F004BC6C3 /* MessageScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageScreen.swift; sourceTree = "<group>"; };
+		ED755F1C2BB50D56004BC6C3 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		ED755F1E2BB52BE7004BC6C3 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
+		ED755F202BB52C35004BC6C3 /* FormattedMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedMessage.swift; sourceTree = "<group>"; };
 		ED884BEA2B8CF3D80071E1C4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		ED8CDFC12BB2702E00B8852E /* PostTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTag.swift; sourceTree = "<group>"; };
 		ED8CDFC32BB2704700B8852E /* PostDuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDuration.swift; sourceTree = "<group>"; };
@@ -427,6 +439,7 @@
 				EDA3222F2B7CB12C009905B5 /* FormattedPost.swift */,
 				EDA3224A2B7DB345009905B5 /* FormattedComment.swift */,
 				ED2F1A7B2B91440E001F4300 /* FormattedNotification.swift */,
+				ED755F202BB52C35004BC6C3 /* FormattedMessage.swift */,
 				ED50C4542B7E94030001EDF6 /* UserProfile.swift */,
 				ED6DD48C2B82685D00ADBB64 /* Block.swift */,
 				ED50C44D2B7E3BE20001EDF6 /* PostVisibility.swift */,
@@ -569,6 +582,7 @@
 				EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */,
 				ED598BE92B7C121000B6C23D /* Authentication */,
 				ED5CC5162B97BE91009B17E3 /* AroundYou */,
+				ED755F112BB4D521004BC6C3 /* Message */,
 				ED5CC5172B97BEC2009B17E3 /* Profile */,
 				ED6D82C12B93D1BE00C57937 /* Map */,
 				ED598BFD2B7C39FD00B6C23D /* MainTabView.swift */,
@@ -685,6 +699,34 @@
 				ED6E84CD2B882DED00B94F5C /* LikeScreen.swift */,
 			);
 			path = Like;
+			sourceTree = "<group>";
+		};
+		ED755F112BB4D521004BC6C3 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				ED755F162BB4E514004BC6C3 /* Chat List */,
+				ED755F172BB4E51E004BC6C3 /* Message */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
+		ED755F162BB4E514004BC6C3 /* Chat List */ = {
+			isa = PBXGroup;
+			children = (
+				ED755F122BB4D625004BC6C3 /* ChatListScreen.swift */,
+				ED755F142BB4DBA5004BC6C3 /* ChatView.swift */,
+			);
+			path = "Chat List";
+			sourceTree = "<group>";
+		};
+		ED755F172BB4E51E004BC6C3 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				ED755F1E2BB52BE7004BC6C3 /* MessageViewModel.swift */,
+				ED755F1A2BB4E54F004BC6C3 /* MessageScreen.swift */,
+				ED755F1C2BB50D56004BC6C3 /* MessageView.swift */,
+			);
+			path = Message;
 			sourceTree = "<group>";
 		};
 		ED884BE92B8CF3C70071E1C4 /* Localize */ = {
@@ -884,6 +926,7 @@
 			files = (
 				ED8CDFC62BB33A2C00B8852E /* FeedTypeSegmentedControl.swift in Sources */,
 				ED22678D2B8FCB93006FE9D3 /* CropScreen.swift in Sources */,
+				ED755F152BB4DBA5004BC6C3 /* ChatView.swift in Sources */,
 				ED8CDFC42BB2704700B8852E /* PostDuration.swift in Sources */,
 				ED6E84D02B882E4B00B94F5C /* LikeViewModel.swift in Sources */,
 				EDA322322B7CB5DE009905B5 /* String.swift in Sources */,
@@ -924,8 +967,10 @@
 				ED6E84F42B89C82C00B94F5C /* PostLocationScreen.swift in Sources */,
 				ED22678F2B9026C1006FE9D3 /* NotificationManager.swift in Sources */,
 				ED598BFA2B7C217400B6C23D /* AYProgressView.swift in Sources */,
+				ED755F1B2BB4E54F004BC6C3 /* MessageScreen.swift in Sources */,
 				ED2F1A6B2B9048DC001F4300 /* PostScreen.swift in Sources */,
 				ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */,
+				ED755F132BB4D625004BC6C3 /* ChatListScreen.swift in Sources */,
 				ED50C4572B7E951D0001EDF6 /* UserProfileScreen.swift in Sources */,
 				EDA30DEC2B7FABA9003EB22D /* LottieView.swift in Sources */,
 				EDA30DF62B7FE816003EB22D /* PostTypeSegmentedControl.swift in Sources */,
@@ -951,6 +996,7 @@
 				ED598C4C2B7C587100B6C23D /* AuthenticatedScreen.swift in Sources */,
 				ED6DD4962B82E5B900ADBB64 /* MapView.swift in Sources */,
 				EDA322472B7DB221009905B5 /* CommentView.swift in Sources */,
+				ED755F212BB52C35004BC6C3 /* FormattedMessage.swift in Sources */,
 				ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */,
 				EDA30DFC2B804BE6003EB22D /* Report.swift in Sources */,
 				EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */,
@@ -963,6 +1009,7 @@
 				ED598BF82B7C1B9400B6C23D /* Date.swift in Sources */,
 				ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */,
 				EDA322342B7CB861009905B5 /* URLImageView.swift in Sources */,
+				ED755F1D2BB50D56004BC6C3 /* MessageView.swift in Sources */,
 				EDA3223F2B7D6A3F009905B5 /* LikePublicationResponse.swift in Sources */,
 				ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */,
 				ED06525D2B8171C5005B6413 /* ForgotPasswordScreen.swift in Sources */,
@@ -977,6 +1024,7 @@
 				ED5CB1692B7C11C000C336EC /* WhatsGoingNearbyApp.swift in Sources */,
 				ED598BF52B7C16EC00B6C23D /* PostView.swift in Sources */,
 				EDA30DFA2B7FF228003EB22D /* Time.swift in Sources */,
+				ED755F1F2BB52BE8004BC6C3 /* MessageViewModel.swift in Sources */,
 				ED6DD4922B82739400ADBB64 /* BlockedUserViewModel.swift in Sources */,
 				EDA3223D2B7CCF64009905B5 /* PreparingSessionScreen.swift in Sources */,
 				ED2F1A772B9142D3001F4300 /* NotificationView.swift in Sources */,

@@ -20,6 +20,13 @@ struct MainTabView: View {
                 }
                 .environmentObject(authVM)
             
+            ChatListScreen()
+                .tabItem {
+                    Image(systemName: "bubble.left.and.bubble.right")
+                    Text("Messages")
+                }
+                .environmentObject(authVM)
+            
 //            MapScreen()
 //                .tabItem {
 //                    Image(systemName: "mappin.and.ellipse")
