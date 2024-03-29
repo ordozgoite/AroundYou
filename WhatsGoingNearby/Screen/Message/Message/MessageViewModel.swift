@@ -6,20 +6,54 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class MessageViewModel: ObservableObject {
     
-    @Published var messages: [FormattedMessage] = [
-        FormattedMessage(message: "Boa noite, tio! Já terminou de fazer aquela parte das mensagens?", isCurrentUser: false, isFirst: true),
-        FormattedMessage(message: "Porra! Tu pensa que é rapido, é?", isCurrentUser: true, isFirst: false),
-        FormattedMessage(message: "Já estou trabalhando nessa funcionalidade, mano. Fique tranquilo 😉", isCurrentUser: true, isFirst: true)
-    ]
+    @Published var messages: [FormattedMessage] = []
     @Published var messageText: String = ""
+    @Published var isLoading: Bool = false
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
+    @Published var scrollToBottom: Bool = false
     
-    func sendMessage() {
-        let newMessage = FormattedMessage(message: messageText, isCurrentUser: true, isFirst: true)
+    func getMessages(chatId: String, token: String) async {
+        isLoading = true
+        let result = await AYServices.shared.getMessages(chatId: chatId, token: token)
+        isLoading = false
+        
+        switch result {
+        case .success(let messages):
+            self.messages = messages
+            goToLastMessage()
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
+    func sendMessage(chatId: String, text: String, token: String) async {
+        resetTextField()
+        let result = await AYServices.shared.postNewMessage(chatId: chatId, text: text, token: token)
+        
+        switch result {
+        case .success(let message):
+            addFormattedMessage(with: message)
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
+    private func resetTextField() {
+        self.messageText = ""
+    }
+    
+    private func addFormattedMessage(with message: Message) {
+        let newMessage = FormattedMessage(id: message._id, message: message.text, isCurrentUser: true, isFirst: true) // fix "isFirst"
         messages.append(newMessage)
-        messageText = ""
+        goToLastMessage()
+    }
+    
+    private func goToLastMessage() {
+        self.scrollToBottom = true
     }
 }

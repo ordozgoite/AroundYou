@@ -20,7 +20,6 @@ protocol AYServiceable {
     // Publication
     func postNewPublication(text: String, tag: String, postDuration: Int, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError>
     func deletePublication(publicationId: String, token: String) async -> Result<DeletePublicationResponse, RequestError>
-//    func getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
     func getAllPublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
     func getAllPublicationsByUser(token: String) async -> Result<[FormattedPost], RequestError>
     func getPublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<FormattedPost, RequestError>
@@ -36,6 +35,16 @@ protocol AYServiceable {
     func likeComment(commentId: String, latitude: Double, longitude: Double, token: String) async -> Result<LikePublicationResponse, RequestError> // criar response model
     func unlikeComment(commentId: String, latitude: Double, longitude: Double, token: String) async -> Result<UnlikePublicationResponse, RequestError> // criar response model
     func getCommentLikes(commentId: String, token: String) async -> Result<[UserProfile], RequestError>
+    
+    // Chat
+    func postNewChat(otherUserUid: String, token: String) async -> Result<Chat, RequestError>
+    func getChatsByUser(token: String) async -> Result<[FormattedChat], RequestError>
+    func muteChat(chatId: String, token: String) async -> Result<MuteChatResponse, RequestError>
+    func unmuteChat(chatId: String, token: String) async -> Result<MuteChatResponse, RequestError>
+    
+    // Message
+    func postNewMessage(chatId: String, text: String, token: String) async -> Result<Message, RequestError>
+    func getMessages(chatId: String, token: String) async -> Result<[FormattedMessage], RequestError>
     
     // Report
     func postNewReport(report: ReportDTO, token: String) async -> Result<Report, RequestError>
@@ -61,7 +70,7 @@ protocol AYServiceable {
 }
 
 struct AYServices: HTTPClient, AYServiceable {
-       
+    
     static let shared = AYServices()
     private init() {}
     
@@ -157,6 +166,34 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getCommentLikes(commentId: String, token: String) async -> Result<[UserProfile], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getCommentLikes(commentId: commentId, token: token), responseModel: [UserProfile].self)
+    }
+    
+    //MARK: - Chat
+    
+    func postNewChat(otherUserUid: String, token: String) async -> Result<Chat, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewChat(otherUserUid: otherUserUid, token: token), responseModel: Chat.self)
+    }
+    
+    func getChatsByUser(token: String) async -> Result<[FormattedChat], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getChatsByUser(token: token), responseModel: [FormattedChat].self)
+    }
+    
+    func muteChat(chatId: String, token: String) async -> Result<MuteChatResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.muteChat(chatId: chatId, token: token), responseModel: MuteChatResponse.self)
+    }
+    
+    func unmuteChat(chatId: String, token: String) async -> Result<MuteChatResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.unmuteChat(chatId: chatId, token: token), responseModel: MuteChatResponse.self)
+    }
+    
+    //MARK: - Message
+    
+    func postNewMessage(chatId: String, text: String, token: String) async -> Result<Message, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewMessage(chatId: chatId, text: text, token: token), responseModel: Message.self)
+    }
+    
+    func getMessages(chatId: String, token: String) async -> Result<[FormattedMessage], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getMessages(chatId: chatId, token: token), responseModel: [FormattedMessage].self)
     }
     
     //MARK: - Report

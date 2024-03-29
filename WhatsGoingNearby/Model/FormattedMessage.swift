@@ -8,7 +8,7 @@
 import Foundation
 
 struct FormattedMessage: Codable, Identifiable {
-    let id = UUID()
+    let id: String
     var message: String
     var isCurrentUser: Bool
     var isFirst: Bool

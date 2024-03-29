@@ -9,22 +9,41 @@ import SwiftUI
 
 struct MessageScreen: View {
     
+    let chatId: String
+    let username: String
+    
+    @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var messageVM = MessageViewModel()
+    @Environment(\.presentationMode) var presentationMode
+    @FocusState private var isFocused: Bool
     
     var body: some View {
         VStack {
             Header()
             
             ScrollView {
-                VStack(spacing: 0) {
-                    ForEach(messageVM.messages) { message in
+                ScrollViewReader { proxy in
+                    VStack(spacing: 0) {
+                        ForEach(messageVM.messages) { message in
                             MessageView(message: message)
+                        }
+                    }
+                    .padding()
+                    .onChange(of: messageVM.messages.count) { _ in
+                            withAnimation {
+                                proxy.scrollTo(messageVM.messages.count - 1)
+                            }
                     }
                 }
-                .padding()
             }
             
             MessageComposer()
+        }
+        .onAppear {
+            Task {
+                let token = try await authVM.getFirebaseToken()
+                await messageVM.getMessages(chatId: chatId, token: token)
+            }
         }
         
         .navigationBarBackButtonHidden()
@@ -36,7 +55,7 @@ struct MessageScreen: View {
     private func Header() -> some View {
         HStack {
             Button {
-                //
+                presentationMode.wrappedValue.dismiss()
             } label: {
                 Image(systemName: "chevron.left")
             }
@@ -50,7 +69,7 @@ struct MessageScreen: View {
                     .frame(width: 50, height: 50)
                 
                 HStack(alignment: .firstTextBaseline, spacing: 2) {
-                    Text("vanylton")
+                    Text(username)
                         .font(.caption)
                         .foregroundStyle(.gray)
                     
@@ -88,11 +107,14 @@ struct MessageScreen: View {
                 .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
                 .cornerRadius(20)
                 .shadow(color: .gray, radius: 10)
-            //                    .focused($commentIsFocused)
+                .focused($isFocused)
             
             if !messageVM.messageText.isEmpty {
                 Button {
-                    messageVM.sendMessage()
+                    Task {
+                        let token = try await authVM.getFirebaseToken()
+                        await messageVM.sendMessage(chatId: chatId, text: messageVM.messageText, token: token)
+                    }
                 } label: {
                     Image(systemName: "paperplane.fill")
                         .resizable()
@@ -106,6 +128,6 @@ struct MessageScreen: View {
     }
 }
 
-#Preview {
-    MessageScreen()
-}
+//#Preview {
+//    MessageScreen()
+//}

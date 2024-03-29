@@ -36,5 +36,5 @@ struct MessageView: View {
 }
 
 #Preview {
-    MessageView(message: FormattedMessage(message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉", isCurrentUser: true, isFirst: true))
+    MessageView(message: FormattedMessage(id: "1", message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉", isCurrentUser: true, isFirst: true))
 }

@@ -161,6 +161,11 @@
 		EDA322472B7DB221009905B5 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322462B7DB221009905B5 /* CommentView.swift */; };
 		EDA322492B7DB2BA009905B5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322482B7DB2BA009905B5 /* Comment.swift */; };
 		EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3224A2B7DB345009905B5 /* FormattedComment.swift */; };
+		EDCF2C2F2BB60B1A0066950F /* ChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C2E2BB60B1A0066950F /* ChatListViewModel.swift */; };
+		EDCF2C312BB60B450066950F /* FormattedChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C302BB60B450066950F /* FormattedChat.swift */; };
+		EDCF2C332BB65FC60066950F /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C322BB65FC60066950F /* Chat.swift */; };
+		EDCF2C352BB661960066950F /* MuteChatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C342BB661960066950F /* MuteChatResponse.swift */; };
+		EDCF2C382BB66E400066950F /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C372BB66E400066950F /* Message.swift */; };
 		EDEECA212B8A6DA100BD517D /* OnBoardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */; };
 		EDEECA232B8A77CE00BD517D /* meet.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA222B8A77CE00BD517D /* meet.json */; };
 		EDEECA252B8A77D500BD517D /* party.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA242B8A77D500BD517D /* party.json */; };
@@ -296,6 +301,11 @@
 		EDA322462B7DB221009905B5 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		EDA322482B7DB2BA009905B5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		EDA3224A2B7DB345009905B5 /* FormattedComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedComment.swift; sourceTree = "<group>"; };
+		EDCF2C2E2BB60B1A0066950F /* ChatListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListViewModel.swift; sourceTree = "<group>"; };
+		EDCF2C302BB60B450066950F /* FormattedChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedChat.swift; sourceTree = "<group>"; };
+		EDCF2C322BB65FC60066950F /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		EDCF2C342BB661960066950F /* MuteChatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteChatResponse.swift; sourceTree = "<group>"; };
+		EDCF2C372BB66E400066950F /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingScreen.swift; sourceTree = "<group>"; };
 		EDEECA222B8A77CE00BD517D /* meet.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = meet.json; sourceTree = "<group>"; };
 		EDEECA242B8A77D500BD517D /* party.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = party.json; sourceTree = "<group>"; };
@@ -440,6 +450,7 @@
 				EDA3224A2B7DB345009905B5 /* FormattedComment.swift */,
 				ED2F1A7B2B91440E001F4300 /* FormattedNotification.swift */,
 				ED755F202BB52C35004BC6C3 /* FormattedMessage.swift */,
+				EDCF2C302BB60B450066950F /* FormattedChat.swift */,
 				ED50C4542B7E94030001EDF6 /* UserProfile.swift */,
 				ED6DD48C2B82685D00ADBB64 /* Block.swift */,
 				ED50C44D2B7E3BE20001EDF6 /* PostVisibility.swift */,
@@ -456,7 +467,9 @@
 				ED24FAF72B9E6535002F7A11 /* ReportDTO.swift */,
 				ED8CDFC12BB2702E00B8852E /* PostTag.swift */,
 				ED8CDFC32BB2704700B8852E /* PostDuration.swift */,
+				EDCF2C322BB65FC60066950F /* Chat.swift */,
 				EDA322392B7CCD79009905B5 /* Response */,
+				EDCF2C372BB66E400066950F /* Message.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -464,6 +477,7 @@
 		ED598BF32B7C16DA00B6C23D /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				EDCF2C362BB662CF0066950F /* Chat */,
 				ED5CC5192B97BF3B009B17E3 /* Edit Profile */,
 				ED2F1A782B9142D7001F4300 /* Notification */,
 				ED50C4652B7FA2BF0001EDF6 /* Feed */,
@@ -713,8 +727,8 @@
 		ED755F162BB4E514004BC6C3 /* Chat List */ = {
 			isa = PBXGroup;
 			children = (
+				EDCF2C2E2BB60B1A0066950F /* ChatListViewModel.swift */,
 				ED755F122BB4D625004BC6C3 /* ChatListScreen.swift */,
-				ED755F142BB4DBA5004BC6C3 /* ChatView.swift */,
 			);
 			path = "Chat List";
 			sourceTree = "<group>";
@@ -724,7 +738,6 @@
 			children = (
 				ED755F1E2BB52BE7004BC6C3 /* MessageViewModel.swift */,
 				ED755F1A2BB4E54F004BC6C3 /* MessageScreen.swift */,
-				ED755F1C2BB50D56004BC6C3 /* MessageView.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -790,6 +803,7 @@
 				ED6D82BE2B938E4E00C57937 /* DeleteNotificationResponse.swift */,
 				ED3775A42B9A5E5200BEF3D8 /* DeleteUserResponse.swift */,
 				ED5023FB2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift */,
+				EDCF2C342BB661960066950F /* MuteChatResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -810,6 +824,15 @@
 				EDA322442B7DB07D009905B5 /* CommentScreen.swift */,
 			);
 			path = Comment;
+			sourceTree = "<group>";
+		};
+		EDCF2C362BB662CF0066950F /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				ED755F142BB4DBA5004BC6C3 /* ChatView.swift */,
+				ED755F1C2BB50D56004BC6C3 /* MessageView.swift */,
+			);
+			path = Chat;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -960,8 +983,10 @@
 				EDA322382B7CC145009905B5 /* TimestampTestScreen.swift in Sources */,
 				ED6DD48D2B82685D00ADBB64 /* Block.swift in Sources */,
 				ED598BF22B7C167500B6C23D /* FeedViewModel.swift in Sources */,
+				EDCF2C2F2BB60B1A0066950F /* ChatListViewModel.swift in Sources */,
 				EDA3222C2B7CA3A8009905B5 /* AYServices.swift in Sources */,
 				ED6E84CB2B87EA9C00B94F5C /* CheckNearByPublicationsResponse.swift in Sources */,
+				EDCF2C352BB661960066950F /* MuteChatResponse.swift in Sources */,
 				ED598C4A2B7C576A00B6C23D /* AYProgressButton.swift in Sources */,
 				ED5CC5222B97CA15009B17E3 /* LocalizedStringKey.swift in Sources */,
 				ED6E84F42B89C82C00B94F5C /* PostLocationScreen.swift in Sources */,
@@ -983,6 +1008,7 @@
 				ED6D82C52B93D7BE00C57937 /* MapViewModel.swift in Sources */,
 				ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */,
 				ED6D82BF2B938E4E00C57937 /* DeleteNotificationResponse.swift in Sources */,
+				EDCF2C312BB60B450066950F /* FormattedChat.swift in Sources */,
 				EDA30DEE2B7FBAF8003EB22D /* LaunchScreen.swift in Sources */,
 				EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */,
 				ED6D82C32B93D1E700C57937 /* MapScreen.swift in Sources */,
@@ -1000,6 +1026,7 @@
 				ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */,
 				EDA30DFC2B804BE6003EB22D /* Report.swift in Sources */,
 				EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */,
+				EDCF2C332BB65FC60066950F /* Chat.swift in Sources */,
 				ED50C4502B7E4AB70001EDF6 /* AYErrorAlert.swift in Sources */,
 				ED50C45E2B7F86A30001EDF6 /* CommentViewModel.swift in Sources */,
 				ED598C012B7C3A3900B6C23D /* AccountScreen.swift in Sources */,
@@ -1010,6 +1037,7 @@
 				ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */,
 				EDA322342B7CB861009905B5 /* URLImageView.swift in Sources */,
 				ED755F1D2BB50D56004BC6C3 /* MessageView.swift in Sources */,
+				EDCF2C382BB66E400066950F /* Message.swift in Sources */,
 				EDA3223F2B7D6A3F009905B5 /* LikePublicationResponse.swift in Sources */,
 				ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */,
 				ED06525D2B8171C5005B6413 /* ForgotPasswordScreen.swift in Sources */,

@@ -8,37 +8,35 @@
 import SwiftUI
 
 struct ChatListScreen: View {
+    
+    @EnvironmentObject var authVM: AuthenticationViewModel
+    @ObservedObject private var chatListVM = ChatListViewModel()
+    
     var body: some View {
         NavigationStack {
-            ScrollView {
-                NavigationLink(destination: MessageScreen()) {
-                    ChatView(chatName: "vanylton", chatPic: "", lastMessageAt: .now, hasUnreadMessages: true, lastMessage: "Já terminou a tela de mensagens?", isMuted: true)
+            ZStack {
+                if chatListVM.isLoading {
+                    ProgressView()
+                } else {
+                    ScrollView {
+                        ForEach($chatListVM.chats) { $chat in
+                            NavigationLink(destination: MessageScreen(chatId: chat.id, username: chat.chatName).environmentObject(authVM)) {
+                                ChatView(chat: chat)
+                            }
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
                 }
-                .buttonStyle(PlainButtonStyle())
-                
-                ChatView(chatName: "vanylton", chatPic: "", lastMessageAt: .now, hasUnreadMessages: true, lastMessage: "Já terminou a tela de mensagens?", isMuted: true)
-                
-                ChatView(chatName: "vanylton", chatPic: "", lastMessageAt: .now, hasUnreadMessages: true, lastMessage: "Já terminou a tela de mensagens?", isMuted: true)
-                
-                ChatView(chatName: "vanylton", chatPic: "", lastMessageAt: .now, hasUnreadMessages: true, lastMessage: "Já terminou a tela de mensagens?", isMuted: true)
-                
-                ChatView(chatName: "vanylton", chatPic: "", lastMessageAt: .now, hasUnreadMessages: true, lastMessage: "Já terminou a tela de mensagens?", isMuted: true)
-                
-                ChatView(chatName: "vanylton", chatPic: "", lastMessageAt: .now, hasUnreadMessages: true, lastMessage: "Já terminou a tela de mensagens?", isMuted: true)
-                
-                ChatView(chatName: "vanylton", chatPic: "", lastMessageAt: .now, hasUnreadMessages: true, lastMessage: "Já terminou a tela de mensagens?", isMuted: true)
-                
-                ChatView(chatName: "vanylton", chatPic: "", lastMessageAt: .now, hasUnreadMessages: true, lastMessage: "Já terminou a tela de mensagens?", isMuted: true)
-                
-                ChatView(chatName: "vanylton", chatPic: "", lastMessageAt: .now, hasUnreadMessages: true, lastMessage: "Já terminou a tela de mensagens?", isMuted: true)
-                
-                ChatView(chatName: "vanylton", chatPic: "", lastMessageAt: .now, hasUnreadMessages: true, lastMessage: "Já terminou a tela de mensagens?", isMuted: true)
-                
-                ChatView(chatName: "vanylton", chatPic: "", lastMessageAt: .now, hasUnreadMessages: true, lastMessage: "Já terminou a tela de mensagens?", isMuted: true)
             }
-            
+            .onAppear {
+                Task {
+                    let token = try await authVM.getFirebaseToken()
+                    await chatListVM.getChats(token: token)
+                }
+            }
             .navigationTitle("Messages")
         }
+        
     }
 }
 

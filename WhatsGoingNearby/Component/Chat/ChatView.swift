@@ -9,24 +9,23 @@ import SwiftUI
 
 struct ChatView: View {
     
-    let chatName: String
-    let chatPic: String
-    let lastMessageAt: Date
-    let hasUnreadMessages: Bool
-    let lastMessage: String
-    let isMuted: Bool // take off?
+    let chat: FormattedChat
     
-    var lastMessageStamp: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .none
-        formatter.timeStyle = .short
-        return formatter.string(from: lastMessageAt)
+    var lastMessageStamp: String? {
+        if let lastMessageAt = chat.lastMessageAt {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .none
+            formatter.timeStyle = .short
+            return formatter.string(from: lastMessageAt.convertTimestampToDate())
+        } else {
+            return nil
+        }
     }
     
     var body: some View {
         HStack {
             ZStack {
-                if hasUnreadMessages {
+                if chat.hasUnreadMessages {
                     Circle()
                         .foregroundStyle(.blue)
                 }
@@ -40,14 +39,14 @@ struct ChatView: View {
             
             VStack(alignment: .leading, spacing: 0) {
                 HStack {
-                    Text(chatName)
+                    Text(chat.chatName)
                         .font(.headline)
                         .lineLimit(1)
                     
                     Spacer()
                     
                     HStack(spacing: 10) {
-                        Text(lastMessageStamp)
+                        Text(lastMessageStamp ?? "")
                             .foregroundStyle(.secondary)
                         
                         Image(systemName: "chevron.right")
@@ -57,14 +56,14 @@ struct ChatView: View {
                 }
                 
                 HStack(alignment: .top, spacing: 4) {
-                    Text(lastMessage)
+                    Text(chat.lastMessage ?? "")
                         .foregroundStyle(.secondary)
                         .font(.subheadline)
                         .fixedSize(horizontal: false, vertical: true)
                         .lineLimit(2)
                         .frame(maxWidth: .infinity, minHeight: 40, alignment: .topLeading)
                     
-                    if isMuted {
+                    if chat.isMuted {
                         Image(systemName: "bell.slash.fill")
                             .resizable()
                             .scaledToFit()
@@ -84,5 +83,5 @@ struct ChatView: View {
 }
 
 #Preview {
-    ChatView(chatName: "vanylton", chatPic: "", lastMessageAt: .now, hasUnreadMessages: true, lastMessage: "Já terminou a tela de mensagens?", isMuted: true)
+    ChatView(chat: FormattedChat(id: UUID().uuidString, chatName: "vanylton", chatPic: "", lastMessageAt: 1711658090, hasUnreadMessages: true, lastMessage: "Já terminou a tela de mensagens?", isMuted: true))
 }
