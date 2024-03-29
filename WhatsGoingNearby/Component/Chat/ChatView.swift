@@ -32,10 +32,7 @@ struct ChatView: View {
             }
             .frame(width: 12)
             
-            Image(systemName: "person.circle.fill")
-                .resizable()
-                .foregroundStyle(.gray)
-                .frame(width: 50, height: 50, alignment: .center)
+            ProfilePicView(profilePic: chat.chatPic, size: 50)
             
             VStack(alignment: .leading, spacing: 0) {
                 HStack {

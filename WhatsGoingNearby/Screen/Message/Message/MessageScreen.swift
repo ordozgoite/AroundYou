@@ -12,6 +12,7 @@ struct MessageScreen: View {
     let chatId: String
     let username: String
     let otherUserUid: String
+    let chatPic: String?
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var messageVM = MessageViewModel()
@@ -65,10 +66,7 @@ struct MessageScreen: View {
     @ViewBuilder
     private func UserHeader() -> some View {
         HStack {
-            Image(systemName: "person.circle.fill")
-                .resizable()
-                .foregroundStyle(.gray)
-                .frame(width: 20, height: 20)
+            ProfilePicView(profilePic: chatPic, size: 20)
             
             HStack(alignment: .firstTextBaseline, spacing: 2) {
                 Text(username)

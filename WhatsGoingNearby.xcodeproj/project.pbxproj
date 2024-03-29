@@ -468,8 +468,8 @@
 				ED8CDFC12BB2702E00B8852E /* PostTag.swift */,
 				ED8CDFC32BB2704700B8852E /* PostDuration.swift */,
 				EDCF2C322BB65FC60066950F /* Chat.swift */,
-				EDA322392B7CCD79009905B5 /* Response */,
 				EDCF2C372BB66E400066950F /* Message.swift */,
+				EDA322392B7CCD79009905B5 /* Response */,
 			);
 			path = Model;
 			sourceTree = "<group>";

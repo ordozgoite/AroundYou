@@ -37,7 +37,7 @@ struct ChatListScreen: View {
     private func Chats() -> some View {
         ScrollView {
             ForEach($chatListVM.chats) { $chat in
-                NavigationLink(destination: MessageScreen(chatId: chat.id, username: chat.chatName, otherUserUid: chat.otherUserUid).environmentObject(authVM)) {
+                NavigationLink(destination: MessageScreen(chatId: chat.id, username: chat.chatName, otherUserUid: chat.otherUserUid, chatPic: chat.chatPic).environmentObject(authVM)) {
                     ChatView(chat: chat)
                         .contextMenu {
                             Button {

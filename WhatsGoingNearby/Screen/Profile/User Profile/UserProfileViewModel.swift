@@ -17,6 +17,8 @@ class UserProfileViewModel: ObservableObject {
     @Published var isReportScreenPresented: Bool = false
     @Published var isBlockAlertPresented: Bool = false
     @Published var isProfilePicFullScreen: Bool = false
+    @Published var isPostingNewChat: Bool = false
+    @Published var isMessageScreenPresented: (Bool, String) = (false, "")
     
     func getUserProfile(userUid: String, token: String) async {
         isLoading = true
@@ -39,6 +41,19 @@ class UserProfileViewModel: ObservableObject {
         switch result {
         case .success:
             dismissScreen()
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
+    func postNewChat(otherUserUid: String, token: String) async {
+        isPostingNewChat = true
+        let result = await AYServices.shared.postNewChat(otherUserUid: otherUserUid, token: token)
+        isPostingNewChat = false
+        
+        switch result {
+        case .success(let chat):
+            isMessageScreenPresented = (true, chat._id)
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }

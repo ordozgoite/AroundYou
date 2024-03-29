@@ -42,6 +42,12 @@ struct UserProfileScreen: View {
                 isActive: $userProfileVM.isReportScreenPresented,
                 label: { EmptyView() }
             )
+            
+            NavigationLink(
+                destination: MessageScreen(chatId: userProfileVM.isMessageScreenPresented.1, username: userProfileVM.userProfile?.username ?? "", otherUserUid: userProfileVM.userProfile?.userUid ?? "", chatPic: userProfileVM.userProfile?.profilePic).environmentObject(authVM),
+                isActive: $userProfileVM.isMessageScreenPresented.0,
+                label: { EmptyView() }
+            )
         }
         .onAppear {
             Task {
@@ -121,6 +127,21 @@ struct UserProfileScreen: View {
                 Text(userProfileVM.userProfile?.biography ?? "")
                     .foregroundStyle(.gray)
                     .multilineTextAlignment(.center)
+                
+                if let myId = authVM.user?.uid {
+                    if userUid != myId {
+                        Button {
+                            Task {
+                                let token = try await authVM.getFirebaseToken()
+                                await userProfileVM.postNewChat(otherUserUid: self.userUid, token: token)
+                            }
+                        } label: {
+                            Image(systemName: "bubble.left")
+                            Text("Message")
+                        }
+                        .buttonStyle(.borderedProminent)
+                    }
+                }
             }
         }
         .padding()

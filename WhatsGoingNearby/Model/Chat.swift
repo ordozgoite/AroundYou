@@ -9,7 +9,7 @@ import Foundation
 
 struct Chat: Codable {
     let _id: String
-    let mutedUserUid: [String]
+    let mutedUserUids: [String]
     let participantUserUids: [String]
-    let createdAt: Date
+    let createdAt: String
 }
