@@ -83,5 +83,5 @@ struct ChatView: View {
 }
 
 #Preview {
-    ChatView(chat: FormattedChat(id: UUID().uuidString, chatName: "vanylton", chatPic: "", lastMessageAt: 1711658090, hasUnreadMessages: true, lastMessage: "Já terminou a tela de mensagens?", isMuted: true))
+    ChatView(chat: FormattedChat(id: UUID().uuidString, chatName: "vanylton", otherUserUid: "1", chatPic: "", lastMessageAt: 1711658090, hasUnreadMessages: true, lastMessage: "Já terminou a tela de mensagens?", isMuted: true))
 }

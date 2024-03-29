@@ -11,6 +11,7 @@ struct MessageScreen: View {
     
     let chatId: String
     let username: String
+    let otherUserUid: String
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var messageVM = MessageViewModel()
@@ -19,23 +20,28 @@ struct MessageScreen: View {
     
     var body: some View {
         VStack {
-            Header()
-            
             ScrollView {
                 ScrollViewReader { proxy in
-                    VStack(spacing: 0) {
-                        ForEach(messageVM.messages) { message in
-                            MessageView(message: message)
-                        }
-                    }
-                    .padding()
-                    .onChange(of: messageVM.messages.count) { _ in
-                            withAnimation {
-                                proxy.scrollTo(messageVM.messages.count - 1)
+                    ZStack {
+                        VStack(spacing: 0) {
+                            ForEach(messageVM.messages) { message in
+                                MessageView(message: message)
                             }
+                            .onAppear {
+                                proxy.scrollTo(messageVM.messages.last!.id, anchor: .bottom)
+                            }
+                            .onChange(of: messageVM.messages) { _ in
+                                withAnimation {
+                                    proxy.scrollTo(messageVM.messages.last!.id, anchor: .bottom)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 10)
+                        
                     }
                 }
             }
+            .scrollDismissesKeyboard(.interactively)
             
             MessageComposer()
         }
@@ -45,48 +51,38 @@ struct MessageScreen: View {
                 await messageVM.getMessages(chatId: chatId, token: token)
             }
         }
-        
-        .navigationBarBackButtonHidden()
-    }
-    
-    //MARK: - Header
-    
-    @ViewBuilder
-    private func Header() -> some View {
-        HStack {
-            Button {
-                presentationMode.wrappedValue.dismiss()
-            } label: {
-                Image(systemName: "chevron.left")
-            }
-            
-            Spacer()
-            
-            VStack(spacing: 4) {
-                Image(systemName: "person.circle.fill")
-                    .resizable()
-                    .foregroundStyle(.gray)
-                    .frame(width: 50, height: 50)
-                
-                HStack(alignment: .firstTextBaseline, spacing: 2) {
-                    Text(username)
-                        .font(.caption)
-                        .foregroundStyle(.gray)
-                    
-                    Image(systemName: "chevron.right")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 8, height: 8)
-                        .foregroundStyle(.gray)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                NavigationLink(destination: UserProfileScreen(userUid: otherUserUid)) {
+                    UserHeader()
                 }
             }
-            .padding(.bottom, 6)
-            
-            Spacer()
         }
-        .padding()
-        .frame(width: screenWidth)
-        .background(.thinMaterial)
+    }
+    
+    //MARK: - User Header
+    
+    @ViewBuilder
+    private func UserHeader() -> some View {
+        HStack {
+            Image(systemName: "person.circle.fill")
+                .resizable()
+                .foregroundStyle(.gray)
+                .frame(width: 20, height: 20)
+            
+            HStack(alignment: .firstTextBaseline, spacing: 2) {
+                Text(username)
+                    .font(.caption)
+                    .foregroundStyle(.gray)
+                
+                Image(systemName: "chevron.right")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 8, height: 8)
+                    .foregroundStyle(.gray)
+            }
+        }
+        .padding(.bottom, 6)
     }
     
     //MARK: - MessageComposer
@@ -94,13 +90,13 @@ struct MessageScreen: View {
     @ViewBuilder
     private func MessageComposer() -> some View {
         HStack(spacing: 16) {
-            Image(systemName: "plus")
-                .foregroundStyle(.gray)
-                .background(
-                    Circle()
-                        .fill(.gray.opacity(0.1))
-                        .frame(width: 40, height: 40, alignment: .center)
-                )
+//            Image(systemName: "plus")
+//                .foregroundStyle(.gray)
+//                .background(
+//                    Circle()
+//                        .fill(.gray.opacity(0.1))
+//                        .frame(width: 40, height: 40, alignment: .center)
+//                )
             
             TextField("Write a message...", text: $messageVM.messageText, axis: .vertical)
                 .padding(10)

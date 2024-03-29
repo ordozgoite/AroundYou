@@ -10,6 +10,7 @@ import Foundation
 struct FormattedChat: Codable, Identifiable {
     let id: String
     let chatName: String
+    let otherUserUid: String
     let chatPic: String?
     let lastMessageAt: Int?
     let hasUnreadMessages: Bool

@@ -20,7 +20,7 @@ struct ChatListScreen: View {
                 } else {
                     ScrollView {
                         ForEach($chatListVM.chats) { $chat in
-                            NavigationLink(destination: MessageScreen(chatId: chat.id, username: chat.chatName).environmentObject(authVM)) {
+                            NavigationLink(destination: MessageScreen(chatId: chat.id, username: chat.chatName, otherUserUid: chat.otherUserUid).environmentObject(authVM)) {
                                 ChatView(chat: chat)
                             }
                         }

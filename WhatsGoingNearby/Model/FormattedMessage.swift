@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FormattedMessage: Codable, Identifiable {
+struct FormattedMessage: Codable, Identifiable, Equatable {
     let id: String
     var message: String
     var isCurrentUser: Bool
