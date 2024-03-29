@@ -45,6 +45,7 @@ protocol AYServiceable {
     // Message
     func postNewMessage(chatId: String, text: String, token: String) async -> Result<Message, RequestError>
     func getMessages(chatId: String, token: String) async -> Result<[FormattedMessage], RequestError>
+    func deleteMessage(messageId: String, token: String) async -> Result<DeleteMessageResponse, RequestError>
     
     // Report
     func postNewReport(report: ReportDTO, token: String) async -> Result<Report, RequestError>
@@ -194,6 +195,10 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getMessages(chatId: String, token: String) async -> Result<[FormattedMessage], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getMessages(chatId: chatId, token: token), responseModel: [FormattedMessage].self)
+    }
+    
+    func deleteMessage(messageId: String, token: String) async -> Result<DeleteMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteMessage(messageId: messageId, token: token), responseModel: DeleteMessageResponse.self)
     }
     
     //MARK: - Report

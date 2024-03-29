@@ -31,8 +31,19 @@ class MessageViewModel: ObservableObject {
         let result = await AYServices.shared.postNewMessage(chatId: chatId, text: text, token: token)
         
         switch result {
-        case .success(let message):
+        case .success:
             await getMessages(chatId: chatId, token: token)
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
+    func deleteMessage(messageId: String, token: String) async {
+        let result = await AYServices.shared.deleteMessage(messageId: messageId, token: token)
+        
+        switch result {
+        case .success:
+            removeMessage(withId: messageId)
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
@@ -40,5 +51,9 @@ class MessageViewModel: ObservableObject {
     
     private func resetTextField() {
         self.messageText = ""
+    }
+    
+    private func removeMessage(withId messageId: String) {
+        messages.removeAll { $0.id == messageId }
     }
 }

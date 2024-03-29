@@ -27,6 +27,17 @@ struct MessageScreen: View {
                         VStack(spacing: 0) {
                             ForEach(messageVM.messages) { message in
                                 MessageView(message: message)
+                                    .contextMenu {
+                                        Button(role: .destructive) {
+                                            Task {
+                                                let token = try await authVM.getFirebaseToken()
+                                                await messageVM.deleteMessage(messageId: message.id, token: token)
+                                            }
+                                        } label: {
+                                            Image(systemName: "trash")
+                                            Text("Delete Message")
+                                        }
+                                    }
                             }
                             .onAppear {
                                 proxy.scrollTo(messageVM.messages.last!.id, anchor: .bottom)

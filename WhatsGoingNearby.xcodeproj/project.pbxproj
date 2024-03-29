@@ -161,6 +161,7 @@
 		EDA322472B7DB221009905B5 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322462B7DB221009905B5 /* CommentView.swift */; };
 		EDA322492B7DB2BA009905B5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322482B7DB2BA009905B5 /* Comment.swift */; };
 		EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3224A2B7DB345009905B5 /* FormattedComment.swift */; };
+		EDCBEBF22BB75E5800087325 /* DeleteMessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */; };
 		EDCF2C2F2BB60B1A0066950F /* ChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C2E2BB60B1A0066950F /* ChatListViewModel.swift */; };
 		EDCF2C312BB60B450066950F /* FormattedChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C302BB60B450066950F /* FormattedChat.swift */; };
 		EDCF2C332BB65FC60066950F /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C322BB65FC60066950F /* Chat.swift */; };
@@ -301,6 +302,7 @@
 		EDA322462B7DB221009905B5 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		EDA322482B7DB2BA009905B5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		EDA3224A2B7DB345009905B5 /* FormattedComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedComment.swift; sourceTree = "<group>"; };
+		EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageResponse.swift; sourceTree = "<group>"; };
 		EDCF2C2E2BB60B1A0066950F /* ChatListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListViewModel.swift; sourceTree = "<group>"; };
 		EDCF2C302BB60B450066950F /* FormattedChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedChat.swift; sourceTree = "<group>"; };
 		EDCF2C322BB65FC60066950F /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
@@ -804,6 +806,7 @@
 				ED3775A42B9A5E5200BEF3D8 /* DeleteUserResponse.swift */,
 				ED5023FB2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift */,
 				EDCF2C342BB661960066950F /* MuteChatResponse.swift */,
+				EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1040,6 +1043,7 @@
 				EDCF2C382BB66E400066950F /* Message.swift in Sources */,
 				EDA3223F2B7D6A3F009905B5 /* LikePublicationResponse.swift in Sources */,
 				ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */,
+				EDCBEBF22BB75E5800087325 /* DeleteMessageResponse.swift in Sources */,
 				ED06525D2B8171C5005B6413 /* ForgotPasswordScreen.swift in Sources */,
 				ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */,
 				ED50C44C2B7E396C0001EDF6 /* View.swift in Sources */,

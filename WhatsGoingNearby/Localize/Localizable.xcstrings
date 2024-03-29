@@ -536,6 +536,9 @@
         }
       }
     },
+    "Delete Message" : {
+
+    },
     "Delete Post" : {
       "localizations" : {
         "pt-BR" : {
