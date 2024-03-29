@@ -16,7 +16,7 @@ struct MessageScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var messageVM = MessageViewModel()
     @Environment(\.presentationMode) var presentationMode
-    @FocusState private var isFocused: Bool
+//    @FocusState private var isFocused: Bool
     
     var body: some View {
         VStack {
@@ -103,7 +103,7 @@ struct MessageScreen: View {
                 .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
                 .cornerRadius(20)
                 .shadow(color: .gray, radius: 10)
-                .focused($isFocused)
+//                .focused($isFocused)
             
             if !messageVM.messageText.isEmpty {
                 Button {

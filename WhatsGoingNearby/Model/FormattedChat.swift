@@ -15,5 +15,5 @@ struct FormattedChat: Codable, Identifiable {
     let lastMessageAt: Int?
     let hasUnreadMessages: Bool
     let lastMessage: String?
-    let isMuted: Bool
+    var isMuted: Bool
 }

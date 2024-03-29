@@ -18,14 +18,7 @@ struct ChatListScreen: View {
                 if chatListVM.isLoading {
                     ProgressView()
                 } else {
-                    ScrollView {
-                        ForEach($chatListVM.chats) { $chat in
-                            NavigationLink(destination: MessageScreen(chatId: chat.id, username: chat.chatName, otherUserUid: chat.otherUserUid).environmentObject(authVM)) {
-                                ChatView(chat: chat)
-                            }
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                    }
+                    Chats()
                 }
             }
             .onAppear {
@@ -36,7 +29,35 @@ struct ChatListScreen: View {
             }
             .navigationTitle("Messages")
         }
-        
+    }
+    
+    //MARK: - Chats
+    
+    @ViewBuilder
+    private func Chats() -> some View {
+        ScrollView {
+            ForEach($chatListVM.chats) { $chat in
+                NavigationLink(destination: MessageScreen(chatId: chat.id, username: chat.chatName, otherUserUid: chat.otherUserUid).environmentObject(authVM)) {
+                    ChatView(chat: chat)
+                        .contextMenu {
+                            Button {
+                                Task {
+                                    let token = try await authVM.getFirebaseToken()
+                                    if chat.isMuted {
+                                        await chatListVM.unmuteChat(chatId: chat.id, token: token)
+                                    } else {
+                                        await chatListVM.muteChat(chatId: chat.id, token: token)
+                                    }
+                                }
+                            } label: {
+                                Image(systemName: chat.isMuted ? "bell.fill" : "bell.slash.fill")
+                                Text(chat.isMuted ? "Unmute Chat" : "Mute Chat")
+                            }
+                        }
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
     }
 }
 

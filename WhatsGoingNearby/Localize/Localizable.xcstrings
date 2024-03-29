@@ -1012,6 +1012,9 @@
     "Messages" : {
 
     },
+    "Mute Chat" : {
+
+    },
     "Name" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1702,6 +1705,9 @@
           }
         }
       }
+    },
+    "Unmute Chat" : {
+
     },
     "Updating photo..." : {
       "localizations" : {
