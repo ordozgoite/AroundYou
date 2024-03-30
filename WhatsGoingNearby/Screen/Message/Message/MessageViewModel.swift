@@ -14,6 +14,7 @@ class MessageViewModel: ObservableObject {
     @Published var messages: [FormattedMessage] = []
     @Published var messageText: String = ""
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
+    @Published var repliedMessage: FormattedMessage?
     
     func getMessages(chatId: String, token: String) async {
         let result = await AYServices.shared.getMessages(chatId: chatId, token: token)
@@ -26,9 +27,9 @@ class MessageViewModel: ObservableObject {
         }
     }
     
-    func sendMessage(chatId: String, text: String, token: String) async {
-        resetTextField()
-        let result = await AYServices.shared.postNewMessage(chatId: chatId, text: text, token: token)
+    func sendMessage(chatId: String, text: String, repliedMessageId: String?, token: String) async {
+        resetInputs()
+        let result = await AYServices.shared.postNewMessage(chatId: chatId, text: text, repliedMessageId: repliedMessageId, token: token)
         
         switch result {
         case .success:
@@ -49,7 +50,8 @@ class MessageViewModel: ObservableObject {
         }
     }
     
-    private func resetTextField() {
+    private func resetInputs() {
+        self.repliedMessage = nil
         self.messageText = ""
     }
     

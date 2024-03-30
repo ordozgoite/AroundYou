@@ -43,7 +43,7 @@ protocol AYServiceable {
     func unmuteChat(chatId: String, token: String) async -> Result<MuteChatResponse, RequestError>
     
     // Message
-    func postNewMessage(chatId: String, text: String, token: String) async -> Result<Message, RequestError>
+    func postNewMessage(chatId: String, text: String, repliedMessageId: String?, token: String) async -> Result<Message, RequestError>
     func getMessages(chatId: String, token: String) async -> Result<[FormattedMessage], RequestError>
     func deleteMessage(messageId: String, token: String) async -> Result<DeleteMessageResponse, RequestError>
     
@@ -189,8 +189,8 @@ struct AYServices: HTTPClient, AYServiceable {
     
     //MARK: - Message
     
-    func postNewMessage(chatId: String, text: String, token: String) async -> Result<Message, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.postNewMessage(chatId: chatId, text: text, token: token), responseModel: Message.self)
+    func postNewMessage(chatId: String, text: String, repliedMessageId: String?, token: String) async -> Result<Message, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewMessage(chatId: chatId, text: text, repliedMessageId: repliedMessageId, token: token), responseModel: Message.self)
     }
     
     func getMessages(chatId: String, token: String) async -> Result<[FormattedMessage], RequestError> {
