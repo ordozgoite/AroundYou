@@ -28,17 +28,17 @@ struct MessageScreen: View {
                             ForEach(messageVM.messages) { message in
                                 MessageView(message: message)
                                     .contextMenu {
-                                        Button(role: .destructive) {
-                                            Task {
-                                                let token = try await authVM.getFirebaseToken()
-                                                await messageVM.deleteMessage(messageId: message.id, token: token)
+                                        if message.isCurrentUser {
+                                            Button(role: .destructive) {
+                                                Task {
+                                                    let token = try await authVM.getFirebaseToken()
+                                                    await messageVM.deleteMessage(messageId: message.id, token: token)
+                                                }
+                                            } label: {
+                                                Image(systemName: "trash")
+                                                Text("Delete Message")
                                             }
-                                        } label: {
-                                            Image(systemName: "trash")
-                                            Text("Delete Message")
-                                        }
-                                        
-                                        if !message.isCurrentUser {
+                                        } else {
                                             Button {
                                                 messageVM.repliedMessage = message
                                                 isFocused = true

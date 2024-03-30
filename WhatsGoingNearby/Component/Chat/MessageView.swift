@@ -12,11 +12,11 @@ struct MessageView: View {
     var message: FormattedMessage
     
     var body: some View {
-            Time()
-            
-            Reply()
-            
-            BubbleView(message: message.message, isCurrentUser: message.isCurrentUser, isFirst: message.isFirst)
+        Time()
+        
+        Reply()
+        
+        BubbleView(message: message.message, isCurrentUser: message.isCurrentUser, isFirst: message.isFirst)
     }
     
     //MARK: - Time
@@ -37,22 +37,38 @@ struct MessageView: View {
     private func Reply() -> some View {
         
         if let replyText = message.repliedMessageText {
-            VStack(alignment: .leading, spacing: 0) {
-                BubbleView(message: replyText, isCurrentUser: false, isFirst: false)
-                    .opacity(0.5)
+            HStack {
+                if !message.isCurrentUser {
+                    Image(systemName: "arrowshape.turn.up.right")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 20)
+                        .foregroundStyle(.gray)
+                }
                 
-                Image(systemName: "point.topleft.down.curvedto.point.bottomright.up.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 20)
+                Text(replyText)
                     .foregroundStyle(.gray)
-                    .padding(.leading, 32)
+                    .padding(.horizontal)
+                    .padding(.vertical, 8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gray, lineWidth: 2)
+                    )
+                
+                if message.isCurrentUser {
+                    Image(systemName: "arrowshape.turn.up.left")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 20)
+                        .foregroundStyle(.gray)
+                }
             }
             .scaleEffect(0.8)
+            .frame(maxWidth: .infinity, alignment: message.isCurrentUser ? .trailing : .leading)
         }
     }
 }
 
 #Preview {
-    MessageView(message: FormattedMessage(id: "1", message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉", isCurrentUser: true, isFirst: true, repliedMessageText: "Tio, o que você está fazendo?", timeDivider: 1711774061000))
+    MessageView(message: FormattedMessage(id: "1", message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉", isCurrentUser: false, isFirst: true, repliedMessageText: "Tio, o que você está fazendo?", timeDivider: 1711774061000))
 }
