@@ -126,6 +126,8 @@
 		ED755F1D2BB50D56004BC6C3 /* BubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F1C2BB50D56004BC6C3 /* BubbleView.swift */; };
 		ED755F1F2BB52BE8004BC6C3 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F1E2BB52BE7004BC6C3 /* MessageViewModel.swift */; };
 		ED755F212BB52C35004BC6C3 /* FormattedMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F202BB52C35004BC6C3 /* FormattedMessage.swift */; };
+		ED7D8F802BB9EDEB00544A8B /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7D8F7F2BB9EDEB00544A8B /* CameraView.swift */; };
+		ED8618692BB9E48400A26121 /* CameraRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8618682BB9E48400A26121 /* CameraRepresentable.swift */; };
 		ED884BEB2B8CF3D80071E1C4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = ED884BEA2B8CF3D80071E1C4 /* Localizable.xcstrings */; };
 		ED8CDFC22BB2702E00B8852E /* PostTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8CDFC12BB2702E00B8852E /* PostTag.swift */; };
 		ED8CDFC42BB2704700B8852E /* PostDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8CDFC32BB2704700B8852E /* PostDuration.swift */; };
@@ -163,6 +165,8 @@
 		EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3224A2B7DB345009905B5 /* FormattedComment.swift */; };
 		EDCBEBF22BB75E5800087325 /* DeleteMessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */; };
 		EDCBEBF42BB7C3E000087325 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCBEBF32BB7C3E000087325 /* MessageView.swift */; };
+		EDCBEBF72BB8A52F00087325 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = EDCBEBF62BB8A52F00087325 /* SocketIO */; };
+		EDCBEBF92BB8A5A700087325 /* SocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCBEBF82BB8A5A700087325 /* SocketService.swift */; };
 		EDCF2C2F2BB60B1A0066950F /* ChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C2E2BB60B1A0066950F /* ChatListViewModel.swift */; };
 		EDCF2C312BB60B450066950F /* FormattedChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C302BB60B450066950F /* FormattedChat.swift */; };
 		EDCF2C332BB65FC60066950F /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C322BB65FC60066950F /* Chat.swift */; };
@@ -269,6 +273,8 @@
 		ED755F1C2BB50D56004BC6C3 /* BubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleView.swift; sourceTree = "<group>"; };
 		ED755F1E2BB52BE7004BC6C3 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
 		ED755F202BB52C35004BC6C3 /* FormattedMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedMessage.swift; sourceTree = "<group>"; };
+		ED7D8F7F2BB9EDEB00544A8B /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		ED8618682BB9E48400A26121 /* CameraRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraRepresentable.swift; sourceTree = "<group>"; };
 		ED884BEA2B8CF3D80071E1C4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		ED8CDFC12BB2702E00B8852E /* PostTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTag.swift; sourceTree = "<group>"; };
 		ED8CDFC32BB2704700B8852E /* PostDuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDuration.swift; sourceTree = "<group>"; };
@@ -305,6 +311,7 @@
 		EDA3224A2B7DB345009905B5 /* FormattedComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedComment.swift; sourceTree = "<group>"; };
 		EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageResponse.swift; sourceTree = "<group>"; };
 		EDCBEBF32BB7C3E000087325 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		EDCBEBF82BB8A5A700087325 /* SocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketService.swift; sourceTree = "<group>"; };
 		EDCF2C2E2BB60B1A0066950F /* ChatListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListViewModel.swift; sourceTree = "<group>"; };
 		EDCF2C302BB60B450066950F /* FormattedChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedChat.swift; sourceTree = "<group>"; };
 		EDCF2C322BB65FC60066950F /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
@@ -330,6 +337,7 @@
 				ED598C182B7C550400B6C23D /* FirebaseAnalyticsSwift in Frameworks */,
 				ED598C142B7C550400B6C23D /* FirebaseAnalytics in Frameworks */,
 				ED598C162B7C550400B6C23D /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
+				EDCBEBF72BB8A52F00087325 /* SocketIO in Frameworks */,
 				ED598C3C2B7C550400B6C23D /* FirebaseMLModelDownloader in Frameworks */,
 				ED598C302B7C550400B6C23D /* FirebaseFirestoreSwift in Frameworks */,
 				ED598C1C2B7C550400B6C23D /* FirebaseAppCheck in Frameworks */,
@@ -481,6 +489,7 @@
 		ED598BF32B7C16DA00B6C23D /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				ED86186A2BB9E6C400A26121 /* Camera */,
 				EDCF2C362BB662CF0066950F /* Chat */,
 				ED5CC5192B97BF3B009B17E3 /* Edit Profile */,
 				ED2F1A782B9142D7001F4300 /* Notification */,
@@ -746,6 +755,15 @@
 			path = Message;
 			sourceTree = "<group>";
 		};
+		ED86186A2BB9E6C400A26121 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				ED8618682BB9E48400A26121 /* CameraRepresentable.swift */,
+				ED7D8F7F2BB9EDEB00544A8B /* CameraView.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
 		ED884BE92B8CF3C70071E1C4 /* Localize */ = {
 			isa = PBXGroup;
 			children = (
@@ -789,6 +807,7 @@
 			isa = PBXGroup;
 			children = (
 				EDA3222B2B7CA3A8009905B5 /* AYServices.swift */,
+				EDCBEBF82BB8A5A700087325 /* SocketService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -886,6 +905,7 @@
 				ED598C452B7C550400B6C23D /* FirebaseStorage */,
 				ED598C472B7C550400B6C23D /* FirebaseStorageCombine-Community */,
 				EDA30DE42B7FAB20003EB22D /* Lottie */,
+				EDCBEBF62BB8A52F00087325 /* SocketIO */,
 			);
 			productName = WhatsGoingNearby;
 			productReference = ED5CB1652B7C11C000C336EC /* WhatsGoingNearby.app */;
@@ -919,6 +939,7 @@
 			packageReferences = (
 				ED598C122B7C550400B6C23D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				EDA30DE32B7FAB20003EB22D /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				EDCBEBF52BB8A52F00087325 /* XCRemoteSwiftPackageReference "socket" */,
 			);
 			productRefGroup = ED5CB1662B7C11C000C336EC /* Products */;
 			projectDirPath = "";
@@ -985,6 +1006,7 @@
 				ED0652572B813832005B6413 /* BugScreen.swift in Sources */,
 				ED2F1A732B914288001F4300 /* NotificationScreen.swift in Sources */,
 				ED6DD4902B8272DD00ADBB64 /* BlockedUserScreen.swift in Sources */,
+				ED8618692BB9E48400A26121 /* CameraRepresentable.swift in Sources */,
 				EDA30E002B804FD1003EB22D /* ReportScreen.swift in Sources */,
 				EDA322382B7CC145009905B5 /* TimestampTestScreen.swift in Sources */,
 				ED6DD48D2B82685D00ADBB64 /* Block.swift in Sources */,
@@ -1003,6 +1025,8 @@
 				ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */,
 				ED755F132BB4D625004BC6C3 /* ChatListScreen.swift in Sources */,
 				ED50C4572B7E951D0001EDF6 /* UserProfileScreen.swift in Sources */,
+				ED7D8F802BB9EDEB00544A8B /* CameraView.swift in Sources */,
+				EDCBEBF92BB8A5A700087325 /* SocketService.swift in Sources */,
 				EDA30DEC2B7FABA9003EB22D /* LottieView.swift in Sources */,
 				EDA30DF62B7FE816003EB22D /* PostTypeSegmentedControl.swift in Sources */,
 				ED5CC5242B97ECCA009B17E3 /* Constants.swift in Sources */,
@@ -1221,6 +1245,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhatsGoingNearby/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Around You";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will be used to search for posts around you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1259,6 +1284,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhatsGoingNearby/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Around You";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will be used to search for posts around you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1321,6 +1347,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 4.4.0;
+			};
+		};
+		EDCBEBF52BB8A52F00087325 /* XCRemoteSwiftPackageReference "socket" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1465,6 +1499,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EDA30DE32B7FAB20003EB22D /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		EDCBEBF62BB8A52F00087325 /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EDCBEBF52BB8A52F00087325 /* XCRemoteSwiftPackageReference "socket" */;
+			productName = SocketIO;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

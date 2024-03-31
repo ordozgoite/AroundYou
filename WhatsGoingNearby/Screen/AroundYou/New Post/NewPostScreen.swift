@@ -39,6 +39,9 @@ struct NewPostScreen: View {
             
             AYErrorAlert(message: newPostVM.overlayError.1 , isErrorAlertPresented: $newPostVM.overlayError.0)
         }
+        .fullScreenCover(isPresented: $newPostVM.isCameraDisplayed) {
+            CameraView(image: $newPostVM.image)
+        }
         .alert(isPresented: $newPostVM.isShareLocationAlertDisplayed) {
             Alert(
                 title: Text("Allow 'AroundYou' to display your location on map?"),
@@ -116,30 +119,58 @@ struct NewPostScreen: View {
         }
     }
     
+    //MARK: - Image Preview
+    
+    @ViewBuilder
+    private func ImagePreview() -> some View {
+        if let selectedImage =  newPostVM.image {
+            ZStack(alignment: .topTrailing) {
+                Image(uiImage: selectedImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 64)
+                    .cornerRadius(8)
+                    .padding()
+                
+                Button {
+                    newPostVM.image = nil
+                } label: {
+                    Image(systemName: "x.circle.fill")
+                }
+            }
+        }
+    }
+    
     //MARK: - Footer
     
     @ViewBuilder
     private func Footer() -> some View {
-        VStack {
-            Divider()
+        VStack(alignment: .leading) {
+            ImagePreview()
             
-            HStack {
-                HStack(spacing: 16) {
-                    Location()
-                    
-                    Tag()
-                    
-                    Duration()
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+            VStack {
+                Divider()
                 
-                Text("\(newPostVM.postText.count)/\(maxPostLength)")
-                    .foregroundStyle(.gray)
-                    .font(.subheadline)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+                HStack {
+                    HStack(spacing: 16) {
+                        Location()
+                        
+                        Tag()
+                        
+                        Duration()
+                        
+                        Picture()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                    
+                    Text("\(newPostVM.postText.count)/\(maxPostLength)")
+                        .foregroundStyle(.gray)
+                        .font(.subheadline)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+                }
             }
+            .frame(height: 32)
         }
-        .frame(height: 32)
     }
     
     //MARK: - Location
@@ -191,7 +222,6 @@ struct NewPostScreen: View {
     @ViewBuilder
     private func Duration() -> some View {
         Menu {
-            
             ForEach(PostDuration.allCases, id: \.self) { duration in
                 Button {
                     newPostVM.selectedPostDuration = duration
@@ -209,6 +239,17 @@ struct NewPostScreen: View {
                 Image(systemName: "chevron.up.chevron.down")
                     .scaleEffect(0.8)
             }
+        }
+    }
+    
+    //MARK: - Picture
+    
+    @ViewBuilder
+    private func Picture() -> some View {
+        Button {
+            newPostVM.isCameraDisplayed = true
+        } label: {
+            Image(systemName:  "camera")
         }
     }
     

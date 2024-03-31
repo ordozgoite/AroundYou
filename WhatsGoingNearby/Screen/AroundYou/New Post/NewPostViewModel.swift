@@ -19,21 +19,24 @@ class NewPostViewModel: ObservableObject {
     @Published var selectedPostDuration: PostDuration = .fourHours
     @Published var isShareLocationAlertDisplayed: Bool = false
     
+    @Published var image: UIImage?
+    @Published var isCameraDisplayed = false
+    
     func postNewPublication(latitude: Double, longitude: Double, token: String, dismissScreen: () -> ()) async {
-            isLoading = true
+        isLoading = true
         print(selectedPostTag.hashValue.description)
         let result = await AYServices.shared.postNewPublication(text: postText, tag: selectedPostTag.rawValue, postDuration: selectedPostDuration.value, latitude: latitude, longitude: longitude, isLocationVisible: selectedPostLocationVisibilty.isLocationVisible, token: token)
-            isLoading = false
-            
-            switch result {
-            case .success:
-                dismissScreen()
-            case .failure(let error):
-                if error == .forbidden {
-                    overlayError = (true, ErrorMessage.publicationLimitExceededErrorMessage)
-                } else {
-                    overlayError = (true, ErrorMessage.defaultErrorMessage)
-                }
+        isLoading = false
+        
+        switch result {
+        case .success:
+            dismissScreen()
+        case .failure(let error):
+            if error == .forbidden {
+                overlayError = (true, ErrorMessage.publicationLimitExceededErrorMessage)
+            } else {
+                overlayError = (true, ErrorMessage.defaultErrorMessage)
             }
+        }
     }
 }

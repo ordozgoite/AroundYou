@@ -75,6 +75,13 @@ struct MessageScreen: View {
             MessageComposer()
         }
         .onAppear {
+            SocketService.shared.connect()
+            
+            messageVM.socket.emit("join-room", chatId)
+            
+            messageVM.socket.on("message") { dataArray, ack in
+                messageVM.decodeMessages(message: dataArray)
+            }
             Task {
                 let token = try await authVM.getFirebaseToken()
                 await messageVM.getMessages(chatId: chatId, token: token)

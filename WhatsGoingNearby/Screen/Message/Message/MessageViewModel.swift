@@ -11,6 +11,7 @@ import SwiftUI
 @MainActor
 class MessageViewModel: ObservableObject {
     
+    var socket = SocketService.shared.getSocket()
     @Published var messages: [FormattedMessage] = []
     @Published var messageText: String = ""
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
@@ -33,6 +34,8 @@ class MessageViewModel: ObservableObject {
         
         switch result {
         case .success:
+            
+            sendMessage(text: text, room: chatId)
             await getMessages(chatId: chatId, token: token)
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
@@ -57,5 +60,26 @@ class MessageViewModel: ObservableObject {
     
     private func removeMessage(withId messageId: String) {
         messages.removeAll { $0.id == messageId }
+    }
+    
+    //MARK: - Web Socket
+    
+    func decodeMessages(message: [Any]) {
+        print("⚠️⚠️⚠️")
+        print(message)
+        print("⚠️⚠️⚠️")
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: message[0], options: [])
+            
+            let newMessage = try JSONDecoder().decode(Message.self, from: jsonData)
+            
+            // append message to array
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func sendMessage(text: String, room: String) {
+        socket.emit("message", [text, room])
     }
 }
