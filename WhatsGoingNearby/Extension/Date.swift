@@ -28,4 +28,12 @@ extension Date {
         
         return dateFormatter.string(from: self)
     }
+    
+    func formatDatetoMessage() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM, HH:mm"
+        dateFormatter.locale = Locale(identifier: "pt_BR") // Define o local para exibição no formato desejado
+        
+        return dateFormatter.string(from: self)
+    }
 }

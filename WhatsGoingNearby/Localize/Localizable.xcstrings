@@ -536,6 +536,9 @@
         }
       }
     },
+    "Delete Message" : {
+
+    },
     "Delete Post" : {
       "localizations" : {
         "pt-BR" : {
@@ -1009,6 +1012,15 @@
         }
       }
     },
+    "Message" : {
+
+    },
+    "Messages" : {
+
+    },
+    "Mute Chat" : {
+
+    },
     "Name" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1060,9 +1072,6 @@
           }
         }
       }
-    },
-    "Now" : {
-
     },
     "OK" : {
       "localizations" : {
@@ -1357,6 +1366,9 @@
         }
       }
     },
+    "Reply Message" : {
+
+    },
     "Replying to %@" : {
       "localizations" : {
         "pt-BR" : {
@@ -1366,6 +1378,9 @@
           }
         }
       }
+    },
+    "Replying to:" : {
+
     },
     "Report" : {
       "localizations" : {
@@ -1655,9 +1670,6 @@
         }
       }
     },
-    "Timeline" : {
-
-    },
     "Unblock" : {
       "localizations" : {
         "pt-BR" : {
@@ -1699,6 +1711,9 @@
           }
         }
       }
+    },
+    "Unmute Chat" : {
+
     },
     "Updating photo..." : {
       "localizations" : {
@@ -1769,6 +1784,9 @@
           }
         }
       }
+    },
+    "Write a message..." : {
+
     },
     "You are about to share your current location within your post. This means that anyone nearby will be able to see the place where you made the post. Are you sure you want to proceed?" : {
       "extractionState" : "stale",
