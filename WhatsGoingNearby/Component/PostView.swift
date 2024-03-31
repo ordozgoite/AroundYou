@@ -21,6 +21,7 @@ struct PostView: View {
     @State private var isReportScreenPresented: Bool = false
     @State private var isMapScreenPresented: Bool = false
     @State private var isLikeScreenDisplayed: Bool = false
+    @State private var isFullScreenImageDisplayed: Bool = false
     
     var body: some View {
         VStack {
@@ -36,10 +37,15 @@ struct PostView: View {
                     
                     TextView()
                     
+                    ImagePreview()
+                    
                     InteractionsView()
                 }
             }
             .opacity(post.type == .inactive ? 0.5 : 1)
+            .fullScreenCover(isPresented: $isFullScreenImageDisplayed) {
+                FullScreenPostImage(url: post.imageUrl ?? "")
+            }
             
             NavigationLink(
                 destination: ReportScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil).environmentObject(authVM),
@@ -201,6 +207,21 @@ struct PostView: View {
     private func TextView() -> some View {
         Text(LocalizedStringKey(post.text))
             .textSelection(.enabled)
+    }
+    
+    //MARK: - Image Preview
+    
+    @ViewBuilder
+    private func ImagePreview() -> some View {
+        if let url = post.imageUrl {
+            PostImageView(imageURL: url)
+                .scaledToFit()
+                .frame(width: 128)
+                .cornerRadius(8)
+                .onTapGesture {
+                    self.isFullScreenImageDisplayed = true
+                }
+        }
     }
     
     //MARK: - Interactions

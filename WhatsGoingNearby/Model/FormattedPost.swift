@@ -32,6 +32,7 @@ struct FormattedPost: Identifiable, Codable {
     let isFromRecipientUser: Bool
     let isLocationVisible: Bool
     let tag: String?
+    let imageUrl: String?
     var postTag: PostTag? {
         switch tag {
         case "chat":
