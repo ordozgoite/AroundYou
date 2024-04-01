@@ -129,6 +129,19 @@ struct PostView: View {
                                 Image(systemName: "trash")
                             }
                             .padding()
+                            
+                            if post.type == .inactive {
+                                Divider()
+                                
+                                Button {
+                                    // renew post
+                                } label: {
+                                    Text("Renew Post")
+                                    Image(systemName: "sparkles")
+                                }
+                                .foregroundStyle(.gray)
+                                .padding()
+                            }
                         }
                         
                         if !post.isFromRecipientUser {
