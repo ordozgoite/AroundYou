@@ -132,9 +132,13 @@ struct PostView: View {
                     .padding(.horizontal)
                     
                     Button {
-                        // mark post as old
+                        isOptionsPopoverDisplayed = false
+                        Task {
+                            let token = try await authVM.getFirebaseToken()
+                            await finishPublication(token: token)
+                        }
                     } label: {
-                        Text("Mark as Old")
+                        Text("Finish Post")
                         Image(systemName: "clock.arrow.circlepath")
                     }
                     .foregroundStyle(.gray)
@@ -377,27 +381,24 @@ struct PostView: View {
     
     private func likePublication(publicationId: String, token: String, toggleFeedUpdate: (Bool) -> ()) async {
         toggleFeedUpdate(false)
-            let response = await AYServices.shared.likePublication(publicationId: publicationId, token: token)
+            _ = await AYServices.shared.likePublication(publicationId: publicationId, token: token)
             toggleFeedUpdate(true)
-            
-            switch response {
-            case .success:
-                print("❤️ Publication liked!")
-            case .failure(let error):
-                print("❌ Error: \(error)")
-            }
     }
     
     private func unlikePublication(publicationId: String, token: String, toggleFeedUpdate: (Bool) -> ()) async {
         toggleFeedUpdate(false)
-        let response = await AYServices.shared.unlikePublication(publicationId: publicationId, token: token)
+        _ = await AYServices.shared.unlikePublication(publicationId: publicationId, token: token)
         toggleFeedUpdate(true)
+    }
+    
+    private func finishPublication(token: String) async {
+        let result = await AYServices.shared.finishPublication(publicationId: post.id, token: token)
         
-        switch response {
+        switch result {
         case .success:
-            print("💔 Publication unliked!")
-        case .failure(let error):
-            print("❌ Error: \(error)")
+            post.isFinished = true
+        case .failure:
+            print("❌ Error trying to Finish Publication.")
         }
     }
 }

@@ -681,7 +681,14 @@
       }
     },
     "Edit" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar"
+          }
+        }
+      }
     },
     "Edit photo" : {
       "localizations" : {
@@ -694,7 +701,14 @@
       }
     },
     "Edit post" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar Publicação"
+          }
+        }
+      }
     },
     "Edit Post" : {
       "localizations" : {
@@ -800,6 +814,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Expirado"
+          }
+        }
+      }
+    },
+    "Finish Post" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalizar Publicação"
           }
         }
       }
@@ -1037,6 +1061,7 @@
       }
     },
     "Mark as Old" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1648,7 +1673,14 @@
       }
     },
     "Sorry, you're too far away to edit this post." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desculpe, você está longe demais para editar essa publicação."
+          }
+        }
+      }
     },
     "Temporary posts ⏳" : {
       "localizations" : {

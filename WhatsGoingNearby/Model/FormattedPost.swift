@@ -7,14 +7,6 @@
 
 import Foundation
 
-// Post Info:
-// User profile pic
-// User name
-// Post timestamp
-// Post text
-// Post comments number
-// Post likes number
-
 struct FormattedPost: Identifiable, Codable {
     let id: String
     let userUid: String
@@ -34,7 +26,9 @@ struct FormattedPost: Identifiable, Codable {
     let tag: String?
     let imageUrl: String?
     let isOwnerFarAway: Bool
+    var isFinished: Bool
     let duration: Int
+    var isSubscribed: Bool
     var postDuration: PostDuration {
         switch duration {
         case 1:
@@ -67,7 +61,6 @@ struct FormattedPost: Identifiable, Codable {
             return nil
         }
     }
-    var isSubscribed: Bool
     var date: Date {
         return NSDate(timeIntervalSince1970: TimeInterval(self.timestamp.timeIntervalSince1970InSeconds)) as Date
     }
@@ -83,11 +76,11 @@ struct FormattedPost: Identifiable, Codable {
         }
     }
     
-    var isExpired: Bool {
+    var isOld: Bool {
         return expirationDate.timeIntervalSince1970InSeconds < getCurrentDateTimestamp()
     }
     
     var type: PostType {
-        return isExpired || isOwnerFarAway ? .inactive : .active
+        return isOld || isOwnerFarAway || isFinished ? .inactive : .active
     }
 }
