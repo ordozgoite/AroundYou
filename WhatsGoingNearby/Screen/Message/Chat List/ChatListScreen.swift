@@ -22,10 +22,10 @@ struct ChatListScreen: View {
                 }
             }
             .onAppear {
-                Task {
-                    let token = try await authVM.getFirebaseToken()
-                    await chatListVM.getChats(token: token)
-                }
+                startUpdatingChats()
+            }
+            .onDisappear {
+                stopUpdatingChats()
             }
             .navigationTitle("Messages")
         }
@@ -58,6 +58,26 @@ struct ChatListScreen: View {
             }
             .buttonStyle(PlainButtonStyle())
         }
+    }
+    
+    //MARK: - Private Method
+    
+    private func startUpdatingChats() {
+        chatListVM.chatTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+            Task {
+                try await updateChats()
+            }
+        }
+        chatListVM.chatTimer?.fire()
+    }
+    
+    private func updateChats() async throws {
+        let token = try await authVM.getFirebaseToken()
+        await chatListVM.getChats(token: token)
+    }
+    
+    private func stopUpdatingChats() {
+        chatListVM.chatTimer?.invalidate()
     }
 }
 

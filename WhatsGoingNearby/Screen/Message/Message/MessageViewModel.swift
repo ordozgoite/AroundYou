@@ -16,6 +16,7 @@ class MessageViewModel: ObservableObject {
     @Published var messageText: String = ""
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var repliedMessage: FormattedMessage?
+    @Published var messageTimer: Timer?
     
     func getMessages(chatId: String, token: String) async {
         let result = await AYServices.shared.getMessages(chatId: chatId, token: token)

@@ -57,13 +57,6 @@ struct MessageScreen: View {
                                     proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
                                 }
                             }
-//                            .onChange(of: isFocused) { isFoc in
-//                                if isFoc {
-//                                    withAnimation {
-//                                        proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
-//                                    }
-//                                }
-//                            }
                         }
                         .padding(.horizontal, 10)
                         
@@ -75,17 +68,10 @@ struct MessageScreen: View {
             MessageComposer()
         }
         .onAppear {
-            SocketService.shared.connect()
-            
-            messageVM.socket.emit("join-room", chatId)
-            
-            messageVM.socket.on("message") { dataArray, ack in
-                messageVM.decodeMessages(message: dataArray)
-            }
-            Task {
-                let token = try await authVM.getFirebaseToken()
-                await messageVM.getMessages(chatId: chatId, token: token)
-            }
+            startUpdatingMessages()
+        }
+        .onDisappear {
+            stopUpdatingMessages()
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
@@ -118,7 +104,7 @@ struct MessageScreen: View {
         .padding(.bottom, 6)
     }
     
-    //MARK: - MessageComposer
+    //MARK: - Message Composer
     
     @ViewBuilder
     private func MessageComposer() -> some View {
@@ -147,14 +133,6 @@ struct MessageScreen: View {
             }
             
             HStack(spacing: 16) {
-                //            Image(systemName: "plus")
-                //                .foregroundStyle(.gray)
-                //                .background(
-                //                    Circle()
-                //                        .fill(.gray.opacity(0.1))
-                //                        .frame(width: 40, height: 40, alignment: .center)
-                //                )
-                
                 TextField("Write a message...", text: $messageVM.messageText, axis: .vertical)
                     .padding(10)
                     .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
@@ -179,6 +157,26 @@ struct MessageScreen: View {
             }
         }
         .padding()
+    }
+    
+    //MARK: - Private Method
+    
+    private func startUpdatingMessages() {
+        messageVM.messageTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            Task {
+                try await updateMessages()
+            }
+        }
+        messageVM.messageTimer?.fire()
+    }
+    
+    private func updateMessages() async throws {
+        let token = try await authVM.getFirebaseToken()
+        await messageVM.getMessages(chatId: chatId, token: token)
+    }
+    
+    private func stopUpdatingMessages() {
+        messageVM.messageTimer?.invalidate()
     }
 }
 

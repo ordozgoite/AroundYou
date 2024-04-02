@@ -94,7 +94,7 @@ struct FeedScreen: View {
             Posts(ofType: .active)
             
             if hasInactivePublication() {
-                Text("Old")
+                Text("Expired")
                     .font(.title3)
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
@@ -129,7 +129,7 @@ struct FeedScreen: View {
         }
     }
     
-    //MARK: - Auxiliary Method
+    //MARK: - Private Method
     
     private func startUpdatingTime() {
         feedVM.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in

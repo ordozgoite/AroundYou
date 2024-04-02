@@ -808,7 +808,6 @@
       }
     },
     "Expired" : {
-      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1164,6 +1163,7 @@
       }
     },
     "Old" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
