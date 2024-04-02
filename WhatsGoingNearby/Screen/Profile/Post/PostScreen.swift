@@ -14,7 +14,7 @@ struct PostScreen: View {
     private let maxCommentLength = 250
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @StateObject private var postVM = PostViewModel()
+    @StateObject private var postVM = IndepCommentViewModel()
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var commentIsFocused: Bool
     @Binding var location: CLLocation?

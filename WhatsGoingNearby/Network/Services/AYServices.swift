@@ -19,12 +19,13 @@ protocol AYServiceable {
     
     // Publication
     func postNewPublication(text: String, tag: String, imageUrl: String?, postDuration: Int, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError>
+    func editPublication(publicationId: String, text: String, tag: String, postDuration: Int, isLocationVisible: Bool, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError>
     func deletePublication(publicationId: String, token: String) async -> Result<DeletePublicationResponse, RequestError>
     func getAllPublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
     func getAllPublicationsByUser(token: String) async -> Result<[FormattedPost], RequestError>
     func getPublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<FormattedPost, RequestError>
-    func likePublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<LikePublicationResponse, RequestError>
-    func unlikePublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<UnlikePublicationResponse, RequestError>
+    func likePublication(publicationId: String, token: String) async -> Result<LikePublicationResponse, RequestError>
+    func unlikePublication(publicationId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError>
     func getPublicationLikes(publicationId: String, token: String) async -> Result<[UserProfile], RequestError>
     func checkNearByPublications(userUid: String, latitude: Double, longitude: Double) async -> Result<CheckNearByPublicationsResponse, RequestError>
     
@@ -107,6 +108,10 @@ struct AYServices: HTTPClient, AYServiceable {
         return await sendRequest(endpoint: AYEndpoints.postNewPublication(text: text, tag: tag, imageUrl: imageUrl, postDuration: postDuration, latitude: latitude, longitude: longitude, isLocationVisible: isLocationVisible, token: token), responseModel: Post.self)
     }
     
+    func editPublication(publicationId: String, text: String, tag: String, postDuration: Int, isLocationVisible: Bool, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.editPublication(publicationId: publicationId, text: text, tag: tag, postDuration: postDuration, isLocationVisible: isLocationVisible, latitude: latitude, longitude: longitude, token: token), responseModel: Post.self)
+    }
+    
     func deletePublication(publicationId: String, token: String) async -> Result<DeletePublicationResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.deletePublication(publicationId: publicationId, token: token), responseModel: DeletePublicationResponse.self)
     }
@@ -127,12 +132,12 @@ struct AYServices: HTTPClient, AYServiceable {
         return await sendRequest(endpoint: AYEndpoints.getPublication(publicationId: publicationId, latitude: latitude,longitude: longitude, token: token), responseModel: FormattedPost.self)
     }
     
-    func likePublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<LikePublicationResponse, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.likePublication(publicationId: publicationId, latitude: latitude, longitude: longitude, token: token), responseModel: LikePublicationResponse.self)
+    func likePublication(publicationId: String, token: String) async -> Result<LikePublicationResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.likePublication(publicationId: publicationId, token: token), responseModel: LikePublicationResponse.self)
     }
     
-    func unlikePublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<UnlikePublicationResponse, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.unlikePublication(publicationId: publicationId, latitude: latitude, longitude: longitude, token: token), responseModel: UnlikePublicationResponse.self)
+    func unlikePublication(publicationId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.unlikePublication(publicationId: publicationId, token: token), responseModel: UnlikePublicationResponse.self)
     }
     
     func getPublicationLikes(publicationId: String, token: String) async -> Result<[UserProfile], RequestError> {

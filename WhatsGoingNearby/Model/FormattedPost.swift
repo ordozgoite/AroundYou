@@ -33,6 +33,22 @@ struct FormattedPost: Identifiable, Codable {
     let isLocationVisible: Bool
     let tag: String?
     let imageUrl: String?
+    let isOwnerFarAway: Bool
+    let duration: Int
+    var postDuration: PostDuration {
+        switch duration {
+        case 1:
+            return .oneHour
+        case 2:
+            return .twoHours
+        case 3:
+            return .threeHours
+        case 4: 
+            return .fourHours
+        default:
+            return .fourHours
+        }
+    }
     var postTag: PostTag? {
         switch tag {
         case "chat":
@@ -67,11 +83,11 @@ struct FormattedPost: Identifiable, Codable {
         }
     }
     
+    var isExpired: Bool {
+        return expirationDate.timeIntervalSince1970InSeconds < getCurrentDateTimestamp()
+    }
+    
     var type: PostType {
-        if expirationDate.timeIntervalSince1970InSeconds > getCurrentDateTimestamp() {
-            return .active
-        } else {
-            return .inactive
-        }
+        return isExpired || isOwnerFarAway ? .inactive : .active
     }
 }
