@@ -20,15 +20,17 @@ class ChatListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var chatTimer: Timer?
+    @Published var isInitialChatsFetched: Bool = false
     
     func getChats(token: String) async {
-        isLoading = true
+        if !isInitialChatsFetched { isLoading = true }
         let result = await AYServices.shared.getChatsByUser(token: token)
-        isLoading = false
+        if !isInitialChatsFetched { isLoading = false }
         
         switch result {
         case .success(let chats):
             self.chats = chats
+            isInitialChatsFetched = true
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
