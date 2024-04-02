@@ -9,9 +9,9 @@ import Foundation
 import SwiftUI
 
 @MainActor
-class PostViewModel: ObservableObject {
+class IndepCommentViewModel: ObservableObject {
     
-    @Published var post: FormattedPost = FormattedPost(id: "", userUid: "", userProfilePic: nil, username: "", timestamp: 0, expirationDate: 0, text: "", likes: 0, didLike: false, comment: 0, latitude: nil, longitude: nil, distanceToMe: nil, isFromRecipientUser: false, isLocationVisible: false, tag: nil, imageUrl: nil, isSubscribed: false)
+    @Published var post: FormattedPost = FormattedPost(id: "", userUid: "", userProfilePic: nil, username: "", timestamp: 0, expirationDate: 0, text: "", likes: 0, didLike: false, comment: 0, latitude: nil, longitude: nil, distanceToMe: nil, isFromRecipientUser: false, isLocationVisible: false, tag: nil, imageUrl: nil, isOwnerFarAway: false, duration: 4, isSubscribed: false)
     
     @Published var comments: [FormattedComment] = []
     @Published var newCommentText: String = ""

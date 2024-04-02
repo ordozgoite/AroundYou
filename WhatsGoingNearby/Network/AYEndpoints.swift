@@ -12,8 +12,8 @@ enum AYEndpoints {
     case postNewPublication(text: String, tag: String, imageUrl: String?, postDuration: Int, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String)
     case getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String)
     case getUserInfo(userRegistrationToken: String?, preferredLanguage: String?, token: String)
-    case likePublication(publicationId: String, latitude: Double, longitude: Double, token: String)
-    case unlikePublication(publicationId: String, latitude: Double, longitude: Double, token: String)
+    case likePublication(publicationId: String, token: String)
+    case unlikePublication(publicationId: String, token: String)
     case getAllCommentsByPublication(publicationId: String, token: String)
     case postNewComment(comment: CommentDTO, latitude: Double, longitude: Double, token: String)
     case deleteComment(commentId: String, token: String)
@@ -47,6 +47,7 @@ enum AYEndpoints {
     case postNewMessage(chatId: String, text: String, repliedMessageId: String?, token: String)
     case getMessages(chatId: String, token: String)
     case deleteMessage(messageId: String, token: String)
+    case editPublication(publicationId: String, text: String, tag: String, postDuration: Int, isLocationVisible: Bool, latitude: Double, longitude: Double, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -133,6 +134,8 @@ extension AYEndpoints: Endpoint {
             return "/api/Message/GetMessages/\(chatId)"
         case .deleteMessage(let messageId, _):
             return "/api/Message/DeleteMessage/\(messageId)"
+        case .editPublication:
+            return "api/Publication/EditPublication"
         }
     }
     
@@ -140,7 +143,7 @@ extension AYEndpoints: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser, .likeComment, .unlikeComment, .deleteProfilePic, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification, .deleteUser, .postNewChat, .muteChat, .unmuteChat, .postNewMessage, .deleteMessage:
+        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser, .likeComment, .unlikeComment, .deleteProfilePic, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification, .deleteUser, .postNewChat, .muteChat, .unmuteChat, .postNewMessage, .deleteMessage, .editPublication:
             return .post
         case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .getPublication, .getUserNotifications, .getUserBanExpireDate, .getAllPublicationsNearBy, .getChatsByUser, .getMessages:
             return .get
@@ -187,18 +190,14 @@ extension AYEndpoints: Endpoint {
                 "longitude": longitude
             ]
             return params
-        case .likePublication(let publicationId, let latitude, let longitude, _):
+        case .likePublication(let publicationId, _):
             let params: [String: Any] = [
-                "publicationId": publicationId,
-                "latitude": latitude,
-                "longitude": longitude
+                "publicationId": publicationId
             ]
             return params
-        case .unlikePublication(let publicationId, let latitude, let longitude, _):
+        case .unlikePublication(let publicationId, _):
             let params: [String: Any] = [
-                "publicationId": publicationId,
-                "latitude": latitude,
-                "longitude": longitude
+                "publicationId": publicationId
             ]
             return params
         case .likeComment(let commentId, let latitude, let longitude, _):
@@ -224,7 +223,7 @@ extension AYEndpoints: Endpoint {
     
     var header: [String : String]? {
         switch self {
-        case .postNewPublication(_, _, _, _, _, _, _, let token), .getActivePublicationsNearBy(_, _, let token), .postNewUser(_, _, _, let token), .getUserInfo(_, _, let token), .likePublication(_, _, _, let token), .unlikePublication(_, _, _, let token), .getAllCommentsByPublication(_, let token), .postNewComment(_, _, _, let token), .deleteComment(_, let token), .deletePublication(_, let token), .getUserProfile(_, let token), .editProfile(_, let token), .getAllPublicationsByUser(let token), .postNewReport(_, let token), .postNewBugReport(_, let token), .blockUser(_, let token), .getBlockedUsers(let token), .unblockUser(_, let token), .likeComment(_, _, _, let token), .unlikeComment(_, _, _, let token), .getPublicationLikes(_, let token), .getCommentLikes(_, let token), .deleteProfilePic(let token), .getPublication(_, _, _, let token), .getUserNotifications(let token), .subscribeUserToPublication(_, let token), .unsubscribeUser(_, let token), .deleteNotification(_, let token), .deleteUser(let token), .getUserBanExpireDate(let token), .getAllPublicationsNearBy(_, _, let token), .postNewChat(_, let token), .getChatsByUser(let token), .muteChat(_, let token), .unmuteChat(_, let token), .postNewMessage(_, _, _, let token), .getMessages(_, let token), .deleteMessage(_, let token):
+        case .postNewPublication(_, _, _, _, _, _, _, let token), .getActivePublicationsNearBy(_, _, let token), .postNewUser(_, _, _, let token), .getUserInfo(_, _, let token), .likePublication(_, let token), .unlikePublication(_, let token), .getAllCommentsByPublication(_, let token), .postNewComment(_, _, _, let token), .deleteComment(_, let token), .deletePublication(_, let token), .getUserProfile(_, let token), .editProfile(_, let token), .getAllPublicationsByUser(let token), .postNewReport(_, let token), .postNewBugReport(_, let token), .blockUser(_, let token), .getBlockedUsers(let token), .unblockUser(_, let token), .likeComment(_, _, _, let token), .unlikeComment(_, _, _, let token), .getPublicationLikes(_, let token), .getCommentLikes(_, let token), .deleteProfilePic(let token), .getPublication(_, _, _, let token), .getUserNotifications(let token), .subscribeUserToPublication(_, let token), .unsubscribeUser(_, let token), .deleteNotification(_, let token), .deleteUser(let token), .getUserBanExpireDate(let token), .getAllPublicationsNearBy(_, _, let token), .postNewChat(_, let token), .getChatsByUser(let token), .muteChat(_, let token), .unmuteChat(_, let token), .postNewMessage(_, _, _, let token), .getMessages(_, let token), .deleteMessage(_, let token), .editPublication(_, _, _, _, _, _, _, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
@@ -311,6 +310,17 @@ extension AYEndpoints: Endpoint {
                 "text": text
             ]
             if let id = repliedMessageId { params["repliedMessageId"] = id }
+            return params
+        case .editPublication(let publicationId, let text, let tag, let postDuration, let isLocationVisible, let latitude, let longitude, _):
+            let  params: [String: Any] = [
+                "publicationId": publicationId,
+                "text": text,
+                "tag": tag,
+                "postDuration": postDuration,
+                "isLocationVisible": isLocationVisible,
+                "latitude": latitude,
+                "longitude": longitude
+            ]
             return params
         case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .deleteProfilePic, .getPublication, .getUserNotifications, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification, .deleteUser, .getUserBanExpireDate, .getAllPublicationsNearBy, .getChatsByUser, .muteChat, .unmuteChat, .getMessages, .deleteMessage:
             return nil

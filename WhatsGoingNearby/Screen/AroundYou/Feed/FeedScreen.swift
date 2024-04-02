@@ -94,7 +94,7 @@ struct FeedScreen: View {
             Posts(ofType: .active)
             
             if hasInactivePublication() {
-                Text("Expired")
+                Text("Old")
                     .font(.title3)
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)

@@ -10,7 +10,6 @@ import CoreLocation
 
 struct PostView: View {
     
-    @EnvironmentObject var authVM: AuthenticationViewModel
     @Binding var post: FormattedPost
     @Binding var location: CLLocation?
     let deletePost: () -> ()
@@ -22,6 +21,9 @@ struct PostView: View {
     @State private var isMapScreenPresented: Bool = false
     @State private var isLikeScreenDisplayed: Bool = false
     @State private var isFullScreenImageDisplayed: Bool = false
+    @State private var isEditPostScreenDisplayed: Bool = false
+    
+    @EnvironmentObject var authVM: AuthenticationViewModel
     
     var body: some View {
         VStack {
@@ -39,7 +41,7 @@ struct PostView: View {
                     
                     ImagePreview()
                     
-                    InteractionsView()
+                    Footer()
                 }
             }
             .opacity(post.type == .inactive ? 0.5 : 1)
@@ -47,31 +49,7 @@ struct PostView: View {
                 FullScreenPostImage(url: post.imageUrl ?? "")
             }
             
-            NavigationLink(
-                destination: ReportScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil).environmentObject(authVM),
-                isActive: $isReportScreenPresented,
-                label: { EmptyView() }
-            )
-            
-            if #available(iOS 17.0, *) {
-                NavigationLink(
-                    destination: NewPostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, username: post.username, profilePic: post.userProfilePic).environmentObject(authVM),
-                    isActive: $isMapScreenPresented,
-                    label: { EmptyView() }
-                )
-            } else {
-                NavigationLink(
-                    destination: PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0).environmentObject(authVM),
-                    isActive: $isMapScreenPresented,
-                    label: { EmptyView() }
-                )
-            }
-            
-            NavigationLink(
-                destination: LikeScreen(id: post.id, type: .publication).environmentObject(authVM),
-                isActive: $isLikeScreenDisplayed,
-                label: { EmptyView() }
-            )
+            Navigation()
         }
         
     }
@@ -120,68 +98,100 @@ struct PostView: View {
             Image(systemName: "ellipsis")
                 .foregroundStyle(.gray)
                 .popover(isPresented: $isOptionsPopoverDisplayed) {
-                    VStack {
-                        if post.isFromRecipientUser {
-                            Button(role: .destructive, action: {
-                                deletePost()
-                            }) {
-                                Text("Delete Post")
-                                Image(systemName: "trash")
-                            }
-                            .padding()
-                        }
-                        
-                        if !post.isFromRecipientUser {
-                            if post.isSubscribed {
-                                Button(action: {
-                                    isOptionsPopoverDisplayed = false
-                                    Task {
-                                        let token = try await authVM.getFirebaseToken()
-                                        await unfollowPost(token: token)
-                                    }
-                                }) {
-                                    Text("Disable notifications")
-                                        .foregroundStyle(.gray)
-                                    Image(systemName: "bell.slash.fill")
-                                        .foregroundStyle(.gray)
-                                }
-                                .padding()
-                            } else {
-                                Button(action: {
-                                    isOptionsPopoverDisplayed = false
-                                    Task {
-                                        let token = try await authVM.getFirebaseToken()
-                                        await followPost(token: token)
-                                    }
-                                }) {
-                                    Text("Enable notifications")
-                                        .foregroundStyle(.gray)
-                                    Image(systemName: "bell.and.waves.left.and.right")
-                                        .foregroundStyle(.gray)
-                                }
-                                .padding()
-                            }
-                            
-                            Divider()
-                            
-                            Button(action: {
-                                isOptionsPopoverDisplayed = false
-                                isReportScreenPresented = true
-                            }) {
-                                Text("Report Post")
-                                    .foregroundStyle(.gray)
-                                Image(systemName: "exclamationmark.bubble")
-                                    .foregroundStyle(.gray)
-                            }
-                            .padding()
-                        }
-                    }
-                    .presentationCompactAdaptation(.popover)
+                    Options()
                 }
                 .onTapGesture {
                     isOptionsPopoverDisplayed = true
                 }
         }
+    }
+    
+    //MARK: - Options
+    
+    @ViewBuilder
+    private func Options() -> some View {
+        VStack {
+            if post.isFromRecipientUser {
+                Button(role: .destructive, action: {
+                    deletePost()
+                }) {
+                    Text("Delete Post")
+                    Image(systemName: "trash")
+                }
+                .padding()
+                
+                if post.type == .active {
+                    Button {
+                        isOptionsPopoverDisplayed = false
+                        isEditPostScreenDisplayed = true
+                    } label: {
+                        Text("Edit Post")
+                        Image(systemName: "pencil")
+                    }
+                    .foregroundStyle(.gray)
+                    .padding(.horizontal)
+                    
+                    Button {
+                        // mark post as old
+                    } label: {
+                        Text("Mark as Old")
+                        Image(systemName: "clock.arrow.circlepath")
+                    }
+                    .foregroundStyle(.gray)
+                    .padding()
+                }
+            }
+            
+            if !post.isFromRecipientUser {
+                if post.isSubscribed {
+                    Button(action: {
+                        isOptionsPopoverDisplayed = false
+                        Task {
+                            let token = try await authVM.getFirebaseToken()
+                            if let isFollowing = await unfollowPost(postId: self.post.id, token: token) {
+                                self.post.isSubscribed = isFollowing
+                            }
+                        }
+                    }) {
+                        Text("Disable notifications")
+                            .foregroundStyle(.gray)
+                        Image(systemName: "bell.slash.fill")
+                            .foregroundStyle(.gray)
+                    }
+                    .padding()
+                } else {
+                    Button {
+                        isOptionsPopoverDisplayed = false
+                        Task {
+                            let token = try await authVM.getFirebaseToken()
+                            if let isFollowing = await followPost(postId: self.post.id, token: token) {
+                                self.post.isSubscribed = isFollowing
+                            }
+                        }
+                    } label: {
+                        Text("Enable notifications")
+                            .foregroundStyle(.gray)
+                        Image(systemName: "bell.and.waves.left.and.right")
+                            .foregroundStyle(.gray)
+                    }
+                    .padding()
+                }
+                
+                Divider()
+                
+                Button(action: {
+                    isOptionsPopoverDisplayed = false
+                    isReportScreenPresented = true
+                }) {
+                    Text("Report Post")
+                        .foregroundStyle(.gray)
+                    Image(systemName: "exclamationmark.bubble")
+                        .foregroundStyle(.gray)
+                }
+                .padding()
+            }
+        }
+        .presentationCompactAdaptation(.popover)
     }
     
     //MARK: - Tag
@@ -219,15 +229,15 @@ struct PostView: View {
                 .frame(width: 128)
                 .cornerRadius(8)
                 .onTapGesture {
-                    self.isFullScreenImageDisplayed = true
+                    isFullScreenImageDisplayed = true
                 }
         }
     }
     
-    //MARK: - Interactions
+    //MARK: - Footer
     
     @ViewBuilder
-    private func InteractionsView() -> some View {
+    private func Footer() -> some View {
         HStack(spacing: 32) {
             HStack {
                 HeartView(isLiked: $post.didLike) {
@@ -237,12 +247,12 @@ struct PostView: View {
                             if post.didLike {
                                 post.didLike = false
                                 post.likes -= 1
-                                await unlikePublication(publicationId: post.id, token: token)
+                                await unlikePublication(publicationId: post.id, token: token) { toggleFeedUpdate($0) }
                             } else {
                                 hapticFeedback()
                                 post.didLike = true
                                 post.likes += 1
-                                await likePublication(publicationId: post.id, token: token)
+                                await likePublication(publicationId: post.id, token: token) { toggleFeedUpdate($0) }
                             }
                         }
                     }
@@ -282,59 +292,46 @@ struct PostView: View {
         }
     }
     
+    //MARK: - Navigation
+    
+    @ViewBuilder
+    private func Navigation() -> some View {
+            NavigationLink(
+                destination: EditPostScreen(post: post, location: $location, refresh: {
+                    // refresh
+                }).environmentObject(authVM),
+                isActive: $isEditPostScreenDisplayed,
+                label: { EmptyView() }
+            )
+            
+            NavigationLink(
+                destination: ReportScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil).environmentObject(authVM),
+                isActive: $isReportScreenPresented,
+                label: { EmptyView() }
+            )
+            
+            if #available(iOS 17.0, *) {
+                NavigationLink(
+                    destination: NewPostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, username: post.username, profilePic: post.userProfilePic).environmentObject(authVM),
+                    isActive: $isMapScreenPresented,
+                    label: { EmptyView() }
+                )
+            } else {
+                NavigationLink(
+                    destination: PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0).environmentObject(authVM),
+                    isActive: $isMapScreenPresented,
+                    label: { EmptyView() }
+                )
+            }
+            
+            NavigationLink(
+                destination: LikeScreen(id: post.id, type: .publication).environmentObject(authVM),
+                isActive: $isLikeScreenDisplayed,
+                label: { EmptyView() }
+            )
+    }
+    
     //MARK: - Auxiliary Methods
-    
-    private func likePublication(publicationId: String, token: String) async {
-        toggleFeedUpdate(false)
-        if let latitude = location?.coordinate.latitude, let longitude = location?.coordinate.longitude {
-            let response = await AYServices.shared.likePublication(publicationId: publicationId, latitude: latitude, longitude: longitude, token: token)
-            toggleFeedUpdate(true)
-            
-            switch response {
-            case .success:
-                print("❤️ Publication liked!")
-            case .failure(let error):
-                print("❌ Error: \(error)")
-            }
-        }
-    }
-    
-    private func unlikePublication(publicationId: String, token: String) async {
-        toggleFeedUpdate(false)
-        if let latitude = location?.coordinate.latitude, let longitude = location?.coordinate.longitude {
-            let response = await AYServices.shared.unlikePublication(publicationId: publicationId, latitude: latitude, longitude: longitude, token: token)
-            toggleFeedUpdate(true)
-            
-            switch response {
-            case .success:
-                print("💔 Publication unliked!")
-            case .failure(let error):
-                print("❌ Error: \(error)")
-            }
-        }
-    }
-    
-    private func followPost(token: String) async {
-        let result = await AYServices.shared.subscribeUserToPublication(publicationId: self.post.id, token: token)
-        
-        switch result {
-        case .success:
-            post.isSubscribed = true
-        case .failure(let error):
-            print("❌ Error: \(error)")
-        }
-    }
-    
-    private func unfollowPost(token: String) async {
-        let result = await AYServices.shared.unsubscribeUser(publicationId: self.post.id, token: token)
-        
-        switch result {
-        case .success:
-            post.isSubscribed = false
-        case .failure(let error):
-            print("❌ Error: \(error)")
-        }
-    }
     
     private func getTimeLeftText() -> LocalizedStringKey {
         var timeLeft: Int
@@ -353,6 +350,54 @@ struct PostView: View {
             timeLeft = Int(timeLeftInSeconds / 3600)
             if timeLeft != 1 { pluralModifier = "s" }
             return LocalizedStringKey("\(timeLeft) hour\(pluralModifier) to expire")
+        }
+    }
+    
+    private func followPost(postId: String, token: String) async -> Bool? {
+        let result = await AYServices.shared.subscribeUserToPublication(publicationId: postId, token: token)
+        
+        switch result {
+        case .success:
+            return true
+        case .failure:
+            return nil
+        }
+    }
+    
+    private func unfollowPost(postId: String, token: String) async -> Bool? {
+        let result = await AYServices.shared.unsubscribeUser(publicationId: postId, token: token)
+        
+        switch result {
+        case .success:
+            return false
+        case .failure:
+            return nil
+        }
+    }
+    
+    private func likePublication(publicationId: String, token: String, toggleFeedUpdate: (Bool) -> ()) async {
+        toggleFeedUpdate(false)
+            let response = await AYServices.shared.likePublication(publicationId: publicationId, token: token)
+            toggleFeedUpdate(true)
+            
+            switch response {
+            case .success:
+                print("❤️ Publication liked!")
+            case .failure(let error):
+                print("❌ Error: \(error)")
+            }
+    }
+    
+    private func unlikePublication(publicationId: String, token: String, toggleFeedUpdate: (Bool) -> ()) async {
+        toggleFeedUpdate(false)
+        let response = await AYServices.shared.unlikePublication(publicationId: publicationId, token: token)
+        toggleFeedUpdate(true)
+        
+        switch response {
+        case .success:
+            print("💔 Publication unliked!")
+        case .failure(let error):
+            print("❌ Error: \(error)")
         }
     }
 }

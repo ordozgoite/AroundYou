@@ -537,7 +537,14 @@
       }
     },
     "Delete Message" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletar Mensagem"
+          }
+        }
+      }
     },
     "Delete Post" : {
       "localizations" : {
@@ -673,12 +680,28 @@
         }
       }
     },
+    "Edit" : {
+
+    },
     "Edit photo" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar foto"
+          }
+        }
+      }
+    },
+    "Edit post" : {
+
+    },
+    "Edit Post" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar Publicação"
           }
         }
       }
@@ -771,6 +794,7 @@
       }
     },
     "Expired" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1012,14 +1036,45 @@
         }
       }
     },
+    "Mark as Old" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marcar como Antigo"
+          }
+        }
+      }
+    },
     "Message" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mensagem"
+          }
+        }
+      }
     },
     "Messages" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mensagens"
+          }
+        }
+      }
     },
     "Mute Chat" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Silenciar Conversa"
+          }
+        }
+      }
     },
     "Name" : {
       "extractionState" : "stale",
@@ -1079,6 +1134,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
+          }
+        }
+      }
+    },
+    "Old" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Antigo"
           }
         }
       }
@@ -1367,7 +1432,14 @@
       }
     },
     "Reply Message" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Responder Mensagem"
+          }
+        }
+      }
     },
     "Replying to %@" : {
       "localizations" : {
@@ -1380,7 +1452,14 @@
       }
     },
     "Replying to:" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respondendo:"
+          }
+        }
+      }
     },
     "Report" : {
       "localizations" : {
@@ -1568,6 +1647,9 @@
         }
       }
     },
+    "Sorry, you're too far away to edit this post." : {
+
+    },
     "Temporary posts ⏳" : {
       "localizations" : {
         "pt-BR" : {
@@ -1713,7 +1795,14 @@
       }
     },
     "Unmute Chat" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reativar Conversa"
+          }
+        }
+      }
     },
     "Updating photo..." : {
       "localizations" : {
@@ -1786,7 +1875,14 @@
       }
     },
     "Write a message..." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escreva uma mensagem..."
+          }
+        }
+      }
     },
     "You are about to share your current location within your post. This means that anyone nearby will be able to see the place where you made the post. Are you sure you want to proceed?" : {
       "extractionState" : "stale",
