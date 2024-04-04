@@ -245,19 +245,17 @@ struct PostView: View {
         HStack(spacing: 32) {
             HStack {
                 HeartView(isLiked: $post.didLike) {
-                    if post.type == .active {
-                        Task {
-                            let token = try await authVM.getFirebaseToken()
-                            if post.didLike {
-                                post.didLike = false
-                                post.likes -= 1
-                                await unlikePublication(publicationId: post.id, token: token) { toggleFeedUpdate($0) }
-                            } else {
-                                hapticFeedback()
-                                post.didLike = true
-                                post.likes += 1
-                                await likePublication(publicationId: post.id, token: token) { toggleFeedUpdate($0) }
-                            }
+                    Task {
+                        let token = try await authVM.getFirebaseToken()
+                        if post.didLike {
+                            post.didLike = false
+                            post.likes -= 1
+                            await unlikePublication(publicationId: post.id, token: token) { toggleFeedUpdate($0) }
+                        } else {
+                            hapticFeedback()
+                            post.didLike = true
+                            post.likes += 1
+                            await likePublication(publicationId: post.id, token: token) { toggleFeedUpdate($0) }
                         }
                     }
                 }
@@ -300,39 +298,39 @@ struct PostView: View {
     
     @ViewBuilder
     private func Navigation() -> some View {
+        NavigationLink(
+            destination: EditPostScreen(post: post, location: $location, refresh: {
+                // refresh
+            }).environmentObject(authVM),
+            isActive: $isEditPostScreenDisplayed,
+            label: { EmptyView() }
+        )
+        
+        NavigationLink(
+            destination: ReportScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil).environmentObject(authVM),
+            isActive: $isReportScreenPresented,
+            label: { EmptyView() }
+        )
+        
+        if #available(iOS 17.0, *) {
             NavigationLink(
-                destination: EditPostScreen(post: post, location: $location, refresh: {
-                    // refresh
-                }).environmentObject(authVM),
-                isActive: $isEditPostScreenDisplayed,
+                destination: NewPostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, username: post.username, profilePic: post.userProfilePic).environmentObject(authVM),
+                isActive: $isMapScreenPresented,
                 label: { EmptyView() }
             )
-            
+        } else {
             NavigationLink(
-                destination: ReportScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil).environmentObject(authVM),
-                isActive: $isReportScreenPresented,
+                destination: PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0).environmentObject(authVM),
+                isActive: $isMapScreenPresented,
                 label: { EmptyView() }
             )
-            
-            if #available(iOS 17.0, *) {
-                NavigationLink(
-                    destination: NewPostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, username: post.username, profilePic: post.userProfilePic).environmentObject(authVM),
-                    isActive: $isMapScreenPresented,
-                    label: { EmptyView() }
-                )
-            } else {
-                NavigationLink(
-                    destination: PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0).environmentObject(authVM),
-                    isActive: $isMapScreenPresented,
-                    label: { EmptyView() }
-                )
-            }
-            
-            NavigationLink(
-                destination: LikeScreen(id: post.id, type: .publication).environmentObject(authVM),
-                isActive: $isLikeScreenDisplayed,
-                label: { EmptyView() }
-            )
+        }
+        
+        NavigationLink(
+            destination: LikeScreen(id: post.id, type: .publication).environmentObject(authVM),
+            isActive: $isLikeScreenDisplayed,
+            label: { EmptyView() }
+        )
     }
     
     //MARK: - Auxiliary Methods
@@ -381,8 +379,8 @@ struct PostView: View {
     
     private func likePublication(publicationId: String, token: String, toggleFeedUpdate: (Bool) -> ()) async {
         toggleFeedUpdate(false)
-            _ = await AYServices.shared.likePublication(publicationId: publicationId, token: token)
-            toggleFeedUpdate(true)
+        _ = await AYServices.shared.likePublication(publicationId: publicationId, token: token)
+        toggleFeedUpdate(true)
     }
     
     private func unlikePublication(publicationId: String, token: String, toggleFeedUpdate: (Bool) -> ()) async {
