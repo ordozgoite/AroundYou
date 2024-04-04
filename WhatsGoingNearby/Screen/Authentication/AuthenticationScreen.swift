@@ -83,16 +83,16 @@ struct AuthenticationScreen: View {
     @ViewBuilder
     private func LogoView() -> some View {
         VStack {
-            Image(systemName: "location.circle")
+            Image("logo")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(height: 100)
+                .frame(height: 128)
                 .foregroundStyle(.blue)
             
-            Text("Around You")
-                .foregroundStyle(.blue)
-                .font(.largeTitle)
-                .fontWeight(.bold)
+//            Text("Around You")
+//                .foregroundStyle(.blue)
+//                .font(.largeTitle)
+//                .fontWeight(.bold)
         }
         .padding()
     }

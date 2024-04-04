@@ -21,6 +21,12 @@ struct AYTextField: View {
                 
                 TextInput()
             }
+            .padding(.horizontal, 4)
+            .padding(.vertical, 10)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.gray, lineWidth: 1)
+            )
             
             Error()
         }
@@ -44,10 +50,10 @@ struct AYTextField: View {
             TextField(title, text: $inputText)
                 .textInputAutocapitalization(.never)
             
-            Rectangle()
-                .fill(.gray)
-                .frame(height: 2)
-                .opacity(0.5)
+//            Rectangle()
+//                .fill(.gray)
+//                .frame(height: 2)
+//                .opacity(0.5)
         }
     }
     

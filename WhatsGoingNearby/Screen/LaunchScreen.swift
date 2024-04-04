@@ -15,10 +15,9 @@ struct LaunchScreen: View {
     var body: some View {
         VStack {
             if displayLaunchScreen {
-                Image(systemName: "location.circle")
+                Image("logo")
                     .resizable()
                     .frame(width: 128, height: 128)
-                    .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.red, .blue]), startPoint: .topLeading, endPoint: .bottomTrailing))
             } else {
                 AuthenticatedScreen()
                     .environmentObject(authVM)

@@ -12,6 +12,12 @@
             "state" : "translated",
             "value" : " seu(sua)"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " seu(sua)"
+          }
         }
       }
     },
@@ -22,12 +28,24 @@
             "state" : "translated",
             "value" : " seu comentário"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " seu comentário"
+          }
         }
       }
     },
     " your publication" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " sua publicação"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : " sua publicação"
@@ -62,6 +80,12 @@
             "state" : "translated",
             "value" : "%1$@ seu %2$@"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ seu %2$@"
+          }
         }
       }
     },
@@ -75,6 +99,12 @@
           }
         },
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld %2$@%3$@ para expirar"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$lld %2$@%3$@ para expirar"
@@ -95,6 +125,12 @@
             "state" : "translated",
             "value" : "%1$lld hora%2$@ para expirar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld hora%2$@ para expirar"
+          }
         }
       }
     },
@@ -111,6 +147,12 @@
             "state" : "translated",
             "value" : "%1$lld minuto%2$@ para expirar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld minuto%2$@ para expirar"
+          }
         }
       }
     },
@@ -123,6 +165,12 @@
           }
         },
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld segundo%2$@ para expirar"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$lld segundo%2$@ para expirar"
@@ -158,12 +206,24 @@
             "state" : "translated",
             "value" : "1 hora"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 hora"
+          }
         }
       }
     },
     "2 hours" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2 horas"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "2 horas"
@@ -178,12 +238,24 @@
             "state" : "translated",
             "value" : "3 horas"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3 horas"
+          }
         }
       }
     },
     "4 hours" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 horas"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "4 horas"
@@ -198,12 +270,24 @@
             "state" : "translated",
             "value" : "Deletar Conta"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletar Conta"
+          }
         }
       }
     },
     "Actives" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativos"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ativos"
@@ -218,12 +302,24 @@
             "state" : "translated",
             "value" : "Adicione um comentário..."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione um comentário..."
+          }
         }
       }
     },
     "Add a reply..." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione uma resposta..."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Adicione uma resposta..."
@@ -238,6 +334,12 @@
             "state" : "translated",
             "value" : "Todos"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos"
+          }
         }
       }
     },
@@ -248,12 +350,24 @@
             "state" : "translated",
             "value" : "Permitir que 'AroundYou' exibida sua localização no mapa?"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permitir que 'AroundYou' exibida sua localização no mapa?"
+          }
         }
       }
     },
     "Allow Once" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permitir Uma Vez"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Permitir Uma Vez"
@@ -278,6 +392,22 @@
     "Around You 🌐" : {
 
     },
+    "AroundYou displays posts to everybody within a **1km radius**, enabling interaction for making friends, asking for help, and getting information about places and events around you." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O AroundYou mostra publicações para todos em um raio de **1km**, permitindo interação para fazer amigos, pedir ajuda e obter informações sobre lugares e eventos ao seu redor."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O AroundYou mostra publicações para todos em um raio de **1km**, permitindo interação para fazer amigos, pedir ajuda e obter informações sobre lugares e eventos ao seu redor."
+          }
+        }
+      }
+    },
     "AroundYou uses your location to show posts only to those nearby, ensuring that you connect with people and events in your immediate vicinity." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -290,6 +420,7 @@
       }
     },
     "AroundYou uses your location, displaying posts exclusively to those within a **1km radius**, ensuring you connect with nearby people and events." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -306,6 +437,12 @@
             "state" : "translated",
             "value" : "Pedindo informação"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pedindo informação"
+          }
         }
       }
     },
@@ -313,6 +450,12 @@
       "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autenticando..."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Autenticando..."
@@ -327,12 +470,24 @@
             "state" : "translated",
             "value" : "Autenticando..."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autenticando..."
+          }
         }
       }
     },
     "Be the first to make a post in your region..." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seja o primeiro a fazer uma publicação  na sua região..."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seja o primeiro a fazer uma publicação  na sua região..."
@@ -347,12 +502,24 @@
             "state" : "translated",
             "value" : "Biografia"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biografia"
+          }
         }
       }
     },
     "Block" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloquear"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bloquear"
@@ -367,12 +534,24 @@
             "state" : "translated",
             "value" : "Bloquear Usuário"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloquear Usuário"
+          }
         }
       }
     },
     "Blocked Users" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuários bloqueados"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Usuários bloqueados"
@@ -387,12 +566,24 @@
             "state" : "translated",
             "value" : "Ao registrar-se, você aceita nossos [Termos de Uso](https://aroundyou3.wordpress.com/termos-de-uso/) e [Política de Privacidade](https://aroundyou3.wordpress.com/politica-de-privacidade/)."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao registrar-se, você aceita nossos [Termos de Uso](https://aroundyou3.wordpress.com/termos-de-uso/) e [Política de Privacidade](https://aroundyou3.wordpress.com/politica-de-privacidade/)."
+          }
         }
       }
     },
     "Calculate Distance" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calcular Distância"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Calcular Distância"
@@ -407,12 +598,24 @@
             "state" : "translated",
             "value" : "Cancelar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar"
+          }
         }
       }
     },
     "Chatting" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batendo papo"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Batendo papo"
@@ -438,6 +641,12 @@
             "state" : "translated",
             "value" : "Escolha um nome de usuário..."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha um nome de usuário..."
+          }
         }
       }
     },
@@ -445,6 +654,12 @@
       "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comentar essa publicação"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Comentar essa publicação"
@@ -459,6 +674,12 @@
             "state" : "translated",
             "value" : "comentou"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "comentou"
+          }
         }
       }
     },
@@ -469,12 +690,24 @@
             "state" : "translated",
             "value" : "Comentários"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comentários"
+          }
         }
       }
     },
     "Confirm" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirmar"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Confirmar"
@@ -490,12 +723,24 @@
             "state" : "translated",
             "value" : "Confirmar senha"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirmar senha"
+          }
         }
       }
     },
     "Create new post" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Criar nova publicação"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Criar nova publicação"
@@ -513,12 +758,24 @@
             "state" : "translated",
             "value" : "Deletar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletar"
+          }
         }
       }
     },
     "Delete Account" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletar Conta"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deletar Conta"
@@ -533,12 +790,24 @@
             "state" : "translated",
             "value" : "Deletar Comentário"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletar Comentário"
+          }
         }
       }
     },
     "Delete Message" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletar Mensagem"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deletar Mensagem"
@@ -553,12 +822,24 @@
             "state" : "translated",
             "value" : "Deletar Publicação"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletar Publicação"
+          }
         }
       }
     },
     "Deleting your account is permanent. Are you sure you want to proceed?." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletar sua conta é uma ação permanente. Tem certeza que deseja prosseguir?"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deletar sua conta é uma ação permanente. Tem certeza que deseja prosseguir?"
@@ -573,12 +854,24 @@
             "state" : "translated",
             "value" : "Descreva o erro que você encontrou..."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descreva o erro que você encontrou..."
+          }
         }
       }
     },
     "Describe what happened..." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descreva o que aconteceu..."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Descreva o que aconteceu..."
@@ -593,12 +886,24 @@
             "state" : "translated",
             "value" : "Desativar notificações"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desativar notificações"
+          }
         }
       }
     },
     "Discard" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descartar"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Descartar"
@@ -613,10 +918,33 @@
             "state" : "translated",
             "value" : "Descartar mudanças?"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descartar mudanças?"
+          }
+        }
+      }
+    },
+    "Discover endless features with AroundYou! Meet new people or reconnect with old friends, search for local information, ask for and offer help, and explore nearby events - all at your fingertips." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descubra recursos infinitos com AroundYou! Conheça novas pessoas ou encontre velhos amigos, pesquise informações locais, peça ajuda e explore eventos próximos, tudo ao seu alcance."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descubra recursos infinitos com AroundYou! Conheça novas pessoas ou encontre velhos amigos, pesquise informações locais, peça ajuda e explore eventos próximos, tudo ao seu alcance."
+          }
         }
       }
     },
     "Discover endless possibilities with AroundYou! Meet new people, seek local information, and explore nearby events—all at your fingertips." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -633,6 +961,12 @@
             "state" : "translated",
             "value" : "Distância: %@ metros"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distância: %@ metros"
+          }
         }
       }
     },
@@ -643,12 +977,24 @@
             "state" : "translated",
             "value" : "Não Permitir"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não Permitir"
+          }
         }
       }
     },
     "Done" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pronto"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pronto"
@@ -677,12 +1023,24 @@
             "state" : "translated",
             "value" : "E-mail enviado! 📩"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-mail enviado! 📩"
+          }
         }
       }
     },
     "Edit" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar"
@@ -697,12 +1055,24 @@
             "state" : "translated",
             "value" : "Editar foto"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar foto"
+          }
         }
       }
     },
     "Edit post" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar Publicação"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar Publicação"
@@ -717,6 +1087,12 @@
             "state" : "translated",
             "value" : "Editar Publicação"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar Publicação"
+          }
         }
       }
     },
@@ -727,12 +1103,24 @@
             "state" : "translated",
             "value" : "Editar perfil"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar perfil"
+          }
         }
       }
     },
     "Enable Location Service" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativar Serviço de Localização"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ativar Serviço de Localização"
@@ -758,6 +1146,12 @@
             "state" : "translated",
             "value" : "Ativar notificações"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativar notificações"
+          }
         }
       }
     },
@@ -768,12 +1162,24 @@
             "state" : "translated",
             "value" : "Ativar Localização Precisa"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativar Localização Precisa"
+          }
         }
       }
     },
     "Enter" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entrar"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entrar"
@@ -794,12 +1200,24 @@
             "state" : "translated",
             "value" : "Erro"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro"
+          }
         }
       }
     },
     "Error trying to select photo." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao tentar selecionar uma foto."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erro ao tentar selecionar uma foto."
@@ -814,6 +1232,12 @@
             "state" : "translated",
             "value" : "Expirado"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expirado"
+          }
         }
       }
     },
@@ -824,12 +1248,24 @@
             "state" : "translated",
             "value" : "Finalizar Publicação"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalizar Publicação"
+          }
         }
       }
     },
     "First Location" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primeira Localização"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Primeira Localização"
@@ -866,12 +1302,24 @@
             "state" : "translated",
             "value" : "Lembre-se que deletar sua conta é uma ação irreversível."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lembre-se que deletar sua conta é uma ação irreversível."
+          }
         }
       }
     },
     "Forgot your password?" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esqueceu sua senha?"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Esqueceu sua senha?"
@@ -886,12 +1334,24 @@
             "state" : "translated",
             "value" : "Nome completo"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome completo"
+          }
         }
       }
     },
     "Help" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuda"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajuda"
@@ -906,12 +1366,24 @@
             "state" : "translated",
             "value" : "Nos ajude a aprimorar o app que amamos! Se você encontrar qualquer erro, nos conte o que aconteceu."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nos ajude a aprimorar o app que amamos! Se você encontrar qualquer erro, nos conte o que aconteceu."
+          }
         }
       }
     },
     "Hide location" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esconder localização"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Esconder localização"
@@ -937,12 +1409,40 @@
             "state" : "translated",
             "value" : "Se você sair dessa tela, você vai perder suas mudanças."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se você sair dessa tela, você vai perder suas mudanças."
+          }
+        }
+      }
+    },
+    "In posts, users indicate the time they will remain in the location and associate it with an appropriate tag. Other users will be able to comment on the post or ask private questions via chat." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nas publicações, o usuário indica o tempo que permanecerá no local e associa a uma tag apropriada. Outros usuários poderão comentar a publicação ou tirar dúvidas privadas pelo chat."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nas publicações, o usuário indica o tempo que permanecerá no local e associa a uma tag apropriada. Outros usuários poderão comentar a publicação ou tirar dúvidas privadas pelo chat."
+          }
         }
       }
     },
     "Inactives" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inativos"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inativos"
@@ -957,6 +1457,12 @@
             "state" : "translated",
             "value" : "Interaja com pessoas 🌐"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interaja com pessoas 🌐"
+          }
         }
       }
     },
@@ -965,12 +1471,21 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Só de boas"
+            "value" : "Relaxando"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relaxando"
           }
         }
       }
     },
     "Key" : {
+      "extractionState" : "manual"
+    },
+    "Key 1" : {
       "extractionState" : "manual"
     },
     "Latitude" : {
@@ -993,6 +1508,12 @@
             "state" : "translated",
             "value" : "curtiu"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "curtiu"
+          }
         }
       }
     },
@@ -1003,12 +1524,24 @@
             "state" : "translated",
             "value" : "Curtidas"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Curtidas"
+          }
         }
       }
     },
     "Location 📍" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Localização 📍"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Localização 📍"
@@ -1036,6 +1569,12 @@
             "state" : "translated",
             "value" : "Procurando ao redor de você..."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Procurando ao redor de você..."
+          }
         }
       }
     },
@@ -1046,12 +1585,24 @@
             "state" : "translated",
             "value" : "Pedindo ajuda"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pedindo ajuda"
+          }
         }
       }
     },
     "Map" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mapa"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mapa"
@@ -1077,6 +1628,12 @@
             "state" : "translated",
             "value" : "Mensagem"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mensagem"
+          }
         }
       }
     },
@@ -1087,12 +1644,24 @@
             "state" : "translated",
             "value" : "Mensagens"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mensagens"
+          }
         }
       }
     },
     "Mute Chat" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Silenciar Conversa"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Silenciar Conversa"
@@ -1118,12 +1687,24 @@
             "state" : "translated",
             "value" : "Ninguém curtiu essa publicação ainda."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ninguém curtiu essa publicação ainda."
+          }
         }
       }
     },
     "No posts found." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma publicação encontrada."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nenhuma publicação encontrada."
@@ -1139,12 +1720,24 @@
             "state" : "translated",
             "value" : "Não se preocupe, estamos sempre olhando ao redor de você..."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não se preocupe, estamos sempre olhando ao redor de você..."
+          }
         }
       }
     },
     "Notifications" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notificações"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notificações"
@@ -1191,12 +1784,24 @@
             "state" : "translated",
             "value" : "Oops! Parece que algo deu errado. Tente novamente mais tarde."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oops! Parece que algo deu errado. Tente novamente mais tarde."
+          }
         }
       }
     },
     "or" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ou"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "ou"
@@ -1211,6 +1816,12 @@
             "state" : "translated",
             "value" : "senha"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "senha"
+          }
         }
       }
     },
@@ -1221,12 +1832,24 @@
             "state" : "translated",
             "value" : "Senha"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Senha"
+          }
         }
       }
     },
     "Please check your inbox." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por favor verifique sua caixa de entrada "
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Por favor verifique sua caixa de entrada "
@@ -1252,6 +1875,12 @@
             "state" : "translated",
             "value" : "Por favor insira seu email."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por favor insira seu email."
+          }
         }
       }
     },
@@ -1273,12 +1902,24 @@
             "state" : "translated",
             "value" : "Por favor insira sua senha."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por favor insira sua senha."
+          }
         }
       }
     },
     "Please enter your username." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por favor insira seu nome de usuário."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Por favor insira seu nome de usuário."
@@ -1294,12 +1935,24 @@
             "state" : "translated",
             "value" : "Publicar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publicar"
+          }
         }
       }
     },
     "Post Location" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Localização"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Localização"
@@ -1314,10 +1967,17 @@
             "state" : "translated",
             "value" : "Publicação ficará ativa por:"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publicação ficará ativa por:"
+          }
         }
       }
     },
     "Posts on AroundYou remain active for just **8 hours**, ensuring you discover timely and relevant information effortlessly." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1345,12 +2005,24 @@
             "state" : "translated",
             "value" : "imprimir localização"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "imprimir localização"
+          }
         }
       }
     },
     "Privacy" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacidade"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Privacidade"
@@ -1365,6 +2037,12 @@
             "state" : "translated",
             "value" : "Perfil"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perfil"
+          }
         }
       }
     },
@@ -1372,6 +2050,12 @@
       "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "publicação"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "publicação"
@@ -1393,12 +2077,24 @@
             "state" : "translated",
             "value" : "Publicação"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publicação"
+          }
         }
       }
     },
     "Recover Password" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recuperar Senha"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recuperar Senha"
@@ -1413,12 +2109,24 @@
             "state" : "translated",
             "value" : "Registrar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar"
+          }
         }
       }
     },
     "Remove photo" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover foto"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Remover foto"
@@ -1433,12 +2141,24 @@
             "state" : "translated",
             "value" : "Removendo foto..."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removendo foto..."
+          }
         }
       }
     },
     "replied" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "respondeu"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "respondeu"
@@ -1453,12 +2173,24 @@
             "state" : "translated",
             "value" : "Responder"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Responder"
+          }
         }
       }
     },
     "Reply Message" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Responder Mensagem"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Responder Mensagem"
@@ -1473,12 +2205,24 @@
             "state" : "translated",
             "value" : "Respondendo %@"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respondendo %@"
+          }
         }
       }
     },
     "Replying to:" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respondendo:"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Respondendo:"
@@ -1493,12 +2237,24 @@
             "state" : "translated",
             "value" : "Reportar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reportar"
+          }
         }
       }
     },
     "Report Account" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denunciar Conta"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Denunciar Conta"
@@ -1513,12 +2269,24 @@
             "state" : "translated",
             "value" : "Reportar Bug"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reportar Bug"
+          }
         }
       }
     },
     "Report Comment" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denunciar Comentário"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Denunciar Comentário"
@@ -1533,12 +2301,24 @@
             "state" : "translated",
             "value" : "Denunciar Publicação"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denunciar Publicação"
+          }
         }
       }
     },
     "Reporting..." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reportando..."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reportando..."
@@ -1556,12 +2336,24 @@
             "state" : "translated",
             "value" : "Segunda Localização"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Segunda Localização"
+          }
         }
       }
     },
     "Seeking Hangout" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscando companhia"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Buscando companhia"
@@ -1576,12 +2368,24 @@
             "state" : "translated",
             "value" : "Enviar Email"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar Email"
+          }
         }
       }
     },
     "Settings" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajustes"
@@ -1607,12 +2411,24 @@
             "state" : "translated",
             "value" : "Compartilhando notícias"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartilhando notícias"
+          }
         }
       }
     },
     "Show location" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar localização"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar localização"
@@ -1649,12 +2465,24 @@
             "state" : "translated",
             "value" : "Sair"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sair"
+          }
         }
       }
     },
     "Sorry, you have reached the maximum allowed number of active publications." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desculpe, você atingiu o limite máximo de publicações ativas simultâneas. "
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desculpe, você atingiu o limite máximo de publicações ativas simultâneas. "
@@ -1669,12 +2497,24 @@
             "state" : "translated",
             "value" : "Desculpe, você está longe demais para comentar nessa publicação."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desculpe, você está longe demais para comentar nessa publicação."
+          }
         }
       }
     },
     "Sorry, you're too far away to edit this post." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desculpe, você está longe demais para editar essa publicação."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desculpe, você está longe demais para editar essa publicação."
@@ -1689,6 +2529,12 @@
             "state" : "translated",
             "value" : "Publicações temporárias ⏳"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publicações temporárias ⏳"
+          }
         }
       }
     },
@@ -1699,12 +2545,24 @@
             "state" : "translated",
             "value" : "Assim que as pessoas te veem."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assim que as pessoas te veem."
+          }
         }
       }
     },
     "The **location service** is disabled. Please enable it to unlock the full functionality of AroundYou." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O **acesso à localização** está desativado. Por favor, ative-o para desbloquear todas as funcionalidades de AroundYou."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "O **acesso à localização** está desativado. Por favor, ative-o para desbloquear todas as funcionalidades de AroundYou."
@@ -1730,12 +2588,24 @@
             "state" : "translated",
             "value" : "A **localização precisa** está desativada. Por favor, ative-a para desbloquear todas as funcionalidades de AroundYou."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A **localização precisa** está desativada. Por favor, ative-a para desbloquear todas as funcionalidades de AroundYou."
+          }
         }
       }
     },
     "The username you have chosen contains invalid characters. Please try another." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O nome de usuário que você escolheu contém caracteres inválidos. Por favor tente outro."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "O nome de usuário que você escolheu contém caracteres inválidos. Por favor tente outro."
@@ -1761,12 +2631,24 @@
             "state" : "translated",
             "value" : "Esse usuário não vai mais poder ver suas publicações e perfil, e você não vai mais poder ver as publicações e o perfil desse usuário."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esse usuário não vai mais poder ver suas publicações e perfil, e você não vai mais poder ver as publicações e o perfil desse usuário."
+          }
         }
       }
     },
     "This user will not be able to see your posts and profile, and you will not be able to see this user's posts and profile." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esse usuário não vai mais poder ver suas publicações e perfil, e você não vai mais poder ver as publicações e o perfil desse usuário."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Esse usuário não vai mais poder ver suas publicações e perfil, e você não vai mais poder ver as publicações e o perfil desse usuário."
@@ -1781,6 +2663,12 @@
             "state" : "translated",
             "value" : "Esse nome de usuário está indisponível. Por favor tente outro."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esse nome de usuário está indisponível. Por favor tente outro."
+          }
         }
       }
     },
@@ -1791,12 +2679,24 @@
             "state" : "translated",
             "value" : "Desbloquear"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear"
+          }
         }
       }
     },
     "Unblock User" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear Usuário"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desbloquear Usuário"
@@ -1812,6 +2712,12 @@
             "state" : "translated",
             "value" : "Deixar de seguir publicação"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixar de seguir publicação"
+          }
         }
       }
     },
@@ -1819,6 +2725,12 @@
       "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixando de seguir publicação"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deixando de seguir publicação"
@@ -1833,12 +2745,24 @@
             "state" : "translated",
             "value" : "Reativar Conversa"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reativar Conversa"
+          }
         }
       }
     },
     "Updating photo..." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atualizando foto..."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atualizando foto..."
@@ -1853,6 +2777,12 @@
             "state" : "translated",
             "value" : "Nome de usuário"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome de usuário"
+          }
         }
       }
     },
@@ -1863,12 +2793,56 @@
             "state" : "translated",
             "value" : "Versão %@"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versão %@"
+          }
+        }
+      }
+    },
+    "Wanna buy" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quero comprar"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quero comprar"
+          }
+        }
+      }
+    },
+    "Wanna eat" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quero comer"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quero comer"
+          }
         }
       }
     },
     "We couldn't access your location. Please make sure to allow access in your device's settings." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível ter acesso à sua localização. Certifique-se de permitir acesso nos ajustes de seu dispositivo."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Não foi possível ter acesso à sua localização. Certifique-se de permitir acesso nos ajustes de seu dispositivo."
@@ -1883,12 +2857,24 @@
             "state" : "translated",
             "value" : "Nós usamos sua localização para saber o que está rolando ao redor de você."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nós usamos sua localização para saber o que está rolando ao redor de você."
+          }
         }
       }
     },
     "What type of issue are you reporting?" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Que tipo de problema você está reportando?"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Que tipo de problema você está reportando?"
@@ -1903,12 +2889,24 @@
             "state" : "translated",
             "value" : "O que está rolando por aí?"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que está rolando por aí?"
+          }
         }
       }
     },
     "Write a message..." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escreva uma mensagem..."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escreva uma mensagem..."
@@ -1934,6 +2932,12 @@
             "state" : "translated",
             "value" : "Você não pode ver o histórico de publicação das outras pessoas."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você não pode ver o histórico de publicação das outras pessoas."
+          }
         }
       }
     },
@@ -1944,12 +2948,24 @@
             "state" : "translated",
             "value" : "Você não tem nenhuma notificação."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você não tem nenhuma notificação."
+          }
         }
       }
     },
     "You haven't blocked any users." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você não bloqueou nenhum usuário."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você não bloqueou nenhum usuário."
@@ -1976,6 +2992,12 @@
             "state" : "translated",
             "value" : "Sua **localização precisa** está desativada. Por favor, ative-a para desbloquear todas as funcionalidades de AroundYou."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua **localização precisa** está desativada. Por favor, ative-a para desbloquear todas as funcionalidades de AroundYou."
+          }
         }
       }
     },
@@ -1986,12 +3008,24 @@
             "state" : "translated",
             "value" : "Sua conta foi permanentemente banida."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua conta foi permanentemente banida."
+          }
         }
       }
     },
     "Your account has been temporarily banned until %@" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua conta foi temporariamente banida até %@"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sua conta foi temporariamente banida até %@"
@@ -2017,12 +3051,24 @@
             "state" : "translated",
             "value" : "Sua opinião nos ajuda a melhorar a experiência do app para todos."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua opinião nos ajuda a melhorar a experiência do app para todos."
+          }
         }
       }
     },
     "Your location:" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua localização:"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sua localização:"
@@ -2038,6 +3084,12 @@
             "state" : "translated",
             "value" : "Suas senhas não correspondem."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suas senhas não correspondem."
+          }
         }
       }
     },
@@ -2048,12 +3100,24 @@
             "state" : "translated",
             "value" : "Sua localização precisa será usada para exibir no mapa onde você fez essa publicação."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua localização precisa será usada para exibir no mapa onde você fez essa publicação."
+          }
         }
       }
     },
     "Your profile was successfully updated." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu perfil foi atualizado com sucesso."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seu perfil foi atualizado com sucesso."

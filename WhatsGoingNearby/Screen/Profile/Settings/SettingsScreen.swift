@@ -80,11 +80,11 @@ struct SettingsScreen: View {
                         VStack {
                             HStack {
                                 Spacer()
-                                Image(systemName: "location.circle")
+                                Image("black-logo")
                                     .resizable()
                                     .scaledToFill()
-                                    .foregroundStyle(.gray)
                                     .frame(width: 64, height: 64)
+                                    .opacity(0.5)
                                 Spacer()
                             }
                             
@@ -104,7 +104,7 @@ struct SettingsScreen: View {
                     message: Text("Deleting your account is permanent. Are you sure you want to proceed?."),
                     primaryButton: .destructive(Text("Delete")) {
                         Task {
-                            let response = await authVM.deleteAccount()
+                            _ = await authVM.deleteAccount()
                         }
                     },
                     secondaryButton: .cancel(Text("Cancel")) {}

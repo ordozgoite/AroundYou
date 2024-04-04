@@ -15,38 +15,48 @@ enum PostTag: String, CaseIterable, Decodable {
     case hangout
     case news
     case chilling
+    case eat
+    case buy
     
     var title: LocalizedStringKey {
-        switch self {
+        return switch self {
         case .help:
-            return "Looking for help"
+             "Looking for help"
         case .info:
-            return "Asking for information"
+            "Asking for information"
         case .chat:
-            return "Chatting"
+            "Chatting"
         case .hangout:
-            return "Seeking Hangout"
+            "Seeking Hangout"
         case .news:
-            return "Sharing news"
+            "Sharing news"
         case .chilling:
-            return "Just chilling"
+            "Just chilling"
+        case .eat:
+            "Wanna eat"
+        case .buy:
+            "Wanna buy"
         }
     }
     
     var iconName: String {
-        switch self {
+        return switch self {
         case .help:
-            return "hand.raised"
+            "hand.raised"
         case .info:
-            return "questionmark.bubble"
+            "questionmark.bubble"
         case .chat:
-            return "bubble.left.and.bubble.right"
+            "bubble.left.and.bubble.right"
         case .hangout:
-            return "party.popper"
+            "party.popper"
         case .news:
-            return "megaphone"
+            "megaphone"
         case .chilling:
-            return "face.smiling"
+            "face.smiling"
+        case .eat:
+            "fork.knife"
+        case .buy:
+            "cart"
         }
     }
 }

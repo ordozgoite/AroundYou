@@ -26,6 +26,12 @@ struct AYSecureTextField: View {
                     SecureButton()
                 }
             }
+            .padding(.horizontal, 4)
+            .padding(.vertical, 10)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.gray, lineWidth: 1)
+            )
             
             Error()
         }
@@ -54,10 +60,10 @@ struct AYSecureTextField: View {
                     .textInputAutocapitalization(.never)
             }
             
-            Rectangle()
-                .fill(.gray)
-                .frame(height: 2)
-                .opacity(0.5)
+//            Rectangle()
+//                .fill(.gray)
+//                .frame(height: 2)
+//                .opacity(0.5)
         }
     }
     

@@ -236,6 +236,7 @@ struct NewPostScreen: View {
                     Image(systemName: "clock")
                     Text(newPostVM.selectedPostDuration.abbreviatedTitle)
                 }
+                .frame(width: 60)
                 Image(systemName: "chevron.up.chevron.down")
                     .scaleEffect(0.8)
             }
