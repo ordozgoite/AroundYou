@@ -37,28 +37,32 @@ struct FormattedPost: Identifiable, Codable {
             return .twoHours
         case 3:
             return .threeHours
-        case 4: 
+        case 4:
             return .fourHours
         default:
             return .fourHours
         }
     }
     var postTag: PostTag? {
-        switch tag {
+        return switch tag {
         case "chat":
-            return .chat
+                .chat
         case "help":
-            return .help
+                .help
         case "info":
-            return .info
+                .info
         case "hangout":
-            return .hangout
+                .hangout
         case "news":
-            return .news
+                .news
         case "chilling":
-            return .chilling
+                .chilling
+        case "buy":
+                .buy
+        case "eat":
+                .eat
         default:
-            return nil
+                nil
         }
     }
     var date: Date {
