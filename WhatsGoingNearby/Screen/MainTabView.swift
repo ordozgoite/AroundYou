@@ -21,7 +21,7 @@ struct MainTabView: View {
             
             ChatListScreen()
                 .tabItem {
-                    Label("Messages", systemImage: "bubble.left.and.bubble.right")
+                    Label("Chats", systemImage: "bubble.left.and.bubble.right")
                 }
                 .environmentObject(authVM)
             

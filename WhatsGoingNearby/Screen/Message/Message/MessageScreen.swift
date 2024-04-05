@@ -26,7 +26,10 @@ struct MessageScreen: View {
                     ZStack {
                         VStack(spacing: 0) {
                             ForEach(messageVM.messages) { message in
-                                MessageView(message: message)
+                                MessageView(message: message) { 
+                                    messageVM.repliedMessage = message
+                                    isFocused = true
+                                }
                                     .contextMenu {
                                         if message.isCurrentUser {
                                             Button(role: .destructive) {
@@ -37,14 +40,6 @@ struct MessageScreen: View {
                                             } label: {
                                                 Image(systemName: "trash")
                                                 Text("Delete Message")
-                                            }
-                                        } else {
-                                            Button {
-                                                messageVM.repliedMessage = message
-                                                isFocused = true
-                                            } label: {
-                                                Image(systemName: "arrowshape.turn.up.left")
-                                                Text("Reply Message")
                                             }
                                         }
                                     }
@@ -116,13 +111,14 @@ struct MessageScreen: View {
                             .font(.subheadline)
                             .foregroundStyle(.blue)
                         
+                        Spacer()
+                        
                         Image(systemName: "xmark")
                             .scaleEffect(0.8)
                             .foregroundStyle(.blue)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .onTapGesture {
-                        messageVM.repliedMessage = nil
+                            .onTapGesture {
+                                messageVM.repliedMessage = nil
+                            }
                     }
                     
                     Text(repliedMessage.message)

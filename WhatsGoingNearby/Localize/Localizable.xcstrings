@@ -608,6 +608,9 @@
         }
       }
     },
+    "Chats" : {
+
+    },
     "Chatting" : {
       "localizations" : {
         "pt-BR" : {
@@ -1643,6 +1646,7 @@
       }
     },
     "Messages" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1659,6 +1663,7 @@
       }
     },
     "Mute Chat" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -2188,6 +2193,7 @@
       }
     },
     "Reply Message" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -2744,6 +2750,7 @@
       }
     },
     "Unmute Chat" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -2892,13 +2899,13 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O que está rolando por aí?"
+            "value" : "O que está rolando ao seu redor?"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O que está rolando por aí?"
+            "value" : "O que está rolando ao seu redor?"
           }
         }
       }

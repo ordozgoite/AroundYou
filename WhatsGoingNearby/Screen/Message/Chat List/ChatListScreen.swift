@@ -27,7 +27,7 @@ struct ChatListScreen: View {
             .onDisappear {
                 stopUpdatingChats()
             }
-            .navigationTitle("Messages")
+            .navigationTitle("Chats")
         }
     }
     
@@ -35,11 +35,17 @@ struct ChatListScreen: View {
     
     @ViewBuilder
     private func Chats() -> some View {
-        ScrollView {
+        List {
             ForEach($chatListVM.chats) { $chat in
                 NavigationLink(destination: MessageScreen(chatId: chat.id, username: chat.chatName, otherUserUid: chat.otherUserUid, chatPic: chat.chatPic).environmentObject(authVM)) {
                     ChatView(chat: chat).environmentObject(authVM)
-                        .contextMenu {
+                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                            Button(role: .destructive) {
+                                print("Delete Chat")
+                            } label: {
+                                Image(systemName: "trash.fill")
+                            }
+                            
                             Button {
                                 Task {
                                     let token = try await authVM.getFirebaseToken()
@@ -51,12 +57,11 @@ struct ChatListScreen: View {
                                 }
                             } label: {
                                 Image(systemName: chat.isMuted ? "bell.fill" : "bell.slash.fill")
-                                Text(chat.isMuted ? "Unmute Chat" : "Mute Chat")
                             }
+                            .tint(.blue)
                         }
                 }
             }
-            .buttonStyle(PlainButtonStyle())
         }
     }
     

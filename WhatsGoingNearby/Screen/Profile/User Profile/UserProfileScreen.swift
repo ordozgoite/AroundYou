@@ -22,13 +22,14 @@ struct UserProfileScreen: View {
                 if userProfileVM.isLoading {
                     ProgressView()
                 } else {
-                    ZStack {
+                    VStack {
                         VStack {
                             ProfileHeader()
-                            Spacer()
                         }
+                        .frame(maxHeight: .infinity, alignment: .top)
                         
                         Warning()
+                            .frame(maxHeight: .infinity, alignment: .top)
                     }
                 }
             }

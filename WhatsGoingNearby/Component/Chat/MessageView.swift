@@ -11,12 +11,34 @@ struct MessageView: View {
     
     var message: FormattedMessage
     
+    @State private var translation: CGSize = .zero
+    let maxTranslation: CGFloat = 64
+    var replyMessage: () -> ()
+    
     var body: some View {
         Time()
         
         Reply()
         
         BubbleView(message: message.message, isCurrentUser: message.isCurrentUser, isFirst: message.isFirst)
+            .offset(x: translation.width, y: 0)
+            .gesture(
+                DragGesture()
+                    .onChanged { gesture in
+                        if gesture.translation.width > 0 {
+                            translation.width = min(maxTranslation, gesture.translation.width)
+                        }
+                    }
+                    .onEnded { gesture in
+                        if gesture.translation.width > maxTranslation {
+                            hapticFeedback(style: .heavy)
+                            replyMessage()
+                        }
+                        withAnimation {
+                            translation = .zero
+                        }
+                    }
+            )
     }
     
     //MARK: - Time
@@ -70,5 +92,5 @@ struct MessageView: View {
 }
 
 #Preview {
-    MessageView(message: FormattedMessage(id: "1", message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉", isCurrentUser: false, isFirst: true, repliedMessageText: "Tio, o que você está fazendo?", timeDivider: 1711774061000))
+    MessageView(message: FormattedMessage(id: "1", message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉", isCurrentUser: false, isFirst: true, repliedMessageText: "Tio, o que você está fazendo?", timeDivider: 1711774061000), replyMessage: {})
 }

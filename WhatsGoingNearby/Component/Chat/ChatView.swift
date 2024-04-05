@@ -27,62 +27,51 @@ struct ChatView: View {
     
     var body: some View {
         ZStack {
-            HStack {
-                ZStack {
-                    if chat.hasUnreadMessages {
-                        Circle()
-                            .foregroundStyle(.blue)
-                    }
+            HStack(alignment: .top) {
+                if chat.hasUnreadMessages {
+                    Circle()
+                        .foregroundStyle(.blue)
+                        .frame(width: 12)
                 }
-                .frame(width: 12)
                 
-                ProfilePicView(profilePic: chat.chatPic, size: 50)
+                ProfilePicView(profilePic: chat.chatPic, size: 64)
+                    .padding(.trailing, 8)
                     .onTapGesture {
                         isUserProfileDisplayed = true
                     }
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    HStack {
-                        Text(chat.chatName)
-                            .font(.headline)
-                            .lineLimit(1)
-                        
-                        Spacer()
-                        
-                        HStack(spacing: 10) {
-                            Text(lastMessageStamp ?? "")
-                                .foregroundStyle(.secondary)
-                            
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(.secondary)
-                        }
+                    Text(chat.chatName)
+                        .font(.headline)
+                        .lineLimit(1)
+                    
+                    Text(chat.lastMessage ?? "")
+                        .foregroundStyle(.secondary)
                         .font(.subheadline)
-                    }
-                    
-                    HStack(alignment: .top, spacing: 4) {
-                        Text(chat.lastMessage ?? "")
-                            .foregroundStyle(.secondary)
-                            .font(.subheadline)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .lineLimit(2)
-                            .frame(maxWidth: .infinity, minHeight: 40, alignment: .topLeading)
-                        
-                        if chat.isMuted {
-                            Image(systemName: "bell.slash.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundStyle(.secondary)
-                                .frame(width: 12)
-                                .padding(.top, 4)
-                        }
-                    }
-                    
-                    Divider()
+                        .fixedSize(horizontal: false, vertical: true)
+                        .lineLimit(2)
+                        .frame(maxWidth: .infinity, minHeight: 40, alignment: .topLeading)
                 }
+                
+                Spacer()
+                
+                VStack {
+                    Text(lastMessageStamp ?? "")
+                        .foregroundStyle(.secondary)
+                        .font(.subheadline)
+                    
+                    if chat.isMuted {
+                        Image(systemName: "bell.slash.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundStyle(.secondary)
+                            .frame(width: 12)
+                            .padding(.top, 4)
+                    }
+                }
+                .frame(maxHeight: .infinity, alignment: .top)
             }
-            .padding(.vertical, 4)
-            .padding([.leading,.trailing], 10)
-            .background(Color(uiColor: .systemBackground))
+            .padding(.vertical)
             
             NavigationLink(
                 destination: UserProfileScreen(userUid: chat.otherUserUid).environmentObject(authVM),

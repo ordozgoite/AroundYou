@@ -35,8 +35,6 @@ class MessageViewModel: ObservableObject {
         
         switch result {
         case .success:
-            
-            sendMessage(text: text, room: chatId)
             await getMessages(chatId: chatId, token: token)
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
@@ -63,24 +61,7 @@ class MessageViewModel: ObservableObject {
         messages.removeAll { $0.id == messageId }
     }
     
-    //MARK: - Web Socket
-    
-    func decodeMessages(message: [Any]) {
-        print("⚠️⚠️⚠️")
-        print(message)
-        print("⚠️⚠️⚠️")
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: message[0], options: [])
-            
-            let newMessage = try JSONDecoder().decode(Message.self, from: jsonData)
-            
-            // append message to array
-        } catch {
-            print(error)
-        }
-    }
-    
-    private func sendMessage(text: String, room: String) {
-        socket.emit("message", [text, room])
+    func indexForMessage(withId messageId: String) -> Int? {
+        return messages.firstIndex { $0.id == messageId }
     }
 }
