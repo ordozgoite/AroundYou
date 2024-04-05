@@ -17,6 +17,7 @@ struct LaunchScreen: View {
             if displayLaunchScreen {
                 Image("logo")
                     .resizable()
+                    .scaledToFit()
                     .frame(width: 128, height: 128)
             } else {
                 AuthenticatedScreen()

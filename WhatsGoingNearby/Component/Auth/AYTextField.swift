@@ -49,11 +49,6 @@ struct AYTextField: View {
         VStack {
             TextField(title, text: $inputText)
                 .textInputAutocapitalization(.never)
-            
-//            Rectangle()
-//                .fill(.gray)
-//                .frame(height: 2)
-//                .opacity(0.5)
         }
     }
     

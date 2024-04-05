@@ -15,15 +15,13 @@ struct MainTabView: View {
         TabView {
             FeedScreen()
                 .tabItem {
-                    Image(systemName: "globe")
-                    Text("Around You")
+                    Label("Around You", systemImage: "mappin.and.ellipse")
                 }
                 .environmentObject(authVM)
             
             ChatListScreen()
                 .tabItem {
-                    Image(systemName: "bubble.left.and.bubble.right")
-                    Text("Messages")
+                    Label("Messages", systemImage: "bubble.left.and.bubble.right")
                 }
                 .environmentObject(authVM)
             
@@ -36,8 +34,7 @@ struct MainTabView: View {
             
             AccountScreen()
                 .tabItem {
-                    Image(systemName: "person.fill")
-                    Text("Profile")
+                    Label("Profile", systemImage: "person.fill")
                 }
                 .environmentObject(authVM)
         }

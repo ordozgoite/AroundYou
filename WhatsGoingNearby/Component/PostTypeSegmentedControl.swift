@@ -17,9 +17,9 @@ enum PostHistoryOption: Int, CaseIterable, Codable  {
         case .all:
             return "All"
         case .active:
-            return "Actives"
+            return "Active"
         case .inactive:
-            return "Inactives"
+            return "Expired"
         }
     }
 }

@@ -56,7 +56,7 @@ struct NotificationScreen: View {
     private func Notifications() -> some View {
         List {
             ForEach(notificationVM.notifications) { notification in
-                NavigationLink(destination: PostScreen(postId: notification.publicationId, location: $location)) {
+                NavigationLink(destination: IndepCommentScreen(postId: notification.publicationId, location: $location)) {
                     NotificationView(notification: notification)
                         .swipeActions(edge: .trailing) {
                             Button(role: .destructive) {

@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreLocation
 
-struct PostScreen: View {
+struct IndepCommentScreen: View {
     
     let postId: String
     private let maxCommentLength = 250
@@ -32,7 +32,7 @@ struct PostScreen: View {
                                 }
                             }
                         } toggleFeedUpdate: { _ in }
-                        .padding()
+                            .padding()
                         
                         Divider()
                     } else {
@@ -86,58 +86,56 @@ struct PostScreen: View {
     
     @ViewBuilder
     private func CommentTextField() -> some View {
-        if postVM.post.type == .active {
-            VStack {
-                if let comment = postVM.repliedComment {
-                    HStack {
-                        HStack {
-                            Text("Replying to \(comment.username)")
-                                .font(.subheadline)
-                                .foregroundStyle(.blue)
-                            
-                            Image(systemName: "xmark")
-                                .scaleEffect(0.8)
-                                .foregroundStyle(.blue)
-                        }
-                        .onTapGesture {
-                            postVM.repliedComment = nil
-                        }
-                        
-                        Spacer()
-                    }
-                    .padding(10)
-                }
-                
+        VStack {
+            if let comment = postVM.repliedComment {
                 HStack {
-                    TextField(postVM.repliedComment == nil ? "Add a comment... " : "Add a reply...", text: $postVM.newCommentText, axis: .vertical)
-                        .padding(10)
-                        .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                        .cornerRadius(20)
-                        .shadow(color: .gray, radius: 10)
-                        .focused($commentIsFocused)
-                        .onChange(of: postVM.newCommentText) { newValue in
-                            if newValue.count > maxCommentLength {
-                                postVM.newCommentText = String(newValue.prefix(maxCommentLength))
-                            }
-                        }
+                    HStack {
+                        Text("Replying to \(comment.username)")
+                            .font(.subheadline)
+                            .foregroundStyle(.blue)
+                        
+                        Image(systemName: "xmark")
+                            .scaleEffect(0.8)
+                            .foregroundStyle(.blue)
+                    }
+                    .onTapGesture {
+                        postVM.repliedComment = nil
+                    }
                     
-                    if !postVM.newCommentText.isEmpty {
-                        Button(action: {
-                            commentIsFocused = false
-                            Task {
-                                try await postNewComment()
-                            }
-                        }) {
-                            Image(systemName: "paperplane.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 24)
-                                .foregroundColor(.blue)
+                    Spacer()
+                }
+                .padding(10)
+            }
+            
+            HStack {
+                TextField(postVM.repliedComment == nil ? "Add a comment... " : "Add a reply...", text: $postVM.newCommentText, axis: .vertical)
+                    .padding(10)
+                    .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .cornerRadius(20)
+                    .shadow(color: .gray, radius: 10)
+                    .focused($commentIsFocused)
+                    .onChange(of: postVM.newCommentText) { newValue in
+                        if newValue.count > maxCommentLength {
+                            postVM.newCommentText = String(newValue.prefix(maxCommentLength))
                         }
                     }
+                
+                if !postVM.newCommentText.isEmpty {
+                    Button(action: {
+                        commentIsFocused = false
+                        Task {
+                            try await postNewComment()
+                        }
+                    }) {
+                        Image(systemName: "paperplane.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 24)
+                            .foregroundColor(.blue)
+                    }
                 }
-                .padding()
             }
+            .padding()
         }
     }
     

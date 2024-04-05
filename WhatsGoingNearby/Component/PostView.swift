@@ -112,14 +112,6 @@ struct PostView: View {
     private func Options() -> some View {
         VStack {
             if post.isFromRecipientUser {
-                Button(role: .destructive, action: {
-                    deletePost()
-                }) {
-                    Text("Delete Post")
-                    Image(systemName: "trash")
-                }
-                .padding()
-                
                 if post.type == .active {
                     Button {
                         isOptionsPopoverDisplayed = false
@@ -129,7 +121,7 @@ struct PostView: View {
                         Image(systemName: "pencil")
                     }
                     .foregroundStyle(.gray)
-                    .padding(.horizontal)
+                    .padding()
                     
                     Button {
                         isOptionsPopoverDisplayed = false
@@ -142,11 +134,17 @@ struct PostView: View {
                         Image(systemName: "clock.arrow.circlepath")
                     }
                     .foregroundStyle(.gray)
-                    .padding()
+                    .padding(.horizontal)
                 }
-            }
-            
-            if !post.isFromRecipientUser {
+                
+                Button(role: .destructive, action: {
+                    deletePost()
+                }) {
+                    Text("Delete Post")
+                    Image(systemName: "trash")
+                }
+                .padding()
+            } else {
                 if post.isSubscribed {
                     Button(action: {
                         isOptionsPopoverDisplayed = false
@@ -205,13 +203,12 @@ struct PostView: View {
         if let postTag = post.postTag {
             HStack(spacing: 2) {
                 Image(systemName: postTag.iconName)
-                    .foregroundStyle(.gray)
                     .scaleEffect(0.8)
                 
                 Text(postTag.title)
-                    .foregroundStyle(.gray)
                     .font(.caption)
             }
+            .foregroundStyle(postTag.color)
         }
     }
     

@@ -148,19 +148,17 @@ struct CommentView: View {
         HStack(spacing: 32) {
             HStack {
                 HeartView(isLiked: $comment.didLike) {
-                    if postType == .active {
-                        Task {
-                            let token = try await authVM.getFirebaseToken()
-                            if comment.didLike {
-                                comment.didLike = false
-                                comment.likes -= 1
-                                await unlikeComment(commentId: comment.id, token: token)
-                            } else {
-                                hapticFeedback()
-                                comment.didLike = true
-                                comment.likes += 1
-                                await likeComment(commentId: comment.id, token: token)
-                            }
+                    Task {
+                        let token = try await authVM.getFirebaseToken()
+                        if comment.didLike {
+                            comment.didLike = false
+                            comment.likes -= 1
+                            await unlikeComment(commentId: comment.id, token: token)
+                        } else {
+                            hapticFeedback()
+                            comment.didLike = true
+                            comment.likes += 1
+                            await likeComment(commentId: comment.id, token: token)
                         }
                     }
                 }
@@ -200,27 +198,12 @@ struct CommentView: View {
     
     private func likeComment(commentId: String, token: String) async {
         if let latitude = location?.coordinate.latitude, let longitude = location?.coordinate.longitude {
-            let result = await AYServices.shared.likeComment(commentId: commentId, latitude: latitude, longitude: longitude, token: token)
-            
-            switch result {
-            case .success:
-                print("❤️ Publication liked!")
-            case .failure(let error):
-                print("❌ Error: \(error)")
-            }
-        }
+            _ = await AYServices.shared.likeComment(commentId: commentId, latitude: latitude, longitude: longitude, token: token)        }
     }
     
     private func unlikeComment(commentId: String, token: String) async {
         if let latitude = location?.coordinate.latitude, let longitude = location?.coordinate.longitude {
-            let result = await AYServices.shared.unlikeComment(commentId: commentId, latitude: latitude, longitude: longitude, token: token)
-            
-            switch result {
-            case .success:
-                print("💔 Publication unliked!")
-            case .failure(let error):
-                print("❌ Error: \(error)")
-            }
+            _ = await AYServices.shared.unlikeComment(commentId: commentId, latitude: latitude, longitude: longitude, token: token)
         }
     }
 }

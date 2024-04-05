@@ -38,7 +38,7 @@ struct ChatListScreen: View {
         ScrollView {
             ForEach($chatListVM.chats) { $chat in
                 NavigationLink(destination: MessageScreen(chatId: chat.id, username: chat.chatName, otherUserUid: chat.otherUserUid, chatPic: chat.chatPic).environmentObject(authVM)) {
-                    ChatView(chat: chat)
+                    ChatView(chat: chat).environmentObject(authVM)
                         .contextMenu {
                             Button {
                                 Task {

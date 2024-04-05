@@ -59,4 +59,13 @@ enum PostTag: String, CaseIterable, Decodable {
             "cart"
         }
     }
+    
+    var color: Color {
+        return switch self {
+        case .help:
+                .red
+        default:
+                .gray
+        }
+    }
 }

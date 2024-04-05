@@ -279,7 +279,11 @@
         }
       }
     },
+    "Active" : {
+
+    },
     "Actives" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -387,9 +391,6 @@
       }
     },
     "Around You" : {
-
-    },
-    "Around You 🌐" : {
 
     },
     "AroundYou displays posts to everybody within a **1km radius**, enabling interaction for making friends, asking for help, and getting information about places and events around you." : {
@@ -954,6 +955,9 @@
         }
       }
     },
+    "Display location on map" : {
+
+    },
     "Distance: %@ meters" : {
       "localizations" : {
         "pt-BR" : {
@@ -1435,6 +1439,7 @@
       }
     },
     "Inactives" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1471,13 +1476,13 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Relaxando"
+            "value" : "Só de boas"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Relaxando"
+            "value" : "Só de boas"
           }
         }
       }

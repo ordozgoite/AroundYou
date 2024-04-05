@@ -69,7 +69,7 @@ struct NewPostScreen: View {
                     ProgressView()
                 } else {
                     Button(action: {
-                        if newPostVM.selectedPostLocationVisibilty == .visible {
+                        if newPostVM.isLocationVisible {
                             newPostVM.isShareLocationAlertDisplayed = true
                         } else {
                             Task {
@@ -97,8 +97,12 @@ struct NewPostScreen: View {
         HStack {
             ProfilePic()
             
-            Text(authVM.username)
-                .fontWeight(.semibold)
+            VStack(alignment: .leading) {
+                Text(authVM.username)
+                    .fontWeight(.semibold)
+                
+                Location()
+            }
         }
     }
     
@@ -148,13 +152,13 @@ struct NewPostScreen: View {
         VStack(alignment: .leading) {
             ImagePreview()
             
+            
+            
             VStack {
                 Divider()
                 
                 HStack {
                     HStack(spacing: 16) {
-                        Location()
-                        
                         Tag()
                         
                         Duration()
@@ -177,22 +181,50 @@ struct NewPostScreen: View {
     
     @ViewBuilder
     private func Location() -> some View {
-        Menu {
-            ForEach(PostLocationVisibility.allCases, id: \.self) { visibility in
-                Button {
-                    newPostVM.selectedPostLocationVisibilty = visibility
-                } label: {
-                    Image(systemName: visibility.imageName)
-                    Text(visibility.title)
+        if newPostVM.isLocationVisible {
+            Button {
+                withAnimation {
+                    newPostVM.isLocationVisible.toggle()
                 }
+                
+            } label: {
+                Label(
+                    title: { Text(newPostVM.isLocationVisible ? "Display location on map" : "Hide location") },
+                    icon: { Image(systemName: newPostVM.isLocationVisible ? "map" : "mappin.slash") }
+                )
             }
-        } label: {
-            HStack(spacing: 0) {
-                Image(systemName: newPostVM.selectedPostLocationVisibilty.imageName)
-                Image(systemName: "chevron.up.chevron.down")
-                    .scaleEffect(0.8)
+            .buttonStyle(.borderedProminent)
+        } else {
+            Button {
+                withAnimation {
+                    newPostVM.isLocationVisible.toggle()
+                }
+            } label: {
+                Label(
+                    title: { Text(newPostVM.isLocationVisible ? "Display location on map" : "Hide location") },
+                    icon: { Image(systemName: newPostVM.isLocationVisible ? "map" : "mappin.slash") }
+                )
             }
+            .buttonStyle(.bordered)
         }
+
+        
+//        Menu {
+//            ForEach(PostLocationVisibility.allCases, id: \.self) { visibility in
+//                Button {
+//                    newPostVM.selectedPostLocationVisibilty = visibility
+//                } label: {
+//                    Image(systemName: visibility.imageName)
+//                    Text(visibility.title)
+//                }
+//            }
+//        } label: {
+//            HStack(spacing: 0) {
+//                Image(systemName: newPostVM.selectedPostLocationVisibilty.imageName)
+//                Image(systemName: "chevron.up.chevron.down")
+//                    .scaleEffect(0.8)
+//            }
+//        }
     }
     
     //MARK: - Tag

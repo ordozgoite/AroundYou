@@ -29,7 +29,7 @@ struct FeedScreen: View {
                     } else if feedVM.isLoading {
                         LoadingView()
                     } else if feedVM.posts.isEmpty {
-                        EmptyFeedView()
+                        EmptyFeed()
                     } else {
                         Feed()
                     }
@@ -38,7 +38,7 @@ struct FeedScreen: View {
                 AYErrorAlert(message: feedVM.overlayError.1 , isErrorAlertPresented: $feedVM.overlayError.0)
                 
                 NavigationLink(
-                    destination: PostScreen(postId: notificationManagaer.id ?? "", location: $locationManager.location),
+                    destination: IndepCommentScreen(postId: notificationManagaer.id ?? "", location: $locationManager.location),
                     isActive: $notificationManagaer.isPublicationDisplayed,
                     label: { EmptyView() }
                 )
@@ -51,17 +51,17 @@ struct FeedScreen: View {
                     }
                 }
                 
-                ToolbarItem {
-                    NavigationLink(destination: NewPostScreen() {
-                        Task {
-                            try await getNearByPosts()
-                        }
-                    }.environmentObject(authVM)) {
-                        Image(systemName: "square.and.pencil")
-                    }
-                }
+                //                ToolbarItem {
+                //                    NavigationLink(destination: NewPostScreen() {
+                //                        Task {
+                //                            try await getNearByPosts()
+                //                        }
+                //                    }.environmentObject(authVM)) {
+                //                        Image(systemName: "square.and.pencil")
+                //                    }
+                //                }
             }
-            .navigationTitle("Around You 🌐")
+            .navigationTitle("Around You")
             .navigationBarTitleDisplayMode(.large)
         }
         .onAppear {
@@ -86,11 +86,54 @@ struct FeedScreen: View {
         }
     }
     
+    //MARK: - Empty Feed
+    
+    @ViewBuilder
+    private func EmptyFeed() -> some View {
+        ZStack(alignment: .top) {
+            EmptyFeedView()
+            
+            NewPost()
+        }
+    }
+    
+    //MARK: - New Post
+    
+    @ViewBuilder
+    private func NewPost() -> some View {
+        NavigationLink(destination: NewPostScreen() {
+            Task {
+                try await getNearByPosts()
+            }
+        }.environmentObject(authVM)) {
+            HStack {
+                ProfilePicView(profilePic: authVM.profilePic, size: 32)
+                
+                Text("What's going on around you?")
+                    .foregroundStyle(.gray)
+                    .font(.subheadline)
+                
+                Spacer()
+                
+                Image(systemName: "square.and.pencil")
+                    .foregroundStyle(.gray)
+            }
+            .padding()
+            .frame(height: 64)
+            .background(
+                RoundedRectangle(cornerRadius: 8).fill(.thinMaterial)
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+    
     //MARK: - Feed
     
     @ViewBuilder
     private func Feed() -> some View {
         ScrollView {
+            NewPost()
+            
             Posts(ofType: .active)
             
             if hasInactivePublication() {
