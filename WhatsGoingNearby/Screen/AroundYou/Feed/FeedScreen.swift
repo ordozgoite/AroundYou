@@ -145,6 +145,7 @@ struct FeedScreen: View {
             }
             
             Posts(ofType: .inactive)
+                .opacity(0.5)
         }
     }
     

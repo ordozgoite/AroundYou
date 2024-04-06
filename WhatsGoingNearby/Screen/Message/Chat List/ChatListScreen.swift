@@ -41,7 +41,10 @@ struct ChatListScreen: View {
                     ChatView(chat: chat).environmentObject(authVM)
                         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                             Button(role: .destructive) {
-                                print("Delete Chat")
+                                Task {
+                                    let token = try await authVM.getFirebaseToken()
+                                    await chatListVM.deleteChat(chatId: chat.id, token: token)
+                                }
                             } label: {
                                 Image(systemName: "trash.fill")
                             }

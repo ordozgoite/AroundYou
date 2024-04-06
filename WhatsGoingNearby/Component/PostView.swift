@@ -44,7 +44,6 @@ struct PostView: View {
                     Footer()
                 }
             }
-            .opacity(post.type == .inactive ? 0.5 : 1)
             .fullScreenCover(isPresented: $isFullScreenImageDisplayed) {
                 FullScreenPostImage(url: post.imageUrl ?? "")
             }

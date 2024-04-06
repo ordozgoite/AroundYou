@@ -49,6 +49,7 @@ enum AYEndpoints {
     case deleteMessage(messageId: String, token: String)
     case editPublication(publicationId: String, text: String, tag: String, postDuration: Int, isLocationVisible: Bool, latitude: Double, longitude: Double, token: String)
     case finishPublication(publicationId: String, token: String)
+    case deleteChat(chatId: String, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -139,6 +140,8 @@ extension AYEndpoints: Endpoint {
             return "api/Publication/EditPublication"
         case .finishPublication(let publicationId, _):
             return "/api/Publication/FinishPublication/\(publicationId)"
+        case .deleteChat(let chatId, _):
+            return "/api/Chat/DeleteChat/\(chatId)"
         }
     }
     
@@ -146,7 +149,7 @@ extension AYEndpoints: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser, .likeComment, .unlikeComment, .deleteProfilePic, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification, .deleteUser, .postNewChat, .muteChat, .unmuteChat, .postNewMessage, .deleteMessage, .editPublication, .finishPublication:
+        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser, .likeComment, .unlikeComment, .deleteProfilePic, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification, .deleteUser, .postNewChat, .muteChat, .unmuteChat, .postNewMessage, .deleteMessage, .editPublication, .finishPublication, .deleteChat:
             return .post
         case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .getPublication, .getUserNotifications, .getUserBanExpireDate, .getAllPublicationsNearBy, .getChatsByUser, .getMessages:
             return .get
@@ -226,7 +229,7 @@ extension AYEndpoints: Endpoint {
     
     var header: [String : String]? {
         switch self {
-        case .postNewPublication(_, _, _, _, _, _, _, let token), .getActivePublicationsNearBy(_, _, let token), .postNewUser(_, _, _, let token), .getUserInfo(_, _, let token), .likePublication(_, let token), .unlikePublication(_, let token), .getAllCommentsByPublication(_, let token), .postNewComment(_, _, _, let token), .deleteComment(_, let token), .deletePublication(_, let token), .getUserProfile(_, let token), .editProfile(_, let token), .getAllPublicationsByUser(let token), .postNewReport(_, let token), .postNewBugReport(_, let token), .blockUser(_, let token), .getBlockedUsers(let token), .unblockUser(_, let token), .likeComment(_, _, _, let token), .unlikeComment(_, _, _, let token), .getPublicationLikes(_, let token), .getCommentLikes(_, let token), .deleteProfilePic(let token), .getPublication(_, _, _, let token), .getUserNotifications(let token), .subscribeUserToPublication(_, let token), .unsubscribeUser(_, let token), .deleteNotification(_, let token), .deleteUser(let token), .getUserBanExpireDate(let token), .getAllPublicationsNearBy(_, _, let token), .postNewChat(_, let token), .getChatsByUser(let token), .muteChat(_, let token), .unmuteChat(_, let token), .postNewMessage(_, _, _, let token), .getMessages(_, let token), .deleteMessage(_, let token), .editPublication(_, _, _, _, _, _, _, let token), .finishPublication(_, let token):
+        case .postNewPublication(_, _, _, _, _, _, _, let token), .getActivePublicationsNearBy(_, _, let token), .postNewUser(_, _, _, let token), .getUserInfo(_, _, let token), .likePublication(_, let token), .unlikePublication(_, let token), .getAllCommentsByPublication(_, let token), .postNewComment(_, _, _, let token), .deleteComment(_, let token), .deletePublication(_, let token), .getUserProfile(_, let token), .editProfile(_, let token), .getAllPublicationsByUser(let token), .postNewReport(_, let token), .postNewBugReport(_, let token), .blockUser(_, let token), .getBlockedUsers(let token), .unblockUser(_, let token), .likeComment(_, _, _, let token), .unlikeComment(_, _, _, let token), .getPublicationLikes(_, let token), .getCommentLikes(_, let token), .deleteProfilePic(let token), .getPublication(_, _, _, let token), .getUserNotifications(let token), .subscribeUserToPublication(_, let token), .unsubscribeUser(_, let token), .deleteNotification(_, let token), .deleteUser(let token), .getUserBanExpireDate(let token), .getAllPublicationsNearBy(_, _, let token), .postNewChat(_, let token), .getChatsByUser(let token), .muteChat(_, let token), .unmuteChat(_, let token), .postNewMessage(_, _, _, let token), .getMessages(_, let token), .deleteMessage(_, let token), .editPublication(_, _, _, _, _, _, _, let token), .finishPublication(_, let token), .deleteChat(_, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
@@ -325,7 +328,7 @@ extension AYEndpoints: Endpoint {
                 "longitude": longitude
             ]
             return params
-        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .deleteProfilePic, .getPublication, .getUserNotifications, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification, .deleteUser, .getUserBanExpireDate, .getAllPublicationsNearBy, .getChatsByUser, .muteChat, .unmuteChat, .getMessages, .deleteMessage, .finishPublication:
+        case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .deleteProfilePic, .getPublication, .getUserNotifications, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification, .deleteUser, .getUserBanExpireDate, .getAllPublicationsNearBy, .getChatsByUser, .muteChat, .unmuteChat, .getMessages, .deleteMessage, .finishPublication, .deleteChat:
             return nil
         }
     }

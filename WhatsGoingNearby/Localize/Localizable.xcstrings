@@ -592,6 +592,9 @@
         }
       }
     },
+    "Camera" : {
+
+    },
     "Cancel" : {
       "localizations" : {
         "pt-BR" : {
@@ -1970,6 +1973,9 @@
         }
       }
     },
+    "Post will stay active for" : {
+
+    },
     "Post will stay active for:" : {
       "localizations" : {
         "pt-BR" : {
@@ -2372,6 +2378,9 @@
         }
       }
     },
+    "Select a Tag" : {
+
+    },
     "Send Email" : {
       "localizations" : {
         "pt-BR" : {
@@ -2532,6 +2541,12 @@
           }
         }
       }
+    },
+    "Start Recording" : {
+
+    },
+    "Stop" : {
+
     },
     "Temporary posts ⏳" : {
       "localizations" : {

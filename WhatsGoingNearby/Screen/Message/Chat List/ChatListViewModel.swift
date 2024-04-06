@@ -36,6 +36,17 @@ class ChatListViewModel: ObservableObject {
         }
     }
     
+    func deleteChat(chatId: String, token: String) async {
+        let result = await AYServices.shared.deleteChat(chatId: chatId, token: token)
+        
+        switch result {
+        case .success:
+            await getChats(token: token)
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
     func muteChat(chatId: String, token: String) async {
         let result = await AYServices.shared.muteChat(chatId: chatId, token: token)
         

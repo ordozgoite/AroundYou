@@ -152,8 +152,6 @@ struct NewPostScreen: View {
         VStack(alignment: .leading) {
             ImagePreview()
             
-            
-            
             VStack {
                 Divider()
                 

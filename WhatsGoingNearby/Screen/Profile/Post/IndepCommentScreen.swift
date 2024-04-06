@@ -40,7 +40,6 @@ struct IndepCommentScreen: View {
                     }
                     
                     Comments()
-                        .opacity(postVM.post.type == .inactive ? 0.5 : 1)
                 }
                 
                 CommentTextField()

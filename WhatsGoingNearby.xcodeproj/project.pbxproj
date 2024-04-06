@@ -177,6 +177,9 @@
 		EDCF2C332BB65FC60066950F /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C322BB65FC60066950F /* Chat.swift */; };
 		EDCF2C352BB661960066950F /* MuteChatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C342BB661960066950F /* MuteChatResponse.swift */; };
 		EDCF2C382BB66E400066950F /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C372BB66E400066950F /* Message.swift */; };
+		EDE8B36D2BC1D11500DFF750 /* PostSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B36C2BC1D11500DFF750 /* PostSettingsView.swift */; };
+		EDE8B36F2BC1D9A800DFF750 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B36E2BC1D9A800DFF750 /* AudioRecorder.swift */; };
+		EDE8B3712BC20AFB00DFF750 /* DeleteChatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B3702BC20AFB00DFF750 /* DeleteChatResponse.swift */; };
 		EDEECA212B8A6DA100BD517D /* OnBoardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */; };
 		EDEECA232B8A77CE00BD517D /* meet.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA222B8A77CE00BD517D /* meet.json */; };
 		EDEECA252B8A77D500BD517D /* party.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA242B8A77D500BD517D /* party.json */; };
@@ -327,6 +330,9 @@
 		EDCF2C322BB65FC60066950F /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		EDCF2C342BB661960066950F /* MuteChatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteChatResponse.swift; sourceTree = "<group>"; };
 		EDCF2C372BB66E400066950F /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		EDE8B36C2BC1D11500DFF750 /* PostSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSettingsView.swift; sourceTree = "<group>"; };
+		EDE8B36E2BC1D9A800DFF750 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
+		EDE8B3702BC20AFB00DFF750 /* DeleteChatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteChatResponse.swift; sourceTree = "<group>"; };
 		EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingScreen.swift; sourceTree = "<group>"; };
 		EDEECA222B8A77CE00BD517D /* meet.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = meet.json; sourceTree = "<group>"; };
 		EDEECA242B8A77D500BD517D /* party.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = party.json; sourceTree = "<group>"; };
@@ -518,6 +524,7 @@
 				ED8E6AF52BACD36D002D633D /* HeartView.swift */,
 				EDA30DF52B7FE816003EB22D /* PostTypeSegmentedControl.swift */,
 				ED8CDFC52BB33A2C00B8852E /* FeedTypeSegmentedControl.swift */,
+				EDE8B36C2BC1D11500DFF750 /* PostSettingsView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -691,6 +698,7 @@
 				EDA322232B7C99B6009905B5 /* CalculateDistanceTestScreen.swift */,
 				ED598C502B7C80EC00B6C23D /* LocationTestScreen.swift */,
 				EDA322372B7CC145009905B5 /* TimestampTestScreen.swift */,
+				EDE8B36E2BC1D9A800DFF750 /* AudioRecorder.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -851,6 +859,7 @@
 				ED5023FB2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift */,
 				EDCF2C342BB661960066950F /* MuteChatResponse.swift */,
 				EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */,
+				EDE8B3702BC20AFB00DFF750 /* DeleteChatResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1027,6 +1036,7 @@
 				ED24FAF42B9E6530002F7A11 /* CommentDTO.swift in Sources */,
 				ED50C4602B7F98620001EDF6 /* Sizes.swift in Sources */,
 				EDA30E032B811FD4003EB22D /* ReportViewModel.swift in Sources */,
+				EDE8B36D2BC1D11500DFF750 /* PostSettingsView.swift in Sources */,
 				ED0652572B813832005B6413 /* BugScreen.swift in Sources */,
 				ED2F1A732B914288001F4300 /* NotificationScreen.swift in Sources */,
 				ED6DD4902B8272DD00ADBB64 /* BlockedUserScreen.swift in Sources */,
@@ -1074,6 +1084,7 @@
 				ED50C4592B7E98370001EDF6 /* ProfilePicView.swift in Sources */,
 				ED50C4552B7E94030001EDF6 /* UserProfile.swift in Sources */,
 				ED6DD4942B8284ED00ADBB64 /* UnblockUserResponse.swift in Sources */,
+				EDE8B3712BC20AFB00DFF750 /* DeleteChatResponse.swift in Sources */,
 				ED50C4622B7F9C030001EDF6 /* UserProfileViewModel.swift in Sources */,
 				ED3775A52B9A5E5200BEF3D8 /* DeleteUserResponse.swift in Sources */,
 				ED598C4C2B7C587100B6C23D /* AuthenticatedScreen.swift in Sources */,
@@ -1119,6 +1130,7 @@
 				ED2F1A772B9142D3001F4300 /* NotificationView.swift in Sources */,
 				ED598C072B7C441500B6C23D /* AuthFlowSegmentedControl.swift in Sources */,
 				ED3775A72B9ABD1000BEF3D8 /* PreparingSessionAnimationView.swift in Sources */,
+				EDE8B36F2BC1D9A800DFF750 /* AudioRecorder.swift in Sources */,
 				EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */,
 				EDA322492B7DB2BA009905B5 /* Comment.swift in Sources */,
 				ED6D82C72B941F8000C57937 /* UsernameScreen.swift in Sources */,
@@ -1276,6 +1288,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Around You";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will be used to search for posts around you.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to your microphone.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1315,6 +1328,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Around You";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will be used to search for posts around you.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to your microphone.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

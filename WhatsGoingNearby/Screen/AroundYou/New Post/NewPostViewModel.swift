@@ -18,7 +18,7 @@ class NewPostViewModel: ObservableObject {
 //    @Published var selectedPostLocationVisibilty: PostLocationVisibility = .hidden
     @Published var isLocationVisible: Bool = false
     @Published var selectedPostTag: PostTag = .chat
-    @Published var selectedPostDuration: PostDuration = .fourHours
+    @Published var selectedPostDuration: PostDuration = .oneHour
     @Published var isShareLocationAlertDisplayed: Bool = false
     
     @Published var image: UIImage?
