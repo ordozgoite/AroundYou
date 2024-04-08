@@ -54,6 +54,18 @@ struct MessageScreen: View {
                                         proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
                                     }
                                 }
+                                .onChange(of: isFocused) { _ in
+                                    if isFocused {
+                                        withAnimation {
+                                            proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
+                                        }
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                            withAnimation {
+                                                proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
+                                            }
+                                        }
+                                    }
+                                }
                             }
                             .padding(.horizontal, 10)
                             

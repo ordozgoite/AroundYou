@@ -28,10 +28,12 @@ struct FeedScreen: View {
                         EnableFullAccuracyView()
                     } else if feedVM.isLoading {
                         LoadingView()
-                    } else if feedVM.posts.isEmpty {
-                        EmptyFeed()
-                    } else {
-                        Feed()
+                    } else if feedVM.initialPostsFetched {
+                        if feedVM.posts.isEmpty {
+                            EmptyFeed()
+                        } else {
+                            Feed()
+                        }
                     }
                 }
                 
@@ -92,24 +94,33 @@ struct FeedScreen: View {
     @ViewBuilder
     private func Feed() -> some View {
         ScrollView {
-            NewPostView() {
-                Task {
-                    try await getNearByPosts()
+            ScrollViewReader { proxy in
+                VStack {
+                    NewPostView() {
+                        Task {
+                            try await getNearByPosts()
+                        }
+                    }.environmentObject(authVM)
+                    
+                    Posts(ofType: .active)
+                    
+                    if hasInactivePublication() {
+                        Text("Expired")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                            .padding()
+                    }
+                    
+                    Posts(ofType: .inactive)
+                        .opacity(0.5)
                 }
-            }.environmentObject(authVM)
-            
-            Posts(ofType: .active)
-            
-            if hasInactivePublication() {
-                Text("Expired")
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                    .padding()
+                .onChange(of: feedVM.isTabBarDoubleClicked) { _ in
+                    withAnimation {
+                        proxy.scrollTo(feedVM.posts.first!.id, anchor: .bottom)
+                    }
+                }
             }
-            
-            Posts(ofType: .inactive)
-                .opacity(0.5)
         }
     }
     

@@ -13,5 +13,9 @@ struct Constants {
     static let maxNameLenght: Int = 30
     static let maxBioLenght: Int = 250
     static let backgroundTaskDelayHours: Int = 1
-    static let notificationDelaySeconds: Int = 8 * 60 * 60
+    static let notificationDelaySeconds: Int = 4 * 60 * 60
+    
+    //MARK: - Notification Center
+    
+    static let scrollToTopNotificationKey: String = "scrollToTop"
 }

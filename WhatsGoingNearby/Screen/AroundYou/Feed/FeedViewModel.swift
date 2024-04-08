@@ -11,6 +11,10 @@ import SwiftUI
 @MainActor
 class FeedViewModel: ObservableObject {
     
+    init() {
+        addObservers()
+    }
+    
     @Published var posts: [FormattedPost] = []
     @Published var isLoading: Bool = false
     @Published var isCommentScreenPresented = false
@@ -20,12 +24,17 @@ class FeedViewModel: ObservableObject {
     @Published var feedTimer: Timer?
     @Published var currentTimeStamp: Int = Int(Date().timeIntervalSince1970)
     @Published var shouldUpdateFeed: Bool = true
+    @Published var isTabBarDoubleClicked: Bool = false
     
     var groupedPosts: [(Date, [FormattedPost])] {
         let groupedDict = Dictionary(grouping: posts) { (post) -> Date in
             return Date(timeIntervalSince1970: TimeInterval(post.timestamp))
         }
         return groupedDict.sorted { $0.key > $1.key }
+    }
+    
+    private func addObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(scrollToTop), name: Notification.Name(Constants.scrollToTopNotificationKey), object: nil)
     }
     
     func getPosts(latitude: Double, longitude: Double, token: String) async {
@@ -59,5 +68,9 @@ class FeedViewModel: ObservableObject {
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
+    }
+    
+    @objc private func scrollToTop() {
+        isTabBarDoubleClicked.toggle()
     }
 }
