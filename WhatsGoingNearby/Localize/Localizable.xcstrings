@@ -1520,6 +1520,7 @@
 
     },
     "Interact with people 🌐" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1534,6 +1535,9 @@
           }
         }
       }
+    },
+    "Interact with people 🥳" : {
+
     },
     "Just chatting" : {
       "localizations" : {

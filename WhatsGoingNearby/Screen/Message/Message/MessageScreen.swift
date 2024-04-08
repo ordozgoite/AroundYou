@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct MessageScreen: View {
     
@@ -20,16 +21,17 @@ struct MessageScreen: View {
     @FocusState private var isFocused: Bool
     
     var body: some View {
-        VStack {
-            ScrollView {
-                ScrollViewReader { proxy in
-                    ZStack {
-                        VStack(spacing: 0) {
-                            ForEach(messageVM.messages) { message in
-                                MessageView(message: message) { 
-                                    messageVM.repliedMessage = message
-                                    isFocused = true
-                                }
+        ZStack {
+            VStack {
+                ScrollView {
+                    ScrollViewReader { proxy in
+                        ZStack {
+                            VStack(spacing: 0) {
+                                ForEach(messageVM.messages) { message in
+                                    MessageView(message: message) {
+                                        messageVM.repliedMessage = message
+                                        isFocused = true
+                                    }
                                     .contextMenu {
                                         if message.isCurrentUser {
                                             Button(role: .destructive) {
@@ -43,24 +45,25 @@ struct MessageScreen: View {
                                             }
                                         }
                                     }
-                            }
-                            .onAppear {
-                                proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
-                            }
-                            .onChange(of: messageVM.messages) { _ in
-                                withAnimation {
+                                }
+                                .onAppear {
                                     proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
                                 }
+                                .onChange(of: messageVM.messages) { _ in
+                                    withAnimation {
+                                        proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
+                                    }
+                                }
                             }
+                            .padding(.horizontal, 10)
+                            
                         }
-                        .padding(.horizontal, 10)
-                        
                     }
                 }
+                .scrollDismissesKeyboard(.interactively)
+                
+                MessageComposer()
             }
-            .scrollDismissesKeyboard(.interactively)
-            
-            MessageComposer()
         }
         .onAppear {
             startUpdatingMessages()
@@ -74,6 +77,12 @@ struct MessageScreen: View {
                     UserHeader()
                 }
             }
+        }
+        .fullScreenCover(isPresented: $messageVM.isCameraDisplayed) {
+            CameraView(image: $messageVM.image)
+        }
+        .sheet(isPresented: $messageVM.isPhotosDisplayed) {
+            ImagePicker(selectedImage: $messageVM.image)
         }
     }
     
@@ -104,53 +113,12 @@ struct MessageScreen: View {
     @ViewBuilder
     private func MessageComposer() -> some View {
         VStack {
-            if let repliedMessage = messageVM.repliedMessage {
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text("Replying to:")
-                            .font(.subheadline)
-                            .foregroundStyle(.blue)
-                        
-                        Spacer()
-                        
-                        Image(systemName: "xmark")
-                            .scaleEffect(0.8)
-                            .foregroundStyle(.blue)
-                            .onTapGesture {
-                                messageVM.repliedMessage = nil
-                            }
-                    }
-                    
-                    Text(repliedMessage.message)
-                        .foregroundStyle(.gray)
-                        .lineLimit(2)
-                }
-                .padding(10)
-            }
+            Reply()
+            
+            Attachment()
             
             HStack(spacing: 8) {
-                Menu {
-                    Button {
-                        //
-                    } label: {
-                        Label("Camera", systemImage: "camera")
-                    }
-                    
-                    Button {
-                        
-                    } label: {
-                        Label("Photos", systemImage: "photo")
-                    }
-                } label: {
-                    Image(systemName: "plus")
-                        .foregroundStyle(.gray)
-                        .padding(12)
-                        .background(
-                            Circle().fill(.thinMaterial)
-                        )
-                }
-
-                
+                Plus()
                 
                 TextField("Write a message...", text: $messageVM.messageText, axis: .vertical)
                     .padding(10)
@@ -159,7 +127,7 @@ struct MessageScreen: View {
                     .shadow(color: .gray, radius: 10)
                     .focused($isFocused)
                 
-                if !messageVM.messageText.isEmpty {
+                if !messageVM.messageText.isEmpty || messageVM.image != nil {
                     Button {
                         Task {
                             let token = try await authVM.getFirebaseToken()
@@ -177,6 +145,88 @@ struct MessageScreen: View {
         }
         .padding(.horizontal)
         .padding(.bottom)
+    }
+    
+    //MARK: - Reply
+    
+    @ViewBuilder
+    private func Reply() -> some View {
+        if let repliedMessage = messageVM.repliedMessage {
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("Replying to:")
+                        .font(.subheadline)
+                        .foregroundStyle(.blue)
+                    
+                    Spacer()
+                    
+                    Image(systemName: "xmark")
+                        .scaleEffect(0.8)
+                        .foregroundStyle(.blue)
+                        .onTapGesture {
+                            messageVM.repliedMessage = nil
+                        }
+                }
+                
+                Text(repliedMessage.message)
+                    .foregroundStyle(.gray)
+                    .lineLimit(2)
+            }
+            .padding(10)
+        }
+    }
+    
+    //MARK: - Attachment
+    
+    @ViewBuilder
+    private func Attachment() -> some View {
+        if let selectedImage =  messageVM.image {
+            HStack {
+                ZStack(alignment: .topTrailing) {
+                    Image(uiImage: selectedImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 64)
+                        .cornerRadius(8)
+                        .padding()
+                    
+                    Button {
+                        messageVM.image = nil
+                    } label: {
+                        Image(systemName: "x.circle.fill")
+                    }
+                }
+                
+                Spacer()
+            }
+        }
+    }
+    
+    //MARK: - Plus
+    
+    @ViewBuilder
+    private func Plus() -> some View {
+        Menu {
+            Button {
+                messageVM.isCameraDisplayed = true
+            } label: {
+                Label("Camera", systemImage: "camera")
+            }
+            
+            Button {
+                messageVM.isPhotosDisplayed = true
+            } label: {
+                Label("Photos", systemImage: "photo")
+            }
+            
+        } label: {
+            Image(systemName: "plus")
+                .foregroundStyle(.gray)
+                .padding(12)
+                .background(
+                    Circle().fill(.thinMaterial)
+                )
+        }
     }
     
     //MARK: - Private Method

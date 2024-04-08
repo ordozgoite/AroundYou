@@ -107,7 +107,7 @@ struct OnBoardingScreen: View {
                 Spacer()
                 
                 HStack {
-                    Text("Interact with people 🌐")
+                    Text("Interact with people 🥳")
                         .font(.title)
                         .fontWeight(.black)
                     

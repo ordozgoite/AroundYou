@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+import PhotosUI
+import FirebaseStorage
 
 @MainActor
 class MessageViewModel: ObservableObject {
@@ -17,6 +19,10 @@ class MessageViewModel: ObservableObject {
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var repliedMessage: FormattedMessage?
     @Published var messageTimer: Timer?
+    
+    @Published var image: UIImage?
+    @Published var isCameraDisplayed = false
+    @Published var isPhotosDisplayed = false
     
     func getMessages(chatId: String, token: String) async {
         let result = await AYServices.shared.getMessages(chatId: chatId, token: token)
@@ -50,6 +56,16 @@ class MessageViewModel: ObservableObject {
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
+    }
+    
+    private func storeImage() async throws -> String? {
+        guard image != nil else { return nil }
+        let storageRef = Storage.storage().reference()
+        let fileRef = storageRef.child("post-image/\(UUID().uuidString).jpg")
+        let imageData = image?.jpegData(compressionQuality: 0.8)
+        _ = try await fileRef.putDataAsync(imageData!)
+        let imageUrl = try await fileRef.downloadURL()
+        return imageUrl.absoluteString
     }
     
     private func resetInputs() {
