@@ -35,9 +35,20 @@ class MessageViewModel: ObservableObject {
         }
     }
     
-    func sendMessage(chatId: String, text: String, repliedMessageId: String?, token: String) async {
+    func sendMessage(chatId: String, text: String?, image: UIImage?, repliedMessageId: String?, token: String) async {
         resetInputs()
-        let result = await AYServices.shared.postNewMessage(chatId: chatId, text: text, repliedMessageId: repliedMessageId, token: token)
+        
+        var imageURL: String? = nil
+        if let img = image {
+            do {
+                imageURL = try await storeImage(img)
+            } catch {
+                overlayError = (true, ErrorMessage.defaultErrorMessage)
+                return
+            }
+        }
+        
+        let result = await AYServices.shared.postNewMessage(chatId: chatId, text: text, imageUrl: imageURL, repliedMessageId: repliedMessageId, token: token)
         
         switch result {
         case .success:
@@ -58,11 +69,10 @@ class MessageViewModel: ObservableObject {
         }
     }
     
-    private func storeImage() async throws -> String? {
-        guard image != nil else { return nil }
+    private func storeImage(_ image: UIImage) async throws -> String? {
         let storageRef = Storage.storage().reference()
         let fileRef = storageRef.child("post-image/\(UUID().uuidString).jpg")
-        let imageData = image?.jpegData(compressionQuality: 0.8)
+        let imageData = image.jpegData(compressionQuality: 0.8)
         _ = try await fileRef.putDataAsync(imageData!)
         let imageUrl = try await fileRef.downloadURL()
         return imageUrl.absoluteString
@@ -71,6 +81,7 @@ class MessageViewModel: ObservableObject {
     private func resetInputs() {
         self.repliedMessage = nil
         self.messageText = ""
+        self.image = nil
     }
     
     private func removeMessage(withId messageId: String) {

@@ -44,7 +44,7 @@ struct ChatView: View {
                     .font(.headline)
                     .lineLimit(1)
                 
-                Text(chat.lastMessage ?? "")
+                Text(chat.lastMessage ?? "📷 Photo")
                     .foregroundStyle(.secondary)
                     .font(.subheadline)
                     .fixedSize(horizontal: false, vertical: true)

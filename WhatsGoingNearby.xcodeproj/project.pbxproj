@@ -184,6 +184,7 @@
 		EDE8B3792BC3502200DFF750 /* ExpandedPostSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B3782BC3502200DFF750 /* ExpandedPostSettings.swift */; };
 		EDE8B37B2BC3530600DFF750 /* CompactedPostSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B37A2BC3530600DFF750 /* CompactedPostSettings.swift */; };
 		EDE8B37D2BC39D2200DFF750 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B37C2BC39D2200DFF750 /* ImagePicker.swift */; };
+		EDE8B37F2BC3B67200DFF750 /* ImageBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B37E2BC3B67200DFF750 /* ImageBubbleView.swift */; };
 		EDEECA212B8A6DA100BD517D /* OnBoardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */; };
 		EDEECA232B8A77CE00BD517D /* meet.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA222B8A77CE00BD517D /* meet.json */; };
 		EDEECA252B8A77D500BD517D /* party.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA242B8A77D500BD517D /* party.json */; };
@@ -341,6 +342,7 @@
 		EDE8B3782BC3502200DFF750 /* ExpandedPostSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedPostSettings.swift; sourceTree = "<group>"; };
 		EDE8B37A2BC3530600DFF750 /* CompactedPostSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactedPostSettings.swift; sourceTree = "<group>"; };
 		EDE8B37C2BC39D2200DFF750 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		EDE8B37E2BC3B67200DFF750 /* ImageBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBubbleView.swift; sourceTree = "<group>"; };
 		EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingScreen.swift; sourceTree = "<group>"; };
 		EDEECA222B8A77CE00BD517D /* meet.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = meet.json; sourceTree = "<group>"; };
 		EDEECA242B8A77D500BD517D /* party.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = party.json; sourceTree = "<group>"; };
@@ -899,6 +901,7 @@
 				ED755F142BB4DBA5004BC6C3 /* ChatView.swift */,
 				ED755F1C2BB50D56004BC6C3 /* BubbleView.swift */,
 				EDCBEBF32BB7C3E000087325 /* MessageView.swift */,
+				EDE8B37E2BC3B67200DFF750 /* ImageBubbleView.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1089,6 +1092,7 @@
 				ED5CC5242B97ECCA009B17E3 /* Constants.swift in Sources */,
 				ED5CC5282B983982009B17E3 /* EnableFullAccuracyView.swift in Sources */,
 				EDA322452B7DB07D009905B5 /* CommentScreen.swift in Sources */,
+				EDE8B37F2BC3B67200DFF750 /* ImageBubbleView.swift in Sources */,
 				ED2F1A752B9142AA001F4300 /* NotificationViewModel.swift in Sources */,
 				ED2267912B9027F2006FE9D3 /* NextView.swift in Sources */,
 				ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */,

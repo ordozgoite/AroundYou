@@ -20,25 +20,13 @@ struct MessageView: View {
         
         Reply()
         
-        BubbleView(message: message.message, isCurrentUser: message.isCurrentUser, isFirst: message.isFirst)
-            .offset(x: translation.width, y: 0)
-            .gesture(
-                DragGesture()
-                    .onChanged { gesture in
-                        if gesture.translation.width > 0 {
-                            translation.width = min(maxTranslation, gesture.translation.width)
-                        }
-                    }
-                    .onEnded { gesture in
-                        if gesture.translation.width > maxTranslation {
-                            hapticFeedback(style: .heavy)
-                            replyMessage()
-                        }
-                        withAnimation {
-                            translation = .zero
-                        }
-                    }
-            )
+        if let imageUrl = message.imageUrl {
+            ImageBubble(imageUrl)
+        }
+        
+        if let text = message.message {
+            TextBubble(text)
+        }
     }
     
     //MARK: - Time
@@ -89,8 +77,58 @@ struct MessageView: View {
             .frame(maxWidth: .infinity, alignment: message.isCurrentUser ? .trailing : .leading)
         }
     }
+    
+    //MARK: - Text Bubble
+    
+    @ViewBuilder
+    private func TextBubble(_ text: String) -> some View {
+        BubbleView(message: text, isCurrentUser: message.isCurrentUser, isFirst: message.isFirst)
+            .offset(x: translation.width, y: 0)
+            .gesture(
+                DragGesture()
+                    .onChanged { gesture in
+                        if gesture.translation.width > 0 {
+                            translation.width = min(maxTranslation, gesture.translation.width)
+                        }
+                    }
+                    .onEnded { gesture in
+                        if gesture.translation.width > maxTranslation {
+                            hapticFeedback(style: .heavy)
+                            replyMessage()
+                        }
+                        withAnimation {
+                            translation = .zero
+                        }
+                    }
+            )
+    }
+    
+    //MARK: - Image Bubble
+    
+    @ViewBuilder
+    private func ImageBubble(_ url: String) -> some View {
+        ImageBubbleView(imageUrl: url, isCurrentUser: message.isCurrentUser)
+            .offset(x: translation.width, y: 0)
+            .gesture(
+                DragGesture()
+                    .onChanged { gesture in
+                        if gesture.translation.width > 0 {
+                            translation.width = min(maxTranslation, gesture.translation.width)
+                        }
+                    }
+                    .onEnded { gesture in
+                        if gesture.translation.width > maxTranslation {
+                            hapticFeedback(style: .heavy)
+                            replyMessage()
+                        }
+                        withAnimation {
+                            translation = .zero
+                        }
+                    }
+            )
+    }
 }
 
 #Preview {
-    MessageView(message: FormattedMessage(id: "1", message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉", isCurrentUser: false, isFirst: true, repliedMessageText: "Tio, o que você está fazendo?", timeDivider: 1711774061000), replyMessage: {})
+    MessageView(message: FormattedMessage(id: "1", message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉", imageUrl: "https://firebasestorage.googleapis.com:443/v0/b/aroundyou-b8364.appspot.com/o/post-image%2F8019D1A7-097F-45FA-B0FF-41959EC98789.jpg?alt=media&token=3c621a0c-46e2-405a-b5f5-3bff8f888e07", isCurrentUser: false, isFirst: true, repliedMessageText: "Tio, o que você está fazendo?", timeDivider: 1711774061000), replyMessage: {})
 }

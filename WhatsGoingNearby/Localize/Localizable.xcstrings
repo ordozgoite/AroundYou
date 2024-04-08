@@ -1483,6 +1483,9 @@
         }
       }
     },
+    "Image" : {
+
+    },
     "In posts, users indicate the time they will remain in the location and associate it with an appropriate tag. Other users will be able to comment on the post or ask private questions via chat." : {
       "localizations" : {
         "pt-BR" : {

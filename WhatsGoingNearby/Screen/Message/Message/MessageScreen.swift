@@ -131,7 +131,7 @@ struct MessageScreen: View {
                     Button {
                         Task {
                             let token = try await authVM.getFirebaseToken()
-                            await messageVM.sendMessage(chatId: chatId, text: messageVM.messageText, repliedMessageId: messageVM.repliedMessage?.id, token: token)
+                            await messageVM.sendMessage(chatId: chatId, text: messageVM.messageText.isEmpty ? nil : messageVM.messageText, image: messageVM.image, repliedMessageId: messageVM.repliedMessage?.id, token: token)
                         }
                     } label: {
                         Image(systemName: "paperplane.fill")
@@ -168,9 +168,14 @@ struct MessageScreen: View {
                         }
                 }
                 
-                Text(repliedMessage.message)
-                    .foregroundStyle(.gray)
-                    .lineLimit(2)
+                if let repliedMessageText = repliedMessage.message {
+                    Text(repliedMessageText)
+                        .foregroundStyle(.gray)
+                        .lineLimit(2)
+                } else if let repliedMessageText = repliedMessage.imageUrl {
+                    Label("Image", systemImage: "photo")
+                        .foregroundStyle(.gray)
+                }
             }
             .padding(10)
         }
