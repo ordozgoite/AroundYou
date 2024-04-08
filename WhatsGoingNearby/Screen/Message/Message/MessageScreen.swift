@@ -128,7 +128,30 @@ struct MessageScreen: View {
                 .padding(10)
             }
             
-            HStack(spacing: 16) {
+            HStack(spacing: 8) {
+                Menu {
+                    Button {
+                        //
+                    } label: {
+                        Label("Camera", systemImage: "camera")
+                    }
+                    
+                    Button {
+                        
+                    } label: {
+                        Label("Photos", systemImage: "photo")
+                    }
+                } label: {
+                    Image(systemName: "plus")
+                        .foregroundStyle(.gray)
+                        .padding(12)
+                        .background(
+                            Circle().fill(.thinMaterial)
+                        )
+                }
+
+                
+                
                 TextField("Write a message...", text: $messageVM.messageText, axis: .vertical)
                     .padding(10)
                     .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
@@ -152,7 +175,8 @@ struct MessageScreen: View {
                 }
             }
         }
-        .padding()
+        .padding(.horizontal)
+        .padding(.bottom)
     }
     
     //MARK: - Private Method
@@ -177,5 +201,5 @@ struct MessageScreen: View {
 }
 
 //#Preview {
-//    MessageScreen()
+//    MessageScreen(chatId: "", username: "ordozgoite", otherUserUid: "", chatPic: nil)
 //}

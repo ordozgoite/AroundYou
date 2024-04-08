@@ -123,58 +123,6 @@ struct NewPostScreen: View {
         }
     }
     
-    //MARK: - Image Preview
-    
-    @ViewBuilder
-    private func ImagePreview() -> some View {
-        if let selectedImage =  newPostVM.image {
-            ZStack(alignment: .topTrailing) {
-                Image(uiImage: selectedImage)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 64)
-                    .cornerRadius(8)
-                    .padding()
-                
-                Button {
-                    newPostVM.image = nil
-                } label: {
-                    Image(systemName: "x.circle.fill")
-                }
-            }
-        }
-    }
-    
-    //MARK: - Footer
-    
-    @ViewBuilder
-    private func Footer() -> some View {
-        VStack(alignment: .leading) {
-            ImagePreview()
-            
-            VStack {
-                Divider()
-                
-                HStack {
-                    HStack(spacing: 16) {
-                        Tag()
-                        
-                        Duration()
-                        
-                        Picture()
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                    
-                    Text("\(newPostVM.postText.count)/\(maxPostLength)")
-                        .foregroundStyle(.gray)
-                        .font(.subheadline)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-                }
-            }
-            .frame(height: 32)
-        }
-    }
-    
     //MARK: - Location
     
     @ViewBuilder
@@ -205,83 +153,89 @@ struct NewPostScreen: View {
             }
             .buttonStyle(.bordered)
         }
-
+    }
+    
+    //MARK: - Footer
+    
+    @ViewBuilder
+    private func Footer() -> some View {
+        VStack(spacing: 0) {
+            HStack {
+                ImagePreview()
+                
+                Spacer()
+                
+                Camera()
+            }
+            .padding(.bottom)
+            
+            Chevron()
+            
+            if newPostVM.isSettingsExpanded {
+                ExpandedPostSettings(newPostVM: newPostVM, isExpanded: $newPostVM.isSettingsExpanded)
+            } else {
+                CompactedPostSettings(newPostVM: newPostVM, isExpanded: $newPostVM.isSettingsExpanded)
+            }
+        }
+    }
+    
+    //MARK: - Image Preview
+    
+    @ViewBuilder
+    private func ImagePreview() -> some View {
+        if let selectedImage =  newPostVM.image {
+            ZStack(alignment: .topTrailing) {
+                Image(uiImage: selectedImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 64)
+                    .cornerRadius(8)
+                    .padding()
+                
+                Button {
+                    newPostVM.image = nil
+                } label: {
+                    Image(systemName: "x.circle.fill")
+                }
+            }
+        }
+    }
+    
+    //MARK: - Camera
+    
+    @ViewBuilder
+    private func Camera() -> some View {
+        Image(systemName: "camera.circle.fill")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 44, height: 44, alignment: .center)
+            .foregroundStyle(.blue)
+            .background(
+                Circle()
+                    .frame(width: 44, height: 44, alignment: .center)
+                    .foregroundStyle(.white)
+                    .shadow(color: Color.black.opacity(0.5), radius: 5, x: 1, y: 1)
+            )
+            .onTapGesture {
+                newPostVM.isCameraDisplayed = true
+            }
         
-//        Menu {
-//            ForEach(PostLocationVisibility.allCases, id: \.self) { visibility in
-//                Button {
-//                    newPostVM.selectedPostLocationVisibilty = visibility
-//                } label: {
-//                    Image(systemName: visibility.imageName)
-//                    Text(visibility.title)
-//                }
-//            }
-//        } label: {
-//            HStack(spacing: 0) {
-//                Image(systemName: newPostVM.selectedPostLocationVisibilty.imageName)
-//                Image(systemName: "chevron.up.chevron.down")
-//                    .scaleEffect(0.8)
-//            }
-//        }
     }
     
-    //MARK: - Tag
+    //MARK: - Chevron
     
     @ViewBuilder
-    private func Tag() -> some View {
-        Menu {
-            ForEach(PostTag.allCases, id: \.self) { tag in
-                Button {
-                    newPostVM.selectedPostTag = tag
-                } label: {
-                    Image(systemName: tag.iconName)
-                    Text(tag.title)
+    private func Chevron() -> some View {
+        Image(systemName: newPostVM.isSettingsExpanded ? "chevron.compact.down" : "chevron.compact.up")
+            .resizable()
+            .foregroundStyle(.gray)
+            .scaledToFit()
+            .frame(width: 32, height: 12)
+            .onTapGesture {
+                withAnimation {
+                    newPostVM.isSettingsExpanded.toggle()
                 }
             }
-        } label: {
-            HStack(spacing: 0) {
-                Image(systemName: newPostVM.selectedPostTag.iconName)
-                Image(systemName: "chevron.up.chevron.down")
-                    .scaleEffect(0.8)
-            }
-        }
-    }
-    
-    //MARK: - Duration
-    
-    @ViewBuilder
-    private func Duration() -> some View {
-        Menu {
-            ForEach(PostDuration.allCases, id: \.self) { duration in
-                Button {
-                    newPostVM.selectedPostDuration = duration
-                } label: {
-                    Text(duration.title)
-                }
-            }
-            Text("Post will stay active for:")
-        } label: {
-            HStack(spacing: 0) {
-                HStack {
-                    Image(systemName: "clock")
-                    Text(newPostVM.selectedPostDuration.abbreviatedTitle)
-                }
-                .frame(width: 60)
-                Image(systemName: "chevron.up.chevron.down")
-                    .scaleEffect(0.8)
-            }
-        }
-    }
-    
-    //MARK: - Picture
-    
-    @ViewBuilder
-    private func Picture() -> some View {
-        Button {
-            newPostVM.isCameraDisplayed = true
-        } label: {
-            Image(systemName:  "camera")
-        }
     }
     
     //MARK: - Private Methods

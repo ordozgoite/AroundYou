@@ -17,6 +17,7 @@ enum PostTag: String, CaseIterable, Decodable {
     case chilling
     case eat
     case buy
+    case work
     
     var title: LocalizedStringKey {
         return switch self {
@@ -25,17 +26,19 @@ enum PostTag: String, CaseIterable, Decodable {
         case .info:
             "Asking for information"
         case .chat:
-            "Chatting"
+            "Just chatting"
         case .hangout:
-            "Seeking Hangout"
+            "Seeking hangout"
         case .news:
             "Sharing news"
         case .chilling:
             "Just chilling"
         case .eat:
-            "Wanna eat"
+            "Hungry"
         case .buy:
-            "Wanna buy"
+            "Seeking to purchase"
+        case .work:
+             "Working"
         }
     }
     
@@ -57,6 +60,8 @@ enum PostTag: String, CaseIterable, Decodable {
             "fork.knife"
         case .buy:
             "cart"
+        case .work:
+            "bag"
         }
     }
     

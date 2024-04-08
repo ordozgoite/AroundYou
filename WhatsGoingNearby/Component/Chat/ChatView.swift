@@ -70,6 +70,7 @@ struct ChatView: View {
             }
             .frame(maxHeight: .infinity, alignment: .top)
         }
+        .frame(alignment: .center)
         .padding(.vertical, 8)
     }
 }

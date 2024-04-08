@@ -180,6 +180,9 @@
 		EDE8B36D2BC1D11500DFF750 /* PostSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B36C2BC1D11500DFF750 /* PostSettingsView.swift */; };
 		EDE8B36F2BC1D9A800DFF750 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B36E2BC1D9A800DFF750 /* AudioRecorder.swift */; };
 		EDE8B3712BC20AFB00DFF750 /* DeleteChatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B3702BC20AFB00DFF750 /* DeleteChatResponse.swift */; };
+		EDE8B3762BC3301900DFF750 /* NewPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B3752BC3301900DFF750 /* NewPostView.swift */; };
+		EDE8B3792BC3502200DFF750 /* ExpandedPostSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B3782BC3502200DFF750 /* ExpandedPostSettings.swift */; };
+		EDE8B37B2BC3530600DFF750 /* CompactedPostSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B37A2BC3530600DFF750 /* CompactedPostSettings.swift */; };
 		EDEECA212B8A6DA100BD517D /* OnBoardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */; };
 		EDEECA232B8A77CE00BD517D /* meet.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA222B8A77CE00BD517D /* meet.json */; };
 		EDEECA252B8A77D500BD517D /* party.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA242B8A77D500BD517D /* party.json */; };
@@ -333,6 +336,9 @@
 		EDE8B36C2BC1D11500DFF750 /* PostSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSettingsView.swift; sourceTree = "<group>"; };
 		EDE8B36E2BC1D9A800DFF750 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		EDE8B3702BC20AFB00DFF750 /* DeleteChatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteChatResponse.swift; sourceTree = "<group>"; };
+		EDE8B3752BC3301900DFF750 /* NewPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostView.swift; sourceTree = "<group>"; };
+		EDE8B3782BC3502200DFF750 /* ExpandedPostSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedPostSettings.swift; sourceTree = "<group>"; };
+		EDE8B37A2BC3530600DFF750 /* CompactedPostSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactedPostSettings.swift; sourceTree = "<group>"; };
 		EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingScreen.swift; sourceTree = "<group>"; };
 		EDEECA222B8A77CE00BD517D /* meet.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = meet.json; sourceTree = "<group>"; };
 		EDEECA242B8A77D500BD517D /* party.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = party.json; sourceTree = "<group>"; };
@@ -436,6 +442,7 @@
 				ED50C4632B7FA2B80001EDF6 /* EmptyFeedView.swift */,
 				ED5CC5252B982121009B17E3 /* EnableLocationView.swift */,
 				ED5CC5272B983982009B17E3 /* EnableFullAccuracyView.swift */,
+				EDE8B3752BC3301900DFF750 /* NewPostView.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -505,6 +512,7 @@
 		ED598BF32B7C16DA00B6C23D /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				EDE8B3772BC3500300DFF750 /* New Post */,
 				ED86186A2BB9E6C400A26121 /* Camera */,
 				EDCF2C362BB662CF0066950F /* Chat */,
 				ED5CC5192B97BF3B009B17E3 /* Edit Profile */,
@@ -892,6 +900,15 @@
 			path = Chat;
 			sourceTree = "<group>";
 		};
+		EDE8B3772BC3500300DFF750 /* New Post */ = {
+			isa = PBXGroup;
+			children = (
+				EDE8B3782BC3502200DFF750 /* ExpandedPostSettings.swift */,
+				EDE8B37A2BC3530600DFF750 /* CompactedPostSettings.swift */,
+			);
+			path = "New Post";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1075,6 +1092,7 @@
 				ED6D82C52B93D7BE00C57937 /* MapViewModel.swift in Sources */,
 				ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */,
 				ED7D8F912BBC5D1C00544A8B /* EditPostViewModel.swift in Sources */,
+				EDE8B37B2BC3530600DFF750 /* CompactedPostSettings.swift in Sources */,
 				ED6D82BF2B938E4E00C57937 /* DeleteNotificationResponse.swift in Sources */,
 				EDCF2C312BB60B450066950F /* FormattedChat.swift in Sources */,
 				EDA30DEE2B7FBAF8003EB22D /* LaunchScreen.swift in Sources */,
@@ -1091,6 +1109,7 @@
 				ED6DD4962B82E5B900ADBB64 /* MapView.swift in Sources */,
 				EDA322472B7DB221009905B5 /* CommentView.swift in Sources */,
 				ED755F212BB52C35004BC6C3 /* FormattedMessage.swift in Sources */,
+				EDE8B3762BC3301900DFF750 /* NewPostView.swift in Sources */,
 				ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */,
 				EDA30DFC2B804BE6003EB22D /* Report.swift in Sources */,
 				EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */,
@@ -1118,6 +1137,7 @@
 				EDA3222E2B7CA490009905B5 /* AYEndpoints.swift in Sources */,
 				EDCBEBF42BB7C3E000087325 /* MessageView.swift in Sources */,
 				ED598C532B7C81CA00B6C23D /* LocationManager.swift in Sources */,
+				EDE8B3792BC3502200DFF750 /* ExpandedPostSettings.swift in Sources */,
 				ED24FAF82B9E6535002F7A11 /* ReportDTO.swift in Sources */,
 				ED8CDFC22BB2702E00B8852E /* PostTag.swift in Sources */,
 				ED2F1A6E2B90E4FA001F4300 /* IndepCommentViewModel.swift in Sources */,

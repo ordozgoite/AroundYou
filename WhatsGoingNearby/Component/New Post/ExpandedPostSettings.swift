@@ -1,43 +1,29 @@
 //
-//  PostSettingsView.swift
+//  PostSettings.swift
 //  WhatsGoingNearby
 //
-//  Created by Victor Ordozgoite on 06/04/24.
+//  Created by Victor Ordozgoite on 07/04/24.
 //
 
 import SwiftUI
 
-struct PostSettingsView: View {
+struct ExpandedPostSettings: View {
     
-    @Binding var tag: PostTag
-    @Binding var duration: PostDuration
+    private let maxPostLength = 250
+    
+    @StateObject var newPostVM: NewPostViewModel
+    
+    @Binding var isExpanded: Bool
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Camera()
+        VStack(alignment: .leading, spacing: 16) {
+            Text("\(newPostVM.postText.count)/\(maxPostLength)")
+                .foregroundStyle(.gray)
+                .font(.subheadline)
             
             Tag()
             
             Duration()
-            
-            Spacer()
-        }
-    }
-    
-    //MARK: - Camera
-    
-    @ViewBuilder
-    private func Camera() -> some View {
-        HStack {
-            Image(systemName: "camera")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 20)
-            
-            Text("Camera")
-                .fontWeight(.semibold)
-            
-            Spacer()
         }
     }
     
@@ -46,22 +32,14 @@ struct PostSettingsView: View {
     @ViewBuilder
     private func Tag() -> some View {
         HStack {
-            HStack {
-                Image(systemName: "ellipsis.bubble")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20)
-                
-                Text("Select a Tag")
-                    .fontWeight(.semibold)
-            }
+            Label("I am", systemImage: "ellipsis.bubble")
             
             Spacer()
             
             Menu {
                 ForEach(PostTag.allCases, id: \.self) { tag in
                     Button {
-                        self.tag = tag
+                        newPostVM.selectedPostTag = tag
                     } label: {
                         Image(systemName: tag.iconName)
                         Text(tag.title)
@@ -69,10 +47,10 @@ struct PostSettingsView: View {
                 }
             } label: {
                 HStack {
-                    Text(tag.title)
+                    Text(newPostVM.selectedPostTag.title)
                     
                     HStack(spacing: 0) {
-                        Image(systemName: tag.iconName)
+                        Image(systemName: newPostVM.selectedPostTag.iconName)
                         Image(systemName: "chevron.up.chevron.down")
                             .scaleEffect(0.8)
                     }
@@ -86,22 +64,14 @@ struct PostSettingsView: View {
     @ViewBuilder
     private func Duration() -> some View {
         HStack {
-            HStack {
-                Image(systemName: "timer")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20)
-                
-                Text("Post will stay active for")
-                    .fontWeight(.semibold)
-            }
+            Label("Post will stay active for", systemImage: "timer")
             
             Spacer()
             
             Menu {
                 ForEach(PostDuration.allCases, id: \.self) { duration in
                     Button {
-                        self.duration = duration
+                        newPostVM.selectedPostDuration = duration
                     } label: {
                         Text(duration.title)
                     }
@@ -109,7 +79,7 @@ struct PostSettingsView: View {
             } label: {
                 HStack(spacing: 0) {
                     HStack {
-                        Text(duration.title)
+                        Text(newPostVM.selectedPostDuration.title)
                     }
                     .frame(width: 60)
                     Image(systemName: "chevron.up.chevron.down")
@@ -121,5 +91,5 @@ struct PostSettingsView: View {
 }
 
 #Preview {
-    PostSettingsView(tag: .constant(.chat), duration: .constant(.oneHour))
+    ExpandedPostSettings(newPostVM: NewPostViewModel(), isExpanded: .constant(true))
 }

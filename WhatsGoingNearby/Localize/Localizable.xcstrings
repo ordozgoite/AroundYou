@@ -280,7 +280,14 @@
       }
     },
     "Active" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativa"
+          }
+        }
+      }
     },
     "Actives" : {
       "extractionState" : "stale",
@@ -447,6 +454,9 @@
         }
       }
     },
+    "Audio %lld" : {
+
+    },
     "Authenticating" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -593,7 +603,14 @@
       }
     },
     "Camera" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Câmera"
+          }
+        }
+      }
     },
     "Cancel" : {
       "localizations" : {
@@ -612,9 +629,17 @@
       }
     },
     "Chats" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversas"
+          }
+        }
+      }
     },
     "Chatting" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -962,7 +987,14 @@
       }
     },
     "Display location on map" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exibir localização no mapa"
+          }
+        }
+      }
     },
     "Distance: %@ meters" : {
       "localizations" : {
@@ -1353,6 +1385,9 @@
         }
       }
     },
+    "Gravador de Áudio" : {
+
+    },
     "Help" : {
       "localizations" : {
         "pt-BR" : {
@@ -1390,7 +1425,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esconder localização"
+            "value" : "Não exibir localização"
           }
         },
         "pt-PT" : {
@@ -1408,6 +1443,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Esconder minha localização"
+          }
+        }
+      }
+    },
+    "Hungry" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com fome"
+          }
+        }
+      }
+    },
+    "I am" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eu estou"
           }
         }
       }
@@ -1461,6 +1516,9 @@
         }
       }
     },
+    "Iniciar Gravação" : {
+
+    },
     "Interact with people 🌐" : {
       "localizations" : {
         "pt-BR" : {
@@ -1473,6 +1531,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Interaja com pessoas 🌐"
+          }
+        }
+      }
+    },
+    "Just chatting" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batendo papo"
           }
         }
       }
@@ -1822,6 +1890,9 @@
         }
       }
     },
+    "Parar Gravação" : {
+
+    },
     "password" : {
       "localizations" : {
         "pt-BR" : {
@@ -1850,6 +1921,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Senha"
+          }
+        }
+      }
+    },
+    "Photos" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotos"
           }
         }
       }
@@ -1974,7 +2055,14 @@
       }
     },
     "Post will stay active for" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publicação ficará ativa por"
+          }
+        }
+      }
     },
     "Post will stay active for:" : {
       "localizations" : {
@@ -2362,7 +2450,18 @@
         }
       }
     },
+    "Seeking hangout" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscando companhia"
+          }
+        }
+      }
+    },
     "Seeking Hangout" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -2378,8 +2477,25 @@
         }
       }
     },
+    "Seeking to purchase" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Querendo comprar"
+          }
+        }
+      }
+    },
     "Select a Tag" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha uma Tag"
+          }
+        }
+      }
     },
     "Send Email" : {
       "localizations" : {
@@ -2541,12 +2657,6 @@
           }
         }
       }
-    },
-    "Start Recording" : {
-
-    },
-    "Stop" : {
-
     },
     "Temporary posts ⏳" : {
       "localizations" : {
@@ -2830,6 +2940,7 @@
       }
     },
     "Wanna buy" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -2846,6 +2957,7 @@
       }
     },
     "Wanna eat" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -2921,6 +3033,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O que está rolando ao seu redor?"
+          }
+        }
+      }
+    },
+    "Working" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trabalhando"
           }
         }
       }

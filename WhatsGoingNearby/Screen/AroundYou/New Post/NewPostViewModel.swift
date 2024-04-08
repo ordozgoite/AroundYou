@@ -17,9 +17,10 @@ class NewPostViewModel: ObservableObject {
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
 //    @Published var selectedPostLocationVisibilty: PostLocationVisibility = .hidden
     @Published var isLocationVisible: Bool = false
-    @Published var selectedPostTag: PostTag = .chat
+    @Published var selectedPostTag: PostTag = .chilling
     @Published var selectedPostDuration: PostDuration = .oneHour
     @Published var isShareLocationAlertDisplayed: Bool = false
+    @Published var isSettingsExpanded: Bool = false
     
     @Published var image: UIImage?
     @Published var isCameraDisplayed = false

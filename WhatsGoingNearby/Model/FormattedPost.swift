@@ -61,6 +61,8 @@ struct FormattedPost: Identifiable, Codable {
                 .buy
         case "eat":
                 .eat
+        case "work":
+                .work
         default:
                 nil
         }

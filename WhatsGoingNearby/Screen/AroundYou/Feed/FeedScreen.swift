@@ -50,16 +50,6 @@ struct FeedScreen: View {
                         Image(systemName: "bell")
                     }
                 }
-                
-                //                ToolbarItem {
-                //                    NavigationLink(destination: NewPostScreen() {
-                //                        Task {
-                //                            try await getNearByPosts()
-                //                        }
-                //                    }.environmentObject(authVM)) {
-                //                        Image(systemName: "square.and.pencil")
-                //                    }
-                //                }
             }
             .navigationTitle("Around You")
             .navigationBarTitleDisplayMode(.large)
@@ -90,41 +80,11 @@ struct FeedScreen: View {
     
     @ViewBuilder
     private func EmptyFeed() -> some View {
-        ZStack(alignment: .top) {
-            EmptyFeedView()
-            
-            NewPost()
-        }
-    }
-    
-    //MARK: - New Post
-    
-    @ViewBuilder
-    private func NewPost() -> some View {
-        NavigationLink(destination: NewPostScreen() {
+        EmptyFeedView() {
             Task {
                 try await getNearByPosts()
             }
-        }.environmentObject(authVM)) {
-            HStack {
-                ProfilePicView(profilePic: authVM.profilePic, size: 32)
-                
-                Text("What's going on around you?")
-                    .foregroundStyle(.gray)
-                    .font(.subheadline)
-                
-                Spacer()
-                
-                Image(systemName: "square.and.pencil")
-                    .foregroundStyle(.gray)
-            }
-            .padding()
-            .frame(height: 64)
-            .background(
-                RoundedRectangle(cornerRadius: 8).fill(.thinMaterial)
-            )
-        }
-        .buttonStyle(PlainButtonStyle())
+        }.environmentObject(authVM)
     }
     
     //MARK: - Feed
@@ -132,7 +92,11 @@ struct FeedScreen: View {
     @ViewBuilder
     private func Feed() -> some View {
         ScrollView {
-            NewPost()
+            NewPostView() {
+                Task {
+                    try await getNearByPosts()
+                }
+            }.environmentObject(authVM)
             
             Posts(ofType: .active)
             
