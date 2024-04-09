@@ -286,6 +286,12 @@
             "state" : "translated",
             "value" : "Ativa"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativa"
+          }
         }
       }
     },
@@ -343,13 +349,13 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Todos"
+            "value" : "Todas"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Todos"
+            "value" : "Todas"
           }
         }
       }
@@ -609,6 +615,12 @@
             "state" : "translated",
             "value" : "Câmera"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Câmera"
+          }
         }
       }
     },
@@ -631,6 +643,12 @@
     "Chats" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversas"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Conversas"
@@ -987,6 +1005,7 @@
       }
     },
     "Display location on map" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1024,6 +1043,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Não Permitir"
+          }
+        }
+      }
+    },
+    "Don't show me on map" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não me mostre no mapa"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não me mostre no mapa"
           }
         }
       }
@@ -1272,13 +1307,13 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Expirado"
+            "value" : "Expirada"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Expirado"
+            "value" : "Expirada"
           }
         }
       }
@@ -1454,12 +1489,24 @@
             "state" : "translated",
             "value" : "Com fome"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com fome"
+          }
         }
       }
     },
     "I am" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eu estou"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eu estou"
@@ -1484,7 +1531,20 @@
       }
     },
     "Image" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imagem"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imagem"
+          }
+        }
+      }
     },
     "In posts, users indicate the time they will remain in the location and associate it with an appropriate tag. Other users will be able to comment on the post or ask private questions via chat." : {
       "localizations" : {
@@ -1540,11 +1600,30 @@
       }
     },
     "Interact with people 🥳" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interaja com pessoas 🥳"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interaja com pessoas 🥳"
+          }
+        }
+      }
     },
     "Just chatting" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batendo papo"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Batendo papo"
@@ -1939,6 +2018,12 @@
             "state" : "translated",
             "value" : "Fotos"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotos"
+          }
         }
       }
     },
@@ -2064,6 +2149,12 @@
     "Post will stay active for" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publicação ficará ativa por"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Publicação ficará ativa por"
@@ -2464,6 +2555,12 @@
             "state" : "translated",
             "value" : "Buscando companhia"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscando companhia"
+          }
         }
       }
     },
@@ -2491,6 +2588,12 @@
             "state" : "translated",
             "value" : "Querendo comprar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Querendo comprar"
+          }
         }
       }
     },
@@ -2500,6 +2603,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escolha uma Tag"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha uma tag"
           }
         }
       }
@@ -2575,6 +2684,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar localização"
+          }
+        }
+      }
+    },
+    "Show me on map" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostre-me no mapa"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostre-me no mapa"
           }
         }
       }
@@ -3047,6 +3172,12 @@
     "Working" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trabalhando"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trabalhando"

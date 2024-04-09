@@ -35,7 +35,6 @@ enum AuthenticationFlow: Int, CaseIterable {
 class AuthenticationViewModel: ObservableObject {
     
     @Published var usernameInput: String = ""
-    @Published var fullNameInput: String = ""
     @Published var emailInput: String = ""
     @Published var passwordInput: String = ""
     @Published var flow: AuthenticationFlow = .login
@@ -196,7 +195,6 @@ extension AuthenticationViewModel {
     func signUpWithEmailPassword() async -> Bool {
         authenticationState = .authenticating
         do  {
-            self.name = fullNameInput
             let authResult = try await Auth.auth().createUser(withEmail: emailInput, password: passwordInput)
             user = authResult.user
             print("🤝 User \(authResult.user.uid) signed in.")
@@ -285,7 +283,7 @@ extension AuthenticationViewModel {
                 if usernameInput.isEmpty {
                     return true
                 } else {
-                    let isUsernameConflict = await postNewUser(username: usernameInput, name: fullNameInput.isEmpty ? nil : fullNameInput, token: token)
+                    let isUsernameConflict = await postNewUser(username: usernameInput, name: nil, token: token)
                     if isUsernameConflict { return true }
                 }
             } else if error == .forbidden {
@@ -361,7 +359,6 @@ extension AuthenticationViewModel {
     
     private func resetInputs() {
         usernameInput = ""
-        fullNameInput = ""
         emailInput = ""
         passwordInput = ""
     }

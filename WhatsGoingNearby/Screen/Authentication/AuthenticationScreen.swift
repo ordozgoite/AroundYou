@@ -30,10 +30,6 @@ struct AuthenticationScreen: View {
                         if authVM.flow == .signUp {
                             AYTextField(imageName: "person.fill", title: "Username", error: $authVM.errorMessage.0, inputText: $authVM.usernameInput)
                                 .focused($authInputIsFocused)
-                            
-                            AYTextField(imageName: "person.fill", title: "Full name", error: $authVM.errorMessage.1, inputText: $authVM.fullNameInput)
-                                .textInputAutocapitalization(.words)
-                                .focused($authInputIsFocused)
                         }
                         
                         AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.2, inputText: $authVM.emailInput)

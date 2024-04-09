@@ -16,8 +16,6 @@ struct NewPostScreen: View {
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
     
-    let refresh: () -> ()
-    
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 32) {
@@ -135,8 +133,8 @@ struct NewPostScreen: View {
                 
             } label: {
                 Label(
-                    title: { Text(newPostVM.isLocationVisible ? "Display location on map" : "Hide location") },
-                    icon: { Image(systemName: newPostVM.isLocationVisible ? "map" : "mappin.slash") }
+                    title: { Text("Show me on map") },
+                    icon: { Image(systemName: "map") }
                 )
             }
             .buttonStyle(.borderedProminent)
@@ -147,8 +145,8 @@ struct NewPostScreen: View {
                 }
             } label: {
                 Label(
-                    title: { Text(newPostVM.isLocationVisible ? "Display location on map" : "Hide location") },
-                    icon: { Image(systemName: newPostVM.isLocationVisible ? "map" : "mappin.slash") }
+                    title: { Text("Don't show me on map") },
+                    icon: { Image(systemName: "mappin.slash") }
                 )
             }
             .buttonStyle(.bordered)
@@ -249,15 +247,20 @@ struct NewPostScreen: View {
             let token = try await authVM.getFirebaseToken()
             await newPostVM.postNewPublication(latitude: latitude, longitude: longitude, token: token) {
                 presentationMode.wrappedValue.dismiss()
-                refresh()
+                refreshFeed()
             }
         } else {
             newPostVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
         }
     }
+    
+    private func refreshFeed() {
+        let name = Notification.Name(Constants.refreshFeedNotificationKey)
+        NotificationCenter.default.post(name: name, object: nil)
+    }
 }
 
 #Preview {
-    NewPostScreen(refresh: {})
+    NewPostScreen()
         .environmentObject(AuthenticationViewModel())
 }

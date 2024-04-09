@@ -13,9 +13,17 @@ import NotificationCenter
 class NotificationManager: NSObject, ObservableObject {
     
     let notificationCenter = UNUserNotificationCenter.current()
-    @Published var nextView: NextView?
-    @Published var id: String?
+    
+    // Comment
+    @Published var publicationId: String?
     @Published var isPublicationDisplayed: Bool = false
+    
+    // Message
+    @Published var chatId: String?
+    @Published var username: String?
+    @Published var senderUserUid: String?
+    @Published var chatPic: String?
+    @Published var isChatDisplayed: Bool = false
     
     override init() {
         super.init()
@@ -42,10 +50,40 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
     }
     
     private func processNotificationPayload(userInfo: [AnyHashable: Any]) {
-        if let nextView = userInfo["screenToShow"] as? String, let commentId = userInfo["commentId"] as? String {
-            self.nextView = NextView(rawValue: nextView)
-            self.id = commentId
+        if let nextView = userInfo["screenToShow"] as? String {
+            switch nextView {
+            case "comment":
+                displayCommentScreen(with: userInfo)
+            case "message":
+                displayMessageScreen(with: userInfo)
+            default:
+                print("❌ Unknown user info received.")
+            }
+        }
+    }
+    
+    private func displayCommentScreen(with userInfo: [AnyHashable: Any]) {
+        if let publicationId = userInfo["publicationId"] as? String {
+            self.publicationId = publicationId
             self.isPublicationDisplayed = true
+        } else {
+            print("❌ Incorrect userInfo to display Comment screen.")
+        }
+    }
+    
+    private func displayMessageScreen(with userInfo: [AnyHashable: Any]) {
+        if
+            let chatId = userInfo["chatId"] as? String,
+            let username = userInfo["username"] as? String,
+            let senderUserUid = userInfo["senderUserUid"] as? String
+        {
+            self.chatId = chatId
+            self.username = username
+            self.senderUserUid = senderUserUid
+            if let chatPic = userInfo["chatPic"] as? String { self.chatPic = chatPic }
+            self.isChatDisplayed = true
+        } else {
+            print("❌ Incorrect userInfo to display Message screen.")
         }
     }
 }

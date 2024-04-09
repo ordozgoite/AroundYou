@@ -96,11 +96,11 @@ struct PostView: View {
             
             Image(systemName: "ellipsis")
                 .foregroundStyle(.gray)
-                .popover(isPresented: $isOptionsPopoverDisplayed) {
+                .popover(isPresented: self.$isOptionsPopoverDisplayed) {
                     Options()
                 }
                 .onTapGesture {
-                    isOptionsPopoverDisplayed = true
+                    self.isOptionsPopoverDisplayed = true
                 }
         }
     }
@@ -295,9 +295,9 @@ struct PostView: View {
     @ViewBuilder
     private func Navigation() -> some View {
         NavigationLink(
-            destination: EditPostScreen(post: post, location: $location, refresh: {
-                // refresh
-            }).environmentObject(authVM),
+            destination: EditPostScreen(post: post, location: $location) {
+                refreshFeed()
+            }.environmentObject(authVM),
             isActive: $isEditPostScreenDisplayed,
             label: { EmptyView() }
         )
@@ -394,6 +394,11 @@ struct PostView: View {
         case .failure:
             print("❌ Error trying to Finish Publication.")
         }
+    }
+    
+    private func refreshFeed() {
+        let name = Notification.Name(Constants.refreshFeedNotificationKey)
+        NotificationCenter.default.post(name: name, object: nil)
     }
 }
 

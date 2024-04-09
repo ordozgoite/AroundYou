@@ -18,4 +18,5 @@ struct Constants {
     //MARK: - Notification Center
     
     static let scrollToTopNotificationKey: String = "scrollToTop"
+    static let refreshFeedNotificationKey: String = "refreshFeed"
 }

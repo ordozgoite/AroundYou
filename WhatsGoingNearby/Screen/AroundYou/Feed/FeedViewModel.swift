@@ -35,6 +35,7 @@ class FeedViewModel: ObservableObject {
     
     private func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(scrollToTop), name: Notification.Name(Constants.scrollToTopNotificationKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshFeed), name: Notification.Name(Constants.refreshFeedNotificationKey), object: nil)
     }
     
     func getPosts(latitude: Double, longitude: Double, token: String) async {
@@ -72,5 +73,10 @@ class FeedViewModel: ObservableObject {
     
     @objc private func scrollToTop() {
         isTabBarDoubleClicked.toggle()
+    }
+    
+    @objc private func refreshFeed() {
+        posts = []
+        initialPostsFetched = false
     }
 }

@@ -11,8 +11,6 @@ struct EmptyFeedView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     
-    var refreshPosts: () -> ()
-    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -44,7 +42,7 @@ struct EmptyFeedView: View {
                 }
                 
                 VStack {
-                    NewPostView(refreshPosts: { refreshPosts() })
+                    NewPostView()
                         .environmentObject(authVM)
                         .padding(.bottom, geometry.safeAreaInsets.bottom)
                     

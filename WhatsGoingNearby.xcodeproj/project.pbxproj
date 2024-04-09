@@ -14,7 +14,6 @@
 		ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525E2B817A31005B6413 /* EditProfileScreen.swift */; };
 		ED22678D2B8FCB93006FE9D3 /* CropScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22678C2B8FCB93006FE9D3 /* CropScreen.swift */; };
 		ED22678F2B9026C1006FE9D3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22678E2B9026C1006FE9D3 /* NotificationManager.swift */; };
-		ED2267912B9027F2006FE9D3 /* NextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2267902B9027F2006FE9D3 /* NextView.swift */; };
 		ED24FAEE2B9E64F4002F7A11 /* EditProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED24FAED2B9E64F4002F7A11 /* EditProfileResponse.swift */; };
 		ED24FAF42B9E6530002F7A11 /* CommentDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED24FAF32B9E6530002F7A11 /* CommentDTO.swift */; };
 		ED24FAF62B9E6533002F7A11 /* UserProfileDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED24FAF52B9E6533002F7A11 /* UserProfileDTO.swift */; };
@@ -200,7 +199,6 @@
 		ED06525E2B817A31005B6413 /* EditProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileScreen.swift; sourceTree = "<group>"; };
 		ED22678C2B8FCB93006FE9D3 /* CropScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropScreen.swift; sourceTree = "<group>"; };
 		ED22678E2B9026C1006FE9D3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
-		ED2267902B9027F2006FE9D3 /* NextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextView.swift; sourceTree = "<group>"; };
 		ED24FAED2B9E64F4002F7A11 /* EditProfileResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileResponse.swift; sourceTree = "<group>"; };
 		ED24FAF32B9E6530002F7A11 /* CommentDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDTO.swift; sourceTree = "<group>"; };
 		ED24FAF52B9E6533002F7A11 /* UserProfileDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileDTO.swift; sourceTree = "<group>"; };
@@ -498,7 +496,6 @@
 				EDA322482B7DB2BA009905B5 /* Comment.swift */,
 				EDA30DFB2B804BE5003EB22D /* Report.swift */,
 				ED06525A2B814722005B6413 /* BugReport.swift */,
-				ED2267902B9027F2006FE9D3 /* NextView.swift */,
 				ED2F1A7D2B927D9B001F4300 /* Subscription.swift */,
 				ED5CC51F2B97C13A009B17E3 /* Post.swift */,
 				ED24FAF32B9E6530002F7A11 /* CommentDTO.swift */,
@@ -1094,7 +1091,6 @@
 				EDA322452B7DB07D009905B5 /* CommentScreen.swift in Sources */,
 				EDE8B37F2BC3B67200DFF750 /* ImageBubbleView.swift in Sources */,
 				ED2F1A752B9142AA001F4300 /* NotificationViewModel.swift in Sources */,
-				ED2267912B9027F2006FE9D3 /* NextView.swift in Sources */,
 				ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */,
 				ED6D82C52B93D7BE00C57937 /* MapViewModel.swift in Sources */,
 				ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */,
@@ -1327,7 +1323,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1367,7 +1363,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

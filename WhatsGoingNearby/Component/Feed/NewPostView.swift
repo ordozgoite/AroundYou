@@ -11,12 +11,8 @@ struct NewPostView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     
-    var refreshPosts: () -> ()
-    
     var body: some View {
-        NavigationLink(destination: NewPostScreen() {
-            refreshPosts()
-        }.environmentObject(authVM)) {
+        NavigationLink(destination: NewPostScreen().environmentObject(authVM)) {
             HStack {
                 ProfilePicView(profilePic: authVM.profilePic, size: 32)
                 
@@ -40,5 +36,5 @@ struct NewPostView: View {
 }
 
 #Preview {
-    NewPostView(refreshPosts: {})
+    NewPostView()
 }

@@ -12,7 +12,7 @@ struct FeedScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject private var feedVM = FeedViewModel()
     @ObservedObject var locationManager = LocationManager()
-    @ObservedObject public var notificationManagaer = NotificationManager()
+    @ObservedObject public var notificationManager = NotificationManager()
     
     var activePostsQuantity: Int {
         return feedVM.posts.filter { $0.expirationDate.timeIntervalSince1970InSeconds > feedVM.currentTimeStamp }.count
@@ -39,11 +39,7 @@ struct FeedScreen: View {
                 
                 AYErrorAlert(message: feedVM.overlayError.1 , isErrorAlertPresented: $feedVM.overlayError.0)
                 
-                NavigationLink(
-                    destination: IndepCommentScreen(postId: notificationManagaer.id ?? "", location: $locationManager.location),
-                    isActive: $notificationManagaer.isPublicationDisplayed,
-                    label: { EmptyView() }
-                )
+                Navigation()
             }
             
             .toolbar {
@@ -82,11 +78,8 @@ struct FeedScreen: View {
     
     @ViewBuilder
     private func EmptyFeed() -> some View {
-        EmptyFeedView() {
-            Task {
-                try await getNearByPosts()
-            }
-        }.environmentObject(authVM)
+        EmptyFeedView()
+            .environmentObject(authVM)
     }
     
     //MARK: - Feed
@@ -96,11 +89,8 @@ struct FeedScreen: View {
         ScrollView {
             ScrollViewReader { proxy in
                 VStack {
-                    NewPostView() {
-                        Task {
-                            try await getNearByPosts()
-                        }
-                    }.environmentObject(authVM)
+                    NewPostView()
+                        .environmentObject(authVM)
                     
                     Posts(ofType: .active)
                     
@@ -148,6 +138,23 @@ struct FeedScreen: View {
         }
     }
     
+    //MARK: - Navigation
+    
+    @ViewBuilder
+    private func Navigation() -> some View {
+        NavigationLink(
+            destination: IndepCommentScreen(postId: notificationManager.publicationId ?? "", location: $locationManager.location),
+            isActive: $notificationManager.isPublicationDisplayed,
+            label: { EmptyView() }
+        )
+        
+        NavigationLink(
+            destination: MessageScreen(chatId: notificationManager.chatId ?? "", username: notificationManager.username ?? "", otherUserUid: notificationManager.senderUserUid ?? "", chatPic: notificationManager.chatPic),
+            isActive: $notificationManager.isChatDisplayed,
+            label: { EmptyView() }
+        )
+    }
+    
     //MARK: - Private Method
     
     private func startUpdatingTime() {
@@ -162,7 +169,7 @@ struct FeedScreen: View {
     }
     
     private func startUpdatingFeed() {
-        feedVM.feedTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+        feedVM.feedTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             Task {
                 try await getNearByPosts()
             }

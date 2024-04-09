@@ -47,21 +47,28 @@ struct MessageScreen: View {
                                     }
                                 }
                                 .onAppear {
-                                    proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
+                                    if !messageVM.messages.isEmpty {
+                                        proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
+                                    }
                                 }
                                 .onChange(of: messageVM.messages) { _ in
-                                    withAnimation {
-                                        proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
+                                    if !messageVM.messages.isEmpty {
+                                        withAnimation {
+                                            proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
+                                        }
                                     }
                                 }
                                 .onChange(of: isFocused) { _ in
                                     if isFocused {
-                                        withAnimation {
-                                            proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
-                                        }
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                        
+                                        if !messageVM.messages.isEmpty {
                                             withAnimation {
                                                 proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
+                                            }
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                                withAnimation {
+                                                    proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
+                                                }
                                             }
                                         }
                                     }
