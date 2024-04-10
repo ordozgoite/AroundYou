@@ -27,7 +27,7 @@ struct ImageBubbleView: View {
                 isFullScreenImageDisplayed = true
             }
             .fullScreenCover(isPresented: $isFullScreenImageDisplayed) {
-                FullScreenPostImage(url: imageUrl)
+                FullScreenImage(url: imageUrl)
             }
     }
 }
