@@ -31,7 +31,13 @@ struct MessageScreen: View {
                                     MessageView(message: message) {
                                         messageVM.repliedMessage = message
                                         isFocused = true
+                                    } tappedRepliedMessage: {
+                                        if let repliedMessageId = message.repliedMessageId {
+                                            scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
+                                            highlightMessage(withId: repliedMessageId)
+                                        }
                                     }
+                                    .background(messageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
                                     .contextMenu {
                                         if message.isCurrentUser {
                                             Button(role: .destructive) {
@@ -47,28 +53,21 @@ struct MessageScreen: View {
                                     }
                                 }
                                 .onAppear {
-                                    if !messageVM.messages.isEmpty {
-                                        proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
+                                    if let lastMessageId = messageVM.messages.last?.id {
+                                        scrollToMessage(withId: lastMessageId, usingProxy: proxy, animated: false)
                                     }
                                 }
                                 .onChange(of: messageVM.messages) { _ in
-                                    if !messageVM.messages.isEmpty {
-                                        withAnimation {
-                                            proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
-                                        }
+                                    if let lastMessageId = messageVM.messages.last?.id {
+                                        scrollToMessage(withId: lastMessageId, usingProxy: proxy)
                                     }
                                 }
                                 .onChange(of: isFocused) { _ in
                                     if isFocused {
-                                        
-                                        if !messageVM.messages.isEmpty {
-                                            withAnimation {
-                                                proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
-                                            }
+                                        if let lastMessageId = messageVM.messages.last?.id {
+                                            scrollToMessage(withId: lastMessageId, usingProxy: proxy)
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                                withAnimation {
-                                                    proxy.scrollTo(messageVM.messages.last!.id, anchor: .top)
-                                                }
+                                                scrollToMessage(withId: lastMessageId, usingProxy: proxy)
                                             }
                                         }
                                     }
@@ -191,7 +190,7 @@ struct MessageScreen: View {
                     Text(repliedMessageText)
                         .foregroundStyle(.gray)
                         .lineLimit(2)
-                } else if let repliedMessageText = repliedMessage.imageUrl {
+                } else if repliedMessage.imageUrl != nil {
                     Label("Image", systemImage: "photo")
                         .foregroundStyle(.gray)
                 }
@@ -271,6 +270,26 @@ struct MessageScreen: View {
     
     private func stopUpdatingMessages() {
         messageVM.messageTimer?.invalidate()
+    }
+    
+    private func scrollToMessage(withId messageId: String, usingProxy proxy: ScrollViewProxy, animated: Bool = true) {
+        if animated {
+            withAnimation {
+                proxy.scrollTo(messageId, anchor: .top)
+            }
+        } else {
+            proxy.scrollTo(messageId, anchor: .top)
+        }
+        
+    }
+    
+    private func highlightMessage(withId messageId: String) {
+        messageVM.highlightedMessageId = messageId
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            withAnimation {
+                messageVM.highlightedMessageId = nil
+            }
+        }
     }
 }
 

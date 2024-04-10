@@ -19,6 +19,7 @@ class MessageViewModel: ObservableObject {
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var repliedMessage: FormattedMessage?
     @Published var messageTimer: Timer?
+    @Published var highlightedMessageId: String?
     
     @Published var image: UIImage?
     @Published var isCameraDisplayed = false

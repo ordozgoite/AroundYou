@@ -14,6 +14,7 @@ struct MessageView: View {
     @State private var translation: CGSize = .zero
     let maxTranslation: CGFloat = 64
     var replyMessage: () -> ()
+    var tappedRepliedMessage: () -> ()
     
     var body: some View {
         Time()
@@ -75,6 +76,9 @@ struct MessageView: View {
             }
             .scaleEffect(0.8)
             .frame(maxWidth: .infinity, alignment: message.isCurrentUser ? .trailing : .leading)
+            .onTapGesture {
+                tappedRepliedMessage()
+            }
         }
     }
     
@@ -130,5 +134,5 @@ struct MessageView: View {
 }
 
 #Preview {
-    MessageView(message: FormattedMessage(id: "1", message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉", imageUrl: "https://firebasestorage.googleapis.com:443/v0/b/aroundyou-b8364.appspot.com/o/post-image%2F8019D1A7-097F-45FA-B0FF-41959EC98789.jpg?alt=media&token=3c621a0c-46e2-405a-b5f5-3bff8f888e07", isCurrentUser: false, isFirst: true, repliedMessageText: "Tio, o que você está fazendo?", timeDivider: 1711774061000), replyMessage: {})
+    MessageView(message: FormattedMessage(id: "1", message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉", imageUrl: "https://firebasestorage.googleapis.com:443/v0/b/aroundyou-b8364.appspot.com/o/post-image%2F8019D1A7-097F-45FA-B0FF-41959EC98789.jpg?alt=media&token=3c621a0c-46e2-405a-b5f5-3bff8f888e07", isCurrentUser: false, isFirst: true, repliedMessageText: "Tio, o que você está fazendo?", timeDivider: 1711774061000), replyMessage: {}, tappedRepliedMessage: {})
 }
