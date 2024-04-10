@@ -34,7 +34,7 @@ struct ZoomableImageView: UIViewRepresentable {
  
   func makeCoordinator() -> Coordinator {
     let imageView = UIImageView(image: image)
-    imageView.contentMode = .scaleAspectFill
+    imageView.contentMode = .scaleAspectFit // by Victor Ordozgoite
     imageView.translatesAutoresizingMaskIntoConstraints = true
     imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     return Coordinator(imageView: imageView)
