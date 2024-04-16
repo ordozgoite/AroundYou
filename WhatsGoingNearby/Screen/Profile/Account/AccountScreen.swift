@@ -121,6 +121,7 @@ struct AccountScreen: View {
                         .padding()
                     }
                     .buttonStyle(PlainButtonStyle())
+                    .opacity(post.type == .inactive ? 0.5 : 1)
                     
                     Divider()
                 }
