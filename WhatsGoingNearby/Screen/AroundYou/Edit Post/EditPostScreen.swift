@@ -77,7 +77,7 @@ struct EditPostScreen: View {
                             }
                         }
                     } label: {
-                        Text("Edit")
+                        Text("Done")
                     }
                     .disabled(editPostVM.postText.isEmpty)
                 }
@@ -235,7 +235,7 @@ struct EditPostScreen: View {
     //MARK: - Private Methods
     
     private func setupInitialValues() {
-        editPostVM.postText = post.text
+        editPostVM.postText = post.text ?? ""
         editPostVM.selectedPostLocationVisibilty = post.isLocationVisible ? .visible : .hidden
         editPostVM.selectedPostDuration = post.postDuration
         editPostVM.selectedPostTag = post.postTag ?? .chat

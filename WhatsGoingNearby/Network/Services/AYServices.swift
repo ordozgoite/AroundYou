@@ -18,7 +18,7 @@ protocol AYServiceable {
     func deleteUser(token: String) async -> Result<DeleteUserResponse, RequestError>
     
     // Publication
-    func postNewPublication(text: String, tag: String, imageUrl: String?, postDuration: Int, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError>
+    func postNewPublication(text: String?, tag: String, imageUrl: String?, postDuration: Int, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError>
     func editPublication(publicationId: String, text: String, tag: String, postDuration: Int, isLocationVisible: Bool, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError>
     func finishPublication(publicationId: String, token: String) async -> Result<Post, RequestError>
     func deletePublication(publicationId: String, token: String) async -> Result<DeletePublicationResponse, RequestError>
@@ -106,7 +106,7 @@ struct AYServices: HTTPClient, AYServiceable {
     
     //MARK: - Publication
     
-    func postNewPublication(text: String, tag: String, imageUrl: String?, postDuration: Int, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError> {
+    func postNewPublication(text: String?, tag: String, imageUrl: String?, postDuration: Int, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.postNewPublication(text: text, tag: tag, imageUrl: imageUrl, postDuration: postDuration, latitude: latitude, longitude: longitude, isLocationVisible: isLocationVisible, token: token), responseModel: Post.self)
     }
     

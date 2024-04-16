@@ -14,7 +14,7 @@ struct FormattedPost: Identifiable, Codable {
     let username: String
     let timestamp: Int
     let expirationDate: Int
-    let text: String
+    let text: String?
     var likes: Int
     var didLike: Bool
     var comment: Int

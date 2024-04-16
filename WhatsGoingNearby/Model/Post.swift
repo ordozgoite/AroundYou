@@ -10,7 +10,7 @@ import Foundation
 struct Post: Identifiable, Codable {
     let id: String
     let userUid: String
-    let text: String
+    let text: String?
     let timestamp: String
     let latitude: Double
     let longitude: Double

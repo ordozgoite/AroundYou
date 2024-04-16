@@ -15,7 +15,6 @@ class NewPostViewModel: ObservableObject {
     @Published var postText: String = ""
     @Published var isLoading: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
-//    @Published var selectedPostLocationVisibilty: PostLocationVisibility = .hidden
     @Published var isLocationVisible: Bool = false
     @Published var selectedPostTag: PostTag = .chilling
     @Published var selectedPostDuration: PostDuration = .oneHour
@@ -39,7 +38,7 @@ class NewPostViewModel: ObservableObject {
             }
         }
         
-        let result = await AYServices.shared.postNewPublication(text: postText, tag: selectedPostTag.rawValue, imageUrl: imageURL, postDuration: selectedPostDuration.value, latitude: latitude, longitude: longitude, isLocationVisible: isLocationVisible, token: token)
+        let result = await AYServices.shared.postNewPublication(text: postText.nonEmptyOrNil(), tag: selectedPostTag.rawValue, imageUrl: imageURL, postDuration: selectedPostDuration.value, latitude: latitude, longitude: longitude, isLocationVisible: isLocationVisible, token: token)
         isLoading = false
         
         switch result {

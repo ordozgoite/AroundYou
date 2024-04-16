@@ -216,8 +216,10 @@ struct PostView: View {
     
     @ViewBuilder
     private func TextView() -> some View {
-        Text(LocalizedStringKey(post.text))
-            .textSelection(.enabled)
+        if let text = post.text {
+            Text(LocalizedStringKey(text))
+                .textSelection(.enabled)
+        }
     }
     
     //MARK: - Image Preview

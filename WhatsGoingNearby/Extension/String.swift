@@ -18,9 +18,7 @@ extension String {
         }
     }
     
-//    func convertToDate() -> Date {
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-//        return dateFormatter.date(from: self)!
-//    }
+    func nonEmptyOrNil() -> String? {
+        return self.isEmpty ? nil : self
+    }
 }

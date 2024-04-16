@@ -1615,7 +1615,7 @@
         }
       }
     },
-    "Invalid username format. Please use only letters (a-z, A-Z), numbers (0-9), periods (.), or underscores (_) for your username." : {
+    "Invalid username format." : {
 
     },
     "Just chatting" : {

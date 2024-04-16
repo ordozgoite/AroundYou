@@ -149,7 +149,7 @@ struct MessageScreen: View {
                     Button {
                         Task {
                             let token = try await authVM.getFirebaseToken()
-                            await messageVM.sendMessage(chatId: chatId, text: messageVM.messageText.isEmpty ? nil : messageVM.messageText, image: messageVM.image, repliedMessageId: messageVM.repliedMessage?.id, token: token)
+                            await messageVM.sendMessage(chatId: chatId, text: messageVM.messageText.nonEmptyOrNil(), image: messageVM.image, repliedMessageId: messageVM.repliedMessage?.id, token: token)
                         }
                     } label: {
                         Image(systemName: "paperplane.fill")

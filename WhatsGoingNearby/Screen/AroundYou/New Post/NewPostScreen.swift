@@ -77,7 +77,7 @@ struct NewPostScreen: View {
                     }) {
                         Text("Post", comment: "Action")
                     }
-                    .disabled(newPostVM.postText.isEmpty)
+                    .disabled(newPostVM.postText.isEmpty && newPostVM.image == nil)
                 }
             }
         }
