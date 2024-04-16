@@ -79,7 +79,6 @@ struct EditPostScreen: View {
                     } label: {
                         Text("Done")
                     }
-                    .disabled(editPostVM.postText.isEmpty)
                 }
             }
         }

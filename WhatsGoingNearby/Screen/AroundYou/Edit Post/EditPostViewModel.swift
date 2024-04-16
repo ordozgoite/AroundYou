@@ -21,7 +21,7 @@ class EditPostViewModel: ObservableObject {
     
     func editPublication(publicationId: String, latitude: Double, longitude: Double, token: String, dismissScreen: () -> ()) async {
         isLoading = true
-        let result = await AYServices.shared.editPublication(publicationId: publicationId, text: postText, tag: selectedPostTag.rawValue, postDuration: selectedPostDuration.value, isLocationVisible: selectedPostLocationVisibilty.isLocationVisible, latitude: latitude, longitude: longitude, token: token)
+        let result = await AYServices.shared.editPublication(publicationId: publicationId, text: postText.nonEmptyOrNil(), tag: selectedPostTag.rawValue, postDuration: selectedPostDuration.value, isLocationVisible: selectedPostLocationVisibilty.isLocationVisible, latitude: latitude, longitude: longitude, token: token)
         isLoading = false
         
         switch result {

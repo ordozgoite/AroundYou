@@ -47,7 +47,7 @@ enum AYEndpoints {
     case postNewMessage(chatId: String, text: String?, imageUrl: String?, repliedMessageId: String?, token: String)
     case getMessages(chatId: String, token: String)
     case deleteMessage(messageId: String, token: String)
-    case editPublication(publicationId: String, text: String, tag: String, postDuration: Int, isLocationVisible: Bool, latitude: Double, longitude: Double, token: String)
+    case editPublication(publicationId: String, text: String?, tag: String, postDuration: Int, isLocationVisible: Bool, latitude: Double, longitude: Double, token: String)
     case finishPublication(publicationId: String, token: String)
     case deleteChat(chatId: String, token: String)
 }
@@ -319,15 +319,15 @@ extension AYEndpoints: Endpoint {
             if let imageUrl = imageUrl { params["imageUrl"] = imageUrl }
             return params
         case .editPublication(let publicationId, let text, let tag, let postDuration, let isLocationVisible, let latitude, let longitude, _):
-            let  params: [String: Any] = [
+            var  params: [String: Any] = [
                 "publicationId": publicationId,
-                "text": text,
                 "tag": tag,
                 "postDuration": postDuration,
                 "isLocationVisible": isLocationVisible,
                 "latitude": latitude,
                 "longitude": longitude
             ]
+            if let text = text { params["text"] = text }
             return params
         case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .deleteProfilePic, .getPublication, .getUserNotifications, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification, .deleteUser, .getUserBanExpireDate, .getAllPublicationsNearBy, .getChatsByUser, .muteChat, .unmuteChat, .getMessages, .deleteMessage, .finishPublication, .deleteChat:
             return nil
