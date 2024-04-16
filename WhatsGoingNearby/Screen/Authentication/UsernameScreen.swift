@@ -29,10 +29,8 @@ struct UsernameScreen: View {
                     Spacer()
                     
                     AYButton(title: "Done") {
-                        print("👉 Botão apertado!")
                         Task {
-                            let token = try await authVM.getFirebaseToken()
-                            await authVM.postNewUser(username: authVM.usernameInput, name: nil, token: token)
+                            try await chooseUsername()
                         }
                     }
                 }
@@ -51,6 +49,15 @@ struct UsernameScreen: View {
                     }
                 }
             }
+        }
+    }
+    
+    //MARK: - Private Method
+    
+    private func chooseUsername() async throws {
+        if authVM.isUsernameValid() {
+            let token = try await authVM.getFirebaseToken()
+            _ = await authVM.postNewUser(username: authVM.usernameInput, name: nil, token: token)
         }
     }
 }

@@ -23,7 +23,7 @@ struct ForgotPasswordScreen: View {
                 Spacer()
                 
                 AYButton(title: "Send Email") {
-                    authVM.errorMessage = (nil, nil, nil, nil)
+                    authVM.errorMessage = (nil, nil, nil)
                     Task {
                         self.displayAlert = await authVM.sendPasswordReset()
                     }

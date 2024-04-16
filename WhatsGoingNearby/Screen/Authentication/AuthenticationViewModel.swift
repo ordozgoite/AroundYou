@@ -50,7 +50,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var isUserInfoFetched: Bool = false
     @Published var isLoading: Bool = false
     @Published var isForgotPasswordScreenDisplayed: Bool = false
-    @Published var errorMessage: (LocalizedStringKey?, LocalizedStringKey?, LocalizedStringKey?, LocalizedStringKey?) = (nil, nil, nil, nil)
+    @Published var errorMessage: (LocalizedStringKey?, LocalizedStringKey?, LocalizedStringKey?) = (nil, nil, nil)
     
     init() {
         registerAuthStateHandler()
@@ -334,20 +334,28 @@ extension AuthenticationViewModel {
     }
     
     func isLoginInputValid() -> Bool {
-        errorMessage = (nil, nil, nil, nil)
-        if emailInput.isEmpty { errorMessage.2 = "Please enter your email." }
-        if passwordInput.isEmpty { errorMessage.3 = "Please enter your password." }
-        let (_, b, c, _) = errorMessage
+        errorMessage = (nil, nil, nil)
+        if emailInput.isEmpty { errorMessage.1 = "Please enter your email." }
+        if passwordInput.isEmpty { errorMessage.2 = "Please enter your password." }
+        let (_, b, c) = errorMessage
         return b == nil && c == nil ? true : false
     }
 
     func isSignupInputValid() -> Bool {
-        errorMessage = (nil, nil, nil, nil)
+        errorMessage = (nil, nil, nil)
         if usernameInput.isEmpty { errorMessage.0 = "Please enter your username." }
-        if emailInput.isEmpty { errorMessage.2 = "Please enter your email." }
-        if passwordInput.isEmpty { errorMessage.3 = "Please enter your password." }
-        let (a, b, c, d) = errorMessage
-        return a == nil && b == nil && c == nil && d == nil ? true : false
+        if emailInput.isEmpty { errorMessage.1 = "Please enter your email." }
+        if passwordInput.isEmpty { errorMessage.2 = "Please enter your password." }
+        let (a, b, c) = errorMessage
+        return a == nil && b == nil && c == nil ? true : false
+    }
+    
+    func isUsernameValid() -> Bool {
+        let regex = try! NSRegularExpression(pattern: "^[a-zA-Z0-9._]+$")
+        let range = NSRange(location: 0, length: usernameInput.utf16.count)
+        let isUserNameValid = regex.firstMatch(in: usernameInput, options: [], range: range) != nil
+        if !isUserNameValid { errorMessage.0 = "Invalid username format." }
+        return isUserNameValid
     }
     
     private func resetUserInfo() {

@@ -32,11 +32,11 @@ struct AuthenticationScreen: View {
                                 .focused($authInputIsFocused)
                         }
                         
-                        AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.2, inputText: $authVM.emailInput)
+                        AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.1, inputText: $authVM.emailInput)
                             .keyboardType(.emailAddress)
                             .focused($authInputIsFocused)
                         
-                        AYSecureTextField(imageName: "lock", title: "Password", error: $authVM.errorMessage.3, inputText: $authVM.passwordInput)
+                        AYSecureTextField(imageName: "lock", title: "Password", error: $authVM.errorMessage.2, inputText: $authVM.passwordInput)
                             .focused($authInputIsFocused)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
