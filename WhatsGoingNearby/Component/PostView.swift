@@ -72,6 +72,7 @@ struct PostView: View {
         HStack {
             Text(post.username)
                 .fontWeight(.semibold)
+                .lineLimit(1)
             
             if post.type == .active {
                 CircleTimerView(postDate: post.timestamp.timeIntervalSince1970InSeconds, expirationDate: post.expirationDate.timeIntervalSince1970InSeconds)

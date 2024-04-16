@@ -74,6 +74,7 @@ struct CommentView: View {
             Text(comment.username)
                 .fontWeight(.semibold)
                 .fixedSize(horizontal: false, vertical: true)
+                .lineLimit(1)
             
             Reply()
             
