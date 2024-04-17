@@ -24,6 +24,11 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     override init() {
         super.init()
         self.locationManager.delegate = self
+        addObservers()
+    }
+    
+    private func addObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLocation), name: Notification.Name(Constants.updateLocationNotificationKey), object: nil)
     }
     
     func requestLocation() {
@@ -32,8 +37,12 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        self.location = location
+        guard let newLocation = locations.first else { return }
+        
+        if location == nil || newLocation.distance(from: location!) >= Constants.significantDistanceMeters {
+            self.location = newLocation
+            updateFeed()
+        }
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -44,6 +53,15 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location manager failed with error: \(error.localizedDescription)")
+    }
+    
+    private func updateFeed() {
+        let name = Notification.Name(Constants.refreshFeedNotificationKey)
+        NotificationCenter.default.post(name: name, object: nil)
+    }
+    
+    @objc private func updateLocation() {
+        self.location = nil
     }
 }
 

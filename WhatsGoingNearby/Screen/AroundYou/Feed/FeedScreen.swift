@@ -14,9 +14,8 @@ struct FeedScreen: View {
     @ObservedObject var locationManager = LocationManager()
     @ObservedObject public var notificationManager = NotificationManager()
     
-    var activePostsQuantity: Int {
-        return feedVM.posts.filter { $0.expirationDate.timeIntervalSince1970InSeconds > feedVM.currentTimeStamp }.count
-    }
+    @State private var refreshObserver = NotificationCenter.default
+        .publisher(for: NSNotification.Name(Constants.refreshFeedNotificationKey))
     
     var body: some View {
         NavigationStack {
@@ -52,12 +51,16 @@ struct FeedScreen: View {
             .navigationTitle("Around You")
             .navigationBarTitleDisplayMode(.large)
         }
+        .onReceive(refreshObserver) { _ in
+            Task {
+                try await getNearByPosts()
+            }
+        }
         .onAppear {
-            startUpdatingTime()
             startUpdatingFeed()
         }
         .onDisappear {
-            stopTimers()
+            stopTimer()
         }
     }
     
@@ -87,30 +90,27 @@ struct FeedScreen: View {
     @ViewBuilder
     private func Feed() -> some View {
         ScrollView {
-            ScrollViewReader { proxy in
-                VStack {
-                    NewPostView()
-                        .environmentObject(authVM)
-                    
-                    Posts(ofType: .active)
-                    
-                    if hasInactivePublication() {
-                        Text("Expired")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                            .padding()
-                    }
-                    
-                    Posts(ofType: .inactive)
-                        .opacity(0.5)
+            VStack {
+                NewPostView()
+                    .environmentObject(authVM)
+                
+                Posts(ofType: .active)
+                
+                if hasInactivePublication() {
+                    Text("Expired")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                        .padding()
                 }
-                .onChange(of: feedVM.isTabBarDoubleClicked) { _ in
-                    withAnimation {
-                        proxy.scrollTo(feedVM.posts.first!.id, anchor: .bottom)
-                    }
-                }
+                
+                Posts(ofType: .inactive)
+                    .opacity(0.5)
             }
+        }
+        .refreshable {
+            hapticFeedback(style: .soft)
+            updateLocation()
         }
     }
     
@@ -157,19 +157,8 @@ struct FeedScreen: View {
     
     //MARK: - Private Method
     
-    private func startUpdatingTime() {
-        feedVM.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            updateCurrentTime()
-        }
-        feedVM.timer?.fire()
-    }
-    
-    private func updateCurrentTime() {
-        feedVM.currentTimeStamp = Int(Date().timeIntervalSince1970)
-    }
-    
     private func startUpdatingFeed() {
-        feedVM.feedTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+        feedVM.feedTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
             Task {
                 try await getNearByPosts()
             }
@@ -189,8 +178,7 @@ struct FeedScreen: View {
         }
     }
     
-    private func stopTimers() {
-        feedVM.timer?.invalidate()
+    private func stopTimer() {
         feedVM.feedTimer?.invalidate()
     }
     
@@ -201,6 +189,11 @@ struct FeedScreen: View {
             }
         }
         return false
+    }
+    
+    private func updateLocation() {
+        let name = Notification.Name(Constants.updateLocationNotificationKey)
+        NotificationCenter.default.post(name: name, object: nil)
     }
 }
 
