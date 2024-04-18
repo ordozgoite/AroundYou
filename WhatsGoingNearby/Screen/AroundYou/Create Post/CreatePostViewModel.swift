@@ -10,7 +10,7 @@ import SwiftUI
 import FirebaseStorage
 
 @MainActor
-class NewPostViewModel: ObservableObject {
+class CreatePostViewModel: ObservableObject {
     
     @Published var postText: String = ""
     @Published var isLoading: Bool = false

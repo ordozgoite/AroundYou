@@ -1,35 +1,35 @@
 //
-//  EditPostScreen.swift
+//  NewPostScreen.swift
 //  WhatsGoingNearby
 //
-//  Created by Victor Ordozgoite on 02/04/24.
+//  Created by Victor Ordozgoite on 13/02/24.
 //
 
 import SwiftUI
-import CoreLocation
 
-struct EditPostScreen: View {
-    
-    let post: FormattedPost
+struct CreatePostScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @StateObject private var editPostVM = EditPostViewModel()
-    @Binding var location: CLLocation?
+    @StateObject private var createPostVM = CreatePostViewModel()
+    @ObservedObject var locationManager = LocationManager()
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack {
             ComposePost()
             
-            AYErrorAlert(message: editPostVM.overlayError.1 , isErrorAlertPresented: $editPostVM.overlayError.0)
+            AYErrorAlert(message: createPostVM.overlayError.1 , isErrorAlertPresented: $createPostVM.overlayError.0)
         }
-        .alert(isPresented: $editPostVM.isShareLocationAlertDisplayed) {
+        .fullScreenCover(isPresented: $createPostVM.isCameraDisplayed) {
+            CameraView(image: $createPostVM.image)
+        }
+        .alert(isPresented: $createPostVM.isShareLocationAlertDisplayed) {
             Alert(
                 title: Text("Allow 'AroundYou' to display your location on map?"),
                 message: Text("Your precise location will be used to display on the map where you made this post."),
                 primaryButton: .default((Text("Allow Once"))) {
                     Task {
-                        try await editPublication()
+                        try await postNewPublication()
                     }
                 },
                 secondaryButton: .cancel(Text("Don't Allow")) {}
@@ -42,17 +42,14 @@ struct EditPostScreen: View {
             }
             
             ToolbarItem(placement: .topBarTrailing) {
-                if editPostVM.isLoading {
+                if createPostVM.isLoading {
                     ProgressView()
                 } else {
-                    Done()
+                    PostButton()
                 }
             }
         }
-        .onAppear {
-            setupInitialValues()
-        }
-        .navigationTitle("Edit post")
+        .navigationTitle("Create new post")
         .navigationBarTitleDisplayMode(.inline)
     }
     
@@ -62,14 +59,14 @@ struct EditPostScreen: View {
     private func ComposePost() -> some View {
         ComposePostView(
             maxLength: Constants.maxPostLength,
-            isCameraEnabled: false,
-            text: $editPostVM.postText,
-            isLocationVisible: $editPostVM.isLocationVisible,
-            isSettingsExpanded: $editPostVM.isSettingsExpanded,
-            image: .constant(nil),
-            isCameraDisplayed: .constant(false),
-            tag: $editPostVM.selectedPostTag,
-            duration: $editPostVM.selectedPostDuration
+            isCameraEnabled: true,
+            text: $createPostVM.postText,
+            isLocationVisible: $createPostVM.isLocationVisible,
+            isSettingsExpanded: $createPostVM.isSettingsExpanded,
+            image: $createPostVM.image,
+            isCameraDisplayed: $createPostVM.isCameraDisplayed,
+            tag: $createPostVM.selectedPostTag,
+            duration: $createPostVM.selectedPostDuration
         ).environmentObject(authVM)
     }
     
@@ -84,44 +81,39 @@ struct EditPostScreen: View {
         }
     }
     
-    //MARK: - Done
+    //MARK: - Post
     
     @ViewBuilder
-    private func Done() -> some View {
+    private func PostButton() -> some View {
         Button {
-            if editPostVM.isLocationVisible {
-                editPostVM.isShareLocationAlertDisplayed = true
+            if createPostVM.isLocationVisible {
+                createPostVM.isShareLocationAlertDisplayed = true
             } else {
                 Task {
-                    try await editPublication()
+                    try await postNewPublication()
                 }
             }
         } label: {
-            Text("Done")
+            Text("Post", comment: "Action")
         }
+        .disabled(createPostVM.postText.isEmpty && createPostVM.image == nil)
     }
     
     //MARK: - Private Methods
     
-    private func setupInitialValues() {
-        editPostVM.postText = post.text ?? ""
-        editPostVM.isLocationVisible = post.isLocationVisible
-        editPostVM.selectedPostDuration = post.postDuration
-        editPostVM.selectedPostTag = post.postTag ?? .chat
-    }
-    
-    private func editPublication() async throws {
-        if let location = location {
+    private func postNewPublication() async throws {
+        locationManager.requestLocation()
+        if let location = locationManager.location {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             
             let token = try await authVM.getFirebaseToken()
-            await editPostVM.editPublication(publicationId: post.id, latitude: latitude, longitude: longitude, token: token) {
+            await createPostVM.postNewPublication(latitude: latitude, longitude: longitude, token: token) {
                 presentationMode.wrappedValue.dismiss()
                 refreshFeed()
             }
         } else {
-            editPostVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
+            createPostVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
         }
     }
     
@@ -131,6 +123,7 @@ struct EditPostScreen: View {
     }
 }
 
-//#Preview {
-//    EditPostScreen()
-//}
+#Preview {
+    CreatePostScreen()
+        .environmentObject(AuthenticationViewModel())
+}

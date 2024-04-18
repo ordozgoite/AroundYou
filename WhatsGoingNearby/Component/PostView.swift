@@ -298,9 +298,7 @@ struct PostView: View {
     @ViewBuilder
     private func Navigation() -> some View {
         NavigationLink(
-            destination: EditPostScreen(post: post, location: $location) {
-                refreshFeed()
-            }.environmentObject(authVM),
+            destination: EditPostScreen(post: post, location: $location).environmentObject(authVM),
             isActive: $isEditPostScreenDisplayed,
             label: { EmptyView() }
         )

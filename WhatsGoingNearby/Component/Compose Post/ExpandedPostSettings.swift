@@ -9,15 +9,15 @@ import SwiftUI
 
 struct ExpandedPostSettings: View {
     
-    private let maxPostLength = 250
-    
-    @StateObject var newPostVM: NewPostViewModel
-    
+    let maxPostLength: Int
+    @Binding var text: String
+    @Binding var selectedPostTag: PostTag
+    @Binding var selectedPostDuration: PostDuration
     @Binding var isExpanded: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("\(newPostVM.postText.count)/\(maxPostLength)")
+            Text("\(text.count)/\(maxPostLength)")
                 .foregroundStyle(.gray)
                 .font(.subheadline)
             
@@ -39,7 +39,7 @@ struct ExpandedPostSettings: View {
             Menu {
                 ForEach(PostTag.allCases, id: \.self) { tag in
                     Button {
-                        newPostVM.selectedPostTag = tag
+                        selectedPostTag = tag
                     } label: {
                         Image(systemName: tag.iconName)
                         Text(tag.title)
@@ -47,10 +47,10 @@ struct ExpandedPostSettings: View {
                 }
             } label: {
                 HStack {
-                    Text(newPostVM.selectedPostTag.title)
+                    Text(selectedPostTag.title)
                     
                     HStack(spacing: 0) {
-                        Image(systemName: newPostVM.selectedPostTag.iconName)
+                        Image(systemName: selectedPostTag.iconName)
                         Image(systemName: "chevron.up.chevron.down")
                             .scaleEffect(0.8)
                     }
@@ -71,7 +71,7 @@ struct ExpandedPostSettings: View {
             Menu {
                 ForEach(PostDuration.allCases, id: \.self) { duration in
                     Button {
-                        newPostVM.selectedPostDuration = duration
+                        selectedPostDuration = duration
                     } label: {
                         Text(duration.title)
                     }
@@ -79,7 +79,7 @@ struct ExpandedPostSettings: View {
             } label: {
                 HStack(spacing: 0) {
                     HStack {
-                        Text(newPostVM.selectedPostDuration.title)
+                        Text(selectedPostDuration.title)
                     }
                     .frame(width: 60)
                     Image(systemName: "chevron.up.chevron.down")
@@ -91,5 +91,11 @@ struct ExpandedPostSettings: View {
 }
 
 #Preview {
-    ExpandedPostSettings(newPostVM: NewPostViewModel(), isExpanded: .constant(true))
+    ExpandedPostSettings(
+        maxPostLength: 250,
+        text: .constant(""),
+        selectedPostTag: .constant(.buy),
+        selectedPostDuration: .constant(.oneHour),
+        isExpanded: .constant(true)
+    )
 }
