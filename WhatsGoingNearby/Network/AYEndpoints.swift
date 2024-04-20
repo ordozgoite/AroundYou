@@ -131,9 +131,9 @@ extension AYEndpoints: Endpoint {
         case .unmuteChat(let chatId, _):
             return "/api/Chat/UnmuteChat/\(chatId)"
         case .postNewMessage:
-            return "/api/Message/PostNewMessage"
+            return "/api/Message/PostMessage"
         case .getMessages(let chatId, _):
-            return "/api/Message/GetMessages/\(chatId)"
+            return "/api/Message/GetAllMessagesByChat/\(chatId)"
         case .deleteMessage(let messageId, _):
             return "/api/Message/DeleteMessage/\(messageId)"
         case .editPublication:

@@ -27,7 +27,7 @@ struct MessageScreen: View {
                     ScrollViewReader { proxy in
                         ZStack {
                             VStack(spacing: 0) {
-                                ForEach(messageVM.messages) { message in
+                                ForEach(messageVM.formattedMessages) { message in
                                     MessageView(message: message) {
                                         messageVM.repliedMessage = message
                                         isFocused = true
@@ -53,18 +53,18 @@ struct MessageScreen: View {
                                     }
                                 }
                                 .onAppear {
-                                    if let lastMessageId = messageVM.messages.last?.id {
+                                    if let lastMessageId = messageVM.formattedMessages.last?.id {
                                         scrollToMessage(withId: lastMessageId, usingProxy: proxy, animated: false)
                                     }
                                 }
-                                .onChange(of: messageVM.messages) { _ in
-                                    if let lastMessageId = messageVM.messages.last?.id {
+                                .onChange(of: messageVM.formattedMessages) { _ in
+                                    if let lastMessageId = messageVM.formattedMessages.last?.id {
                                         scrollToMessage(withId: lastMessageId, usingProxy: proxy)
                                     }
                                 }
                                 .onChange(of: isFocused) { _ in
                                     if isFocused {
-                                        if let lastMessageId = messageVM.messages.last?.id {
+                                        if let lastMessageId = messageVM.formattedMessages.last?.id {
                                             scrollToMessage(withId: lastMessageId, usingProxy: proxy)
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                                 scrollToMessage(withId: lastMessageId, usingProxy: proxy)
@@ -84,11 +84,14 @@ struct MessageScreen: View {
             }
         }
         .onAppear {
-            startUpdatingMessages()
+            manageSocket()
+            Task {
+                try await updateMessages()
+            }
         }
-        .onDisappear {
-            stopUpdatingMessages()
-        }
+//        .onDisappear {
+//            stopUpdatingMessages()
+//        }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 NavigationLink(destination: UserProfileScreen(userUid: otherUserUid)) {
@@ -109,11 +112,12 @@ struct MessageScreen: View {
     @ViewBuilder
     private func UserHeader() -> some View {
         HStack {
-            ProfilePicView(profilePic: chatPic, size: 20)
+            ProfilePicView(profilePic: chatPic, size: 32)
             
             HStack(alignment: .firstTextBaseline, spacing: 2) {
                 Text(username)
-                    .font(.caption)
+                    .font(.callout)
+                    .fontWeight(.bold)
                     .foregroundStyle(.gray)
                 
                 Image(systemName: "chevron.right")
@@ -254,23 +258,33 @@ struct MessageScreen: View {
     
     //MARK: - Private Method
     
-    private func startUpdatingMessages() {
-        messageVM.messageTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            Task {
-                try await updateMessages()
-            }
+    private func manageSocket() {
+        SocketService.shared.connect()
+        
+        messageVM.socket.emit("join-room", chatId)
+        
+        messageVM.socket.on("message") { dataArray, ack in
+            print("⚠️ CHEGOU MENSAGEM!!!")
         }
-        messageVM.messageTimer?.fire()
     }
+    
+//    private func startUpdatingMessages() {
+//        messageVM.messageTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+//            Task {
+//                try await updateMessages()
+//            }
+//        }
+//        messageVM.messageTimer?.fire()
+//    }
     
     private func updateMessages() async throws {
         let token = try await authVM.getFirebaseToken()
         await messageVM.getMessages(chatId: chatId, token: token)
     }
     
-    private func stopUpdatingMessages() {
-        messageVM.messageTimer?.invalidate()
-    }
+//    private func stopUpdatingMessages() {
+//        messageVM.messageTimer?.invalidate()
+//    }
     
     private func scrollToMessage(withId messageId: String, usingProxy proxy: ScrollViewProxy, animated: Bool = true) {
         if animated {

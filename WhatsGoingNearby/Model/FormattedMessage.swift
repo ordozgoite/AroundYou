@@ -11,9 +11,9 @@ struct FormattedMessage: Codable, Identifiable, Equatable, Hashable {
     let id: String
     var message: String?
     var imageUrl: String?
-    var isCurrentUser: Bool
-    var isFirst: Bool
+    var isCurrentUser: Bool // format
+    var isFirst: Bool // format
     var repliedMessageText: String?
     var repliedMessageId: String?
-    var timeDivider: Int?
+    var timeDivider: Int? // format
 }
