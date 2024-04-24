@@ -21,12 +21,20 @@ struct MessageView: View {
         
         Reply()
         
-        if let imageUrl = message.imageUrl {
-            ImageBubble(imageUrl)
-        }
-        
-        if let text = message.message {
-            TextBubble(text)
+        HStack {
+            if message.imageUrl != nil {
+                ImageBubble(fromSource: .url)
+            } else if message.image != nil {
+                ImageBubble(fromSource: .uiImage)
+            }
+            
+            if let text = message.message {
+                TextBubble(text)
+            }
+            
+            if message.status == .failed {
+                Failed()
+            }
         }
     }
     
@@ -87,6 +95,7 @@ struct MessageView: View {
     @ViewBuilder
     private func TextBubble(_ text: String) -> some View {
         BubbleView(message: text, isCurrentUser: message.isCurrentUser, isFirst: message.isFirst)
+            .opacity(message.status == .sent ? 1 : 0.5) // ?
             .offset(x: translation.width, y: 0)
             .gesture(
                 DragGesture()
@@ -110,8 +119,8 @@ struct MessageView: View {
     //MARK: - Image Bubble
     
     @ViewBuilder
-    private func ImageBubble(_ url: String) -> some View {
-        ImageBubbleView(imageUrl: url, isCurrentUser: message.isCurrentUser)
+    private func ImageBubble(fromSource imageSource: ImageSource) -> some View {
+        ImageBubbleView(source: imageSource, imageUrl: message.imageUrl, uiImage: message.image, isCurrentUser: message.isCurrentUser)
             .offset(x: translation.width, y: 0)
             .gesture(
                 DragGesture()
@@ -131,8 +140,29 @@ struct MessageView: View {
                     }
             )
     }
+    
+    //MARK: - Failed
+    
+    @ViewBuilder
+    private func Failed() -> some View {
+        Image(systemName: "exclamationmark.circle")
+            .foregroundStyle(.red)
+    }
 }
 
 #Preview {
-    MessageView(message: FormattedMessage(id: "1", message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉", imageUrl: "https://firebasestorage.googleapis.com:443/v0/b/aroundyou-b8364.appspot.com/o/post-image%2F8019D1A7-097F-45FA-B0FF-41959EC98789.jpg?alt=media&token=3c621a0c-46e2-405a-b5f5-3bff8f888e07", isCurrentUser: false, isFirst: true, repliedMessageText: "Tio, o que você está fazendo?", timeDivider: 1711774061000), replyMessage: {}, tappedRepliedMessage: {})
+    MessageView(
+        message: FormattedMessage(
+            id: "1",
+            message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉",
+            imageUrl: "https://firebasestorage.googleapis.com:443/v0/b/aroundyou-b8364.appspot.com/o/post-image%2F8019D1A7-097F-45FA-B0FF-41959EC98789.jpg?alt=media&token=3c621a0c-46e2-405a-b5f5-3bff8f888e07",
+            isCurrentUser: false,
+            isFirst: true,
+            repliedMessageText: "Tio, o que você está fazendo?",
+            timeDivider: 1711774061000,
+            status: .sent
+        ),
+        replyMessage: {},
+        tappedRepliedMessage: {}
+    )
 }

@@ -18,8 +18,17 @@ struct Message: Codable {
     let repliedMessageId: String?
     let repliedMessageText: String?
     
-    
-    func formatMessage(isCurrentUser: Bool, isFirst: Bool, timeDivider: Int?) -> FormattedMessage {
-        return FormattedMessage(id: self._id, message: self.text, imageUrl: self.imageUrl, isCurrentUser: isCurrentUser, isFirst: isFirst, repliedMessageText: repliedMessageText, repliedMessageId: repliedMessageId, timeDivider: timeDivider)
+    func convertMessageToIntermediary(forCurrentUserUid userUid: String) -> MessageIntermediary {
+        return MessageIntermediary(
+            id: self._id,
+            chatId: self.chatId,
+            text: self.text,
+            imageUrl: self.imageUrl,
+            isRead: self.isRead,
+            createdAt: self.createdAt,
+            repliedMessageId: self.repliedMessageId,
+            repliedMessageText: self.repliedMessageText, 
+            isCurrentUser: userUid == self.senderUserUid
+        )
     }
 }

@@ -6,14 +6,17 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct FormattedMessage: Codable, Identifiable, Equatable, Hashable {
+struct FormattedMessage: Identifiable, Equatable, Hashable {
     let id: String
     var message: String?
     var imageUrl: String?
-    var isCurrentUser: Bool // format
-    var isFirst: Bool // format
+    var isCurrentUser: Bool
+    var isFirst: Bool
     var repliedMessageText: String?
     var repliedMessageId: String?
-    var timeDivider: Int? // format
+    var timeDivider: Int?
+    var image: UIImage?
+    var status: MessageStatus
 }
