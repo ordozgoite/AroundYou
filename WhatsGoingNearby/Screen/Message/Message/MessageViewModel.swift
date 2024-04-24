@@ -83,7 +83,7 @@ class MessageViewModel: ObservableObject {
             createdAt: Int(Date().timeIntervalSince1970),
             repliedMessageId: repliedMessage?.id,
             repliedMessageText: repliedMessage?.message,
-            image: image, 
+            status: .sending, image: image,
             isCurrentUser: true
         )
         intermediaryMessages.append(newMessage)

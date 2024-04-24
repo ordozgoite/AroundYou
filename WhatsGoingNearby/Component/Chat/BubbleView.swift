@@ -37,6 +37,6 @@ struct BubbleView: View {
     }
 }
 
-#Preview {
-    BubbleView(message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉", isCurrentUser: true, isFirst: true)
-}
+//#Preview {
+//    BubbleView(message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉", isCurrentUser: true, isFirst: true)
+//}

@@ -32,7 +32,12 @@ struct MessageView: View {
                 TextBubble(text)
             }
             
-            if message.status == .failed {
+            switch message.status {
+            case .sent:
+                EmptyView()
+            case .sending:
+                Sending()
+            case .failed:
                 Failed()
             }
         }
@@ -95,7 +100,6 @@ struct MessageView: View {
     @ViewBuilder
     private func TextBubble(_ text: String) -> some View {
         BubbleView(message: text, isCurrentUser: message.isCurrentUser, isFirst: message.isFirst)
-            .opacity(message.status == .sent ? 1 : 0.5) // ?
             .offset(x: translation.width, y: 0)
             .gesture(
                 DragGesture()
@@ -139,6 +143,14 @@ struct MessageView: View {
                         }
                     }
             )
+    }
+    
+    //MARK: - Sending
+    
+    @ViewBuilder
+    private func Sending() -> some View {
+        ProgressView()
+            .padding(.leading)
     }
     
     //MARK: - Failed
