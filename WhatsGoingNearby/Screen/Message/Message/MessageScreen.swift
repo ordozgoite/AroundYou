@@ -36,6 +36,10 @@ struct MessageScreen: View {
                                             scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
                                             highlightMessage(withId: repliedMessageId)
                                         }
+                                    } resendMessage: {
+                                        Task {
+                                            try await resendMessage(withId: message.id)
+                                        }
                                     }
                                     .background(messageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
                                     .contextMenu {
@@ -310,6 +314,11 @@ struct MessageScreen: View {
                 messageVM.highlightedMessageId = nil
             }
         }
+    }
+    
+    private func resendMessage(withId messageId: String) async throws {
+        let token = try await authVM.getFirebaseToken()
+        await messageVM.resendMessage(withTempId: messageId, token: token)
     }
 }
 

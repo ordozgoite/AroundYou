@@ -2896,6 +2896,9 @@
         }
       }
     },
+    "This message was not sent" : {
+
+    },
     "This user will be able to see your posts and profile, and you will be able to see this user's posts and profile." : {
       "localizations" : {
         "pt-BR" : {
@@ -2943,6 +2946,9 @@
           }
         }
       }
+    },
+    "Try again" : {
+
     },
     "Unblock" : {
       "localizations" : {

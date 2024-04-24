@@ -24,6 +24,7 @@ struct MessageIntermediary {
     func formatMessage(isFirst: Bool, timeDivider: Int?) -> FormattedMessage {
         return FormattedMessage(
             id: self.id,
+            chatId: self.chatId,
             message: self.text,
             imageUrl: self.imageUrl,
             isCurrentUser: self.isCurrentUser,

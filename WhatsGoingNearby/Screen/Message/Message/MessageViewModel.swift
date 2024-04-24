@@ -64,7 +64,7 @@ class MessageViewModel: ObservableObject {
         resetInputs()
         addMessageToScreen(withTemporaryId: tempId, chatId: chatId, text: text, image: image, repliedMessage: repliedMessage)
         let imageUrl = try await getUrl(forImage: image)
-        await postNewMessage(withTemporaryId: tempId, chatId: chatId, text: text, imageUrl: imageUrl, repliedMessage: repliedMessage, token: token)
+        await postNewMessage(withTemporaryId: tempId, chatId: chatId, text: text, imageUrl: imageUrl, repliedMessageId: repliedMessage?.id, repliedMessageText: repliedMessage?.message, token: token)
     }
     
     private func resetInputs() {
@@ -109,14 +109,14 @@ class MessageViewModel: ObservableObject {
         return imageUrl.absoluteString
     }
     
-    private func postNewMessage(withTemporaryId tempId: String, chatId: String, text: String?, imageUrl: String?, repliedMessage: FormattedMessage?, token: String) async {
-        let result = await AYServices.shared.postNewMessage(chatId: chatId, text: text, imageUrl: imageUrl, repliedMessageId: repliedMessage?.id, token: token)
+    private func postNewMessage(withTemporaryId tempId: String, chatId: String, text: String?, imageUrl: String?, repliedMessageId: String?, repliedMessageText: String?, token: String) async {
+        let result = await AYServices.shared.postNewMessage(chatId: chatId, text: text, imageUrl: imageUrl, repliedMessageId: repliedMessageId, token: token)
         
         switch result {
         case .success:
             playSendMessageSound()
             updateMessage(withId: tempId, toStatus: .sent)
-            await getMessages(chatId: chatId, token: token)
+//            await getMessages(chatId: chatId, token: token)
         case .failure:
             updateMessage(withId: tempId, toStatus: .failed)
             overlayError = (true, ErrorMessage.defaultErrorMessage)
@@ -144,6 +144,20 @@ class MessageViewModel: ObservableObject {
         }
     }
     
+    func resendMessage(withTempId tempId: String, token: String) async {
+        if let message = getMessage(withId: tempId) {
+            await postNewMessage(withTemporaryId: tempId, chatId: message.chatId, text: message.message, imageUrl: message.imageUrl, repliedMessageId: message.repliedMessageId, repliedMessageText: message.repliedMessageText, token: token)
+        }
+    }
+    
+    func getMessage(withId messageId: String) -> FormattedMessage? {
+        if let index = formattedMessages.firstIndex(where: { $0.id == messageId }) {
+            return formattedMessages[index]
+        } else {
+            return nil
+        }
+    }
+    
     //MARK: - Delete Message
     
     func deleteMessage(messageId: String, token: String) async {
@@ -160,10 +174,6 @@ class MessageViewModel: ObservableObject {
     private func removeMessage(withId messageId: String) {
         formattedMessages.removeAll { $0.id == messageId }
     }
-    
-//    func indexForMessage(withId messageId: String) -> Int? {
-//        return formattedMessages.firstIndex { $0.id == messageId }
-//    }
     
     //MARK: - Format Messages
     

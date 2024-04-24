@@ -12,9 +12,11 @@ struct MessageView: View {
     var message: FormattedMessage
     
     @State private var translation: CGSize = .zero
+    @State private var showingAlert = false
     let maxTranslation: CGFloat = 64
     var replyMessage: () -> ()
     var tappedRepliedMessage: () -> ()
+    var resendMessage: () -> ()
     
     var body: some View {
         Time()
@@ -159,6 +161,14 @@ struct MessageView: View {
     private func Failed() -> some View {
         Image(systemName: "exclamationmark.circle")
             .foregroundStyle(.red)
+            .onTapGesture {
+                self.showingAlert = true
+            }
+            .confirmationDialog("This message was not sent", isPresented: $showingAlert, titleVisibility: .visible) {
+                Button("Try again") {
+                    resendMessage()
+                }
+            }
     }
 }
 
@@ -166,6 +176,7 @@ struct MessageView: View {
     MessageView(
         message: FormattedMessage(
             id: "1",
+            chatId: "1",
             message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉",
             imageUrl: "https://firebasestorage.googleapis.com:443/v0/b/aroundyou-b8364.appspot.com/o/post-image%2F8019D1A7-097F-45FA-B0FF-41959EC98789.jpg?alt=media&token=3c621a0c-46e2-405a-b5f5-3bff8f888e07",
             isCurrentUser: false,
@@ -175,6 +186,7 @@ struct MessageView: View {
             status: .sent
         ),
         replyMessage: {},
-        tappedRepliedMessage: {}
+        tappedRepliedMessage: {},
+        resendMessage: {}
     )
 }

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct FormattedMessage: Identifiable, Equatable, Hashable {
     let id: String
+    let chatId: String
     var message: String?
     var imageUrl: String?
     var isCurrentUser: Bool
