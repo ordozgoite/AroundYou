@@ -194,7 +194,7 @@ class MessageViewModel: ObservableObject {
     }
     
     private func removeMessage(withId messageId: String) {
-        formattedMessages.removeAll { $0.id == messageId }
+        intermediaryMessages.removeAll { $0.id == messageId }
     }
     
     //MARK: - Format Messages

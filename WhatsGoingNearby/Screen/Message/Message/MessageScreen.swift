@@ -43,17 +43,7 @@ struct MessageScreen: View {
                                     }
                                     .background(messageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
                                     .contextMenu {
-                                        if message.isCurrentUser {
-                                            Button(role: .destructive) {
-                                                Task {
-                                                    let token = try await authVM.getFirebaseToken()
-                                                    await messageVM.deleteMessage(messageId: message.id, token: token)
-                                                }
-                                            } label: {
-                                                Image(systemName: "trash")
-                                                Text("Delete Message")
-                                            }
-                                        }
+                                        MessageMenu(forMessage: message)
                                     }
                                 }
                                 .onAppear {
@@ -132,6 +122,36 @@ struct MessageScreen: View {
             }
         }
         .padding(.bottom, 6)
+    }
+    
+    //MARK: - Message Menu
+    
+    @ViewBuilder
+    private func MessageMenu(forMessage message: FormattedMessage) -> some View {
+        if let text = message.message {
+            Button {
+                let pasteboard = UIPasteboard.general
+                pasteboard.string = text
+            } label: {
+                Label("Copy", systemImage: "doc.on.doc")
+            }
+        }
+        
+        if message.message != nil && message.isCurrentUser {
+            Divider()
+        }
+        
+        if message.isCurrentUser {
+            Button(role: .destructive) {
+                Task {
+                    let token = try await authVM.getFirebaseToken()
+                    await messageVM.deleteMessage(messageId: message.id, token: token)
+                }
+            } label: {
+                Image(systemName: "trash")
+                Text("Delete Message")
+            }
+        }
     }
     
     //MARK: - Message Composer
