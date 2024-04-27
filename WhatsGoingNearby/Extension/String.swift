@@ -21,4 +21,8 @@ extension String {
     func nonEmptyOrNil() -> String? {
         return self.isEmpty ? nil : self
     }
+    
+    var isSingleEmoji: Bool { count == 1 && containsEmoji }
+    
+    var containsEmoji: Bool { contains { $0.isEmoji } }
 }

@@ -113,9 +113,10 @@ class MessageViewModel: ObservableObject {
         let result = await AYServices.shared.postNewMessage(chatId: chatId, text: text, imageUrl: imageUrl, repliedMessageId: repliedMessageId, token: token)
         
         switch result {
-        case .success:
+        case .success(let message):
             playSendMessageSound()
             updateMessage(withId: tempId, toStatus: .sent)
+            updateMessage(withId: tempId, toPostedMessage: message)
 //            await getMessages(chatId: chatId, token: token)
         case .failure:
             updateMessage(withId: tempId, toStatus: .failed)
@@ -131,17 +132,17 @@ class MessageViewModel: ObservableObject {
         }
     }
     
-    private func playSendMessageSound() {
-        guard let url = Bundle.main.url(forResource: "sent-message-sound", withExtension: "mp3") else { return }
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
-            audioPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
-            guard let player = audioPlayer else { return }
-            player.play()
-        } catch let error {
-            print(error.localizedDescription)
+    private func updateMessage(withId messageId: String, toPostedMessage message: Message) {
+        if let index = intermediaryMessages.firstIndex(where: { $0.id == messageId }) {
+            intermediaryMessages[index].createdAt = message.createdAt
+            intermediaryMessages[index].id = message._id
+        } else {
+            print("❌ Error: Message with ID \(messageId) was not found.")
         }
+    }
+    
+    private func playSendMessageSound() {
+        playSound(withName: "sent-message-sound")
     }
     
     func resendMessage(withTempId tempId: String, token: String) async {
@@ -156,6 +157,27 @@ class MessageViewModel: ObservableObject {
         } else {
             return nil
         }
+    }
+    
+    //MARK: - Receive Message
+    
+    func displayMessage(fromData message: [Any]) {
+        decodeMessage(message)
+        playReceivedMessageSound()
+    }
+    
+    func decodeMessage(_ message: [Any]) {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: message[0], options: [])
+            let newMessage = try JSONDecoder().decode(Message.self, from: jsonData)
+            intermediaryMessages.append(newMessage.convertMessageToIntermediary(forCurrentUserUid: LocalState.currentUserUid))
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func playReceivedMessageSound() {
+        playSound(withName: "received-message-sound")
     }
     
     //MARK: - Delete Message
@@ -204,5 +226,18 @@ class MessageViewModel: ObservableObject {
         let previousMessage = intermediaryMessages[index - 1]
         let timeDifferenceSec = message.createdAt.timeIntervalSince1970InSeconds - previousMessage.createdAt.timeIntervalSince1970InSeconds
         return timeDifferenceSec >= 3600 ? message.createdAt : nil
+    }
+    
+    private func playSound(withName soundName: String) {
+        guard let url = Bundle.main.url(forResource: soundName, withExtension: "mp3") else { return }
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+            audioPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+            guard let player = audioPlayer else { return }
+            player.play()
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
 }

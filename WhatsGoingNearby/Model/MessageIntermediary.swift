@@ -9,12 +9,12 @@ import Foundation
 import SwiftUI
 
 struct MessageIntermediary {
-    let id: String
+    var id: String
     let chatId: String
     let text: String?
     let imageUrl: String?
     let isRead: Bool
-    let createdAt: Int
+    var createdAt: Int
     let repliedMessageId: String?
     let repliedMessageText: String?
     var status: MessageStatus?

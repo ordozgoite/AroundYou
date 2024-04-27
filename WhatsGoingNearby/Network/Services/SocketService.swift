@@ -8,6 +8,9 @@
 import Foundation
 import SocketIO
 
+//https://odd-rose-moose-sock.cyclic.app
+//http://localhost:3000
+
 class SocketService: ObservableObject {
     
     static let shared = SocketService()

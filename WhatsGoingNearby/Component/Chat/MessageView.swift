@@ -31,7 +31,11 @@ struct MessageView: View {
             }
             
             if let text = message.message {
-                TextBubble(text)
+                if text.isSingleEmoji {
+                    Emoji(text)
+                } else {
+                    TextBubble(text)
+                }
             }
             
             switch message.status {
@@ -122,6 +126,32 @@ struct MessageView: View {
             )
     }
     
+    //MARK: - Emoji
+    
+    @ViewBuilder
+    private func Emoji(_ text: String) -> some View {
+        if let emoji  = text.first {
+            EmojiMessageView(emoji: emoji, isCurrentUser: message.isCurrentUser, isFirst: message.isFirst)
+                .gesture(
+                    DragGesture()
+                        .onChanged { gesture in
+                            if gesture.translation.width > 0 {
+                                translation.width = min(maxTranslation, gesture.translation.width)
+                            }
+                        }
+                        .onEnded { gesture in
+                            if gesture.translation.width > maxTranslation {
+                                hapticFeedback(style: .heavy)
+                                replyMessage()
+                            }
+                            withAnimation {
+                                translation = .zero
+                            }
+                        }
+                )
+        }
+    }
+    
     //MARK: - Image Bubble
     
     @ViewBuilder
@@ -177,8 +207,9 @@ struct MessageView: View {
         message: FormattedMessage(
             id: "1",
             chatId: "1",
-            message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉",
-            imageUrl: "https://firebasestorage.googleapis.com:443/v0/b/aroundyou-b8364.appspot.com/o/post-image%2F8019D1A7-097F-45FA-B0FF-41959EC98789.jpg?alt=media&token=3c621a0c-46e2-405a-b5f5-3bff8f888e07",
+            message: "😉",
+            imageUrl: nil,
+//            imageUrl: "https://firebasestorage.googleapis.com:443/v0/b/aroundyou-b8364.appspot.com/o/post-image%2F8019D1A7-097F-45FA-B0FF-41959EC98789.jpg?alt=media&token=3c621a0c-46e2-405a-b5f5-3bff8f888e07",
             isCurrentUser: false,
             isFirst: true,
             repliedMessageText: "Tio, o que você está fazendo?",

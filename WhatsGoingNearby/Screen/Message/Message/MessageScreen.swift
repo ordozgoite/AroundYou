@@ -88,7 +88,7 @@ struct MessageScreen: View {
             }
         }
         .onAppear {
-//            manageSocket()
+            manageSocket()
             Task {
                 try await updateMessages()
             }
@@ -269,12 +269,14 @@ struct MessageScreen: View {
     //MARK: - Private Method
     
     private func manageSocket() {
+        print("🛜 SOCKET!")
+        
         SocketService.shared.connect()
         
         messageVM.socket.emit("join-room", chatId)
         
-        messageVM.socket.on("message") { dataArray, ack in
-            print("⚠️ CHEGOU MENSAGEM!!!")
+        messageVM.socket.on("message") { data, ack in
+            messageVM.displayMessage(fromData: data)
         }
     }
     
