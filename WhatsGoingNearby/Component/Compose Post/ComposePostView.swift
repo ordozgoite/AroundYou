@@ -192,6 +192,7 @@ struct ComposePostView: View {
             .scaledToFit()
             .frame(width: 32, height: 12)
             .onTapGesture {
+                hapticFeedback(style: .light)
                 withAnimation {
                     isSettingsExpanded.toggle()
                 }

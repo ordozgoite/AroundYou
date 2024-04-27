@@ -93,9 +93,9 @@ struct MessageScreen: View {
                 try await updateMessages()
             }
         }
-//        .onDisappear {
-//            stopUpdatingMessages()
-//        }
+        //        .onDisappear {
+        //            stopUpdatingMessages()
+        //        }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 NavigationLink(destination: UserProfileScreen(userUid: otherUserUid)) {
@@ -184,30 +184,28 @@ struct MessageScreen: View {
     @ViewBuilder
     private func Reply() -> some View {
         if let repliedMessage = messageVM.repliedMessage {
-            VStack(alignment: .leading) {
-                HStack {
-                    Text("Replying to:")
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(repliedMessage.isCurrentUser ? "You" : username)
                         .font(.subheadline)
-                        .foregroundStyle(.blue)
                     
-                    Spacer()
-                    
-                    Image(systemName: "xmark")
-                        .scaleEffect(0.8)
-                        .foregroundStyle(.blue)
-                        .onTapGesture {
-                            messageVM.repliedMessage = nil
-                        }
+                    if let repliedMessageText = repliedMessage.message {
+                        Text(repliedMessageText)
+                            .foregroundStyle(.gray)
+                            .lineLimit(2)
+                    } else if repliedMessage.imageUrl != nil {
+                        Label("Image", systemImage: "photo")
+                            .foregroundStyle(.gray)
+                    }
                 }
                 
-                if let repliedMessageText = repliedMessage.message {
-                    Text(repliedMessageText)
-                        .foregroundStyle(.gray)
-                        .lineLimit(2)
-                } else if repliedMessage.imageUrl != nil {
-                    Label("Image", systemImage: "photo")
-                        .foregroundStyle(.gray)
-                }
+                Spacer()
+                
+                Image(systemName: "xmark.circle")
+                    .foregroundStyle(.blue)
+                    .onTapGesture {
+                        messageVM.repliedMessage = nil
+                    }
             }
             .padding(10)
         }
@@ -280,23 +278,23 @@ struct MessageScreen: View {
         }
     }
     
-//    private func startUpdatingMessages() {
-//        messageVM.messageTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-//            Task {
-//                try await updateMessages()
-//            }
-//        }
-//        messageVM.messageTimer?.fire()
-//    }
+    //    private func startUpdatingMessages() {
+    //        messageVM.messageTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+    //            Task {
+    //                try await updateMessages()
+    //            }
+    //        }
+    //        messageVM.messageTimer?.fire()
+    //    }
     
     private func updateMessages() async throws {
         let token = try await authVM.getFirebaseToken()
         await messageVM.getMessages(chatId: chatId, token: token)
     }
     
-//    private func stopUpdatingMessages() {
-//        messageVM.messageTimer?.invalidate()
-//    }
+    //    private func stopUpdatingMessages() {
+    //        messageVM.messageTimer?.invalidate()
+    //    }
     
     private func scrollToMessage(withId messageId: String, usingProxy proxy: ScrollViewProxy, animated: Bool = true) {
         if animated {
