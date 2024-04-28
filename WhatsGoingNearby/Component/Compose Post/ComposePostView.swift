@@ -26,15 +26,7 @@ struct ComposePostView: View {
         VStack(alignment: .leading, spacing: 32) {
             Header()
             
-            TextField("What's going on around you?", text: $text, axis: .vertical)
-                .focused($isFocused)
-                .onChange(of: text) { newValue in
-                    if newValue.count > maxLength {
-                        text = String(newValue.prefix(maxLength))
-                    }
-                }
-            
-            Spacer()
+            PostText()
             
             Footer()
         }
@@ -109,6 +101,20 @@ struct ComposePostView: View {
         }
     }
     
+    //MARK: - Post Text
+    
+    @ViewBuilder
+    private func PostText() -> some View {
+        TextField("What's going on around you?", text: $text, axis: .vertical)
+            .focused($isFocused)
+            .lineLimit(3...)
+            .onChange(of: text) { newValue in
+                if newValue.count > maxLength {
+                    text = String(newValue.prefix(maxLength))
+                }
+            }
+    }
+    
     //MARK: - Footer
     
     @ViewBuilder
@@ -131,6 +137,7 @@ struct ComposePostView: View {
                 CompactedPostSettings(maxPostLength: maxLength, text: $text, selectedPostTag: $tag, selectedPostDuration: $duration, isExpanded: $isSettingsExpanded)
             }
         }
+        .frame(maxHeight: .infinity, alignment: .bottom)
     }
     
     //MARK: - Image Preview

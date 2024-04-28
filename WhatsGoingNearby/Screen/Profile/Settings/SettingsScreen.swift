@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SettingsScreen: View {
     
+    private let nsObject: String? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
+    
     @EnvironmentObject var authVM: AuthenticationViewModel
     @Environment(\.colorScheme) var colorScheme
     @State private var isDeleteAccountAlertDisplayed: Bool = false
@@ -88,9 +90,11 @@ struct SettingsScreen: View {
                                 Spacer()
                             }
                             
-                            Text("Version \(Constants.appVersion)")
-                                .foregroundStyle(.gray)
-                                .fontWeight(.light)
+                            if let version = nsObject {
+                                Text("Version \(version)")
+                                    .foregroundStyle(.gray)
+                                    .fontWeight(.light)
+                            }
                         }
                         .listRowBackground(Color(.systemGroupedBackground))
                     }

@@ -71,8 +71,9 @@ struct CompactedPostSettings: View {
                 HStack {
                     Image(systemName: "clock")
                     Text(selectedPostDuration.abbreviatedTitle)
+                        .lineLimit(1)
                 }
-                .frame(width: 60)
+//                .frame(width: 60)
                 Image(systemName: "chevron.up.chevron.down")
                     .scaleEffect(0.8)
             }
