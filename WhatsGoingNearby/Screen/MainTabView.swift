@@ -34,7 +34,7 @@ class TabStateHandler: ObservableObject {
 struct MainTabView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @StateObject var tabStateHandler: TabStateHandler = TabStateHandler()
+    @ObservedObject public var notificationManager = NotificationManager()
     
     var body: some View {
         TabView {

@@ -9,7 +9,8 @@ import Foundation
 import CoreLocation
 
 struct Constants {
-    static let appVersion: String = "2.1.2"
+    static let serverUrl: String = "https://aroundyouapi-28b64d9e9aad.herokuapp.com"
+//    static let appVersion: String = "2.1.2"
     static let maxUsernameLenght: Int = 20
     static let maxNameLenght: Int = 30
     static let maxBioLenght: Int = 250

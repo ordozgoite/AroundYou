@@ -28,9 +28,7 @@ struct MessageView: View {
                 ImageBubble(fromSource: .url)
             } else if message.image != nil {
                 ImageBubble(fromSource: .uiImage)
-            }
-            
-            if let text = message.message {
+            } else if let text = message.message {
                 if text.isSingleEmoji {
                     Emoji(text)
                 } else {
@@ -65,8 +63,7 @@ struct MessageView: View {
     
     @ViewBuilder
     private func Reply() -> some View {
-        
-        if let replyText = message.repliedMessageText {
+        if message.repliedMessageId != nil {
             HStack {
                 if !message.isCurrentUser {
                     Image(systemName: "arrowshape.turn.up.right")
@@ -76,7 +73,7 @@ struct MessageView: View {
                         .foregroundStyle(.gray)
                 }
                 
-                Text(replyText)
+                Text(message.repliedMessageText ?? "📷 Photo")
                     .foregroundStyle(.gray)
                     .padding(.horizontal)
                     .padding(.vertical, 8)

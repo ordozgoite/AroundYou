@@ -8,7 +8,7 @@
 import Foundation
 import SocketIO
 
-//https://odd-rose-moose-sock.cyclic.app
+//https://aroundyou-api-f3xzny4tlq-uw.a.run.app
 //http://localhost:3000
 
 class SocketService: ObservableObject {
@@ -16,7 +16,7 @@ class SocketService: ObservableObject {
     static let shared = SocketService()
     
     var socket: SocketIOClient!
-    let manager = SocketManager(socketURL: URL(string: "https://odd-rose-moose-sock.cyclic.app")!, config: [.log(true), .compress])
+    let manager = SocketManager(socketURL: URL(string: Constants.serverUrl)!, config: [.log(true), .compress])
     
     init() {
         socket = manager.defaultSocket

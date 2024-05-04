@@ -783,7 +783,20 @@
       }
     },
     "Copy" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiar"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiar"
+          }
+        }
+      }
     },
     "Create new post" : {
       "localizations" : {
@@ -1620,7 +1633,20 @@
       }
     },
     "Invalid username format." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formato de nome de usuário inválido"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formato de nome de usuário inválido"
+          }
+        }
+      }
     },
     "Just chatting" : {
       "localizations" : {
@@ -1739,13 +1765,13 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Procurando ao redor de você..."
+            "value" : "Procurando ao seu redor..."
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Procurando ao redor de você..."
+            "value" : "Procurando ao seu redor..."
           }
         }
       }
@@ -2901,7 +2927,20 @@
       }
     },
     "This message was not sent" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Essa mensagem não foi enviada"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Essa mensagem não foi enviada"
+          }
+        }
+      }
     },
     "This user will be able to see your posts and profile, and you will be able to see this user's posts and profile." : {
       "localizations" : {
@@ -2952,7 +2991,20 @@
       }
     },
     "Try again" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tentar de novo"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tentar de novo"
+          }
+        }
+      }
     },
     "Unblock" : {
       "localizations" : {

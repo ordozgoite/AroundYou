@@ -42,7 +42,7 @@ class MessageViewModel: ObservableObject {
         
         switch result {
         case .success(let messages):
-//            self.receivedMessages = messages
+            //            self.receivedMessages = messages
             self.intermediaryMessages = convertReceivedMessages(messages)
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
@@ -60,8 +60,20 @@ class MessageViewModel: ObservableObject {
     
     //MARK: - Send Message
     
-    func sendMessage(withTemporaryId tempId: String = UUID().uuidString, chatId: String, text: String?, image: UIImage?, repliedMessage: FormattedMessage?, token: String) async throws {
+    func sendMessage(forChat chatId: String, text: String?, image: UIImage?, repliedMessage: FormattedMessage?, token: String) async throws {
         resetInputs()
+        
+        if let txt = text, let img = image {
+            async let sendTextMessage: () = sendMessage(chatId: chatId, text: txt, image: nil, repliedMessage: nil, token: token)
+            async let sendImageMessage: () = sendMessage(chatId: chatId, text: nil, image: img, repliedMessage: repliedMessage, token: token)
+            
+            let images: [()] = try await [sendTextMessage, sendImageMessage]
+        } else {
+            try await sendMessage(chatId: chatId, text: text, image: image, repliedMessage: repliedMessage, token: token)
+        }
+    }
+    
+    private func sendMessage(withTemporaryId tempId: String = UUID().uuidString, chatId: String, text: String?, image: UIImage?, repliedMessage: FormattedMessage?, token: String) async throws {
         addMessageToScreen(withTemporaryId: tempId, chatId: chatId, text: text, image: image, repliedMessage: repliedMessage)
         let imageUrl = try await getUrl(forImage: image)
         await postNewMessage(withTemporaryId: tempId, chatId: chatId, text: text, imageUrl: imageUrl, repliedMessageId: repliedMessage?.id, repliedMessageText: repliedMessage?.message, token: token)
@@ -117,7 +129,7 @@ class MessageViewModel: ObservableObject {
             playSendMessageSound()
             updateMessage(withId: tempId, toStatus: .sent)
             updateMessage(withId: tempId, toPostedMessage: message)
-//            await getMessages(chatId: chatId, token: token)
+            //            await getMessages(chatId: chatId, token: token)
         case .failure:
             updateMessage(withId: tempId, toStatus: .failed)
             overlayError = (true, ErrorMessage.defaultErrorMessage)
@@ -161,19 +173,24 @@ class MessageViewModel: ObservableObject {
     
     //MARK: - Receive Message
     
-    func displayMessage(fromData message: [Any]) {
-        decodeMessage(message)
-        playReceivedMessageSound()
+    func processMessage(fromData message: [Any]) {
+        let newMessage = decodeMessage(message)
+        if let msg = newMessage, !msg.isCurrentUser {
+            intermediaryMessages.append(msg)
+            print("🎶 Playing sound for message: \(msg)")
+            playReceivedMessageSound()
+        }
     }
     
-    func decodeMessage(_ message: [Any]) {
+    func decodeMessage(_ message: [Any]) -> MessageIntermediary? {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: message[0], options: [])
             let newMessage = try JSONDecoder().decode(Message.self, from: jsonData)
-            intermediaryMessages.append(newMessage.convertMessageToIntermediary(forCurrentUserUid: LocalState.currentUserUid))
+            return newMessage.convertMessageToIntermediary(forCurrentUserUid: LocalState.currentUserUid)
         } catch {
             print(error)
         }
+        return nil
     }
     
     private func playReceivedMessageSound() {

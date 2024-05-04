@@ -178,7 +178,7 @@ struct MessageScreen: View {
                         Task {
                             let token = try await authVM.getFirebaseToken()
                             try await messageVM.sendMessage(
-                                chatId: chatId,
+                                forChat: chatId,
                                 text: messageVM.messageText.nonEmptyOrNil(),
                                 image: messageVM.image,
                                 repliedMessage: messageVM.repliedMessage,
@@ -287,34 +287,19 @@ struct MessageScreen: View {
     //MARK: - Private Method
     
     private func manageSocket() {
-        print("🛜 SOCKET!")
-        
         SocketService.shared.connect()
         
         messageVM.socket.emit("join-room", chatId)
         
         messageVM.socket.on("message") { data, ack in
-            messageVM.displayMessage(fromData: data)
+            messageVM.processMessage(fromData: data)
         }
     }
-    
-    //    private func startUpdatingMessages() {
-    //        messageVM.messageTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-    //            Task {
-    //                try await updateMessages()
-    //            }
-    //        }
-    //        messageVM.messageTimer?.fire()
-    //    }
     
     private func updateMessages() async throws {
         let token = try await authVM.getFirebaseToken()
         await messageVM.getMessages(chatId: chatId, token: token)
     }
-    
-    //    private func stopUpdatingMessages() {
-    //        messageVM.messageTimer?.invalidate()
-    //    }
     
     private func scrollToMessage(withId messageId: String, usingProxy proxy: ScrollViewProxy, animated: Bool = true) {
         if animated {
