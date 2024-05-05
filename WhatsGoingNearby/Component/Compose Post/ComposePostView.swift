@@ -149,15 +149,17 @@ struct ComposePostView: View {
                 Image(uiImage: selectedImage)
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 64)
+                    .frame(height: 100)
                     .cornerRadius(8)
-                    .padding()
                 
                 Button {
                     image = nil
                 } label: {
-                    Image(systemName: "x.circle.fill")
+                    Image(systemName: "x.circle")
+                        .foregroundStyle(.white)
+                        .background(Circle().fill(.gray))
                 }
+                .padding([.top, .trailing], 2)
             }
         }
     }

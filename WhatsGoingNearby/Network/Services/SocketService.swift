@@ -16,7 +16,7 @@ class SocketService: ObservableObject {
     static let shared = SocketService()
     
     var socket: SocketIOClient!
-    let manager = SocketManager(socketURL: URL(string: Constants.serverUrl)!, config: [.log(true), .compress])
+    let manager = SocketManager(socketURL: URL(string: "http://localhost:3000")!, config: [.log(true), .compress])
     
     init() {
         socket = manager.defaultSocket
