@@ -10,7 +10,7 @@ import SwiftUI
 struct ChatListScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject private var chatListVM = ChatListViewModel()
+    @StateObject private var chatListVM = ChatListViewModel()
     
     var body: some View {
         NavigationStack {

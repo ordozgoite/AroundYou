@@ -10,7 +10,7 @@ import SwiftUI
 struct FeedScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject private var feedVM = FeedViewModel()
+    @StateObject private var feedVM = FeedViewModel()
     @ObservedObject var locationManager = LocationManager()
     @ObservedObject public var notificationManager = NotificationManager()
     

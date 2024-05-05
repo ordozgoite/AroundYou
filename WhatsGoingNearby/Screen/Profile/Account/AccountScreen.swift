@@ -11,7 +11,7 @@ import SwiftUI
 struct AccountScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject private var accountVM = AccountViewModel()
+    @StateObject private var accountVM = AccountViewModel()
     @ObservedObject var locationManager = LocationManager()
     
     var body: some View {
