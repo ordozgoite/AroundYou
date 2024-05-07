@@ -8,36 +8,41 @@
 import Foundation
 import SocketIO
 
-//https://aroundyou-api-f3xzny4tlq-uw.a.run.app
-//http://localhost:3000
-
-class SocketService: ObservableObject {
-    
-    static let shared = SocketService()
+@MainActor
+final class SocketService: ObservableObject {
     
     var socket: SocketIOClient!
-    let manager = SocketManager(socketURL: URL(string: "http://localhost:3000")!, config: [.log(true), .compress])
+    let manager = SocketManager(socketURL: URL(string: Constants.serverUrl)!, config: [.log(true), .compress])
+//    private var connectedChatIds: [String] = []
     
     init() {
         socket = manager.defaultSocket
-    }
-    
-    func connect() {
         socket.connect()
     }
+    
+//    func connect() {
+//        socket.connect()
+//    }
 
     func disconnect() {
         socket.disconnect()
     }
     
-    func getSocket() -> SocketIOClient {
-        return socket
-    }
+//    func getSocket() -> SocketIOClient {
+//        return socket
+//    }
 
     func on(_ event: String, callback: @escaping (Any?) -> ()) {
         socket.on(event) { data, ack in
             callback(data)
         }
+    }
+    
+    func joinChat(_ chatId: String) {
+//        if !connectedChatIds.contains(chatId) {
+            socket.emit("join-room", chatId)
+//            connectedChatIds.append(chatId)
+//        }
     }
 
 //    func emit(_ event: String, _ data: [String: Any]) {

@@ -14,8 +14,8 @@ import AVFoundation
 @MainActor
 class MessageViewModel: ObservableObject {
     
-    var socket = SocketService.shared.getSocket()
     private var audioPlayer: AVAudioPlayer?
+    private var receivedMessageIds: [String] = []
     
     @Published var formattedMessages: [FormattedMessage] = []
     @Published var intermediaryMessages: [MessageIntermediary] = [] {
@@ -173,13 +173,18 @@ class MessageViewModel: ObservableObject {
     
     //MARK: - Receive Message
     
-    func processMessage(fromData message: [Any]) {
-        let newMessage = decodeMessage(message)
-        if let msg = newMessage, !msg.isCurrentUser {
-            intermediaryMessages.append(msg)
-            print("🎶 Playing sound for message: \(msg)")
-            playReceivedMessageSound()
+    func processMessage(fromData data: [Any]) {
+        let newMessage = decodeMessage(data)
+        if let msg = newMessage, !msg.isCurrentUser, !wasMessageReceived(msg) {
+            DispatchQueue.main.async {
+                self.intermediaryMessages.append(msg)
+                self.playReceivedMessageSound(forMessageId: msg.id)
+            }
         }
+    }
+    
+    private func wasMessageReceived(_ message: MessageIntermediary) -> Bool {
+        return intermediaryMessages.contains { $0.id == message.id }
     }
     
     func decodeMessage(_ message: [Any]) -> MessageIntermediary? {
@@ -193,8 +198,12 @@ class MessageViewModel: ObservableObject {
         return nil
     }
     
-    private func playReceivedMessageSound() {
-        playSound(withName: "received-message-sound")
+    private func playReceivedMessageSound(forMessageId messageId: String) {
+        if !receivedMessageIds.contains(messageId) {
+            receivedMessageIds.append(messageId)
+            print("🎶 Playing sound for messageId: \(messageId)")
+            playSound(withName: "received-message-sound")
+        }
     }
     
     //MARK: - Delete Message

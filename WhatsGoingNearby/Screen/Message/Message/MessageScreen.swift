@@ -19,6 +19,7 @@ struct MessageScreen: View {
     @StateObject private var messageVM = MessageViewModel()
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
+    @StateObject private var socket = SocketService()
     
     var body: some View {
         ZStack {
@@ -78,14 +79,15 @@ struct MessageScreen: View {
             }
         }
         .onAppear {
-            manageSocket()
             Task {
-                try await updateMessages()
+                try await getMessages()
+                connectToChat()
+                listenToMessages()
             }
         }
-        //        .onDisappear {
-        //            stopUpdatingMessages()
-        //        }
+        .onDisappear {
+            socket.disconnect()
+        }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 NavigationLink(destination: UserProfileScreen(userUid: otherUserUid)) {
@@ -288,17 +290,19 @@ struct MessageScreen: View {
     
     //MARK: - Private Method
     
-    private func manageSocket() {
-        SocketService.shared.connect()
-        
-        messageVM.socket.emit("join-room", chatId)
-        
-        messageVM.socket.on("message") { data, ack in
-            messageVM.processMessage(fromData: data)
+    private func connectToChat() {
+        socket.joinChat(self.chatId)
+    }
+    
+    private func listenToMessages() {
+        socket.on("message") { data in
+            if let data = data as? [Any] {
+                messageVM.processMessage(fromData: data)
+            }
         }
     }
     
-    private func updateMessages() async throws {
+    private func getMessages() async throws {
         let token = try await authVM.getFirebaseToken()
         await messageVM.getMessages(chatId: chatId, token: token)
     }
