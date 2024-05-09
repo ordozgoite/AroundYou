@@ -45,7 +45,7 @@ struct PostView: View {
                 }
             }
             .fullScreenCover(isPresented: $isFullScreenImageDisplayed) {
-                FullScreenImage(url: post.imageUrl ?? "")
+                FullScreenUrlImage(url: post.imageUrl ?? "")
             }
             
             Navigation()

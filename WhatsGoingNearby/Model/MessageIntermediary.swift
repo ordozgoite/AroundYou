@@ -12,7 +12,7 @@ struct MessageIntermediary {
     var id: String
     let chatId: String
     let text: String?
-    let imageUrl: String?
+    var imageUrl: String?
     let isRead: Bool
     var createdAt: Int
     let repliedMessageId: String?

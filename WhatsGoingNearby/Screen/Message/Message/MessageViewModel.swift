@@ -73,16 +73,16 @@ class MessageViewModel: ObservableObject {
         }
     }
     
-    private func sendMessage(withTemporaryId tempId: String = UUID().uuidString, chatId: String, text: String?, image: UIImage?, repliedMessage: FormattedMessage?, token: String) async throws {
-        addMessageToScreen(withTemporaryId: tempId, chatId: chatId, text: text, image: image, repliedMessage: repliedMessage)
-        let imageUrl = try await getUrl(forImage: image)
-        await postNewMessage(withTemporaryId: tempId, chatId: chatId, text: text, imageUrl: imageUrl, repliedMessageId: repliedMessage?.id, repliedMessageText: repliedMessage?.message, token: token)
-    }
-    
     private func resetInputs() {
         self.repliedMessage = nil
         self.messageText = ""
         self.image = nil
+    }
+    
+    private func sendMessage(withTemporaryId tempId: String = UUID().uuidString, chatId: String, text: String?, image: UIImage?, repliedMessage: FormattedMessage?, token: String) async throws {
+        addMessageToScreen(withTemporaryId: tempId, chatId: chatId, text: text, image: image, repliedMessage: repliedMessage)
+        let imageUrl = try await getUrl(forImage: image)
+        await postNewMessage(withTemporaryId: tempId, chatId: chatId, text: text, imageUrl: imageUrl, repliedMessageId: repliedMessage?.id, repliedMessageText: repliedMessage?.message, token: token)
     }
     
     private func addMessageToScreen(withTemporaryId tempId: String, chatId: String, text: String?, image: UIImage?, repliedMessage: FormattedMessage?) {
@@ -129,7 +129,6 @@ class MessageViewModel: ObservableObject {
             playSendMessageSound()
             updateMessage(withId: tempId, toStatus: .sent)
             updateMessage(withId: tempId, toPostedMessage: message)
-            //            await getMessages(chatId: chatId, token: token)
         case .failure:
             updateMessage(withId: tempId, toStatus: .failed)
             overlayError = (true, ErrorMessage.defaultErrorMessage)
