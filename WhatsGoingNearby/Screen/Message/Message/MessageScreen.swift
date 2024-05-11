@@ -96,10 +96,15 @@ struct MessageScreen: View {
             }
         }
         .fullScreenCover(isPresented: $messageVM.isCameraDisplayed) {
-            CameraView(image: $messageVM.image)
+            CameraView { image in
+                Task {
+                    let token = try await authVM.getFirebaseToken()
+                    try await messageVM.sendImage(forChat: self.chatId, image: image, token: token)
+                }
+            }
         }
         .sheet(isPresented: $messageVM.isPhotosDisplayed) {
-            ImagePicker(selectedImage: $messageVM.image)
+            PhotoPicker(selectedPhotos: $messageVM.images)
         }
     }
     
@@ -175,14 +180,14 @@ struct MessageScreen: View {
                     .shadow(color: .gray, radius: 10)
                     .focused($isFocused)
                 
-                if !messageVM.messageText.isEmpty || messageVM.image != nil {
+                if !messageVM.messageText.isEmpty || !messageVM.images.isEmpty {
                     Button {
                         Task {
                             let token = try await authVM.getFirebaseToken()
                             try await messageVM.sendMessage(
                                 forChat: chatId,
                                 text: messageVM.messageText.nonEmptyOrNil(),
-                                image: messageVM.image,
+                                images: messageVM.images,
                                 repliedMessage: messageVM.repliedMessage,
                                 token: token
                             )
@@ -237,26 +242,29 @@ struct MessageScreen: View {
     
     @ViewBuilder
     private func Attachment() -> some View {
-        if let selectedImage =  messageVM.image {
-            HStack {
-                ZStack(alignment: .topTrailing) {
-                    Image(uiImage: selectedImage)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 100)
-                        .cornerRadius(8)
-                    
-                    Button {
-                        messageVM.image = nil
-                    } label: {
-                        Image(systemName: "x.circle")
-                            .foregroundStyle(.white)
-                            .background(Circle().fill(.gray))
+        if !messageVM.images.isEmpty {
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(Array(messageVM.images.enumerated()), id: \.offset) { index, image in
+                        ZStack(alignment: .topTrailing) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 100)
+                                .cornerRadius(8)
+                            
+                            Button {
+                                print("📇 Index: \(index)")
+                                messageVM.removeImage(fromIndex: index)
+                            } label: {
+                                Image(systemName: "x.circle")
+                                    .foregroundStyle(.white)
+                                    .background(Circle().fill(.gray))
+                            }
+                            .padding([.top, .trailing], 2)
+                        }
                     }
-                    .padding([.top, .trailing], 2)
                 }
-                
-                Spacer()
             }
         }
     }
