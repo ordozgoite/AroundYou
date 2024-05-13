@@ -120,6 +120,7 @@
 		ED6E84D02B882E4B00B94F5C /* LikeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84CF2B882E4B00B94F5C /* LikeViewModel.swift */; };
 		ED6E84D62B887B3000B94F5C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84D52B887B3000B94F5C /* Notification.swift */; };
 		ED6E84F42B89C82C00B94F5C /* PostLocationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84F32B89C82C00B94F5C /* PostLocationScreen.swift */; };
+		ED74E8072BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E8062BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift */; };
 		ED755F132BB4D625004BC6C3 /* ChatListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F122BB4D625004BC6C3 /* ChatListScreen.swift */; };
 		ED755F152BB4DBA5004BC6C3 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F142BB4DBA5004BC6C3 /* ChatView.swift */; };
 		ED755F1B2BB4E54F004BC6C3 /* MessageScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F1A2BB4E54F004BC6C3 /* MessageScreen.swift */; };
@@ -289,6 +290,7 @@
 		ED6E84CF2B882E4B00B94F5C /* LikeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewModel.swift; sourceTree = "<group>"; };
 		ED6E84D52B887B3000B94F5C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		ED6E84F32B89C82C00B94F5C /* PostLocationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLocationScreen.swift; sourceTree = "<group>"; };
+		ED74E8062BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUnreadChatsNumberResponse.swift; sourceTree = "<group>"; };
 		ED755F122BB4D625004BC6C3 /* ChatListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListScreen.swift; sourceTree = "<group>"; };
 		ED755F142BB4DBA5004BC6C3 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		ED755F1A2BB4E54F004BC6C3 /* MessageScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageScreen.swift; sourceTree = "<group>"; };
@@ -526,9 +528,9 @@
 				ED8CDFC32BB2704700B8852E /* PostDuration.swift */,
 				EDCF2C322BB65FC60066950F /* Chat.swift */,
 				EDCF2C372BB66E400066950F /* Message.swift */,
-				EDA322392B7CCD79009905B5 /* Response */,
 				EDDC9E052BD86D9C00000EA4 /* MessageIntermediary.swift */,
 				EDDC9E072BD86E6A00000EA4 /* MessageStatus.swift */,
+				EDA322392B7CCD79009905B5 /* Response */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -896,6 +898,7 @@
 				EDCF2C342BB661960066950F /* MuteChatResponse.swift */,
 				EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */,
 				EDE8B3702BC20AFB00DFF750 /* DeleteChatResponse.swift */,
+				ED74E8062BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1218,6 +1221,7 @@
 				ED50C44E2B7E3BE20001EDF6 /* PostVisibility.swift in Sources */,
 				EDDC9E0A2BDCB01400000EA4 /* Character.swift in Sources */,
 				ED598C512B7C80EC00B6C23D /* LocationTestScreen.swift in Sources */,
+				ED74E8072BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift in Sources */,
 				EDA322292B7CA362009905B5 /* Endpoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
