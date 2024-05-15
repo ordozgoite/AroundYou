@@ -30,6 +30,7 @@ class MessageViewModel: ObservableObject {
     @Published var repliedMessage: FormattedMessage?
     @Published var messageTimer: Timer?
     @Published var highlightedMessageId: String?
+    @Published var lastMessageAdded: String?
     
     @Published var images: [UIImage] = []
     @Published var isCameraDisplayed = false
@@ -43,11 +44,11 @@ class MessageViewModel: ObservableObject {
     //MARK: - Fetch Messages
     
     func getMessages(chatId: String, token: String) async {
-        let result = await AYServices.shared.getMessages(chatId: chatId, token: token)
+        let result = await AYServices.shared.getMessages(chatId: chatId, timestamp: intermediaryMessages.first?.createdAt, token: token)
         
         switch result {
         case .success(let messages):
-            self.intermediaryMessages = convertReceivedMessages(messages)
+            self.intermediaryMessages.insert(contentsOf: convertReceivedMessages(messages), at: 0)
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
@@ -117,6 +118,7 @@ class MessageViewModel: ObservableObject {
     private func displayMessages(fromArray messages: [MessageIntermediary]) {
         for message in messages {
             intermediaryMessages.append(message)
+            self.lastMessageAdded = message.id
         }
     }
     

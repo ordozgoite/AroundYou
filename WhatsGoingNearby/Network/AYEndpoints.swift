@@ -45,7 +45,7 @@ enum AYEndpoints {
     case muteChat(chatId: String, token: String)
     case unmuteChat(chatId: String, token: String)
     case postNewMessage(chatId: String, text: String?, imageUrl: String?, repliedMessageId: String?, token: String)
-    case getMessages(chatId: String, token: String)
+    case getMessages(chatId: String, timestamp: Int?, token: String)
     case deleteMessage(messageId: String, token: String)
     case editPublication(publicationId: String, text: String?, tag: String, postDuration: Int, isLocationVisible: Bool, latitude: Double, longitude: Double, token: String)
     case finishPublication(publicationId: String, token: String)
@@ -133,8 +133,8 @@ extension AYEndpoints: Endpoint {
             return "/api/Chat/UnmuteChat/\(chatId)"
         case .postNewMessage:
             return "/api/Message/PostMessage"
-        case .getMessages(let chatId, _):
-            return "/api/Message/GetAllMessagesByChat/\(chatId)"
+        case .getMessages:
+            return "/api/Message/GetMessages"
         case .deleteMessage(let messageId, _):
             return "/api/Message/DeleteMessage/\(messageId)"
         case .editPublication:
@@ -223,6 +223,12 @@ extension AYEndpoints: Endpoint {
                 "longitude": longitude
             ]
             return params
+        case .getMessages(let chatId, let timestamp, _):
+            var params: [String: Any] = [
+                "chatId": chatId
+            ]
+            if let timestamp = timestamp { params["timestamp"] = timestamp }
+            return params
         default:
             return nil
         }
@@ -232,7 +238,7 @@ extension AYEndpoints: Endpoint {
     
     var header: [String : String]? {
         switch self {
-        case .postNewPublication(_, _, _, _, _, _, _, let token), .getActivePublicationsNearBy(_, _, let token), .postNewUser(_, _, _, let token), .getUserInfo(_, _, let token), .likePublication(_, let token), .unlikePublication(_, let token), .getAllCommentsByPublication(_, let token), .postNewComment(_, _, _, let token), .deleteComment(_, let token), .deletePublication(_, let token), .getUserProfile(_, let token), .editProfile(_, let token), .getAllPublicationsByUser(let token), .postNewReport(_, let token), .postNewBugReport(_, let token), .blockUser(_, let token), .getBlockedUsers(let token), .unblockUser(_, let token), .likeComment(_, _, _, let token), .unlikeComment(_, _, _, let token), .getPublicationLikes(_, let token), .getCommentLikes(_, let token), .deleteProfilePic(let token), .getPublication(_, _, _, let token), .getUserNotifications(let token), .subscribeUserToPublication(_, let token), .unsubscribeUser(_, let token), .deleteNotification(_, let token), .deleteUser(let token), .getUserBanExpireDate(let token), .getAllPublicationsNearBy(_, _, let token), .postNewChat(_, let token), .getChatsByUser(let token), .muteChat(_, let token), .unmuteChat(_, let token), .postNewMessage(_, _, _, _, let token), .getMessages(_, let token), .deleteMessage(_, let token), .editPublication(_, _, _, _, _, _, _, let token), .finishPublication(_, let token), .deleteChat(_, let token), .getUnreadChatsNumber(let token):
+        case .postNewPublication(_, _, _, _, _, _, _, let token), .getActivePublicationsNearBy(_, _, let token), .postNewUser(_, _, _, let token), .getUserInfo(_, _, let token), .likePublication(_, let token), .unlikePublication(_, let token), .getAllCommentsByPublication(_, let token), .postNewComment(_, _, _, let token), .deleteComment(_, let token), .deletePublication(_, let token), .getUserProfile(_, let token), .editProfile(_, let token), .getAllPublicationsByUser(let token), .postNewReport(_, let token), .postNewBugReport(_, let token), .blockUser(_, let token), .getBlockedUsers(let token), .unblockUser(_, let token), .likeComment(_, _, _, let token), .unlikeComment(_, _, _, let token), .getPublicationLikes(_, let token), .getCommentLikes(_, let token), .deleteProfilePic(let token), .getPublication(_, _, _, let token), .getUserNotifications(let token), .subscribeUserToPublication(_, let token), .unsubscribeUser(_, let token), .deleteNotification(_, let token), .deleteUser(let token), .getUserBanExpireDate(let token), .getAllPublicationsNearBy(_, _, let token), .postNewChat(_, let token), .getChatsByUser(let token), .muteChat(_, let token), .unmuteChat(_, let token), .postNewMessage(_, _, _, _, let token), .getMessages(_, _, let token), .deleteMessage(_, let token), .editPublication(_, _, _, _, _, _, _, let token), .finishPublication(_, let token), .deleteChat(_, let token), .getUnreadChatsNumber(let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",

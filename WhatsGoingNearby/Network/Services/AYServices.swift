@@ -48,7 +48,7 @@ protocol AYServiceable {
     
     // Message
     func postNewMessage(chatId: String, text: String?, imageUrl: String?, repliedMessageId: String?, token: String) async -> Result<Message, RequestError>
-    func getMessages(chatId: String, token: String) async -> Result<[Message], RequestError>
+    func getMessages(chatId: String, timestamp: Int?, token: String) async -> Result<[Message], RequestError>
     func deleteMessage(messageId: String, token: String) async -> Result<DeleteMessageResponse, RequestError>
     
     // Report
@@ -213,8 +213,8 @@ struct AYServices: HTTPClient, AYServiceable {
         return await sendRequest(endpoint: AYEndpoints.postNewMessage(chatId: chatId, text: text, imageUrl: imageUrl, repliedMessageId: repliedMessageId, token: token), responseModel: Message.self)
     }
     
-    func getMessages(chatId: String, token: String) async -> Result<[Message], RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.getMessages(chatId: chatId, token: token), responseModel: [Message].self)
+    func getMessages(chatId: String, timestamp: Int?, token: String) async -> Result<[Message], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getMessages(chatId: chatId, timestamp: timestamp, token: token), responseModel: [Message].self)
     }
     
     func deleteMessage(messageId: String, token: String) async -> Result<DeleteMessageResponse, RequestError> {

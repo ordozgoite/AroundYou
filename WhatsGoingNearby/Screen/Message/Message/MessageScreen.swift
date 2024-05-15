@@ -52,9 +52,9 @@ struct MessageScreen: View {
                                         scrollToMessage(withId: lastMessageId, usingProxy: proxy, animated: false)
                                     }
                                 }
-                                .onChange(of: messageVM.formattedMessages) { _ in
-                                    if let lastMessageId = messageVM.formattedMessages.last?.id {
-                                        scrollToMessage(withId: lastMessageId, usingProxy: proxy)
+                                .onChange(of: messageVM.lastMessageAdded) { _ in
+                                    if let id = messageVM.lastMessageAdded {
+                                        scrollToMessage(withId: id, usingProxy: proxy)
                                     }
                                 }
                                 .onChange(of: isFocused) { _ in
@@ -74,6 +74,12 @@ struct MessageScreen: View {
                     }
                 }
                 .scrollDismissesKeyboard(.interactively)
+                .refreshable {
+                    hapticFeedback(style: .soft)
+                    Task {
+                        try await getMessages()
+                    }
+                }
                 
                 MessageComposer()
             }
