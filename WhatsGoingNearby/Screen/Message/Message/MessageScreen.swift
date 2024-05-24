@@ -7,6 +7,8 @@
 
 import SwiftUI
 import PhotosUI
+import CoreData
+import SocketIO
 
 struct MessageScreen: View {
     
@@ -17,9 +19,14 @@ struct MessageScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var messageVM = MessageViewModel()
+    @StateObject private var socket = SocketService()
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
-    @StateObject private var socket = SocketService()
+    
+    
+    @FetchRequest(fetchRequest: CDFormattedMessage.fetch(), animation: .bouncy)
+    var messages: FetchedResults<CDFormattedMessage>
+    @Environment(\.managedObjectContext) var context
     
     var body: some View {
         ZStack {
@@ -28,48 +35,69 @@ struct MessageScreen: View {
                     ScrollViewReader { proxy in
                         ZStack {
                             VStack(spacing: 0) {
-                                ForEach(messageVM.formattedMessages) { message in
-                                    MessageView(message: message) {
-                                        messageVM.repliedMessage = message
-                                        isFocused = true
-                                    } tappedRepliedMessage: {
-                                        if let repliedMessageId = message.repliedMessageId {
-                                            scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
-                                            highlightMessage(withId: repliedMessageId)
+//                                if messageVM.formattedMessages.isEmpty {
+//                                    ForEach(messages) { message in
+//                                        MessageView(message: message.convertToFormattedMessage()) {
+//                                            messageVM.repliedMessage = message.convertToFormattedMessage()
+//                                            isFocused = true
+//                                        } tappedRepliedMessage: {
+//                                            if let repliedMessageId = message.repliedMessageId {
+//                                                scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
+//                                                highlightMessage(withId: repliedMessageId)
+//                                            }
+//                                        } resendMessage: {
+//                                            Task {
+//                                                try await resendMessage(withId: message.id ?? "")
+//                                            }
+//                                        }
+//                                        .background(messageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
+////                                        .contextMenu {
+////                                            MessageMenu(forMessage: message.convertToFormattedMessage())
+////                                        }
+//                                    }
+//                                } else {
+                                    ForEach(messageVM.formattedMessages) { message in
+                                        MessageView(message: message) {
+                                            messageVM.repliedMessage = message
+                                            isFocused = true
+                                        } tappedRepliedMessage: {
+                                            if let repliedMessageId = message.repliedMessageId {
+                                                scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
+                                                highlightMessage(withId: repliedMessageId)
+                                            }
+                                        } resendMessage: {
+                                            Task {
+                                                try await resendMessage(withId: message.id)
+                                            }
                                         }
-                                    } resendMessage: {
-                                        Task {
-                                            try await resendMessage(withId: message.id)
+                                        .background(messageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
+                                        .contextMenu {
+                                            MessageMenu(forMessage: message)
                                         }
                                     }
-                                    .background(messageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
-                                    .contextMenu {
-                                        MessageMenu(forMessage: message)
-                                    }
-                                }
-                                .onAppear {
-                                    if let lastMessageId = messageVM.formattedMessages.last?.id {
-                                        scrollToMessage(withId: lastMessageId, usingProxy: proxy, animated: false)
-                                    }
-                                }
-                                .onChange(of: messageVM.lastMessageAdded) { _ in
-                                    if let id = messageVM.lastMessageAdded {
-                                        scrollToMessage(withId: id, usingProxy: proxy)
-                                    }
-                                }
-                                .onChange(of: isFocused) { _ in
-                                    if isFocused {
+                                    .onAppear {
                                         if let lastMessageId = messageVM.formattedMessages.last?.id {
-                                            scrollToMessage(withId: lastMessageId, usingProxy: proxy)
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                            scrollToMessage(withId: lastMessageId, usingProxy: proxy, animated: false)
+                                        }
+                                    }
+                                    .onChange(of: messageVM.lastMessageAdded) { _ in
+                                        if let id = messageVM.lastMessageAdded {
+                                            scrollToMessage(withId: id, usingProxy: proxy)
+                                        }
+                                    }
+                                    .onChange(of: isFocused) { _ in
+                                        if isFocused {
+                                            if let lastMessageId = messageVM.formattedMessages.last?.id {
                                                 scrollToMessage(withId: lastMessageId, usingProxy: proxy)
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                                    scrollToMessage(withId: lastMessageId, usingProxy: proxy)
+                                                }
                                             }
                                         }
                                     }
-                                }
+//                                }
                             }
                             .padding(.horizontal, 10)
-                            
                         }
                     }
                 }
@@ -85,20 +113,31 @@ struct MessageScreen: View {
             }
         }
         .onAppear {
+            print("⚠️ Stored messages: \(messages)")
             Task {
                 try await getMessages()
                 connectToChat()
                 listenToMessages()
             }
         }
-        .onDisappear {
-            socket.disconnect()
+//        .onDisappear {
+//            socket.endSession()
+//        }
+        .onChange(of: messageVM.messagesToBePersisted) { messages in
+            updateStoredMessages(withMessages: messages)
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 NavigationLink(destination: UserProfileScreen(userUid: otherUserUid)) {
                     UserHeader()
                 }
+            }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                Status()
+                    .onTapGesture {
+                        print("⚠️ \(socket.socket?.status)")
+                    }
             }
         }
         .fullScreenCover(isPresented: $messageVM.isCameraDisplayed) {
@@ -135,6 +174,22 @@ struct MessageScreen: View {
             }
         }
         .padding(.bottom, 6)
+    }
+    
+    //MARK: - Status
+    
+    @ViewBuilder
+    private func Status() -> some View {
+        switch socket.status {
+        case .connected:
+            Circle().fill(.green)
+                .frame(width: 8, height: 8, alignment: .center)
+        case .connecting:
+            ProgressView()
+        case .disconnected:
+            Circle().fill(.red)
+                .frame(width: 8, height: 8, alignment: .center)
+        }
     }
     
     //MARK: - Message Menu
@@ -344,6 +399,24 @@ struct MessageScreen: View {
     private func resendMessage(withId messageId: String) async throws {
         let token = try await authVM.getFirebaseToken()
         await messageVM.resendMessage(withTempId: messageId, token: token)
+    }
+    
+    private func updateStoredMessages(withMessages messages: [FormattedMessage]) {
+        let fetchRequest: NSFetchRequest<CDFormattedMessage> = CDFormattedMessage.fetchRequest()
+        do {
+            let existingMessages = try context.fetch(fetchRequest)
+            for message in existingMessages {
+                context.delete(message)
+            }
+            for message in messages {
+                print("✉️ Message: \(message)")
+                let cdMessage = CDFormattedMessage(fromMessage: message, context: context)
+                print("📧 CDMessage: \(cdMessage)")
+            }
+            PersistenceController.shared.save()
+        } catch {
+            print("❌ Error fetching existing chats: \(error.localizedDescription)")
+        }
     }
 }
 

@@ -20,4 +20,5 @@ struct FormattedMessage: Identifiable, Equatable, Hashable {
     var timeDivider: Int?
     var image: UIImage?
     var status: MessageStatus
+    var createdAt: Int
 }

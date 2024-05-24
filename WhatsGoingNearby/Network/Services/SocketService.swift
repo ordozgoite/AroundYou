@@ -8,14 +8,20 @@
 import Foundation
 import SocketIO
 
+enum SocketStatus: String {
+    case connected
+    case connecting
+    case disconnected
+}
+
 @MainActor
 final class SocketService: ObservableObject {
     
-    var socket: SocketIOClient!
+    @Published var socket: SocketIOClient?
     let manager = SocketManager(socketURL: URL(string: Constants.serverUrl)!, config: [.log(true), .compress])
+    @Published var status: SocketStatus = .disconnected
     
-    private var reconnectAttempts = 0
-    private let maxReconnectAttempts = 5
+    private var timer: Timer?
     
     init() {
         socket = manager.defaultSocket
@@ -23,53 +29,79 @@ final class SocketService: ObservableObject {
     }
     
     private func setupSocket() {
-        socket.on(clientEvent: .connect) { _, _ in
-            print("Socket connected")
-            self.reconnectAttempts = 0
-        }
-        
-        socket.on(clientEvent: .disconnect) { _, _ in
-            print("Socket disconnected")
-            self.reconnectIfNeeded()
-        }
-        
-        socket.connect()
+        print("🛜 setupSocket")
+        connect()
+        updateConnectionStatus()
     }
     
-    private func reconnectIfNeeded() {
-        if reconnectAttempts < maxReconnectAttempts {
-            print("Attempting to reconnect...")
-            socket.connect()
-            reconnectAttempts += 1
+    private func connect() {
+        print("🛜 Trying to connect...")
+        socket?.connect()
+    }
+    
+    private func updateConnectionStatus() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            self.checkConnection()
+        }
+        timer?.fire()
+    }
+    
+    private func checkConnection() {
+        print("🛜 checkConnection")
+        if socket?.status != .connected {
+            print("😞 Disconnected")
+            if socket?.status != .connecting {
+                connect()
+            }
         } else {
-            print("Max reconnect attempts reached.")
-            // You may want to handle this case, e.g., inform the user or take appropriate action
+            print("✅ Connected")
         }
+        self.status = getSocketStatus()
     }
-    
-    //    func connect() {
-    //        socket.connect()
-    //    }
     
     func disconnect() {
-        socket.disconnect()
+        print("❌ disconnect")
+        socket?.disconnect()
     }
     
-    //    func getSocket() -> SocketIOClient {
-    //        return socket
-    //    }
-    
     func on(_ event: String, callback: @escaping (Any?) -> ()) {
-        socket.on(event) { data, ack in
+        socket?.on(event) { data, ack in
             callback(data)
         }
     }
     
     func joinChat(_ chatId: String) {
-        socket.emit("join-room", chatId)
+        print("🛜 joinChat")
+        socket?.emit("join-room", chatId)
     }
     
-    //    func emit(_ event: String, _ data: [String: Any]) {
-    //        socket.emit(event, data)
-    //    }
+    private func getSocketStatus() -> SocketStatus {
+        switch socket?.status {
+        case .notConnected:
+            return .disconnected
+        case .disconnected:
+            return .disconnected
+        case .connecting:
+            return .connecting
+        case .connected:
+            return .connected
+        case nil:
+            return .disconnected
+        }
+    }
+    
+//    private func getStatus() -> String {
+//        switch socket?.status {
+//        case .notConnected:
+//            return "notConnected"
+//        case .disconnected:
+//            return "disconnected"
+//        case .connecting:
+//            return "connecting"
+//        case .connected:
+//            return "connected"
+//        case .none:
+//            return "nil"
+//        }
+//    }
 }

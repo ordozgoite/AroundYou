@@ -33,7 +33,8 @@ struct MessageIntermediary {
             repliedMessageId: self.repliedMessageId,
             timeDivider: timeDivider,
             image: self.image,
-            status: self.status ?? .sent
+            status: self.status ?? .sent, 
+            createdAt: self.createdAt
         )
     }
 }

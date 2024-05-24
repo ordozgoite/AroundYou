@@ -24,6 +24,7 @@ class MessageViewModel: ObservableObject {
         }
     }
     @Published var receivedMessages: [Message] = []
+    @Published var messagesToBePersisted: [FormattedMessage] = []
     
     @Published var messageText: String = ""
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
@@ -257,6 +258,8 @@ class MessageViewModel: ObservableObject {
             messages.append(formattedMessage)
         }
         self.formattedMessages = messages
+        updateMessagesToBePersisted()
+        print("⚠️ messagesToBePersisted: \(messagesToBePersisted)")
     }
     
     private func getTail(forMessage message: MessageIntermediary, withIndex index: Int) -> Bool {
@@ -277,6 +280,17 @@ class MessageViewModel: ObservableObject {
         let previousMessage = intermediaryMessages[index - 1]
         let timeDifferenceSec = message.createdAt.timeIntervalSince1970InSeconds - previousMessage.createdAt.timeIntervalSince1970InSeconds
         return timeDifferenceSec >= 3600 ? message.createdAt : nil
+    }
+    
+    private func updateMessagesToBePersisted() {
+        guard formattedMessages.count >= 20 else {
+            messagesToBePersisted = formattedMessages
+            return
+        }
+        
+        let startIndex = formattedMessages.count - 20
+        let endIndex = formattedMessages.count
+        messagesToBePersisted = Array(formattedMessages[startIndex..<endIndex])
     }
     
     private func playSound(withName soundName: String) {

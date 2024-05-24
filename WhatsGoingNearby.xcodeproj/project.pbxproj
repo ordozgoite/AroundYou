@@ -121,6 +121,11 @@
 		ED6E84D62B887B3000B94F5C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84D52B887B3000B94F5C /* Notification.swift */; };
 		ED6E84F42B89C82C00B94F5C /* PostLocationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6E84F32B89C82C00B94F5C /* PostLocationScreen.swift */; };
 		ED74E8072BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E8062BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift */; };
+		ED74E80A2BF436F200371334 /* WhatsGoingNearby.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ED74E8082BF436F200371334 /* WhatsGoingNearby.xcdatamodeld */; };
+		ED74E80C2BF43CE900371334 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E80B2BF43CE900371334 /* PersistenceController.swift */; };
+		ED74E8102BF43F1400371334 /* CDFormattedChat+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E80F2BF43F1400371334 /* CDFormattedChat+helper.swift */; };
+		ED74E8132BF446C600371334 /* NSPredicate+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E8122BF446C600371334 /* NSPredicate+helper.swift */; };
+		ED74E8152BF4682200371334 /* CDFormattedMessage+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E8142BF4682200371334 /* CDFormattedMessage+helper.swift */; };
 		ED755F132BB4D625004BC6C3 /* ChatListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F122BB4D625004BC6C3 /* ChatListScreen.swift */; };
 		ED755F152BB4DBA5004BC6C3 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F142BB4DBA5004BC6C3 /* ChatView.swift */; };
 		ED755F1B2BB4E54F004BC6C3 /* MessageScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F1A2BB4E54F004BC6C3 /* MessageScreen.swift */; };
@@ -291,6 +296,11 @@
 		ED6E84D52B887B3000B94F5C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		ED6E84F32B89C82C00B94F5C /* PostLocationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLocationScreen.swift; sourceTree = "<group>"; };
 		ED74E8062BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUnreadChatsNumberResponse.swift; sourceTree = "<group>"; };
+		ED74E8092BF436F200371334 /* WhatsGoingNearby.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WhatsGoingNearby.xcdatamodel; sourceTree = "<group>"; };
+		ED74E80B2BF43CE900371334 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		ED74E80F2BF43F1400371334 /* CDFormattedChat+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDFormattedChat+helper.swift"; sourceTree = "<group>"; };
+		ED74E8122BF446C600371334 /* NSPredicate+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPredicate+helper.swift"; sourceTree = "<group>"; };
+		ED74E8142BF4682200371334 /* CDFormattedMessage+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDFormattedMessage+helper.swift"; sourceTree = "<group>"; };
 		ED755F122BB4D625004BC6C3 /* ChatListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListScreen.swift; sourceTree = "<group>"; };
 		ED755F142BB4DBA5004BC6C3 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		ED755F1A2BB4E54F004BC6C3 /* MessageScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageScreen.swift; sourceTree = "<group>"; };
@@ -631,6 +641,7 @@
 				EDF43E912B869F3E0037CC9F /* Info.plist */,
 				EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */,
 				ED5CC51B2B97BF7D009B17E3 /* Test */,
+				ED74E80D2BF43EEC00371334 /* Core Data */,
 				EDDC9E022BD78CFF00000EA4 /* Audio */,
 				ED884BE92B8CF3C70071E1C4 /* Localize */,
 				ED5CC51C2B97BFD6009B17E3 /* Manager */,
@@ -645,6 +656,7 @@
 				ED5CB16A2B7C11C000C336EC /* ContentView.swift */,
 				ED598C102B7C545600B6C23D /* GoogleService-Info.plist */,
 				ED5CB16C2B7C11C500C336EC /* Assets.xcassets */,
+				ED74E8082BF436F200371334 /* WhatsGoingNearby.xcdatamodeld */,
 				ED5CB16E2B7C11C500C336EC /* Preview Content */,
 			);
 			path = WhatsGoingNearby;
@@ -785,6 +797,17 @@
 				ED6E84CD2B882DED00B94F5C /* LikeScreen.swift */,
 			);
 			path = Like;
+			sourceTree = "<group>";
+		};
+		ED74E80D2BF43EEC00371334 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				ED74E80B2BF43CE900371334 /* PersistenceController.swift */,
+				ED74E80F2BF43F1400371334 /* CDFormattedChat+helper.swift */,
+				ED74E8142BF4682200371334 /* CDFormattedMessage+helper.swift */,
+				ED74E8122BF446C600371334 /* NSPredicate+helper.swift */,
+			);
+			path = "Core Data";
 			sourceTree = "<group>";
 		};
 		ED755F112BB4D521004BC6C3 /* Message */ = {
@@ -1101,6 +1124,7 @@
 				ED50C4602B7F98620001EDF6 /* Sizes.swift in Sources */,
 				EDA30E032B811FD4003EB22D /* ReportViewModel.swift in Sources */,
 				EDE8B36D2BC1D11500DFF750 /* PostSettingsView.swift in Sources */,
+				ED74E8152BF4682200371334 /* CDFormattedMessage+helper.swift in Sources */,
 				ED0652572B813832005B6413 /* BugScreen.swift in Sources */,
 				ED2F1A732B914288001F4300 /* NotificationScreen.swift in Sources */,
 				ED6DD4902B8272DD00ADBB64 /* BlockedUserScreen.swift in Sources */,
@@ -1124,6 +1148,7 @@
 				ED2F1A6B2B9048DC001F4300 /* IndepCommentScreen.swift in Sources */,
 				ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */,
 				ED755F132BB4D625004BC6C3 /* ChatListScreen.swift in Sources */,
+				ED74E8132BF446C600371334 /* NSPredicate+helper.swift in Sources */,
 				ED50C4572B7E951D0001EDF6 /* UserProfileScreen.swift in Sources */,
 				ED7D8F802BB9EDEB00544A8B /* CameraView.swift in Sources */,
 				ED7D8F842BBA191E00544A8B /* FullScreenUrlImage.swift in Sources */,
@@ -1133,6 +1158,7 @@
 				ED5CC5242B97ECCA009B17E3 /* Constants.swift in Sources */,
 				ED5CC5282B983982009B17E3 /* EnableFullAccuracyView.swift in Sources */,
 				EDA322452B7DB07D009905B5 /* CommentScreen.swift in Sources */,
+				ED74E80A2BF436F200371334 /* WhatsGoingNearby.xcdatamodeld in Sources */,
 				EDE8B37F2BC3B67200DFF750 /* ImageBubbleView.swift in Sources */,
 				ED2F1A752B9142AA001F4300 /* NotificationViewModel.swift in Sources */,
 				ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */,
@@ -1148,6 +1174,7 @@
 				ED5CC5202B97C13A009B17E3 /* Post.swift in Sources */,
 				ED50C4592B7E98370001EDF6 /* ProfilePicView.swift in Sources */,
 				ED50C4552B7E94030001EDF6 /* UserProfile.swift in Sources */,
+				ED74E8102BF43F1400371334 /* CDFormattedChat+helper.swift in Sources */,
 				EDDC9E0C2BDCB0AE00000EA4 /* EmojiMessageView.swift in Sources */,
 				ED6DD4942B8284ED00ADBB64 /* UnblockUserResponse.swift in Sources */,
 				EDE8B3712BC20AFB00DFF750 /* DeleteChatResponse.swift in Sources */,
@@ -1183,6 +1210,7 @@
 				EDCBEBF22BB75E5800087325 /* DeleteMessageResponse.swift in Sources */,
 				ED06525D2B8171C5005B6413 /* ForgotPasswordScreen.swift in Sources */,
 				ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */,
+				ED74E80C2BF43CE900371334 /* PersistenceController.swift in Sources */,
 				ED50C44C2B7E396C0001EDF6 /* View.swift in Sources */,
 				ED5023FC2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift in Sources */,
 				EDA3222E2B7CA490009905B5 /* AYEndpoints.swift in Sources */,
@@ -1625,6 +1653,19 @@
 			productName = SocketIO;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		ED74E8082BF436F200371334 /* WhatsGoingNearby.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				ED74E8092BF436F200371334 /* WhatsGoingNearby.xcdatamodel */,
+			);
+			currentVersion = ED74E8092BF436F200371334 /* WhatsGoingNearby.xcdatamodel */;
+			path = WhatsGoingNearby.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = ED5CB15D2B7C11C000C336EC /* Project object */;
 }

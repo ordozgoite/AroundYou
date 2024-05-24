@@ -6,26 +6,29 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ChatListScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var chatListVM = ChatListViewModel()
+    @FetchRequest(fetchRequest: CDFormattedChat.fetch(), animation: .bouncy)
+    var chats: FetchedResults<CDFormattedChat>
+    @Environment(\.managedObjectContext) var context
     
     var body: some View {
         NavigationStack {
             ZStack {
-                if chatListVM.isLoading {
-                    ProgressView()
-                } else {
-                    Chats()
-                }
+                Chats()
             }
             .onAppear {
                 startUpdatingChats()
             }
             .onDisappear {
                 stopUpdatingChats()
+            }
+            .onChange(of: chatListVM.chats) { chats in
+                updateStoredChats(withChats: chats)
             }
             .navigationTitle("Chats")
         }
@@ -36,33 +39,47 @@ struct ChatListScreen: View {
     @ViewBuilder
     private func Chats() -> some View {
         List {
-            ForEach($chatListVM.chats) { $chat in
-                NavigationLink(destination: MessageScreen(chatId: chat.id, username: chat.chatName, otherUserUid: chat.otherUserUid, chatPic: chat.chatPic).environmentObject(authVM)) {
-                    ChatView(chat: chat).environmentObject(authVM)
-                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                            Button(role: .destructive) {
-                                Task {
-                                    let token = try await authVM.getFirebaseToken()
-                                    await chatListVM.deleteChat(chatId: chat.id, token: token)
-                                }
-                            } label: {
-                                Image(systemName: "trash.fill")
-                            }
-                            
-                            Button {
-                                Task {
-                                    let token = try await authVM.getFirebaseToken()
-                                    if chat.isMuted {
-                                        await chatListVM.unmuteChat(chatId: chat.id, token: token)
-                                    } else {
-                                        await chatListVM.muteChat(chatId: chat.id, token: token)
+            if chatListVM.chats.isEmpty {
+                ForEach(self.chats) { chat in
+                    NavigationLink(destination: MessageScreen(chatId: chat.id ?? "", username: chat.chatName ?? "", otherUserUid: chat.otherUserUid ?? "", chatPic: chat.chatPic)
+                        .environmentObject(authVM)
+                        .environment(\.managedObjectContext, context)
+                    ) {
+                        ChatView(chat: chat.convertToFormattedMessage())
+                    }
+                }
+            } else {
+                ForEach($chatListVM.chats) { $chat in
+                    NavigationLink(destination: MessageScreen(chatId: chat.id, username: chat.chatName, otherUserUid: chat.otherUserUid, chatPic: chat.chatPic)
+                        .environmentObject(authVM)
+                        .environment(\.managedObjectContext, context)
+                    ) {
+                        ChatView(chat: chat).environmentObject(authVM)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                Button(role: .destructive) {
+                                    Task {
+                                        let token = try await authVM.getFirebaseToken()
+                                        await chatListVM.deleteChat(chatId: chat.id, token: token)
                                     }
+                                } label: {
+                                    Image(systemName: "trash.fill")
                                 }
-                            } label: {
-                                Image(systemName: chat.isMuted ? "bell.fill" : "bell.slash.fill")
+                                
+                                Button {
+                                    Task {
+                                        let token = try await authVM.getFirebaseToken()
+                                        if chat.isMuted {
+                                            await chatListVM.unmuteChat(chatId: chat.id, token: token)
+                                        } else {
+                                            await chatListVM.muteChat(chatId: chat.id, token: token)
+                                        }
+                                    }
+                                } label: {
+                                    Image(systemName: chat.isMuted ? "bell.fill" : "bell.slash.fill")
+                                }
+                                .tint(.blue)
                             }
-                            .tint(.blue)
-                        }
+                    }
                 }
             }
         }
@@ -86,6 +103,22 @@ struct ChatListScreen: View {
     
     private func stopUpdatingChats() {
         chatListVM.chatTimer?.invalidate()
+    }
+    
+    private func updateStoredChats(withChats chats: [FormattedChat]) {
+        let fetchRequest: NSFetchRequest<CDFormattedChat> = CDFormattedChat.fetchRequest()
+        do {
+            let existingChats = try context.fetch(fetchRequest)
+            for chat in existingChats {
+                context.delete(chat)
+            }
+            for chat in chats {
+                _ = CDFormattedChat(fromChat: chat, context: context)
+            }
+            PersistenceController.shared.save()
+        } catch {
+            print("❌ Error fetching existing chats: \(error.localizedDescription)")
+        }
     }
 }
 

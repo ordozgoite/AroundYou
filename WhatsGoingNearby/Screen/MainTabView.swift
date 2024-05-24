@@ -10,7 +10,7 @@ import SwiftUI
 struct MainTabView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject public var notificationManager = NotificationManager()
+    let persistenceController = PersistenceController.shared
     
     @State private var badgeTimer: Timer?
     @State private var unreadChats: Int?
@@ -29,6 +29,7 @@ struct MainTabView: View {
                 }
                 .environmentObject(authVM)
                 .badge(unreadChats ?? 0)
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
             
             AccountScreen()
                 .tabItem {
