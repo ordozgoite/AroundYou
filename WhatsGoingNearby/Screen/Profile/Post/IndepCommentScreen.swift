@@ -18,13 +18,14 @@ struct IndepCommentScreen: View {
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var commentIsFocused: Bool
     @Binding var location: CLLocation?
+    @ObservedObject var socket: SocketService
     
     var body: some View {
         ZStack {
             VStack {
                 ScrollView {
                     if postVM.isPostFetched {
-                        PostView(post: $postVM.post, location: $location) {
+                        PostView(post: $postVM.post, location: $location, socket: socket) {
                             Task {
                                 let token = try await authVM.getFirebaseToken()
                                 await postVM.deletePost(publicationId: postId, token: token) {
@@ -66,7 +67,7 @@ struct IndepCommentScreen: View {
     private func Comments() -> some View {
         VStack {
             ForEach($postVM.comments) { $comment in
-                CommentView(isPostFromRecipientUser: true, postType: postVM.post.type, comment: $comment, deleteComment: {
+                CommentView(isPostFromRecipientUser: true, postType: postVM.post.type, socket: socket, comment: $comment, deleteComment: {
                     Task {
                         let token = try await authVM.getFirebaseToken()
                         await postVM.deleteComment(commentId: comment.id, token: token)

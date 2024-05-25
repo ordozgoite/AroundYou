@@ -12,6 +12,8 @@ struct ChatListScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var chatListVM = ChatListViewModel()
+    @ObservedObject var socket: SocketService
+    
     @FetchRequest(fetchRequest: CDFormattedChat.fetch(), animation: .bouncy)
     var chats: FetchedResults<CDFormattedChat>
     @Environment(\.managedObjectContext) var context
@@ -41,7 +43,7 @@ struct ChatListScreen: View {
         List {
             if chatListVM.chats.isEmpty {
                 ForEach(self.chats) { chat in
-                    NavigationLink(destination: MessageScreen(chatId: chat.id ?? "", username: chat.chatName ?? "", otherUserUid: chat.otherUserUid ?? "", chatPic: chat.chatPic)
+                    NavigationLink(destination: MessageScreen(chatId: chat.id ?? "", username: chat.chatName ?? "", otherUserUid: chat.otherUserUid ?? "", chatPic: chat.chatPic, socket: socket)
                         .environmentObject(authVM)
                         .environment(\.managedObjectContext, context)
                     ) {
@@ -50,7 +52,7 @@ struct ChatListScreen: View {
                 }
             } else {
                 ForEach($chatListVM.chats) { $chat in
-                    NavigationLink(destination: MessageScreen(chatId: chat.id, username: chat.chatName, otherUserUid: chat.otherUserUid, chatPic: chat.chatPic)
+                    NavigationLink(destination: MessageScreen(chatId: chat.id, username: chat.chatName, otherUserUid: chat.otherUserUid, chatPic: chat.chatPic, socket: socket)
                         .environmentObject(authVM)
                         .environment(\.managedObjectContext, context)
                     ) {
@@ -123,5 +125,5 @@ struct ChatListScreen: View {
 }
 
 #Preview {
-    ChatListScreen()
+    ChatListScreen(socket: SocketService())
 }

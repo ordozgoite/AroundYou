@@ -19,10 +19,9 @@ struct MessageScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var messageVM = MessageViewModel()
-    @StateObject private var socket = SocketService()
+    @ObservedObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
-    
     
     @FetchRequest(fetchRequest: CDFormattedMessage.fetch(), animation: .bouncy)
     var messages: FetchedResults<CDFormattedMessage>
@@ -116,28 +115,22 @@ struct MessageScreen: View {
             print("⚠️ Stored messages: \(messages)")
             Task {
                 try await getMessages()
-                connectToChat()
-                listenToMessages()
+//                connectToChat()
+//                listenToMessages()
             }
         }
-//        .onDisappear {
-//            socket.endSession()
-//        }
         .onChange(of: messageVM.messagesToBePersisted) { messages in
             updateStoredMessages(withMessages: messages)
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                NavigationLink(destination: UserProfileScreen(userUid: otherUserUid)) {
+                NavigationLink(destination: UserProfileScreen(userUid: otherUserUid, socket: socket)) {
                     UserHeader()
                 }
             }
             
             ToolbarItem(placement: .topBarTrailing) {
                 Status()
-                    .onTapGesture {
-                        print("⚠️ \(socket.socket?.status)")
-                    }
             }
         }
         .fullScreenCover(isPresented: $messageVM.isCameraDisplayed) {
@@ -359,17 +352,13 @@ struct MessageScreen: View {
     
     //MARK: - Private Method
     
-    private func connectToChat() {
-        socket.joinChat(self.chatId)
-    }
-    
-    private func listenToMessages() {
-        socket.on("message") { data in
-            if let data = data as? [Any] {
-                messageVM.processMessage(fromData: data)
-            }
-        }
-    }
+//    private func listenToMessages() {
+//        socket.on("message") { data in
+//            if let data = data as? [Any] {
+//                messageVM.processMessage(fromData: data)
+//            }
+//        }
+//    }
     
     private func getMessages() async throws {
         let token = try await authVM.getFirebaseToken()

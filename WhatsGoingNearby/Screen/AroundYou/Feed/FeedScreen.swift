@@ -11,8 +11,9 @@ struct FeedScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var feedVM = FeedViewModel()
-    @ObservedObject var locationManager = LocationManager()
-    @ObservedObject public var notificationManager = NotificationManager()
+    @StateObject private var locationManager = LocationManager()
+    @StateObject public var notificationManager = NotificationManager()
+    @ObservedObject var socket: SocketService
     
     @State private var refreshObserver = NotificationCenter.default
         .publisher(for: NSNotification.Name(Constants.refreshFeedNotificationKey))
@@ -43,7 +44,7 @@ struct FeedScreen: View {
             
             .toolbar {
                 ToolbarItem {
-                    NavigationLink(destination: NotificationScreen(location: $locationManager.location).environmentObject(authVM)) {
+                    NavigationLink(destination: NotificationScreen(location: $locationManager.location, socket: socket).environmentObject(authVM)) {
                         Image(systemName: "bell")
                     }
                 }
@@ -120,8 +121,8 @@ struct FeedScreen: View {
     private func Posts(ofType postType: PostType) -> some View {
         ForEach($feedVM.posts) { $post in
             if post.type == postType {
-                NavigationLink(destination: CommentScreen(postId: post.id, post: $post, location: $locationManager.location).environmentObject(authVM)) {
-                    PostView(post: $post, location: $locationManager.location, deletePost: {
+                NavigationLink(destination: CommentScreen(postId: post.id, post: $post, location: $locationManager.location, socket: socket).environmentObject(authVM)) {
+                    PostView(post: $post, location: $locationManager.location, socket: socket, deletePost: {
                         Task {
                             let token = try await authVM.getFirebaseToken()
                             await feedVM.deletePublication(publicationId: post.id, token: token)
@@ -143,13 +144,18 @@ struct FeedScreen: View {
     @ViewBuilder
     private func Navigation() -> some View {
         NavigationLink(
-            destination: IndepCommentScreen(postId: notificationManager.publicationId ?? "", location: $locationManager.location),
+            destination: IndepCommentScreen(postId: notificationManager.publicationId ?? "", location: $locationManager.location, socket: socket),
             isActive: $notificationManager.isPublicationDisplayed,
             label: { EmptyView() }
         )
         
         NavigationLink(
-            destination: MessageScreen(chatId: notificationManager.chatId ?? "", username: notificationManager.username ?? "", otherUserUid: notificationManager.senderUserUid ?? "", chatPic: notificationManager.chatPic),
+            destination: MessageScreen(
+                chatId: notificationManager.chatId ?? "",
+                username: notificationManager.username ?? "",
+                otherUserUid: notificationManager.senderUserUid ?? "",
+                chatPic: notificationManager.chatPic,
+                socket: socket),
             isActive: $notificationManager.isChatDisplayed,
             label: { EmptyView() }
         )

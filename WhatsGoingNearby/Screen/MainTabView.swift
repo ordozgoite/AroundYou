@@ -10,6 +10,7 @@ import SwiftUI
 struct MainTabView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @StateObject private var socket = SocketService()
     let persistenceController = PersistenceController.shared
     
     @State private var badgeTimer: Timer?
@@ -17,13 +18,13 @@ struct MainTabView: View {
     
     var body: some View {
         TabView {
-            FeedScreen()
+            FeedScreen(socket: socket)
                 .tabItem {
                     Label("Around You", systemImage: "mappin.and.ellipse")
                 }
                 .environmentObject(authVM)
             
-            ChatListScreen()
+            ChatListScreen(socket: socket)
                 .tabItem {
                     Label("Chats", systemImage: "bubble.left.and.bubble.right")
                 }
@@ -31,7 +32,7 @@ struct MainTabView: View {
                 .badge(unreadChats ?? 0)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
             
-            AccountScreen()
+            AccountScreen(socket: socket)
                 .tabItem {
                     Label("Profile", systemImage: "person.fill")
                 }

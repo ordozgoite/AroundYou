@@ -18,6 +18,7 @@ struct LikeScreen: View {
     let type: LikeScreenType
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var likeVM = LikeViewModel()
+    @ObservedObject var socket: SocketService
     
     var body: some View {
         ZStack {
@@ -30,7 +31,7 @@ struct LikeScreen: View {
                 } else {
                     VStack {
                         List(likeVM.users) { user in
-                            NavigationLink(destination: UserProfileScreen(userUid: user.userUid).environmentObject(authVM)) {
+                            NavigationLink(destination: UserProfileScreen(userUid: user.userUid, socket: socket).environmentObject(authVM)) {
                                 ProfilePicView(profilePic: user.profilePic)
                                 
                                 Text(user.username)
@@ -62,5 +63,5 @@ struct LikeScreen: View {
 }
 
 #Preview {
-    LikeScreen(id: "", type: .publication)
+    LikeScreen(id: "", type: .publication, socket: SocketService())
 }

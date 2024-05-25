@@ -14,94 +14,50 @@ enum SocketStatus: String {
     case disconnected
 }
 
+//"http://localhost:3000"
+
 @MainActor
 final class SocketService: ObservableObject {
     
     @Published var socket: SocketIOClient?
-    let manager = SocketManager(socketURL: URL(string: Constants.serverUrl)!, config: [.log(true), .compress])
+    let manager = SocketManager(socketURL: URL(string: Constants.serverUrl)!, config: [.log(true), .compress, .reconnects(true), .reconnectAttempts(-1), .reconnectWait(5)])
     @Published var status: SocketStatus = .disconnected
-    
-    private var timer: Timer?
     
     init() {
         socket = manager.defaultSocket
-        setupSocket()
-    }
-    
-    private func setupSocket() {
-        print("🛜 setupSocket")
         connect()
-        updateConnectionStatus()
     }
     
     private func connect() {
         print("🛜 Trying to connect...")
+
+        socket?.on(clientEvent: .connect) { data, ack in
+            print("✅ Socket connected with userUid: \(LocalState.currentUserUid)")
+            self.socket?.emit("register", LocalState.currentUserUid)
+            self.status = .connected
+        }
+
+        socket?.on(clientEvent: .disconnect) { data, ack in
+            print("📡❌ Socket disconnected")
+            self.status = .disconnected
+        }
+
+        socket?.on(clientEvent: .reconnect) { data, ack in
+            print("✅ Socket reconnected")
+            self.status = .connected
+        }
+
+        socket?.on(clientEvent: .reconnectAttempt) { data, ack in
+            print("🛜 Attempting to reconnect...")
+            self.status = .connecting
+        }
+
         socket?.connect()
-    }
-    
-    private func updateConnectionStatus() {
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            self.checkConnection()
-        }
-        timer?.fire()
-    }
-    
-    private func checkConnection() {
-        print("🛜 checkConnection")
-        if socket?.status != .connected {
-            print("😞 Disconnected")
-            if socket?.status != .connecting {
-                connect()
+
+        socket?.on("message") { data, ack in
+            if let message = data[0] as? String {
+                print("✉️ Received message: \(message)")
             }
-        } else {
-            print("✅ Connected")
-        }
-        self.status = getSocketStatus()
-    }
-    
-    func disconnect() {
-        print("❌ disconnect")
-        socket?.disconnect()
-    }
-    
-    func on(_ event: String, callback: @escaping (Any?) -> ()) {
-        socket?.on(event) { data, ack in
-            callback(data)
         }
     }
-    
-    func joinChat(_ chatId: String) {
-        print("🛜 joinChat")
-        socket?.emit("join-room", chatId)
-    }
-    
-    private func getSocketStatus() -> SocketStatus {
-        switch socket?.status {
-        case .notConnected:
-            return .disconnected
-        case .disconnected:
-            return .disconnected
-        case .connecting:
-            return .connecting
-        case .connected:
-            return .connected
-        case nil:
-            return .disconnected
-        }
-    }
-    
-//    private func getStatus() -> String {
-//        switch socket?.status {
-//        case .notConnected:
-//            return "notConnected"
-//        case .disconnected:
-//            return "disconnected"
-//        case .connecting:
-//            return "connecting"
-//        case .connected:
-//            return "connected"
-//        case .none:
-//            return "nil"
-//        }
-//    }
 }
