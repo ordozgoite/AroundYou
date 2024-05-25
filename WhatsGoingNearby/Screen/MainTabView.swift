@@ -12,6 +12,8 @@ struct MainTabView: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var socket = SocketService()
     let persistenceController = PersistenceController.shared
+    let pub = NotificationCenter.default
+        .publisher(for: NSNotification.Name(Constants.updateBadgeNotificationKey))
     
     @State private var badgeTimer: Timer?
     @State private var unreadChats: Int?
@@ -38,20 +40,32 @@ struct MainTabView: View {
                 }
                 .environmentObject(authVM)
         }
+        .onChange(of: socket.status) { status in
+            if status == .connected {
+                updateBadge()
+            }
+        }
+        .onReceive(pub) { (output) in
+            self.updateBadge()
+        }
         .onAppear {
-            startUpdatingBadge()
+            updateBadge()
+            listenToMessages()
         }
     }
     
     //MARK: - Private Method
     
-    private func startUpdatingBadge() {
-        badgeTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
-            Task {
-                self.unreadChats = try await getChatBadge()
-            }
+    private func updateBadge() {
+        Task {
+            self.unreadChats = try await getChatBadge()
         }
-        badgeTimer?.fire()
+    }
+    
+    private func listenToMessages() {
+        socket.socket?.on("badge") { data, ack in
+            updateBadge()
+        }
     }
     
     private func getChatBadge() async throws -> Int? {

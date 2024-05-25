@@ -54,10 +54,10 @@ final class SocketService: ObservableObject {
 
         socket?.connect()
 
-        socket?.on("message") { data, ack in
-            if let message = data[0] as? String {
-                print("✉️ Received message: \(message)")
-            }
-        }
+//        socket?.on("message") { data, ack in
+//            if let message = data[0] as? String {
+//                print("✉️ Received message: \(message)")
+//            }
+//        }
     }
 }

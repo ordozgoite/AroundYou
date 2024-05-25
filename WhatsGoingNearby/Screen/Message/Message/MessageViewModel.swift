@@ -55,6 +55,17 @@ class MessageViewModel: ObservableObject {
         }
     }
     
+    func getLastMessages(chatId: String, token: String) async {
+        let result = await AYServices.shared.getMessages(chatId: chatId, timestamp: nil, token: token)
+        
+        switch result {
+        case .success(let messages):
+            self.intermediaryMessages = convertReceivedMessages(messages)
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
     private func convertReceivedMessages(_ messages: [Message]) -> [MessageIntermediary] {
         var convertedMessages: [MessageIntermediary] = []
         for message in messages {
@@ -199,13 +210,15 @@ class MessageViewModel: ObservableObject {
     
     //MARK: - Receive Message
     
-    func processMessage(fromData data: [Any]) {
+    func processMessage(_ data: [Any], toChat chatId: String,  emitReadCommand: (String) -> ()) {
         let newMessage = decodeMessage(data)
-        if let msg = newMessage, !msg.isCurrentUser, !wasMessageReceived(msg) {
+        if let msg = newMessage, !msg.isCurrentUser, !wasMessageReceived(msg), msg.chatId == chatId {
             DispatchQueue.main.async {
                 self.intermediaryMessages.append(msg)
+                self.lastMessageAdded = msg.id
                 self.playReceivedMessageSound(forMessageId: msg.id)
             }
+            emitReadCommand(msg.id)
         }
     }
     
@@ -258,8 +271,8 @@ class MessageViewModel: ObservableObject {
             messages.append(formattedMessage)
         }
         self.formattedMessages = messages
-        updateMessagesToBePersisted()
-        print("⚠️ messagesToBePersisted: \(messagesToBePersisted)")
+//        updateMessagesToBePersisted()
+//        print("⚠️ messagesToBePersisted: \(messagesToBePersisted)")
     }
     
     private func getTail(forMessage message: MessageIntermediary, withIndex index: Int) -> Bool {

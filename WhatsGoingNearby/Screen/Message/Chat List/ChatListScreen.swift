@@ -24,15 +24,23 @@ struct ChatListScreen: View {
                 Chats()
             }
             .onAppear {
-                startUpdatingChats()
+                updateChats()
+                listenToMessages()
             }
-            .onDisappear {
-                stopUpdatingChats()
+            .onChange(of: socket.status) { status in
+                if status == .connected {
+                    updateChats()
+                }
             }
             .onChange(of: chatListVM.chats) { chats in
                 updateStoredChats(withChats: chats)
             }
             .navigationTitle("Chats")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    SocketStatusView(socket: socket)
+                }
+            }
         }
     }
     
@@ -89,22 +97,19 @@ struct ChatListScreen: View {
     
     //MARK: - Private Method
     
-    private func startUpdatingChats() {
-        chatListVM.chatTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
-            Task {
-                try await updateChats()
-            }
+    private func updateChats() {
+        Task {
+            let token = try await authVM.getFirebaseToken()
+            await chatListVM.getChats(token: token)
         }
-        chatListVM.chatTimer?.fire()
     }
     
-    private func updateChats() async throws {
-        let token = try await authVM.getFirebaseToken()
-        await chatListVM.getChats(token: token)
-    }
-    
-    private func stopUpdatingChats() {
-        chatListVM.chatTimer?.invalidate()
+    private func listenToMessages() {
+        print("⚠️ listenToMessages")
+        socket.socket?.on("chat") { data, ack in
+            print("⚠️ updateChats")
+            updateChats()
+        }
     }
     
     private func updateStoredChats(withChats chats: [FormattedChat]) {

@@ -19,7 +19,6 @@ class ChatListViewModel: ObservableObject {
     @Published var chats: [FormattedChat] = []
     @Published var isLoading: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
-    @Published var chatTimer: Timer?
     @Published var isInitialChatsFetched: Bool = false
     
     func getChats(token: String) async {
