@@ -782,6 +782,22 @@
         }
       }
     },
+    "Connecting..." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conectando..."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conectando..."
+          }
+        }
+      }
+    },
     "Copy" : {
       "localizations" : {
         "pt-BR" : {
@@ -3274,6 +3290,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você está prestes a compartilhar sua atual localização. Isso significa que qualquer um por perto poderá ver o local onde você fez a publicação. Tem certeza que deseja prosseguir?"
+          }
+        }
+      }
+    },
+    "You are connected 😃" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você está conectado 😃"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você está conectado 😃"
+          }
+        }
+      }
+    },
+    "You are disconnected 😔" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você está desconectado 😞"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você está desconectado 😔"
           }
         }
       }

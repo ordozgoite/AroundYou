@@ -25,6 +25,7 @@ struct SocketStatusView: View {
                     .frame(width: 8, height: 8, alignment: .center)
             }
         }
+        .frame(width: 32, height: 32, alignment: .center)
         .popover(isPresented: $isPopoverDisplayed) {
             Text(getSocketStatusMessage())
                 .font(.subheadline)
@@ -37,14 +38,14 @@ struct SocketStatusView: View {
         }
     }
     
-    private func getSocketStatusMessage() -> String {
+    private func getSocketStatusMessage() -> LocalizedStringKey {
         return switch socket.status {
         case .connected:
-            "You are connected"
+            "You are connected 😃"
         case .connecting:
             "Connecting..."
         case .disconnected:
-            "You are disconnected"
+            "You are disconnected 😔"
         }
     }
 }
