@@ -11,8 +11,8 @@ struct FeedScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var feedVM = FeedViewModel()
-    @StateObject private var locationManager = LocationManager()
-    @StateObject public var notificationManager = NotificationManager()
+    @ObservedObject var locationManager: LocationManager
+//    @StateObject public var notificationManager = NotificationManager()
     @ObservedObject var socket: SocketService
     
     @State private var refreshObserver = NotificationCenter.default
@@ -39,9 +39,8 @@ struct FeedScreen: View {
                 
                 AYErrorAlert(message: feedVM.overlayError.1 , isErrorAlertPresented: $feedVM.overlayError.0)
                 
-                Navigation()
+//                Navigation()
             }
-            
             .toolbar {
                 ToolbarItem {
                     NavigationLink(destination: NotificationScreen(location: $locationManager.location, socket: socket).environmentObject(authVM)) {
@@ -141,25 +140,25 @@ struct FeedScreen: View {
     
     //MARK: - Navigation
     
-    @ViewBuilder
-    private func Navigation() -> some View {
-        NavigationLink(
-            destination: IndepCommentScreen(postId: notificationManager.publicationId ?? "", location: $locationManager.location, socket: socket),
-            isActive: $notificationManager.isPublicationDisplayed,
-            label: { EmptyView() }
-        )
-        
-        NavigationLink(
-            destination: MessageScreen(
-                chatId: notificationManager.chatId ?? "",
-                username: notificationManager.username ?? "",
-                otherUserUid: notificationManager.senderUserUid ?? "",
-                chatPic: notificationManager.chatPic,
-                socket: socket),
-            isActive: $notificationManager.isChatDisplayed,
-            label: { EmptyView() }
-        )
-    }
+//    @ViewBuilder
+//    private func Navigation() -> some View {
+//        NavigationLink(
+//            destination: IndepCommentScreen(postId: notificationManager.publicationId ?? "", location: $locationManager.location, socket: socket),
+//            isActive: $notificationManager.isPublicationDisplayed,
+//            label: { EmptyView() }
+//        )
+//        
+//        NavigationLink(
+//            destination: MessageScreen(
+//                chatId: notificationManager.chatId ?? "",
+//                username: notificationManager.username ?? "",
+//                otherUserUid: notificationManager.senderUserUid ?? "",
+//                chatPic: notificationManager.chatPic,
+//                socket: socket),
+//            isActive: $notificationManager.isChatDisplayed,
+//            label: { EmptyView() }
+//        )
+//    }
     
     //MARK: - Private Method
     

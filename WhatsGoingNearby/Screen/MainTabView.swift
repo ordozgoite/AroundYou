@@ -11,6 +11,9 @@ struct MainTabView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var socket = SocketService()
+    @StateObject public var notificationManager = NotificationManager()
+    @StateObject private var locationManager = LocationManager()
+    
     let persistenceController = PersistenceController.shared
     let pub = NotificationCenter.default
         .publisher(for: NSNotification.Name(Constants.updateBadgeNotificationKey))
@@ -20,7 +23,7 @@ struct MainTabView: View {
     
     var body: some View {
         TabView {
-            FeedScreen(socket: socket)
+            FeedScreen(locationManager: locationManager, socket: socket)
                 .tabItem {
                     Label("Around You", systemImage: "mappin.and.ellipse")
                 }
@@ -52,6 +55,20 @@ struct MainTabView: View {
             updateBadge()
             listenToMessages()
         }
+        .fullScreenCover(isPresented: $notificationManager.isPublicationDisplayed) {
+            IndepCommentScreenWrapper(
+                postId: notificationManager.publicationId ?? "",
+                locationManager: locationManager,
+                socket: socket)
+        }
+        .fullScreenCover(isPresented: $notificationManager.isChatDisplayed) {
+            MessageScreenWrapper(
+                chatId: notificationManager.chatId ?? "",
+                username: notificationManager.username ?? "",
+                otherUserUid: notificationManager.senderUserUid ?? "",
+                chatPic: notificationManager.chatPic,
+                socket: socket)
+        }
     }
     
     //MARK: - Private Method
@@ -79,5 +96,48 @@ struct MainTabView: View {
             print("❌ Error trying to get unread messages number.")
         }
         return nil
+    }
+}
+
+struct IndepCommentScreenWrapper: View {
+    let postId: String
+    @ObservedObject var locationManager: LocationManager
+    @ObservedObject var socket: SocketService
+    @Environment(\.presentationMode) var presentationMode
+
+    var body: some View {
+        NavigationView {
+            IndepCommentScreen(postId: postId, location: $locationManager.location, socket: socket)
+                .navigationBarItems(leading: Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Image(systemName: "xmark")
+                }))
+        }
+    }
+}
+
+struct MessageScreenWrapper: View {
+    let chatId: String
+    let username: String
+    let otherUserUid: String
+    let chatPic: String?
+    @ObservedObject var socket: SocketService
+    @Environment(\.presentationMode) var presentationMode
+
+    var body: some View {
+        NavigationView {
+            MessageScreen(
+                chatId: chatId,
+                username: username,
+                otherUserUid: otherUserUid,
+                chatPic: chatPic,
+                socket: socket)
+            .navigationBarItems(leading: Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }, label: {
+                Image(systemName: "xmark")
+            }))
+        }
     }
 }

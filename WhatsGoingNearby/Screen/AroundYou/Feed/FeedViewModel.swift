@@ -19,12 +19,12 @@ class FeedViewModel: ObservableObject {
     @Published var feedTimer: Timer?
     @Published var shouldUpdateFeed: Bool = true
     
-    var groupedPosts: [(Date, [FormattedPost])] {
-        let groupedDict = Dictionary(grouping: posts) { (post) -> Date in
-            return Date(timeIntervalSince1970: TimeInterval(post.timestamp))
-        }
-        return groupedDict.sorted { $0.key > $1.key }
-    }
+//    var groupedPosts: [(Date, [FormattedPost])] {
+//        let groupedDict = Dictionary(grouping: posts) { (post) -> Date in
+//            return Date(timeIntervalSince1970: TimeInterval(post.timestamp))
+//        }
+//        return groupedDict.sorted { $0.key > $1.key }
+//    }
     
     func getPosts(latitude: Double, longitude: Double, token: String) async {
         if !initialPostsFetched { isLoading = true }
