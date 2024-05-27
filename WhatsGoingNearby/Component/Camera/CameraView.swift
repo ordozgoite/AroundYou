@@ -9,12 +9,12 @@ import SwiftUI
 
 struct CameraView: View {
     
-    @Binding var image: UIImage?
+    let sendImage: (UIImage) -> ()
     
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
-            accessCameraView(selectedImage: $image)
+            accessCameraView(sendImage: sendImage)
         }
     }
 }

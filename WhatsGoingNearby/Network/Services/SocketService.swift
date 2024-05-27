@@ -8,44 +8,56 @@
 import Foundation
 import SocketIO
 
+enum SocketStatus: String {
+    case connected
+    case connecting
+    case disconnected
+}
+
+//"http://localhost:3000"
+
 @MainActor
 final class SocketService: ObservableObject {
     
-    var socket: SocketIOClient!
-    let manager = SocketManager(socketURL: URL(string: Constants.serverUrl)!, config: [.log(true), .compress])
-//    private var connectedChatIds: [String] = []
+    @Published var socket: SocketIOClient?
+    let manager = SocketManager(socketURL: URL(string: Constants.serverUrl)!, config: [.log(true), .compress, .reconnects(true), .reconnectAttempts(-1), .reconnectWait(5)])
+    @Published var status: SocketStatus = .disconnected
     
     init() {
         socket = manager.defaultSocket
-        socket.connect()
+        connect()
     }
     
-//    func connect() {
-//        socket.connect()
-//    }
+    private func connect() {
+        print("🛜 Trying to connect...")
 
-    func disconnect() {
-        socket.disconnect()
-    }
-    
-//    func getSocket() -> SocketIOClient {
-//        return socket
-//    }
-
-    func on(_ event: String, callback: @escaping (Any?) -> ()) {
-        socket.on(event) { data, ack in
-            callback(data)
+        socket?.on(clientEvent: .connect) { data, ack in
+            print("✅ Socket connected with userUid: \(LocalState.currentUserUid)")
+            self.socket?.emit("register", LocalState.currentUserUid)
+            self.status = .connected
         }
-    }
-    
-    func joinChat(_ chatId: String) {
-//        if !connectedChatIds.contains(chatId) {
-            socket.emit("join-room", chatId)
-//            connectedChatIds.append(chatId)
+
+        socket?.on(clientEvent: .disconnect) { data, ack in
+            print("📡❌ Socket disconnected")
+            self.status = .disconnected
+        }
+
+        socket?.on(clientEvent: .reconnect) { data, ack in
+            print("✅ Socket reconnected")
+            self.status = .connected
+        }
+
+        socket?.on(clientEvent: .reconnectAttempt) { data, ack in
+            print("🛜 Attempting to reconnect...")
+            self.status = .connecting
+        }
+
+        socket?.connect()
+
+//        socket?.on("message") { data, ack in
+//            if let message = data[0] as? String {
+//                print("✉️ Received message: \(message)")
+//            }
 //        }
     }
-
-//    func emit(_ event: String, _ data: [String: Any]) {
-//        socket.emit(event, data)
-//    }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23E224" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="CDFormattedChat" representedClassName="CDFormattedChat" syncable="YES" codeGenerationType="class">
+        <attribute name="chatName" attributeType="String"/>
+        <attribute name="chatPic" optional="YES" attributeType="String"/>
+        <attribute name="hasUnreadMessages" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="isMuted" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="lastMessage" optional="YES" attributeType="String"/>
+        <attribute name="lastMessageAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="otherUserUid" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="CDFormattedMessage" representedClassName="CDFormattedMessage" syncable="YES" codeGenerationType="class">
+        <attribute name="chatId" attributeType="String"/>
+        <attribute name="createdAt" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
+        <attribute name="imageUrl" optional="YES" attributeType="String"/>
+        <attribute name="isCurrentUser" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isFirst" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="message" optional="YES" attributeType="String"/>
+        <attribute name="repliedMessageId" optional="YES" attributeType="String"/>
+        <attribute name="repliedMessageText" optional="YES" attributeType="String"/>
+        <attribute name="status" attributeType="String"/>
+        <attribute name="timeDivider" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+</model>

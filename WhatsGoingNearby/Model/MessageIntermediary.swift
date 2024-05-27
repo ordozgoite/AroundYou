@@ -10,16 +10,16 @@ import SwiftUI
 
 struct MessageIntermediary {
     var id: String
-    let chatId: String
-    let text: String?
-    let imageUrl: String?
-    let isRead: Bool
+    var chatId: String
+    var text: String?
+    var imageUrl: String?
+    var isRead: Bool
     var createdAt: Int
-    let repliedMessageId: String?
-    let repliedMessageText: String?
+    var repliedMessageId: String?
+    var repliedMessageText: String?
     var status: MessageStatus?
     var image: UIImage?
-    let isCurrentUser: Bool
+    var isCurrentUser: Bool
     
     func formatMessage(isFirst: Bool, timeDivider: Int?) -> FormattedMessage {
         return FormattedMessage(
@@ -33,7 +33,8 @@ struct MessageIntermediary {
             repliedMessageId: self.repliedMessageId,
             timeDivider: timeDivider,
             image: self.image,
-            status: self.status ?? .sent
+            status: self.status ?? .sent, 
+            createdAt: self.createdAt
         )
     }
 }

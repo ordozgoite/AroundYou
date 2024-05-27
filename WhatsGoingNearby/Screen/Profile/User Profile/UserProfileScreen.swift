@@ -13,6 +13,7 @@ struct UserProfileScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var userProfileVM = UserProfileViewModel()
+    @ObservedObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
     @Namespace private var profileAnimation
     
@@ -45,7 +46,7 @@ struct UserProfileScreen: View {
             )
             
             NavigationLink(
-                destination: MessageScreen(chatId: userProfileVM.isMessageScreenPresented.1, username: userProfileVM.userProfile?.username ?? "", otherUserUid: userProfileVM.userProfile?.userUid ?? "", chatPic: userProfileVM.userProfile?.profilePic).environmentObject(authVM),
+                destination: MessageScreen(chatId: userProfileVM.isMessageScreenPresented.1, username: userProfileVM.userProfile?.username ?? "", otherUserUid: userProfileVM.userProfile?.userUid ?? "", chatPic: userProfileVM.userProfile?.profilePic, socket: socket).environmentObject(authVM),
                 isActive: $userProfileVM.isMessageScreenPresented.0,
                 label: { EmptyView() }
             )

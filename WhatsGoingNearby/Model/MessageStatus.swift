@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MessageStatus {
+enum MessageStatus: String {
     case sent
     case sending
     case failed

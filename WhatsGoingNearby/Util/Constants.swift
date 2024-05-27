@@ -25,4 +25,5 @@ struct Constants {
     
     static let refreshFeedNotificationKey: String = "refreshFeed"
     static let updateLocationNotificationKey: String = "updateLocation"
+    static let updateBadgeNotificationKey: String = "updateBadge"
 }

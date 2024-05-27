@@ -12,6 +12,7 @@ struct PostView: View {
     
     @Binding var post: FormattedPost
     @Binding var location: CLLocation?
+    @ObservedObject var socket: SocketService
     let deletePost: () -> ()
     let toggleFeedUpdate: (Bool) -> ()
     
@@ -45,7 +46,7 @@ struct PostView: View {
                 }
             }
             .fullScreenCover(isPresented: $isFullScreenImageDisplayed) {
-                FullScreenImage(url: post.imageUrl ?? "")
+                FullScreenUrlImage(url: post.imageUrl ?? "")
             }
             
             Navigation()
@@ -58,7 +59,7 @@ struct PostView: View {
     @ViewBuilder
     private func ProfilePic() -> some View {
         VStack {
-            NavigationLink(destination: UserProfileScreen(userUid: post.userUid).environmentObject(authVM)) {
+            NavigationLink(destination: UserProfileScreen(userUid: post.userUid, socket: socket).environmentObject(authVM)) {
                 ProfilePicView(profilePic: post.userProfilePic)
             }
             .buttonStyle(PlainButtonStyle())
@@ -324,7 +325,7 @@ struct PostView: View {
         }
         
         NavigationLink(
-            destination: LikeScreen(id: post.id, type: .publication).environmentObject(authVM),
+            destination: LikeScreen(id: post.id, type: .publication, socket: socket).environmentObject(authVM),
             isActive: $isLikeScreenDisplayed,
             label: { EmptyView() }
         )

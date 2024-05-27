@@ -13,6 +13,7 @@ struct CommentView: View {
     let isPostFromRecipientUser: Bool
     let postType: PostType
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @ObservedObject var socket: SocketService
     @Binding var comment: FormattedComment
     let deleteComment: () -> ()
     @State private var isReportScreenPresented: Bool = false
@@ -41,13 +42,13 @@ struct CommentView: View {
             )
             
             NavigationLink(
-                destination: LikeScreen(id: comment.id, type: .comment).environmentObject(authVM),
+                destination: LikeScreen(id: comment.id, type: .comment, socket: socket).environmentObject(authVM),
                 isActive: $isLikeScreenDisplayed,
                 label: { EmptyView() }
             )
             
             NavigationLink(
-                destination: UserProfileScreen(userUid: comment.repliedUserUid ?? "").environmentObject(authVM),
+                destination: UserProfileScreen(userUid: comment.repliedUserUid ?? "", socket: socket).environmentObject(authVM),
                 isActive: $isUserProfileScreenDisplayed,
                 label: { EmptyView() }
             )
@@ -59,7 +60,7 @@ struct CommentView: View {
     @ViewBuilder
     private func ProfilePic() -> some View {
         VStack {
-            NavigationLink(destination: UserProfileScreen(userUid: comment.userUid).environmentObject(authVM)) {
+            NavigationLink(destination: UserProfileScreen(userUid: comment.userUid, socket: socket).environmentObject(authVM)) {
                 ProfilePicView(profilePic: comment.userProfilePic)
             }
             .buttonStyle(PlainButtonStyle())

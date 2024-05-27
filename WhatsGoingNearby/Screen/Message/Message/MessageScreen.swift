@@ -7,6 +7,8 @@
 
 import SwiftUI
 import PhotosUI
+import CoreData
+import SocketIO
 
 struct MessageScreen: View {
     
@@ -17,9 +19,13 @@ struct MessageScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var messageVM = MessageViewModel()
+    @ObservedObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
-    @StateObject private var socket = SocketService()
+    
+    @FetchRequest(fetchRequest: CDFormattedMessage.fetch(), animation: .bouncy)
+    var messages: FetchedResults<CDFormattedMessage>
+    @Environment(\.managedObjectContext) var context
     
     var body: some View {
         ZStack {
@@ -28,6 +34,27 @@ struct MessageScreen: View {
                     ScrollViewReader { proxy in
                         ZStack {
                             VStack(spacing: 0) {
+                                //                                if messageVM.formattedMessages.isEmpty {
+                                //                                    ForEach(messages) { message in
+                                //                                        MessageView(message: message.convertToFormattedMessage()) {
+                                //                                            messageVM.repliedMessage = message.convertToFormattedMessage()
+                                //                                            isFocused = true
+                                //                                        } tappedRepliedMessage: {
+                                //                                            if let repliedMessageId = message.repliedMessageId {
+                                //                                                scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
+                                //                                                highlightMessage(withId: repliedMessageId)
+                                //                                            }
+                                //                                        } resendMessage: {
+                                //                                            Task {
+                                //                                                try await resendMessage(withId: message.id ?? "")
+                                //                                            }
+                                //                                        }
+                                //                                        .background(messageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
+                                ////                                        .contextMenu {
+                                ////                                            MessageMenu(forMessage: message.convertToFormattedMessage())
+                                ////                                        }
+                                //                                    }
+                                //                                } else {
                                 ForEach(messageVM.formattedMessages) { message in
                                     MessageView(message: message) {
                                         messageVM.repliedMessage = message
@@ -52,9 +79,9 @@ struct MessageScreen: View {
                                         scrollToMessage(withId: lastMessageId, usingProxy: proxy, animated: false)
                                     }
                                 }
-                                .onChange(of: messageVM.formattedMessages) { _ in
-                                    if let lastMessageId = messageVM.formattedMessages.last?.id {
-                                        scrollToMessage(withId: lastMessageId, usingProxy: proxy)
+                                .onChange(of: messageVM.lastMessageAdded) { _ in
+                                    if let id = messageVM.lastMessageAdded {
+                                        scrollToMessage(withId: id, usingProxy: proxy)
                                     }
                                 }
                                 .onChange(of: isFocused) { _ in
@@ -67,39 +94,66 @@ struct MessageScreen: View {
                                         }
                                     }
                                 }
+                                //                                }
                             }
                             .padding(.horizontal, 10)
-                            
                         }
                     }
                 }
                 .scrollDismissesKeyboard(.interactively)
+                .refreshable {
+                    hapticFeedback(style: .soft)
+                    Task {
+                        try await getMessages(.oldest)
+                    }
+                }
                 
                 MessageComposer()
             }
         }
         .onAppear {
+            //            print("⚠️ Stored messages: \(messages)")
+            updateBadge()
             Task {
-                try await getMessages()
-                connectToChat()
-                listenToMessages()
+                try await getMessages(.newest)
             }
+            listenToMessages()
         }
         .onDisappear {
-            socket.disconnect()
+            stopListeningMessages()
+            updateBadge()
         }
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                NavigationLink(destination: UserProfileScreen(userUid: otherUserUid)) {
-                    UserHeader()
+        .onChange(of: messageVM.messagesToBePersisted) { messages in
+            updateStoredMessages(withMessages: messages)
+        }
+        .onChange(of: socket.status) { status in
+            if status == .connected {
+                Task {
+                    try await getMessages(.newest)
                 }
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                NavigationLink(destination: UserProfileScreen(userUid: otherUserUid, socket: socket)) {
+                    UserHeader()
+                }
+            }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                SocketStatusView(socket: socket)
+            }
+        }
         .fullScreenCover(isPresented: $messageVM.isCameraDisplayed) {
-            CameraView(image: $messageVM.image)
+            CameraView { image in
+                Task {
+                    let token = try await authVM.getFirebaseToken()
+                    try await messageVM.sendImage(forChat: self.chatId, image: image, token: token)
+                }
+            }
         }
         .sheet(isPresented: $messageVM.isPhotosDisplayed) {
-            ImagePicker(selectedImage: $messageVM.image)
+            PhotoPicker(selectedPhotos: $messageVM.images)
         }
     }
     
@@ -175,14 +229,14 @@ struct MessageScreen: View {
                     .shadow(color: .gray, radius: 10)
                     .focused($isFocused)
                 
-                if !messageVM.messageText.isEmpty || messageVM.image != nil {
+                if !messageVM.messageText.isEmpty || !messageVM.images.isEmpty {
                     Button {
                         Task {
                             let token = try await authVM.getFirebaseToken()
                             try await messageVM.sendMessage(
                                 forChat: chatId,
                                 text: messageVM.messageText.nonEmptyOrNil(),
-                                image: messageVM.image,
+                                images: messageVM.images,
                                 repliedMessage: messageVM.repliedMessage,
                                 token: token
                             )
@@ -237,26 +291,29 @@ struct MessageScreen: View {
     
     @ViewBuilder
     private func Attachment() -> some View {
-        if let selectedImage =  messageVM.image {
-            HStack {
-                ZStack(alignment: .topTrailing) {
-                    Image(uiImage: selectedImage)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 100)
-                        .cornerRadius(8)
-                    
-                    Button {
-                        messageVM.image = nil
-                    } label: {
-                        Image(systemName: "x.circle")
-                            .foregroundStyle(.white)
-                            .background(Circle().fill(.gray))
+        if !messageVM.images.isEmpty {
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(Array(messageVM.images.enumerated()), id: \.offset) { index, image in
+                        ZStack(alignment: .topTrailing) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 100)
+                                .cornerRadius(8)
+                            
+                            Button {
+                                print("📇 Index: \(index)")
+                                messageVM.removeImage(fromIndex: index)
+                            } label: {
+                                Image(systemName: "x.circle")
+                                    .foregroundStyle(.white)
+                                    .background(Circle().fill(.gray))
+                            }
+                            .padding([.top, .trailing], 2)
+                        }
                     }
-                    .padding([.top, .trailing], 2)
                 }
-                
-                Spacer()
             }
         }
     }
@@ -290,21 +347,43 @@ struct MessageScreen: View {
     
     //MARK: - Private Method
     
-    private func connectToChat() {
-        socket.joinChat(self.chatId)
-    }
-    
     private func listenToMessages() {
-        socket.on("message") { data in
-            if let data = data as? [Any] {
-                messageVM.processMessage(fromData: data)
+        socket.socket?.on("message") { data, ack in
+            if let message = data as? [Any] {
+                print("📩 Received message: \(message)")
+                messageVM.processMessage(message, toChat: chatId) { messageId in
+                    emitReadCommand(forMessage: messageId)
+                }
             }
         }
     }
     
-    private func getMessages() async throws {
+    private func emitReadCommand(forMessage messageId: String) {
+        socket.socket?.emit("read", messageId)
+    }
+    
+    private func stopListeningMessages() {
+        socket.socket?.off("message")
+    }
+    
+    private func updateBadge() {
+        let name = Notification.Name(Constants.updateBadgeNotificationKey)
+        NotificationCenter.default.post(name: name, object: nil)
+    }
+    
+    enum FetchMessageType {
+        case newest
+        case oldest
+    }
+    
+    private func getMessages(_ type: FetchMessageType) async throws {
         let token = try await authVM.getFirebaseToken()
-        await messageVM.getMessages(chatId: chatId, token: token)
+        switch type {
+        case .newest:
+            await messageVM.getLastMessages(chatId: chatId, token: token)
+        case .oldest:
+            await messageVM.getMessages(chatId: chatId, token: token)
+        }
     }
     
     private func scrollToMessage(withId messageId: String, usingProxy proxy: ScrollViewProxy, animated: Bool = true) {
@@ -330,6 +409,24 @@ struct MessageScreen: View {
     private func resendMessage(withId messageId: String) async throws {
         let token = try await authVM.getFirebaseToken()
         await messageVM.resendMessage(withTempId: messageId, token: token)
+    }
+    
+    private func updateStoredMessages(withMessages messages: [FormattedMessage]) {
+        let fetchRequest: NSFetchRequest<CDFormattedMessage> = CDFormattedMessage.fetchRequest()
+        do {
+            let existingMessages = try context.fetch(fetchRequest)
+            for message in existingMessages {
+                context.delete(message)
+            }
+            for message in messages {
+                print("✉️ Message: \(message)")
+                let cdMessage = CDFormattedMessage(fromMessage: message, context: context)
+                print("📧 CDMessage: \(cdMessage)")
+            }
+            PersistenceController.shared.save()
+        } catch {
+            print("❌ Error fetching existing chats: \(error.localizedDescription)")
+        }
     }
 }
 

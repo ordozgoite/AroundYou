@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct FullScreenImage: View {
+struct FullScreenUrlImage: View {
     
     let url: String
     
-    @State private var image: UIImage? = nil
+    @State private var loadedImage: UIImage? = nil
     @State private var opacity: Double = 1.0
     
     @Environment(\.presentationMode) var presentationMode
@@ -25,9 +25,7 @@ struct FullScreenImage: View {
             Exit()
         }
         .onAppear {
-            withAnimation(Animation.easeInOut(duration: 1).repeatForever()) {
-                opacity = 0.5
-            }
+            startAnimation()
             loadImage(from: URL(string: url)!)
         }
     }
@@ -36,7 +34,7 @@ struct FullScreenImage: View {
     
     @ViewBuilder
     private func ZoomableImage() -> some View {
-        if let img = image {
+        if let img = loadedImage {
             ZoomableImageView(image: img)
         } else {
             Rectangle()
@@ -61,6 +59,12 @@ struct FullScreenImage: View {
     
     //MARK: - Private Method
     
+    private func startAnimation() {
+        withAnimation(Animation.easeInOut(duration: 1).repeatForever()) {
+            self.opacity = 0.5
+        }
+    }
+    
     private func loadImage(from url: URL) {
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
@@ -68,7 +72,7 @@ struct FullScreenImage: View {
                 return
             }
             DispatchQueue.main.async {
-                image = UIImage(data: data)
+                loadedImage = UIImage(data: data)
             }
         }.resume()
     }

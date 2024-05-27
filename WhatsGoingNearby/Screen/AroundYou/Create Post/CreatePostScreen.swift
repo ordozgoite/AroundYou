@@ -21,7 +21,7 @@ struct CreatePostScreen: View {
             AYErrorAlert(message: createPostVM.overlayError.1 , isErrorAlertPresented: $createPostVM.overlayError.0)
         }
         .fullScreenCover(isPresented: $createPostVM.isCameraDisplayed) {
-            CameraView(image: $createPostVM.image)
+            CameraView { createPostVM.image = $0 }
         }
         .alert(isPresented: $createPostVM.isShareLocationAlertDisplayed) {
             Alert(

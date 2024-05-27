@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FormattedChat: Codable, Identifiable {
+struct FormattedChat: Codable, Identifiable, Equatable {
     let id: String
     let chatName: String
     let otherUserUid: String

@@ -19,7 +19,8 @@ struct ImageBubbleView: View {
     let uiImage: UIImage?
     var isCurrentUser: Bool
     
-    @State private var isFullScreenImageDisplayed = false
+    @State private var isUrlImageFullScreen = false
+    @State private var isUIImageFullScreen = false
     
     var body: some View {
         switch source {
@@ -34,41 +35,45 @@ struct ImageBubbleView: View {
     
     @ViewBuilder
     private func ImageFromUrl() -> some View {
-        PostImageView(imageURL: self.imageUrl!)
-            .scaledToFill()
-            .frame(width: 200, height: 256)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .aspectRatio(contentMode: .fill)
-            .frame(width: 200, height: 256)
-            .frame(maxWidth: .infinity, alignment: isCurrentUser ? .trailing : .leading)
-            .padding(.bottom, 2)
-            .onTapGesture {
-                isFullScreenImageDisplayed = true
-            }
-            .fullScreenCover(isPresented: $isFullScreenImageDisplayed) {
-                FullScreenImage(url: imageUrl!)
-            }
+        if let url = self.imageUrl {
+            PostImageView(imageURL: url)
+                .scaledToFill()
+                .frame(width: 200, height: 256)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 200, height: 256)
+                .frame(maxWidth: .infinity, alignment: isCurrentUser ? .trailing : .leading)
+                .padding(.bottom, 2)
+                .onTapGesture {
+                    isUrlImageFullScreen = true
+                }
+                .fullScreenCover(isPresented: $isUrlImageFullScreen) {
+                    FullScreenUrlImage(url: url)
+                }
+        }
     }
     
     //MARK: - UIImage
     
     @ViewBuilder
     private func ImageFromUIImage() -> some View {
-        Image(uiImage: self.uiImage!)
-            .resizable()
-            .scaledToFill()
-            .frame(width: 200, height: 256)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .aspectRatio(contentMode: .fill)
-            .frame(width: 200, height: 256)
-            .frame(maxWidth: .infinity, alignment: isCurrentUser ? .trailing : .leading)
-            .padding(.bottom, 2)
-//            .onTapGesture {
-//                isFullScreenImageDisplayed = true
-//            }
-//            .fullScreenCover(isPresented: $isFullScreenImageDisplayed) {
-//                FullScreenImage(url: imageUrl ?? "")
-//            }
+        if let image = self.uiImage {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 200, height: 256)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 200, height: 256)
+                .frame(maxWidth: .infinity, alignment: isCurrentUser ? .trailing : .leading)
+                .padding(.bottom, 2)
+                .onTapGesture {
+                    isUIImageFullScreen = true
+                }
+                .fullScreenCover(isPresented: $isUIImageFullScreen) {
+                    FullScreenUIImage(image: image)
+                }
+        }
     }
 }
 

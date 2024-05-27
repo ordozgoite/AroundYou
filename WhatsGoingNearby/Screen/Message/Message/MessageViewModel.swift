@@ -24,25 +24,42 @@ class MessageViewModel: ObservableObject {
         }
     }
     @Published var receivedMessages: [Message] = []
+    @Published var messagesToBePersisted: [FormattedMessage] = []
     
     @Published var messageText: String = ""
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var repliedMessage: FormattedMessage?
     @Published var messageTimer: Timer?
     @Published var highlightedMessageId: String?
+    @Published var lastMessageAdded: String?
     
-    @Published var image: UIImage?
+    @Published var images: [UIImage] = []
     @Published var isCameraDisplayed = false
     @Published var isPhotosDisplayed = false
+    
+    func removeImage(fromIndex index: Int) {
+        guard index < images.count else { return }
+        self.images.remove(at: index)
+    }
     
     //MARK: - Fetch Messages
     
     func getMessages(chatId: String, token: String) async {
-        let result = await AYServices.shared.getMessages(chatId: chatId, token: token)
+        let result = await AYServices.shared.getMessages(chatId: chatId, timestamp: intermediaryMessages.first?.createdAt, token: token)
         
         switch result {
         case .success(let messages):
-            //            self.receivedMessages = messages
+            self.intermediaryMessages.insert(contentsOf: convertReceivedMessages(messages), at: 0)
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
+    func getLastMessages(chatId: String, token: String) async {
+        let result = await AYServices.shared.getMessages(chatId: chatId, timestamp: nil, token: token)
+        
+        switch result {
+        case .success(let messages):
             self.intermediaryMessages = convertReceivedMessages(messages)
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
@@ -60,45 +77,66 @@ class MessageViewModel: ObservableObject {
     
     //MARK: - Send Message
     
-    func sendMessage(forChat chatId: String, text: String?, image: UIImage?, repliedMessage: FormattedMessage?, token: String) async throws {
+    func sendMessage(forChat chatId: String, text: String?, images: [UIImage], repliedMessage: FormattedMessage?, token: String) async throws {
         resetInputs()
-        
-        if let txt = text, let img = image {
-            async let sendTextMessage: () = sendMessage(chatId: chatId, text: txt, image: nil, repliedMessage: nil, token: token)
-            async let sendImageMessage: () = sendMessage(chatId: chatId, text: nil, image: img, repliedMessage: repliedMessage, token: token)
-            
-            let images: [()] = try await [sendTextMessage, sendImageMessage]
-        } else {
-            try await sendMessage(chatId: chatId, text: text, image: image, repliedMessage: repliedMessage, token: token)
+        let messagesToBeSent = getMessagesToBeSent(chatId: chatId, text: text, images: images, repliedMessage: repliedMessage)
+        displayMessages(fromArray: messagesToBeSent)
+        await withTaskGroup(of: Void.self) { group in
+            for message in messagesToBeSent {
+                group.addTask {
+                    do {
+                        try await self.sendMessage(message, token: token)
+                    } catch {
+                        print("Error sending message: \(error)")
+                    }
+                }
+            }
         }
-    }
-    
-    private func sendMessage(withTemporaryId tempId: String = UUID().uuidString, chatId: String, text: String?, image: UIImage?, repliedMessage: FormattedMessage?, token: String) async throws {
-        addMessageToScreen(withTemporaryId: tempId, chatId: chatId, text: text, image: image, repliedMessage: repliedMessage)
-        let imageUrl = try await getUrl(forImage: image)
-        await postNewMessage(withTemporaryId: tempId, chatId: chatId, text: text, imageUrl: imageUrl, repliedMessageId: repliedMessage?.id, repliedMessageText: repliedMessage?.message, token: token)
     }
     
     private func resetInputs() {
         self.repliedMessage = nil
         self.messageText = ""
-        self.image = nil
+        self.images = []
     }
     
-    private func addMessageToScreen(withTemporaryId tempId: String, chatId: String, text: String?, image: UIImage?, repliedMessage: FormattedMessage?) {
-        let newMessage = MessageIntermediary(
-            id: tempId,
-            chatId: chatId,
-            text: text,
-            imageUrl: nil,
-            isRead: false,
-            createdAt: Int(Date().timeIntervalSince1970),
-            repliedMessageId: repliedMessage?.id,
-            repliedMessageText: repliedMessage?.message,
-            status: .sending, image: image,
-            isCurrentUser: true
-        )
-        intermediaryMessages.append(newMessage)
+    func sendImage(forChat chatId: String, image: UIImage, token: String) async throws {
+        let messagesToBeSent = getMessagesToBeSent(chatId: chatId, text: nil, images: [image], repliedMessage: nil)
+        displayMessages(fromArray: messagesToBeSent)
+        if let message = messagesToBeSent.first {
+            try await sendMessage(message, token: token)
+        }
+    }
+    
+    private func getMessagesToBeSent(chatId: String, text: String?, images: [UIImage], repliedMessage: FormattedMessage?) -> [MessageIntermediary] {
+        var messages: [MessageIntermediary] = []
+        
+        for image in images {
+            let message = MessageIntermediary(id: UUID().uuidString, chatId: chatId, text: nil, imageUrl: nil, isRead: false, createdAt: Int(Date().timeIntervalSince1970), repliedMessageId: nil, repliedMessageText: nil, status: .sending, image: image, isCurrentUser: true)
+            messages.append(message)
+        }
+        
+        if let text = text {
+            let message = MessageIntermediary(id: UUID().uuidString, chatId: chatId, text: text, imageUrl: nil, isRead: false, createdAt: Int(Date().timeIntervalSince1970), repliedMessageId: nil, repliedMessageText: nil, status: .sending, image: nil, isCurrentUser: true)
+            messages.append(message)
+        }
+        
+        messages[0].repliedMessageId = repliedMessage?.id
+        messages[0].repliedMessageText = repliedMessage?.message
+        
+        return messages
+    }
+    
+    private func displayMessages(fromArray messages: [MessageIntermediary]) {
+        for message in messages {
+            intermediaryMessages.append(message)
+            self.lastMessageAdded = message.id
+        }
+    }
+    
+    private func sendMessage(_ message: MessageIntermediary, token: String) async throws {
+        let imageUrl = try await getUrl(forImage: message.image)
+        await postNewMessage(withTemporaryId: message.id, chatId: message.chatId, text: message.text, imageUrl: imageUrl, repliedMessageId: message.repliedMessageId, repliedMessageText: message.repliedMessageText, token: token)
     }
     
     private func getUrl(forImage image: UIImage?) async throws -> String? {
@@ -129,7 +167,6 @@ class MessageViewModel: ObservableObject {
             playSendMessageSound()
             updateMessage(withId: tempId, toStatus: .sent)
             updateMessage(withId: tempId, toPostedMessage: message)
-            //            await getMessages(chatId: chatId, token: token)
         case .failure:
             updateMessage(withId: tempId, toStatus: .failed)
             overlayError = (true, ErrorMessage.defaultErrorMessage)
@@ -173,13 +210,15 @@ class MessageViewModel: ObservableObject {
     
     //MARK: - Receive Message
     
-    func processMessage(fromData data: [Any]) {
+    func processMessage(_ data: [Any], toChat chatId: String,  emitReadCommand: (String) -> ()) {
         let newMessage = decodeMessage(data)
-        if let msg = newMessage, !msg.isCurrentUser, !wasMessageReceived(msg) {
+        if let msg = newMessage, !msg.isCurrentUser, !wasMessageReceived(msg), msg.chatId == chatId {
             DispatchQueue.main.async {
                 self.intermediaryMessages.append(msg)
+                self.lastMessageAdded = msg.id
                 self.playReceivedMessageSound(forMessageId: msg.id)
             }
+            emitReadCommand(msg.id)
         }
     }
     
@@ -232,6 +271,8 @@ class MessageViewModel: ObservableObject {
             messages.append(formattedMessage)
         }
         self.formattedMessages = messages
+//        updateMessagesToBePersisted()
+//        print("⚠️ messagesToBePersisted: \(messagesToBePersisted)")
     }
     
     private func getTail(forMessage message: MessageIntermediary, withIndex index: Int) -> Bool {
@@ -252,6 +293,17 @@ class MessageViewModel: ObservableObject {
         let previousMessage = intermediaryMessages[index - 1]
         let timeDifferenceSec = message.createdAt.timeIntervalSince1970InSeconds - previousMessage.createdAt.timeIntervalSince1970InSeconds
         return timeDifferenceSec >= 3600 ? message.createdAt : nil
+    }
+    
+    private func updateMessagesToBePersisted() {
+        guard formattedMessages.count >= 20 else {
+            messagesToBePersisted = formattedMessages
+            return
+        }
+        
+        let startIndex = formattedMessages.count - 20
+        let endIndex = formattedMessages.count
+        messagesToBePersisted = Array(formattedMessages[startIndex..<endIndex])
     }
     
     private func playSound(withName soundName: String) {

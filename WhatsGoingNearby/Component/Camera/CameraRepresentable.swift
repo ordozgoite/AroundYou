@@ -10,8 +10,10 @@ import SwiftUI
 
 struct accessCameraView: UIViewControllerRepresentable {
     
-    @Binding var selectedImage: UIImage?
+//    @Binding var selectedImage: UIImage?
     @Environment(\.presentationMode) var isPresented
+    
+    let sendImage: (UIImage) -> ()
     
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let imagePicker = UIImagePickerController()
@@ -40,7 +42,8 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedImage = info[.originalImage] as? UIImage else { return }
-        self.picker.selectedImage = selectedImage
+//        self.picker.selectedImage = selectedImage
         self.picker.isPresented.wrappedValue.dismiss()
+        self.picker.sendImage(selectedImage)
     }
 }

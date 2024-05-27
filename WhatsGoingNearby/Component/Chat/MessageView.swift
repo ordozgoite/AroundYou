@@ -211,7 +211,8 @@ struct MessageView: View {
             isFirst: true,
             repliedMessageText: "Tio, o que você está fazendo?",
             timeDivider: 1711774061000,
-            status: .sent
+            status: .sent, 
+            createdAt: 0
         ),
         replyMessage: {},
         tappedRepliedMessage: {},

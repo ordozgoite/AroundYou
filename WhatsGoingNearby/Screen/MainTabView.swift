@@ -7,57 +7,77 @@
 
 import SwiftUI
 
-enum Tab: String {
-    case feed
-    case chat
-    case profile
-}
-
-class TabStateHandler: ObservableObject {
-    @Published var tabSelected: Tab = .feed {
-        didSet {
-            print("tabSelected: \(tabSelected)")
-            if oldValue == tabSelected && tabSelected == .feed {
-                print("Entrou na aba")
-//                scrollToTop()
-            }
-        }
-    }
-    
-//    private func scrollToTop() {
-//        let name = Notification.Name(Constants.scrollToTopNotificationKey)
-//        NotificationCenter.default.post(name: name, object: nil)
-//    }
-    
-}
-
 struct MainTabView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject public var notificationManager = NotificationManager()
+    @StateObject private var socket = SocketService()
+    let persistenceController = PersistenceController.shared
+    let pub = NotificationCenter.default
+        .publisher(for: NSNotification.Name(Constants.updateBadgeNotificationKey))
+    
+    @State private var badgeTimer: Timer?
+    @State private var unreadChats: Int?
     
     var body: some View {
         TabView {
-            FeedScreen()
+            FeedScreen(socket: socket)
                 .tabItem {
                     Label("Around You", systemImage: "mappin.and.ellipse")
                 }
                 .environmentObject(authVM)
-                .tag(Tab.feed)
             
-            ChatListScreen()
+            ChatListScreen(socket: socket)
                 .tabItem {
                     Label("Chats", systemImage: "bubble.left.and.bubble.right")
                 }
                 .environmentObject(authVM)
-                .tag(Tab.chat)
+                .badge(unreadChats ?? 0)
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
             
-            AccountScreen()
+            AccountScreen(socket: socket)
                 .tabItem {
                     Label("Profile", systemImage: "person.fill")
                 }
                 .environmentObject(authVM)
-                .tag(Tab.profile)
         }
+        .onChange(of: socket.status) { status in
+            if status == .connected {
+                updateBadge()
+            }
+        }
+        .onReceive(pub) { (output) in
+            self.updateBadge()
+        }
+        .onAppear {
+            updateBadge()
+            listenToMessages()
+        }
+    }
+    
+    //MARK: - Private Method
+    
+    private func updateBadge() {
+        Task {
+            self.unreadChats = try await getChatBadge()
+        }
+    }
+    
+    private func listenToMessages() {
+        socket.socket?.on("badge") { data, ack in
+            updateBadge()
+        }
+    }
+    
+    private func getChatBadge() async throws -> Int? {
+        let token = try await authVM.getFirebaseToken()
+        let result = await AYServices.shared.getUnreadChatsNumber(token: token)
+        
+        switch result {
+        case .success(let response):
+            return response.quantity
+        case .failure:
+            print("❌ Error trying to get unread messages number.")
+        }
+        return nil
     }
 }
