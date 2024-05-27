@@ -17,8 +17,8 @@ struct AccountScreen: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                ZStack {
+            ZStack {
+                ScrollView {
                     VStack(spacing: 32) {
                         ProfileHeader()
                         
@@ -44,6 +44,7 @@ struct AccountScreen: View {
                     }
                 }
             }
+            
             NavigationLink(
                 destination: EditProfileScreen(),
                 isActive: $accountVM.isEditProfileScreenPresented,
@@ -120,7 +121,7 @@ struct AccountScreen: View {
                                 await accountVM.deletePublication(publicationId: post.id, token: token)
                             }
                         } toggleFeedUpdate: { _ in }
-                        .padding()
+                            .padding()
                     }
                     .buttonStyle(PlainButtonStyle())
                     .opacity(post.type == .inactive ? 0.5 : 1)

@@ -113,11 +113,11 @@ struct MessageScreen: View {
         }
         .onAppear {
             //            print("⚠️ Stored messages: \(messages)")
-            updateBadge()
             Task {
                 try await getMessages(.newest)
             }
             listenToMessages()
+            updateBadge()
         }
         .onDisappear {
             stopListeningMessages()

@@ -22,7 +22,7 @@ struct UserProfileScreen: View {
             VStack {
                 if userProfileVM.isLoading {
                     ProgressView()
-                } else {
+                } else if userProfileVM.userProfile != nil {
                     VStack {
                         VStack {
                             ProfileHeader()
