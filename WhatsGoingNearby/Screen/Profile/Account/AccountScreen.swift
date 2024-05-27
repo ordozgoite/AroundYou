@@ -86,6 +86,7 @@ struct AccountScreen: View {
                 Text(authVM.biography ?? "")
                     .foregroundStyle(.gray)
                     .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
         .padding()
