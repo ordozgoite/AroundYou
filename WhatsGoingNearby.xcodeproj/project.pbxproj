@@ -28,6 +28,8 @@
 		ED3775A32B99795600BEF3D8 /* notification-sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED3775A22B99795500BEF3D8 /* notification-sound.wav */; };
 		ED3775A52B9A5E5200BEF3D8 /* DeleteUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3775A42B9A5E5200BEF3D8 /* DeleteUserResponse.swift */; };
 		ED3775A72B9ABD1000BEF3D8 /* PreparingSessionAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3775A62B9ABD1000BEF3D8 /* PreparingSessionAnimationView.swift */; };
+		ED3B54DC2CCCAD39007AA1D0 /* FloatingHeartsButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3B54DB2CCCAD39007AA1D0 /* FloatingHeartsButtonView.swift */; };
+		ED3B54E02CCEA0E3007AA1D0 /* DiscoverPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3B54DF2CCEA0E3007AA1D0 /* DiscoverPreferencesView.swift */; };
 		ED41409C2B7DE41F002690A5 /* PostNewCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */; };
 		ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */; };
 		ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */; };
@@ -192,6 +194,10 @@
 		EDDC9E082BD86E6A00000EA4 /* MessageStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDC9E072BD86E6A00000EA4 /* MessageStatus.swift */; };
 		EDDC9E0A2BDCB01400000EA4 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDC9E092BDCB01400000EA4 /* Character.swift */; };
 		EDDC9E0C2BDCB0AE00000EA4 /* EmojiMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDC9E0B2BDCB0AE00000EA4 /* EmojiMessageView.swift */; };
+		EDE1991F2CCB67E80065206C /* DiscoverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE1991E2CCB67E80065206C /* DiscoverScreen.swift */; };
+		EDE199212CCC5D3F0065206C /* VerifyUserDiscoverabilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE199202CCC5D3F0065206C /* VerifyUserDiscoverabilityResponse.swift */; };
+		EDE199232CCC5E3E0065206C /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE199222CCC5E3E0065206C /* DiscoverViewModel.swift */; };
+		EDE199282CCC60A20065206C /* ActivateDiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE199272CCC60A20065206C /* ActivateDiscoverView.swift */; };
 		EDE8B36D2BC1D11500DFF750 /* PostSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B36C2BC1D11500DFF750 /* PostSettingsView.swift */; };
 		EDE8B36F2BC1D9A800DFF750 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B36E2BC1D9A800DFF750 /* AudioRecorder.swift */; };
 		EDE8B3712BC20AFB00DFF750 /* DeleteChatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B3702BC20AFB00DFF750 /* DeleteChatResponse.swift */; };
@@ -230,6 +236,8 @@
 		ED3775A22B99795500BEF3D8 /* notification-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "notification-sound.wav"; sourceTree = "<group>"; };
 		ED3775A42B9A5E5200BEF3D8 /* DeleteUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserResponse.swift; sourceTree = "<group>"; };
 		ED3775A62B9ABD1000BEF3D8 /* PreparingSessionAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparingSessionAnimationView.swift; sourceTree = "<group>"; };
+		ED3B54DB2CCCAD39007AA1D0 /* FloatingHeartsButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingHeartsButtonView.swift; sourceTree = "<group>"; };
+		ED3B54DF2CCEA0E3007AA1D0 /* DiscoverPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverPreferencesView.swift; sourceTree = "<group>"; };
 		ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNewCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePublicationResponse.swift; sourceTree = "<group>"; };
@@ -366,6 +374,10 @@
 		EDDC9E072BD86E6A00000EA4 /* MessageStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStatus.swift; sourceTree = "<group>"; };
 		EDDC9E092BDCB01400000EA4 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		EDDC9E0B2BDCB0AE00000EA4 /* EmojiMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiMessageView.swift; sourceTree = "<group>"; };
+		EDE1991E2CCB67E80065206C /* DiscoverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverScreen.swift; sourceTree = "<group>"; };
+		EDE199202CCC5D3F0065206C /* VerifyUserDiscoverabilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyUserDiscoverabilityResponse.swift; sourceTree = "<group>"; };
+		EDE199222CCC5E3E0065206C /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
+		EDE199272CCC60A20065206C /* ActivateDiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivateDiscoverView.swift; sourceTree = "<group>"; };
 		EDE8B36C2BC1D11500DFF750 /* PostSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSettingsView.swift; sourceTree = "<group>"; };
 		EDE8B36E2BC1D9A800DFF750 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		EDE8B3702BC20AFB00DFF750 /* DeleteChatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteChatResponse.swift; sourceTree = "<group>"; };
@@ -550,6 +562,7 @@
 		ED598BF32B7C16DA00B6C23D /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				EDE199262CCC608C0065206C /* Discovery */,
 				EDE8B3772BC3500300DFF750 /* Compose Post */,
 				ED86186A2BB9E6C400A26121 /* Camera */,
 				EDCF2C362BB662CF0066950F /* Chat */,
@@ -675,6 +688,7 @@
 		ED5CB1762B7C11CB00C336EC /* Screen */ = {
 			isa = PBXGroup;
 			children = (
+				EDE1991D2CCB67D20065206C /* Discover */,
 				EDA30DED2B7FBAF8003EB22D /* LaunchScreen.swift */,
 				EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */,
 				ED598BE92B7C121000B6C23D /* Authentication */,
@@ -924,6 +938,7 @@
 				EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */,
 				EDE8B3702BC20AFB00DFF750 /* DeleteChatResponse.swift */,
 				ED74E8062BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift */,
+				EDE199202CCC5D3F0065206C /* VerifyUserDiscoverabilityResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -967,6 +982,25 @@
 				EDDC9DFE2BD78C9D00000EA4 /* received-message-sound.mp3 */,
 			);
 			path = Audio;
+			sourceTree = "<group>";
+		};
+		EDE1991D2CCB67D20065206C /* Discover */ = {
+			isa = PBXGroup;
+			children = (
+				EDE1991E2CCB67E80065206C /* DiscoverScreen.swift */,
+				EDE199222CCC5E3E0065206C /* DiscoverViewModel.swift */,
+			);
+			path = Discover;
+			sourceTree = "<group>";
+		};
+		EDE199262CCC608C0065206C /* Discovery */ = {
+			isa = PBXGroup;
+			children = (
+				EDE199272CCC60A20065206C /* ActivateDiscoverView.swift */,
+				ED3B54DB2CCCAD39007AA1D0 /* FloatingHeartsButtonView.swift */,
+				ED3B54DF2CCEA0E3007AA1D0 /* DiscoverPreferencesView.swift */,
+			);
+			path = Discovery;
 			sourceTree = "<group>";
 		};
 		EDE8B3772BC3500300DFF750 /* Compose Post */ = {
@@ -1110,6 +1144,7 @@
 				ED41409C2B7DE41F002690A5 /* PostNewCommentResponse.swift in Sources */,
 				ED598C0F2B7C499400B6C23D /* AYSecureTextField.swift in Sources */,
 				EDA30DF02B7FC620003EB22D /* AccountViewModel.swift in Sources */,
+				EDE1991F2CCB67E80065206C /* DiscoverScreen.swift in Sources */,
 				EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */,
 				ED6DD4992B82E5E900ADBB64 /* NewPostLocationScreen.swift in Sources */,
 				ED06525B2B814722005B6413 /* BugReport.swift in Sources */,
@@ -1128,10 +1163,12 @@
 				EDA30E032B811FD4003EB22D /* ReportViewModel.swift in Sources */,
 				EDE8B36D2BC1D11500DFF750 /* PostSettingsView.swift in Sources */,
 				ED74E8152BF4682200371334 /* CDFormattedMessage+helper.swift in Sources */,
+				ED3B54E02CCEA0E3007AA1D0 /* DiscoverPreferencesView.swift in Sources */,
 				ED0652572B813832005B6413 /* BugScreen.swift in Sources */,
 				ED2F1A732B914288001F4300 /* NotificationScreen.swift in Sources */,
 				ED6DD4902B8272DD00ADBB64 /* BlockedUserScreen.swift in Sources */,
 				ED8618692BB9E48400A26121 /* CameraRepresentable.swift in Sources */,
+				EDE199232CCC5E3E0065206C /* DiscoverViewModel.swift in Sources */,
 				EDA30E002B804FD1003EB22D /* ReportScreen.swift in Sources */,
 				EDA322382B7CC145009905B5 /* TimestampTestScreen.swift in Sources */,
 				ED6DD48D2B82685D00ADBB64 /* Block.swift in Sources */,
@@ -1147,6 +1184,7 @@
 				ED6E84F42B89C82C00B94F5C /* PostLocationScreen.swift in Sources */,
 				ED22678F2B9026C1006FE9D3 /* NotificationManager.swift in Sources */,
 				ED598BFA2B7C217400B6C23D /* AYProgressView.swift in Sources */,
+				ED3B54DC2CCCAD39007AA1D0 /* FloatingHeartsButtonView.swift in Sources */,
 				ED755F1B2BB4E54F004BC6C3 /* MessageScreen.swift in Sources */,
 				ED2F1A6B2B9048DC001F4300 /* IndepCommentScreen.swift in Sources */,
 				ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */,
@@ -1206,6 +1244,7 @@
 				ED6CF4CA2BBD029700990DBD /* BlackLogo.swift in Sources */,
 				ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */,
 				EDA322342B7CB861009905B5 /* URLImageView.swift in Sources */,
+				EDE199212CCC5D3F0065206C /* VerifyUserDiscoverabilityResponse.swift in Sources */,
 				ED755F1D2BB50D56004BC6C3 /* BubbleView.swift in Sources */,
 				ED7D8F822BBA0D9300544A8B /* PostImageView.swift in Sources */,
 				EDCF2C382BB66E400066950F /* Message.swift in Sources */,
@@ -1243,6 +1282,7 @@
 				ED842C502BCF5A29006B8DBB /* Color.swift in Sources */,
 				EDEECA212B8A6DA100BD517D /* OnBoardingScreen.swift in Sources */,
 				ED50C44A2B7E2CBC0001EDF6 /* Int.swift in Sources */,
+				EDE199282CCC60A20065206C /* ActivateDiscoverView.swift in Sources */,
 				ED2F1A7C2B91440E001F4300 /* FormattedNotification.swift in Sources */,
 				ED842C522BD0A9DB006B8DBB /* ComposePostView.swift in Sources */,
 				ED50C4642B7FA2B80001EDF6 /* EmptyFeedView.swift in Sources */,
@@ -1407,7 +1447,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.2;
+				MARKETING_VERSION = 2.3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1447,7 +1487,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.2;
+				MARKETING_VERSION = 2.3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

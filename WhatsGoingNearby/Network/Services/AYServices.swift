@@ -72,6 +72,9 @@ protocol AYServiceable {
     
     // Ban
     func getUserBanExpireDate(token: String) async -> Result<GetUserBanExpireDateResponse, RequestError>
+    
+    // Discovery
+    func verifyUserDiscoverability(token: String) async -> Result<VerifyUserDiscoverabilityResponse, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -271,5 +274,11 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getUserBanExpireDate(token: String) async -> Result<GetUserBanExpireDateResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getUserBanExpireDate(token: token), responseModel: GetUserBanExpireDateResponse.self)
+    }
+    
+    //MARK: - Discovery
+    
+    func verifyUserDiscoverability(token: String) async -> Result<VerifyUserDiscoverabilityResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.verifyUserDiscoverability(token: token), responseModel: VerifyUserDiscoverabilityResponse.self)
     }
 }

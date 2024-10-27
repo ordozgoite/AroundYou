@@ -89,6 +89,16 @@
         }
       }
     },
+    "%lld - %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld - %2$lld"
+          }
+        }
+      }
+    },
     "%lld %@%@ to expire" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -343,6 +353,9 @@
           }
         }
       }
+    },
+    "Age Range" : {
+
     },
     "All" : {
       "localizations" : {
@@ -782,6 +795,9 @@
         }
       }
     },
+    "Connect with those nearby. A match could spark a new friendship, an unexpected adventure, or maybe even something unforgettable." : {
+
+    },
     "Connecting..." : {
       "localizations" : {
         "pt-BR" : {
@@ -1008,6 +1024,9 @@
           }
         }
       }
+    },
+    "Discover" : {
+
     },
     "Discover endless features with AroundYou! Meet new people or reconnect with old friends, search for local information, ask for and offer help, and explore nearby events - all at your fingertips." : {
       "localizations" : {
@@ -1297,12 +1316,6 @@
         }
       }
     },
-    "Entrar" : {
-
-    },
-    "Enviando..." : {
-
-    },
     "Error" : {
       "localizations" : {
         "pt-BR" : {
@@ -1335,6 +1348,9 @@
         }
       }
     },
+    "Everyone" : {
+
+    },
     "Expired" : {
       "localizations" : {
         "pt-BR" : {
@@ -1350,6 +1366,12 @@
           }
         }
       }
+    },
+    "Female" : {
+
+    },
+    "Find Connections" : {
+
     },
     "Finish Post" : {
       "localizations" : {
@@ -1452,6 +1474,9 @@
           }
         }
       }
+    },
+    "Gender" : {
+
     },
     "Gravador de Áudio" : {
 
@@ -1648,6 +1673,9 @@
         }
       }
     },
+    "Interested In" : {
+
+    },
     "Invalid username format." : {
       "localizations" : {
         "pt-BR" : {
@@ -1807,6 +1835,9 @@
           }
         }
       }
+    },
+    "Male" : {
+
     },
     "Map" : {
       "localizations" : {
@@ -2029,6 +2060,7 @@
 
     },
     "password" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -2248,6 +2280,9 @@
           }
         }
       }
+    },
+    "Preferences" : {
+
     },
     "print location" : {
       "localizations" : {
@@ -2578,6 +2613,9 @@
           }
         }
       }
+    },
+    "Save Preferences" : {
+
     },
     "Search Around You" : {
 
@@ -3509,6 +3547,9 @@
           }
         }
       }
+    },
+    "Your Profile" : {
+
     },
     "Your profile was successfully updated." : {
       "localizations" : {

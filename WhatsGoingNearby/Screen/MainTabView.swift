@@ -37,6 +37,12 @@ struct MainTabView: View {
                 .badge(unreadChats ?? 0)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
             
+            DiscoverScreen()
+                .tabItem {
+                    Label("Discover", systemImage: "flame")
+                }
+                .environmentObject(authVM)
+            
             AccountScreen(socket: socket)
                 .tabItem {
                     Label("Profile", systemImage: "person.fill")
