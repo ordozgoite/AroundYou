@@ -8,6 +8,21 @@
 import Foundation
 import SwiftUI
 
+enum Gender: String, CaseIterable, Identifiable {
+    case male = "male"
+    case female = "female"
+    
+    var id: String { self.rawValue }
+}
+
+enum InterestGender: String, CaseIterable, Identifiable {
+    case male = "male"
+    case female = "female"
+    case everyone = "everyone"
+    
+    var id: String { self.rawValue }
+}
+
 @MainActor
 class DiscoverViewModel: ObservableObject {
     
@@ -20,8 +35,7 @@ class DiscoverViewModel: ObservableObject {
     @Published var selectedGender: Gender = .male
     @Published var selectedInterestGender: InterestGender = .everyone
     @Published var selectedAge: Int = 18
-    @Published var minAge: Int = 18
-    @Published var maxAge: Int = 40
+    @Published var ageRange: ClosedRange<Double> = 18...40
     
     func verifyUserDiscoverability(token: String) async {
         isLoading = true

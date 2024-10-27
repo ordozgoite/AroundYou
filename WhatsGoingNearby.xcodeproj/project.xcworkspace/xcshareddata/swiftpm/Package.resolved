@@ -1,5 +1,5 @@
 {
-  "originHash" : "baabfe6da77729ff7650f856fac457f1f9b456394f8bb0c72968b941932635d8",
+  "originHash" : "6107e94047d87051e04c5824bd4ae843482da2c669231a933a2b9808f6f08455",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -143,6 +143,15 @@
       "state" : {
         "revision" : "65e8f29b2d63c4e38e736b25c27b83e012159be8",
         "version" : "1.25.2"
+      }
+    },
+    {
+      "identity" : "swiftui-sliders",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/spacenation/swiftui-sliders",
+      "state" : {
+        "revision" : "d5a7d856655d5c91f891c2b69d982c30fd5c7bdf",
+        "version" : "2.1.0"
       }
     }
   ],

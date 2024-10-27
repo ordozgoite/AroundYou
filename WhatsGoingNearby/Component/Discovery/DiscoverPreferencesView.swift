@@ -6,21 +6,7 @@
 //
 
 import SwiftUI
-
-enum Gender: String, CaseIterable, Identifiable {
-    case male = "male"
-    case female = "female"
-    
-    var id: String { self.rawValue }
-}
-
-enum InterestGender: String, CaseIterable, Identifiable {
-    case male = "male"
-    case female = "female"
-    case everyone = "everyone"
-    
-    var id: String { self.rawValue }
-}
+import Sliders
 
 struct DiscoverPreferencesView: View {
     
@@ -54,17 +40,22 @@ struct DiscoverPreferencesView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     
-                    HStack {
-                        Text("Age Range")
-                        Spacer()
-                        Text("From ")
-                        +
-                        Text("\(discoverVM.minAge)")
-                        +
-                        Text(" to ")
-                        +
-                        Text("\(discoverVM.maxAge)")
+                    VStack {
+                        HStack {
+                            Text("Age Range")
+                            Spacer()
+                            Text("From ")
+                            +
+                            Text("\(Int(discoverVM.ageRange.lowerBound))")
+                            +
+                            Text(" to ")
+                            +
+                            Text("\(Int(discoverVM.ageRange.upperBound))")
+                        }
+                        
+                        RangeSlider(range: $discoverVM.ageRange, in: 18...99, step: 1)
                     }
+                    .padding(.top)
                     
                     // Interest Age Range Slider
                 }

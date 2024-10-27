@@ -30,6 +30,7 @@
 		ED3775A72B9ABD1000BEF3D8 /* PreparingSessionAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3775A62B9ABD1000BEF3D8 /* PreparingSessionAnimationView.swift */; };
 		ED3B54DC2CCCAD39007AA1D0 /* FloatingHeartsButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3B54DB2CCCAD39007AA1D0 /* FloatingHeartsButtonView.swift */; };
 		ED3B54E02CCEA0E3007AA1D0 /* DiscoverPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3B54DF2CCEA0E3007AA1D0 /* DiscoverPreferencesView.swift */; };
+		ED3B54E32CCEAAE1007AA1D0 /* Sliders in Frameworks */ = {isa = PBXBuildFile; productRef = ED3B54E22CCEAAE1007AA1D0 /* Sliders */; };
 		ED41409C2B7DE41F002690A5 /* PostNewCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */; };
 		ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */; };
 		ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */; };
@@ -416,6 +417,7 @@
 				ED598C242B7C550400B6C23D /* FirebaseCrashlytics in Frameworks */,
 				ED598C442B7C550400B6C23D /* FirebaseRemoteConfigSwift in Frameworks */,
 				ED598C362B7C550400B6C23D /* FirebaseInAppMessaging-Beta in Frameworks */,
+				ED3B54E32CCEAAE1007AA1D0 /* Sliders in Frameworks */,
 				ED598C282B7C550400B6C23D /* FirebaseDatabaseSwift in Frameworks */,
 				EDA30DE52B7FAB20003EB22D /* Lottie in Frameworks */,
 				ED598C322B7C550400B6C23D /* FirebaseFunctions in Frameworks */,
@@ -1059,6 +1061,7 @@
 				ED598C472B7C550400B6C23D /* FirebaseStorageCombine-Community */,
 				EDA30DE42B7FAB20003EB22D /* Lottie */,
 				EDCBEBF62BB8A52F00087325 /* SocketIO */,
+				ED3B54E22CCEAAE1007AA1D0 /* Sliders */,
 			);
 			productName = WhatsGoingNearby;
 			productReference = ED5CB1652B7C11C000C336EC /* WhatsGoingNearby.app */;
@@ -1094,6 +1097,7 @@
 				ED598C122B7C550400B6C23D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				EDA30DE32B7FAB20003EB22D /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				EDCBEBF52BB8A52F00087325 /* XCRemoteSwiftPackageReference "socket" */,
+				ED3B54E12CCEAAE1007AA1D0 /* XCRemoteSwiftPackageReference "swiftui-sliders" */,
 			);
 			productRefGroup = ED5CB1662B7C11C000C336EC /* Products */;
 			projectDirPath = "";
@@ -1524,6 +1528,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		ED3B54E12CCEAAE1007AA1D0 /* XCRemoteSwiftPackageReference "swiftui-sliders" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/spacenation/swiftui-sliders";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.0;
+			};
+		};
 		ED598C122B7C550400B6C23D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1551,6 +1563,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		ED3B54E22CCEAAE1007AA1D0 /* Sliders */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ED3B54E12CCEAAE1007AA1D0 /* XCRemoteSwiftPackageReference "swiftui-sliders" */;
+			productName = Sliders;
+		};
 		ED598C132B7C550400B6C23D /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = ED598C122B7C550400B6C23D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
