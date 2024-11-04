@@ -45,6 +45,7 @@ enum RequestError: Error {
     case forbidden
     case unknown
     case badRequest
+    case unprocessableEntity
     
     var customMessage: String {
         switch self {
@@ -60,6 +61,8 @@ enum RequestError: Error {
             return "You entered incorrect OTP"
         case .conflict:
             return "Conflict data"
+        case .unprocessableEntity:
+            return "The request could not be processed due to semantic errors."
         default:
             return "Unknown error"
         }

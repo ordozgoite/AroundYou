@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct ActivateDiscoverView: View {
+    
+    @Binding var isLoading: Bool
+    var activate: () -> ()
+    
     var body: some View {
         ZStack {
             FloatingHeartsView(color: .purple)
@@ -68,26 +72,33 @@ struct ActivateDiscoverView: View {
     @ViewBuilder
     private func DiscoverButton() -> some View {
         Button {
-            // activate discover
+            activate()
         } label: {
-            Text("Find Connections")
-                .font(.title3)
-                .fontWeight(.semibold)
-                .foregroundColor(.white)
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 64, maxHeight: 64)
-                .background(
-                    LinearGradient(
-                        colors: [Color.purple, Color.blue],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
+            HStack {
+                if isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                }
+                
+                Text(isLoading ? "Loading..." : "Find Connections")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+            }
+            .foregroundColor(.white)
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 64, maxHeight: 64)
+            .background(
+                LinearGradient(
+                    colors: [Color.purple, Color.blue],
+                    startPoint: .leading,
+                    endPoint: .trailing
                 )
-                .cornerRadius(15)
-                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
+            )
+            .cornerRadius(15)
+            .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
         }
     }
 }
 
 #Preview {
-    ActivateDiscoverView()
+    ActivateDiscoverView(isLoading: .constant(true), activate: {})
 }

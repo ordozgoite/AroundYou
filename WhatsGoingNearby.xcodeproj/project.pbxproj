@@ -12,6 +12,7 @@
 		ED06525B2B814722005B6413 /* BugReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525A2B814722005B6413 /* BugReport.swift */; };
 		ED06525D2B8171C5005B6413 /* ForgotPasswordScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525C2B8171C5005B6413 /* ForgotPasswordScreen.swift */; };
 		ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525E2B817A31005B6413 /* EditProfileScreen.swift */; };
+		ED13B0A12CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */; };
 		ED22678D2B8FCB93006FE9D3 /* CropScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22678C2B8FCB93006FE9D3 /* CropScreen.swift */; };
 		ED22678F2B9026C1006FE9D3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22678E2B9026C1006FE9D3 /* NotificationManager.swift */; };
 		ED24FAEE2B9E64F4002F7A11 /* EditProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED24FAED2B9E64F4002F7A11 /* EditProfileResponse.swift */; };
@@ -31,6 +32,10 @@
 		ED3B54DC2CCCAD39007AA1D0 /* FloatingHeartsButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3B54DB2CCCAD39007AA1D0 /* FloatingHeartsButtonView.swift */; };
 		ED3B54E02CCEA0E3007AA1D0 /* DiscoverPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3B54DF2CCEA0E3007AA1D0 /* DiscoverPreferencesView.swift */; };
 		ED3B54E32CCEAAE1007AA1D0 /* Sliders in Frameworks */ = {isa = PBXBuildFile; productRef = ED3B54E22CCEAAE1007AA1D0 /* Sliders */; };
+		ED3B54E72CCEC704007AA1D0 /* ActivateUserDiscoverabilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3B54E62CCEC704007AA1D0 /* ActivateUserDiscoverabilityResponse.swift */; };
+		ED3B54E92CCEC7EB007AA1D0 /* UserDiscoverPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3B54E82CCEC7EB007AA1D0 /* UserDiscoverPreferences.swift */; };
+		ED3B54EB2CCF29CF007AA1D0 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3B54EA2CCF29CF007AA1D0 /* DiscoverView.swift */; };
+		ED3B54ED2CCF29ED007AA1D0 /* DiscoverUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3B54EC2CCF29ED007AA1D0 /* DiscoverUserView.swift */; };
 		ED41409C2B7DE41F002690A5 /* PostNewCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */; };
 		ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */; };
 		ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */; };
@@ -221,6 +226,7 @@
 		ED06525A2B814722005B6413 /* BugReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugReport.swift; sourceTree = "<group>"; };
 		ED06525C2B8171C5005B6413 /* ForgotPasswordScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordScreen.swift; sourceTree = "<group>"; };
 		ED06525E2B817A31005B6413 /* EditProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileScreen.swift; sourceTree = "<group>"; };
+		ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeactivateUserDiscoverabilityResponse.swift; sourceTree = "<group>"; };
 		ED22678C2B8FCB93006FE9D3 /* CropScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropScreen.swift; sourceTree = "<group>"; };
 		ED22678E2B9026C1006FE9D3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		ED24FAED2B9E64F4002F7A11 /* EditProfileResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileResponse.swift; sourceTree = "<group>"; };
@@ -239,6 +245,10 @@
 		ED3775A62B9ABD1000BEF3D8 /* PreparingSessionAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparingSessionAnimationView.swift; sourceTree = "<group>"; };
 		ED3B54DB2CCCAD39007AA1D0 /* FloatingHeartsButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingHeartsButtonView.swift; sourceTree = "<group>"; };
 		ED3B54DF2CCEA0E3007AA1D0 /* DiscoverPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverPreferencesView.swift; sourceTree = "<group>"; };
+		ED3B54E62CCEC704007AA1D0 /* ActivateUserDiscoverabilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivateUserDiscoverabilityResponse.swift; sourceTree = "<group>"; };
+		ED3B54E82CCEC7EB007AA1D0 /* UserDiscoverPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDiscoverPreferences.swift; sourceTree = "<group>"; };
+		ED3B54EA2CCF29CF007AA1D0 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
+		ED3B54EC2CCF29ED007AA1D0 /* DiscoverUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverUserView.swift; sourceTree = "<group>"; };
 		ED41409B2B7DE41F002690A5 /* PostNewCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNewCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePublicationResponse.swift; sourceTree = "<group>"; };
@@ -557,6 +567,7 @@
 				EDDC9E052BD86D9C00000EA4 /* MessageIntermediary.swift */,
 				EDDC9E072BD86E6A00000EA4 /* MessageStatus.swift */,
 				EDA322392B7CCD79009905B5 /* Response */,
+				ED3B54E82CCEC7EB007AA1D0 /* UserDiscoverPreferences.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -564,7 +575,7 @@
 		ED598BF32B7C16DA00B6C23D /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				EDE199262CCC608C0065206C /* Discovery */,
+				EDE199262CCC608C0065206C /* Discover */,
 				EDE8B3772BC3500300DFF750 /* Compose Post */,
 				ED86186A2BB9E6C400A26121 /* Camera */,
 				EDCF2C362BB662CF0066950F /* Chat */,
@@ -941,6 +952,8 @@
 				EDE8B3702BC20AFB00DFF750 /* DeleteChatResponse.swift */,
 				ED74E8062BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift */,
 				EDE199202CCC5D3F0065206C /* VerifyUserDiscoverabilityResponse.swift */,
+				ED3B54E62CCEC704007AA1D0 /* ActivateUserDiscoverabilityResponse.swift */,
+				ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -995,14 +1008,16 @@
 			path = Discover;
 			sourceTree = "<group>";
 		};
-		EDE199262CCC608C0065206C /* Discovery */ = {
+		EDE199262CCC608C0065206C /* Discover */ = {
 			isa = PBXGroup;
 			children = (
 				EDE199272CCC60A20065206C /* ActivateDiscoverView.swift */,
 				ED3B54DB2CCCAD39007AA1D0 /* FloatingHeartsButtonView.swift */,
 				ED3B54DF2CCEA0E3007AA1D0 /* DiscoverPreferencesView.swift */,
+				ED3B54EA2CCF29CF007AA1D0 /* DiscoverView.swift */,
+				ED3B54EC2CCF29ED007AA1D0 /* DiscoverUserView.swift */,
 			);
-			path = Discovery;
+			path = Discover;
 			sourceTree = "<group>";
 		};
 		EDE8B3772BC3500300DFF750 /* Compose Post */ = {
@@ -1151,6 +1166,7 @@
 				EDE1991F2CCB67E80065206C /* DiscoverScreen.swift in Sources */,
 				EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */,
 				ED6DD4992B82E5E900ADBB64 /* NewPostLocationScreen.swift in Sources */,
+				ED3B54E92CCEC7EB007AA1D0 /* UserDiscoverPreferences.swift in Sources */,
 				ED06525B2B814722005B6413 /* BugReport.swift in Sources */,
 				ED8E6AF62BACD36D002D633D /* HeartView.swift in Sources */,
 				ED5CC5262B982121009B17E3 /* EnableLocationView.swift in Sources */,
@@ -1228,11 +1244,13 @@
 				ED3775A52B9A5E5200BEF3D8 /* DeleteUserResponse.swift in Sources */,
 				ED598C4C2B7C587100B6C23D /* AuthenticatedScreen.swift in Sources */,
 				ED6DD4962B82E5B900ADBB64 /* MapView.swift in Sources */,
+				ED3B54EB2CCF29CF007AA1D0 /* DiscoverView.swift in Sources */,
 				EDA322472B7DB221009905B5 /* CommentView.swift in Sources */,
 				ED755F212BB52C35004BC6C3 /* FormattedMessage.swift in Sources */,
 				EDE8B3762BC3301900DFF750 /* NewPostView.swift in Sources */,
 				ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */,
 				EDA30DFC2B804BE6003EB22D /* Report.swift in Sources */,
+				ED13B0A12CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift in Sources */,
 				EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */,
 				EDCF2C332BB65FC60066950F /* Chat.swift in Sources */,
 				ED50C4502B7E4AB70001EDF6 /* AYErrorAlert.swift in Sources */,
@@ -1297,7 +1315,9 @@
 				ED50C44E2B7E3BE20001EDF6 /* PostVisibility.swift in Sources */,
 				EDDC9E0A2BDCB01400000EA4 /* Character.swift in Sources */,
 				ED598C512B7C80EC00B6C23D /* LocationTestScreen.swift in Sources */,
+				ED3B54ED2CCF29ED007AA1D0 /* DiscoverUserView.swift in Sources */,
 				ED74E8072BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift in Sources */,
+				ED3B54E72CCEC704007AA1D0 /* ActivateUserDiscoverabilityResponse.swift in Sources */,
 				EDA322292B7CA362009905B5 /* Endpoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

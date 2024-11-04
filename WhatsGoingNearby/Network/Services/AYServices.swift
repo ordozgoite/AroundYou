@@ -75,6 +75,9 @@ protocol AYServiceable {
     
     // Discovery
     func verifyUserDiscoverability(token: String) async -> Result<VerifyUserDiscoverabilityResponse, RequestError>
+    func activateUserDiscoverability(token: String) async -> Result<ActivateUserDiscoverabilityResponse, RequestError>
+    func deactivateUserDiscoverability(token: String) async -> Result<DeactivateUserDiscoverabilityResponse, RequestError>
+    func updateUserPreferences(gender: String, interestGender: String, age: Int, minInterestAge: Int, maxInterestAge: Int, token: String) async -> Result<UserDiscoverPreferences, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -280,5 +283,17 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func verifyUserDiscoverability(token: String) async -> Result<VerifyUserDiscoverabilityResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.verifyUserDiscoverability(token: token), responseModel: VerifyUserDiscoverabilityResponse.self)
+    }
+    
+    func activateUserDiscoverability(token: String) async -> Result<ActivateUserDiscoverabilityResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.activateUserDiscoverability(token: token), responseModel: ActivateUserDiscoverabilityResponse.self)
+    }
+    
+    func deactivateUserDiscoverability(token: String) async -> Result<DeactivateUserDiscoverabilityResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deactivateUserDiscoverability(token: token), responseModel: DeactivateUserDiscoverabilityResponse.self)
+    }
+    
+    func updateUserPreferences(gender: String, interestGender: String, age: Int, minInterestAge: Int, maxInterestAge: Int, token: String) async -> Result<UserDiscoverPreferences, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.updateUserPreferences(gender: gender, interestGender: interestGender, age: age, minInterestAge: minInterestAge, maxInterestAge: maxInterestAge, token: token), responseModel: UserDiscoverPreferences.self)
     }
 }

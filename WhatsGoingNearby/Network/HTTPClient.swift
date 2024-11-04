@@ -126,6 +126,8 @@ extension HTTPClient {
                 return .failure(.conflict)
             case 412:
                 return .failure(.incorrectOTP)
+            case 422:
+                return .failure(.unprocessableEntity)
             case 500...502:
                 return .failure(.unexpectedStatusCode)
             default:
