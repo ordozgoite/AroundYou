@@ -16,7 +16,7 @@ struct DiscoverScreen: View {
         ZStack {
             if discoverVM.isLoading {
                 ProgressView()
-            } else if !discoverVM.isDiscoverable {
+            } else if !authVM.isUserDiscoverable {
                 ActivateDiscoverView(isLoading: $discoverVM.isActivatingDiscover) {
                     Task {
                         try await activateDiscover()
@@ -29,7 +29,10 @@ struct DiscoverScreen: View {
         .onAppear {
             Task {
                 let token = try await authVM.getFirebaseToken()
-                await discoverVM.verifyUserDiscoverability(token: token)
+                if let userPreferences = await discoverVM.verifyUserDiscoverability(token: token) {
+                    updateEnv(withPreferences: userPreferences)
+                    print("👻👻👻👻👻")
+                }
             }
         }
         .sheet(isPresented: $discoverVM.isPreferencesViewDisplayed) {
@@ -42,7 +45,18 @@ struct DiscoverScreen: View {
     
     private func activateDiscover() async throws {
         let token = try await authVM.getFirebaseToken()
-        await discoverVM.activateUserDiscoverability(token: token)
+        await discoverVM.activateUserDiscoverability(token: token) { isDiscoverable in
+            authVM.isUserDiscoverable = isDiscoverable
+        }
+    }
+    
+    private func updateEnv(withPreferences userPreferences: VerifyUserDiscoverabilityResponse) {
+        authVM.isUserDiscoverable = userPreferences.isDiscoverEnabled
+        authVM.age = userPreferences.age ?? 18
+//        authVM.gender = userPreferences.selectedGender ?? .male
+//        authVM.interestGender = userPreferences.selectedInterestGender
+        authVM.minInterestAge = userPreferences.minInterestAge ?? 25
+        authVM.maxInterestAge = userPreferences.maxInterestAge ?? 40
     }
 }
 

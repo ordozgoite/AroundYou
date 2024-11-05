@@ -43,14 +43,25 @@ class AuthenticationViewModel: ObservableObject {
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var user: User?
     
-    @Published var username: String = ""
-    @Published var name: String?
-    @Published var profilePic: String?
-    @Published var biography: String?
     @Published var isUserInfoFetched: Bool = false
     @Published var isLoading: Bool = false
     @Published var isForgotPasswordScreenDisplayed: Bool = false
     @Published var errorMessage: (LocalizedStringKey?, LocalizedStringKey?, LocalizedStringKey?) = (nil, nil, nil)
+    
+    // User Profile
+    @Published var username: String = ""
+    @Published var name: String?
+    @Published var profilePic: String?
+    @Published var biography: String?
+    
+    // User Discover Preferences
+    @Published var isUserDiscoverable: Bool = false
+    @Published var age: Int = 18
+    @Published var gender: Gender = .male
+    @Published var interestGender: InterestGender = .female
+    @Published var minInterestAge: Int = 25
+    @Published var maxInterestAge: Int = 40
+    
     
     init() {
         registerAuthStateHandler()

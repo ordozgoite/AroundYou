@@ -36,6 +36,9 @@ struct DiscoverPreferencesView: View {
                 
                 HideButtonView()
             }
+            .onAppear {
+                getUserPreferences()
+            }
             .navigationTitle("Filters")
         }
     }
@@ -100,10 +103,12 @@ struct DiscoverPreferencesView: View {
                 Text("From ")
                 +
                 Text("**\(Int(discoverVM.ageRange.lowerBound))**")
+                    .foregroundColor(.blue)
                 +
                 Text(" to ")
                 +
                 Text("**\(Int(discoverVM.ageRange.upperBound))**")
+                    .foregroundColor(.blue)
             }
             
             HStack {
@@ -157,12 +162,34 @@ struct DiscoverPreferencesView: View {
     
     private func updatePreferences() async throws {
         let token = try await authVM.getFirebaseToken()
-        await discoverVM.updateUserPreferences(token: token)
+        await discoverVM.updateUserPreferences(andActivateDiscover: !authVM.isUserDiscoverable, token: token) {
+            updateEnvPreferences()
+        } updateDiscoverStatus: { isDiscoverable in
+            authVM.isUserDiscoverable = isDiscoverable
+        }
+    }
+    
+    private func updateEnvPreferences() {
+        authVM.isUserDiscoverable = true
+        authVM.age = discoverVM.selectedAge
+        authVM.gender = discoverVM.selectedGender
+        authVM.interestGender = discoverVM.selectedInterestGender
+        authVM.minInterestAge = Int(discoverVM.ageRange.lowerBound)
+        authVM.maxInterestAge = Int(discoverVM.ageRange.upperBound)
     }
     
     private func hideAccount() async throws {
         let token = try await authVM.getFirebaseToken()
-        await discoverVM.deactivatedUserDiscoverability(token: token)
+        await discoverVM.deactivatedUserDiscoverability(token: token) { isDiscoverable in
+            authVM.isUserDiscoverable = isDiscoverable
+        }
+    }
+    
+    private func getUserPreferences() {
+        discoverVM.selectedAge = authVM.age
+        discoverVM.selectedGender = authVM.gender
+        discoverVM.selectedInterestGender = authVM.interestGender
+        discoverVM.ageRange = Double(authVM.minInterestAge)...Double(authVM.maxInterestAge)
     }
 }
 

@@ -8,5 +8,10 @@
 import Foundation
 
 struct VerifyUserDiscoverabilityResponse: Codable {
-    let isUserDiscoverable: Bool
+    let isDiscoverEnabled: Bool
+    let age: Int?
+    let gender: String?
+    let interestGender: String?
+    let minInterestAge: Int?
+    let maxInterestAge: Int?
 }
