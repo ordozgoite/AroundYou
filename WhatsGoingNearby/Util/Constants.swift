@@ -26,4 +26,10 @@ struct Constants {
     static let refreshFeedNotificationKey: String = "refreshFeed"
     static let updateLocationNotificationKey: String = "updateLocation"
     static let updateBadgeNotificationKey: String = "updateBadge"
+    
+    //MARK: - Discover Defaults
+    
+    static let defaultUserAge: Int = 18
+    static let defaultMinAgePreference: Int = 25
+    static let defaultMaxAgePreference: Int = 40
 }

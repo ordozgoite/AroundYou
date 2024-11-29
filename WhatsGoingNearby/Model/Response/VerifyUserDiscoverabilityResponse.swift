@@ -11,7 +11,7 @@ struct VerifyUserDiscoverabilityResponse: Codable {
     let isDiscoverEnabled: Bool
     let age: Int?
     let gender: String?
-    let interestGender: String?
+    let interestGender: [String]?
     let minInterestAge: Int?
     let maxInterestAge: Int?
 }

@@ -70,7 +70,7 @@ struct ActivateDiscoverView: View {
     //MARK: - DiscoverButton
     
     @ViewBuilder
-    private func DiscoverButton() -> some View {
+    private func DiscoverButton() -> some View {    
         Button {
             activate()
         } label: {
@@ -83,6 +83,7 @@ struct ActivateDiscoverView: View {
                 Text(isLoading ? "Loading..." : "Find Connections")
                     .font(.title3)
                     .fontWeight(.semibold)
+                    .foregroundStyle(isLoading ? .gray : .white)
             }
             .foregroundColor(.white)
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 64, maxHeight: 64)

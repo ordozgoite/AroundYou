@@ -12,7 +12,7 @@ struct UserDiscoverPreferences: Codable {
     let age: Int
     let displayName: String
     let gender: String
-    let interestGender: String
+    let interestGender: [String]
     let minInterestAge: Int
     let maxInterestAge: Int
 }

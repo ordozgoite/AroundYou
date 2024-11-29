@@ -8,26 +8,11 @@
 import Foundation
 import SwiftUI
 
-enum Gender: String, CaseIterable, Identifiable {
-    case male = "male"
-    case female = "female"
-    
-    var id: String { self.rawValue }
-}
-
-enum InterestGender: String, CaseIterable, Identifiable {
-    case male = "male"
-    case female = "female"
-    case everyone = "everyone"
-    
-    var id: String { self.rawValue }
-}
-
 struct UserDiscoverInfo: Codable, Identifiable {
     let id: String
     let imageUrl: String?
     let displayName: String
-    let gender: String
+    let gender: Gender
     let age: Int
 }
 
@@ -36,25 +21,27 @@ class DiscoverViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     @Published var isActivatingDiscover: Bool = false
-//    @Published var isDiscoverable: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var isPreferencesViewDisplayed: Bool = false
     
     // Preferences
     @Published var isSettingPreferences: Bool = false
     @Published var isHidingAccount: Bool = false
-    @Published var selectedGender: Gender = .male
-    @Published var selectedInterestGender: InterestGender = .everyone
+    @Published var selectedGender: Gender = .cisMale
+    @Published var selectedInterestGenders: Set<Gender> = []
+    private var interestGendersAsStrings: [String] {
+        selectedInterestGenders.map { $0.description }
+    }
     @Published var selectedAge: Int = 18
     @Published var ageRange: ClosedRange<Double> = 18...40
     
     // Discover
     @Published var usersFound: [UserDiscoverInfo] = [
-        UserDiscoverInfo(id: "1", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: "female", age: 38),
-        UserDiscoverInfo(id: "2", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: "female", age: 38),
-        UserDiscoverInfo(id: "3", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: "female", age: 38),
-        UserDiscoverInfo(id: "4", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: "female", age: 38),
-        UserDiscoverInfo(id: "5", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: "female", age: 38)
+        UserDiscoverInfo(id: "1", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: .cisFemale, age: 38),
+        UserDiscoverInfo(id: "2", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: .cisFemale, age: 38),
+        UserDiscoverInfo(id: "3", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: .cisFemale, age: 38),
+        UserDiscoverInfo(id: "4", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: .cisFemale, age: 38),
+        UserDiscoverInfo(id: "5", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: .cisFemale, age: 38)
     ]
     
     func verifyUserDiscoverability(token: String) async -> VerifyUserDiscoverabilityResponse? {
@@ -105,7 +92,7 @@ class DiscoverViewModel: ObservableObject {
     
     func updateUserPreferences(andActivateDiscover activateDiscover: Bool, token: String, updatePreferences: () -> (), updateDiscoverStatus: (Bool) -> ()) async {
         isSettingPreferences = true
-        let result = await AYServices.shared.updateUserPreferences(gender: self.selectedGender.rawValue, interestGender: self.selectedInterestGender.rawValue, age: self.selectedAge, minInterestAge: Int(self.ageRange.lowerBound), maxInterestAge: Int(self.ageRange.upperBound), token: token)
+        let result = await AYServices.shared.updateUserPreferences(gender: self.selectedGender.description, interestGenders: self.interestGendersAsStrings, age: self.selectedAge, minInterestAge: Int(self.ageRange.lowerBound), maxInterestAge: Int(self.ageRange.upperBound), token: token)
         isSettingPreferences = false
         
         switch result {
@@ -118,5 +105,9 @@ class DiscoverViewModel: ObservableObject {
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
+    }
+    
+    func areInputsValid() -> Bool {
+        return !selectedInterestGenders.isEmpty
     }
 }

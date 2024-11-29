@@ -61,12 +61,13 @@ struct DiscoverPreferencesView: View {
     
     @ViewBuilder
     private func GenderView() -> some View {
-        Picker("Gender", selection: $discoverVM.selectedGender) {
-            ForEach(Gender.allCases) { gender in
-                Text(gender.rawValue.capitalized).tag(gender)
-            }
+        VStack(alignment: .leading) {
+            Text("I'm a...")
+                .font(.title3)
+                .fontWeight(.semibold)
+            
+            GenderPickerView(selectedGender: $discoverVM.selectedGender)
         }
-        .pickerStyle(SegmentedPickerStyle())
     }
     
     //MARK: - Age
@@ -84,12 +85,13 @@ struct DiscoverPreferencesView: View {
     
     @ViewBuilder
     private func InterestGenderView() -> some View {
-        Picker("Interested In", selection: $discoverVM.selectedInterestGender) {
-            ForEach(InterestGender.allCases) { interestGender in
-                Text(interestGender.rawValue.capitalized).tag(interestGender)
-            }
+        VStack(alignment: .leading) {
+            Text("I'm interested in...")
+                .font(.title3)
+                .fontWeight(.semibold)
+            
+            GenderInterestPickerView(selectedGenders: $discoverVM.selectedInterestGenders)
         }
-        .pickerStyle(SegmentedPickerStyle())
     }
     
     //MARK: - Interest Age
@@ -134,6 +136,7 @@ struct DiscoverPreferencesView: View {
                     try await updatePreferences()
                 }
             }
+            .disabled(!discoverVM.areInputsValid())
         }
     }
     
@@ -152,6 +155,7 @@ struct DiscoverPreferencesView: View {
                         try await hideAccount()
                     }
                 }
+                .disabled(discoverVM.isHidingAccount)
                 .foregroundStyle(.red)
                 Spacer()
             }
@@ -173,7 +177,7 @@ struct DiscoverPreferencesView: View {
         authVM.isUserDiscoverable = true
         authVM.age = discoverVM.selectedAge
         authVM.gender = discoverVM.selectedGender
-        authVM.interestGender = discoverVM.selectedInterestGender
+        authVM.interestGenders = discoverVM.selectedInterestGenders
         authVM.minInterestAge = Int(discoverVM.ageRange.lowerBound)
         authVM.maxInterestAge = Int(discoverVM.ageRange.upperBound)
     }
@@ -186,9 +190,11 @@ struct DiscoverPreferencesView: View {
     }
     
     private func getUserPreferences() {
+        print("⚠️ getUserPreferences")
+        print("\(authVM.interestGenders)")
         discoverVM.selectedAge = authVM.age
         discoverVM.selectedGender = authVM.gender
-        discoverVM.selectedInterestGender = authVM.interestGender
+        discoverVM.selectedInterestGenders = authVM.interestGenders
         discoverVM.ageRange = Double(authVM.minInterestAge)...Double(authVM.maxInterestAge)
     }
 }

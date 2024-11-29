@@ -53,7 +53,7 @@ enum AYEndpoints {
     case getUnreadChatsNumber(token: String)
     case verifyUserDiscoverability(token: String)
     case activateUserDiscoverability(token: String)
-    case updateUserPreferences(gender: String, interestGender: String, age: Int, minInterestAge: Int, maxInterestAge: Int, token: String)
+    case updateUserPreferences(gender: String, interestGenders: [String], age: Int, minInterestAge: Int, maxInterestAge: Int, token: String)
     case deactivateUserDiscoverability(token: String)
 }
 
@@ -350,10 +350,10 @@ extension AYEndpoints: Endpoint {
             ]
             if let text = text { params["text"] = text }
             return params
-        case .updateUserPreferences(let gender, let interestGender, let age, let minInterestAge, let maxInterestAge, _):
+        case .updateUserPreferences(let gender, let interestGenders, let age, let minInterestAge, let maxInterestAge, _):
             let  params: [String: Any] = [
                 "gender": gender,
-                "interestGender": interestGender,
+                "interestGenders": interestGenders,
                 "age": age,
                 "minInterestAge": minInterestAge,
                 "maxInterestAge": maxInterestAge

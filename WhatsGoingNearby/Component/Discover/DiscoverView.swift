@@ -14,17 +14,9 @@ struct DiscoverView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 32) {
                     ForEach(discoverVM.usersFound) { user in
-                        DiscoverUserView(userImageURL: user.imageUrl!, userName: user.displayName, gender: .female, age: user.age)
-                            .padding()
-                            .padding(.horizontal)
-                            .background(
-                                Color.white.opacity(0.2)
-                                    .background(BlurView())
-                            )
-                            .cornerRadius(15)
-                            .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 5)
+                        DiscoverUserView(userImageURL: user.imageUrl!, userName: user.displayName, gender: user.gender, age: user.age)
                     }
                 }
                 .padding()
@@ -54,4 +46,5 @@ struct BlurView: UIViewRepresentable {
 
 #Preview {
     DiscoverView(discoverVM: DiscoverViewModel())
+        .environmentObject(AuthenticationViewModel())
 }

@@ -57,11 +57,10 @@ class AuthenticationViewModel: ObservableObject {
     // User Discover Preferences
     @Published var isUserDiscoverable: Bool = false
     @Published var age: Int = 18
-    @Published var gender: Gender = .male
-    @Published var interestGender: InterestGender = .female
+    @Published var gender: Gender = .cisMale
+    @Published var interestGenders: Set<Gender> = []
     @Published var minInterestAge: Int = 25
     @Published var maxInterestAge: Int = 40
-    
     
     init() {
         registerAuthStateHandler()

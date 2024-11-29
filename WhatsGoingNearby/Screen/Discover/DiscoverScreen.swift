@@ -31,7 +31,6 @@ struct DiscoverScreen: View {
                 let token = try await authVM.getFirebaseToken()
                 if let userPreferences = await discoverVM.verifyUserDiscoverability(token: token) {
                     updateEnv(withPreferences: userPreferences)
-                    print("👻👻👻👻👻")
                 }
             }
         }
@@ -51,12 +50,17 @@ struct DiscoverScreen: View {
     }
     
     private func updateEnv(withPreferences userPreferences: VerifyUserDiscoverabilityResponse) {
+        print("⚠️ updateEnv")
+        print("userPreferences: \(userPreferences)")
+        
         authVM.isUserDiscoverable = userPreferences.isDiscoverEnabled
-        authVM.age = userPreferences.age ?? 18
-//        authVM.gender = userPreferences.selectedGender ?? .male
-//        authVM.interestGender = userPreferences.selectedInterestGender
-        authVM.minInterestAge = userPreferences.minInterestAge ?? 25
-        authVM.maxInterestAge = userPreferences.maxInterestAge ?? 40
+        authVM.age = userPreferences.age ?? Constants.defaultUserAge
+        authVM.gender = userPreferences.gender == nil ? .cisMale : Gender.from(description: userPreferences.gender!) ?? .cisMale
+        authVM.interestGenders = userPreferences.interestGender == nil ? [] : Gender.from(array: userPreferences.interestGender!)
+        authVM.minInterestAge = userPreferences.minInterestAge ?? Constants.defaultMinAgePreference
+        authVM.maxInterestAge = userPreferences.maxInterestAge ?? Constants.defaultMaxAgePreference
+        
+        print("⚠️ Env Updated!")
     }
 }
 

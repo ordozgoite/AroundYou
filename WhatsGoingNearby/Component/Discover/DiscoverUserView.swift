@@ -22,12 +22,21 @@ struct DiscoverUserView: View {
                 .font(.title2)
                 .fontWeight(.bold)
             
-            VStack {
+            VStack(alignment: .leading) {
                 Text("· \(age) years old")
-                Text("· \(gender.rawValue)")
+                Text("· \(gender.title.stringKey)")
             }
             .foregroundStyle(.gray)
         }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical)
+        .background(
+            Color.white.opacity(0.2)
+                .background(BlurView())
+        )
+        .cornerRadius(15)
+        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 5)
+        .padding(.horizontal)
     }
 }
 
@@ -35,7 +44,7 @@ struct DiscoverUserView: View {
     DiscoverUserView(
         userImageURL: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg",
         userName: "Megan Fox",
-        gender: .female,
+        gender: .cisFemale,
         age: 38
     )
 }

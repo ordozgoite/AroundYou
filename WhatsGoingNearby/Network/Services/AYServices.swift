@@ -73,11 +73,11 @@ protocol AYServiceable {
     // Ban
     func getUserBanExpireDate(token: String) async -> Result<GetUserBanExpireDateResponse, RequestError>
     
-    // Discovery
+    // Discover
     func verifyUserDiscoverability(token: String) async -> Result<VerifyUserDiscoverabilityResponse, RequestError>
     func activateUserDiscoverability(token: String) async -> Result<ActivateUserDiscoverabilityResponse, RequestError>
     func deactivateUserDiscoverability(token: String) async -> Result<DeactivateUserDiscoverabilityResponse, RequestError>
-    func updateUserPreferences(gender: String, interestGender: String, age: Int, minInterestAge: Int, maxInterestAge: Int, token: String) async -> Result<UserDiscoverPreferences, RequestError>
+    func updateUserPreferences(gender: String, interestGenders: [String], age: Int, minInterestAge: Int, maxInterestAge: Int, token: String) async -> Result<UserDiscoverPreferences, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -279,7 +279,7 @@ struct AYServices: HTTPClient, AYServiceable {
         return await sendRequest(endpoint: AYEndpoints.getUserBanExpireDate(token: token), responseModel: GetUserBanExpireDateResponse.self)
     }
     
-    //MARK: - Discovery
+    //MARK: - Discover
     
     func verifyUserDiscoverability(token: String) async -> Result<VerifyUserDiscoverabilityResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.verifyUserDiscoverability(token: token), responseModel: VerifyUserDiscoverabilityResponse.self)
@@ -293,7 +293,7 @@ struct AYServices: HTTPClient, AYServiceable {
         return await sendRequest(endpoint: AYEndpoints.deactivateUserDiscoverability(token: token), responseModel: DeactivateUserDiscoverabilityResponse.self)
     }
     
-    func updateUserPreferences(gender: String, interestGender: String, age: Int, minInterestAge: Int, maxInterestAge: Int, token: String) async -> Result<UserDiscoverPreferences, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.updateUserPreferences(gender: gender, interestGender: interestGender, age: age, minInterestAge: minInterestAge, maxInterestAge: maxInterestAge, token: token), responseModel: UserDiscoverPreferences.self)
+    func updateUserPreferences(gender: String, interestGenders: [String], age: Int, minInterestAge: Int, maxInterestAge: Int, token: String) async -> Result<UserDiscoverPreferences, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.updateUserPreferences(gender: gender, interestGenders: interestGenders, age: age, minInterestAge: minInterestAge, maxInterestAge: maxInterestAge, token: token), responseModel: UserDiscoverPreferences.self)
     }
 }
