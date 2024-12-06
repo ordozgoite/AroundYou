@@ -20,6 +20,7 @@ struct UserDiscoverInfo: Codable, Identifiable {
 class DiscoverViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
+    @Published var discoverabilityVerified: Bool = false
     @Published var isActivatingDiscover: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var isPreferencesViewDisplayed: Bool = false
@@ -45,12 +46,13 @@ class DiscoverViewModel: ObservableObject {
     ]
     
     func verifyUserDiscoverability(token: String) async -> VerifyUserDiscoverabilityResponse? {
-        isLoading = true
+        if !discoverabilityVerified { isLoading = true }
         let result = await AYServices.shared.verifyUserDiscoverability(token: token)
-        isLoading = false
+        if !discoverabilityVerified { isLoading = false }
         
         switch result {
         case .success(let response):
+            self.discoverabilityVerified = true
             return response
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)

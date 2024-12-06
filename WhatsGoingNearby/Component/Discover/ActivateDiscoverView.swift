@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ActivateDiscoverView: View {
     
+    @State private var isDisclaimerDisplayed: Bool = false
     @Binding var isLoading: Bool
     var activate: () -> ()
     
@@ -29,6 +30,13 @@ struct ActivateDiscoverView: View {
                 
                 DiscoverButton()
                 
+            }
+            .sheet(isPresented: $isDisclaimerDisplayed) {
+                DiscoverDisclaimerView {
+                    self.isDisclaimerDisplayed = false
+                    activate()
+                }
+
             }
         }
         .padding()
@@ -72,7 +80,11 @@ struct ActivateDiscoverView: View {
     @ViewBuilder
     private func DiscoverButton() -> some View {    
         Button {
-            activate()
+            if LocalState.agreedWithDiscoverDisclaimer {
+                activate()
+            } else {
+                self.isDisclaimerDisplayed = true
+            }
         } label: {
             HStack {
                 if isLoading {

@@ -16,6 +16,7 @@ public class LocalState {
         case isPostLocationVisible
         case hasCompletedOnboarding
         case preferredLanguage
+        case agreedWithDiscoverDisclaimer
     }
     
     public static var userRegistrationToken: String {
@@ -69,6 +70,15 @@ public class LocalState {
         }
         set(newValue) {
             UserDefaults.standard.set(newValue, forKey: Keys.preferredLanguage.rawValue)
+        }
+    }
+    
+    public static var agreedWithDiscoverDisclaimer: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: Keys.agreedWithDiscoverDisclaimer.rawValue)
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.agreedWithDiscoverDisclaimer.rawValue)
         }
     }
 }

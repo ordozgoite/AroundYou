@@ -62,6 +62,9 @@
     "· %lld years old" : {
 
     },
+    "[Learn More](https://aroundyou3.wordpress.com/policy-privacy)" : {
+
+    },
     "@%@" : {
       "localizations" : {
         "pt-BR" : {
@@ -825,6 +828,9 @@
         }
       }
     },
+    "Continue" : {
+
+    },
     "Copy" : {
       "localizations" : {
         "pt-BR" : {
@@ -858,6 +864,9 @@
       }
     },
     "Crop View" : {
+
+    },
+    "Data & Privacy" : {
 
     },
     "Delete" : {

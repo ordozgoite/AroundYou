@@ -185,6 +185,7 @@
 		EDA322492B7DB2BA009905B5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322482B7DB2BA009905B5 /* Comment.swift */; };
 		EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3224A2B7DB345009905B5 /* FormattedComment.swift */; };
 		EDB3F63E2BEC9086004F05B1 /* FullScreenUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */; };
+		EDC54BDE2D02AFC9006A5697 /* DiscoverDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */; };
 		EDCBEBF22BB75E5800087325 /* DeleteMessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */; };
 		EDCBEBF42BB7C3E000087325 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCBEBF32BB7C3E000087325 /* MessageView.swift */; };
 		EDCBEBF72BB8A52F00087325 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = EDCBEBF62BB8A52F00087325 /* SocketIO */; };
@@ -374,6 +375,7 @@
 		EDA322482B7DB2BA009905B5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		EDA3224A2B7DB345009905B5 /* FormattedComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedComment.swift; sourceTree = "<group>"; };
 		EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenUIImage.swift; sourceTree = "<group>"; };
+		EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverDisclaimerView.swift; sourceTree = "<group>"; };
 		EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageResponse.swift; sourceTree = "<group>"; };
 		EDCBEBF32BB7C3E000087325 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		EDCBEBF82BB8A5A700087325 /* SocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketService.swift; sourceTree = "<group>"; };
@@ -1009,8 +1011,8 @@
 		EDE1991D2CCB67D20065206C /* Discover */ = {
 			isa = PBXGroup;
 			children = (
-				EDE1991E2CCB67E80065206C /* DiscoverScreen.swift */,
 				EDE199222CCC5E3E0065206C /* DiscoverViewModel.swift */,
+				EDE1991E2CCB67E80065206C /* DiscoverScreen.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -1025,6 +1027,7 @@
 				ED3B54EC2CCF29ED007AA1D0 /* DiscoverUserView.swift */,
 				ED318A602CF6835D009A0D63 /* GenderInterestPickerView.swift */,
 				EDD6399F2CF81C7800978927 /* GenderPickerView.swift */,
+				EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -1328,6 +1331,7 @@
 				EDDC9E0A2BDCB01400000EA4 /* Character.swift in Sources */,
 				ED598C512B7C80EC00B6C23D /* LocationTestScreen.swift in Sources */,
 				ED3B54ED2CCF29ED007AA1D0 /* DiscoverUserView.swift in Sources */,
+				EDC54BDE2D02AFC9006A5697 /* DiscoverDisclaimerView.swift in Sources */,
 				ED74E8072BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift in Sources */,
 				ED3B54E72CCEC704007AA1D0 /* ActivateUserDiscoverabilityResponse.swift in Sources */,
 				EDA322292B7CA362009905B5 /* Endpoint.swift in Sources */,
