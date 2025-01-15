@@ -78,6 +78,7 @@ protocol AYServiceable {
     func activateUserDiscoverability(token: String) async -> Result<ActivateUserDiscoverabilityResponse, RequestError>
     func deactivateUserDiscoverability(token: String) async -> Result<DeactivateUserDiscoverabilityResponse, RequestError>
     func updateUserPreferences(gender: String, interestGenders: [String], age: Int, minInterestAge: Int, maxInterestAge: Int, token: String) async -> Result<UserDiscoverPreferences, RequestError>
+    func discoverUsersByPreferences(latitude: Double, longitude: Double, token: String) async -> Result<[UserDiscover], RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -295,5 +296,9 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func updateUserPreferences(gender: String, interestGenders: [String], age: Int, minInterestAge: Int, maxInterestAge: Int, token: String) async -> Result<UserDiscoverPreferences, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.updateUserPreferences(gender: gender, interestGenders: interestGenders, age: age, minInterestAge: minInterestAge, maxInterestAge: maxInterestAge, token: token), responseModel: UserDiscoverPreferences.self)
+    }
+    
+    func discoverUsersByPreferences(latitude: Double, longitude: Double, token: String) async -> Result<[UserDiscover], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.discoverUsersByPreferences(latitude: latitude, longitude: longitude, token: token), responseModel: [UserDiscover].self)
     }
 }
