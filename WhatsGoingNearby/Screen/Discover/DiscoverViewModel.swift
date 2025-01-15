@@ -8,14 +8,6 @@
 import Foundation
 import SwiftUI
 
-struct UserDiscoverInfo: Codable, Identifiable {
-    let id: String
-    let imageUrl: String?
-    let displayName: String
-    let gender: Gender
-    let age: Int
-}
-
 @MainActor
 class DiscoverViewModel: ObservableObject {
     
@@ -37,13 +29,8 @@ class DiscoverViewModel: ObservableObject {
     @Published var ageRange: ClosedRange<Double> = 18...40
     
     // Discover
-    @Published var usersFound: [UserDiscoverInfo] = [
-        UserDiscoverInfo(id: "1", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: .cisFemale, age: 38),
-        UserDiscoverInfo(id: "2", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: .cisFemale, age: 38),
-        UserDiscoverInfo(id: "3", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: .cisFemale, age: 38),
-        UserDiscoverInfo(id: "4", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: .cisFemale, age: 38),
-        UserDiscoverInfo(id: "5", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: .cisFemale, age: 38)
-    ]
+    @Published var isDiscoveringUsers: Bool = false
+    @Published var usersFound: [UserDiscoverInfo] = []
     
     func verifyUserDiscoverability(token: String) async -> VerifyUserDiscoverabilityResponse? {
         if !discoverabilityVerified { isLoading = true }
@@ -111,5 +98,18 @@ class DiscoverViewModel: ObservableObject {
     
     func areInputsValid() -> Bool {
         return !selectedInterestGenders.isEmpty
+    }
+    
+    func getUsersNearBy(latitude: Double, longitude: Double, token: String) async {
+        isDiscoveringUsers = true
+        let result = await AYServices.shared.discoverUsersByPreferences(latitude: latitude, longitude: longitude, token: token)
+        isDiscoveringUsers = false
+        
+        switch result {
+        case .success(let users):
+            self.usersFound = users
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
     }
 }

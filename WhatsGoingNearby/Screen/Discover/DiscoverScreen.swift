@@ -11,6 +11,7 @@ struct DiscoverScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var discoverVM = DiscoverViewModel()
+    @ObservedObject var locationManager: LocationManager
     
     var body: some View {
         ZStack {
@@ -23,7 +24,7 @@ struct DiscoverScreen: View {
                     }
                 }
             } else {
-                DiscoverView(discoverVM: discoverVM)
+                DiscoverView(discoverVM: discoverVM, locationManager: locationManager)
             }
         }
         .onAppear {
@@ -65,6 +66,6 @@ struct DiscoverScreen: View {
 }
 
 #Preview {
-    DiscoverScreen()
-        .environmentObject(AuthenticationViewModel())
+//    DiscoverScreen()
+//        .environmentObject(AuthenticationViewModel())
 }

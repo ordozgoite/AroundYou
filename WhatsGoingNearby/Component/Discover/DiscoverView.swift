@@ -9,17 +9,37 @@ import SwiftUI
 
 struct DiscoverView: View {
     
+    @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject var discoverVM: DiscoverViewModel
+    @ObservedObject var locationManager: LocationManager
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 32) {
-                    ForEach(discoverVM.usersFound) { user in
-                        DiscoverUserView(userImageURL: user.imageUrl!, userName: user.displayName, gender: user.gender, age: user.age)
+            ZStack {
+                if discoverVM.isDiscoveringUsers {
+                    AYProgressView()
+                } else {
+                    ScrollView {
+                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 32) {
+                            ForEach(discoverVM.usersFound) { user in
+                                DiscoverUserView(
+                                    userImageURL: user.profilePic,
+                                    userName: user.username,
+                                    gender: user.genderEnum,
+                                    age: user.age,
+                                    lastSeen: user.locationLastUpdateAt
+                                )
+                            }
+                        }
+                        .padding()
                     }
                 }
-                .padding()
+            }
+            
+            .onAppear {
+                Task {
+                    try await getUsersNearBy() // run again based on location change
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -31,6 +51,20 @@ struct DiscoverView: View {
                 }
             }
             .navigationTitle("Discover")
+        }
+    }
+    
+    //MARK: - Private Method
+    
+    private func getUsersNearBy() async throws {
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let token = try await authVM.getFirebaseToken()
+            
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            await discoverVM.getUsersNearBy(latitude: latitude, longitude: longitude, token: token)
         }
     }
 }
@@ -45,6 +79,6 @@ struct BlurView: UIViewRepresentable {
 }
 
 #Preview {
-    DiscoverView(discoverVM: DiscoverViewModel())
-        .environmentObject(AuthenticationViewModel())
+//    DiscoverView(discoverVM: DiscoverViewModel())
+//        .environmentObject(AuthenticationViewModel())
 }

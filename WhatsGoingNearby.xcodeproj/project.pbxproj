@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		ED0314372D37FD2C001B917A /* UserDiscover.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0314362D37FD2C001B917A /* UserDiscover.swift */; };
+		ED0314372D37FD2C001B917A /* UserDiscoverInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0314362D37FD2C001B917A /* UserDiscoverInfo.swift */; };
 		ED0652572B813832005B6413 /* BugScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0652562B813832005B6413 /* BugScreen.swift */; };
 		ED0652592B813859005B6413 /* BugViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0652582B813859005B6413 /* BugViewModel.swift */; };
 		ED06525B2B814722005B6413 /* BugReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525A2B814722005B6413 /* BugReport.swift */; };
@@ -226,7 +226,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		ED0314362D37FD2C001B917A /* UserDiscover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDiscover.swift; sourceTree = "<group>"; };
+		ED0314362D37FD2C001B917A /* UserDiscoverInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDiscoverInfo.swift; sourceTree = "<group>"; };
 		ED0652562B813832005B6413 /* BugScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugScreen.swift; sourceTree = "<group>"; };
 		ED0652582B813859005B6413 /* BugViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugViewModel.swift; sourceTree = "<group>"; };
 		ED06525A2B814722005B6413 /* BugReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugReport.swift; sourceTree = "<group>"; };
@@ -578,8 +578,8 @@
 				EDDC9E072BD86E6A00000EA4 /* MessageStatus.swift */,
 				ED3B54E82CCEC7EB007AA1D0 /* UserDiscoverPreferences.swift */,
 				EDFADB9F2CF11F3D0050E322 /* Gender.swift */,
+				ED0314362D37FD2C001B917A /* UserDiscoverInfo.swift */,
 				EDA322392B7CCD79009905B5 /* Response */,
-				ED0314362D37FD2C001B917A /* UserDiscover.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1263,7 +1263,7 @@
 				ED6DD4962B82E5B900ADBB64 /* MapView.swift in Sources */,
 				ED3B54EB2CCF29CF007AA1D0 /* DiscoverView.swift in Sources */,
 				EDA322472B7DB221009905B5 /* CommentView.swift in Sources */,
-				ED0314372D37FD2C001B917A /* UserDiscover.swift in Sources */,
+				ED0314372D37FD2C001B917A /* UserDiscoverInfo.swift in Sources */,
 				ED755F212BB52C35004BC6C3 /* FormattedMessage.swift in Sources */,
 				EDE8B3762BC3301900DFF750 /* NewPostView.swift in Sources */,
 				ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */,

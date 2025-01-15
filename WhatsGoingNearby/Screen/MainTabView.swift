@@ -37,7 +37,7 @@ struct MainTabView: View {
                 .badge(unreadChats ?? 0)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
             
-            DiscoverScreen()
+            DiscoverScreen(locationManager: locationManager)
                 .tabItem {
                     Label("Discover", systemImage: "flame")
                 }
