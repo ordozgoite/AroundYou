@@ -8,11 +8,11 @@
 import Foundation
 import CoreLocation
 
-//"https://aroundyouapi-28b64d9e9aad.herokuapp.com"
+//"https://around-you-3acb9615e8a5.herokuapp.com"
 //"http://localhost:3000"
 
 struct Constants {
-    static let serverUrl: String = "https://around-you-916dc307ba7f.herokuapp.com"
+    static let serverUrl: String = "https://around-you-3acb9615e8a5.herokuapp.com"
     static let maxUsernameLenght: Int = 20
     static let maxNameLenght: Int = 30
     static let maxBioLenght: Int = 250
