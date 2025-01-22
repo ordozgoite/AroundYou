@@ -27,6 +27,7 @@ class DiscoverViewModel: ObservableObject {
     }
     @Published var selectedAge: Int = 18
     @Published var ageRange: ClosedRange<Double> = 18...40
+    @Published var isDiscoverNotificationsEnabled: Bool = false
     
     // Discover
     @Published var isDiscoveringUsers: Bool = false
@@ -81,7 +82,7 @@ class DiscoverViewModel: ObservableObject {
     
     func updateUserPreferences(andActivateDiscover activateDiscover: Bool, token: String, updatePreferences: () -> (), updateDiscoverStatus: (Bool) -> ()) async {
         isSettingPreferences = true
-        let result = await AYServices.shared.updateUserPreferences(gender: self.selectedGender.description, interestGenders: self.interestGendersAsStrings, age: self.selectedAge, minInterestAge: Int(self.ageRange.lowerBound), maxInterestAge: Int(self.ageRange.upperBound), token: token)
+        let result = await AYServices.shared.updateUserPreferences(gender: self.selectedGender.description, interestGenders: self.interestGendersAsStrings, age: self.selectedAge, minInterestAge: Int(self.ageRange.lowerBound), maxInterestAge: Int(self.ageRange.upperBound), isNotificationsEnabled: self.isDiscoverNotificationsEnabled, token: token)
         isSettingPreferences = false
         
         switch result {

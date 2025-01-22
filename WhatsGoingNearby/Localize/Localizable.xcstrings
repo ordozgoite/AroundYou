@@ -1075,6 +1075,9 @@
         }
       }
     },
+    "Discover Notifications" : {
+
+    },
     "Display location on map" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1306,6 +1309,9 @@
           }
         }
       }
+    },
+    "Enable Notifications" : {
+
     },
     "Enable Precise Location" : {
       "localizations" : {
@@ -1605,6 +1611,9 @@
 
     },
     "I'm interested in..." : {
+
+    },
+    "If this option is enabled, we will notify you whenever we find someone matching your interests nearby." : {
 
     },
     "If you quit this screen, you will lose your changes." : {

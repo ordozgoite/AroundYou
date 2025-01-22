@@ -77,7 +77,7 @@ protocol AYServiceable {
     func verifyUserDiscoverability(token: String) async -> Result<VerifyUserDiscoverabilityResponse, RequestError>
     func activateUserDiscoverability(token: String) async -> Result<ActivateUserDiscoverabilityResponse, RequestError>
     func deactivateUserDiscoverability(token: String) async -> Result<DeactivateUserDiscoverabilityResponse, RequestError>
-    func updateUserPreferences(gender: String, interestGenders: [String], age: Int, minInterestAge: Int, maxInterestAge: Int, token: String) async -> Result<UserDiscoverPreferences, RequestError>
+    func updateUserPreferences(gender: String, interestGenders: [String], age: Int, minInterestAge: Int, maxInterestAge: Int, isNotificationsEnabled: Bool, token: String) async -> Result<UserDiscoverPreferences, RequestError>
     func discoverUsersByPreferences(latitude: Double, longitude: Double, token: String) async -> Result<[UserDiscoverInfo], RequestError>
 }
 
@@ -294,8 +294,8 @@ struct AYServices: HTTPClient, AYServiceable {
         return await sendRequest(endpoint: AYEndpoints.deactivateUserDiscoverability(token: token), responseModel: DeactivateUserDiscoverabilityResponse.self)
     }
     
-    func updateUserPreferences(gender: String, interestGenders: [String], age: Int, minInterestAge: Int, maxInterestAge: Int, token: String) async -> Result<UserDiscoverPreferences, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.updateUserPreferences(gender: gender, interestGenders: interestGenders, age: age, minInterestAge: minInterestAge, maxInterestAge: maxInterestAge, token: token), responseModel: UserDiscoverPreferences.self)
+    func updateUserPreferences(gender: String, interestGenders: [String], age: Int, minInterestAge: Int, maxInterestAge: Int, isNotificationsEnabled: Bool, token: String) async -> Result<UserDiscoverPreferences, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.updateUserPreferences(gender: gender, interestGenders: interestGenders, age: age, minInterestAge: minInterestAge, maxInterestAge: maxInterestAge, isNotificationsEnabled: isNotificationsEnabled, token: token), responseModel: UserDiscoverPreferences.self)
     }
     
     func discoverUsersByPreferences(latitude: Double, longitude: Double, token: String) async -> Result<[UserDiscoverInfo], RequestError> {

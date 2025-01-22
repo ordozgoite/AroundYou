@@ -20,6 +20,10 @@ struct DiscoverPreferencesView: View {
                     ProfileInfoView()
                 }
                 
+                Section(header: Text("Discover Notifications"), footer: Text("If this option is enabled, we will notify you whenever we find someone matching your interests nearby.")) {
+                    NotificationToggle()
+                }
+                
                 Section(footer: Text("We'll match you with people who are interested in your gender and age.")) {
                     GenderView()
                     
@@ -122,6 +126,13 @@ struct DiscoverPreferencesView: View {
             }
         }
         .padding(.top)
+    }
+    
+    // MARK: - Notification Toggle
+    
+    @ViewBuilder
+    private func NotificationToggle() -> some View {
+        Toggle("Enable Notifications", isOn: $discoverVM.isDiscoverNotificationsEnabled)
     }
     
     //MARK: - Button
