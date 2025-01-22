@@ -18,6 +18,8 @@ struct DiscoverView: View {
             ZStack {
                 if discoverVM.isDiscoveringUsers {
                     AYProgressView()
+                } else if discoverVM.usersFound.isEmpty {
+                    EmptyDiscoverView()
                 } else {
                     ScrollView {
                         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 32) {

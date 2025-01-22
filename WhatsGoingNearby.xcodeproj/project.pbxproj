@@ -42,6 +42,7 @@
 		ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */; };
 		ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */; };
 		ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4140A12B7E1D26002690A5 /* CircleTimerView.swift */; };
+		ED4D7C362D418710007FC1FF /* EmptyDiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4D7C352D418710007FC1FF /* EmptyDiscoverView.swift */; };
 		ED5023FC2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5023FB2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift */; };
 		ED50C44A2B7E2CBC0001EDF6 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4492B7E2CBC0001EDF6 /* Int.swift */; };
 		ED50C44C2B7E396C0001EDF6 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C44B2B7E396C0001EDF6 /* View.swift */; };
@@ -260,6 +261,7 @@
 		ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePublicationResponse.swift; sourceTree = "<group>"; };
 		ED4140A12B7E1D26002690A5 /* CircleTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleTimerView.swift; sourceTree = "<group>"; };
+		ED4D7C352D418710007FC1FF /* EmptyDiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDiscoverView.swift; sourceTree = "<group>"; };
 		ED5023FB2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserBanExpireDateResponse.swift; sourceTree = "<group>"; };
 		ED50C4492B7E2CBC0001EDF6 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		ED50C44B2B7E396C0001EDF6 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -1031,6 +1033,7 @@
 				ED318A602CF6835D009A0D63 /* GenderInterestPickerView.swift */,
 				EDD6399F2CF81C7800978927 /* GenderPickerView.swift */,
 				EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */,
+				ED4D7C352D418710007FC1FF /* EmptyDiscoverView.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -1287,6 +1290,7 @@
 				EDE199212CCC5D3F0065206C /* VerifyUserDiscoverabilityResponse.swift in Sources */,
 				ED755F1D2BB50D56004BC6C3 /* BubbleView.swift in Sources */,
 				ED7D8F822BBA0D9300544A8B /* PostImageView.swift in Sources */,
+				ED4D7C362D418710007FC1FF /* EmptyDiscoverView.swift in Sources */,
 				EDCF2C382BB66E400066950F /* Message.swift in Sources */,
 				EDA3223F2B7D6A3F009905B5 /* LikePublicationResponse.swift in Sources */,
 				ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */,

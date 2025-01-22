@@ -1977,6 +1977,9 @@
         }
       }
     },
+    "No matches found nearby." : {
+
+    },
     "No one has liked this post yet." : {
       "localizations" : {
         "pt-BR" : {
@@ -3428,6 +3431,9 @@
           }
         }
       }
+    },
+    "You can enable Discover Notifications to stay updated when someone matching your interests is nearby." : {
+
     },
     "You can't see other people's post history." : {
       "localizations" : {
