@@ -61,6 +61,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var interestGenders: Set<Gender> = []
     @Published var minInterestAge: Int = 25
     @Published var maxInterestAge: Int = 40
+    @Published var isDiscoverNotificationsEnabled: Bool = true
     
     init() {
         registerAuthStateHandler()

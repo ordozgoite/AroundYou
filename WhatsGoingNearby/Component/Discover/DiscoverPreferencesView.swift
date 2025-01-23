@@ -197,6 +197,7 @@ struct DiscoverPreferencesView: View {
         authVM.interestGenders = discoverVM.selectedInterestGenders
         authVM.minInterestAge = Int(discoverVM.ageRange.lowerBound)
         authVM.maxInterestAge = Int(discoverVM.ageRange.upperBound)
+        authVM.isDiscoverNotificationsEnabled = discoverVM.isDiscoverNotificationsEnabled
     }
     
     private func hideAccount() async throws {
@@ -213,7 +214,7 @@ struct DiscoverPreferencesView: View {
         discoverVM.selectedGender = authVM.gender
         discoverVM.selectedInterestGenders = authVM.interestGenders
         discoverVM.ageRange = Double(authVM.minInterestAge)...Double(authVM.maxInterestAge)
-        // get notifications preference
+        discoverVM.isDiscoverNotificationsEnabled = authVM.isDiscoverNotificationsEnabled
     }
     
     private func getUsersNearBy() async throws {

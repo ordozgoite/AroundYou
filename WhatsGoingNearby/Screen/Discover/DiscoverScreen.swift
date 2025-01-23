@@ -60,6 +60,7 @@ struct DiscoverScreen: View {
         authVM.interestGenders = userPreferences.interestGender == nil ? [] : Gender.from(array: userPreferences.interestGender!)
         authVM.minInterestAge = userPreferences.minInterestAge ?? Constants.defaultMinAgePreference
         authVM.maxInterestAge = userPreferences.maxInterestAge ?? Constants.defaultMaxAgePreference
+        authVM.isDiscoverNotificationsEnabled = userPreferences.isDiscoverNotificationsEnabled
     }
 }
 
