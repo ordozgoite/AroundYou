@@ -48,24 +48,25 @@ class DiscoverViewModel: ObservableObject {
         }
     }
     
-    func activateUserDiscoverability(token: String, updateDiscoverStatus: (Bool) -> ()) async {
+    func activateUserDiscoverability(token: String) async throws {
         isActivatingDiscover = true
         let result = await AYServices.shared.activateUserDiscoverability(token: token)
         isActivatingDiscover = false
         
         switch result {
         case .success:
-            updateDiscoverStatus(true)
+            print("✅ User Discoverability Successfully Enabled!")
         case .failure(let error):
             if error == .unprocessableEntity {
                 isPreferencesViewDisplayed = true
             } else {
                 overlayError = (true, ErrorMessage.defaultErrorMessage)
             }
+            throw error
         }
     }
     
-    func deactivatedUserDiscoverability(token: String, updateDiscoverStatus: (Bool) -> ()) async {
+    func deactivatedUserDiscoverability(token: String) async throws {
         isHidingAccount = true
         let result = await AYServices.shared.deactivateUserDiscoverability(token: token)
         isHidingAccount = false
@@ -73,14 +74,13 @@ class DiscoverViewModel: ObservableObject {
         switch result {
         case .success:
             isPreferencesViewDisplayed = false
-            updateDiscoverStatus(false)
         case .failure(let error):
-            print("\(error)")
             overlayError = (true, ErrorMessage.defaultErrorMessage)
+            throw error
         }
     }
     
-    func updateUserPreferences(andActivateDiscover activateDiscover: Bool, token: String, updatePreferences: () -> (), updateDiscoverStatus: (Bool) -> ()) async {
+    func updateUserPreferences(token: String) async throws {
         isSettingPreferences = true
         let result = await AYServices.shared.updateUserPreferences(gender: self.selectedGender.description, interestGenders: self.interestGendersAsStrings, age: self.selectedAge, minInterestAge: Int(self.ageRange.lowerBound), maxInterestAge: Int(self.ageRange.upperBound), isNotificationsEnabled: self.isDiscoverNotificationsEnabled, token: token)
         isSettingPreferences = false
@@ -88,12 +88,9 @@ class DiscoverViewModel: ObservableObject {
         switch result {
         case .success:
             isPreferencesViewDisplayed = false
-            updatePreferences()
-            if activateDiscover {
-                await activateUserDiscoverability(token: token) { isDiscoverable in updateDiscoverStatus(isDiscoverable) }
-            }
-        case .failure:
+        case .failure(let error):
             overlayError = (true, ErrorMessage.defaultErrorMessage)
+            throw error
         }
     }
     

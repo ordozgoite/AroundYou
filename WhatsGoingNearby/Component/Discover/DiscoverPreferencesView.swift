@@ -12,6 +12,7 @@ struct DiscoverPreferencesView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject var discoverVM: DiscoverViewModel
+    @ObservedObject var locationManager: LocationManager
     
     var body: some View {
         NavigationStack {
@@ -177,10 +178,15 @@ struct DiscoverPreferencesView: View {
     
     private func updatePreferences() async throws {
         let token = try await authVM.getFirebaseToken()
-        await discoverVM.updateUserPreferences(andActivateDiscover: !authVM.isUserDiscoverable, token: token) {
+        do {
+            try await discoverVM.updateUserPreferences(token: token)
+            if !authVM.isUserDiscoverable {
+                try await discoverVM.activateUserDiscoverability(token: token)
+            }
             updateEnvPreferences()
-        } updateDiscoverStatus: { isDiscoverable in
-            authVM.isUserDiscoverable = isDiscoverable
+            try await getUsersNearBy()
+        } catch {
+            print("❌ Error trying to update Discover preferences.")
         }
     }
     
@@ -195,22 +201,35 @@ struct DiscoverPreferencesView: View {
     
     private func hideAccount() async throws {
         let token = try await authVM.getFirebaseToken()
-        await discoverVM.deactivatedUserDiscoverability(token: token) { isDiscoverable in
-            authVM.isUserDiscoverable = isDiscoverable
+        do {
+            try await discoverVM.deactivatedUserDiscoverability(token: token)
+        } catch {
+            print("❌ Error trying to deactivate Discover.")
         }
     }
     
     private func getUserPreferences() {
-        print("⚠️ getUserPreferences")
-        print("\(authVM.interestGenders)")
         discoverVM.selectedAge = authVM.age
         discoverVM.selectedGender = authVM.gender
         discoverVM.selectedInterestGenders = authVM.interestGenders
         discoverVM.ageRange = Double(authVM.minInterestAge)...Double(authVM.maxInterestAge)
+        // get notifications preference
+    }
+    
+    private func getUsersNearBy() async throws {
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let token = try await authVM.getFirebaseToken()
+            
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            await discoverVM.getUsersNearBy(latitude: latitude, longitude: longitude, token: token)
+        }
     }
 }
 
 #Preview {
-    DiscoverPreferencesView(discoverVM: DiscoverViewModel())
+    DiscoverPreferencesView(discoverVM: DiscoverViewModel(), locationManager: LocationManager())
         .environmentObject(AuthenticationViewModel())
 }
