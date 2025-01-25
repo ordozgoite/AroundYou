@@ -43,6 +43,7 @@
 		ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */; };
 		ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4140A12B7E1D26002690A5 /* CircleTimerView.swift */; };
 		ED4D7C362D418710007FC1FF /* EmptyDiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4D7C352D418710007FC1FF /* EmptyDiscoverView.swift */; };
+		ED4D7C382D4523A6007FC1FF /* LockedChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4D7C372D4523A6007FC1FF /* LockedChatView.swift */; };
 		ED5023FC2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5023FB2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift */; };
 		ED50C44A2B7E2CBC0001EDF6 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4492B7E2CBC0001EDF6 /* Int.swift */; };
 		ED50C44C2B7E396C0001EDF6 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C44B2B7E396C0001EDF6 /* View.swift */; };
@@ -262,6 +263,7 @@
 		ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePublicationResponse.swift; sourceTree = "<group>"; };
 		ED4140A12B7E1D26002690A5 /* CircleTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleTimerView.swift; sourceTree = "<group>"; };
 		ED4D7C352D418710007FC1FF /* EmptyDiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDiscoverView.swift; sourceTree = "<group>"; };
+		ED4D7C372D4523A6007FC1FF /* LockedChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedChatView.swift; sourceTree = "<group>"; };
 		ED5023FB2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserBanExpireDateResponse.swift; sourceTree = "<group>"; };
 		ED50C4492B7E2CBC0001EDF6 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		ED50C44B2B7E396C0001EDF6 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -999,6 +1001,7 @@
 				EDE8B37E2BC3B67200DFF750 /* ImageBubbleView.swift */,
 				EDDC9E0B2BDCB0AE00000EA4 /* EmojiMessageView.swift */,
 				ED95B0532C023288009B9FBB /* SocketStatusView.swift */,
+				ED4D7C372D4523A6007FC1FF /* LockedChatView.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1266,6 +1269,7 @@
 				ED6DD4962B82E5B900ADBB64 /* MapView.swift in Sources */,
 				ED3B54EB2CCF29CF007AA1D0 /* DiscoverView.swift in Sources */,
 				EDA322472B7DB221009905B5 /* CommentView.swift in Sources */,
+				ED4D7C382D4523A6007FC1FF /* LockedChatView.swift in Sources */,
 				ED0314372D37FD2C001B917A /* UserDiscoverInfo.swift in Sources */,
 				ED755F212BB52C35004BC6C3 /* FormattedMessage.swift in Sources */,
 				EDE8B3762BC3301900DFF750 /* NewPostView.swift in Sources */,
