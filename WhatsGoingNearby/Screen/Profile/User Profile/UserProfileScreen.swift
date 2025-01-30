@@ -45,11 +45,11 @@ struct UserProfileScreen: View {
                 label: { EmptyView() }
             )
             
-            NavigationLink(
-                destination: MessageScreen(chatId: userProfileVM.isMessageScreenPresented.1, username: userProfileVM.userProfile?.username ?? "", otherUserUid: userProfileVM.userProfile?.userUid ?? "", chatPic: userProfileVM.userProfile?.profilePic, socket: socket).environmentObject(authVM),
-                isActive: $userProfileVM.isMessageScreenPresented.0,
-                label: { EmptyView() }
-            )
+//            NavigationLink(
+//                destination: MessageScreen(chatId: userProfileVM.isMessageScreenPresented.1, username: userProfileVM.userProfile?.username ?? "", otherUserUid: userProfileVM.userProfile?.userUid ?? "", chatPic: userProfileVM.userProfile?.profilePic, isLocked: <#Bool#>, socket: socket).environmentObject(authVM),
+//                isActive: $userProfileVM.isMessageScreenPresented.0,
+//                label: { EmptyView() }
+//            )
         }
         .onAppear {
             Task {

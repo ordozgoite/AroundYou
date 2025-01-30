@@ -35,6 +35,7 @@ struct LockedChatView: View {
                     .font(.callout)
             }
         }
+        .padding()
     }
 }
 

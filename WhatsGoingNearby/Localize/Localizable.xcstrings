@@ -1733,6 +1733,9 @@
         }
       }
     },
+    "Invite %@ to chat" : {
+
+    },
     "Just chatting" : {
       "localizations" : {
         "pt-BR" : {
@@ -3433,6 +3436,9 @@
       }
     },
     "You can enable Discover Notifications to stay updated when someone matching your interests is nearby." : {
+
+    },
+    "You can send only one message with this invite. The chat will unlock once they respond." : {
 
     },
     "You can't see other people's post history." : {

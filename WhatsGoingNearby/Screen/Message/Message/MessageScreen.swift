@@ -16,16 +16,13 @@ struct MessageScreen: View {
     let username: String
     let otherUserUid: String
     let chatPic: String?
+    var isLocked: Bool
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var messageVM = MessageViewModel()
     @ObservedObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
-    
-    @FetchRequest(fetchRequest: CDFormattedMessage.fetch(), animation: .bouncy)
-    var messages: FetchedResults<CDFormattedMessage>
-    @Environment(\.managedObjectContext) var context
     
     var body: some View {
         ZStack {
@@ -34,27 +31,6 @@ struct MessageScreen: View {
                     ScrollViewReader { proxy in
                         ZStack {
                             VStack(spacing: 0) {
-                                //                                if messageVM.formattedMessages.isEmpty {
-                                //                                    ForEach(messages) { message in
-                                //                                        MessageView(message: message.convertToFormattedMessage()) {
-                                //                                            messageVM.repliedMessage = message.convertToFormattedMessage()
-                                //                                            isFocused = true
-                                //                                        } tappedRepliedMessage: {
-                                //                                            if let repliedMessageId = message.repliedMessageId {
-                                //                                                scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
-                                //                                                highlightMessage(withId: repliedMessageId)
-                                //                                            }
-                                //                                        } resendMessage: {
-                                //                                            Task {
-                                //                                                try await resendMessage(withId: message.id ?? "")
-                                //                                            }
-                                //                                        }
-                                //                                        .background(messageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
-                                ////                                        .contextMenu {
-                                ////                                            MessageMenu(forMessage: message.convertToFormattedMessage())
-                                ////                                        }
-                                //                                    }
-                                //                                } else {
                                 ForEach(messageVM.formattedMessages) { message in
                                     MessageView(message: message) {
                                         messageVM.repliedMessage = message
@@ -94,7 +70,6 @@ struct MessageScreen: View {
                                         }
                                     }
                                 }
-                                //                                }
                             }
                             .padding(.horizontal, 10)
                         }
@@ -108,11 +83,14 @@ struct MessageScreen: View {
                     }
                 }
                 
-                MessageComposer()
+                VStack {
+                    LockedView()
+                    
+                    MessageComposer()
+                }
             }
         }
         .onAppear {
-            //            print("⚠️ Stored messages: \(messages)")
             Task {
                 try await getMessages(.newest)
             }
@@ -122,9 +100,6 @@ struct MessageScreen: View {
         .onDisappear {
             stopListeningMessages()
             updateBadge()
-        }
-        .onChange(of: messageVM.messagesToBePersisted) { messages in
-            updateStoredMessages(withMessages: messages)
         }
         .onChange(of: socket.status) { status in
             if status == .connected {
@@ -210,6 +185,17 @@ struct MessageScreen: View {
         }
     }
     
+    // MARK: - Locked View
+    
+    @ViewBuilder
+    private func LockedView() -> some View {
+        if isLocked {
+            Divider()
+            
+            LockedChatView(username: self.username)
+        }
+    }
+    
     //MARK: - Message Composer
     
     @ViewBuilder
@@ -219,34 +205,38 @@ struct MessageScreen: View {
             
             Attachment()
             
-            HStack(spacing: 8) {
-                Plus()
-                
-                TextField("Write a message...", text: $messageVM.messageText, axis: .vertical)
-                    .padding(10)
-                    .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                    .cornerRadius(20)
-                    .shadow(color: .gray, radius: 10)
-                    .focused($isFocused)
-                
-                if !messageVM.messageText.isEmpty || !messageVM.images.isEmpty {
-                    Button {
-                        Task {
-                            let token = try await authVM.getFirebaseToken()
-                            try await messageVM.sendMessage(
-                                forChat: chatId,
-                                text: messageVM.messageText.nonEmptyOrNil(),
-                                images: messageVM.images,
-                                repliedMessage: messageVM.repliedMessage,
-                                token: token
-                            )
+            if !(isLocked && !messageVM.formattedMessages.isEmpty) {
+                HStack(spacing: 8) {
+                    if !isLocked {
+                        Plus()
+                    }
+                    
+                    TextField("Write a message...", text: $messageVM.messageText, axis: .vertical)
+                        .padding(10)
+                        .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .cornerRadius(20)
+                        .shadow(color: .gray, radius: 10)
+                        .focused($isFocused)
+                    
+                    if !messageVM.messageText.isEmpty || !messageVM.images.isEmpty {
+                        Button {
+                            Task {
+                                let token = try await authVM.getFirebaseToken()
+                                try await messageVM.sendMessage(
+                                    forChat: chatId,
+                                    text: messageVM.messageText.nonEmptyOrNil(),
+                                    images: messageVM.images,
+                                    repliedMessage: messageVM.repliedMessage,
+                                    token: token
+                                )
+                            }
+                        } label: {
+                            Image(systemName: "paperplane.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 24)
+                                .foregroundColor(.blue)
                         }
-                    } label: {
-                        Image(systemName: "paperplane.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 24)
-                            .foregroundColor(.blue)
                     }
                 }
             }
@@ -409,24 +399,6 @@ struct MessageScreen: View {
     private func resendMessage(withId messageId: String) async throws {
         let token = try await authVM.getFirebaseToken()
         await messageVM.resendMessage(withTempId: messageId, token: token)
-    }
-    
-    private func updateStoredMessages(withMessages messages: [FormattedMessage]) {
-        let fetchRequest: NSFetchRequest<CDFormattedMessage> = CDFormattedMessage.fetchRequest()
-        do {
-            let existingMessages = try context.fetch(fetchRequest)
-            for message in existingMessages {
-                context.delete(message)
-            }
-            for message in messages {
-                print("✉️ Message: \(message)")
-                let cdMessage = CDFormattedMessage(fromMessage: message, context: context)
-                print("📧 CDMessage: \(cdMessage)")
-            }
-            PersistenceController.shared.save()
-        } catch {
-            print("❌ Error fetching existing chats: \(error.localizedDescription)")
-        }
     }
 }
 
