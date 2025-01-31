@@ -16,7 +16,7 @@ struct MessageScreen: View {
     let username: String
     let otherUserUid: String
     let chatPic: String?
-    var isLocked: Bool
+    @State var isLocked: Bool
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var messageVM = MessageViewModel()
@@ -91,10 +91,6 @@ struct MessageScreen: View {
             }
         }
         .onAppear {
-            print("⚠️ ID do chat que foi passado: \(chatId)")
-            print(self.username)
-            print(self.chatPic)
-            print(self.chatId)
             Task {
                 try await getMessages(.newest)
             }
@@ -193,7 +189,7 @@ struct MessageScreen: View {
     
     @ViewBuilder
     private func LockedView() -> some View {
-        if isLocked {
+        if shouldDisplayLockedView() {
             Divider()
             
             LockedChatView(username: self.username)
@@ -233,6 +229,7 @@ struct MessageScreen: View {
                                     repliedMessage: messageVM.repliedMessage,
                                     token: token
                                 )
+                                updateChatLockedStatus()
                             }
                         } label: {
                             Image(systemName: "paperplane.fill")
@@ -403,6 +400,11 @@ struct MessageScreen: View {
     private func resendMessage(withId messageId: String) async throws {
         let token = try await authVM.getFirebaseToken()
         await messageVM.resendMessage(withTempId: messageId, token: token)
+        updateChatLockedStatus()
+    }
+    
+    private func shouldDisplayLockedView() -> Bool {
+        return isLocked && !didOtherUserSendMessage()
     }
     
     private func shouldDisplayMessageComposer() -> Bool {
@@ -413,12 +415,22 @@ struct MessageScreen: View {
         return messageVM.formattedMessages.contains { $0.isCurrentUser }
     }
     
+    private func didOtherUserSendMessage() -> Bool {
+        return messageVM.formattedMessages.contains { $0.isCurrentUser == false }
+    }
+    
     private func shouldDisplayPlusButton() -> Bool {
         return !(self.isLocked && messageVM.formattedMessages.isEmpty)
     }
     
     private func shouldDisplaySendButton() -> Bool {
         return !(messageVM.messageText.isEmpty && messageVM.images.isEmpty)
+    }
+    
+    private func updateChatLockedStatus() {
+        if isLocked && didISendMessage() && didOtherUserSendMessage() {
+            self.isLocked = false
+        }
     }
 }
 
