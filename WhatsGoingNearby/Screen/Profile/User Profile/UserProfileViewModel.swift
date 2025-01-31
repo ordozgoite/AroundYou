@@ -18,7 +18,10 @@ class UserProfileViewModel: ObservableObject {
     @Published var isBlockAlertPresented: Bool = false
     @Published var isProfilePicFullScreen: Bool = false
     @Published var isPostingNewChat: Bool = false
-    @Published var isMessageScreenPresented: (Bool, String) = (false, "")
+    @Published var isMessageScreenPresented: Bool = false
+    
+    // Chat
+    @Published var chatUser: Chat? = nil
     
     func getUserProfile(userUid: String, token: String) async {
         isLoading = true
@@ -53,7 +56,8 @@ class UserProfileViewModel: ObservableObject {
         
         switch result {
         case .success(let chat):
-            isMessageScreenPresented = (true, chat._id)
+            self.chatUser = chat
+            self.isMessageScreenPresented = true
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }

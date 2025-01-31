@@ -91,6 +91,10 @@ struct MessageScreen: View {
             }
         }
         .onAppear {
+            print("⚠️ ID do chat que foi passado: \(chatId)")
+            print(self.username)
+            print(self.chatPic)
+            print(self.chatId)
             Task {
                 try await getMessages(.newest)
             }
@@ -205,9 +209,9 @@ struct MessageScreen: View {
             
             Attachment()
             
-            if !(isLocked && !messageVM.formattedMessages.isEmpty) {
+            if shouldDisplayMessageComposer() {
                 HStack(spacing: 8) {
-                    if !isLocked {
+                    if shouldDisplayPlusButton() {
                         Plus()
                     }
                     
@@ -218,7 +222,7 @@ struct MessageScreen: View {
                         .shadow(color: .gray, radius: 10)
                         .focused($isFocused)
                     
-                    if !messageVM.messageText.isEmpty || !messageVM.images.isEmpty {
+                    if shouldDisplaySendButton() {
                         Button {
                             Task {
                                 let token = try await authVM.getFirebaseToken()
@@ -399,6 +403,22 @@ struct MessageScreen: View {
     private func resendMessage(withId messageId: String) async throws {
         let token = try await authVM.getFirebaseToken()
         await messageVM.resendMessage(withTempId: messageId, token: token)
+    }
+    
+    private func shouldDisplayMessageComposer() -> Bool {
+        return !(self.isLocked && didISendMessage())
+    }
+    
+    private func didISendMessage() -> Bool {
+        return messageVM.formattedMessages.contains { $0.isCurrentUser }
+    }
+    
+    private func shouldDisplayPlusButton() -> Bool {
+        return !(self.isLocked && messageVM.formattedMessages.isEmpty)
+    }
+    
+    private func shouldDisplaySendButton() -> Bool {
+        return !(messageVM.messageText.isEmpty && messageVM.images.isEmpty)
     }
 }
 

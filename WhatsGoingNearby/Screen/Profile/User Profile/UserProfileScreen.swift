@@ -34,22 +34,20 @@ struct UserProfileScreen: View {
                     }
                 }
             }
+            .navigationDestination(isPresented: $userProfileVM.isMessageScreenPresented) {
+                MessageScreen(
+                    chatId: userProfileVM.chatUser?._id ?? "",
+                    username: userProfileVM.userProfile?.username ?? "",
+                    otherUserUid: userProfileVM.userProfile?.userUid ?? "",
+                    chatPic: userProfileVM.userProfile?.profilePic,
+                    isLocked: userProfileVM.chatUser?.isLocked ?? false,
+                    socket: self.socket
+                ).environmentObject(authVM)
+            }
             
             FullScreenPicture()
             
             AYErrorAlert(message: userProfileVM.overlayError.1 , isErrorAlertPresented: $userProfileVM.overlayError.0)
-            
-            NavigationLink(
-                destination: ReportScreen(reportedUserUid: userUid, publicationId: nil, commentId: nil).environmentObject(authVM),
-                isActive: $userProfileVM.isReportScreenPresented,
-                label: { EmptyView() }
-            )
-            
-//            NavigationLink(
-//                destination: MessageScreen(chatId: userProfileVM.isMessageScreenPresented.1, username: userProfileVM.userProfile?.username ?? "", otherUserUid: userProfileVM.userProfile?.userUid ?? "", chatPic: userProfileVM.userProfile?.profilePic, isLocked: <#Bool#>, socket: socket).environmentObject(authVM),
-//                isActive: $userProfileVM.isMessageScreenPresented.0,
-//                label: { EmptyView() }
-//            )
         }
         .onAppear {
             Task {
@@ -74,28 +72,7 @@ struct UserProfileScreen: View {
         }
         .toolbar {
             ToolbarItem {
-                if let myId = authVM.user?.uid {
-                    if self.userUid != myId {
-                        Menu {
-                            Button {
-                                userProfileVM.isReportScreenPresented = true
-                            } label: {
-                                Text("Report Account")
-                                Image(systemName: "exclamationmark.bubble")
-                            }
-                            
-                            Button {
-                                userProfileVM.isBlockAlertPresented = true
-                            } label: {
-                                Text("Block User")
-                                Image(systemName: "person.fill.xmark")
-                            }
-                            
-                        } label: {
-                            Image(systemName: "ellipsis.circle")
-                        }
-                    }
-                }
+                ReportView()
             }
         }
         .navigationTitle("Profile")
@@ -130,23 +107,30 @@ struct UserProfileScreen: View {
                     .foregroundStyle(.gray)
                     .multilineTextAlignment(.center)
                 
-                if let myId = authVM.user?.uid {
-                    if userUid != myId {
-                        Button {
-                            Task {
-                                let token = try await authVM.getFirebaseToken()
-                                await userProfileVM.postNewChat(otherUserUid: self.userUid, token: token)
-                            }
-                        } label: {
-                            Image(systemName: "bubble.left")
-                            Text("Message")
-                        }
-                        .buttonStyle(.borderedProminent)
-                    }
-                }
+                MessageButton()
             }
         }
         .padding()
+    }
+    
+    // MARK: - Message Button
+    
+    @ViewBuilder
+    private func MessageButton() -> some View {
+        if let myId = authVM.user?.uid {
+            if userUid != myId {
+                Button {
+                    Task {
+                        let token = try await authVM.getFirebaseToken()
+                        await userProfileVM.postNewChat(otherUserUid: self.userUid, token: token)
+                    }
+                } label: {
+                    Image(systemName: "bubble.left")
+                    Text("Message")
+                }
+                .buttonStyle(.borderedProminent)
+            }
+        }
     }
     
     //MARK: - Warning
@@ -202,6 +186,38 @@ struct UserProfileScreen: View {
         .onTapGesture {
             withAnimation(.spring()) {
                 userProfileVM.isProfilePicFullScreen.toggle()
+            }
+        }
+    }
+    
+    // MARK: - ReportView
+    
+    @ViewBuilder
+    private func ReportView() -> some View {
+        if let myId = authVM.user?.uid {
+            if self.userUid != myId {
+                Menu {
+                    Button {
+                        userProfileVM.isReportScreenPresented = true
+                    } label: {
+                        Text("Report Account")
+                        Image(systemName: "exclamationmark.bubble")
+                    }
+                    
+                    Button {
+                        userProfileVM.isBlockAlertPresented = true
+                    } label: {
+                        Text("Block User")
+                        Image(systemName: "person.fill.xmark")
+                    }
+                    
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                }
+                .navigationDestination(isPresented: $userProfileVM.isReportScreenPresented) {
+                    ReportScreen(reportedUserUid: userUid, publicationId: nil, commentId: nil)
+                        .environmentObject(authVM)
+                }
             }
         }
     }
