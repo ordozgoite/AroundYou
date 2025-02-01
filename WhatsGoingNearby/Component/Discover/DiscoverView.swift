@@ -12,6 +12,9 @@ struct DiscoverView: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject var discoverVM: DiscoverViewModel
     @ObservedObject var locationManager: LocationManager
+    @ObservedObject var socket: SocketService
+    
+    @State private var userToChatWith: UserDiscoverInfo? = nil
     
     var body: some View {
         NavigationStack {
@@ -21,20 +24,7 @@ struct DiscoverView: View {
                 } else if discoverVM.usersFound.isEmpty {
                     EmptyDiscoverView()
                 } else {
-                    ScrollView {
-                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 32) {
-                            ForEach(discoverVM.usersFound) { user in
-                                DiscoverUserView(
-                                    userImageURL: user.profilePic,
-                                    userName: user.username,
-                                    gender: user.genderEnum,
-                                    age: user.age,
-                                    lastSeen: user.locationLastUpdateAt
-                                )
-                            }
-                        }
-                        .padding()
-                    }
+                    Users()
                 }
             }
             
@@ -56,6 +46,46 @@ struct DiscoverView: View {
         }
     }
     
+    // MARK: - Users
+    
+    @ViewBuilder
+    private func Users() -> some View {
+        ScrollView {
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 32) {
+                ForEach(discoverVM.usersFound) { user in
+                    ZStack {
+                        DiscoverUserView(
+                            userImageURL: user.profilePic,
+                            userName: user.username,
+                            gender: user.genderEnum,
+                            age: user.age,
+                            lastSeen: user.locationLastUpdateAt
+                        )
+                        .onTapGesture {
+                            Task {
+                                try await postNewChat(withUser: user)
+                            }
+                        }
+                    }
+                }
+            }
+            .padding()
+        }
+        .navigationDestination(isPresented: $discoverVM.isMessageScreenDisplayed) {
+            if let chatUser = discoverVM.chatUser {
+                MessageScreen(
+                    chatId: chatUser._id,
+                    username: userToChatWith?.username ?? "",
+                    otherUserUid: userToChatWith?.userUid ?? "",
+                    chatPic: userToChatWith?.profilePic,
+                    isLocked: chatUser.isLocked,
+                    socket: socket
+                )
+            }
+        }
+    }
+
+    
     //MARK: - Private Method
     
     private func getUsersNearBy() async throws {
@@ -69,18 +99,15 @@ struct DiscoverView: View {
             await discoverVM.getUsersNearBy(latitude: latitude, longitude: longitude, token: token)
         }
     }
-}
-
-struct BlurView: UIViewRepresentable {
-    func makeUIView(context: Context) -> UIVisualEffectView {
-        let view = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
-        return view
-    }
     
-    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {}
+    private func postNewChat(withUser user: UserDiscoverInfo) async throws {
+        self.userToChatWith = user
+        let token = try await authVM.getFirebaseToken()
+        await discoverVM.postNewChat(otherUserUid: user.userUid, token: token)
+    }
 }
 
 #Preview {
-//    DiscoverView(discoverVM: DiscoverViewModel())
-//        .environmentObject(AuthenticationViewModel())
+    //    DiscoverView(discoverVM: DiscoverViewModel())
+    //        .environmentObject(AuthenticationViewModel())
 }

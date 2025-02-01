@@ -32,6 +32,8 @@ class DiscoverViewModel: ObservableObject {
     // Discover
     @Published var isDiscoveringUsers: Bool = false
     @Published var usersFound: [UserDiscoverInfo] = []
+    @Published var chatUser: Chat? = nil
+    @Published var isMessageScreenDisplayed: Bool = false
     
     func verifyUserDiscoverability(token: String) async -> VerifyUserDiscoverabilityResponse? {
         if !discoverabilityVerified { isLoading = true }
@@ -106,6 +108,18 @@ class DiscoverViewModel: ObservableObject {
         switch result {
         case .success(let users):
             self.usersFound = users
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
+    func postNewChat(otherUserUid: String, token: String) async {
+        let result = await AYServices.shared.postNewChat(otherUserUid: otherUserUid, token: token)
+        
+        switch result {
+        case .success(let chat):
+            self.chatUser = chat
+            self.isMessageScreenDisplayed = true
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }

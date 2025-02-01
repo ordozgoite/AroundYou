@@ -35,7 +35,7 @@ struct MainTabView: View {
                 .environmentObject(authVM)
                 .badge(unreadChats ?? 0)
             
-            DiscoverScreen(locationManager: locationManager)
+            DiscoverScreen(locationManager: locationManager, socket: socket)
                 .tabItem {
                     Label("Discover", systemImage: "flame")
                 }

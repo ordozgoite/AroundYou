@@ -12,6 +12,7 @@ struct DiscoverScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var discoverVM = DiscoverViewModel()
     @ObservedObject var locationManager: LocationManager
+    @ObservedObject var socket: SocketService
     
     var body: some View {
         ZStack {
@@ -24,7 +25,7 @@ struct DiscoverScreen: View {
                     }
                 }
             } else {
-                DiscoverView(discoverVM: discoverVM, locationManager: locationManager)
+                DiscoverView(discoverVM: discoverVM, locationManager: locationManager, socket: socket)
             }
         }
         .onAppear {

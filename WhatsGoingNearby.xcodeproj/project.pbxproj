@@ -44,6 +44,7 @@
 		ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4140A12B7E1D26002690A5 /* CircleTimerView.swift */; };
 		ED4D7C362D418710007FC1FF /* EmptyDiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4D7C352D418710007FC1FF /* EmptyDiscoverView.swift */; };
 		ED4D7C382D4523A6007FC1FF /* LockedChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4D7C372D4523A6007FC1FF /* LockedChatView.swift */; };
+		ED4D7C3A2D4D32AD007FC1FF /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4D7C392D4D32AD007FC1FF /* BlurView.swift */; };
 		ED5023FC2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5023FB2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift */; };
 		ED50C44A2B7E2CBC0001EDF6 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4492B7E2CBC0001EDF6 /* Int.swift */; };
 		ED50C44C2B7E396C0001EDF6 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C44B2B7E396C0001EDF6 /* View.swift */; };
@@ -264,6 +265,7 @@
 		ED4140A12B7E1D26002690A5 /* CircleTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleTimerView.swift; sourceTree = "<group>"; };
 		ED4D7C352D418710007FC1FF /* EmptyDiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDiscoverView.swift; sourceTree = "<group>"; };
 		ED4D7C372D4523A6007FC1FF /* LockedChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedChatView.swift; sourceTree = "<group>"; };
+		ED4D7C392D4D32AD007FC1FF /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		ED5023FB2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserBanExpireDateResponse.swift; sourceTree = "<group>"; };
 		ED50C4492B7E2CBC0001EDF6 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		ED50C44B2B7E396C0001EDF6 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -1037,6 +1039,7 @@
 				EDD6399F2CF81C7800978927 /* GenderPickerView.swift */,
 				EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */,
 				ED4D7C352D418710007FC1FF /* EmptyDiscoverView.swift */,
+				ED4D7C392D4D32AD007FC1FF /* BlurView.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -1287,6 +1290,7 @@
 				EDEECA272B8A7CD400BD517D /* TimerAnimation.swift in Sources */,
 				ED57D24A2B95880800FC7351 /* SheetView.swift in Sources */,
 				EDDC9E062BD86D9D00000EA4 /* MessageIntermediary.swift in Sources */,
+				ED4D7C3A2D4D32AD007FC1FF /* BlurView.swift in Sources */,
 				ED598BF82B7C1B9400B6C23D /* Date.swift in Sources */,
 				ED6CF4CA2BBD029700990DBD /* BlackLogo.swift in Sources */,
 				ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */,
