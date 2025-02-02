@@ -31,6 +31,7 @@ class DiscoverViewModel: ObservableObject {
     
     // Discover
     @Published var isDiscoveringUsers: Bool = false
+    @Published var initialUsersFetched: Bool = false
     @Published var usersFound: [UserDiscoverInfo] = []
     @Published var chatUser: Chat? = nil
     @Published var isMessageScreenDisplayed: Bool = false
@@ -101,13 +102,14 @@ class DiscoverViewModel: ObservableObject {
     }
     
     func getUsersNearBy(latitude: Double, longitude: Double, token: String) async {
-        isDiscoveringUsers = true
+        if !initialUsersFetched { isDiscoveringUsers = true }
         let result = await AYServices.shared.discoverUsersByPreferences(latitude: latitude, longitude: longitude, token: token)
-        isDiscoveringUsers = false
+        if !initialUsersFetched { isDiscoveringUsers = false }
         
         switch result {
         case .success(let users):
             self.usersFound = users
+            self.initialUsersFetched = true
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }

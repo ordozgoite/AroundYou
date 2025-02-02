@@ -20,7 +20,7 @@ struct DiscoverView: View {
         NavigationStack {
             ZStack {
                 if discoverVM.isDiscoveringUsers {
-                    AYProgressView()
+                    LoadingView()
                 } else if discoverVM.usersFound.isEmpty {
                     EmptyDiscoverView()
                 } else {
@@ -43,6 +43,19 @@ struct DiscoverView: View {
                 }
             }
             .navigationTitle("Discover")
+        }
+    }
+    
+    //MARK: - Loading
+    
+    @ViewBuilder
+    private func LoadingView() -> some View {
+        VStack {
+            AYProgressView()
+            
+            Text("Looking around you...")
+                .foregroundStyle(.gray)
+                .fontWeight(.semibold)
         }
     }
     
