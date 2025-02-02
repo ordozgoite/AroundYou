@@ -172,15 +172,15 @@ struct MessageScreen: View {
             Divider()
         }
         
-        if message.isCurrentUser {
+        if message.isCurrentUser && getElapsedTimeSinceMessage(message) < Constants.maximumElapsedTimeToDeleteMessageInSeconds {
             Button(role: .destructive) {
                 Task {
                     let token = try await authVM.getFirebaseToken()
                     await messageVM.deleteMessage(messageId: message.id, token: token)
                 }
             } label: {
-                Image(systemName: "trash")
-                Text("Delete Message")
+                Image(systemName: "arrow.uturn.backward.circle")
+                Text("Undo Send")
             }
         }
     }
@@ -432,6 +432,11 @@ struct MessageScreen: View {
         if isLocked && didISendMessage() && didOtherUserSendMessage() {
             self.isLocked = false
         }
+    }
+    
+    private func getElapsedTimeSinceMessage(_ message: FormattedMessage) -> Int {
+        let now = Int(Date().timeIntervalSince1970)
+        return now - message.createdAt.timeIntervalSince1970InSeconds
     }
 }
 

@@ -13,13 +13,23 @@ import CoreLocation
 
 struct Constants {
     static let serverUrl: String = "https://around-you-3acb9615e8a5.herokuapp.com"
+    
+    // MARK: -  User
+    
     static let maxUsernameLenght: Int = 20
     static let maxNameLenght: Int = 30
     static let maxBioLenght: Int = 250
+    
+    // MARK: - Feed
+    
     static let maxPostLength = 250
+    
+    // MARK: - Time and Distance
+    
     static let backgroundTaskDelayHours: Int = 1
     static let notificationDelaySeconds: Int = 4 * 60 * 60
     static let significantDistanceMeters: CLLocationDistance = 50
+    static let maximumElapsedTimeToDeleteMessageInSeconds: Int = 60
     
     //MARK: - Notification Center
     

@@ -918,6 +918,7 @@
       }
     },
     "Delete Message" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -3159,6 +3160,9 @@
           }
         }
       }
+    },
+    "Undo Send" : {
+
     },
     "Unfollow post" : {
       "extractionState" : "stale",
