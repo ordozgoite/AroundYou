@@ -80,7 +80,7 @@ struct DiscoverPreferencesView: View {
     @ViewBuilder
     private func AgeView() -> some View {
         Picker("My Age", selection: $discoverVM.selectedAge) {
-            ForEach(18...99, id: \.self) { age in
+            ForEach(12...99, id: \.self) { age in
                 Text("\(age)").tag(age)
             }
         }
@@ -119,9 +119,9 @@ struct DiscoverPreferencesView: View {
             }
             
             HStack {
-                Text("18")
+                Text("12")
                     .foregroundStyle(.gray)
-                RangeSlider(range: $discoverVM.ageRange, in: 18...99, step: 1)
+                RangeSlider(range: $discoverVM.ageRange, in: 12...99, step: 1)
                 Text("99")
                     .foregroundStyle(.gray)
             }

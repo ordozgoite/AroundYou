@@ -26,7 +26,7 @@ class DiscoverViewModel: ObservableObject {
         selectedInterestGenders.map { $0.description }
     }
     @Published var selectedAge: Int = 18
-    @Published var ageRange: ClosedRange<Double> = 18...40
+    @Published var ageRange: ClosedRange<Double> = 12...40
     @Published var isDiscoverNotificationsEnabled: Bool = false
     
     // Discover

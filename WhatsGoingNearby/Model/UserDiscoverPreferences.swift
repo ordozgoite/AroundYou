@@ -10,7 +10,6 @@ import Foundation
 struct UserDiscoverPreferences: Codable {
     let isDiscoverEnabled: Bool
     let age: Int
-    let displayName: String
     let gender: String
     let interestGender: [String]
     let minInterestAge: Int
