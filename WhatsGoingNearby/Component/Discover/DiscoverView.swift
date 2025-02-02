@@ -84,6 +84,12 @@ struct DiscoverView: View {
             }
             .padding()
         }
+        .refreshable {
+            hapticFeedback(style: .soft)
+            Task {
+                try await getUsersNearBy()
+            }
+        }
         .navigationDestination(isPresented: $discoverVM.isMessageScreenDisplayed) {
             if let chatUser = discoverVM.chatUser {
                 MessageScreen(
