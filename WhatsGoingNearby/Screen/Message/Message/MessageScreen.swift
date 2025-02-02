@@ -345,6 +345,7 @@ struct MessageScreen: View {
                 messageVM.processMessage(message, toChat: chatId) { messageId in
                     emitReadCommand(forMessage: messageId)
                 }
+                updateChatLockedStatus()
             }
         }
     }
