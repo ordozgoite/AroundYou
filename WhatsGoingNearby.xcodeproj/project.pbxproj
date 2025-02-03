@@ -596,7 +596,7 @@
 				EDE199262CCC608C0065206C /* Discover */,
 				EDE8B3772BC3500300DFF750 /* Compose Post */,
 				ED86186A2BB9E6C400A26121 /* Camera */,
-				EDCF2C362BB662CF0066950F /* Chat */,
+				EDCF2C362BB662CF0066950F /* Chat+Message */,
 				ED5CC5192B97BF3B009B17E3 /* Edit Profile */,
 				ED2F1A782B9142D7001F4300 /* Notification */,
 				ED50C4652B7FA2BF0001EDF6 /* Feed */,
@@ -994,7 +994,7 @@
 			path = Comment;
 			sourceTree = "<group>";
 		};
-		EDCF2C362BB662CF0066950F /* Chat */ = {
+		EDCF2C362BB662CF0066950F /* Chat+Message */ = {
 			isa = PBXGroup;
 			children = (
 				ED755F142BB4DBA5004BC6C3 /* ChatView.swift */,
@@ -1005,7 +1005,7 @@
 				ED95B0532C023288009B9FBB /* SocketStatusView.swift */,
 				ED4D7C372D4523A6007FC1FF /* LockedChatView.swift */,
 			);
-			path = Chat;
+			path = "Chat+Message";
 			sourceTree = "<group>";
 		};
 		EDDC9E022BD78CFF00000EA4 /* Audio */ = {

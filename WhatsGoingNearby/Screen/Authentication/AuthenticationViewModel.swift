@@ -323,6 +323,7 @@ extension AuthenticationViewModel {
     }
     
     private func updateCurrentInformation(for user: MongoUser) {
+        print("🌎 updateCurrentInformation: \(user)")
         LocalState.currentUserUid = user.userUid
         self.username = user.username
         self.name = user.name ?? ""
@@ -370,6 +371,7 @@ extension AuthenticationViewModel {
     }
     
     private func resetUserInfo() {
+        print("🌎 resetUserInfo")
         username = ""
         name = nil
         profilePic = nil

@@ -29,13 +29,13 @@ struct EmptyFeedView: View {
                         Text("No posts found.")
                             .font(.subheadline)
                             .foregroundStyle(.gray)
-                            .fontWeight(.semibold)
+                            .fontWeight(.bold)
                             .multilineTextAlignment(.center)
                         
                         Text("Be the first to make a post in your region...")
                             .font(.subheadline)
                             .foregroundStyle(.gray)
-                            .fontWeight(.semibold)
+                            .fontWeight(.regular)
                             .multilineTextAlignment(.center)
                             .frame(width: screenWidth - 32)
                     }
@@ -53,6 +53,7 @@ struct EmptyFeedView: View {
     }
 }
 
-//#Preview {
-//    EmptyFeedView()
-//}
+#Preview {
+    EmptyFeedView()
+        .environmentObject(AuthenticationViewModel())
+}
