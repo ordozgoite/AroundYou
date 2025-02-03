@@ -35,6 +35,8 @@ class DiscoverViewModel: ObservableObject {
     @Published var usersFound: [UserDiscoverInfo] = []
     @Published var chatUser: Chat? = nil
     @Published var isMessageScreenDisplayed: Bool = false
+    @Published var userToChatWith: UserDiscoverInfo? = nil
+    @Published var discoverTimer: Timer?
     
     func verifyUserDiscoverability(token: String) async -> VerifyUserDiscoverabilityResponse? {
         if !discoverabilityVerified { isLoading = true }

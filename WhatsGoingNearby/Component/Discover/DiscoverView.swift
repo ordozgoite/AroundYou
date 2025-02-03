@@ -14,7 +14,8 @@ struct DiscoverView: View {
     @ObservedObject var locationManager: LocationManager
     @ObservedObject var socket: SocketService
     
-    @State private var userToChatWith: UserDiscoverInfo? = nil
+    @State private var refreshObserver = NotificationCenter.default
+        .publisher(for: NSNotification.Name(Constants.refreshLocationSensitiveDataNotificationKey))
     
     var body: some View {
         NavigationStack {
@@ -27,12 +28,6 @@ struct DiscoverView: View {
                     Users()
                 }
             }
-            
-            .onAppear {
-                Task {
-                    try await getUsersNearBy() // run again based on location change
-                }
-            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -43,6 +38,17 @@ struct DiscoverView: View {
                 }
             }
             .navigationTitle("Discover")
+        }
+        .onReceive(refreshObserver) { _ in
+            Task {
+                try await getUsersNearBy()
+            }
+        }
+        .onAppear {
+            startUpdatingUsers()
+        }
+        .onDisappear {
+            stopTimer()
         }
     }
     
@@ -94,9 +100,9 @@ struct DiscoverView: View {
             if let chatUser = discoverVM.chatUser {
                 MessageScreen(
                     chatId: chatUser._id,
-                    username: userToChatWith?.username ?? "",
-                    otherUserUid: userToChatWith?.userUid ?? "",
-                    chatPic: userToChatWith?.profilePic,
+                    username: discoverVM.userToChatWith?.username ?? "",
+                    otherUserUid: discoverVM.userToChatWith?.userUid ?? "",
+                    chatPic: discoverVM.userToChatWith?.profilePic,
                     isLocked: chatUser.isLocked,
                     socket: socket
                 )
@@ -106,6 +112,15 @@ struct DiscoverView: View {
 
     
     //MARK: - Private Method
+    
+    private func startUpdatingUsers() {
+        discoverVM.discoverTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+            Task {
+                try await getUsersNearBy()
+            }
+        }
+        discoverVM.discoverTimer?.fire()
+    }
     
     private func getUsersNearBy() async throws {
         locationManager.requestLocation()
@@ -119,8 +134,12 @@ struct DiscoverView: View {
         }
     }
     
+    private func stopTimer() {
+        discoverVM.discoverTimer?.invalidate()
+    }
+    
     private func postNewChat(withUser user: UserDiscoverInfo) async throws {
-        self.userToChatWith = user
+        discoverVM.userToChatWith = user
         let token = try await authVM.getFirebaseToken()
         await discoverVM.postNewChat(otherUserUid: user.userUid, token: token)
     }

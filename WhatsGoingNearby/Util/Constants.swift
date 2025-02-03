@@ -33,7 +33,7 @@ struct Constants {
     
     //MARK: - Notification Center
     
-    static let refreshFeedNotificationKey: String = "refreshFeed"
+    static let refreshLocationSensitiveDataNotificationKey: String = "refreshFeed"
     static let updateLocationNotificationKey: String = "updateLocation"
     static let updateBadgeNotificationKey: String = "updateBadge"
     
