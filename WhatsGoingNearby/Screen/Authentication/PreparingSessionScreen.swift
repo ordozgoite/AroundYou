@@ -34,6 +34,16 @@ struct PreparingSessionScreen: View {
                 }
             }
         }
+        .onAppear {
+            prepareToGetNewUserInfo()
+        }
+    }
+    
+    // MARK: - Pivate Methods
+    
+    private func prepareToGetNewUserInfo() {
+        print("🌎 prepareToGetNewUserInfo")
+        authVM.isUserInfoFetched = false
     }
 }
 

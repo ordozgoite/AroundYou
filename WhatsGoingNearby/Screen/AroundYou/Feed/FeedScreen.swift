@@ -16,7 +16,7 @@ struct FeedScreen: View {
     @ObservedObject var socket: SocketService
     
     @State private var refreshObserver = NotificationCenter.default
-        .publisher(for: NSNotification.Name(Constants.refreshFeedNotificationKey))
+        .publisher(for: NSNotification.Name(Constants.refreshLocationSensitiveDataNotificationKey))
     
     var body: some View {
         NavigationStack {

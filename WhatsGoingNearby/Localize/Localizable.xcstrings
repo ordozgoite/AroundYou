@@ -281,7 +281,7 @@
         }
       }
     },
-    "18" : {
+    "12" : {
 
     },
     "99" : {
@@ -918,6 +918,7 @@
       }
     },
     "Delete Message" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1074,6 +1075,9 @@
           }
         }
       }
+    },
+    "Discover Notifications" : {
+
     },
     "Display location on map" : {
       "extractionState" : "stale",
@@ -1306,6 +1310,9 @@
           }
         }
       }
+    },
+    "Enable Notifications" : {
+
     },
     "Enable Precise Location" : {
       "localizations" : {
@@ -1607,6 +1614,9 @@
     "I'm interested in..." : {
 
     },
+    "If this option is enabled, we will notify you whenever we find someone matching your interests nearby." : {
+
+    },
     "If you quit this screen, you will lose your changes." : {
       "localizations" : {
         "pt-BR" : {
@@ -1723,6 +1733,9 @@
           }
         }
       }
+    },
+    "Invite %@ to chat" : {
+
     },
     "Just chatting" : {
       "localizations" : {
@@ -1967,6 +1980,9 @@
           }
         }
       }
+    },
+    "No matches found nearby." : {
+
     },
     "No one has liked this post yet." : {
       "localizations" : {
@@ -3145,6 +3161,9 @@
         }
       }
     },
+    "Undo Send" : {
+
+    },
     "Unfollow post" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3419,6 +3438,12 @@
           }
         }
       }
+    },
+    "You can enable Discover Notifications to stay updated when someone matching your interests is nearby." : {
+
+    },
+    "You can send only one message with this invite. The chat will unlock once they respond." : {
+
     },
     "You can't see other people's post history." : {
       "localizations" : {

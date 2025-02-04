@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ED0314372D37FD2C001B917A /* UserDiscoverInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0314362D37FD2C001B917A /* UserDiscoverInfo.swift */; };
 		ED0652572B813832005B6413 /* BugScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0652562B813832005B6413 /* BugScreen.swift */; };
 		ED0652592B813859005B6413 /* BugViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0652582B813859005B6413 /* BugViewModel.swift */; };
 		ED06525B2B814722005B6413 /* BugReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525A2B814722005B6413 /* BugReport.swift */; };
@@ -41,6 +42,9 @@
 		ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */; };
 		ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */; };
 		ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4140A12B7E1D26002690A5 /* CircleTimerView.swift */; };
+		ED4D7C362D418710007FC1FF /* EmptyDiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4D7C352D418710007FC1FF /* EmptyDiscoverView.swift */; };
+		ED4D7C382D4523A6007FC1FF /* LockedChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4D7C372D4523A6007FC1FF /* LockedChatView.swift */; };
+		ED4D7C3A2D4D32AD007FC1FF /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4D7C392D4D32AD007FC1FF /* BlurView.swift */; };
 		ED5023FC2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5023FB2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift */; };
 		ED50C44A2B7E2CBC0001EDF6 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4492B7E2CBC0001EDF6 /* Int.swift */; };
 		ED50C44C2B7E396C0001EDF6 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C44B2B7E396C0001EDF6 /* View.swift */; };
@@ -225,6 +229,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		ED0314362D37FD2C001B917A /* UserDiscoverInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDiscoverInfo.swift; sourceTree = "<group>"; };
 		ED0652562B813832005B6413 /* BugScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugScreen.swift; sourceTree = "<group>"; };
 		ED0652582B813859005B6413 /* BugViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugViewModel.swift; sourceTree = "<group>"; };
 		ED06525A2B814722005B6413 /* BugReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugReport.swift; sourceTree = "<group>"; };
@@ -258,6 +263,9 @@
 		ED41409D2B7DF84E002690A5 /* DeleteCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentResponse.swift; sourceTree = "<group>"; };
 		ED41409F2B7DFEEF002690A5 /* DeletePublicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePublicationResponse.swift; sourceTree = "<group>"; };
 		ED4140A12B7E1D26002690A5 /* CircleTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleTimerView.swift; sourceTree = "<group>"; };
+		ED4D7C352D418710007FC1FF /* EmptyDiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDiscoverView.swift; sourceTree = "<group>"; };
+		ED4D7C372D4523A6007FC1FF /* LockedChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedChatView.swift; sourceTree = "<group>"; };
+		ED4D7C392D4D32AD007FC1FF /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		ED5023FB2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserBanExpireDateResponse.swift; sourceTree = "<group>"; };
 		ED50C4492B7E2CBC0001EDF6 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		ED50C44B2B7E396C0001EDF6 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -574,9 +582,10 @@
 				EDCF2C372BB66E400066950F /* Message.swift */,
 				EDDC9E052BD86D9C00000EA4 /* MessageIntermediary.swift */,
 				EDDC9E072BD86E6A00000EA4 /* MessageStatus.swift */,
-				EDA322392B7CCD79009905B5 /* Response */,
 				ED3B54E82CCEC7EB007AA1D0 /* UserDiscoverPreferences.swift */,
 				EDFADB9F2CF11F3D0050E322 /* Gender.swift */,
+				ED0314362D37FD2C001B917A /* UserDiscoverInfo.swift */,
+				EDA322392B7CCD79009905B5 /* Response */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -587,7 +596,7 @@
 				EDE199262CCC608C0065206C /* Discover */,
 				EDE8B3772BC3500300DFF750 /* Compose Post */,
 				ED86186A2BB9E6C400A26121 /* Camera */,
-				EDCF2C362BB662CF0066950F /* Chat */,
+				EDCF2C362BB662CF0066950F /* Chat+Message */,
 				ED5CC5192B97BF3B009B17E3 /* Edit Profile */,
 				ED2F1A782B9142D7001F4300 /* Notification */,
 				ED50C4652B7FA2BF0001EDF6 /* Feed */,
@@ -985,7 +994,7 @@
 			path = Comment;
 			sourceTree = "<group>";
 		};
-		EDCF2C362BB662CF0066950F /* Chat */ = {
+		EDCF2C362BB662CF0066950F /* Chat+Message */ = {
 			isa = PBXGroup;
 			children = (
 				ED755F142BB4DBA5004BC6C3 /* ChatView.swift */,
@@ -994,8 +1003,9 @@
 				EDE8B37E2BC3B67200DFF750 /* ImageBubbleView.swift */,
 				EDDC9E0B2BDCB0AE00000EA4 /* EmojiMessageView.swift */,
 				ED95B0532C023288009B9FBB /* SocketStatusView.swift */,
+				ED4D7C372D4523A6007FC1FF /* LockedChatView.swift */,
 			);
-			path = Chat;
+			path = "Chat+Message";
 			sourceTree = "<group>";
 		};
 		EDDC9E022BD78CFF00000EA4 /* Audio */ = {
@@ -1028,6 +1038,8 @@
 				ED318A602CF6835D009A0D63 /* GenderInterestPickerView.swift */,
 				EDD6399F2CF81C7800978927 /* GenderPickerView.swift */,
 				EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */,
+				ED4D7C352D418710007FC1FF /* EmptyDiscoverView.swift */,
+				ED4D7C392D4D32AD007FC1FF /* BlurView.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -1260,6 +1272,8 @@
 				ED6DD4962B82E5B900ADBB64 /* MapView.swift in Sources */,
 				ED3B54EB2CCF29CF007AA1D0 /* DiscoverView.swift in Sources */,
 				EDA322472B7DB221009905B5 /* CommentView.swift in Sources */,
+				ED4D7C382D4523A6007FC1FF /* LockedChatView.swift in Sources */,
+				ED0314372D37FD2C001B917A /* UserDiscoverInfo.swift in Sources */,
 				ED755F212BB52C35004BC6C3 /* FormattedMessage.swift in Sources */,
 				EDE8B3762BC3301900DFF750 /* NewPostView.swift in Sources */,
 				ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */,
@@ -1276,6 +1290,7 @@
 				EDEECA272B8A7CD400BD517D /* TimerAnimation.swift in Sources */,
 				ED57D24A2B95880800FC7351 /* SheetView.swift in Sources */,
 				EDDC9E062BD86D9D00000EA4 /* MessageIntermediary.swift in Sources */,
+				ED4D7C3A2D4D32AD007FC1FF /* BlurView.swift in Sources */,
 				ED598BF82B7C1B9400B6C23D /* Date.swift in Sources */,
 				ED6CF4CA2BBD029700990DBD /* BlackLogo.swift in Sources */,
 				ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */,
@@ -1283,6 +1298,7 @@
 				EDE199212CCC5D3F0065206C /* VerifyUserDiscoverabilityResponse.swift in Sources */,
 				ED755F1D2BB50D56004BC6C3 /* BubbleView.swift in Sources */,
 				ED7D8F822BBA0D9300544A8B /* PostImageView.swift in Sources */,
+				ED4D7C362D418710007FC1FF /* EmptyDiscoverView.swift in Sources */,
 				EDCF2C382BB66E400066950F /* Message.swift in Sources */,
 				EDA3223F2B7D6A3F009905B5 /* LikePublicationResponse.swift in Sources */,
 				ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */,

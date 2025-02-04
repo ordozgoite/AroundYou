@@ -1,16 +1,13 @@
 //
-//  EmptyFeedView.swift
+//  EmptyDiscoverView.swift
 //  WhatsGoingNearby
 //
-//  Created by Victor Ordozgoite on 16/02/24.
+//  Created by Victor Ordozgoite on 22/01/25.
 //
 
 import SwiftUI
 
-struct EmptyFeedView: View {
-    
-    @EnvironmentObject var authVM: AuthenticationViewModel
-    
+struct EmptyDiscoverView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -26,34 +23,25 @@ struct EmptyFeedView: View {
                         .foregroundStyle(.gray)
                     
                     VStack {
-                        Text("No posts found.")
+                        Text("No matches found nearby.")
                             .font(.subheadline)
                             .foregroundStyle(.gray)
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
                         
-                        Text("Be the first to make a post in your region...")
-                            .font(.subheadline)
-                            .foregroundStyle(.gray)
-                            .fontWeight(.regular)
-                            .multilineTextAlignment(.center)
-                            .frame(width: screenWidth - 32)
+                        Text("You can enable Discover Notifications to stay updated when someone matching your interests is nearby.")
+                        .font(.subheadline)
+                        .foregroundStyle(.gray)
+                        .fontWeight(.regular)
+                        .multilineTextAlignment(.center)
+                        .frame(width: screenWidth - 32)
                     }
                 }
-                
-                VStack {
-                    NewPostView()
-                        .environmentObject(authVM)
-                        .padding(.bottom, geometry.safeAreaInsets.bottom)
-                    
-                }
-                .frame(maxHeight: .infinity, alignment: .top)
             }
         }
     }
 }
 
 #Preview {
-    EmptyFeedView()
-        .environmentObject(AuthenticationViewModel())
+    EmptyDiscoverView()
 }

@@ -61,6 +61,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var interestGenders: Set<Gender> = []
     @Published var minInterestAge: Int = 25
     @Published var maxInterestAge: Int = 40
+    @Published var isDiscoverNotificationsEnabled: Bool = true
     
     init() {
         registerAuthStateHandler()
@@ -322,6 +323,7 @@ extension AuthenticationViewModel {
     }
     
     private func updateCurrentInformation(for user: MongoUser) {
+        print("🌎 updateCurrentInformation: \(user)")
         LocalState.currentUserUid = user.userUid
         self.username = user.username
         self.name = user.name ?? ""
@@ -369,6 +371,7 @@ extension AuthenticationViewModel {
     }
     
     private func resetUserInfo() {
+        print("🌎 resetUserInfo")
         username = ""
         name = nil
         profilePic = nil

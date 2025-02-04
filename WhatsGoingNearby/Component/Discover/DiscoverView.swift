@@ -9,17 +9,24 @@ import SwiftUI
 
 struct DiscoverView: View {
     
+    @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject var discoverVM: DiscoverViewModel
+    @ObservedObject var locationManager: LocationManager
+    @ObservedObject var socket: SocketService
+    
+    @State private var refreshObserver = NotificationCenter.default
+        .publisher(for: NSNotification.Name(Constants.refreshLocationSensitiveDataNotificationKey))
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 32) {
-                    ForEach(discoverVM.usersFound) { user in
-                        DiscoverUserView(userImageURL: user.imageUrl!, userName: user.displayName, gender: user.gender, age: user.age)
-                    }
+            ZStack {
+                if discoverVM.isDiscoveringUsers {
+                    LoadingView()
+                } else if discoverVM.usersFound.isEmpty {
+                    EmptyDiscoverView()
+                } else {
+                    Users()
                 }
-                .padding()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -32,19 +39,113 @@ struct DiscoverView: View {
             }
             .navigationTitle("Discover")
         }
-    }
-}
-
-struct BlurView: UIViewRepresentable {
-    func makeUIView(context: Context) -> UIVisualEffectView {
-        let view = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
-        return view
+        .onReceive(refreshObserver) { _ in
+            Task {
+                try await getUsersNearBy()
+            }
+        }
+        .onAppear {
+            startUpdatingUsers()
+        }
+        .onDisappear {
+            stopTimer()
+        }
     }
     
-    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {}
+    //MARK: - Loading
+    
+    @ViewBuilder
+    private func LoadingView() -> some View {
+        VStack {
+            AYProgressView()
+            
+            Text("Looking around you...")
+                .foregroundStyle(.gray)
+                .fontWeight(.semibold)
+        }
+    }
+    
+    // MARK: - Users
+    
+    @ViewBuilder
+    private func Users() -> some View {
+        ScrollView {
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 32) {
+                ForEach(discoverVM.usersFound) { user in
+                    ZStack {
+                        DiscoverUserView(
+                            userImageURL: user.profilePic,
+                            userName: user.username,
+                            gender: user.genderEnum,
+                            age: user.age,
+                            lastSeen: user.locationLastUpdateAt
+                        )
+                        .onTapGesture {
+                            Task {
+                                try await postNewChat(withUser: user)
+                            }
+                        }
+                    }
+                }
+            }
+            .padding()
+        }
+        .refreshable {
+            hapticFeedback(style: .soft)
+            Task {
+                try await getUsersNearBy()
+            }
+        }
+        .navigationDestination(isPresented: $discoverVM.isMessageScreenDisplayed) {
+            if let chatUser = discoverVM.chatUser {
+                MessageScreen(
+                    chatId: chatUser._id,
+                    username: discoverVM.userToChatWith?.username ?? "",
+                    otherUserUid: discoverVM.userToChatWith?.userUid ?? "",
+                    chatPic: discoverVM.userToChatWith?.profilePic,
+                    isLocked: chatUser.isLocked,
+                    socket: socket
+                )
+            }
+        }
+    }
+
+    
+    //MARK: - Private Method
+    
+    private func startUpdatingUsers() {
+        discoverVM.discoverTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+            Task {
+                try await getUsersNearBy()
+            }
+        }
+        discoverVM.discoverTimer?.fire()
+    }
+    
+    private func getUsersNearBy() async throws {
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let token = try await authVM.getFirebaseToken()
+            
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            await discoverVM.getUsersNearBy(latitude: latitude, longitude: longitude, token: token)
+        }
+    }
+    
+    private func stopTimer() {
+        discoverVM.discoverTimer?.invalidate()
+    }
+    
+    private func postNewChat(withUser user: UserDiscoverInfo) async throws {
+        discoverVM.userToChatWith = user
+        let token = try await authVM.getFirebaseToken()
+        await discoverVM.postNewChat(otherUserUid: user.userUid, token: token)
+    }
 }
 
 #Preview {
-    DiscoverView(discoverVM: DiscoverViewModel())
-        .environmentObject(AuthenticationViewModel())
+    //    DiscoverView(discoverVM: DiscoverViewModel())
+    //        .environmentObject(AuthenticationViewModel())
 }

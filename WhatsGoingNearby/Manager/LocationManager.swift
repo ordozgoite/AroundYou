@@ -41,7 +41,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         if location == nil || newLocation.distance(from: location!) >= Constants.significantDistanceMeters {
             self.location = newLocation
-            updateFeed()
+            notifyLocationSensitiveDataRefresh()
         }
     }
     
@@ -55,8 +55,8 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         print("Location manager failed with error: \(error.localizedDescription)")
     }
     
-    private func updateFeed() {
-        let name = Notification.Name(Constants.refreshFeedNotificationKey)
+    private func notifyLocationSensitiveDataRefresh() {
+        let name = Notification.Name(Constants.refreshLocationSensitiveDataNotificationKey)
         NotificationCenter.default.post(name: name, object: nil)
     }
     

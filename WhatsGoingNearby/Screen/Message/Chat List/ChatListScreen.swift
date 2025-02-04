@@ -14,10 +14,6 @@ struct ChatListScreen: View {
     @StateObject private var chatListVM = ChatListViewModel()
     @ObservedObject var socket: SocketService
     
-    @FetchRequest(fetchRequest: CDFormattedChat.fetch(), animation: .bouncy)
-    var chats: FetchedResults<CDFormattedChat>
-    @Environment(\.managedObjectContext) var context
-    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -31,9 +27,6 @@ struct ChatListScreen: View {
                 if status == .connected {
                     updateChats()
                 }
-            }
-            .onChange(of: chatListVM.chats) { chats in
-                updateStoredChats(withChats: chats)
             }
             .navigationTitle("Chats")
             .toolbar {
@@ -50,19 +43,30 @@ struct ChatListScreen: View {
     private func Chats() -> some View {
         List {
             if chatListVM.chats.isEmpty {
-                ForEach(self.chats) { chat in
-                    NavigationLink(destination: MessageScreen(chatId: chat.id ?? "", username: chat.chatName ?? "", otherUserUid: chat.otherUserUid ?? "", chatPic: chat.chatPic, socket: socket)
-                        .environmentObject(authVM)
-                        .environment(\.managedObjectContext, context)
+                ForEach(chatListVM.chats) { chat in
+                    NavigationLink(destination: MessageScreen(
+                        chatId: chat.id,
+                        username: chat.chatName,
+                        otherUserUid: chat.otherUserUid,
+                        chatPic: chat.chatPic,
+                        isLocked: chat.isLocked,
+                        socket: socket
+                    ).environmentObject(authVM)
                     ) {
-                        ChatView(chat: chat.convertToFormattedMessage())
+                        ChatView(chat: chat)
                     }
                 }
             } else {
                 ForEach($chatListVM.chats) { $chat in
-                    NavigationLink(destination: MessageScreen(chatId: chat.id, username: chat.chatName, otherUserUid: chat.otherUserUid, chatPic: chat.chatPic, socket: socket)
+                    NavigationLink(destination: MessageScreen(
+                        chatId: chat.id,
+                        username: chat.chatName,
+                        otherUserUid: chat.otherUserUid,
+                        chatPic: chat.chatPic, isLocked:
+                            chat.isLocked,
+                        socket: socket
+                    )
                         .environmentObject(authVM)
-                        .environment(\.managedObjectContext, context)
                     ) {
                         ChatView(chat: chat).environmentObject(authVM)
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
@@ -109,22 +113,6 @@ struct ChatListScreen: View {
         socket.socket?.on("chat") { data, ack in
             print("⚠️ updateChats")
             updateChats()
-        }
-    }
-    
-    private func updateStoredChats(withChats chats: [FormattedChat]) {
-        let fetchRequest: NSFetchRequest<CDFormattedChat> = CDFormattedChat.fetchRequest()
-        do {
-            let existingChats = try context.fetch(fetchRequest)
-            for chat in existingChats {
-                context.delete(chat)
-            }
-            for chat in chats {
-                _ = CDFormattedChat(fromChat: chat, context: context)
-            }
-            PersistenceController.shared.save()
-        } catch {
-            print("❌ Error fetching existing chats: \(error.localizedDescription)")
         }
     }
 }

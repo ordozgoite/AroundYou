@@ -14,7 +14,6 @@ struct MainTabView: View {
     @StateObject public var notificationManager = NotificationManager()
     @StateObject private var locationManager = LocationManager()
     
-    let persistenceController = PersistenceController.shared
     let pub = NotificationCenter.default
         .publisher(for: NSNotification.Name(Constants.updateBadgeNotificationKey))
     
@@ -35,9 +34,8 @@ struct MainTabView: View {
                 }
                 .environmentObject(authVM)
                 .badge(unreadChats ?? 0)
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
             
-            DiscoverScreen()
+            DiscoverScreen(locationManager: locationManager, socket: socket)
                 .tabItem {
                     Label("Discover", systemImage: "flame")
                 }
@@ -138,6 +136,7 @@ struct MessageScreenWrapper: View {
                 username: username,
                 otherUserUid: otherUserUid,
                 chatPic: chatPic,
+                isLocked: false, // TODO: verify if it's really false
                 socket: socket)
             .navigationBarItems(leading: Button(action: {
                 presentationMode.wrappedValue.dismiss()

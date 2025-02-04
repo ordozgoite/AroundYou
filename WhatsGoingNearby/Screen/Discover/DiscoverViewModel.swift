@@ -8,14 +8,6 @@
 import Foundation
 import SwiftUI
 
-struct UserDiscoverInfo: Codable, Identifiable {
-    let id: String
-    let imageUrl: String?
-    let displayName: String
-    let gender: Gender
-    let age: Int
-}
-
 @MainActor
 class DiscoverViewModel: ObservableObject {
     
@@ -34,16 +26,17 @@ class DiscoverViewModel: ObservableObject {
         selectedInterestGenders.map { $0.description }
     }
     @Published var selectedAge: Int = 18
-    @Published var ageRange: ClosedRange<Double> = 18...40
+    @Published var ageRange: ClosedRange<Double> = 12...40
+    @Published var isDiscoverNotificationsEnabled: Bool = false
     
     // Discover
-    @Published var usersFound: [UserDiscoverInfo] = [
-        UserDiscoverInfo(id: "1", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: .cisFemale, age: 38),
-        UserDiscoverInfo(id: "2", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: .cisFemale, age: 38),
-        UserDiscoverInfo(id: "3", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: .cisFemale, age: 38),
-        UserDiscoverInfo(id: "4", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: .cisFemale, age: 38),
-        UserDiscoverInfo(id: "5", imageUrl: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg", displayName: "Megan Fox", gender: .cisFemale, age: 38)
-    ]
+    @Published var isDiscoveringUsers: Bool = false
+    @Published var initialUsersFetched: Bool = false
+    @Published var usersFound: [UserDiscoverInfo] = []
+    @Published var chatUser: Chat? = nil
+    @Published var isMessageScreenDisplayed: Bool = false
+    @Published var userToChatWith: UserDiscoverInfo? = nil
+    @Published var discoverTimer: Timer?
     
     func verifyUserDiscoverability(token: String) async -> VerifyUserDiscoverabilityResponse? {
         if !discoverabilityVerified { isLoading = true }
@@ -60,24 +53,25 @@ class DiscoverViewModel: ObservableObject {
         }
     }
     
-    func activateUserDiscoverability(token: String, updateDiscoverStatus: (Bool) -> ()) async {
+    func activateUserDiscoverability(token: String) async throws {
         isActivatingDiscover = true
         let result = await AYServices.shared.activateUserDiscoverability(token: token)
         isActivatingDiscover = false
         
         switch result {
         case .success:
-            updateDiscoverStatus(true)
+            print("✅ User Discoverability Successfully Enabled!")
         case .failure(let error):
             if error == .unprocessableEntity {
                 isPreferencesViewDisplayed = true
             } else {
                 overlayError = (true, ErrorMessage.defaultErrorMessage)
             }
+            throw error
         }
     }
     
-    func deactivatedUserDiscoverability(token: String, updateDiscoverStatus: (Bool) -> ()) async {
+    func deactivatedUserDiscoverability(token: String) async throws {
         isHidingAccount = true
         let result = await AYServices.shared.deactivateUserDiscoverability(token: token)
         isHidingAccount = false
@@ -85,31 +79,53 @@ class DiscoverViewModel: ObservableObject {
         switch result {
         case .success:
             isPreferencesViewDisplayed = false
-            updateDiscoverStatus(false)
         case .failure(let error):
-            print("\(error)")
             overlayError = (true, ErrorMessage.defaultErrorMessage)
+            throw error
         }
     }
     
-    func updateUserPreferences(andActivateDiscover activateDiscover: Bool, token: String, updatePreferences: () -> (), updateDiscoverStatus: (Bool) -> ()) async {
+    func updateUserPreferences(token: String) async throws {
         isSettingPreferences = true
-        let result = await AYServices.shared.updateUserPreferences(gender: self.selectedGender.description, interestGenders: self.interestGendersAsStrings, age: self.selectedAge, minInterestAge: Int(self.ageRange.lowerBound), maxInterestAge: Int(self.ageRange.upperBound), token: token)
+        let result = await AYServices.shared.updateUserPreferences(gender: self.selectedGender.description, interestGenders: self.interestGendersAsStrings, age: self.selectedAge, minInterestAge: Int(self.ageRange.lowerBound), maxInterestAge: Int(self.ageRange.upperBound), isNotificationsEnabled: self.isDiscoverNotificationsEnabled, token: token)
         isSettingPreferences = false
         
         switch result {
         case .success:
             isPreferencesViewDisplayed = false
-            updatePreferences()
-            if activateDiscover {
-                await activateUserDiscoverability(token: token) { isDiscoverable in updateDiscoverStatus(isDiscoverable) }
-            }
-        case .failure:
+        case .failure(let error):
             overlayError = (true, ErrorMessage.defaultErrorMessage)
+            throw error
         }
     }
     
     func areInputsValid() -> Bool {
         return !selectedInterestGenders.isEmpty
+    }
+    
+    func getUsersNearBy(latitude: Double, longitude: Double, token: String) async {
+        if !initialUsersFetched { isDiscoveringUsers = true }
+        let result = await AYServices.shared.discoverUsersByPreferences(latitude: latitude, longitude: longitude, token: token)
+        if !initialUsersFetched { isDiscoveringUsers = false }
+        
+        switch result {
+        case .success(let users):
+            self.usersFound = users
+            self.initialUsersFetched = true
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
+    func postNewChat(otherUserUid: String, token: String) async {
+        let result = await AYServices.shared.postNewChat(otherUserUid: otherUserUid, token: token)
+        
+        switch result {
+        case .success(let chat):
+            self.chatUser = chat
+            self.isMessageScreenDisplayed = true
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
     }
 }

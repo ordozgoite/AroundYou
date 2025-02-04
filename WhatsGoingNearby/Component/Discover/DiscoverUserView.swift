@@ -9,10 +9,11 @@ import SwiftUI
 
 struct DiscoverUserView: View {
     
-    let userImageURL: String
+    let userImageURL: String?
     let userName: String
     let gender: Gender
     let age: Int
+    let lastSeen: Int
     
     var body: some View {
         VStack {
@@ -25,6 +26,7 @@ struct DiscoverUserView: View {
             VStack(alignment: .leading) {
                 Text("· \(age) years old")
                 Text("· \(gender.title.stringKey)")
+                Text("· \(lastSeen.convertTimestampToDate().timeAgoDisplay())")
             }
             .foregroundStyle(.gray)
         }
@@ -45,6 +47,7 @@ struct DiscoverUserView: View {
         userImageURL: "https://br.web.img2.acsta.net/pictures/19/04/29/20/14/1886009.jpg",
         userName: "Megan Fox",
         gender: .cisFemale,
-        age: 38
+        age: 38,
+        lastSeen: 1611111111
     )
 }
