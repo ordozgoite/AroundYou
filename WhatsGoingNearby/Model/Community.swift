@@ -7,10 +7,13 @@
 
 import Foundation
 
-struct Community {
+struct Community: Codable, Identifiable {
+    let id: String
     let name: String
     let imageUrl: String?
     let description: String?
     let latitude: Double
     let longitude: Double
+    var isMember: Bool
+    var isPrivate: Bool
 }

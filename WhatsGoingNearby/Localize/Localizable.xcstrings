@@ -776,6 +776,9 @@
         }
       }
     },
+    "Communities" : {
+
+    },
     "Confirm" : {
       "localizations" : {
         "pt-BR" : {
@@ -2372,6 +2375,9 @@
           }
         }
       }
+    },
+    "Private" : {
+
     },
     "Profile" : {
       "localizations" : {
