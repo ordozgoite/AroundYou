@@ -48,6 +48,7 @@ struct CommunityScreen: View {
                 ForEach(communityVM.communities) { community in
                     CommunityView(
                         imageUrl: community.imageUrl,
+                        imageSize: 100,
                         name: community.name,
                         isMember: community.isMember,
                         isPrivate: community.isPrivate

@@ -10,6 +10,7 @@ import SwiftUI
 struct CommunityView: View {
     
     let imageUrl: String?
+    let imageSize: CGFloat
     let name: String
     let isMember: Bool
     let isPrivate: Bool
@@ -18,7 +19,7 @@ struct CommunityView: View {
         VStack(alignment: .center) {
             CommunityImageView(
                 imageUrl: imageUrl,
-                size: 100
+                size: imageSize
             )
             .shadow(radius: 5)
             
@@ -55,5 +56,5 @@ struct CommunityView: View {
 }
 
 #Preview {
-    CommunityView(imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdLXpuHHbuLb1QC4u4XkaqR50h4BBEqnJ1Sw&s", name: "Show Guns N' Roses", isMember: true, isPrivate: true)
+    CommunityView(imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdLXpuHHbuLb1QC4u4XkaqR50h4BBEqnJ1Sw&s", imageSize: 100, name: "Show Guns N' Roses", isMember: true, isPrivate: true)
 }
