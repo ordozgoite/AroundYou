@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -224,6 +224,7 @@
 		EDEECA232B8A77CE00BD517D /* meet.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA222B8A77CE00BD517D /* meet.json */; };
 		EDEECA252B8A77D500BD517D /* party.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA242B8A77D500BD517D /* party.json */; };
 		EDEECA272B8A7CD400BD517D /* TimerAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEECA262B8A7CD400BD517D /* TimerAnimation.swift */; };
+		EDEF7A692D51C4EC0030B7A6 /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A682D51C4EC0030B7A6 /* Community.swift */; };
 		EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF43E922B86E6B60037CC9F /* LocalState.swift */; };
 		EDFADBA02CF11F3D0050E322 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFADB9F2CF11F3D0050E322 /* Gender.swift */; };
 /* End PBXBuildFile section */
@@ -417,11 +418,17 @@
 		EDEECA222B8A77CE00BD517D /* meet.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = meet.json; sourceTree = "<group>"; };
 		EDEECA242B8A77D500BD517D /* party.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = party.json; sourceTree = "<group>"; };
 		EDEECA262B8A7CD400BD517D /* TimerAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerAnimation.swift; sourceTree = "<group>"; };
+		EDEF7A682D51C4EC0030B7A6 /* Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
 		EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhatsGoingNearby.entitlements; sourceTree = "<group>"; };
 		EDF43E912B869F3E0037CC9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EDF43E922B86E6B60037CC9F /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
 		EDFADB9F2CF11F3D0050E322 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		EDEF7A652D51AA150030B7A6 /* Community */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Community; sourceTree = "<group>"; };
+		EDEF7A6A2D51C5430030B7A6 /* Community */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Community; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		ED5CB1622B7C11C000C336EC /* Frameworks */ = {
@@ -585,6 +592,7 @@
 				ED3B54E82CCEC7EB007AA1D0 /* UserDiscoverPreferences.swift */,
 				EDFADB9F2CF11F3D0050E322 /* Gender.swift */,
 				ED0314362D37FD2C001B917A /* UserDiscoverInfo.swift */,
+				EDEF7A682D51C4EC0030B7A6 /* Community.swift */,
 				EDA322392B7CCD79009905B5 /* Response */,
 			);
 			path = Model;
@@ -593,6 +601,7 @@
 		ED598BF32B7C16DA00B6C23D /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				EDEF7A6A2D51C5430030B7A6 /* Community */,
 				EDE199262CCC608C0065206C /* Discover */,
 				EDE8B3772BC3500300DFF750 /* Compose Post */,
 				ED86186A2BB9E6C400A26121 /* Camera */,
@@ -742,6 +751,7 @@
 				EDA322432B7DB068009905B5 /* Comment */,
 				ED6DD4972B82E5DB00ADBB64 /* Location */,
 				ED6E84CC2B882DD800B94F5C /* Like */,
+				EDEF7A652D51AA150030B7A6 /* Community */,
 			);
 			path = AroundYou;
 			sourceTree = "<group>";
@@ -1069,6 +1079,10 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				EDEF7A652D51AA150030B7A6 /* Community */,
+				EDEF7A6A2D51C5430030B7A6 /* Community */,
+			);
 			name = WhatsGoingNearby;
 			packageProductDependencies = (
 				ED598C132B7C550400B6C23D /* FirebaseAnalytics */,
@@ -1247,6 +1261,7 @@
 				EDA322452B7DB07D009905B5 /* CommentScreen.swift in Sources */,
 				ED74E80A2BF436F200371334 /* WhatsGoingNearby.xcdatamodeld in Sources */,
 				EDE8B37F2BC3B67200DFF750 /* ImageBubbleView.swift in Sources */,
+				EDEF7A692D51C4EC0030B7A6 /* Community.swift in Sources */,
 				ED2F1A752B9142AA001F4300 /* NotificationViewModel.swift in Sources */,
 				ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */,
 				ED6D82C52B93D7BE00C57937 /* MapViewModel.swift in Sources */,
