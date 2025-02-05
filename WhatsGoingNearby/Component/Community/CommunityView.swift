@@ -24,31 +24,17 @@ struct CommunityView: View {
             .shadow(radius: 5)
             
             HStack(spacing: 8) {
+                Label(name, systemImage: isPrivate ? "lock.fill" : "")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.gray)
+                    .multilineTextAlignment(.center)
+                
                 if isMember {
                     Image(systemName: "checkmark.circle.fill")
                         .resizable()
                         .frame(width: 24, height: 24)
                         .foregroundStyle(.green)
-                }
-                
-                Text(name)
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.primary)
-                    .multilineTextAlignment(.center)
-            }
-            
-            if isPrivate {
-                HStack {
-                    Text("Private")
-                        .font(.headline)
-                        .foregroundColor(.gray)
-                    
-//                    Image(systemName: "lock.fill")
-//                        .resizable()
-//                        .scaledToFit()
-//                        .frame(width: 16, height: 16, alignment: .center)
-//                        .foregroundStyle(.gray)
                 }
             }
         }

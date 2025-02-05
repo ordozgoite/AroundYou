@@ -779,6 +779,9 @@
     "Communities" : {
 
     },
+    "Communities Around You" : {
+
+    },
     "Confirm" : {
       "localizations" : {
         "pt-BR" : {
@@ -2376,9 +2379,6 @@
         }
       }
     },
-    "Private" : {
-
-    },
     "Profile" : {
       "localizations" : {
         "pt-BR" : {
@@ -3268,6 +3268,9 @@
           }
         }
       }
+    },
+    "View All" : {
+
     },
     "Wanna buy" : {
       "extractionState" : "stale",

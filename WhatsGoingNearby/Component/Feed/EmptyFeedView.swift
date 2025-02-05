@@ -10,6 +10,7 @@ import SwiftUI
 struct EmptyFeedView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @ObservedObject var communityVM: CommunityViewModel
     
     var body: some View {
         GeometryReader { geometry in
@@ -44,7 +45,10 @@ struct EmptyFeedView: View {
                 VStack {
                     NewPostView()
                         .environmentObject(authVM)
-                        .padding(.bottom, geometry.safeAreaInsets.bottom)
+//                        .padding(.bottom, geometry.safeAreaInsets.bottom)
+                    
+                    CommunitySuggestionView(communityVM: communityVM)
+                        .environmentObject(authVM)
                     
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
@@ -54,6 +58,6 @@ struct EmptyFeedView: View {
 }
 
 #Preview {
-    EmptyFeedView()
+    EmptyFeedView(communityVM: CommunityViewModel())
         .environmentObject(AuthenticationViewModel())
 }

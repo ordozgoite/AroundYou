@@ -28,12 +28,12 @@ struct CommunitySuggestionView: View {
     @ViewBuilder
     private func Header() -> some View {
         HStack {
-            Label("Communities", systemImage: "figure.2")
+            Label("Communities Around You", systemImage: "figure.2")
                 .foregroundStyle(.gray)
             
             Spacer()
             
-            NavigationLink(destination: CommunityScreen().environmentObject(authVM)) {
+            NavigationLink(destination: CommunityListScreen(communityVM: communityVM).environmentObject(authVM)) {
                 Text("View All")
                     .foregroundStyle(.gray)
                     .fontWeight(.bold)
@@ -49,7 +49,7 @@ struct CommunitySuggestionView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach(communityVM.communities) { community in
-                    CommunityImageView(imageUrl: community.imageUrl, size: 64)
+                    CommunityImageView(imageUrl: community.imageUrl, size: 50)
                 }
                 
                 NewCommunity()
@@ -65,8 +65,9 @@ struct CommunitySuggestionView: View {
         Image(systemName: "plus.circle.fill")
             .resizable()
             .scaledToFit()
-            .frame(height: 64)
+            .frame(height: 32 )
             .foregroundStyle(.gray.opacity(0.25))
+//            .padding(.leading)
     }
 }
 

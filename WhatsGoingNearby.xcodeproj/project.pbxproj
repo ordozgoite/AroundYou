@@ -227,7 +227,7 @@
 		EDEF7A692D51C4EC0030B7A6 /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A682D51C4EC0030B7A6 /* Community.swift */; };
 		EDEF7A712D524E370030B7A6 /* CommunityImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A6F2D524E370030B7A6 /* CommunityImageView.swift */; };
 		EDEF7A722D524E370030B7A6 /* CommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A702D524E370030B7A6 /* CommunityView.swift */; };
-		EDEF7A742D524E370030B7A6 /* CommunityScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A732D524E370030B7A6 /* CommunityScreen.swift */; };
+		EDEF7A742D524E370030B7A6 /* CommunityListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A732D524E370030B7A6 /* CommunityListScreen.swift */; };
 		EDEF7A782D5251670030B7A6 /* CommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A772D5251670030B7A6 /* CommunityViewModel.swift */; };
 		EDEF7A7A2D5257470030B7A6 /* CommunitySuggestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */; };
 		EDEF7A7C2D526B280030B7A6 /* ScrollViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A7B2D526B280030B7A6 /* ScrollViewTest.swift */; };
@@ -427,7 +427,7 @@
 		EDEF7A682D51C4EC0030B7A6 /* Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
 		EDEF7A6F2D524E370030B7A6 /* CommunityImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityImageView.swift; sourceTree = "<group>"; };
 		EDEF7A702D524E370030B7A6 /* CommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityView.swift; sourceTree = "<group>"; };
-		EDEF7A732D524E370030B7A6 /* CommunityScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityScreen.swift; sourceTree = "<group>"; };
+		EDEF7A732D524E370030B7A6 /* CommunityListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityListScreen.swift; sourceTree = "<group>"; };
 		EDEF7A772D5251670030B7A6 /* CommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewModel.swift; sourceTree = "<group>"; };
 		EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunitySuggestionView.swift; sourceTree = "<group>"; };
 		EDEF7A7B2D526B280030B7A6 /* ScrollViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewTest.swift; sourceTree = "<group>"; };
@@ -1074,7 +1074,7 @@
 		EDEF7A752D5250500030B7A6 /* Community */ = {
 			isa = PBXGroup;
 			children = (
-				EDEF7A732D524E370030B7A6 /* CommunityScreen.swift */,
+				EDEF7A732D524E370030B7A6 /* CommunityListScreen.swift */,
 				EDEF7A772D5251670030B7A6 /* CommunityViewModel.swift */,
 			);
 			path = Community;
@@ -1312,7 +1312,7 @@
 				ED598C4C2B7C587100B6C23D /* AuthenticatedScreen.swift in Sources */,
 				ED6DD4962B82E5B900ADBB64 /* MapView.swift in Sources */,
 				ED3B54EB2CCF29CF007AA1D0 /* DiscoverView.swift in Sources */,
-				EDEF7A742D524E370030B7A6 /* CommunityScreen.swift in Sources */,
+				EDEF7A742D524E370030B7A6 /* CommunityListScreen.swift in Sources */,
 				EDA322472B7DB221009905B5 /* CommentView.swift in Sources */,
 				ED4D7C382D4523A6007FC1FF /* LockedChatView.swift in Sources */,
 				ED0314372D37FD2C001B917A /* UserDiscoverInfo.swift in Sources */,

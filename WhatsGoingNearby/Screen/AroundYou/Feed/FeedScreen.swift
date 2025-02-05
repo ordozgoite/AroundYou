@@ -11,6 +11,7 @@ struct FeedScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var feedVM = FeedViewModel()
+    @StateObject private var communityVM = CommunityViewModel()
     @ObservedObject var locationManager: LocationManager
 //    @StateObject public var notificationManager = NotificationManager()
     @ObservedObject var socket: SocketService
@@ -81,7 +82,7 @@ struct FeedScreen: View {
     
     @ViewBuilder
     private func EmptyFeed() -> some View {
-        EmptyFeedView()
+        EmptyFeedView(communityVM: communityVM)
             .environmentObject(authVM)
     }
     
@@ -92,6 +93,9 @@ struct FeedScreen: View {
         ScrollView {
             VStack {
                 NewPostView()
+                    .environmentObject(authVM)
+                
+                CommunitySuggestionView(communityVM: communityVM)
                     .environmentObject(authVM)
                 
                 Posts(ofType: .active)

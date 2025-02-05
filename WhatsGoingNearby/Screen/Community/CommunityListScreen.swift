@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct CommunityScreen: View {
+struct CommunityListScreen: View {
     
-    @StateObject private var communityVM = CommunityViewModel()
+    @ObservedObject var communityVM: CommunityViewModel
     
     var body: some View {
         NavigationStack {
@@ -61,5 +61,5 @@ struct CommunityScreen: View {
 }
 
 #Preview {
-    CommunityScreen()
+    CommunityListScreen(communityVM: CommunityViewModel())
 }
