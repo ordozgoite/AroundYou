@@ -231,6 +231,7 @@
 		EDEF7A782D5251670030B7A6 /* CommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A772D5251670030B7A6 /* CommunityViewModel.swift */; };
 		EDEF7A7A2D5257470030B7A6 /* CommunitySuggestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */; };
 		EDEF7A7C2D526B280030B7A6 /* ScrollViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A7B2D526B280030B7A6 /* ScrollViewTest.swift */; };
+		EDEF7A7E2D53A3990030B7A6 /* CreateCommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A7D2D53A3990030B7A6 /* CreateCommunityView.swift */; };
 		EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF43E922B86E6B60037CC9F /* LocalState.swift */; };
 		EDFADBA02CF11F3D0050E322 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFADB9F2CF11F3D0050E322 /* Gender.swift */; };
 /* End PBXBuildFile section */
@@ -431,6 +432,7 @@
 		EDEF7A772D5251670030B7A6 /* CommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewModel.swift; sourceTree = "<group>"; };
 		EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunitySuggestionView.swift; sourceTree = "<group>"; };
 		EDEF7A7B2D526B280030B7A6 /* ScrollViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewTest.swift; sourceTree = "<group>"; };
+		EDEF7A7D2D53A3990030B7A6 /* CreateCommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommunityView.swift; sourceTree = "<group>"; };
 		EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhatsGoingNearby.entitlements; sourceTree = "<group>"; };
 		EDF43E912B869F3E0037CC9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EDF43E922B86E6B60037CC9F /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
@@ -1087,6 +1089,7 @@
 				EDEF7A702D524E370030B7A6 /* CommunityView.swift */,
 				EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */,
 				EDEF7A7B2D526B280030B7A6 /* ScrollViewTest.swift */,
+				EDEF7A7D2D53A3990030B7A6 /* CreateCommunityView.swift */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -1392,6 +1395,7 @@
 				ED598C512B7C80EC00B6C23D /* LocationTestScreen.swift in Sources */,
 				ED3B54ED2CCF29ED007AA1D0 /* DiscoverUserView.swift in Sources */,
 				EDC54BDE2D02AFC9006A5697 /* DiscoverDisclaimerView.swift in Sources */,
+				EDEF7A7E2D53A3990030B7A6 /* CreateCommunityView.swift in Sources */,
 				ED74E8072BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift in Sources */,
 				ED3B54E72CCEC704007AA1D0 /* ActivateUserDiscoverabilityResponse.swift in Sources */,
 				EDA322292B7CA362009905B5 /* Endpoint.swift in Sources */,

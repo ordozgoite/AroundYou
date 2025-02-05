@@ -16,4 +16,8 @@ class CommunityViewModel: ObservableObject {
         Community(id: "4", name: "Caçadores de Pokemon", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5-8Chu2Jala7WIXFNYCt4PY78NzZng1MVcw&s", description: nil, latitude: 0, longitude: 0, isMember: false, isPrivate: false)
     ]
     @Published var isLoading: Bool = false
+    
+    // Create Community
+    @Published var communityNameInput: String = ""
+    @Published var isCreatingCommunity: Bool = false
 }
