@@ -11,6 +11,7 @@ struct CommunitySuggestionView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject var communityVM: CommunityViewModel
+    @ObservedObject var locationManager: LocationManager
     
     var body: some View {
         VStack {
@@ -21,6 +22,13 @@ struct CommunitySuggestionView: View {
         .background(
             RoundedRectangle(cornerRadius: 16).fill(.thinMaterial)
         )
+        .sheet(isPresented: $communityVM.isCreateCommunityViewDisplayed) {
+            CreateCommunityView(
+                communityVM: communityVM,
+                locationManager: locationManager,
+                isViewDisplayed: $communityVM.isCreateCommunityViewDisplayed
+            )
+        }
     }
     
     // MARK: - Header
@@ -67,11 +75,14 @@ struct CommunitySuggestionView: View {
             .scaledToFit()
             .frame(height: 32 )
             .foregroundStyle(.gray.opacity(0.25))
-//            .padding(.leading)
+            .onTapGesture {
+                communityVM.isCreateCommunityViewDisplayed = true
+                communityVM.resetCreateCommunityInputs()
+            }
     }
 }
 
 #Preview {
-    CommunitySuggestionView(communityVM: CommunityViewModel())
+    CommunitySuggestionView(communityVM: CommunityViewModel(), locationManager: LocationManager())
         .environmentObject(AuthenticationViewModel())
 }

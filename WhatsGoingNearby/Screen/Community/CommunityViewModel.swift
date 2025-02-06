@@ -20,4 +20,10 @@ class CommunityViewModel: ObservableObject {
     // Create Community
     @Published var communityNameInput: String = ""
     @Published var isCreatingCommunity: Bool = false
+    @Published var isCreateCommunityViewDisplayed: Bool = false
+    
+    func resetCreateCommunityInputs() {
+        // TODO: Remove image
+        self.communityNameInput = ""
+    }
 }

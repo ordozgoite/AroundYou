@@ -11,6 +11,7 @@ struct EmptyFeedView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject var communityVM: CommunityViewModel
+    @ObservedObject var locationManager: LocationManager
     
     var body: some View {
         GeometryReader { geometry in
@@ -47,7 +48,7 @@ struct EmptyFeedView: View {
                         .environmentObject(authVM)
 //                        .padding(.bottom, geometry.safeAreaInsets.bottom)
                     
-                    CommunitySuggestionView(communityVM: communityVM)
+                    CommunitySuggestionView(communityVM: communityVM, locationManager: locationManager)
                         .environmentObject(authVM)
                     
                 }
@@ -58,6 +59,6 @@ struct EmptyFeedView: View {
 }
 
 #Preview {
-    EmptyFeedView(communityVM: CommunityViewModel())
+    EmptyFeedView(communityVM: CommunityViewModel(), locationManager: LocationManager())
         .environmentObject(AuthenticationViewModel())
 }

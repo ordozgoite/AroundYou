@@ -230,7 +230,6 @@
 		EDEF7A742D524E370030B7A6 /* CommunityListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A732D524E370030B7A6 /* CommunityListScreen.swift */; };
 		EDEF7A782D5251670030B7A6 /* CommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A772D5251670030B7A6 /* CommunityViewModel.swift */; };
 		EDEF7A7A2D5257470030B7A6 /* CommunitySuggestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */; };
-		EDEF7A7C2D526B280030B7A6 /* ScrollViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A7B2D526B280030B7A6 /* ScrollViewTest.swift */; };
 		EDEF7A7E2D53A3990030B7A6 /* CreateCommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A7D2D53A3990030B7A6 /* CreateCommunityView.swift */; };
 		EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF43E922B86E6B60037CC9F /* LocalState.swift */; };
 		EDFADBA02CF11F3D0050E322 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFADB9F2CF11F3D0050E322 /* Gender.swift */; };
@@ -431,7 +430,6 @@
 		EDEF7A732D524E370030B7A6 /* CommunityListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityListScreen.swift; sourceTree = "<group>"; };
 		EDEF7A772D5251670030B7A6 /* CommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewModel.swift; sourceTree = "<group>"; };
 		EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunitySuggestionView.swift; sourceTree = "<group>"; };
-		EDEF7A7B2D526B280030B7A6 /* ScrollViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewTest.swift; sourceTree = "<group>"; };
 		EDEF7A7D2D53A3990030B7A6 /* CreateCommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommunityView.swift; sourceTree = "<group>"; };
 		EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhatsGoingNearby.entitlements; sourceTree = "<group>"; };
 		EDF43E912B869F3E0037CC9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -1088,7 +1086,6 @@
 				EDEF7A6F2D524E370030B7A6 /* CommunityImageView.swift */,
 				EDEF7A702D524E370030B7A6 /* CommunityView.swift */,
 				EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */,
-				EDEF7A7B2D526B280030B7A6 /* ScrollViewTest.swift */,
 				EDEF7A7D2D53A3990030B7A6 /* CreateCommunityView.swift */,
 			);
 			path = Community;
@@ -1241,7 +1238,6 @@
 				EDA322302B7CB12D009905B5 /* FormattedPost.swift in Sources */,
 				EDA30DF82B7FE9B6003EB22D /* PostType.swift in Sources */,
 				ED598C032B7C42B500B6C23D /* AuthenticationScreen.swift in Sources */,
-				EDEF7A7C2D526B280030B7A6 /* ScrollViewTest.swift in Sources */,
 				EDD639A02CF81C7800978927 /* GenderPickerView.swift in Sources */,
 				ED0652592B813859005B6413 /* BugViewModel.swift in Sources */,
 				ED24FAF42B9E6530002F7A11 /* CommentDTO.swift in Sources */,

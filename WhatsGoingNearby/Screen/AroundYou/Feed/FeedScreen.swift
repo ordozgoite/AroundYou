@@ -82,7 +82,7 @@ struct FeedScreen: View {
     
     @ViewBuilder
     private func EmptyFeed() -> some View {
-        EmptyFeedView(communityVM: communityVM)
+        EmptyFeedView(communityVM: communityVM, locationManager: locationManager)
             .environmentObject(authVM)
     }
     
@@ -95,7 +95,7 @@ struct FeedScreen: View {
                 NewPostView()
                     .environmentObject(authVM)
                 
-                CommunitySuggestionView(communityVM: communityVM)
+                CommunitySuggestionView(communityVM: communityVM, locationManager: locationManager)
                     .environmentObject(authVM)
                 
                 Posts(ofType: .active)

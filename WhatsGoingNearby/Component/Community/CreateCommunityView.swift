@@ -11,16 +11,30 @@ struct CreateCommunityView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject var communityVM: CommunityViewModel
+    @ObservedObject var locationManager: LocationManager
+    
     @Binding var isViewDisplayed: Bool
+    
+    @State private var latitude: Double = 0
+    @State private var longitude: Double = 0
     
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack(spacing: 16) {
                 CommunityImage()
                 
                 Name()
                 
+                Location()
+                
                 Spacer()
+            }
+            .padding(.top)
+            .onReceive(locationManager.$location) { newLocation in
+                if let newLocation = newLocation {
+                    latitude = newLocation.coordinate.latitude
+                    longitude = newLocation.coordinate.longitude
+                }
             }
             
             .toolbar {
@@ -32,6 +46,7 @@ struct CreateCommunityView: View {
                     Create()
                 }
             }
+            .navigationTitle("New Community")
         }
     }
     
@@ -54,6 +69,17 @@ struct CreateCommunityView: View {
             .textFieldStyle(.plain)
             .multilineTextAlignment(.center)
             .font(.title)
+            .fontWeight(.bold)
+    }
+    
+    // MARK: - Location
+    
+    @ViewBuilder
+    private func Location() -> some View {
+        Text("Your Community will be located on latitude \(latitude) and longitude \(longitude).")
+            .multilineTextAlignment(.center)
+            .foregroundStyle(.gray)
+            .font(.caption)
     }
     
     // MARK: - Cancel
@@ -89,5 +115,9 @@ struct CreateCommunityView: View {
 }
 
 #Preview {
-    CreateCommunityView(communityVM: CommunityViewModel(), isViewDisplayed: .constant(true))
+    CreateCommunityView(
+        communityVM: CommunityViewModel(),
+        locationManager: LocationManager(),
+        isViewDisplayed: .constant(true)
+    )
 }

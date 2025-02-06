@@ -853,6 +853,9 @@
         }
       }
     },
+    "Create" : {
+
+    },
     "Create new post" : {
       "localizations" : {
         "pt-BR" : {
@@ -1989,6 +1992,9 @@
           }
         }
       }
+    },
+    "New Community" : {
+
     },
     "No matches found nearby." : {
 
@@ -3572,6 +3578,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sua conta foi temporariamente banida."
+          }
+        }
+      }
+    },
+    "Your Community will be located on latitude %lf and longitude %lf." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Your Community will be located on latitude %1$lf and longitude %2$lf."
           }
         }
       }
