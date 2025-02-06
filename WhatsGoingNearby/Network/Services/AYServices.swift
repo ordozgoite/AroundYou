@@ -79,6 +79,10 @@ protocol AYServiceable {
     func deactivateUserDiscoverability(token: String) async -> Result<DeactivateUserDiscoverabilityResponse, RequestError>
     func updateUserPreferences(gender: String, interestGenders: [String], age: Int, minInterestAge: Int, maxInterestAge: Int, isNotificationsEnabled: Bool, token: String) async -> Result<UserDiscoverPreferences, RequestError>
     func discoverUsersByPreferences(latitude: Double, longitude: Double, token: String) async -> Result<[UserDiscoverInfo], RequestError>
+    
+    // Community
+    func postNewCommunity(name: String, imageUrl: String?, latitude: Double, longitude: Double, token: String) async -> Result<Community, RequestError>
+    func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[Community], RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -300,5 +304,15 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func discoverUsersByPreferences(latitude: Double, longitude: Double, token: String) async -> Result<[UserDiscoverInfo], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.discoverUsersByPreferences(latitude: latitude, longitude: longitude, token: token), responseModel: [UserDiscoverInfo].self)
+    }
+    
+    // MARK: - Commmunity
+    
+    func postNewCommunity(name: String, imageUrl: String?, latitude: Double, longitude: Double, token: String) async -> Result<Community, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewCommunity(name: name, imageUrl: imageUrl, latitude: latitude, longitude: longitude, token: token), responseModel: Community.self)
+    }
+    
+    func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[Community], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token), responseModel: [Community].self)
     }
 }
