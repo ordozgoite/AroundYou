@@ -104,6 +104,16 @@
         }
       }
     },
+    "%lf, %lf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lf, %2$lf"
+          }
+        }
+      }
+    },
     "%lld" : {
 
     },
@@ -853,7 +863,7 @@
         }
       }
     },
-    "Create" : {
+    "Create Community" : {
 
     },
     "Create new post" : {
@@ -871,6 +881,9 @@
           }
         }
       }
+    },
+    "Creating..." : {
+
     },
     "Crop View" : {
 
@@ -1162,6 +1175,9 @@
           }
         }
       }
+    },
+    "Duration:" : {
+
     },
     "e" : {
       "extractionState" : "stale",
@@ -1850,6 +1866,9 @@
           }
         }
       }
+    },
+    "Location:" : {
+
     },
     "Longitude" : {
       "localizations" : {
@@ -3578,16 +3597,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sua conta foi temporariamente banida."
-          }
-        }
-      }
-    },
-    "Your Community will be located on latitude %lf and longitude %lf." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Your Community will be located on latitude %1$lf and longitude %2$lf."
           }
         }
       }

@@ -25,11 +25,17 @@ struct CreateCommunityView: View {
                 
                 Name()
                 
+                Divider()
+                
+                Duration()
+                
                 Location()
                 
                 Spacer()
+                
+                Create()
             }
-            .padding(.top)
+            .padding()
             .onReceive(locationManager.$location) { newLocation in
                 if let newLocation = newLocation {
                     latitude = newLocation.coordinate.latitude
@@ -40,10 +46,6 @@ struct CreateCommunityView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Cancel()
-                }
-                
-                ToolbarItem(placement: .topBarTrailing) {
-                    Create()
                 }
             }
             .navigationTitle("New Community")
@@ -72,14 +74,56 @@ struct CreateCommunityView: View {
             .fontWeight(.bold)
     }
     
+    // MARK: - Duration
+    
+    @ViewBuilder
+    private func Duration() -> some View {
+        VStack {
+            HStack {
+                Text("Duration:")
+                    .fontWeight(.bold)
+                
+                Spacer()
+                
+                Text("4 hours")
+            }
+            .foregroundStyle(.gray)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 16).fill(.thinMaterial)
+            )
+            
+//            Text("Communities stay active and visible for only 4 hours after its creation.")
+//                .multilineTextAlignment(.center)
+//                .foregroundStyle(.gray)
+//                .font(.caption)
+        }
+    }
+    
     // MARK: - Location
     
     @ViewBuilder
     private func Location() -> some View {
-        Text("Your Community will be located on latitude \(latitude) and longitude \(longitude).")
-            .multilineTextAlignment(.center)
+        VStack {
+            HStack {
+                Text("Location:")
+                    .fontWeight(.bold)
+                
+                Spacer()
+                
+                Text("\(latitude), \(longitude)")
+            }
             .foregroundStyle(.gray)
-            .font(.caption)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 16).fill(.thinMaterial)
+            )
+            
+//            Text("Only people within a 1 km radius of your community will be able to see and interact with it.")
+//                .multilineTextAlignment(.center)
+//                .foregroundStyle(.gray)
+//                .font(.caption)
+        }
     }
     
     // MARK: - Cancel
@@ -96,9 +140,9 @@ struct CreateCommunityView: View {
     @ViewBuilder
     private func Create() -> some View {
         if communityVM.isCreatingCommunity {
-            ProgressView()
+            AYProgressButton(title: "Creating...")
         } else {
-            Button("Create") {
+            AYButton(title: "Create Community") {
                 Task {
                     try await createCommunity()
                 }
@@ -109,7 +153,9 @@ struct CreateCommunityView: View {
     // MARK: - Private Methods
     
     private func createCommunity() async throws {
-        let token = try await authVM.getFirebaseToken()
+        communityVM.isCreatingCommunity = true
+        
+//        let token = try await authVM.getFirebaseToken()
         // TODO: run PostCommunity request
     }
 }
