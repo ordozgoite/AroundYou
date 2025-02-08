@@ -23,8 +23,7 @@ struct CommunitySuggestionView: View {
             RoundedRectangle(cornerRadius: 16).fill(.thinMaterial)
         )
         .sheet(isPresented: $communityVM.isCreateCommunityViewDisplayed) {
-            CreateCommunityView(
-                communityVM: communityVM,
+            CreateCommunityScreen(
                 locationManager: locationManager,
                 isViewDisplayed: $communityVM.isCreateCommunityViewDisplayed
             )

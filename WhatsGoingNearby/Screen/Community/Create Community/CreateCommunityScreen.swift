@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct CreateCommunityView: View {
+struct CreateCommunityScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject var communityVM: CommunityViewModel
+    @StateObject private var createCommunityVM = CreateCommunityViewModel()
     @ObservedObject var locationManager: LocationManager
     @FocusState private var isDescriptionTextFieldFocused: Bool
     
@@ -40,12 +40,12 @@ struct CreateCommunityView: View {
             .padding()
             .onReceive(locationManager.$location) { newLocation in
                 if let newLocation = newLocation {
-                    communityVM.latitude = newLocation.coordinate.latitude
-                    communityVM.longitude = newLocation.coordinate.longitude
+                    createCommunityVM.latitude = newLocation.coordinate.latitude
+                    createCommunityVM.longitude = newLocation.coordinate.longitude
                 }
             }
             .onAppear {
-                communityVM.resetCreateCommunityInputs()
+                createCommunityVM.resetCreateCommunityInputs()
             }
             
             .toolbar {
@@ -72,7 +72,7 @@ struct CreateCommunityView: View {
     
     @ViewBuilder
     private func Name() -> some View {
-        TextField("Enter a Community Name", text: $communityVM.communityNameInput)
+        TextField("Enter a Community Name", text: $createCommunityVM.communityNameInput)
             .textFieldStyle(.plain)
             .multilineTextAlignment(.center)
             .font(.title)
@@ -91,14 +91,14 @@ struct CreateCommunityView: View {
                 Spacer()
             }
             
-            TextField("Briefly describe your Community...", text: $communityVM.communityDescriptionInput, axis: .vertical)
+            TextField("Briefly describe your Community...", text: $createCommunityVM.communityDescriptionInput, axis: .vertical)
                 .textFieldStyle(.roundedBorder)
                 .lineLimit(3...3)
                 .focused($isDescriptionTextFieldFocused)
-                .onReceive(communityVM.communityDescriptionInput.publisher.last()) {
+                .onReceive(createCommunityVM.communityDescriptionInput.publisher.last()) {
                     if ($0 as Character).asciiValue == 10 {
                         isDescriptionTextFieldFocused = false
-                        communityVM.communityDescriptionInput.removeLast()
+                        createCommunityVM.communityDescriptionInput.removeLast()
                     }
                 }
         }
@@ -137,7 +137,7 @@ struct CreateCommunityView: View {
             Menu {
                 ForEach(CommunityDuration.allCases, id: \.self) { duration in
                     Button {
-                        communityVM.selectedCommunityDuration = duration
+                        createCommunityVM.selectedCommunityDuration = duration
                     } label: {
                         Text(duration.title)
                     }
@@ -145,7 +145,7 @@ struct CreateCommunityView: View {
             } label: {
                 HStack(spacing: 0) {
                     HStack {
-                        Text(communityVM.selectedCommunityDuration.title)
+                        Text(createCommunityVM.selectedCommunityDuration.title)
                     }
                     .frame(width: 60)
                     Image(systemName: "chevron.up.chevron.down")
@@ -171,7 +171,7 @@ struct CreateCommunityView: View {
             
             Spacer()
             
-            Toggle("", isOn: $communityVM.isLocationVisible)
+            Toggle("", isOn: $createCommunityVM.isLocationVisible)
         }
         .frame(height: 24)
         .foregroundStyle(.gray)
@@ -191,7 +191,7 @@ struct CreateCommunityView: View {
             
             Spacer()
             
-            Toggle("", isOn: $communityVM.isCommunityPrivate)
+            Toggle("", isOn: $createCommunityVM.isCommunityPrivate)
         }
         .frame(height: 24)
         .foregroundStyle(.gray)
@@ -214,7 +214,7 @@ struct CreateCommunityView: View {
     
     @ViewBuilder
     private func Create() -> some View {
-        if communityVM.isCreatingCommunity {
+        if createCommunityVM.isCreatingCommunity {
             AYProgressButton(title: "Creating...")
         } else {
             AYButton(title: "Create Community") {
@@ -244,16 +244,17 @@ struct CreateCommunityView: View {
             let longitude = location.coordinate.longitude
             
             let token = try await authVM.getFirebaseToken()
-            await communityVM.posNewCommunity(latitude: latitude, longitude: longitude, token: token)
+            await createCommunityVM.posNewCommunity(latitude: latitude, longitude: longitude, token: token) {
+                self.isViewDisplayed = false
+            }
         } else {
-            communityVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
+            createCommunityVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
         }
     }
 }
 
 #Preview {
-    CreateCommunityView(
-        communityVM: CommunityViewModel(),
+    CreateCommunityScreen(
         locationManager: LocationManager(),
         isViewDisplayed: .constant(true)
     )

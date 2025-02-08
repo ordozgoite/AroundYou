@@ -15,6 +15,7 @@
 		ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525E2B817A31005B6413 /* EditProfileScreen.swift */; };
 		ED13B0A12CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */; };
 		ED16B8DE2D57F4240034B190 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED16B8DD2D57F4240034B190 /* FirebaseService.swift */; };
+		ED16B8E22D5800E00034B190 /* CreateCommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED16B8E12D5800E00034B190 /* CreateCommunityViewModel.swift */; };
 		ED22678D2B8FCB93006FE9D3 /* CropScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22678C2B8FCB93006FE9D3 /* CropScreen.swift */; };
 		ED22678F2B9026C1006FE9D3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22678E2B9026C1006FE9D3 /* NotificationManager.swift */; };
 		ED24FAEE2B9E64F4002F7A11 /* EditProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED24FAED2B9E64F4002F7A11 /* EditProfileResponse.swift */; };
@@ -232,7 +233,7 @@
 		EDEF7A742D524E370030B7A6 /* CommunityListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A732D524E370030B7A6 /* CommunityListScreen.swift */; };
 		EDEF7A782D5251670030B7A6 /* CommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A772D5251670030B7A6 /* CommunityViewModel.swift */; };
 		EDEF7A7A2D5257470030B7A6 /* CommunitySuggestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */; };
-		EDEF7A7E2D53A3990030B7A6 /* CreateCommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A7D2D53A3990030B7A6 /* CreateCommunityView.swift */; };
+		EDEF7A7E2D53A3990030B7A6 /* CreateCommunityScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A7D2D53A3990030B7A6 /* CreateCommunityScreen.swift */; };
 		EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF43E922B86E6B60037CC9F /* LocalState.swift */; };
 		EDFADBA02CF11F3D0050E322 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFADB9F2CF11F3D0050E322 /* Gender.swift */; };
 /* End PBXBuildFile section */
@@ -246,6 +247,7 @@
 		ED06525E2B817A31005B6413 /* EditProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileScreen.swift; sourceTree = "<group>"; };
 		ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeactivateUserDiscoverabilityResponse.swift; sourceTree = "<group>"; };
 		ED16B8DD2D57F4240034B190 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		ED16B8E12D5800E00034B190 /* CreateCommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommunityViewModel.swift; sourceTree = "<group>"; };
 		ED22678C2B8FCB93006FE9D3 /* CropScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropScreen.swift; sourceTree = "<group>"; };
 		ED22678E2B9026C1006FE9D3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		ED24FAED2B9E64F4002F7A11 /* EditProfileResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileResponse.swift; sourceTree = "<group>"; };
@@ -434,7 +436,7 @@
 		EDEF7A732D524E370030B7A6 /* CommunityListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityListScreen.swift; sourceTree = "<group>"; };
 		EDEF7A772D5251670030B7A6 /* CommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewModel.swift; sourceTree = "<group>"; };
 		EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunitySuggestionView.swift; sourceTree = "<group>"; };
-		EDEF7A7D2D53A3990030B7A6 /* CreateCommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommunityView.swift; sourceTree = "<group>"; };
+		EDEF7A7D2D53A3990030B7A6 /* CreateCommunityScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommunityScreen.swift; sourceTree = "<group>"; };
 		EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhatsGoingNearby.entitlements; sourceTree = "<group>"; };
 		EDF43E912B869F3E0037CC9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EDF43E922B86E6B60037CC9F /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
@@ -489,6 +491,24 @@
 				ED0652562B813832005B6413 /* BugScreen.swift */,
 			);
 			path = Bug;
+			sourceTree = "<group>";
+		};
+		ED16B8DF2D58000A0034B190 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				EDEF7A732D524E370030B7A6 /* CommunityListScreen.swift */,
+				EDEF7A772D5251670030B7A6 /* CommunityViewModel.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		ED16B8E02D58001D0034B190 /* Create Community */ = {
+			isa = PBXGroup;
+			children = (
+				ED16B8E12D5800E00034B190 /* CreateCommunityViewModel.swift */,
+				EDEF7A7D2D53A3990030B7A6 /* CreateCommunityScreen.swift */,
+			);
+			path = "Create Community";
 			sourceTree = "<group>";
 		};
 		ED2F1A6C2B9049FE001F4300 /* Post */ = {
@@ -1080,8 +1100,8 @@
 		EDEF7A752D5250500030B7A6 /* Community */ = {
 			isa = PBXGroup;
 			children = (
-				EDEF7A732D524E370030B7A6 /* CommunityListScreen.swift */,
-				EDEF7A772D5251670030B7A6 /* CommunityViewModel.swift */,
+				ED16B8DF2D58000A0034B190 /* List */,
+				ED16B8E02D58001D0034B190 /* Create Community */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -1092,7 +1112,6 @@
 				EDEF7A6F2D524E370030B7A6 /* CommunityImageView.swift */,
 				EDEF7A702D524E370030B7A6 /* CommunityView.swift */,
 				EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */,
-				EDEF7A7D2D53A3990030B7A6 /* CreateCommunityView.swift */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -1314,6 +1333,7 @@
 				ED6DD4942B8284ED00ADBB64 /* UnblockUserResponse.swift in Sources */,
 				EDE8B3712BC20AFB00DFF750 /* DeleteChatResponse.swift in Sources */,
 				EDDC9E082BD86E6A00000EA4 /* MessageStatus.swift in Sources */,
+				ED16B8E22D5800E00034B190 /* CreateCommunityViewModel.swift in Sources */,
 				ED50C4622B7F9C030001EDF6 /* UserProfileViewModel.swift in Sources */,
 				ED3775A52B9A5E5200BEF3D8 /* DeleteUserResponse.swift in Sources */,
 				ED598C4C2B7C587100B6C23D /* AuthenticatedScreen.swift in Sources */,
@@ -1399,7 +1419,7 @@
 				ED598C512B7C80EC00B6C23D /* LocationTestScreen.swift in Sources */,
 				ED3B54ED2CCF29ED007AA1D0 /* DiscoverUserView.swift in Sources */,
 				EDC54BDE2D02AFC9006A5697 /* DiscoverDisclaimerView.swift in Sources */,
-				EDEF7A7E2D53A3990030B7A6 /* CreateCommunityView.swift in Sources */,
+				EDEF7A7E2D53A3990030B7A6 /* CreateCommunityScreen.swift in Sources */,
 				ED74E8072BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift in Sources */,
 				ED3B54E72CCEC704007AA1D0 /* ActivateUserDiscoverabilityResponse.swift in Sources */,
 				EDA322292B7CA362009905B5 /* Endpoint.swift in Sources */,
