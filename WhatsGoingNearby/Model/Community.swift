@@ -14,6 +14,17 @@ struct Community: Codable, Identifiable {
     let description: String?
     let latitude: Double
     let longitude: Double
-    var isMember: Bool
-    var isPrivate: Bool
+    let isLocationVisible: Bool
+    let duration: Int
+    
+    enum CodingKeys: String, CodingKey, Decodable {
+        case id = "_id"
+        case name
+        case imageUrl
+        case description
+        case latitude
+        case longitude
+        case isLocationVisible
+        case duration
+    }
 }

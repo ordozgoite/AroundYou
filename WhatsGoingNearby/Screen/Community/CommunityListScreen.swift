@@ -46,13 +46,13 @@ struct CommunityListScreen: View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 32) {
                 ForEach(communityVM.communities) { community in
-                    CommunityView(
-                        imageUrl: community.imageUrl,
-                        imageSize: 100,
-                        name: community.name,
-                        isMember: community.isMember,
-                        isPrivate: community.isPrivate
-                    )
+//                    CommunityView(
+//                        imageUrl: community.imageUrl,
+//                        imageSize: 100,
+//                        name: community.name,
+//                        isMember: community.isMember,
+//                        isPrivate: community.isPrivate
+//                    )
                 }
             }
             .padding()

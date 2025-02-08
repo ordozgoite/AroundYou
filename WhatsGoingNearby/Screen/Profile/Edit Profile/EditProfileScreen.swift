@@ -95,7 +95,7 @@ struct EditProfileScreen: View {
                                                 editProfileVM.croppedImage = croppedImage
                                                 Task {
                                                     let token = try await authVM.getFirebaseToken()
-                                                    if let url = try await editProfileVM.storeImage(forUser: LocalState.currentUserUid, token: token) {
+                                                    if let url = try await editProfileVM.storeImageAndGetUrl(forUser: LocalState.currentUserUid, token: token) {
                                                         authVM.profilePic = url
                                                     }
                                                 }

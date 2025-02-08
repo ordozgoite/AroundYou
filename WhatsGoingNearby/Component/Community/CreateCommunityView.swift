@@ -12,11 +12,9 @@ struct CreateCommunityView: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject var communityVM: CommunityViewModel
     @ObservedObject var locationManager: LocationManager
+    @FocusState private var isDescriptionTextFieldFocused: Bool
     
     @Binding var isViewDisplayed: Bool
-    
-    @State private var latitude: Double = 0
-    @State private var longitude: Double = 0
     
     var body: some View {
         NavigationStack {
@@ -27,20 +25,27 @@ struct CreateCommunityView: View {
                 
                 Divider()
                 
-                Duration()
+                Description()
                 
-                Location()
+                Settings()
                 
                 Spacer()
                 
-                Create()
+                VStack {
+                    Create()
+                    
+                    Disclaimer()
+                }
             }
             .padding()
             .onReceive(locationManager.$location) { newLocation in
                 if let newLocation = newLocation {
-                    latitude = newLocation.coordinate.latitude
-                    longitude = newLocation.coordinate.longitude
+                    communityVM.latitude = newLocation.coordinate.latitude
+                    communityVM.longitude = newLocation.coordinate.longitude
                 }
+            }
+            .onAppear {
+                communityVM.resetCreateCommunityInputs()
             }
             
             .toolbar {
@@ -74,56 +79,126 @@ struct CreateCommunityView: View {
             .fontWeight(.bold)
     }
     
+    // MARK: - Description
+    
+    @ViewBuilder
+    private func Description() -> some View {
+        VStack {
+            HStack {
+                Text("Description:")
+                    .foregroundStyle(.gray)
+                    .fontWeight(.bold)
+                Spacer()
+            }
+            
+            TextField("Briefly describe your Community...", text: $communityVM.communityDescriptionInput, axis: .vertical)
+                .textFieldStyle(.roundedBorder)
+                .lineLimit(3...3)
+                .focused($isDescriptionTextFieldFocused)
+                .onReceive(communityVM.communityDescriptionInput.publisher.last()) {
+                    if ($0 as Character).asciiValue == 10 {
+                        isDescriptionTextFieldFocused = false
+                        communityVM.communityDescriptionInput.removeLast()
+                    }
+                }
+        }
+    }
+    
+    // MARK: - Settings
+    
+    @ViewBuilder
+    private func Settings() -> some View {
+        VStack {
+            Duration()
+            
+            Divider()
+            
+            Location()
+            
+            Divider()
+            
+            Private()
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 16).fill(.thinMaterial)
+        )
+    }
+    
     // MARK: - Duration
     
     @ViewBuilder
     private func Duration() -> some View {
-        VStack {
-            HStack {
-                Text("Duration:")
-                    .fontWeight(.bold)
-                
-                Spacer()
-                
-                Text("4 hours")
-            }
-            .foregroundStyle(.gray)
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 16).fill(.thinMaterial)
-            )
+        HStack {
+            Text("Duration:")
+                .fontWeight(.bold)
             
-//            Text("Communities stay active and visible for only 4 hours after its creation.")
-//                .multilineTextAlignment(.center)
-//                .foregroundStyle(.gray)
-//                .font(.caption)
+            Spacer()
+            
+            Menu {
+                ForEach(CommunityDuration.allCases, id: \.self) { duration in
+                    Button {
+                        communityVM.selectedCommunityDuration = duration
+                    } label: {
+                        Text(duration.title)
+                    }
+                }
+            } label: {
+                HStack(spacing: 0) {
+                    HStack {
+                        Text(communityVM.selectedCommunityDuration.title)
+                    }
+                    .frame(width: 60)
+                    Image(systemName: "chevron.up.chevron.down")
+                        .scaleEffect(0.8)
+                }
+            }
         }
+        .frame(height: 24)
+        .foregroundStyle(.gray)
+        .padding()
+//        .background(
+//            RoundedRectangle(cornerRadius: 16).fill(.thinMaterial)
+//        )
     }
     
     // MARK: - Location
     
     @ViewBuilder
     private func Location() -> some View {
-        VStack {
-            HStack {
-                Text("Location:")
-                    .fontWeight(.bold)
-                
-                Spacer()
-                
-                Text("\(latitude), \(longitude)")
-            }
-            .foregroundStyle(.gray)
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 16).fill(.thinMaterial)
-            )
+        HStack {
+            Text("Display Location:")
+                .fontWeight(.bold)
             
-//            Text("Only people within a 1 km radius of your community will be able to see and interact with it.")
-//                .multilineTextAlignment(.center)
-//                .foregroundStyle(.gray)
-//                .font(.caption)
+            Spacer()
+            
+            Toggle("", isOn: $communityVM.isLocationVisible)
         }
+        .frame(height: 24)
+        .foregroundStyle(.gray)
+        .padding()
+//        .background(
+//            RoundedRectangle(cornerRadius: 16).fill(.thinMaterial)
+//        )
+    }
+    
+    // MARK: - Private
+    
+    @ViewBuilder
+    private func Private() -> some View {
+        HStack {
+            Text("Ask to join:")
+                .fontWeight(.bold)
+            
+            Spacer()
+            
+            Toggle("", isOn: $communityVM.isCommunityPrivate)
+        }
+        .frame(height: 24)
+        .foregroundStyle(.gray)
+        .padding()
+//        .background(
+//            RoundedRectangle(cornerRadius: 16).fill(.thinMaterial)
+//        )
     }
     
     // MARK: - Cancel
@@ -150,13 +225,29 @@ struct CreateCommunityView: View {
         }
     }
     
+    // MARK: - Disclaimer
+    
+    @ViewBuilder
+    private func Disclaimer() -> some View {
+        Text("Only people within a 1 km radius of your community will be able to see and interact with it.")
+            .multilineTextAlignment(.center)
+            .foregroundStyle(.gray)
+            .font(.caption)
+    }
+    
     // MARK: - Private Methods
     
     private func createCommunity() async throws {
-        communityVM.isCreatingCommunity = true
-        
-//        let token = try await authVM.getFirebaseToken()
-        // TODO: run PostCommunity request
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            let token = try await authVM.getFirebaseToken()
+            await communityVM.posNewCommunity(latitude: latitude, longitude: longitude, token: token)
+        } else {
+            communityVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
+        }
     }
 }
 

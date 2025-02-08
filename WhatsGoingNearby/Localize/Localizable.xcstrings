@@ -104,16 +104,6 @@
         }
       }
     },
-    "%lf, %lf" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$lf, %2$lf"
-          }
-        }
-      }
-    },
     "%lld" : {
 
     },
@@ -481,6 +471,9 @@
         }
       }
     },
+    "Ask to join:" : {
+
+    },
     "Asking for information" : {
       "localizations" : {
         "pt-BR" : {
@@ -612,6 +605,9 @@
           }
         }
       }
+    },
+    "Briefly describe your Community..." : {
+
     },
     "By signing up, you agree to our [Terms of Use](https://aroundyou3.wordpress.com/terms-of-use) and [Privacy Policy](https://aroundyou3.wordpress.com/policy-privacy)." : {
       "localizations" : {
@@ -1020,6 +1016,9 @@
         }
       }
     },
+    "Description:" : {
+
+    },
     "Disable notifications" : {
       "localizations" : {
         "pt-BR" : {
@@ -1111,6 +1110,9 @@
           }
         }
       }
+    },
+    "Display Location:" : {
+
     },
     "Distance: %@ meters" : {
       "localizations" : {
@@ -1867,9 +1869,6 @@
         }
       }
     },
-    "Location:" : {
-
-    },
     "Longitude" : {
       "localizations" : {
         "pt-BR" : {
@@ -2103,6 +2102,9 @@
           }
         }
       }
+    },
+    "Only people within a 1 km radius of your community will be able to see and interact with it." : {
+
     },
     "Oops! Looks like something went wrong." : {
       "extractionState" : "stale",

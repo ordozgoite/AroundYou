@@ -26,18 +26,7 @@ class CreatePostViewModel: ObservableObject {
     
     func postNewPublication(latitude: Double, longitude: Double, token: String, dismissScreen: () -> ()) async {
         isLoading = true
-        
-        var imageURL: String? = nil
-        if image != nil {
-            do {
-                imageURL = try await storeImage()
-            } catch {
-                overlayError = (true, ErrorMessage.defaultErrorMessage)
-                isLoading = false
-                return
-            }
-        }
-        
+        let imageURL = image == nil ? nil : await storeImage()
         let result = await AYServices.shared.postNewPublication(text: postText.nonEmptyOrNil(), tag: selectedPostTag.rawValue, imageUrl: imageURL, postDuration: selectedPostDuration.value, latitude: latitude, longitude: longitude, isLocationVisible: isLocationVisible, token: token)
         isLoading = false
         
@@ -53,13 +42,13 @@ class CreatePostViewModel: ObservableObject {
         }
     }
     
-    private func storeImage() async throws -> String? {
-        guard image != nil else { return nil }
-        let storageRef = Storage.storage().reference()
-        let fileRef = storageRef.child("post-image/\(UUID().uuidString).jpg")
-        let imageData = image?.jpegData(compressionQuality: 0.8)
-        _ = try await fileRef.putDataAsync(imageData!)
-        let imageUrl = try await fileRef.downloadURL()
-        return imageUrl.absoluteString
+    private func storeImage() async -> String? {
+        do {
+            return try await FirebaseService.shared.storeImageAndGetUrl(self.image!)
+        } catch {
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            isLoading = false
+            return nil
+        }
     }
 }

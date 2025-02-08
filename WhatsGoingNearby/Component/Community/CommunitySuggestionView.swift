@@ -28,6 +28,7 @@ struct CommunitySuggestionView: View {
                 locationManager: locationManager,
                 isViewDisplayed: $communityVM.isCreateCommunityViewDisplayed
             )
+            .interactiveDismissDisabled(true)
         }
     }
     
@@ -77,7 +78,6 @@ struct CommunitySuggestionView: View {
             .foregroundStyle(.gray.opacity(0.25))
             .onTapGesture {
                 communityVM.isCreateCommunityViewDisplayed = true
-                communityVM.resetCreateCommunityInputs()
             }
     }
 }

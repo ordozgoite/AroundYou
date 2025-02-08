@@ -14,6 +14,7 @@
 		ED06525D2B8171C5005B6413 /* ForgotPasswordScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525C2B8171C5005B6413 /* ForgotPasswordScreen.swift */; };
 		ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525E2B817A31005B6413 /* EditProfileScreen.swift */; };
 		ED13B0A12CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */; };
+		ED16B8DE2D57F4240034B190 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED16B8DD2D57F4240034B190 /* FirebaseService.swift */; };
 		ED22678D2B8FCB93006FE9D3 /* CropScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22678C2B8FCB93006FE9D3 /* CropScreen.swift */; };
 		ED22678F2B9026C1006FE9D3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22678E2B9026C1006FE9D3 /* NotificationManager.swift */; };
 		ED24FAEE2B9E64F4002F7A11 /* EditProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED24FAED2B9E64F4002F7A11 /* EditProfileResponse.swift */; };
@@ -211,6 +212,7 @@
 		EDE199212CCC5D3F0065206C /* VerifyUserDiscoverabilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE199202CCC5D3F0065206C /* VerifyUserDiscoverabilityResponse.swift */; };
 		EDE199232CCC5E3E0065206C /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE199222CCC5E3E0065206C /* DiscoverViewModel.swift */; };
 		EDE199282CCC60A20065206C /* ActivateDiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE199272CCC60A20065206C /* ActivateDiscoverView.swift */; };
+		EDE8994A2D5666C90094E7C0 /* CommunityDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE899492D5666C90094E7C0 /* CommunityDuration.swift */; };
 		EDE8B36D2BC1D11500DFF750 /* PostSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B36C2BC1D11500DFF750 /* PostSettingsView.swift */; };
 		EDE8B36F2BC1D9A800DFF750 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B36E2BC1D9A800DFF750 /* AudioRecorder.swift */; };
 		EDE8B3712BC20AFB00DFF750 /* DeleteChatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B3702BC20AFB00DFF750 /* DeleteChatResponse.swift */; };
@@ -243,6 +245,7 @@
 		ED06525C2B8171C5005B6413 /* ForgotPasswordScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordScreen.swift; sourceTree = "<group>"; };
 		ED06525E2B817A31005B6413 /* EditProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileScreen.swift; sourceTree = "<group>"; };
 		ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeactivateUserDiscoverabilityResponse.swift; sourceTree = "<group>"; };
+		ED16B8DD2D57F4240034B190 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		ED22678C2B8FCB93006FE9D3 /* CropScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropScreen.swift; sourceTree = "<group>"; };
 		ED22678E2B9026C1006FE9D3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		ED24FAED2B9E64F4002F7A11 /* EditProfileResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileResponse.swift; sourceTree = "<group>"; };
@@ -411,6 +414,7 @@
 		EDE199202CCC5D3F0065206C /* VerifyUserDiscoverabilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyUserDiscoverabilityResponse.swift; sourceTree = "<group>"; };
 		EDE199222CCC5E3E0065206C /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
 		EDE199272CCC60A20065206C /* ActivateDiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivateDiscoverView.swift; sourceTree = "<group>"; };
+		EDE899492D5666C90094E7C0 /* CommunityDuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityDuration.swift; sourceTree = "<group>"; };
 		EDE8B36C2BC1D11500DFF750 /* PostSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSettingsView.swift; sourceTree = "<group>"; };
 		EDE8B36E2BC1D9A800DFF750 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		EDE8B3702BC20AFB00DFF750 /* DeleteChatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteChatResponse.swift; sourceTree = "<group>"; };
@@ -600,6 +604,7 @@
 				EDFADB9F2CF11F3D0050E322 /* Gender.swift */,
 				ED0314362D37FD2C001B917A /* UserDiscoverInfo.swift */,
 				EDEF7A682D51C4EC0030B7A6 /* Community.swift */,
+				EDE899492D5666C90094E7C0 /* CommunityDuration.swift */,
 				EDA322392B7CCD79009905B5 /* Response */,
 			);
 			path = Model;
@@ -964,6 +969,7 @@
 			children = (
 				EDA3222B2B7CA3A8009905B5 /* AYServices.swift */,
 				EDCBEBF82BB8A5A700087325 /* SocketService.swift */,
+				ED16B8DD2D57F4240034B190 /* FirebaseService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1219,6 +1225,7 @@
 				ED598C092B7C472200B6C23D /* AYButton.swift in Sources */,
 				EDA3223B2B7CCD8A009905B5 /* MongoUser.swift in Sources */,
 				EDDC9E042BD85B1A00000EA4 /* SendingMessage.swift in Sources */,
+				EDE8994A2D5666C90094E7C0 /* CommunityDuration.swift in Sources */,
 				EDA322412B7D6B55009905B5 /* UnlikePublicationResponse.swift in Sources */,
 				ED57D24C2B95888D00FC7351 /* LocationService.swift in Sources */,
 				ED41409C2B7DE41F002690A5 /* PostNewCommentResponse.swift in Sources */,
@@ -1255,6 +1262,7 @@
 				EDA322382B7CC145009905B5 /* TimestampTestScreen.swift in Sources */,
 				ED6DD48D2B82685D00ADBB64 /* Block.swift in Sources */,
 				ED7D8F8E2BBB864E00544A8B /* CreatePostViewModel.swift in Sources */,
+				ED16B8DE2D57F4240034B190 /* FirebaseService.swift in Sources */,
 				ED598BF22B7C167500B6C23D /* FeedViewModel.swift in Sources */,
 				ED318A612CF6835D009A0D63 /* GenderInterestPickerView.swift in Sources */,
 				EDCF2C2F2BB60B1A0066950F /* ChatListViewModel.swift in Sources */,
