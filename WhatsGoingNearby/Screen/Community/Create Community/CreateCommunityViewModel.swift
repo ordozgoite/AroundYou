@@ -11,22 +11,28 @@ import SwiftUI
 @MainActor
 class CreateCommunityViewModel: ObservableObject {
     
+    @Published var image: UIImage?
     @Published var communityNameInput: String = ""
     @Published var communityDescriptionInput: String = ""
-    @Published var isCreatingCommunity: Bool = false
-    @Published var latitude: Double = 0
-    @Published var longitude: Double = 0
     @Published var selectedCommunityDuration: CommunityDuration = .oneHour
     @Published var isLocationVisible: Bool = false
-    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var isCommunityPrivate: Bool = false
-    @Published var image: UIImage?
+    
+    @Published var isCreatingCommunity: Bool = false
+//    @Published var latitude: Double = 0
+//    @Published var longitude: Double = 0
+    
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var isCameraDisplayed = false
     
     func resetCreateCommunityInputs() {
         // TODO: Remove Image
         self.communityNameInput = ""
         communityDescriptionInput = ""
+    }
+    
+    func areInputsValid() -> Bool {
+        return !communityNameInput.isEmpty
     }
     
     func posNewCommunity(latitude: Double, longitude: Double, token: String, dismiss: () -> ()) async {

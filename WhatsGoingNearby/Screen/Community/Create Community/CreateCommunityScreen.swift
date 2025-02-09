@@ -38,12 +38,6 @@ struct CreateCommunityScreen: View {
                 }
             }
             .padding()
-            .onReceive(locationManager.$location) { newLocation in
-                if let newLocation = newLocation {
-                    createCommunityVM.latitude = newLocation.coordinate.latitude
-                    createCommunityVM.longitude = newLocation.coordinate.longitude
-                }
-            }
             .onAppear {
                 createCommunityVM.resetCreateCommunityInputs()
             }
@@ -119,21 +113,23 @@ struct CreateCommunityScreen: View {
             
             Private()
         }
+        .padding()
         .background(
             RoundedRectangle(cornerRadius: 16).fill(.thinMaterial)
         )
     }
     
     // MARK: - Duration
-    
+
     @ViewBuilder
     private func Duration() -> some View {
         HStack {
             Text("Duration:")
                 .fontWeight(.bold)
-            
+                .frame(minWidth: 120, alignment: .leading) // Mantém largura fixa
+
             Spacer()
-            
+
             Menu {
                 ForEach(CommunityDuration.allCases, id: \.self) { duration in
                     Button {
@@ -143,63 +139,57 @@ struct CreateCommunityScreen: View {
                     }
                 }
             } label: {
-                HStack(spacing: 0) {
-                    HStack {
-                        Text(createCommunityVM.selectedCommunityDuration.title)
-                    }
-                    .frame(width: 60)
+                HStack {
+                    Text(createCommunityVM.selectedCommunityDuration.title)
+                        .frame(width: 80, alignment: .trailing) // Mantém o tamanho fixo
                     Image(systemName: "chevron.up.chevron.down")
                         .scaleEffect(0.8)
                 }
             }
         }
-        .frame(height: 24)
+        .frame(height: 32)
         .foregroundStyle(.gray)
-        .padding()
-//        .background(
-//            RoundedRectangle(cornerRadius: 16).fill(.thinMaterial)
-//        )
+        .padding(.vertical, 4)
     }
-    
+
     // MARK: - Location
-    
+
     @ViewBuilder
     private func Location() -> some View {
         HStack {
             Text("Display Location:")
                 .fontWeight(.bold)
+                .frame(minWidth: 120, alignment: .leading) // Mesma largura do Duration
             
             Spacer()
             
             Toggle("", isOn: $createCommunityVM.isLocationVisible)
+                .frame(width: 80, alignment: .trailing) // Mesmo tamanho do menu
         }
-        .frame(height: 24)
+        .frame(height: 32)
         .foregroundStyle(.gray)
-        .padding()
-//        .background(
-//            RoundedRectangle(cornerRadius: 16).fill(.thinMaterial)
-//        )
+        .padding(.vertical, 4)
     }
-    
+
     // MARK: - Private
-    
+
     @ViewBuilder
     private func Private() -> some View {
         HStack {
             Text("Ask to join:")
                 .fontWeight(.bold)
+                .frame(minWidth: 120, alignment: .leading) // Mesma largura do Duration
             
             Spacer()
             
             Toggle("", isOn: $createCommunityVM.isCommunityPrivate)
+                .frame(width: 80, alignment: .trailing) // Mesmo tamanho do menu
         }
-        .frame(height: 24)
+        .frame(height: 32)
         .foregroundStyle(.gray)
-        .padding()
-//        .background(
-//            RoundedRectangle(cornerRadius: 16).fill(.thinMaterial)
-//        )
+        .padding(.vertical, 4)
     }
+
     
     // MARK: - Cancel
     
@@ -222,6 +212,7 @@ struct CreateCommunityScreen: View {
                     try await createCommunity()
                 }
             }
+            .disabled(!createCommunityVM.areInputsValid())
         }
     }
     
