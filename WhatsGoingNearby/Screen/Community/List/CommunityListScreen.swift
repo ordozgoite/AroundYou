@@ -69,13 +69,17 @@ struct CommunityListScreen: View {
     private func Communities() -> some View {
         ScrollView {
             LazyVGrid(
-                columns: [GridItem(.flexible(), alignment: .top), GridItem(.flexible(), alignment: .top)],
+                columns: [
+                    GridItem(.flexible(), alignment: .top),
+                    GridItem(.flexible(), alignment: .top),
+                    GridItem(.flexible(), alignment: .top)
+                ],
                 spacing: 32
             ) {
                 ForEach(communityVM.communities) { community in
                     CommunityView(
                         imageUrl: community.imageUrl,
-                        imageSize: 100,
+                        imageSize: 50,
                         name: community.name,
                         isMember: community.isMember,
                         isPrivate: community.isPrivate,

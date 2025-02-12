@@ -32,7 +32,7 @@ struct CommunityView: View {
             VStack {
                 HStack(spacing: 8) {
                     Text(name)
-                        .font(.headline)
+                        .font(.callout)
                         .fontWeight(.semibold)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
@@ -48,7 +48,7 @@ struct CommunityView: View {
                 if isPrivate {
                     Text("Private")
                         .padding(2)
-                        .font(.callout)
+                        .font(.caption)
                         .foregroundStyle(.gray)
                         .overlay(
                             RoundedRectangle(cornerRadius: 5)
