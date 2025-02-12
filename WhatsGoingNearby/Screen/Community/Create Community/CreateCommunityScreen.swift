@@ -11,6 +11,7 @@ struct CreateCommunityScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var createCommunityVM = CreateCommunityViewModel()
+    @ObservedObject var communityVM: CommunityViewModel
     @ObservedObject var locationManager: LocationManager
     @FocusState private var isDescriptionTextFieldFocused: Bool
     
@@ -236,7 +237,10 @@ struct CreateCommunityScreen: View {
             
             let token = try await authVM.getFirebaseToken()
             await createCommunityVM.posNewCommunity(latitude: latitude, longitude: longitude, token: token) {
-                self.isViewDisplayed = false
+                Task {
+                    await communityVM.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
+                    self.isViewDisplayed = false
+                }
             }
         } else {
             createCommunityVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
@@ -246,6 +250,7 @@ struct CreateCommunityScreen: View {
 
 #Preview {
     CreateCommunityScreen(
+        communityVM: CommunityViewModel(),
         locationManager: LocationManager(),
         isViewDisplayed: .constant(true)
     )

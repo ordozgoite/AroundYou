@@ -22,13 +22,13 @@ struct CommunitySuggestionView: View {
         .background(
             RoundedRectangle(cornerRadius: 16).fill(.thinMaterial)
         )
-        .sheet(isPresented: $communityVM.isCreateCommunityViewDisplayed) {
-            CreateCommunityScreen(
-                locationManager: locationManager,
-                isViewDisplayed: $communityVM.isCreateCommunityViewDisplayed
-            )
-            .interactiveDismissDisabled(true)
-        }
+//        .sheet(isPresented: $communityVM.isCreateCommunityViewDisplayed) {
+//            CreateCommunityScreen(
+//                locationManager: locationManager, communityVM: <#CommunityViewModel#>,
+//                isViewDisplayed: $communityVM.isCreateCommunityViewDisplayed
+//            )
+//            .interactiveDismissDisabled(true)
+//        }
     }
     
     // MARK: - Header

@@ -26,6 +26,7 @@ struct CommunityListScreen: View {
             }
             .sheet(isPresented: $communityVM.isCreateCommunityViewDisplayed) {
                 CreateCommunityScreen(
+                    communityVM: communityVM,
                     locationManager: locationManager,
                     isViewDisplayed: $communityVM.isCreateCommunityViewDisplayed
                 )
