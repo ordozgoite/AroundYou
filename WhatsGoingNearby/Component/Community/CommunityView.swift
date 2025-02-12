@@ -14,14 +14,20 @@ struct CommunityView: View {
     let name: String
     let isMember: Bool
     let isPrivate: Bool
+    let creationDate: Int
+    let expirationDate: Int
     
     var body: some View {
         VStack(alignment: .center) {
-            CommunityImageView(
-                imageUrl: imageUrl,
-                size: imageSize
-            )
-            .shadow(radius: 5)
+            ZStack {
+                CircleTimerView(postDate: creationDate, expirationDate: expirationDate, size: imageSize + 8)
+                
+                CommunityImageView(
+                    imageUrl: imageUrl,
+                    size: imageSize
+                )
+                .shadow(radius: 5)
+            }
             
             VStack {
                 HStack(spacing: 8) {
@@ -41,8 +47,14 @@ struct CommunityView: View {
                 
                 if isPrivate {
                     Text("Private")
+                        .padding(2)
                         .font(.callout)
                         .foregroundStyle(.gray)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke(Color.gray, lineWidth: 2)
+                        )
+                        .offset(y: -2)
                 }
             }
         }
@@ -55,6 +67,8 @@ struct CommunityView: View {
         imageSize: 100,
         name: "Show Guns N' Roses",
         isMember: true,
-        isPrivate: true
+        isPrivate: true,
+        creationDate: 1739383886394,
+        expirationDate: 1739387486394
     )
 }
