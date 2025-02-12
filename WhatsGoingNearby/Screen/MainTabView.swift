@@ -15,7 +15,7 @@ struct MainTabView: View {
     @StateObject private var locationManager = LocationManager()
     
     let pub = NotificationCenter.default
-        .publisher(for: NSNotification.Name(Constants.updateBadgeNotificationKey))
+        .publisher(for:.updateBadge)
     
     @State private var badgeTimer: Timer?
     @State private var unreadChats: Int?
@@ -24,20 +24,26 @@ struct MainTabView: View {
         TabView {
             FeedScreen(locationManager: locationManager, socket: socket)
                 .tabItem {
-                    Label("Around You", systemImage: "mappin.and.ellipse")
+                    Label("Posts", systemImage: "quote.bubble.fill")
                 }
                 .environmentObject(authVM)
             
-            ChatListScreen(socket: socket)
-                .tabItem {
-                    Label("Chats", systemImage: "bubble.left.and.bubble.right")
-                }
-                .environmentObject(authVM)
-                .badge(unreadChats ?? 0)
+//            ChatListScreen(socket: socket)
+//                .tabItem {
+//                    Label("Chats", systemImage: "bubble.left.and.bubble.right")
+//                }
+//                .environmentObject(authVM)
+//                .badge(unreadChats ?? 0)
             
             DiscoverScreen(locationManager: locationManager, socket: socket)
                 .tabItem {
-                    Label("Discover", systemImage: "flame")
+                    Label("People", systemImage: "heart.fill")
+                }
+                .environmentObject(authVM)
+            
+            CommunityListScreen(locationManager: locationManager)
+                .tabItem {
+                    Label("Communities", systemImage: "person.2.fill")
                 }
                 .environmentObject(authVM)
             

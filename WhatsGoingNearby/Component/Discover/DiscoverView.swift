@@ -15,7 +15,7 @@ struct DiscoverView: View {
     @ObservedObject var socket: SocketService
     
     @State private var refreshObserver = NotificationCenter.default
-        .publisher(for: NSNotification.Name(Constants.refreshLocationSensitiveDataNotificationKey))
+        .publisher(for: .refreshLocationSensitiveData)
     
     var body: some View {
         NavigationStack {

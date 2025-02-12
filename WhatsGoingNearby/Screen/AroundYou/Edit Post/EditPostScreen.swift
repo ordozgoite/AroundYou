@@ -61,7 +61,7 @@ struct EditPostScreen: View {
     @ViewBuilder
     private func ComposePost() -> some View {
         ComposePostView(
-            maxLength: Constants.maxPostLength,
+            maxLength: Constants.MAX_POST_LENGHT,
             isCameraEnabled: false,
             text: $editPostVM.postText,
             isLocationVisible: $editPostVM.isLocationVisible,
@@ -126,8 +126,7 @@ struct EditPostScreen: View {
     }
     
     private func refreshFeed() {
-        let name = Notification.Name(Constants.refreshLocationSensitiveDataNotificationKey)
-        NotificationCenter.default.post(name: name, object: nil)
+        NotificationCenter.default.post(name: .refreshLocationSensitiveData, object: nil)
     }
 }
 

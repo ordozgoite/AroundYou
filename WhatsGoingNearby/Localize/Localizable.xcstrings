@@ -526,6 +526,9 @@
         }
       }
     },
+    "Be the first to create a community in your region..." : {
+
+    },
     "Be the first to make a post in your region..." : {
       "localizations" : {
         "pt-BR" : {
@@ -2014,6 +2017,9 @@
     "New Community" : {
 
     },
+    "No communities found nearby." : {
+
+    },
     "No matches found nearby." : {
 
     },
@@ -2185,6 +2191,9 @@
         }
       }
     },
+    "People" : {
+
+    },
     "Photos" : {
       "localizations" : {
         "pt-BR" : {
@@ -2352,6 +2361,9 @@
         }
       }
     },
+    "Posts" : {
+
+    },
     "Posts on AroundYou remain active for just **8 hours**, ensuring you discover timely and relevant information effortlessly." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2408,6 +2420,9 @@
           }
         }
       }
+    },
+    "Private" : {
+
     },
     "Profile" : {
       "localizations" : {

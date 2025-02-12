@@ -399,8 +399,7 @@ struct PostView: View {
     }
     
     private func refreshFeed() {
-        let name = Notification.Name(Constants.refreshLocationSensitiveDataNotificationKey)
-        NotificationCenter.default.post(name: name, object: nil)
+        NotificationCenter.default.post(name: .refreshLocationSensitiveData, object: nil)
     }
 }
 

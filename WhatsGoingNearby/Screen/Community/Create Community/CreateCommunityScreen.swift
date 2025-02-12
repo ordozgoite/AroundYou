@@ -55,7 +55,7 @@ struct CreateCommunityScreen: View {
     
     @ViewBuilder
     private func CommunityImage() -> some View {
-        Image(systemName: "figure.2.circle.fill")
+        Image(systemName: Constants.COMMUNITY_IMAGE_PLACEHOLDER)
             .resizable()
             .foregroundStyle(.gray)
             .scaledToFit()

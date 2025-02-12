@@ -116,8 +116,8 @@ struct EditProfileScreen: View {
                                         TextField("Username", text: $editProfileVM.usernameInput)
                                             .textInputAutocapitalization(.never)
                                             .onChange(of: editProfileVM.usernameInput) { newValue in
-                                                if newValue.count > Constants.maxUsernameLenght {
-                                                    editProfileVM.usernameInput = String(newValue.prefix(Constants.maxUsernameLenght))
+                                                if newValue.count > Constants.MAX_USERNAME_LENGHT {
+                                                    editProfileVM.usernameInput = String(newValue.prefix(Constants.MAX_USERNAME_LENGHT))
                                                 }
                                             }
                                     }
@@ -132,8 +132,8 @@ struct EditProfileScreen: View {
                                         TextField("Full name", text: $editProfileVM.nameInput)
                                             .textInputAutocapitalization(.words)
                                             .onChange(of: editProfileVM.nameInput) { newValue in
-                                                if newValue.count > Constants.maxNameLenght {
-                                                    editProfileVM.nameInput = String(newValue.prefix(Constants.maxNameLenght))
+                                                if newValue.count > Constants.MAX_NAME_LENGHT {
+                                                    editProfileVM.nameInput = String(newValue.prefix(Constants.MAX_NAME_LENGHT))
                                                 }
                                             }
                                     }
@@ -147,8 +147,8 @@ struct EditProfileScreen: View {
                                         
                                         TextField("Biography", text: $editProfileVM.bioInput, axis: .vertical)
                                             .onChange(of: editProfileVM.bioInput) { newValue in
-                                                if newValue.count > Constants.maxBioLenght {
-                                                    editProfileVM.bioInput = String(newValue.prefix(Constants.maxBioLenght))
+                                                if newValue.count > Constants.MAX_BIO_LENGHT {
+                                                    editProfileVM.bioInput = String(newValue.prefix(Constants.MAX_BIO_LENGHT))
                                                 }
                                             }
                                     }

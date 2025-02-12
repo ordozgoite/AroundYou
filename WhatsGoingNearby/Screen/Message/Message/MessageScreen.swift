@@ -172,7 +172,7 @@ struct MessageScreen: View {
             Divider()
         }
         
-        if message.isCurrentUser && getElapsedTimeSinceMessage(message) < Constants.maximumElapsedTimeToDeleteMessageInSeconds {
+        if message.isCurrentUser && getElapsedTimeSinceMessage(message) < Constants.MAX_ELAPSED_TIME_DELETE_MESSAGE_SECONDS {
             Button(role: .destructive) {
                 Task {
                     let token = try await authVM.getFirebaseToken()
@@ -359,8 +359,7 @@ struct MessageScreen: View {
     }
     
     private func updateBadge() {
-        let name = Notification.Name(Constants.updateBadgeNotificationKey)
-        NotificationCenter.default.post(name: name, object: nil)
+        NotificationCenter.default.post(name: .updateBadge, object: nil)
     }
     
     enum FetchMessageType {

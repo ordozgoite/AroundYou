@@ -16,6 +16,8 @@ struct Community: Codable, Identifiable {
     let longitude: Double
     let isLocationVisible: Bool
     let duration: Int
+    let createdAt: Date
+    let expirationDate: Date
     
     enum CodingKeys: String, CodingKey, Decodable {
         case id = "_id"
@@ -26,5 +28,7 @@ struct Community: Codable, Identifiable {
         case longitude
         case isLocationVisible
         case duration
+        case createdAt
+        case expirationDate
     }
 }

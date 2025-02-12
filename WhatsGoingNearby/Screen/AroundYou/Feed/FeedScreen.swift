@@ -17,7 +17,7 @@ struct FeedScreen: View {
     @ObservedObject var socket: SocketService
     
     @State private var refreshObserver = NotificationCenter.default
-        .publisher(for: NSNotification.Name(Constants.refreshLocationSensitiveDataNotificationKey))
+        .publisher(for: .refreshLocationSensitiveData)
     
     var body: some View {
         NavigationStack {
@@ -95,7 +95,7 @@ struct FeedScreen: View {
                 NewPostView()
                     .environmentObject(authVM)
                 
-                CommunitySuggestionView(communityVM: communityVM, locationManager: locationManager)
+                CommunitySuggestionView(locationManager: locationManager)
                     .environmentObject(authVM)
                 
                 Posts(ofType: .active)
@@ -201,8 +201,7 @@ struct FeedScreen: View {
     }
     
     private func updateLocation() {
-        let name = Notification.Name(Constants.updateLocationNotificationKey)
-        NotificationCenter.default.post(name: name, object: nil)
+        NotificationCenter.default.post(name: .updateLocation, object: nil)
     }
 }
 

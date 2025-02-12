@@ -10,12 +10,24 @@ import SwiftUI
 
 @MainActor
 class CommunityViewModel: ObservableObject {
-    @Published var communities: [Community] = [
-//        Community(id: "1", name: "Show Guns N' Roses", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdLXpuHHbuLb1QC4u4XkaqR50h4BBEqnJ1Sw&s", description: nil, latitude: 0, longitude: 0, isMember: false, isPrivate: false),
-//        Community(id: "2", name: "Condomínio Anaíra", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkXlQ58pctqQXj92LWf2VVylZh5dYLNCsnzA&s", description: nil, latitude: 0, longitude: 0, isMember: false, isPrivate: true),
-//        Community(id: "3",name: "Alcoólicos Anônimos", imageUrl: nil, description: nil, latitude: 0, longitude: 0, isMember: false, isPrivate: false),
-//        Community(id: "4", name: "Caçadores de Pokemon", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5-8Chu2Jala7WIXFNYCt4PY78NzZng1MVcw&s", description: nil, latitude: 0, longitude: 0, isMember: false, isPrivate: false)
-    ]
+    
+    @Published var communities: [FormattedCommunity] = []
     @Published var isLoading: Bool = false
     @Published var isCreateCommunityViewDisplayed: Bool = false
+    @Published var initialCommunitiesFetched: Bool = false
+    
+    func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async {
+        if !initialCommunitiesFetched { isLoading = true }
+        let result = await AYServices.shared.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
+        if !initialCommunitiesFetched { isLoading = false }
+        
+        switch result {
+        case .success(let communities):
+            self.communities = communities
+            initialCommunitiesFetched = true
+        case .failure(let error):
+            // TODO: Display Error
+            print("Error: \(error)")
+        }
+    }
 }

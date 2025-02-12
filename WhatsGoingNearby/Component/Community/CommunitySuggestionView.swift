@@ -10,7 +10,7 @@ import SwiftUI
 struct CommunitySuggestionView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject var communityVM: CommunityViewModel
+    @StateObject private var communityVM = CommunityViewModel() // another instance??
     @ObservedObject var locationManager: LocationManager
     
     var body: some View {
@@ -41,11 +41,11 @@ struct CommunitySuggestionView: View {
             
             Spacer()
             
-            NavigationLink(destination: CommunityListScreen(communityVM: communityVM).environmentObject(authVM)) {
+//            NavigationLink(destination: CommunityListScreen(communityVM: communityVM).environmentObject(authVM)) {
                 Text("View All")
                     .foregroundStyle(.gray)
                     .fontWeight(.bold)
-            }
+//            }
         }
         .padding([.top, .trailing, .leading])
     }
@@ -82,6 +82,6 @@ struct CommunitySuggestionView: View {
 }
 
 #Preview {
-    CommunitySuggestionView(communityVM: CommunityViewModel(), locationManager: LocationManager())
+    CommunitySuggestionView(locationManager: LocationManager())
         .environmentObject(AuthenticationViewModel())
 }

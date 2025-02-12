@@ -24,7 +24,7 @@ struct CommunityImageView: View {
                 .frame(width: size, height: size)
                 .clipShape(Circle())
         } else {
-            Image(systemName: "figure.2.circle.fill")
+            Image(systemName: Constants.COMMUNITY_IMAGE_PLACEHOLDER)
                 .resizable()
                 .foregroundStyle(.gray)
                 .frame(width: size, height: size)

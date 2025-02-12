@@ -48,7 +48,7 @@ struct EmptyFeedView: View {
                         .environmentObject(authVM)
 //                        .padding(.bottom, geometry.safeAreaInsets.bottom)
                     
-                    CommunitySuggestionView(communityVM: communityVM, locationManager: locationManager)
+                    CommunitySuggestionView(locationManager: locationManager)
                         .environmentObject(authVM)
                     
                 }
