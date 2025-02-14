@@ -48,7 +48,7 @@ struct CommunityListScreen: View {
                     Button {
                         communityVM.isCreateCommunityViewDisplayed = true
                     } label: {
-                        Image(systemName: "person.2.badge.plus")
+                        Image(systemName: "plus")
                     }
                 }
             }

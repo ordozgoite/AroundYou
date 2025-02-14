@@ -15,6 +15,7 @@
 		ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED06525E2B817A31005B6413 /* EditProfileScreen.swift */; };
 		ED0B4AE52D5CD038000A21F6 /* EmptyCommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0B4AE42D5CD038000A21F6 /* EmptyCommunityView.swift */; };
 		ED0B4AF02D5CE773000A21F6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0B4AEF2D5CE773000A21F6 /* Constants.swift */; };
+		ED0B4AF22D5F8C3E000A21F6 /* CustomPerson3CircleFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0B4AF12D5F8C3E000A21F6 /* CustomPerson3CircleFill.swift */; };
 		ED13B0A12CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */; };
 		ED16B8DE2D57F4240034B190 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED16B8DD2D57F4240034B190 /* FirebaseService.swift */; };
 		ED16B8E22D5800E00034B190 /* CreateCommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED16B8E12D5800E00034B190 /* CreateCommunityViewModel.swift */; };
@@ -249,6 +250,7 @@
 		ED06525E2B817A31005B6413 /* EditProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileScreen.swift; sourceTree = "<group>"; };
 		ED0B4AE42D5CD038000A21F6 /* EmptyCommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCommunityView.swift; sourceTree = "<group>"; };
 		ED0B4AEF2D5CE773000A21F6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		ED0B4AF12D5F8C3E000A21F6 /* CustomPerson3CircleFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPerson3CircleFill.swift; sourceTree = "<group>"; };
 		ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeactivateUserDiscoverabilityResponse.swift; sourceTree = "<group>"; };
 		ED16B8DD2D57F4240034B190 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		ED16B8E12D5800E00034B190 /* CreateCommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommunityViewModel.swift; sourceTree = "<group>"; };
@@ -1118,6 +1120,7 @@
 				EDEF7A702D524E370030B7A6 /* CommunityView.swift */,
 				EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */,
 				ED0B4AE42D5CD038000A21F6 /* EmptyCommunityView.swift */,
+				ED0B4AF12D5F8C3E000A21F6 /* CustomPerson3CircleFill.swift */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -1269,6 +1272,7 @@
 				ED2F1A7E2B927D9B001F4300 /* Subscription.swift in Sources */,
 				ED598BFC2B7C268C00B6C23D /* CreatePostScreen.swift in Sources */,
 				EDA322302B7CB12D009905B5 /* FormattedPost.swift in Sources */,
+				ED0B4AF22D5F8C3E000A21F6 /* CustomPerson3CircleFill.swift in Sources */,
 				EDA30DF82B7FE9B6003EB22D /* PostType.swift in Sources */,
 				ED598C032B7C42B500B6C23D /* AuthenticationScreen.swift in Sources */,
 				EDD639A02CF81C7800978927 /* GenderPickerView.swift in Sources */,

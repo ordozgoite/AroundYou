@@ -56,11 +56,7 @@ struct CreateCommunityScreen: View {
     
     @ViewBuilder
     private func CommunityImage() -> some View {
-        Image(systemName: Constants.COMMUNITY_IMAGE_PLACEHOLDER)
-            .resizable()
-            .foregroundStyle(.gray)
-            .scaledToFit()
-            .frame(width: 128, height: 128, alignment: .center)
+        CustomPerson3CircleFill(size: 128)
     }
     
     // MARK: - Name

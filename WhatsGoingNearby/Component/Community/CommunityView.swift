@@ -37,12 +37,12 @@ struct CommunityView: View {
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
                     
-                    if isMember {
-                        Image(systemName: "checkmark.circle.fill")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundStyle(.green)
-                    }
+//                    if isMember {
+//                        Image(systemName: "checkmark.circle.fill")
+//                            .resizable()
+//                            .frame(width: 24, height: 24)
+//                            .foregroundStyle(.green)
+//                    }
                 }
                 
                 if isPrivate {

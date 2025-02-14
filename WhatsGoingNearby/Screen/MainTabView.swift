@@ -43,7 +43,7 @@ struct MainTabView: View {
             
             CommunityListScreen(locationManager: locationManager)
                 .tabItem {
-                    Label("Communities", systemImage: "person.2.fill")
+                    Label("Communities", systemImage: "person.3.fill")
                 }
                 .environmentObject(authVM)
             
