@@ -15,4 +15,8 @@ struct FormattedCommunity: Codable, Identifiable {
     let expirationDate: Int
     var isMember: Bool
     var isPrivate: Bool
+    
+    var isActive: Bool {
+        return expirationDate.timeIntervalSince1970InSeconds >= getCurrentDateTimestamp()
+    }
 }

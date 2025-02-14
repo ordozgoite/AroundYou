@@ -13,6 +13,8 @@ struct CommunityListScreen: View {
     @StateObject private var communityVM = CommunityViewModel()
     @ObservedObject var locationManager: LocationManager
     
+    @State private var timer: Timer?
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -36,6 +38,10 @@ struct CommunityListScreen: View {
                 Task {
                     try await getCommunities()
                 }
+                startExpirationTimer()
+            }
+            .onDisappear {
+                stopExpirationTimer()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -77,15 +83,17 @@ struct CommunityListScreen: View {
                 spacing: 32
             ) {
                 ForEach(communityVM.communities) { community in
-                    CommunityView(
-                        imageUrl: community.imageUrl,
-                        imageSize: 50,
-                        name: community.name,
-                        isMember: community.isMember,
-                        isPrivate: community.isPrivate,
-                        creationDate: community.createdAt.timeIntervalSince1970InSeconds,
-                        expirationDate: community.expirationDate.timeIntervalSince1970InSeconds
-                    )
+                    if community.isActive {
+                        CommunityView(
+                            imageUrl: community.imageUrl,
+                            imageSize: 50,
+                            name: community.name,
+                            isMember: community.isMember,
+                            isPrivate: community.isPrivate,
+                            creationDate: community.createdAt.timeIntervalSince1970InSeconds,
+                            expirationDate: community.expirationDate.timeIntervalSince1970InSeconds
+                        )
+                    }
                 }
             }
             .padding()
@@ -103,6 +111,23 @@ struct CommunityListScreen: View {
             let longitude = location.coordinate.longitude
             
             await communityVM.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
+        }
+    }
+    
+    private func startExpirationTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            self.removeExpiredCommunities()
+        }
+    }
+    
+    private func stopExpirationTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    private func removeExpiredCommunities() {
+        DispatchQueue.main.async {
+            communityVM.communities.removeAll { !$0.isActive }
         }
     }
 }

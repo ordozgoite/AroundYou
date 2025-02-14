@@ -238,8 +238,8 @@ struct CreateCommunityScreen: View {
             let token = try await authVM.getFirebaseToken()
             await createCommunityVM.posNewCommunity(latitude: latitude, longitude: longitude, token: token) {
                 Task {
-                    await communityVM.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
                     self.isViewDisplayed = false
+                    await communityVM.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
                 }
             }
         } else {
