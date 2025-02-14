@@ -30,20 +30,11 @@ struct CommunityView: View {
             }
             
             VStack {
-                HStack(spacing: 8) {
                     Text(name)
                         .font(.callout)
-                        .fontWeight(.semibold)
+                        .fontWeight(isMember ? .bold : .semibold)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
-                    
-//                    if isMember {
-//                        Image(systemName: "checkmark.circle.fill")
-//                            .resizable()
-//                            .frame(width: 24, height: 24)
-//                            .foregroundStyle(.green)
-//                    }
-                }
                 
                 if isPrivate {
                     Text("Private")
@@ -54,7 +45,7 @@ struct CommunityView: View {
                             RoundedRectangle(cornerRadius: 5)
                                 .stroke(Color.gray, lineWidth: 2)
                         )
-                        .offset(y: -2)
+                        .offset(y: -4)
                 }
             }
         }
