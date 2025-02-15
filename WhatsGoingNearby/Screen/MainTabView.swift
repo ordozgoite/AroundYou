@@ -14,11 +14,11 @@ struct MainTabView: View {
     @StateObject public var notificationManager = NotificationManager()
     @StateObject private var locationManager = LocationManager()
     
-    let pub = NotificationCenter.default
-        .publisher(for:.updateBadge)
+//    let pub = NotificationCenter.default
+//        .publisher(for:.updateBadge)
     
-    @State private var badgeTimer: Timer?
-    @State private var unreadChats: Int?
+//    @State private var badgeTimer: Timer?
+//    @State private var unreadChats: Int?
     
     var body: some View {
         TabView {
@@ -53,18 +53,18 @@ struct MainTabView: View {
                 }
                 .environmentObject(authVM)
         }
-        .onChange(of: socket.status) { status in
-            if status == .connected {
-                updateBadge()
-            }
-        }
-        .onReceive(pub) { (output) in
-            self.updateBadge()
-        }
-        .onAppear {
-            updateBadge()
-            listenToMessages()
-        }
+//        .onChange(of: socket.status) { status in
+//            if status == .connected {
+//                updateBadge()
+//            }
+//        }
+//        .onReceive(pub) { (output) in
+//            self.updateBadge()
+//        }
+//        .onAppear {
+//            updateBadge()
+//            listenToMessages()
+//        }
         .fullScreenCover(isPresented: $notificationManager.isPublicationDisplayed) {
             IndepCommentScreenWrapper(
                 postId: notificationManager.publicationId ?? "",
@@ -83,30 +83,30 @@ struct MainTabView: View {
     
     //MARK: - Private Method
     
-    private func updateBadge() {
-        Task {
-            self.unreadChats = try await getChatBadge()
-        }
-    }
-    
-    private func listenToMessages() {
-        socket.socket?.on("badge") { data, ack in
-            updateBadge()
-        }
-    }
-    
-    private func getChatBadge() async throws -> Int? {
-        let token = try await authVM.getFirebaseToken()
-        let result = await AYServices.shared.getUnreadChatsNumber(token: token)
-        
-        switch result {
-        case .success(let response):
-            return response.quantity
-        case .failure:
-            print("❌ Error trying to get unread messages number.")
-        }
-        return nil
-    }
+//    private func updateBadge() {
+//        Task {
+//            self.unreadChats = try await getChatBadge()
+//        }
+//    }
+//    
+//    private func listenToMessages() {
+//        socket.socket?.on("badge") { data, ack in
+//            updateBadge()
+//        }
+//    }
+//    
+//    private func getChatBadge() async throws -> Int? {
+//        let token = try await authVM.getFirebaseToken()
+//        let result = await AYServices.shared.getUnreadChatsNumber(token: token)
+//        
+//        switch result {
+//        case .success(let response):
+//            return response.quantity
+//        case .failure:
+//            print("❌ Error trying to get unread messages number.")
+//        }
+//        return nil
+//    }
 }
 
 struct IndepCommentScreenWrapper: View {

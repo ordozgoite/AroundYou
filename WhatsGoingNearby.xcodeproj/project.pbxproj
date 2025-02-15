@@ -16,6 +16,7 @@
 		ED0B4AE52D5CD038000A21F6 /* EmptyCommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0B4AE42D5CD038000A21F6 /* EmptyCommunityView.swift */; };
 		ED0B4AF02D5CE773000A21F6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0B4AEF2D5CE773000A21F6 /* Constants.swift */; };
 		ED0B4AF22D5F8C3E000A21F6 /* CustomPerson3CircleFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0B4AF12D5F8C3E000A21F6 /* CustomPerson3CircleFill.swift */; };
+		ED0B4B292D5FDCF6000A21F6 /* CustomBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0B4B282D5FDCF6000A21F6 /* CustomBadge.swift */; };
 		ED13B0A12CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */; };
 		ED16B8DE2D57F4240034B190 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED16B8DD2D57F4240034B190 /* FirebaseService.swift */; };
 		ED16B8E22D5800E00034B190 /* CreateCommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED16B8E12D5800E00034B190 /* CreateCommunityViewModel.swift */; };
@@ -251,6 +252,7 @@
 		ED0B4AE42D5CD038000A21F6 /* EmptyCommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCommunityView.swift; sourceTree = "<group>"; };
 		ED0B4AEF2D5CE773000A21F6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		ED0B4AF12D5F8C3E000A21F6 /* CustomPerson3CircleFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPerson3CircleFill.swift; sourceTree = "<group>"; };
+		ED0B4B282D5FDCF6000A21F6 /* CustomBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBadge.swift; sourceTree = "<group>"; };
 		ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeactivateUserDiscoverabilityResponse.swift; sourceTree = "<group>"; };
 		ED16B8DD2D57F4240034B190 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		ED16B8E12D5800E00034B190 /* CreateCommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommunityViewModel.swift; sourceTree = "<group>"; };
@@ -690,6 +692,7 @@
 				ED598BF92B7C217400B6C23D /* AYProgressView.swift */,
 				ED50C44F2B7E4AB70001EDF6 /* AYErrorAlert.swift */,
 				EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */,
+				ED0B4B282D5FDCF6000A21F6 /* CustomBadge.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -1366,6 +1369,7 @@
 				ED50C45E2B7F86A30001EDF6 /* CommentViewModel.swift in Sources */,
 				ED598C012B7C3A3900B6C23D /* AccountScreen.swift in Sources */,
 				EDE8B37D2BC39D2200DFF750 /* ImagePicker.swift in Sources */,
+				ED0B4B292D5FDCF6000A21F6 /* CustomBadge.swift in Sources */,
 				ED6DD48B2B81908F00ADBB64 /* EditProfileViewModel.swift in Sources */,
 				EDEECA272B8A7CD400BD517D /* TimerAnimation.swift in Sources */,
 				EDEF7A712D524E370030B7A6 /* CommunityImageView.swift in Sources */,

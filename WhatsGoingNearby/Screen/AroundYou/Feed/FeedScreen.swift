@@ -19,6 +19,12 @@ struct FeedScreen: View {
     @State private var refreshObserver = NotificationCenter.default
         .publisher(for: .refreshLocationSensitiveData)
     
+    let pub = NotificationCenter.default
+        .publisher(for:.updateBadge)
+
+    @State private var badgeTimer: Timer?
+    @State private var unreadChats: Int = 0
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -48,17 +54,34 @@ struct FeedScreen: View {
                         Image(systemName: "bell")
                     }
                 }
+                
+                ToolbarItem {
+                    NavigationLink(destination: ChatListScreen(socket: socket).environmentObject(authVM)) {
+                        Image(systemName: "bubble")
+                    }
+                    .overlay(CustomBadge(count: unreadChats))
+                }
             }
             .navigationTitle("Around You")
             .navigationBarTitleDisplayMode(.large)
+        }
+        .onChange(of: socket.status) { status in
+            if status == .connected {
+                updateBadge()
+            }
+        }
+        .onReceive(pub) { (output) in
+            self.updateBadge()
+        }
+        .onAppear {
+            startUpdatingFeed()
+            updateBadge()
+            listenToMessages()
         }
         .onReceive(refreshObserver) { _ in
             Task {
                 try await getNearByPosts()
             }
-        }
-        .onAppear {
-            startUpdatingFeed()
         }
         .onDisappear {
             stopTimer()
@@ -165,6 +188,31 @@ struct FeedScreen: View {
 //    }
     
     //MARK: - Private Method
+    
+    private func updateBadge() {
+        Task {
+            self.unreadChats = try await getChatBadge() ?? 0
+        }
+    }
+    
+    private func listenToMessages() {
+        socket.socket?.on("badge") { data, ack in
+            updateBadge()
+        }
+    }
+    
+    private func getChatBadge() async throws -> Int? {
+        let token = try await authVM.getFirebaseToken()
+        let result = await AYServices.shared.getUnreadChatsNumber(token: token)
+        
+        switch result {
+        case .success(let response):
+            return response.quantity
+        case .failure:
+            print("❌ Error trying to get unread messages number.")
+        }
+        return nil
+    }
     
     private func startUpdatingFeed() {
         feedVM.feedTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
