@@ -25,12 +25,17 @@ class NotificationManager: NSObject, ObservableObject {
     @Published var chatPic: String?
     @Published var isChatDisplayed: Bool = false
     
+    // Discover
+    @Published var isPeopleTabDisplayed: Bool = false
+    
     override init() {
         super.init()
         notificationCenter.delegate = self
     }
     
 }
+
+// MARK: - Payload
 
 extension NotificationManager: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_: UNUserNotificationCenter, willPresent _: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -56,12 +61,18 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
                 displayCommentScreen(with: userInfo)
             case "message":
                 displayMessageScreen(with: userInfo)
+            case "discover":
+                goToPeopleTab()
             default:
                 print("❌ Unknown user info received.")
             }
         }
     }
-    
+}
+
+// MARK: - Screen
+
+extension NotificationManager {
     private func displayCommentScreen(with userInfo: [AnyHashable: Any]) {
         if let publicationId = userInfo["publicationId"] as? String {
             self.publicationId = publicationId
@@ -85,5 +96,9 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
         } else {
             print("❌ Incorrect userInfo to display Message screen.")
         }
+    }
+    
+    private func goToPeopleTab() {
+        self.isPeopleTabDisplayed = true
     }
 }

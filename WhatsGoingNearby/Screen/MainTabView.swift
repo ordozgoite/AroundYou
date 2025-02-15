@@ -14,57 +14,44 @@ struct MainTabView: View {
     @StateObject public var notificationManager = NotificationManager()
     @StateObject private var locationManager = LocationManager()
     
-//    let pub = NotificationCenter.default
-//        .publisher(for:.updateBadge)
-    
-//    @State private var badgeTimer: Timer?
-//    @State private var unreadChats: Int?
+    @State private var isPeopleTabDisplayed: Bool = false
+    @State private var selectedTab: Int = 0
     
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             FeedScreen(locationManager: locationManager, socket: socket)
                 .tabItem {
                     Label("Posts", systemImage: "quote.bubble.fill")
                 }
                 .environmentObject(authVM)
-            
-//            ChatListScreen(socket: socket)
-//                .tabItem {
-//                    Label("Chats", systemImage: "bubble.left.and.bubble.right")
-//                }
-//                .environmentObject(authVM)
-//                .badge(unreadChats ?? 0)
+                .tag(0)
             
             DiscoverScreen(locationManager: locationManager, socket: socket)
                 .tabItem {
                     Label("People", systemImage: "heart.fill")
                 }
                 .environmentObject(authVM)
+                .tag(1)
             
             CommunityListScreen(locationManager: locationManager)
                 .tabItem {
                     Label("Communities", systemImage: "person.3.fill")
                 }
                 .environmentObject(authVM)
+                .tag(2)
             
             AccountScreen(socket: socket)
                 .tabItem {
                     Label("Profile", systemImage: "person.fill")
                 }
                 .environmentObject(authVM)
+                .tag(3)
         }
-//        .onChange(of: socket.status) { status in
-//            if status == .connected {
-//                updateBadge()
-//            }
-//        }
-//        .onReceive(pub) { (output) in
-//            self.updateBadge()
-//        }
-//        .onAppear {
-//            updateBadge()
-//            listenToMessages()
-//        }
+        .onChange(of: notificationManager.isPeopleTabDisplayed) { newValue in
+            if newValue {
+                goToTabPeople()
+            }
+        }
         .fullScreenCover(isPresented: $notificationManager.isPublicationDisplayed) {
             IndepCommentScreenWrapper(
                 postId: notificationManager.publicationId ?? "",
@@ -81,32 +68,9 @@ struct MainTabView: View {
         }
     }
     
-    //MARK: - Private Method
-    
-//    private func updateBadge() {
-//        Task {
-//            self.unreadChats = try await getChatBadge()
-//        }
-//    }
-//    
-//    private func listenToMessages() {
-//        socket.socket?.on("badge") { data, ack in
-//            updateBadge()
-//        }
-//    }
-//    
-//    private func getChatBadge() async throws -> Int? {
-//        let token = try await authVM.getFirebaseToken()
-//        let result = await AYServices.shared.getUnreadChatsNumber(token: token)
-//        
-//        switch result {
-//        case .success(let response):
-//            return response.quantity
-//        case .failure:
-//            print("❌ Error trying to get unread messages number.")
-//        }
-//        return nil
-//    }
+    private func goToTabPeople() {
+        selectedTab = 1
+    }
 }
 
 struct IndepCommentScreenWrapper: View {
@@ -114,7 +78,7 @@ struct IndepCommentScreenWrapper: View {
     @ObservedObject var locationManager: LocationManager
     @ObservedObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
-
+    
     var body: some View {
         NavigationView {
             IndepCommentScreen(postId: postId, location: $locationManager.location, socket: socket)
@@ -134,7 +98,7 @@ struct MessageScreenWrapper: View {
     let chatPic: String?
     @ObservedObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
-
+    
     var body: some View {
         NavigationView {
             MessageScreen(
