@@ -19,7 +19,7 @@ struct CommunityView: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            ZStack {
+            ZStack(alignment: .center) {
                 CircleTimerView(postDate: creationDate, expirationDate: expirationDate, size: imageSize + 8)
                 
                 CommunityImageView(
@@ -29,25 +29,11 @@ struct CommunityView: View {
                 .shadow(radius: 5)
             }
             
-            VStack {
-                    Text(name)
-                        .font(.callout)
-                        .fontWeight(isMember ? .bold : .semibold)
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                
-                if isPrivate {
-                    Text("Private")
-                        .padding(2)
-                        .font(.caption)
-                        .foregroundStyle(.gray)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 5)
-                                .stroke(Color.gray, lineWidth: 2)
-                        )
-                        .offset(y: -4)
-                }
-            }
+            Text(name)
+                .font(.callout)
+                .fontWeight(isMember ? .bold : .medium)
+                .foregroundColor(.gray)
+                .multilineTextAlignment(.center)
         }
     }
 }
