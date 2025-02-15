@@ -23,6 +23,7 @@ class NotificationManager: NSObject, ObservableObject {
     @Published var username: String?
     @Published var senderUserUid: String?
     @Published var chatPic: String?
+    @Published var isLocked: Bool?
     @Published var isChatDisplayed: Bool = false
     
     // Discover
@@ -86,11 +87,13 @@ extension NotificationManager {
         if
             let chatId = userInfo["chatId"] as? String,
             let username = userInfo["username"] as? String,
-            let senderUserUid = userInfo["senderUserUid"] as? String
+            let senderUserUid = userInfo["senderUserUid"] as? String,
+            let isLocked = userInfo["isLocked"] as? Bool
         {
             self.chatId = chatId
             self.username = username
             self.senderUserUid = senderUserUid
+            self.isLocked = isLocked
             if let chatPic = userInfo["chatPic"] as? String { self.chatPic = chatPic }
             self.isChatDisplayed = true
         } else {
