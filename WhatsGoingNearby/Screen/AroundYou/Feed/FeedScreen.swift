@@ -118,8 +118,8 @@ struct FeedScreen: View {
                 NewPostView()
                     .environmentObject(authVM)
                 
-                CommunitySuggestionView(locationManager: locationManager)
-                    .environmentObject(authVM)
+//                CommunitySuggestionView(locationManager: locationManager)
+//                    .environmentObject(authVM)
                 
                 Posts(ofType: .active)
                 

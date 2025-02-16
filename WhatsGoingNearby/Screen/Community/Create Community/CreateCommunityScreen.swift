@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct CreateCommunityScreen: View {
     
@@ -20,7 +21,7 @@ struct CreateCommunityScreen: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 16) {
-                CommunityImage()
+                EditCommunityImage()
                 
                 Name()
                 
@@ -48,15 +49,49 @@ struct CreateCommunityScreen: View {
                     Cancel()
                 }
             }
+            .onChange(of: createCommunityVM.imageSelection) { newItem in
+                Task {
+                    if let data = try? await newItem?.loadTransferable(type: Data.self), let image = UIImage(data: data) {
+                        createCommunityVM.image = image
+                        createCommunityVM.isCropViewDisplayed = true
+                    }
+                }
+            }
             .navigationTitle("New Community")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
     
     // MARK: - Image
     
     @ViewBuilder
+    private func EditCommunityImage() -> some View {
+        PhotosPicker(selection: $createCommunityVM.imageSelection, matching: .images, preferredItemEncoding: .automatic) {
+            CommunityImage()
+        }
+        .fullScreenCover(isPresented: $createCommunityVM.isCropViewDisplayed) {
+            createCommunityVM.image = nil
+        } content: {
+            CropScreen(size: CGSize(width: 300, height: 300), image: createCommunityVM.image) { croppedImage, status in
+                if let croppedImage {
+                    createCommunityVM.croppedImage = croppedImage
+                }
+            }
+        }
+    }
+    
+    // MARK: - Community Image
+    
+    @ViewBuilder
     private func CommunityImage() -> some View {
-        CustomPerson3CircleFill(size: 128)
+        if let selectedImage = createCommunityVM.croppedImage {
+            Image(uiImage: selectedImage)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 128, height: 128, alignment: .center)
+        } else {
+            CustomPerson3CircleFill(size: 128)
+        }
     }
     
     // MARK: - Name
@@ -117,16 +152,16 @@ struct CreateCommunityScreen: View {
     }
     
     // MARK: - Duration
-
+    
     @ViewBuilder
     private func Duration() -> some View {
         HStack {
             Text("Duration:")
                 .fontWeight(.bold)
                 .frame(minWidth: 120, alignment: .leading) // Mantém largura fixa
-
+            
             Spacer()
-
+            
             Menu {
                 ForEach(CommunityDuration.allCases, id: \.self) { duration in
                     Button {
@@ -148,9 +183,9 @@ struct CreateCommunityScreen: View {
         .foregroundStyle(.gray)
         .padding(.vertical, 4)
     }
-
+    
     // MARK: - Location
-
+    
     @ViewBuilder
     private func Location() -> some View {
         HStack {
@@ -167,9 +202,9 @@ struct CreateCommunityScreen: View {
         .foregroundStyle(.gray)
         .padding(.vertical, 4)
     }
-
+    
     // MARK: - Private
-
+    
     @ViewBuilder
     private func Private() -> some View {
         HStack {
@@ -186,7 +221,7 @@ struct CreateCommunityScreen: View {
         .foregroundStyle(.gray)
         .padding(.vertical, 4)
     }
-
+    
     
     // MARK: - Cancel
     
