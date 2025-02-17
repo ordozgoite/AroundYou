@@ -44,8 +44,22 @@ class CommunityViewModel: ObservableObject {
         
         switch result {
         case .success:
-            await getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
             isJoinCommunityViewDisplayed = false
+            await getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
+    func askToJoinCommunity(withId communityId: String, latitude: Double, longitude: Double, token: String) async {
+        isJoiningCommunity = true
+        let result = await AYServices.shared.askToJoinCommunity(communityId: communityId, latitude: latitude, longitude: longitude, token: token)
+        isJoiningCommunity = false
+        
+        switch result {
+        case .success:
+            isJoinCommunityViewDisplayed = false
+            await getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }

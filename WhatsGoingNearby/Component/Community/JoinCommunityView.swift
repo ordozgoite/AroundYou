@@ -121,7 +121,15 @@ struct JoinCommunityView: View {
     }
     
     private func askToJoinCommunity() async throws {
-        // TODO: Complete Function
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let token = try await authVM.getFirebaseToken()
+            
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            await communityVM.askToJoinCommunity(withId: community.id, latitude: latitude, longitude: longitude, token: token)
+        }
     }
 }
 
