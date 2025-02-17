@@ -15,8 +15,12 @@ class CommunityViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var isCreateCommunityViewDisplayed: Bool = false
     @Published var initialCommunitiesFetched: Bool = false
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
+    
+    // Join Community
     @Published var isJoinCommunityViewDisplayed: Bool = false
     @Published var selectedCommunityToJoin: FormattedCommunity?
+    @Published var isJoiningCommunity: Bool = false
     
     func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async {
         if !initialCommunitiesFetched { isLoading = true }
@@ -30,6 +34,20 @@ class CommunityViewModel: ObservableObject {
         case .failure(let error):
             // TODO: Display Error
             print("Error: \(error)")
+        }
+    }
+    
+    func joinCommunity(withId communityId: String, latitude: Double, longitude: Double, token: String) async {
+        isJoiningCommunity = true
+        let result = await AYServices.shared.joinCommunity(communityId: communityId, latitude: latitude, longitude: longitude, token: token)
+        isJoiningCommunity = false
+        
+        switch result {
+        case .success:
+            await getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
+            isJoinCommunityViewDisplayed = false
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
     }
 }

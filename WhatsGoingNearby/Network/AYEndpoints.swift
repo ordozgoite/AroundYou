@@ -58,6 +58,7 @@ enum AYEndpoints {
     case discoverUsersByPreferences(latitude: Double, longitude: Double, token: String)
     case postNewCommunity(name: String, description: String?, duration: Int, isLocationVisible: Bool, isPrivate: Bool, imageUrl: String?, latitude: Double, longitude: Double, token: String)
     case getCommunitiesNearBy(latitude: Double, longitude: Double, token: String)
+    case joinCommunity(communityId: String, latitude: Double, longitude: Double, token: String)
 }
 
 extension AYEndpoints: Endpoint {
@@ -166,6 +167,8 @@ extension AYEndpoints: Endpoint {
             return "/api/Community/PostNewCommunity"
         case .getCommunitiesNearBy:
             return "/api/Community/GetCommunitiesNearBy"
+        case .joinCommunity:
+            return "/api/Community/JoinCommunity"
         }
     }
     
@@ -173,7 +176,7 @@ extension AYEndpoints: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser, .likeComment, .unlikeComment, .deleteProfilePic, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification, .deleteUser, .postNewChat, .muteChat, .unmuteChat, .postNewMessage, .deleteMessage, .editPublication, .finishPublication, .deleteChat,.activateUserDiscoverability, .updateUserPreferences, .deactivateUserDiscoverability, .postNewCommunity:
+        case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser, .likeComment, .unlikeComment, .deleteProfilePic, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification, .deleteUser, .postNewChat, .muteChat, .unmuteChat, .postNewMessage, .deleteMessage, .editPublication, .finishPublication, .deleteChat,.activateUserDiscoverability, .updateUserPreferences, .deactivateUserDiscoverability, .postNewCommunity, .joinCommunity:
             return .post
         case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .getPublication, .getUserNotifications, .getUserBanExpireDate, .getAllPublicationsNearBy, .getChatsByUser, .getMessages, .getUnreadChatsNumber, .verifyUserDiscoverability, .discoverUsersByPreferences, .getCommunitiesNearBy:
             return .get
@@ -271,7 +274,7 @@ extension AYEndpoints: Endpoint {
     
     var header: [String : String]? {
         switch self {
-        case .postNewPublication(_, _, _, _, _, _, _, let token), .getActivePublicationsNearBy(_, _, let token), .postNewUser(_, _, _, let token), .getUserInfo(_, _, let token), .likePublication(_, let token), .unlikePublication(_, let token), .getAllCommentsByPublication(_, let token), .postNewComment(_, _, _, let token), .deleteComment(_, let token), .deletePublication(_, let token), .getUserProfile(_, let token), .editProfile(_, let token), .getAllPublicationsByUser(let token), .postNewReport(_, let token), .postNewBugReport(_, let token), .blockUser(_, let token), .getBlockedUsers(let token), .unblockUser(_, let token), .likeComment(_, _, _, let token), .unlikeComment(_, _, _, let token), .getPublicationLikes(_, let token), .getCommentLikes(_, let token), .deleteProfilePic(let token), .getPublication(_, _, _, let token), .getUserNotifications(let token), .subscribeUserToPublication(_, let token), .unsubscribeUser(_, let token), .deleteNotification(_, let token), .deleteUser(let token), .getUserBanExpireDate(let token), .getAllPublicationsNearBy(_, _, let token), .postNewChat(_, let token), .getChatsByUser(let token), .muteChat(_, let token), .unmuteChat(_, let token), .postNewMessage(_, _, _, _, let token), .getMessages(_, _, let token), .deleteMessage(_, let token), .editPublication(_, _, _, _, _, _, _, let token), .finishPublication(_, let token), .deleteChat(_, let token), .getUnreadChatsNumber(let token), .verifyUserDiscoverability(let token), .activateUserDiscoverability(let token), .updateUserPreferences(_, _, _, _, _, _, let token), .deactivateUserDiscoverability(let token),.discoverUsersByPreferences(_, _, let token), .postNewCommunity(_, _, _, _, _, _, _, _, let token), .getCommunitiesNearBy(_, _, let token):
+        case .postNewPublication(_, _, _, _, _, _, _, let token), .getActivePublicationsNearBy(_, _, let token), .postNewUser(_, _, _, let token), .getUserInfo(_, _, let token), .likePublication(_, let token), .unlikePublication(_, let token), .getAllCommentsByPublication(_, let token), .postNewComment(_, _, _, let token), .deleteComment(_, let token), .deletePublication(_, let token), .getUserProfile(_, let token), .editProfile(_, let token), .getAllPublicationsByUser(let token), .postNewReport(_, let token), .postNewBugReport(_, let token), .blockUser(_, let token), .getBlockedUsers(let token), .unblockUser(_, let token), .likeComment(_, _, _, let token), .unlikeComment(_, _, _, let token), .getPublicationLikes(_, let token), .getCommentLikes(_, let token), .deleteProfilePic(let token), .getPublication(_, _, _, let token), .getUserNotifications(let token), .subscribeUserToPublication(_, let token), .unsubscribeUser(_, let token), .deleteNotification(_, let token), .deleteUser(let token), .getUserBanExpireDate(let token), .getAllPublicationsNearBy(_, _, let token), .postNewChat(_, let token), .getChatsByUser(let token), .muteChat(_, let token), .unmuteChat(_, let token), .postNewMessage(_, _, _, _, let token), .getMessages(_, _, let token), .deleteMessage(_, let token), .editPublication(_, _, _, _, _, _, _, let token), .finishPublication(_, let token), .deleteChat(_, let token), .getUnreadChatsNumber(let token), .verifyUserDiscoverability(let token), .activateUserDiscoverability(let token), .updateUserPreferences(_, _, _, _, _, _, let token), .deactivateUserDiscoverability(let token),.discoverUsersByPreferences(_, _, let token), .postNewCommunity(_, _, _, _, _, _, _, _, let token), .getCommunitiesNearBy(_, _, let token), .joinCommunity(_, _, _, let token):
             return [
                 "Authorization": "Bearer \(token)",
                 "Accept": "application/x-www-form-urlencoded",
@@ -392,6 +395,13 @@ extension AYEndpoints: Endpoint {
             ]
             if let url = imageUrl { params["imageUrl"] = url }
             if let desc = description { params["description"] = desc }
+            return params
+        case .joinCommunity(let communityId, let latitude, let longitude, _):
+            let params: [String: Any] = [
+                "communityId": communityId,
+                "latitude": latitude,
+                "longitude": longitude
+            ]
             return params
         case .getActivePublicationsNearBy, .getUserInfo, .likePublication, .unlikePublication, .getAllCommentsByPublication, .deleteComment, .deletePublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .likeComment, .unlikeComment, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .deleteProfilePic, .getPublication, .getUserNotifications, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification, .deleteUser, .getUserBanExpireDate, .getAllPublicationsNearBy, .getChatsByUser, .muteChat, .unmuteChat, .getMessages, .deleteMessage, .finishPublication, .deleteChat, .getUnreadChatsNumber, .verifyUserDiscoverability, .activateUserDiscoverability, .deactivateUserDiscoverability,.discoverUsersByPreferences, .getCommunitiesNearBy:
             return nil

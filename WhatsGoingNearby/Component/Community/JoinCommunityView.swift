@@ -9,7 +9,9 @@ import SwiftUI
 
 struct JoinCommunityView: View {
     
-    @Binding var isViewDisplayed: Bool
+    @EnvironmentObject var authVM: AuthenticationViewModel
+    @ObservedObject var communityVM: CommunityViewModel
+    @ObservedObject var locationManager: LocationManager
     var community: FormattedCommunity
     
     var body: some View {
@@ -41,9 +43,12 @@ struct JoinCommunityView: View {
             Spacer()
             
             Button {
-                self.isViewDisplayed = false
+                communityVM.isJoinCommunityViewDisplayed = false
             } label: {
                 Image(systemName: "xmark")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20, height: 20, alignment: .center)
             }
         }
     }
@@ -84,12 +89,46 @@ struct JoinCommunityView: View {
     
     @ViewBuilder
     private func JoinButton() -> some View {
-        AYButton(title: community.isPrivate ? "Ask To Join" : "Join") {
-            // Join Community
+        if communityVM.isJoiningCommunity {
+            AYProgressButton(title: community.isPrivate ? "Asking..." : "Joining...")
+        } else {
+            AYButton(title: community.isPrivate ? "Ask To Join" : "Join") {
+                if community.isPrivate {
+                    Task {
+                        try await askToJoinCommunity()
+                    }
+                } else {
+                    Task {
+                        try await joinCommunity()
+                    }
+                }
+            }
         }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func joinCommunity() async throws {
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let token = try await authVM.getFirebaseToken()
+            
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            await communityVM.joinCommunity(withId: community.id, latitude: latitude, longitude: longitude, token: token)
+        }
+    }
+    
+    private func askToJoinCommunity() async throws {
+        // TODO: Complete Function
     }
 }
 
 #Preview {
-    JoinCommunityView(isViewDisplayed: .constant(true), community: FormattedCommunity(id: UUID().uuidString, name: "Condomínio Anaíra", imageUrl: nil, description: "Comunidade apenas para moradores do Anaíra", createdAt: 1, expirationDate: 1, isMember: false, isPrivate: true))
+    JoinCommunityView(
+        communityVM: CommunityViewModel(),
+        locationManager: LocationManager(),
+        community: FormattedCommunity(id: UUID().uuidString, name: "Condomínio Anaíra", imageUrl: nil, description: "Comunidade apenas para moradores do Anaíra", createdAt: 1, expirationDate: 1, isMember: false, isPrivate: true)
+    )
 }

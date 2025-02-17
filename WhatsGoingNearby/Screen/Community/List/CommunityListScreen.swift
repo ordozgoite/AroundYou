@@ -118,7 +118,8 @@ struct CommunityListScreen: View {
     private func JoinCommunity() -> some View {
         if communityVM.isJoinCommunityViewDisplayed, let community = communityVM.selectedCommunityToJoin {
             JoinCommunityView(
-                isViewDisplayed: $communityVM.isJoinCommunityViewDisplayed,
+                communityVM: communityVM,
+                locationManager: locationManager,
                 community: community
             )
         }
