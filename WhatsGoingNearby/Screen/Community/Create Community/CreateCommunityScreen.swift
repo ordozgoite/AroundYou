@@ -66,15 +66,27 @@ struct CreateCommunityScreen: View {
     
     @ViewBuilder
     private func EditCommunityImage() -> some View {
-        PhotosPicker(selection: $createCommunityVM.imageSelection, matching: .images, preferredItemEncoding: .automatic) {
-            CommunityImage()
-        }
-        .fullScreenCover(isPresented: $createCommunityVM.isCropViewDisplayed) {
-            createCommunityVM.image = nil
-        } content: {
-            CropScreen(size: CGSize(width: 300, height: 300), image: createCommunityVM.image) { croppedImage, status in
-                if let croppedImage {
-                    createCommunityVM.croppedImage = croppedImage
+        ZStack(alignment: .topTrailing) {
+            PhotosPicker(selection: $createCommunityVM.imageSelection, matching: .images, preferredItemEncoding: .automatic) {
+                CommunityImage()
+            }
+            .fullScreenCover(isPresented: $createCommunityVM.isCropViewDisplayed) {
+                createCommunityVM.image = nil
+            } content: {
+                CropScreen(size: CGSize(width: 300, height: 300), image: createCommunityVM.image) { croppedImage, status in
+                    if let croppedImage {
+                        createCommunityVM.croppedImage = croppedImage
+                    }
+                }
+            }
+            
+            if createCommunityVM.croppedImage != nil {
+                Button {
+                    removePhoto()
+                } label: {
+                    Image(systemName: "xmark")
+                        .resizable()
+                        .frame(width: 16, height: 16, alignment: .center)
                 }
             }
         }
@@ -210,12 +222,12 @@ struct CreateCommunityScreen: View {
         HStack {
             Text("Ask to join:")
                 .fontWeight(.bold)
-                .frame(minWidth: 120, alignment: .leading) // Mesma largura do Duration
+                .frame(minWidth: 120, alignment: .leading)
             
             Spacer()
             
             Toggle("", isOn: $createCommunityVM.isCommunityPrivate)
-                .frame(width: 80, alignment: .trailing) // Mesmo tamanho do menu
+                .frame(width: 80, alignment: .trailing)
         }
         .frame(height: 32)
         .foregroundStyle(.gray)
@@ -276,6 +288,11 @@ struct CreateCommunityScreen: View {
         } else {
             createCommunityVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
         }
+    }
+    
+    private func removePhoto() {
+        createCommunityVM.image = nil
+        createCommunityVM.croppedImage = nil
     }
 }
 
