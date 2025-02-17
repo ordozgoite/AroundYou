@@ -471,6 +471,9 @@
         }
       }
     },
+    "Ask To Join" : {
+
+    },
     "Ask to join:" : {
 
     },
@@ -1765,6 +1768,9 @@
       }
     },
     "Invite %@ to chat" : {
+
+    },
+    "Join" : {
 
     },
     "Just chatting" : {

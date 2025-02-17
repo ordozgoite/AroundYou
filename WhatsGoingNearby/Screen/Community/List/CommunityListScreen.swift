@@ -73,30 +73,54 @@ struct CommunityListScreen: View {
     
     @ViewBuilder
     private func Communities() -> some View {
-        ScrollView {
-            LazyVGrid(
-                columns: [
-                    GridItem(.flexible(), alignment: .top),
-                    GridItem(.flexible(), alignment: .top),
-                    GridItem(.flexible(), alignment: .top)
-                ],
-                spacing: 32
-            ) {
-                ForEach(communityVM.communities) { community in
-                    if community.isActive {
-                        CommunityView(
-                            imageUrl: community.imageUrl,
-                            imageSize: 50,
-                            name: community.name,
-                            isMember: community.isMember,
-                            isPrivate: community.isPrivate,
-                            creationDate: community.createdAt.timeIntervalSince1970InSeconds,
-                            expirationDate: community.expirationDate.timeIntervalSince1970InSeconds
-                        )
+        ZStack {
+            ScrollView {
+                LazyVGrid(
+                    columns: [
+                        GridItem(.flexible(), alignment: .top),
+                        GridItem(.flexible(), alignment: .top),
+                        GridItem(.flexible(), alignment: .top)
+                    ],
+                    spacing: 32
+                ) {
+                    ForEach(communityVM.communities) { community in
+                        if community.isActive {
+                            CommunityView(
+                                imageUrl: community.imageUrl,
+                                imageSize: 64,
+                                name: community.name,
+                                isMember: community.isMember,
+                                isPrivate: community.isPrivate,
+                                creationDate: community.createdAt.timeIntervalSince1970InSeconds,
+                                expirationDate: community.expirationDate.timeIntervalSince1970InSeconds
+                            )
+                            .onTapGesture {
+                                if community.isMember {
+                                    // Go to CommunityChatScreen()
+                                } else {
+                                    communityVM.selectedCommunityToJoin = community
+                                    communityVM.isJoinCommunityViewDisplayed = true
+                                }
+                            }
+                        }
                     }
                 }
+                .padding()
             }
-            .padding()
+            
+            JoinCommunity()
+        }
+    }
+    
+    // MARK: - Join Community
+    
+    @ViewBuilder
+    private func JoinCommunity() -> some View {
+        if communityVM.isJoinCommunityViewDisplayed, let community = communityVM.selectedCommunityToJoin {
+            JoinCommunityView(
+                isViewDisplayed: $communityVM.isJoinCommunityViewDisplayed,
+                community: community
+            )
         }
     }
     

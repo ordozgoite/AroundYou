@@ -45,7 +45,7 @@ struct CommunityView: View {
         name: "Show Guns N' Roses",
         isMember: true,
         isPrivate: true,
-        creationDate: 1739383886394,
-        expirationDate: 1739387486394
+        creationDate: 1739748535269,
+        expirationDate: 1739762935269
     )
 }

@@ -194,6 +194,7 @@
 		EDA322472B7DB221009905B5 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322462B7DB221009905B5 /* CommentView.swift */; };
 		EDA322492B7DB2BA009905B5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322482B7DB2BA009905B5 /* Comment.swift */; };
 		EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3224A2B7DB345009905B5 /* FormattedComment.swift */; };
+		EDABC4562D626A650014C15E /* JoinCommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDABC4552D626A650014C15E /* JoinCommunityView.swift */; };
 		EDB3F63E2BEC9086004F05B1 /* FullScreenUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */; };
 		EDC54BDE2D02AFC9006A5697 /* DiscoverDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */; };
 		EDCBEBF22BB75E5800087325 /* DeleteMessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */; };
@@ -402,6 +403,7 @@
 		EDA322462B7DB221009905B5 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		EDA322482B7DB2BA009905B5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		EDA3224A2B7DB345009905B5 /* FormattedComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedComment.swift; sourceTree = "<group>"; };
+		EDABC4552D626A650014C15E /* JoinCommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinCommunityView.swift; sourceTree = "<group>"; };
 		EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenUIImage.swift; sourceTree = "<group>"; };
 		EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverDisclaimerView.swift; sourceTree = "<group>"; };
 		EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageResponse.swift; sourceTree = "<group>"; };
@@ -1124,6 +1126,7 @@
 				EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */,
 				ED0B4AE42D5CD038000A21F6 /* EmptyCommunityView.swift */,
 				ED0B4AF12D5F8C3E000A21F6 /* CustomPerson3CircleFill.swift */,
+				EDABC4552D626A650014C15E /* JoinCommunityView.swift */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -1363,6 +1366,7 @@
 				EDA30DFC2B804BE6003EB22D /* Report.swift in Sources */,
 				ED13B0A12CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift in Sources */,
 				EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */,
+				EDABC4562D626A650014C15E /* JoinCommunityView.swift in Sources */,
 				EDCF2C332BB65FC60066950F /* Chat.swift in Sources */,
 				ED50C4502B7E4AB70001EDF6 /* AYErrorAlert.swift in Sources */,
 				ED95B0542C023288009B9FBB /* SocketStatusView.swift in Sources */,

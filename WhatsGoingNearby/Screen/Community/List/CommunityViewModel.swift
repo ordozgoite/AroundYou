@@ -15,6 +15,8 @@ class CommunityViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var isCreateCommunityViewDisplayed: Bool = false
     @Published var initialCommunitiesFetched: Bool = false
+    @Published var isJoinCommunityViewDisplayed: Bool = false
+    @Published var selectedCommunityToJoin: FormattedCommunity?
     
     func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async {
         if !initialCommunitiesFetched { isLoading = true }
