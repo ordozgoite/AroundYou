@@ -16,6 +16,8 @@ class CommunityViewModel: ObservableObject {
     @Published var isCreateCommunityViewDisplayed: Bool = false
     @Published var initialCommunitiesFetched: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
+    @Published var isCommunityChatScreenDisplayed: Bool = false
+    @Published var selectedCommunityToChat: FormattedCommunity?
     
     // Join Community
     @Published var isJoinCommunityViewDisplayed: Bool = false
@@ -45,10 +47,22 @@ class CommunityViewModel: ObservableObject {
         switch result {
         case .success:
             isJoinCommunityViewDisplayed = false
+            goToChat(forCommunityId: communityId)
             await getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
+    }
+    
+    private func goToChat(forCommunityId communityId: String) {
+        if let index = getCommunityIndex(forCommunityId: communityId) {
+            selectedCommunityToChat = communities[index]
+            isCommunityChatScreenDisplayed = true
+        }
+    }
+    
+    private func getCommunityIndex(forCommunityId communityId: String) -> Int? {
+        return communities.firstIndex { $0.id == communityId }
     }
     
     func askToJoinCommunity(withId communityId: String, latitude: Double, longitude: Double, token: String) async {

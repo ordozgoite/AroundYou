@@ -12,6 +12,7 @@ struct CommunityListScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var communityVM = CommunityViewModel()
     @ObservedObject var locationManager: LocationManager
+    @ObservedObject var socket: SocketService
     
     @State private var timer: Timer?
     
@@ -96,7 +97,8 @@ struct CommunityListScreen: View {
                             )
                             .onTapGesture {
                                 if community.isMember {
-                                    // Go to CommunityChatScreen()
+                                    communityVM.selectedCommunityToChat = community
+                                    communityVM.isCommunityChatScreenDisplayed = true
                                 } else {
                                     communityVM.selectedCommunityToJoin = community
                                     communityVM.isJoinCommunityViewDisplayed = true
@@ -109,6 +111,11 @@ struct CommunityListScreen: View {
             }
             
             JoinCommunity()
+        }
+        .navigationDestination(isPresented: $communityVM.isCommunityChatScreenDisplayed) {
+            if let community = communityVM.selectedCommunityToChat {
+                CommunityMessageScreen(communityId: community.id, communityName: community.name, communityImageUrl: community.imageUrl, socket: socket)
+            }
         }
     }
     
@@ -158,6 +165,6 @@ struct CommunityListScreen: View {
 }
 
 #Preview {
-    CommunityListScreen(locationManager: LocationManager())
+    CommunityListScreen(locationManager: LocationManager(), socket: SocketService())
         .environmentObject(AuthenticationViewModel())
 }
