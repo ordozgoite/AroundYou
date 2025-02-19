@@ -14,17 +14,24 @@ struct CommunityDetailScreen: View {
     let communityImageUrl: String?
     let isOwner: Bool
     
+    @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var communityDetailVM = CommunityDetailViewModel()
     
     var body: some View {
         Form {
             Header()
             
-            if isOwner {
-                UserRequests()
-            }
+            // TODO: Add Description
             
-            Members()
+            if communityDetailVM.hasFetchedCommunityInfo {
+                if isOwner {
+                    UserRequests()
+                }
+                
+                Members()
+                
+                // TODO: Add Location on map
+            }
             
             LeaveButton()
             
@@ -34,6 +41,11 @@ struct CommunityDetailScreen: View {
         }
         .navigationTitle("Community Info")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            Task {
+                try await getCommunityInfo()
+            }
+        }
     }
     
     // MARK: - Header
@@ -60,28 +72,30 @@ struct CommunityDetailScreen: View {
     
     @ViewBuilder
     private func UserRequests() -> some View {
-        if !communityDetailVM.joinRequests.isEmpty {
-            Section {
-                ForEach(communityDetailVM.joinRequests, id: \.self) { request in
-                    HStack {
-                        ProfilePicView(profilePic: request.profilePic, size: 50)
-                        
-                        Text(request.username)
-                            .font(.title3)
-                            .bold()
-                        
-                        Spacer()
-                        
-                        Button("Approve") {
-                            // Aprove Join Request
+        if let requests = communityDetailVM.joinRequests {
+            if !requests.isEmpty {
+                Section {
+                    ForEach(requests, id: \.self) { request in
+                        HStack {
+                            ProfilePicView(profilePic: request.profilePic, size: 50)
+                            
+                            Text(request.username)
+                                .font(.title3)
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Button("Approve") {
+                                // Aprove Join Request
+                            }
+                            .buttonStyle(.borderedProminent)
                         }
-                        .buttonStyle(.borderedProminent)
                     }
+                } header: {
+                    Text("\(String(requests.count)) request(s)")
+                } footer: {
+                    Text("These users want to join your community. Approve their request or ignore it.")
                 }
-            } header: {
-                Text("\(String(communityDetailVM.joinRequests.count)) request(s)")
-            } footer: {
-                Text("These users want to join your community. Approve their request or ignore it.")
             }
         }
     }
@@ -145,6 +159,15 @@ struct CommunityDetailScreen: View {
         } footer: {
             Text("Deleting this community will permanently remove it for all members without prior notice. This action cannot be undone.")
         }
+    }
+}
+
+// MARK: - Private Methods
+
+extension CommunityDetailScreen {
+    private func getCommunityInfo() async throws {
+        let token = try await authVM.getFirebaseToken()
+        await communityDetailVM.getCommunityInfo(communityId: self.communityId, token: token)
     }
 }
 

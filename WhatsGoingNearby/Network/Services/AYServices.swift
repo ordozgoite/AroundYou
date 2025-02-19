@@ -85,6 +85,7 @@ protocol AYServiceable {
     func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedCommunity], RequestError>
     func joinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError>
     func askToJoinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError>
+    func getCommunityInfo(communityId: String, token: String) async -> Result<GetCommunityInfoResponse, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -324,5 +325,9 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func askToJoinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.askToJoinCommunity(communityId: communityId, latitude: latitude, longitude: longitude, token: token), responseModel: JoinCommunityResponse.self)
+    }
+    
+    func getCommunityInfo(communityId: String, token: String) async -> Result<GetCommunityInfoResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getCommunityInfo(communityId: communityId, token: token), responseModel: GetCommunityInfoResponse.self)
     }
 }

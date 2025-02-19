@@ -6,22 +6,33 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class CommunityDetailViewModel: ObservableObject {
     
-    var members: [MongoUser] = [
-        MongoUser(userUid: "1", username: "ordozgoite", name: nil, profilePic: nil, biography: nil),
-        MongoUser(userUid: "2", username: "amanda", name: nil, profilePic: nil, biography: nil),
-        MongoUser(userUid: "3", username: "igor", name: nil, profilePic: nil, biography: nil)
-    ]
-    var joinRequests: [MongoUser] = [
-        MongoUser(userUid: "4", username: "bruno", name: nil, profilePic: nil, biography: nil)
-    ]
-    var communityOwnerUid: String = "1"
+    @Published var members: [MongoUser] = []
+    @Published var joinRequests: [MongoUser]?
+    @Published var communityOwnerUid: String = ""
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
+    @Published var hasFetchedCommunityInfo: Bool = false
     
-    func getCommunityInfo() async {
+    func getCommunityInfo(communityId: String, token: String) async {
+        let result = await AYServices.shared.getCommunityInfo(communityId: communityId, token: token)
         
+        switch result {
+        case .success(let communityInfo):
+            setCommunityInfo(communityInfo)
+            hasFetchedCommunityInfo = true
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
+    private func setCommunityInfo(_ communityInfo: GetCommunityInfoResponse) {
+        self.members = communityInfo.members
+        self.joinRequests = communityInfo.joinRequests
+        self.communityOwnerUid = communityInfo.ownerUid
     }
     
     func leaveCommunity() async {

@@ -21,6 +21,7 @@
 		ED1026222D64D803009FF94B /* CommunityMessageScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1026212D64D803009FF94B /* CommunityMessageScreen.swift */; };
 		ED1026252D653545009FF94B /* CommunityDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1026242D653545009FF94B /* CommunityDetailScreen.swift */; };
 		ED1026272D663E4E009FF94B /* CommunityDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1026262D663E4E009FF94B /* CommunityDetailViewModel.swift */; };
+		ED10262B2D664E29009FF94B /* GetCommunityInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10262A2D664E29009FF94B /* GetCommunityInfoResponse.swift */; };
 		ED13B0A12CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */; };
 		ED16B8DE2D57F4240034B190 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED16B8DD2D57F4240034B190 /* FirebaseService.swift */; };
 		ED16B8E22D5800E00034B190 /* CreateCommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED16B8E12D5800E00034B190 /* CreateCommunityViewModel.swift */; };
@@ -262,6 +263,7 @@
 		ED1026212D64D803009FF94B /* CommunityMessageScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityMessageScreen.swift; sourceTree = "<group>"; };
 		ED1026242D653545009FF94B /* CommunityDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityDetailScreen.swift; sourceTree = "<group>"; };
 		ED1026262D663E4E009FF94B /* CommunityDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityDetailViewModel.swift; sourceTree = "<group>"; };
+		ED10262A2D664E29009FF94B /* GetCommunityInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCommunityInfoResponse.swift; sourceTree = "<group>"; };
 		ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeactivateUserDiscoverabilityResponse.swift; sourceTree = "<group>"; };
 		ED16B8DD2D57F4240034B190 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		ED16B8E12D5800E00034B190 /* CreateCommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommunityViewModel.swift; sourceTree = "<group>"; };
@@ -1053,6 +1055,7 @@
 				ED3B54E62CCEC704007AA1D0 /* ActivateUserDiscoverabilityResponse.swift */,
 				ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */,
 				ED10261E2D63A0A6009FF94B /* JoinCommunityResponse.swift */,
+				ED10262A2D664E29009FF94B /* GetCommunityInfoResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1287,6 +1290,7 @@
 				ED598C092B7C472200B6C23D /* AYButton.swift in Sources */,
 				EDA3223B2B7CCD8A009905B5 /* MongoUser.swift in Sources */,
 				EDDC9E042BD85B1A00000EA4 /* SendingMessage.swift in Sources */,
+				ED10262B2D664E29009FF94B /* GetCommunityInfoResponse.swift in Sources */,
 				ED8B8E832D5850E900A895C5 /* FormattedCommunity.swift in Sources */,
 				EDE8994A2D5666C90094E7C0 /* CommunityDuration.swift in Sources */,
 				EDA322412B7D6B55009905B5 /* UnlikePublicationResponse.swift in Sources */,
