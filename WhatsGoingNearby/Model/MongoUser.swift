@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MongoUser: Codable {
+struct MongoUser: Codable, Hashable {
     let userUid: String
     let username: String
     let name: String?

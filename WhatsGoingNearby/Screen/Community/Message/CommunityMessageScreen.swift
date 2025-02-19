@@ -12,6 +12,7 @@ struct CommunityMessageScreen: View {
     let communityId: String
     let communityName: String
     let communityImageUrl: String?
+    let isOwner: Bool
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var messageVM = MessageViewModel()
@@ -101,7 +102,14 @@ struct CommunityMessageScreen: View {
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                NavigationLink(destination: Text("CommunityDetailScreen")) {
+                NavigationLink {
+                    CommunityDetailScreen(
+                        communityId: communityId,
+                        communityName: communityName,
+                        communityImageUrl: communityImageUrl,
+                        isOwner: isOwner
+                    )
+                } label: {
                     CommunityHeader()
                 }
             }

@@ -137,6 +137,6 @@ struct JoinCommunityView: View {
     JoinCommunityView(
         communityVM: CommunityViewModel(),
         locationManager: LocationManager(),
-        community: FormattedCommunity(id: UUID().uuidString, name: "Condomínio Anaíra", imageUrl: nil, description: "Comunidade apenas para moradores do Anaíra", createdAt: 1, expirationDate: 1, isMember: false, isPrivate: true)
+        community: FormattedCommunity(id: UUID().uuidString, name: "Condomínio Anaíra", imageUrl: nil, description: "Comunidade apenas para moradores do Anaíra", createdAt: 1, expirationDate: 1, isMember: false, isOwner: false, isPrivate: true)
     )
 }

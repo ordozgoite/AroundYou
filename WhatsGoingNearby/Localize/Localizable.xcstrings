@@ -81,6 +81,12 @@
     "%@" : {
 
     },
+    "%@ members" : {
+
+    },
+    "%@ request(s)" : {
+
+    },
     "%@ your %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -368,6 +374,9 @@
         }
       }
     },
+    "admin" : {
+
+    },
     "Age Range" : {
 
     },
@@ -429,6 +438,9 @@
           }
         }
       }
+    },
+    "Approve" : {
+
     },
     "Around You" : {
 
@@ -797,7 +809,7 @@
     "Communities Around You" : {
 
     },
-    "CommunityDetailScreen" : {
+    "Community Info" : {
 
     },
     "Confirm" : {
@@ -944,6 +956,9 @@
         }
       }
     },
+    "Delete Community" : {
+
+    },
     "Delete Message" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -976,6 +991,9 @@
           }
         }
       }
+    },
+    "Deleting this community will permanently remove it for all members without prior notice. This action cannot be undone." : {
+
     },
     "Deleting your account is permanent. Are you sure you want to proceed?." : {
       "localizations" : {
@@ -1831,6 +1849,9 @@
       }
     },
     "Latitude: %lf" : {
+
+    },
+    "Leave Community" : {
 
     },
     "liked" : {
@@ -3103,6 +3124,9 @@
     "These help us show you people who fit your preferences." : {
 
     },
+    "These users want to join your community. Approve their request or ignore it." : {
+
+    },
     "This message was not sent" : {
       "localizations" : {
         "pt-BR" : {
@@ -3501,6 +3525,9 @@
           }
         }
       }
+    },
+    "You are the admin of this community and cannot leave it." : {
+
     },
     "You can enable Discover Notifications to stay updated when someone matching your interests is nearby." : {
 
