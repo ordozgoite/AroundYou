@@ -9,10 +9,7 @@ import SwiftUI
 
 struct CommunityDetailScreen: View {
     
-    let communityId: String
-    let communityName: String
-    let communityImageUrl: String?
-    let isOwner: Bool
+    var community: FormattedCommunity
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var communityDetailVM = CommunityDetailViewModel()
@@ -21,21 +18,21 @@ struct CommunityDetailScreen: View {
         Form {
             Header()
             
-            // TODO: Add Description
+            Description()
             
             if communityDetailVM.hasFetchedCommunityInfo {
-                if isOwner {
+                if community.isOwner {
                     UserRequests()
                 }
                 
                 Members()
                 
-                // TODO: Add Location on map
+                Location()
             }
             
             LeaveButton()
             
-            if isOwner {
+            if community.isOwner {
                 DeleteButton()
             }
         }
@@ -55,17 +52,50 @@ struct CommunityDetailScreen: View {
         Section {
             VStack {
                 HStack {
-                    Spacer()
-                    CommunityImageView(imageUrl: communityImageUrl, size: 150)
-                    Spacer()
+                    ZStack {
+                        CircleTimerView(postDate: community.createdAt.timeIntervalSince1970InSeconds, expirationDate: community.expirationDate.timeIntervalSince1970InSeconds, size: 158)
+                        CommunityImageView(imageUrl: community.imageUrl, size: 150)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
                 }
                 
-                Text(communityName)
+                Text(community.name)
                     .font(.title)
                     .bold()
             }
         }
         .listRowBackground(Color(.systemGroupedBackground))
+    }
+    
+    // MARK: - Description
+    
+    @ViewBuilder
+    private func Description() -> some View {
+        Section {
+            if let description = community.description {
+                HStack {
+                    Text(description)
+//                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    Spacer()
+                    
+                    if community.isOwner {
+                        Image(systemName: "chevron.right")
+                            .foregroundStyle(.gray)
+//                            .frame(maxWidth: .infinity, alignment: .trailing)
+                    }
+                }
+                .onTapGesture {
+                    if community.isOwner {
+                        // Display Group Description Sheet
+                    }
+                }
+            } else {
+                Button("Add Group Description") {
+                    // Display Group Description Sheet
+                }
+            }
+        }
     }
     
     // MARK: - User Requests
@@ -126,6 +156,24 @@ struct CommunityDetailScreen: View {
         }
     }
     
+    // MARK: - Location
+    
+    @ViewBuilder
+    private func Location() -> some View {
+        if let latitude = community.latitude, let longitude = community.longitude {
+            Section {
+                ZStack {
+                    MapView(latitude: latitude, longitude: longitude)
+                        .frame(height: 256)
+                }
+                .listRowInsets(EdgeInsets())
+            } header: {
+                Text("Community's Location")
+            }
+        }
+    }
+
+    
     // MARK: - Leave Button
     
     @ViewBuilder
@@ -135,11 +183,11 @@ struct CommunityDetailScreen: View {
                 // Leave Community
             } label: {
                 Label("Leave Community", systemImage: "rectangle.portrait.and.arrow.right")
-                    .foregroundStyle(isOwner ? .gray : .red)
+                    .foregroundStyle(community.isOwner ? .gray : .red)
             }
-            .disabled(isOwner)
+            .disabled(community.isOwner)
         } footer: {
-            if isOwner {
+            if community.isOwner {
                 Text("You are the admin of this community and cannot leave it.")
             }
         }
@@ -167,10 +215,11 @@ struct CommunityDetailScreen: View {
 extension CommunityDetailScreen {
     private func getCommunityInfo() async throws {
         let token = try await authVM.getFirebaseToken()
-        await communityDetailVM.getCommunityInfo(communityId: self.communityId, token: token)
+        await communityDetailVM.getCommunityInfo(communityId: community.id, token: token)
     }
 }
 
 #Preview {
-    CommunityDetailScreen(communityId: UUID().uuidString, communityName: "Jogadores de Catan", communityImageUrl: nil, isOwner: true)
+    CommunityDetailScreen(community: FormattedCommunity(id: "1", name: "Jogadores de Catan", imageUrl: nil, description: "Comunidade exclusiva para jogadores de Catan dispostos a construir aldeias e cidades diariamente.", createdAt: 0, expirationDate: 0, isMember: true, isOwner: true, isPrivate: false, isLocationVisible: false, latitude: nil, longitude: nil))
+        .environmentObject(AuthenticationViewModel())
 }

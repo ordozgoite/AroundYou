@@ -115,10 +115,7 @@ struct CommunityListScreen: View {
         .navigationDestination(isPresented: $communityVM.isCommunityChatScreenDisplayed) {
             if let community = communityVM.selectedCommunityToChat {
                 CommunityMessageScreen(
-                    communityId: community.id,
-                    communityName: community.name,
-                    communityImageUrl: community.imageUrl,
-                    isOwner: community.isOwner,
+                    community: community,
                     socket: socket
                 )
             }

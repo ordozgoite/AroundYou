@@ -9,10 +9,7 @@ import SwiftUI
 
 struct CommunityMessageScreen: View {
     
-    let communityId: String
-    let communityName: String
-    let communityImageUrl: String?
-    let isOwner: Bool
+    var community: FormattedCommunity
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var messageVM = MessageViewModel()
@@ -103,12 +100,8 @@ struct CommunityMessageScreen: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 NavigationLink {
-                    CommunityDetailScreen(
-                        communityId: communityId,
-                        communityName: communityName,
-                        communityImageUrl: communityImageUrl,
-                        isOwner: isOwner
-                    )
+                    CommunityDetailScreen(community: community)
+                        .environmentObject(authVM)
                 } label: {
                     CommunityHeader()
                 }
@@ -125,10 +118,10 @@ struct CommunityMessageScreen: View {
     @ViewBuilder
     private func CommunityHeader() -> some View {
         HStack {
-            CommunityImageView(imageUrl: communityImageUrl, size: 32)
+            CommunityImageView(imageUrl: community.imageUrl, size: 32)
             
             HStack(alignment: .firstTextBaseline, spacing: 2) {
-                Text(communityName)
+                Text(community.name)
                     .font(.callout)
                     .fontWeight(.bold)
                     .foregroundStyle(.gray)
@@ -193,7 +186,7 @@ struct CommunityMessageScreen: View {
                         Task {
                             let token = try await authVM.getFirebaseToken()
                             try await messageVM.sendMessage(
-                                forChat: communityId,
+                                forChat: community.id,
                                 text: messageVM.messageText.nonEmptyOrNil(),
                                 images: messageVM.images,
                                 repliedMessage: messageVM.repliedMessage,
@@ -252,7 +245,7 @@ struct CommunityMessageScreen: View {
         socket.socket?.on("message") { data, ack in
             if let message = data as? [Any] {
                 print("📩 Received message: \(message)")
-                messageVM.processMessage(message, toChat: communityId) { messageId in
+                messageVM.processMessage(message, toChat: community.id) { messageId in
                     emitReadCommand(forMessage: messageId)
                 }
             }
