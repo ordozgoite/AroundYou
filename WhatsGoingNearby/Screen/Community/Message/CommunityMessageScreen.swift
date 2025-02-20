@@ -10,12 +10,19 @@ import SwiftUI
 struct CommunityMessageScreen: View {
     
     var community: FormattedCommunity
+    @Binding var isViewDisplayed: Bool
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var messageVM = MessageViewModel()
     @ObservedObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
+    @Environment(\.dismiss) var dismiss
+    
+    let pub = NotificationCenter.default
+        .publisher(for: .communityExit)
+    
+    let refreshCommunities: () -> ()
     
     var body: some View {
         ZStack {
@@ -85,6 +92,9 @@ struct CommunityMessageScreen: View {
             }
             listenToMessages()
             updateBadge()
+        }
+        .onReceive(pub) { (output) in
+            self.dismissScreenAndRefreshCommunities()
         }
         .onDisappear {
             stopListeningMessages()
@@ -311,6 +321,11 @@ struct CommunityMessageScreen: View {
     private func getElapsedTimeSinceMessage(_ message: FormattedMessage) -> Int {
         let now = Int(Date().timeIntervalSince1970)
         return now - message.createdAt.timeIntervalSince1970InSeconds
+    }
+    
+    private func dismissScreenAndRefreshCommunities() {
+        refreshCommunities()
+        dismiss()
     }
 }
 

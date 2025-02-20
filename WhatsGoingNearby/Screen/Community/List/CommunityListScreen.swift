@@ -116,8 +116,14 @@ struct CommunityListScreen: View {
             if let community = communityVM.selectedCommunityToChat {
                 CommunityMessageScreen(
                     community: community,
+                    isViewDisplayed: $communityVM.isCommunityChatScreenDisplayed,
                     socket: socket
-                )
+                ) {
+                    Task {
+                        try await getCommunities()
+                    }
+                }
+                .environmentObject(authVM)
             }
         }
     }

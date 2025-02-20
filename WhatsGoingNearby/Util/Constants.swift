@@ -12,6 +12,8 @@ extension Notification.Name {
     static let refreshLocationSensitiveData = Notification.Name("refreshFeed")
     static let updateLocation = Notification.Name("updateLocation")
     static let updateBadge = Notification.Name("updateBadge")
+    static let communityExit = Notification.Name("communityExit")
+    static let communityDeleted = Notification.Name("communityDeleted")
 }
 
 struct Constants {

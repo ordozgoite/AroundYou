@@ -13,6 +13,7 @@ struct CommunityDetailScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var communityDetailVM = CommunityDetailViewModel()
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         Form {
@@ -195,12 +196,23 @@ struct CommunityDetailScreen: View {
     private func LeaveButton() -> some View {
         Section {
             Button(role: .destructive) {
-                // Leave Community
+                Task {
+                    try await leaveCommunity()
+                }
             } label: {
-                Label("Leave Community", systemImage: "rectangle.portrait.and.arrow.right")
-                    .foregroundStyle(community.isOwner ? .gray : .red)
+                if communityDetailVM.isLeavingCommunity {
+                    HStack {
+                        ProgressView()
+                        Text("Leaving Community...")
+                            .foregroundStyle(.gray)
+                        Spacer()
+                    }
+                } else {
+                    Label("Leave Community", systemImage: "rectangle.portrait.and.arrow.right")
+                        .foregroundStyle(community.isOwner ? .gray : .red)
+                }
             }
-            .disabled(community.isOwner)
+            .disabled(community.isOwner || communityDetailVM.isLeavingCommunity)
         } footer: {
             if community.isOwner {
                 Text("You are the admin of this community and cannot leave it.")
@@ -214,7 +226,9 @@ struct CommunityDetailScreen: View {
     private func DeleteButton() -> some View {
         Section {
             Button(role: .destructive) {
-                // Delete Community
+                Task {
+                    try await deleteCommunity()
+                }
             } label: {
                 Label("Delete Community", systemImage: "trash")
                     .foregroundStyle(.red)
@@ -253,6 +267,26 @@ extension CommunityDetailScreen {
     private func deleteMember(_ user: MongoUser) async throws {
         let token = try await authVM.getFirebaseToken()
         await communityDetailVM.removeMember(communityId: self.community.id, userUidToRemove: user.userUid, token: token)
+    }
+    
+    private func leaveCommunity() async throws {
+        do {
+            let token = try await authVM.getFirebaseToken()
+            try await communityDetailVM.leaveCommunity(communityId: self.community.id, token: token)
+            dismiss()
+            dismissCommunityMessageScreenAndRefreshCommunities()
+        } catch {
+            print("❌ Error leaving community: \(error.localizedDescription)")
+        }
+    }
+    
+    private func dismissCommunityMessageScreenAndRefreshCommunities() {
+        NotificationCenter.default.post(name: .communityExit, object: nil)
+    }
+    
+    private func deleteCommunity() async throws {
+        let token = try await authVM.getFirebaseToken()
+        await communityDetailVM.deleteCommunity(communityId: self.community.id, token: token)
     }
 }
 

@@ -16,7 +16,11 @@ class CommunityDetailViewModel: ObservableObject {
     @Published var communityOwnerUid: String = ""
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var hasFetchedCommunityInfo: Bool = false
+    
+    // Loading
     @Published var isApprovingUserToCommunity: (Bool, String) = (false, "")
+    @Published var isLeavingCommunity: Bool = false
+    @Published var isDeletingCommunity: Bool = false
     
     func getCommunityInfo(communityId: String, token: String) async {
         let result = await AYServices.shared.getCommunityInfo(communityId: communityId, token: token)
@@ -76,17 +80,17 @@ class CommunityDetailViewModel: ObservableObject {
         members.removeAll { $0.userUid == userUid }
     }
     
-    func leaveCommunity(communityId: String, token: String) async {
-        // loading
+    func leaveCommunity(communityId: String, token: String) async throws {
+        isLeavingCommunity = true
         let response = await AYServices.shared.exitCommunity(communityId: communityId, token: token)
+        isLeavingCommunity = false
         
         switch response {
         case .success:
             print("✅ Success!")
-            // go back to CommunityListScreen
-            // update communities on CommunityListScreen
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
+            throw NSError(domain: "LeaveCommunityError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to leave community"])
         }
     }
     
