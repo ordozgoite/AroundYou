@@ -75,14 +75,12 @@ struct CommunityDetailScreen: View {
             if let description = community.description {
                 HStack {
                     Text(description)
-//                        .frame(maxWidth: .infinity, alignment: .leading)
                     
                     Spacer()
                     
                     if community.isOwner {
                         Image(systemName: "chevron.right")
                             .foregroundStyle(.gray)
-//                            .frame(maxWidth: .infinity, alignment: .trailing)
                     }
                 }
                 .onTapGesture {
@@ -115,10 +113,16 @@ struct CommunityDetailScreen: View {
                             
                             Spacer()
                             
-                            Button("Approve") {
-                                // Aprove Join Request
+                            if communityDetailVM.isApprovingUserToCommunity.0 && communityDetailVM.isApprovingUserToCommunity.1 == request.userUid {
+                                ProgressView()
+                            } else {
+                                Button("Approve") {
+                                    Task {
+                                        try await approveUser(request)
+                                    }
+                                }
+                                .buttonStyle(.borderedProminent)
                             }
-                            .buttonStyle(.borderedProminent)
                         }
                     }
                 } header: {
@@ -150,9 +154,20 @@ struct CommunityDetailScreen: View {
                             .foregroundStyle(.gray)
                     }
                 }
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    if community.isOwner && member.userUid != communityDetailVM.communityOwnerUid {
+                        Button(role: .destructive) {
+                            Task {
+                                try await deleteMember(member)
+                            }
+                        } label: {
+                            Label("Remove", systemImage: "trash")
+                        }
+                    }
+                }
             }
         } header: {
-            Text("\(String(communityDetailVM.members.count)) members")
+            Text("\(String(communityDetailVM.members.count)) member(s)")
         }
     }
     
@@ -172,7 +187,7 @@ struct CommunityDetailScreen: View {
             }
         }
     }
-
+    
     
     // MARK: - Leave Button
     
@@ -216,6 +231,28 @@ extension CommunityDetailScreen {
     private func getCommunityInfo() async throws {
         let token = try await authVM.getFirebaseToken()
         await communityDetailVM.getCommunityInfo(communityId: community.id, token: token)
+    }
+    
+    private func approveUser(_ user: MongoUser) async throws {
+        let token = try await authVM.getFirebaseToken()
+        await communityDetailVM.approveUserToCommunity(communityId: self.community.id, requestUser: user, token: token)
+    }
+    
+    private func removeMember(at offsets: IndexSet) {
+        guard community.isOwner else { return }
+        
+        for index in offsets {
+            let member = communityDetailVM.members[index]
+            
+            Task {
+                try await deleteMember(member)
+            }
+        }
+    }
+    
+    private func deleteMember(_ user: MongoUser) async throws {
+        let token = try await authVM.getFirebaseToken()
+        await communityDetailVM.removeMember(communityId: self.community.id, userUidToRemove: user.userUid, token: token)
     }
 }
 

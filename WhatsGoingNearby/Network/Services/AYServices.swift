@@ -86,6 +86,10 @@ protocol AYServiceable {
     func joinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError>
     func askToJoinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError>
     func getCommunityInfo(communityId: String, token: String) async -> Result<GetCommunityInfoResponse, RequestError>
+    func approveUserToCommunity(communityId: String, requestUserUid: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func deleteCommunity(communityId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func exitCommunity(communityId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func removeUserFromCommunity(communityId: String, userUidToRemove: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -329,5 +333,21 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getCommunityInfo(communityId: String, token: String) async -> Result<GetCommunityInfoResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getCommunityInfo(communityId: communityId, token: token), responseModel: GetCommunityInfoResponse.self)
+    }
+    
+    func approveUserToCommunity(communityId: String, requestUserUid: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.approveUserToCommunity(communityId: communityId, requestUserUid: requestUserUid, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func deleteCommunity(communityId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteCommunity(communityId: communityId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func exitCommunity(communityId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.exitCommunity(communityId: communityId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func removeUserFromCommunity(communityId: String, userUidToRemove: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.removeUserFromCommunity(communityId: communityId, userUidToRemove: userUidToRemove, token: token), responseModel: SuccessMessageResponse.self)
     }
 }

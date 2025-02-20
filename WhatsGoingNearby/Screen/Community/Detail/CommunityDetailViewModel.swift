@@ -16,6 +16,7 @@ class CommunityDetailViewModel: ObservableObject {
     @Published var communityOwnerUid: String = ""
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var hasFetchedCommunityInfo: Bool = false
+    @Published var isApprovingUserToCommunity: (Bool, String) = (false, "")
     
     func getCommunityInfo(communityId: String, token: String) async {
         let result = await AYServices.shared.getCommunityInfo(communityId: communityId, token: token)
@@ -35,11 +36,71 @@ class CommunityDetailViewModel: ObservableObject {
         self.communityOwnerUid = communityInfo.ownerUid
     }
     
-    func leaveCommunity() async {
+    func approveUserToCommunity(communityId: String, requestUser: MongoUser, token: String) async {
+        isApprovingUserToCommunity = (true, requestUser.userUid)
+        let response = await AYServices.shared.approveUserToCommunity(communityId: communityId, requestUserUid: requestUser.userUid, token: token)
+        isApprovingUserToCommunity = (false, "")
         
+        switch response {
+        case .success:
+            removeFromJoinRequests(requestUser.userUid)
+            addToMembers(requestUser)
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
     }
     
-    func deleteCommunity() async {
+    private func removeFromJoinRequests(_ userUid: String) {
+        guard var requests = joinRequests else { return }
+        requests.removeAll { $0.userUid == userUid }
+        joinRequests = requests
+    }
+
+    
+    private func addToMembers(_ user: MongoUser) {
+        self.members.append(user)
+    }
+    
+    func removeMember(communityId: String, userUidToRemove: String, token: String) async {
+        let response = await AYServices.shared.removeUserFromCommunity(communityId: communityId, userUidToRemove: userUidToRemove, token: token)
         
+        switch response {
+        case .success:
+            removeFromMembers(userUidToRemove)
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
+    private func removeFromMembers(_ userUid: String) {
+        members.removeAll { $0.userUid == userUid }
+    }
+    
+    func leaveCommunity(communityId: String, token: String) async {
+        // loading
+        let response = await AYServices.shared.exitCommunity(communityId: communityId, token: token)
+        
+        switch response {
+        case .success:
+            print("✅ Success!")
+            // go back to CommunityListScreen
+            // update communities on CommunityListScreen
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
+    func deleteCommunity(communityId: String, token: String) async {
+        // loading
+        let response = await AYServices.shared.deleteCommunity(communityId: communityId, token: token)
+        
+        switch response {
+        case .success:
+            print("✅ Success!")
+            // go back to CommunityListScreen
+            // update communities on CommunityListScreen
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
     }
 }

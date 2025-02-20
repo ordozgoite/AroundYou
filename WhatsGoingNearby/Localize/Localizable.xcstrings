@@ -81,7 +81,7 @@
     "%@" : {
 
     },
-    "%@ members" : {
+    "%@ member(s)" : {
 
     },
     "%@ request(s)" : {
@@ -2547,6 +2547,9 @@
           }
         }
       }
+    },
+    "Remove" : {
+
     },
     "Remove photo" : {
       "localizations" : {
