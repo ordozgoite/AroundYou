@@ -20,7 +20,7 @@ struct CommunityMessageScreen: View {
     @Environment(\.dismiss) var dismiss
     
     let pub = NotificationCenter.default
-        .publisher(for: .communityExit)
+        .publisher(for: .popCommunity)
     
     let refreshCommunities: () -> ()
     

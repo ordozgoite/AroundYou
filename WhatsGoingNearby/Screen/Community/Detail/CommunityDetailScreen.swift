@@ -230,8 +230,17 @@ struct CommunityDetailScreen: View {
                     try await deleteCommunity()
                 }
             } label: {
-                Label("Delete Community", systemImage: "trash")
-                    .foregroundStyle(.red)
+                if communityDetailVM.isDeletingCommunity {
+                    HStack {
+                        ProgressView()
+                        Text("Deleting Community...")
+                            .foregroundStyle(.gray)
+                        Spacer()
+                    }
+                } else {
+                    Label("Delete Community", systemImage: "trash")
+                        .foregroundStyle(.red)
+                }
             }
         } footer: {
             Text("Deleting this community will permanently remove it for all members without prior notice. This action cannot be undone.")
@@ -281,12 +290,18 @@ extension CommunityDetailScreen {
     }
     
     private func dismissCommunityMessageScreenAndRefreshCommunities() {
-        NotificationCenter.default.post(name: .communityExit, object: nil)
+        NotificationCenter.default.post(name: .popCommunity, object: nil)
     }
     
     private func deleteCommunity() async throws {
-        let token = try await authVM.getFirebaseToken()
-        await communityDetailVM.deleteCommunity(communityId: self.community.id, token: token)
+        do {
+            let token = try await authVM.getFirebaseToken()
+            try await communityDetailVM.deleteCommunity(communityId: self.community.id, token: token)
+            dismiss()
+            dismissCommunityMessageScreenAndRefreshCommunities()
+        } catch {
+            print("❌ Error deleting community: \(error.localizedDescription)")
+        }
     }
 }
 

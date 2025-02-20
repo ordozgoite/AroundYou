@@ -94,17 +94,17 @@ class CommunityDetailViewModel: ObservableObject {
         }
     }
     
-    func deleteCommunity(communityId: String, token: String) async {
-        // loading
+    func deleteCommunity(communityId: String, token: String) async throws {
+        isDeletingCommunity = true
         let response = await AYServices.shared.deleteCommunity(communityId: communityId, token: token)
+        isDeletingCommunity = false
         
         switch response {
         case .success:
             print("✅ Success!")
-            // go back to CommunityListScreen
-            // update communities on CommunityListScreen
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
+            throw NSError(domain: "DeleteCommunityError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to delete community"])
         }
     }
 }
