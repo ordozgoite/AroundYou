@@ -90,6 +90,8 @@ protocol AYServiceable {
     func deleteCommunity(communityId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
     func exitCommunity(communityId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
     func removeUserFromCommunity(communityId: String, userUidToRemove: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func editCommunity(communityId: String, communityName: String, communityImageUrl: String?, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func editCommunityDescription(communityId: String, description: String?, token: String) async -> Result<SuccessMessageResponse, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -349,5 +351,13 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func removeUserFromCommunity(communityId: String, userUidToRemove: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.removeUserFromCommunity(communityId: communityId, userUidToRemove: userUidToRemove, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func editCommunity(communityId: String, communityName: String, communityImageUrl: String?, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.editCommunity(communityId: communityId, communityName: communityName, communityImageUrl: communityImageUrl, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func editCommunityDescription(communityId: String, description: String?, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.editCommunityDescription(communityId: communityId, description: description, token: token), responseModel: SuccessMessageResponse.self)
     }
 }
