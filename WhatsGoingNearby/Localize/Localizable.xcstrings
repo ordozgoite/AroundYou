@@ -374,6 +374,9 @@
         }
       }
     },
+    "Add Community Description" : {
+
+    },
     "Add Group Description" : {
 
     },
@@ -810,6 +813,9 @@
 
     },
     "Communities Around You" : {
+
+    },
+    "Community Description" : {
 
     },
     "Community Info" : {
@@ -2767,6 +2773,9 @@
         }
       }
     },
+    "Save" : {
+
+    },
     "Save Preferences" : {
 
     },
@@ -3108,6 +3117,9 @@
           }
         }
       }
+    },
+    "The community description is visible to everyone who can see this community." : {
+
     },
     "The username you have chosen contains invalid characters. Please try another." : {
       "localizations" : {

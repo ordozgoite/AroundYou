@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CommunityDetailScreen: View {
     
-    var community: FormattedCommunity
+    @State var community: FormattedCommunity
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var communityDetailVM = CommunityDetailViewModel()
@@ -43,6 +43,13 @@ struct CommunityDetailScreen: View {
             Task {
                 try await getCommunityInfo()
             }
+        }
+        .sheet(isPresented: $communityDetailVM.isEditDescriptionViewDisplayed) {
+            EditCommunityDescriptionView(communityId: self.community.id, previousDescription: self.community.description ?? "", updateCommunityDescription: { newDescription in
+                updateCommunityDescription(newDescription)
+            }, communityDetailVM: communityDetailVM, isViewDisplayed: $communityDetailVM.isEditDescriptionViewDisplayed)
+            .environmentObject(authVM)
+            .interactiveDismissDisabled(true)
         }
     }
     
@@ -86,12 +93,14 @@ struct CommunityDetailScreen: View {
                 }
                 .onTapGesture {
                     if community.isOwner {
-                        // Display Group Description Sheet
+                        communityDetailVM.isEditDescriptionViewDisplayed = true
                     }
                 }
             } else {
-                Button("Add Group Description") {
-                    // Display Group Description Sheet
+                if community.isOwner {
+                    Button("Add Group Description") {
+                        communityDetailVM.isEditDescriptionViewDisplayed = true
+                    }
                 }
             }
         }
@@ -302,6 +311,10 @@ extension CommunityDetailScreen {
         } catch {
             print("❌ Error deleting community: \(error.localizedDescription)")
         }
+    }
+    
+    private func updateCommunityDescription(_ newDescription: String) {
+        self.community.description = newDescription.isEmpty ? nil : newDescription
     }
 }
 

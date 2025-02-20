@@ -11,7 +11,7 @@ struct FormattedCommunity: Codable, Identifiable {
     let id: String
     let name: String
     let imageUrl: String?
-    let description: String?
+    var description: String?
     let createdAt: Int
     let expirationDate: Int
     var isMember: Bool

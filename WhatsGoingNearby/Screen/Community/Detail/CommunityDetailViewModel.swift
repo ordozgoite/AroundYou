@@ -16,11 +16,13 @@ class CommunityDetailViewModel: ObservableObject {
     @Published var communityOwnerUid: String = ""
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var hasFetchedCommunityInfo: Bool = false
+    @Published var isEditDescriptionViewDisplayed: Bool = false
     
     // Loading
     @Published var isApprovingUserToCommunity: (Bool, String) = (false, "")
     @Published var isLeavingCommunity: Bool = false
     @Published var isDeletingCommunity: Bool = false
+    @Published var isEditingDescription: Bool = false
     
     func getCommunityInfo(communityId: String, token: String) async {
         let result = await AYServices.shared.getCommunityInfo(communityId: communityId, token: token)
@@ -105,6 +107,20 @@ class CommunityDetailViewModel: ObservableObject {
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
             throw NSError(domain: "DeleteCommunityError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to delete community"])
+        }
+    }
+    
+    func editCommunityDescription(communityId: String, newDescription: String?, token: String) async throws {
+        isEditingDescription = true
+        let response = await AYServices.shared.editCommunityDescription(communityId: communityId, description: newDescription, token: token)
+        isEditingDescription = false
+        
+        switch response {
+        case .success:
+            print("✅ Success!")
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            throw NSError(domain: "EditCommunityDescriptionError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to edit community description"])
         }
     }
 }
