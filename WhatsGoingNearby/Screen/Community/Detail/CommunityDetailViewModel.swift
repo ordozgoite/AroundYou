@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import PhotosUI
 
 @MainActor
 class CommunityDetailViewModel: ObservableObject {
@@ -17,12 +18,22 @@ class CommunityDetailViewModel: ObservableObject {
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var hasFetchedCommunityInfo: Bool = false
     @Published var isEditDescriptionViewDisplayed: Bool = false
+    @Published var isEditCommunityViewDisplayed: Bool = false
     
     // Loading
     @Published var isApprovingUserToCommunity: (Bool, String) = (false, "")
     @Published var isLeavingCommunity: Bool = false
     @Published var isDeletingCommunity: Bool = false
     @Published var isEditingDescription: Bool = false
+    
+    // Edit Community
+    @Published var communityNameInput: String = ""
+    @Published var isImageOptionsDisplayed: Bool = false
+    @Published var imageSelection: PhotosPickerItem?
+    @Published var isCropViewDisplayed: Bool = false
+    @Published var image: UIImage?
+    @Published var croppedImage: UIImage?
+    @Published var isPhotoPickerPresented: Bool = false
     
     func getCommunityInfo(communityId: String, token: String) async {
         let result = await AYServices.shared.getCommunityInfo(communityId: communityId, token: token)

@@ -9,8 +9,8 @@ import Foundation
 
 struct FormattedCommunity: Codable, Identifiable {
     let id: String
-    let name: String
-    let imageUrl: String?
+    var name: String
+    var imageUrl: String?
     var description: String?
     let createdAt: Int
     let expirationDate: Int

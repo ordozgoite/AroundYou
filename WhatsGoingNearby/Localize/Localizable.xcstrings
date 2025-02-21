@@ -1254,7 +1254,6 @@
       }
     },
     "Edit" : {
-      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1269,6 +1268,9 @@
           }
         }
       }
+    },
+    "Edit Community" : {
+
     },
     "Edit photo" : {
       "localizations" : {

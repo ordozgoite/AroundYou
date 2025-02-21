@@ -39,15 +39,25 @@ struct CommunityDetailScreen: View {
         }
         .navigationTitle("Community Info")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Edit") {
+                    communityDetailVM.isEditCommunityViewDisplayed = true
+                }
+            }
+        }
         .onAppear {
             Task {
                 try await getCommunityInfo()
             }
         }
-        .sheet(isPresented: $communityDetailVM.isEditDescriptionViewDisplayed) {
-            EditCommunityDescriptionView(communityId: self.community.id, previousDescription: self.community.description ?? "", updateCommunityDescription: { newDescription in
-                updateCommunityDescription(newDescription)
-            }, communityDetailVM: communityDetailVM, isViewDisplayed: $communityDetailVM.isEditDescriptionViewDisplayed)
+        .sheet(isPresented: $communityDetailVM.isEditCommunityViewDisplayed) {
+            EditCommunityView(
+                prevCommunityName: self.community.name,
+                prevCommunityImageUrl: self.community.imageUrl,
+                communityDetailVM: communityDetailVM,
+                isViewDisplayed: $communityDetailVM.isEditCommunityViewDisplayed
+            )
             .environmentObject(authVM)
             .interactiveDismissDisabled(true)
         }
@@ -103,6 +113,18 @@ struct CommunityDetailScreen: View {
                     }
                 }
             }
+        }
+        .sheet(isPresented: $communityDetailVM.isEditDescriptionViewDisplayed) {
+            EditCommunityDescriptionView(
+                communityId: self.community.id,
+                previousDescription: self.community.description ?? "",
+                updateCommunityDescription: { newDescription in
+                    updateCommunityDescription(newDescription)
+                }, communityDetailVM: communityDetailVM,
+                isViewDisplayed: $communityDetailVM.isEditDescriptionViewDisplayed
+            )
+            .environmentObject(authVM)
+            .interactiveDismissDisabled(true)
         }
     }
     

@@ -40,6 +40,7 @@
 		ED2F1A7E2B927D9B001F4300 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2F1A7D2B927D9B001F4300 /* Subscription.swift */; };
 		ED30CE1B2D674E79001FB213 /* SuccessMessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED30CE1A2D674E79001FB213 /* SuccessMessageResponse.swift */; };
 		ED30CE1D2D67ABCE001FB213 /* EditCommunityDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED30CE1C2D67ABCE001FB213 /* EditCommunityDescriptionView.swift */; };
+		ED30CE542D68FF0A001FB213 /* EditCommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED30CE532D68FF0A001FB213 /* EditCommunityView.swift */; };
 		ED318A612CF6835D009A0D63 /* GenderInterestPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED318A602CF6835D009A0D63 /* GenderInterestPickerView.swift */; };
 		ED3775A32B99795600BEF3D8 /* notification-sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED3775A22B99795500BEF3D8 /* notification-sound.wav */; };
 		ED3775A52B9A5E5200BEF3D8 /* DeleteUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3775A42B9A5E5200BEF3D8 /* DeleteUserResponse.swift */; };
@@ -284,6 +285,7 @@
 		ED2F1A7D2B927D9B001F4300 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		ED30CE1A2D674E79001FB213 /* SuccessMessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessMessageResponse.swift; sourceTree = "<group>"; };
 		ED30CE1C2D67ABCE001FB213 /* EditCommunityDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCommunityDescriptionView.swift; sourceTree = "<group>"; };
+		ED30CE532D68FF0A001FB213 /* EditCommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCommunityView.swift; sourceTree = "<group>"; };
 		ED318A602CF6835D009A0D63 /* GenderInterestPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderInterestPickerView.swift; sourceTree = "<group>"; };
 		ED3775A22B99795500BEF3D8 /* notification-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "notification-sound.wav"; sourceTree = "<group>"; };
 		ED3775A42B9A5E5200BEF3D8 /* DeleteUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserResponse.swift; sourceTree = "<group>"; };
@@ -530,7 +532,6 @@
 			children = (
 				ED1026262D663E4E009FF94B /* CommunityDetailViewModel.swift */,
 				ED1026242D653545009FF94B /* CommunityDetailScreen.swift */,
-				ED30CE1C2D67ABCE001FB213 /* EditCommunityDescriptionView.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -1158,12 +1159,14 @@
 		EDEF7A762D52506C0030B7A6 /* Community */ = {
 			isa = PBXGroup;
 			children = (
+				ED30CE1C2D67ABCE001FB213 /* EditCommunityDescriptionView.swift */,
 				EDEF7A6F2D524E370030B7A6 /* CommunityImageView.swift */,
 				EDEF7A702D524E370030B7A6 /* CommunityView.swift */,
 				EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */,
 				ED0B4AE42D5CD038000A21F6 /* EmptyCommunityView.swift */,
 				ED0B4AF12D5F8C3E000A21F6 /* CustomPerson3CircleFill.swift */,
 				EDABC4552D626A650014C15E /* JoinCommunityView.swift */,
+				ED30CE532D68FF0A001FB213 /* EditCommunityView.swift */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -1324,6 +1327,7 @@
 				ED598C032B7C42B500B6C23D /* AuthenticationScreen.swift in Sources */,
 				EDD639A02CF81C7800978927 /* GenderPickerView.swift in Sources */,
 				ED0652592B813859005B6413 /* BugViewModel.swift in Sources */,
+				ED30CE542D68FF0A001FB213 /* EditCommunityView.swift in Sources */,
 				ED24FAF42B9E6530002F7A11 /* CommentDTO.swift in Sources */,
 				ED50C4602B7F98620001EDF6 /* Sizes.swift in Sources */,
 				EDA30E032B811FD4003EB22D /* ReportViewModel.swift in Sources */,
