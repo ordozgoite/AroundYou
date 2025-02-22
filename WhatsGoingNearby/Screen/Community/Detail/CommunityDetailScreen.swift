@@ -53,8 +53,11 @@ struct CommunityDetailScreen: View {
         }
         .sheet(isPresented: $communityDetailVM.isEditCommunityViewDisplayed) {
             EditCommunityView(
+                communityId: self.community.id,
                 prevCommunityName: self.community.name,
-                prevCommunityImageUrl: self.community.imageUrl,
+                prevCommunityImageUrl: self.community.imageUrl, updateCommunityInfo: {
+                    updateCommunityInfo()
+                },
                 communityDetailVM: communityDetailVM,
                 isViewDisplayed: $communityDetailVM.isEditCommunityViewDisplayed
             )
@@ -228,7 +231,7 @@ struct CommunityDetailScreen: View {
         Section {
             Button(role: .destructive) {
                 Task {
-                    try await leaveCommunity()
+                    try await handleCommunityExit()
                 }
             } label: {
                 if communityDetailVM.isLeavingCommunity {
@@ -258,7 +261,7 @@ struct CommunityDetailScreen: View {
         Section {
             Button(role: .destructive) {
                 Task {
-                    try await deleteCommunity()
+                    try await handleCommunityDeletion()
                 }
             } label: {
                 if communityDetailVM.isDeletingCommunity {
@@ -309,34 +312,55 @@ extension CommunityDetailScreen {
         await communityDetailVM.removeMember(communityId: self.community.id, userUidToRemove: user.userUid, token: token)
     }
     
-    private func leaveCommunity() async throws {
+    private func handleCommunityExit() async throws {
         do {
-            let token = try await authVM.getFirebaseToken()
-            try await communityDetailVM.leaveCommunity(communityId: self.community.id, token: token)
-            dismiss()
-            dismissCommunityMessageScreenAndRefreshCommunities()
+            try await performCommunityExit()
         } catch {
             print("❌ Error leaving community: \(error.localizedDescription)")
         }
+    }
+    
+    private func performCommunityExit() async throws {
+        let token = try await authVM.getFirebaseToken()
+        try await communityDetailVM.leaveCommunity(communityId: self.community.id, token: token)
+        dismiss()
+        dismissCommunityMessageScreenAndRefreshCommunities()
     }
     
     private func dismissCommunityMessageScreenAndRefreshCommunities() {
         NotificationCenter.default.post(name: .popCommunity, object: nil)
     }
     
-    private func deleteCommunity() async throws {
+    private func handleCommunityDeletion() async throws {
         do {
-            let token = try await authVM.getFirebaseToken()
-            try await communityDetailVM.deleteCommunity(communityId: self.community.id, token: token)
-            dismiss()
-            dismissCommunityMessageScreenAndRefreshCommunities()
+            try await performCommunityDeletion()
         } catch {
             print("❌ Error deleting community: \(error.localizedDescription)")
         }
     }
     
+    private func performCommunityDeletion() async throws {
+        let token = try await authVM.getFirebaseToken()
+        try await communityDetailVM.deleteCommunity(communityId: self.community.id, token: token)
+        dismiss()
+        dismissCommunityMessageScreenAndRefreshCommunities()
+    }
+    
     private func updateCommunityDescription(_ newDescription: String) {
         self.community.description = newDescription.isEmpty ? nil : newDescription
+    }
+    
+    private func updateCommunityInfo() {
+        self.community.name = communityDetailVM.communityNameInput
+        if didChangeImage() {
+            self.community.imageUrl = communityDetailVM.newImageUrl
+        }
+    }
+    
+    private func didChangeImage() -> Bool {
+        let removedImage = communityDetailVM.communityImageDisplaySource == .none
+        let selectedNewImage = communityDetailVM.communityImageDisplaySource == .uiImage
+        return removedImage || selectedNewImage
     }
 }
 

@@ -294,12 +294,9 @@ struct MessageScreen: View {
                                 .cornerRadius(8)
                             
                             Button {
-                                print("📇 Index: \(index)")
                                 messageVM.removeImage(fromIndex: index)
                             } label: {
-                                Image(systemName: "x.circle")
-                                    .foregroundStyle(.white)
-                                    .background(Circle().fill(.gray))
+                                RemoveMediaButton(size: .small)
                             }
                             .padding([.top, .trailing], 2)
                         }

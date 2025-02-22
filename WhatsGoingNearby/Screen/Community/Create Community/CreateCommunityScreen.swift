@@ -84,9 +84,7 @@ struct CreateCommunityScreen: View {
                 Button {
                     removePhoto()
                 } label: {
-                    Image(systemName: "xmark")
-                        .resizable()
-                        .frame(width: 16, height: 16, alignment: .center)
+                    RemoveMediaButton(size: .medium)
                 }
             }
         }
@@ -97,10 +95,12 @@ struct CreateCommunityScreen: View {
     @ViewBuilder
     private func CommunityImage() -> some View {
         if let selectedImage = createCommunityVM.croppedImage {
-            Image(uiImage: selectedImage)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 128, height: 128, alignment: .center)
+            /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Container@*/VStack/*@END_MENU_TOKEN@*/ {
+                Image(uiImage: selectedImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 128, height: 128, alignment: .center)
+            }
         } else {
             CustomPerson3CircleFill(size: 128)
         }

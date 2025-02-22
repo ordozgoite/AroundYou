@@ -55,7 +55,6 @@ class CreateCommunityViewModel: ObservableObject {
     
     private func getImageUrl() async -> String? {
         do {
-            print("⚠️ Storing Image on Firebase...")
             return try await FirebaseService.shared.storeImageAndGetUrl(self.croppedImage!)
         } catch {
             // TODO: Display Error

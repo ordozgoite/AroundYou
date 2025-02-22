@@ -34,6 +34,9 @@ class CommunityDetailViewModel: ObservableObject {
     @Published var image: UIImage?
     @Published var croppedImage: UIImage?
     @Published var isPhotoPickerPresented: Bool = false
+    @Published var isEditingCommunity: Bool = false
+    @Published var communityImageDisplaySource: ImageDisplaySource = .none
+    var newImageUrl: String?
     
     func getCommunityInfo(communityId: String, token: String) async {
         let result = await AYServices.shared.getCommunityInfo(communityId: communityId, token: token)
@@ -55,10 +58,10 @@ class CommunityDetailViewModel: ObservableObject {
     
     func approveUserToCommunity(communityId: String, requestUser: MongoUser, token: String) async {
         isApprovingUserToCommunity = (true, requestUser.userUid)
-        let response = await AYServices.shared.approveUserToCommunity(communityId: communityId, requestUserUid: requestUser.userUid, token: token)
+        let result = await AYServices.shared.approveUserToCommunity(communityId: communityId, requestUserUid: requestUser.userUid, token: token)
         isApprovingUserToCommunity = (false, "")
         
-        switch response {
+        switch result {
         case .success:
             removeFromJoinRequests(requestUser.userUid)
             addToMembers(requestUser)
@@ -79,9 +82,9 @@ class CommunityDetailViewModel: ObservableObject {
     }
     
     func removeMember(communityId: String, userUidToRemove: String, token: String) async {
-        let response = await AYServices.shared.removeUserFromCommunity(communityId: communityId, userUidToRemove: userUidToRemove, token: token)
+        let result = await AYServices.shared.removeUserFromCommunity(communityId: communityId, userUidToRemove: userUidToRemove, token: token)
         
-        switch response {
+        switch result {
         case .success:
             removeFromMembers(userUidToRemove)
         case .failure:
@@ -95,10 +98,10 @@ class CommunityDetailViewModel: ObservableObject {
     
     func leaveCommunity(communityId: String, token: String) async throws {
         isLeavingCommunity = true
-        let response = await AYServices.shared.exitCommunity(communityId: communityId, token: token)
+        let result = await AYServices.shared.exitCommunity(communityId: communityId, token: token)
         isLeavingCommunity = false
         
-        switch response {
+        switch result {
         case .success:
             print("✅ Success!")
         case .failure:
@@ -109,10 +112,10 @@ class CommunityDetailViewModel: ObservableObject {
     
     func deleteCommunity(communityId: String, token: String) async throws {
         isDeletingCommunity = true
-        let response = await AYServices.shared.deleteCommunity(communityId: communityId, token: token)
+        let result = await AYServices.shared.deleteCommunity(communityId: communityId, token: token)
         isDeletingCommunity = false
         
-        switch response {
+        switch result {
         case .success:
             print("✅ Success!")
         case .failure:
@@ -123,15 +126,48 @@ class CommunityDetailViewModel: ObservableObject {
     
     func editCommunityDescription(communityId: String, newDescription: String?, token: String) async throws {
         isEditingDescription = true
-        let response = await AYServices.shared.editCommunityDescription(communityId: communityId, description: newDescription, token: token)
+        let result = await AYServices.shared.editCommunityDescription(communityId: communityId, description: newDescription, token: token)
         isEditingDescription = false
         
-        switch response {
+        switch result {
         case .success:
             print("✅ Success!")
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
             throw NSError(domain: "EditCommunityDescriptionError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to edit community description"])
+        }
+    }
+    
+    func editCommunity(communityId: String, prevImageUrl: String?, token: String) async throws {
+        isEditingCommunity = true
+        newImageUrl = await determineNewImageUrl(previousUrl: prevImageUrl)
+        let result = await AYServices.shared.editCommunity(communityId: communityId, communityName: communityNameInput, communityImageUrl: self.newImageUrl, token: token)
+        isEditingCommunity = false
+        
+        switch result {
+        case .success:
+            print("✅ Success!")
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            throw NSError(domain: "EditCommunityError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to edit community"])
+        }
+    }
+    
+    private func determineNewImageUrl(previousUrl: String?) async -> String? {
+        guard isNewImageSelected() else { return previousUrl }
+        return croppedImage == nil ? nil : await getImageUrl()
+    }
+
+    private func isNewImageSelected() -> Bool {
+        return communityImageDisplaySource != .url
+    }
+    
+    private func getImageUrl() async -> String? {
+        do {
+            return try await FirebaseService.shared.storeImageAndGetUrl(self.croppedImage!)
+        } catch {
+            // TODO: Display Error
+            return nil
         }
     }
 }
