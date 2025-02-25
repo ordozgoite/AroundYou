@@ -14,6 +14,7 @@ struct CommunityMessageScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var communityMessageVM = CommunityMessageViewModel()
+    @ObservedObject var locationManager: LocationManager
     @ObservedObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
@@ -97,6 +98,7 @@ struct CommunityMessageScreen: View {
             Task {
                 try await getMessages(.newest)
             }
+            startLocationTimer()
             listenToMessages()
             updateBadge()
         }
@@ -202,7 +204,7 @@ struct CommunityMessageScreen: View {
                     Button {
                         Task {
                             let token = try await authVM.getFirebaseToken()
-                            await communityMessageVM.sendMessage(forCommunityId: self.community.id, repliedMessage: communityMessageVM.repliedMessage, token: token)
+                            await communityMessageVM.sendMessage(forCommunityId: self.community.id, text: communityMessageVM.messageText, repliedMessage: communityMessageVM.repliedMessage, token: token)
                         }
                     } label: {
                         Image(systemName: "paperplane.fill")
@@ -251,6 +253,15 @@ struct CommunityMessageScreen: View {
     //    }
     
     //MARK: - Private Method
+    
+    private func startLocationTimer() {
+            Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+                if let location = locationManager.location {
+                    communityMessageVM.latitude = location.coordinate.latitude
+                    communityMessageVM.longitude = location.coordinate.longitude
+                }
+            }
+        }
     
     private func listenToMessages() {
         //        socket.socket?.on("message") { data, ack in

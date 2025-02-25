@@ -22,7 +22,6 @@ class CommunityMessageViewModel: ObservableObject {
         }
     }
     @Published var receivedMessages: [CommunityMessage] = []
-//    @Published var messagesToBePersisted: [FormattedMessage] = []
     
     @Published var messageText: String = ""
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
@@ -30,6 +29,9 @@ class CommunityMessageViewModel: ObservableObject {
     @Published var messageTimer: Timer?
     @Published var highlightedMessageId: String?
     @Published var lastMessageAdded: String?
+    
+    @Published var latitude: Double = 0
+    @Published var longitude: Double = 0
     
     //MARK: - Fetch Messages
     
@@ -66,9 +68,9 @@ class CommunityMessageViewModel: ObservableObject {
     
     //MARK: - Send Message
     
-    func sendMessage(forCommunityId communityId: String, repliedMessage: FormattedMessage?, token: String) async {
+    func sendMessage(forCommunityId communityId: String, text: String, repliedMessage: FormattedMessage?, token: String) async {
         resetInputs()
-        let messagesToBeSent = getMessagesToBeSent(communityId: communityId, text: self.messageText, repliedMessage: repliedMessage)
+        let messagesToBeSent = getMessagesToBeSent(communityId: communityId, text: text, repliedMessage: repliedMessage)
         displayMessages(fromArray: messagesToBeSent)
         await withTaskGroup(of: Void.self) { group in
             for message in messagesToBeSent {
@@ -108,8 +110,7 @@ class CommunityMessageViewModel: ObservableObject {
     }
     
     private func postNewMessage(withTemporaryId tempId: String, communityId: String, text: String, repliedMessageId: String?, repliedMessageText: String?, token: String) async {
-        // TODO: Add latitude and longitude
-        let result = await AYServices.shared.postCommunityMessage(communityId: communityId, latitude: 0, longitude: 0, text: text, token: token)
+        let result = await AYServices.shared.postCommunityMessage(communityId: communityId, latitude: latitude, longitude: longitude, text: text, token: token)
         
         switch result {
         case .success(let message):
@@ -197,14 +198,14 @@ class CommunityMessageViewModel: ObservableObject {
     //MARK: - Delete Message
     
     func deleteMessage(messageId: String, token: String) async {
-        let result = await AYServices.shared.deleteMessage(messageId: messageId, token: token)
-        
-        switch result {
-        case .success:
-            removeMessage(withId: messageId)
-        case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
-        }
+//        let result = await AYServices.shared.deleteMessage(messageId: messageId, token: token)
+//        
+//        switch result {
+//        case .success:
+//            removeMessage(withId: messageId)
+//        case .failure:
+//            overlayError = (true, ErrorMessage.defaultErrorMessage)
+//        }
     }
     
     private func removeMessage(withId messageId: String) {

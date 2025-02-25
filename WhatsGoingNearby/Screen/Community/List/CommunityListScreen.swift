@@ -117,6 +117,7 @@ struct CommunityListScreen: View {
                 CommunityMessageScreen(
                     community: community,
                     isViewDisplayed: $communityVM.isCommunityChatScreenDisplayed,
+                    locationManager: locationManager,
                     socket: socket
                 ) {
                     Task {
