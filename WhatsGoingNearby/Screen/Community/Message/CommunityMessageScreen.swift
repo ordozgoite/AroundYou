@@ -13,7 +13,7 @@ struct CommunityMessageScreen: View {
     @Binding var isViewDisplayed: Bool
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @StateObject private var messageVM = MessageViewModel()
+    @StateObject private var communityMessageVM = CommunityMessageViewModel()
     @ObservedObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
@@ -31,38 +31,45 @@ struct CommunityMessageScreen: View {
                     ScrollViewReader { proxy in
                         ZStack {
                             VStack(spacing: 0) {
-                                ForEach(messageVM.formattedMessages) { message in
-                                    MessageView(message: message) {
-                                        messageVM.repliedMessage = message
-                                        isFocused = true
+                                ForEach(communityMessageVM.formattedMessages) { message in
+                                    CommunityMessageView(message: message) {
+                                        //
                                     } tappedRepliedMessage: {
-                                        if let repliedMessageId = message.repliedMessageId {
-                                            scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
-                                            highlightMessage(withId: repliedMessageId)
-                                        }
+                                        //
                                     } resendMessage: {
-                                        Task {
-                                            try await resendMessage(withId: message.id)
-                                        }
+                                        //
                                     }
-                                    .background(messageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
-                                    .contextMenu {
-                                        MessageMenu(forMessage: message)
-                                    }
+                                    //                                    MessageView(message: message) {
+                                    //                                        communityMessageVM.repliedMessage = message
+                                    //                                        isFocused = true
+                                    //                                    } tappedRepliedMessage: {
+                                    //                                        if let repliedMessageId = message.repliedMessageId {
+                                    //                                            scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
+                                    //                                            highlightMessage(withId: repliedMessageId)
+                                    //                                        }
+                                    //                                    } resendMessage: {
+                                    //                                        Task {
+                                    //                                            try await resendMessage(withId: message.id)
+                                    //                                        }
+                                    //                                    }
+                                    .background(communityMessageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
+                                    //                                    .contextMenu {
+                                    //                                        MessageMenu(forMessage: message)
+                                    //                                    }
                                 }
                                 .onAppear {
-                                    if let lastMessageId = messageVM.formattedMessages.last?.id {
+                                    if let lastMessageId = communityMessageVM.formattedMessages.last?.id {
                                         scrollToMessage(withId: lastMessageId, usingProxy: proxy, animated: false)
                                     }
                                 }
-                                .onChange(of: messageVM.lastMessageAdded) { _ in
-                                    if let id = messageVM.lastMessageAdded {
+                                .onChange(of: communityMessageVM.lastMessageAdded) { _ in
+                                    if let id = communityMessageVM.lastMessageAdded {
                                         scrollToMessage(withId: id, usingProxy: proxy)
                                     }
                                 }
                                 .onChange(of: isFocused) { _ in
                                     if isFocused {
-                                        if let lastMessageId = messageVM.formattedMessages.last?.id {
+                                        if let lastMessageId = communityMessageVM.formattedMessages.last?.id {
                                             scrollToMessage(withId: lastMessageId, usingProxy: proxy)
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                                 scrollToMessage(withId: lastMessageId, usingProxy: proxy)
@@ -167,7 +174,7 @@ struct CommunityMessageScreen: View {
             Button(role: .destructive) {
                 Task {
                     let token = try await authVM.getFirebaseToken()
-                    await messageVM.deleteMessage(messageId: message.id, token: token)
+                    //                    await communityMessageVM.deleteMessage(messageId: message.id, token: token)
                 }
             } label: {
                 Image(systemName: "arrow.uturn.backward.circle")
@@ -184,7 +191,7 @@ struct CommunityMessageScreen: View {
             //            Reply()
             
             HStack(spacing: 8) {
-                TextField("Write a message...", text: $messageVM.messageText, axis: .vertical)
+                TextField("Write a message...", text: $communityMessageVM.messageText, axis: .vertical)
                     .padding(10)
                     .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
                     .cornerRadius(20)
@@ -195,13 +202,7 @@ struct CommunityMessageScreen: View {
                     Button {
                         Task {
                             let token = try await authVM.getFirebaseToken()
-                            try await messageVM.sendMessage(
-                                forChat: community.id,
-                                text: messageVM.messageText.nonEmptyOrNil(),
-                                images: messageVM.images,
-                                repliedMessage: messageVM.repliedMessage,
-                                token: token
-                            )
+                            await communityMessageVM.sendMessage(forCommunityId: self.community.id, repliedMessage: communityMessageVM.repliedMessage, token: token)
                         }
                     } label: {
                         Image(systemName: "paperplane.fill")
@@ -252,14 +253,14 @@ struct CommunityMessageScreen: View {
     //MARK: - Private Method
     
     private func listenToMessages() {
-        socket.socket?.on("message") { data, ack in
-            if let message = data as? [Any] {
-                print("📩 Received message: \(message)")
-                messageVM.processMessage(message, toChat: community.id) { messageId in
-                    emitReadCommand(forMessage: messageId)
-                }
-            }
-        }
+        //        socket.socket?.on("message") { data, ack in
+        //            if let message = data as? [Any] {
+        //                print("📩 Received message: \(message)")
+        //                communityMessageVM.processMessage(message, toChat: community.id) { messageId in
+        //                    emitReadCommand(forMessage: messageId)
+        //                }
+        //            }
+        //        }
     }
     
     private func emitReadCommand(forMessage messageId: String) {
@@ -280,13 +281,13 @@ struct CommunityMessageScreen: View {
     }
     
     private func getMessages(_ type: FetchMessageType) async throws {
-        //        let token = try await authVM.getFirebaseToken()
-        //        switch type {
-        //        case .newest:
-        //                        await messageVM.getLastMessages(chatId: chatId, token: token)
-        //        case .oldest:
-        //                        await messageVM.getMessages(chatId: chatId, token: token)
-        //        }
+        let token = try await authVM.getFirebaseToken()
+        switch type {
+        case .newest:
+            await communityMessageVM.getLastMessages(communityId: self.community.id, token: token)
+        case .oldest:
+            await communityMessageVM.getMessages(communityId: self.community.id, token: token)
+        }
     }
     
     private func scrollToMessage(withId messageId: String, usingProxy proxy: ScrollViewProxy, animated: Bool = true) {
@@ -301,21 +302,21 @@ struct CommunityMessageScreen: View {
     }
     
     private func highlightMessage(withId messageId: String) {
-        messageVM.highlightedMessageId = messageId
+        communityMessageVM.highlightedMessageId = messageId
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             withAnimation {
-                messageVM.highlightedMessageId = nil
+                communityMessageVM.highlightedMessageId = nil
             }
         }
     }
     
     private func resendMessage(withId messageId: String) async throws {
         let token = try await authVM.getFirebaseToken()
-        await messageVM.resendMessage(withTempId: messageId, token: token)
+        await communityMessageVM.resendMessage(withTempId: messageId, token: token)
     }
     
     private func shouldDisplaySendButton() -> Bool {
-        return !messageVM.messageText.isEmpty
+        return !communityMessageVM.messageText.isEmpty
     }
     
     private func getElapsedTimeSinceMessage(_ message: FormattedMessage) -> Int {

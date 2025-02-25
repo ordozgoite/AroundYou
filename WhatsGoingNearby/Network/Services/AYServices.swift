@@ -92,6 +92,10 @@ protocol AYServiceable {
     func removeUserFromCommunity(communityId: String, userUidToRemove: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
     func editCommunity(communityId: String, communityName: String, communityImageUrl: String?, token: String) async -> Result<SuccessMessageResponse, RequestError>
     func editCommunityDescription(communityId: String, description: String?, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    
+    // Community Message
+    func postCommunityMessage(communityId: String, latitude: Double, longitude: Double, text: String, token: String) async -> Result<CommunityMessage, RequestError>
+    func getCommunityMessages(communityId: String, timestamp: Int?, token: String) async -> Result<[CommunityMessage], RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -359,5 +363,15 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func editCommunityDescription(communityId: String, description: String?, token: String) async -> Result<SuccessMessageResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.editCommunityDescription(communityId: communityId, description: description, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    // MARK: - Community Message
+    
+    func postCommunityMessage(communityId: String, latitude: Double, longitude: Double, text: String, token: String) async -> Result<CommunityMessage, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postCommunityMessage(communityId: communityId, latitude: latitude, longitude: longitude, text: text, token: token), responseModel: CommunityMessage.self)
+    }
+    
+    func getCommunityMessages(communityId: String, timestamp: Int?, token: String) async -> Result<[CommunityMessage], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getCommunityMessages(communityId: communityId, timestamp: timestamp, token: token), responseModel: [CommunityMessage].self)
     }
 }
