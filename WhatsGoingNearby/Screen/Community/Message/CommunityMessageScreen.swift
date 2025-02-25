@@ -34,29 +34,22 @@ struct CommunityMessageScreen: View {
                             VStack(spacing: 0) {
                                 ForEach(communityMessageVM.formattedMessages) { message in
                                     CommunityMessageView(message: message) {
-                                        //
+                                        communityMessageVM.repliedMessage = message
+                                        isFocused = true
                                     } tappedRepliedMessage: {
-                                        //
+                                        if let repliedMessageId = message.repliedMessageId {
+                                            scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
+                                            highlightMessage(withId: repliedMessageId)
+                                        }
                                     } resendMessage: {
-                                        //
+                                        Task {
+                                            try await resendMessage(withId: message.id)
+                                        }
                                     }
-                                    //                                    MessageView(message: message) {
-                                    //                                        communityMessageVM.repliedMessage = message
-                                    //                                        isFocused = true
-                                    //                                    } tappedRepliedMessage: {
-                                    //                                        if let repliedMessageId = message.repliedMessageId {
-                                    //                                            scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
-                                    //                                            highlightMessage(withId: repliedMessageId)
-                                    //                                        }
-                                    //                                    } resendMessage: {
-                                    //                                        Task {
-                                    //                                            try await resendMessage(withId: message.id)
-                                    //                                        }
-                                    //                                    }
                                     .background(communityMessageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
-                                    //                                    .contextMenu {
-                                    //                                        MessageMenu(forMessage: message)
-                                    //                                    }
+                                    .contextMenu {
+                                        MessageMenu(forMessage: message)
+                                    }
                                 }
                                 .onAppear {
                                     if let lastMessageId = communityMessageVM.formattedMessages.last?.id {
@@ -158,17 +151,15 @@ struct CommunityMessageScreen: View {
     //MARK: - Message Menu
     
     @ViewBuilder
-    private func MessageMenu(forMessage message: FormattedMessage) -> some View {
-        if let text = message.message {
-            Button {
-                let pasteboard = UIPasteboard.general
-                pasteboard.string = text
-            } label: {
-                Label("Copy", systemImage: "doc.on.doc")
-            }
+    private func MessageMenu(forMessage message: FormattedCommunityMessage) -> some View {
+        Button {
+            let pasteboard = UIPasteboard.general
+            pasteboard.string = message.text
+        } label: {
+            Label("Copy", systemImage: "doc.on.doc")
         }
         
-        if message.message != nil && message.isCurrentUser {
+        if message.isCurrentUser {
             Divider()
         }
         
@@ -176,7 +167,7 @@ struct CommunityMessageScreen: View {
             Button(role: .destructive) {
                 Task {
                     let token = try await authVM.getFirebaseToken()
-                    //                    await communityMessageVM.deleteMessage(messageId: message.id, token: token)
+                    await communityMessageVM.deleteMessage(messageId: message.id, token: token)
                 }
             } label: {
                 Image(systemName: "arrow.uturn.backward.circle")
@@ -255,13 +246,13 @@ struct CommunityMessageScreen: View {
     //MARK: - Private Method
     
     private func startLocationTimer() {
-            Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
-                if let location = locationManager.location {
-                    communityMessageVM.latitude = location.coordinate.latitude
-                    communityMessageVM.longitude = location.coordinate.longitude
-                }
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+            if let location = locationManager.location {
+                communityMessageVM.latitude = location.coordinate.latitude
+                communityMessageVM.longitude = location.coordinate.longitude
             }
         }
+    }
     
     private func listenToMessages() {
         //        socket.socket?.on("message") { data, ack in
@@ -330,7 +321,7 @@ struct CommunityMessageScreen: View {
         return !communityMessageVM.messageText.isEmpty
     }
     
-    private func getElapsedTimeSinceMessage(_ message: FormattedMessage) -> Int {
+    private func getElapsedTimeSinceMessage(_ message: FormattedCommunityMessage) -> Int {
         let now = Int(Date().timeIntervalSince1970)
         return now - message.createdAt.timeIntervalSince1970InSeconds
     }

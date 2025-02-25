@@ -25,7 +25,7 @@ class CommunityMessageViewModel: ObservableObject {
     
     @Published var messageText: String = ""
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
-    @Published var repliedMessage: FormattedMessage?
+    @Published var repliedMessage: FormattedCommunityMessage?
     @Published var messageTimer: Timer?
     @Published var highlightedMessageId: String?
     @Published var lastMessageAdded: String?
@@ -68,7 +68,7 @@ class CommunityMessageViewModel: ObservableObject {
     
     //MARK: - Send Message
     
-    func sendMessage(forCommunityId communityId: String, text: String, repliedMessage: FormattedMessage?, token: String) async {
+    func sendMessage(forCommunityId communityId: String, text: String, repliedMessage: FormattedCommunityMessage?, token: String) async {
         resetInputs()
         let messagesToBeSent = getMessagesToBeSent(communityId: communityId, text: text, repliedMessage: repliedMessage)
         displayMessages(fromArray: messagesToBeSent)
@@ -86,14 +86,14 @@ class CommunityMessageViewModel: ObservableObject {
         self.messageText = ""
     }
     
-    private func getMessagesToBeSent(communityId: String, text: String, repliedMessage: FormattedMessage?) -> [CommunityMessageIntermediary] {
+    private func getMessagesToBeSent(communityId: String, text: String, repliedMessage: FormattedCommunityMessage?) -> [CommunityMessageIntermediary] {
         var messages: [CommunityMessageIntermediary] = []
         
         let message = CommunityMessageIntermediary(id: UUID().uuidString, communityId: communityId, text: text, createdAt: Int(Date().timeIntervalSince1970), isCurrentUser: true, senderUserUid: LocalState.currentUserUid, senderUsername: "")
         messages.append(message)
         
         messages[0].repliedMessageId = repliedMessage?.id
-        messages[0].repliedMessageText = repliedMessage?.message
+        messages[0].repliedMessageText = repliedMessage?.text
         
         return messages
     }
