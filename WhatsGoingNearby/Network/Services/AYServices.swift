@@ -94,8 +94,9 @@ protocol AYServiceable {
     func editCommunityDescription(communityId: String, description: String?, token: String) async -> Result<SuccessMessageResponse, RequestError>
     
     // Community Message
-    func postCommunityMessage(communityId: String, latitude: Double, longitude: Double, text: String, token: String) async -> Result<CommunityMessage, RequestError>
+    func postCommunityMessage(communityId: String, latitude: Double, longitude: Double, text: String, repliedMessageId: String?, token: String) async -> Result<CommunityMessage, RequestError>
     func getCommunityMessages(communityId: String, timestamp: Int?, token: String) async -> Result<[CommunityMessage], RequestError>
+    func deleteCommunityMessage(communityMessageId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -367,11 +368,15 @@ struct AYServices: HTTPClient, AYServiceable {
     
     // MARK: - Community Message
     
-    func postCommunityMessage(communityId: String, latitude: Double, longitude: Double, text: String, token: String) async -> Result<CommunityMessage, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.postCommunityMessage(communityId: communityId, latitude: latitude, longitude: longitude, text: text, token: token), responseModel: CommunityMessage.self)
+    func postCommunityMessage(communityId: String, latitude: Double, longitude: Double, text: String, repliedMessageId: String?, token: String) async -> Result<CommunityMessage, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postCommunityMessage(communityId: communityId, latitude: latitude, longitude: longitude, text: text, repliedMessageId: repliedMessageId, token: token), responseModel: CommunityMessage.self)
     }
     
     func getCommunityMessages(communityId: String, timestamp: Int?, token: String) async -> Result<[CommunityMessage], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getCommunityMessages(communityId: communityId, timestamp: timestamp, token: token), responseModel: [CommunityMessage].self)
+    }
+    
+    func deleteCommunityMessage(communityMessageId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteCommunityMessage(communityMessageId: communityMessageId, token: token), responseModel: SuccessMessageResponse.self)
     }
 }

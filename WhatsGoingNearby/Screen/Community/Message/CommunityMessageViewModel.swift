@@ -110,7 +110,7 @@ class CommunityMessageViewModel: ObservableObject {
     }
     
     private func postNewMessage(withTemporaryId tempId: String, communityId: String, text: String, repliedMessageId: String?, repliedMessageText: String?, token: String) async {
-        let result = await AYServices.shared.postCommunityMessage(communityId: communityId, latitude: latitude, longitude: longitude, text: text, token: token)
+        let result = await AYServices.shared.postCommunityMessage(communityId: communityId, latitude: latitude, longitude: longitude, text: text, repliedMessageId: repliedMessageId, token: token)
         
         switch result {
         case .success(let message):
@@ -198,14 +198,14 @@ class CommunityMessageViewModel: ObservableObject {
     //MARK: - Delete Message
     
     func deleteMessage(messageId: String, token: String) async {
-//        let result = await AYServices.shared.deleteMessage(messageId: messageId, token: token)
-//        
-//        switch result {
-//        case .success:
-//            removeMessage(withId: messageId)
-//        case .failure:
-//            overlayError = (true, ErrorMessage.defaultErrorMessage)
-//        }
+        let result = await AYServices.shared.deleteCommunityMessage(communityMessageId: messageId, token: token)
+        
+        switch result {
+        case .success:
+            removeMessage(withId: messageId)
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
     }
     
     private func removeMessage(withId messageId: String) {
