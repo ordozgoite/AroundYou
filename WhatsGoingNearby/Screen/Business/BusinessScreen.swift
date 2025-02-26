@@ -9,7 +9,12 @@ import SwiftUI
 
 struct BusinessScreen: View {
     var body: some View {
-        Text("BusinessScreen")
+        NavigationStack {
+            VStack {
+                
+            }
+            .navigationTitle("Business")
+        }
     }
 }
 

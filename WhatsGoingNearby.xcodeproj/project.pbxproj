@@ -52,6 +52,8 @@
 		ED30CE7A2D6F549A001FB213 /* BusinessScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED30CE792D6F549A001FB213 /* BusinessScreen.swift */; };
 		ED30CE7D2D6F99EB001FB213 /* IndepCommentScreenWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED30CE7C2D6F99EB001FB213 /* IndepCommentScreenWrapper.swift */; };
 		ED30CE7F2D6F9A06001FB213 /* MessageScreenWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED30CE7E2D6F9A06001FB213 /* MessageScreenWrapper.swift */; };
+		ED30CE822D6F9D46001FB213 /* BusinessShowcaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED30CE812D6F9D46001FB213 /* BusinessShowcaseView.swift */; };
+		ED30CE842D6FD71C001FB213 /* FormattedBusinessShowcase.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED30CE832D6FD71C001FB213 /* FormattedBusinessShowcase.swift */; };
 		ED318A612CF6835D009A0D63 /* GenderInterestPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED318A602CF6835D009A0D63 /* GenderInterestPickerView.swift */; };
 		ED3775A32B99795600BEF3D8 /* notification-sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED3775A22B99795500BEF3D8 /* notification-sound.wav */; };
 		ED3775A52B9A5E5200BEF3D8 /* DeleteUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3775A42B9A5E5200BEF3D8 /* DeleteUserResponse.swift */; };
@@ -308,6 +310,8 @@
 		ED30CE792D6F549A001FB213 /* BusinessScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessScreen.swift; sourceTree = "<group>"; };
 		ED30CE7C2D6F99EB001FB213 /* IndepCommentScreenWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndepCommentScreenWrapper.swift; sourceTree = "<group>"; };
 		ED30CE7E2D6F9A06001FB213 /* MessageScreenWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageScreenWrapper.swift; sourceTree = "<group>"; };
+		ED30CE812D6F9D46001FB213 /* BusinessShowcaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessShowcaseView.swift; sourceTree = "<group>"; };
+		ED30CE832D6FD71C001FB213 /* FormattedBusinessShowcase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedBusinessShowcase.swift; sourceTree = "<group>"; };
 		ED318A602CF6835D009A0D63 /* GenderInterestPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderInterestPickerView.swift; sourceTree = "<group>"; };
 		ED3775A22B99795500BEF3D8 /* notification-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "notification-sound.wav"; sourceTree = "<group>"; };
 		ED3775A42B9A5E5200BEF3D8 /* DeleteUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserResponse.swift; sourceTree = "<group>"; };
@@ -620,6 +624,14 @@
 			path = Wrappers;
 			sourceTree = "<group>";
 		};
+		ED30CE802D6F9D33001FB213 /* Business */ = {
+			isa = PBXGroup;
+			children = (
+				ED30CE812D6F9D46001FB213 /* BusinessShowcaseView.swift */,
+			);
+			path = Business;
+			sourceTree = "<group>";
+		};
 		ED50C4512B7E4CC20001EDF6 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -714,6 +726,7 @@
 				ED30CE702D6D61FD001FB213 /* CommunityMessage.swift */,
 				ED30CE722D6D629D001FB213 /* CommunityMessageIntermediary.swift */,
 				EDA322392B7CCD79009905B5 /* Response */,
+				ED30CE832D6FD71C001FB213 /* FormattedBusinessShowcase.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -721,6 +734,7 @@
 		ED598BF32B7C16DA00B6C23D /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				ED30CE802D6F9D33001FB213 /* Business */,
 				EDEF7A762D52506C0030B7A6 /* Community */,
 				EDE199262CCC608C0065206C /* Discover */,
 				EDE8B3772BC3500300DFF750 /* Compose Post */,
@@ -850,7 +864,6 @@
 		ED5CB1762B7C11CB00C336EC /* Screen */ = {
 			isa = PBXGroup;
 			children = (
-				ED30CE7B2D6F99CA001FB213 /* Wrappers */,
 				EDA30DED2B7FBAF8003EB22D /* LaunchScreen.swift */,
 				EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */,
 				ED598BE92B7C121000B6C23D /* Authentication */,
@@ -861,6 +874,7 @@
 				ED30CE782D6F5406001FB213 /* Business */,
 				ED5CC5172B97BEC2009B17E3 /* Profile */,
 				ED6D82C12B93D1BE00C57937 /* Map */,
+				ED30CE7B2D6F99CA001FB213 /* Wrappers */,
 				ED598BFD2B7C39FD00B6C23D /* MainTabView.swift */,
 			);
 			path = Screen;
@@ -1340,6 +1354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED22678D2B8FCB93006FE9D3 /* CropScreen.swift in Sources */,
+				ED30CE842D6FD71C001FB213 /* FormattedBusinessShowcase.swift in Sources */,
 				ED755F152BB4DBA5004BC6C3 /* ChatView.swift in Sources */,
 				ED8CDFC42BB2704700B8852E /* PostDuration.swift in Sources */,
 				EDE8B3812BC6DA9000DFF750 /* ZoomableImageView.swift in Sources */,
@@ -1542,6 +1557,7 @@
 				ED6E84D62B887B3000B94F5C /* Notification.swift in Sources */,
 				ED50C44E2B7E3BE20001EDF6 /* PostVisibility.swift in Sources */,
 				EDDC9E0A2BDCB01400000EA4 /* Character.swift in Sources */,
+				ED30CE822D6F9D46001FB213 /* BusinessShowcaseView.swift in Sources */,
 				ED0B4AE52D5CD038000A21F6 /* EmptyCommunityView.swift in Sources */,
 				ED30CE582D699C2A001FB213 /* RemoveMediaButton.swift in Sources */,
 				ED598C512B7C80EC00B6C23D /* LocationTestScreen.swift in Sources */,
