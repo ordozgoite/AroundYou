@@ -49,6 +49,9 @@
 		ED30CE732D6D629D001FB213 /* CommunityMessageIntermediary.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED30CE722D6D629D001FB213 /* CommunityMessageIntermediary.swift */; };
 		ED30CE752D6D6443001FB213 /* CommunityMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED30CE742D6D6443001FB213 /* CommunityMessageViewModel.swift */; };
 		ED30CE772D6D65C2001FB213 /* PostCommunityMessageResonse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED30CE762D6D65C2001FB213 /* PostCommunityMessageResonse.swift */; };
+		ED30CE7A2D6F549A001FB213 /* BusinessScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED30CE792D6F549A001FB213 /* BusinessScreen.swift */; };
+		ED30CE7D2D6F99EB001FB213 /* IndepCommentScreenWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED30CE7C2D6F99EB001FB213 /* IndepCommentScreenWrapper.swift */; };
+		ED30CE7F2D6F9A06001FB213 /* MessageScreenWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED30CE7E2D6F9A06001FB213 /* MessageScreenWrapper.swift */; };
 		ED318A612CF6835D009A0D63 /* GenderInterestPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED318A602CF6835D009A0D63 /* GenderInterestPickerView.swift */; };
 		ED3775A32B99795600BEF3D8 /* notification-sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED3775A22B99795500BEF3D8 /* notification-sound.wav */; };
 		ED3775A52B9A5E5200BEF3D8 /* DeleteUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3775A42B9A5E5200BEF3D8 /* DeleteUserResponse.swift */; };
@@ -302,6 +305,9 @@
 		ED30CE722D6D629D001FB213 /* CommunityMessageIntermediary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityMessageIntermediary.swift; sourceTree = "<group>"; };
 		ED30CE742D6D6443001FB213 /* CommunityMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityMessageViewModel.swift; sourceTree = "<group>"; };
 		ED30CE762D6D65C2001FB213 /* PostCommunityMessageResonse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommunityMessageResonse.swift; sourceTree = "<group>"; };
+		ED30CE792D6F549A001FB213 /* BusinessScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessScreen.swift; sourceTree = "<group>"; };
+		ED30CE7C2D6F99EB001FB213 /* IndepCommentScreenWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndepCommentScreenWrapper.swift; sourceTree = "<group>"; };
+		ED30CE7E2D6F9A06001FB213 /* MessageScreenWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageScreenWrapper.swift; sourceTree = "<group>"; };
 		ED318A602CF6835D009A0D63 /* GenderInterestPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderInterestPickerView.swift; sourceTree = "<group>"; };
 		ED3775A22B99795500BEF3D8 /* notification-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "notification-sound.wav"; sourceTree = "<group>"; };
 		ED3775A42B9A5E5200BEF3D8 /* DeleteUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserResponse.swift; sourceTree = "<group>"; };
@@ -597,6 +603,23 @@
 			path = Notification;
 			sourceTree = "<group>";
 		};
+		ED30CE782D6F5406001FB213 /* Business */ = {
+			isa = PBXGroup;
+			children = (
+				ED30CE792D6F549A001FB213 /* BusinessScreen.swift */,
+			);
+			path = Business;
+			sourceTree = "<group>";
+		};
+		ED30CE7B2D6F99CA001FB213 /* Wrappers */ = {
+			isa = PBXGroup;
+			children = (
+				ED30CE7C2D6F99EB001FB213 /* IndepCommentScreenWrapper.swift */,
+				ED30CE7E2D6F9A06001FB213 /* MessageScreenWrapper.swift */,
+			);
+			path = Wrappers;
+			sourceTree = "<group>";
+		};
 		ED50C4512B7E4CC20001EDF6 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -827,15 +850,17 @@
 		ED5CB1762B7C11CB00C336EC /* Screen */ = {
 			isa = PBXGroup;
 			children = (
+				ED30CE7B2D6F99CA001FB213 /* Wrappers */,
 				EDA30DED2B7FBAF8003EB22D /* LaunchScreen.swift */,
 				EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */,
 				ED598BE92B7C121000B6C23D /* Authentication */,
 				ED5CC5162B97BE91009B17E3 /* AroundYou */,
 				ED755F112BB4D521004BC6C3 /* Message */,
 				EDE1991D2CCB67D20065206C /* Discover */,
+				EDEF7A752D5250500030B7A6 /* Community */,
+				ED30CE782D6F5406001FB213 /* Business */,
 				ED5CC5172B97BEC2009B17E3 /* Profile */,
 				ED6D82C12B93D1BE00C57937 /* Map */,
-				EDEF7A752D5250500030B7A6 /* Community */,
 				ED598BFD2B7C39FD00B6C23D /* MainTabView.swift */,
 			);
 			path = Screen;
@@ -1441,6 +1466,7 @@
 				EDE8B3762BC3301900DFF750 /* NewPostView.swift in Sources */,
 				ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */,
 				EDA30DFC2B804BE6003EB22D /* Report.swift in Sources */,
+				ED30CE7D2D6F99EB001FB213 /* IndepCommentScreenWrapper.swift in Sources */,
 				ED13B0A12CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift in Sources */,
 				EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */,
 				EDABC4562D626A650014C15E /* JoinCommunityView.swift in Sources */,
@@ -1467,6 +1493,7 @@
 				ED7D8F822BBA0D9300544A8B /* PostImageView.swift in Sources */,
 				ED4D7C362D418710007FC1FF /* EmptyDiscoverView.swift in Sources */,
 				EDCF2C382BB66E400066950F /* Message.swift in Sources */,
+				ED30CE7A2D6F549A001FB213 /* BusinessScreen.swift in Sources */,
 				ED30CE732D6D629D001FB213 /* CommunityMessageIntermediary.swift in Sources */,
 				EDA3223F2B7D6A3F009905B5 /* LikePublicationResponse.swift in Sources */,
 				ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */,
@@ -1499,6 +1526,7 @@
 				ED6D82C72B941F8000C57937 /* UsernameScreen.swift in Sources */,
 				EDFADBA02CF11F3D0050E322 /* Gender.swift in Sources */,
 				ED598BFE2B7C39FD00B6C23D /* MainTabView.swift in Sources */,
+				ED30CE7F2D6F9A06001FB213 /* MessageScreenWrapper.swift in Sources */,
 				ED598C0D2B7C482A00B6C23D /* AYTextField.swift in Sources */,
 				ED842C502BCF5A29006B8DBB /* Color.swift in Sources */,
 				ED30CE1D2D67ABCE001FB213 /* EditCommunityDescriptionView.swift in Sources */,

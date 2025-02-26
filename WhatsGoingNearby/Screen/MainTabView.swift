@@ -13,9 +13,11 @@ struct MainTabView: View {
     @StateObject private var socket = SocketService()
     @StateObject public var notificationManager = NotificationManager()
     @StateObject private var locationManager = LocationManager()
+    @Environment(\.colorScheme) var colorScheme
     
     @State private var isPeopleTabDisplayed: Bool = false
     @State private var selectedTab: Int = 0
+    @State private var profileImage: UIImage?
     
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -26,26 +28,39 @@ struct MainTabView: View {
                 .environmentObject(authVM)
                 .tag(0)
             
-            DiscoverScreen(locationManager: locationManager, socket: socket)
-                .tabItem {
-                    Label("People", systemImage: "heart.fill")
-                }
-                .environmentObject(authVM)
-                .tag(1)
-            
             CommunityListScreen(locationManager: locationManager, socket: socket)
                 .tabItem {
                     Label("Communities", systemImage: "person.3.fill")
                 }
                 .environmentObject(authVM)
+                .tag(1)
+            
+            DiscoverScreen(locationManager: locationManager, socket: socket)
+                .tabItem {
+                    Label("People", systemImage: "heart.fill")
+                }
+                .environmentObject(authVM)
                 .tag(2)
             
-            AccountScreen(socket: socket)
+            BusinessScreen()
                 .tabItem {
-                    Label("Profile", systemImage: "person.fill")
+                    Label("Business", systemImage: "storefront.fill")
                 }
                 .environmentObject(authVM)
                 .tag(3)
+            
+            AccountScreen(socket: socket)
+                .tabItem {
+                    ProfileTabItemLabel()
+                }
+                .environmentObject(authVM)
+                .tag(4)
+        }
+        .onAppear {
+            loadProfileImage()
+        }
+        .onChange(of: authVM.profilePic) { _ in
+            loadProfileImage()
         }
         .onChange(of: notificationManager.isPeopleTabDisplayed) { newValue in
             if newValue {
@@ -67,52 +82,65 @@ struct MainTabView: View {
                 socket: socket)
         }
     }
-    
+}
+
+// MARK: - Profile Tab Label
+
+private extension MainTabView {
+    @ViewBuilder
+    private func ProfileTabItemLabel() -> some View {
+        ZStack {
+            if let profilePicture = profileImage?.createTabItemLabelFromImage(selectedTab == 4) {
+                Image(uiImage: profilePicture)
+            } else {
+                Label("Profile", systemImage: "person.circle.fill")
+            }
+        }
+        .animation(.none, value: colorScheme)
+    }
+}
+
+// MARK: - Private Methods
+
+extension MainTabView {
     private func goToTabPeople() {
-        selectedTab = 1
+        withAnimation {
+            selectedTab = 2
+        }
     }
-}
-
-struct IndepCommentScreenWrapper: View {
-    let postId: String
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
-    @Environment(\.presentationMode) var presentationMode
     
-    var body: some View {
-        NavigationView {
-            IndepCommentScreen(postId: postId, location: $locationManager.location, socket: socket)
-                .navigationBarItems(leading: Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }, label: {
-                    Image(systemName: "xmark")
-                }))
+    private func loadProfileImage() {
+        guard let urlString = authVM.profilePic, let url = URL(string: urlString) else { return }
+        
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url), let uiImage = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    self.profileImage = uiImage
+                }
+            }
         }
     }
 }
 
-struct MessageScreenWrapper: View {
-    let chatId: String
-    let username: String
-    let otherUserUid: String
-    let chatPic: String?
-    @ObservedObject var socket: SocketService
-    @Environment(\.presentationMode) var presentationMode
-    
-    var body: some View {
-        NavigationView {
-            MessageScreen(
-                chatId: chatId,
-                username: username,
-                otherUserUid: otherUserUid,
-                chatPic: chatPic,
-                isLocked: false, // TODO: verify if it's really false
-                socket: socket)
-            .navigationBarItems(leading: Button(action: {
-                presentationMode.wrappedValue.dismiss()
-            }, label: {
-                Image(systemName: "xmark")
-            }))
+fileprivate extension UIImage {
+    func createTabItemLabelFromImage(_ isSelected: Bool) -> UIImage? {
+        let imageSize = CGSize(width: 32, height: 32)
+        
+        return UIGraphicsImageRenderer(size: imageSize).image { context in
+            let rect = CGRect(origin: .init(x: 0, y: 0), size: imageSize)
+            let clipPath = UIBezierPath(ovalIn: rect)
+            clipPath.addClip()
+            
+            self.draw(in: rect)
+            if isSelected {
+                context.cgContext.setStrokeColor(UIColor.label.cgColor)
+                context.cgContext.setLineJoin(.round)
+                context.cgContext.setLineCap(.round)
+                clipPath.lineWidth = 3
+                
+                clipPath.stroke()
+            }
         }
+        .withRenderingMode(.alwaysOriginal)
     }
 }
