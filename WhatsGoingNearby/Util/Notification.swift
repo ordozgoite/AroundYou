@@ -27,7 +27,7 @@ public func nearByNotification() -> UNNotificationRequest {
 
 public func scheduleAppRefresh() {
     let now = Date()
-    let oneHourFromNow = Calendar.current.date(byAdding: .hour, value: Constants.backgroundTaskDelayHours, to: now)!
+    let oneHourFromNow = Calendar.current.date(byAdding: .hour, value: Constants.BACKGROUND_TASK_DELAY_HOURS, to: now)!
     
     do {
         let request = BGAppRefreshTaskRequest(identifier: taskId)
@@ -53,6 +53,6 @@ public func notifyNearByPost() async {
 
 private var isNotificationInDelay: Bool {
     let now = Int(Date().timeIntervalSince1970)
-    let nextNotificationEarliestDate = LocalState.lastNotificationTime + Constants.notificationDelaySeconds
+    let nextNotificationEarliestDate = LocalState.lastNotificationTime + Constants.NOTIFICATION_DELAY_SECONDS
     return now < nextNotificationEarliestDate
 }

@@ -204,6 +204,7 @@ struct DiscoverPreferencesView: View {
         let token = try await authVM.getFirebaseToken()
         do {
             try await discoverVM.deactivatedUserDiscoverability(token: token)
+            authVM.isUserDiscoverable = false
         } catch {
             print("❌ Error trying to deactivate Discover.")
         }

@@ -21,7 +21,7 @@ protocol Endpoint {
 extension Endpoint {
     
     var baseUrl: URL {
-        return URL(string: Constants.serverUrl)!
+        return URL(string: Constants.API_URL)!
 //        return URL(string: "http://localhost:3000")!
     }
 }

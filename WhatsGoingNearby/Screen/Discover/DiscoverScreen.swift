@@ -56,11 +56,11 @@ struct DiscoverScreen: View {
     
     private func updateEnv(withPreferences userPreferences: VerifyUserDiscoverabilityResponse) {
         authVM.isUserDiscoverable = userPreferences.isDiscoverEnabled
-        authVM.age = userPreferences.age ?? Constants.defaultUserAge
+        authVM.age = userPreferences.age ?? Constants.DEFAULT_USER_AGE
         authVM.gender = userPreferences.gender == nil ? .cisMale : Gender.from(description: userPreferences.gender!) ?? .cisMale
         authVM.interestGenders = userPreferences.interestGender == nil ? [] : Gender.from(array: userPreferences.interestGender!)
-        authVM.minInterestAge = userPreferences.minInterestAge ?? Constants.defaultMinAgePreference
-        authVM.maxInterestAge = userPreferences.maxInterestAge ?? Constants.defaultMaxAgePreference
+        authVM.minInterestAge = userPreferences.minInterestAge ?? Constants.DEFAULT_MIN_AGE_PREFERENCE
+        authVM.maxInterestAge = userPreferences.maxInterestAge ?? Constants.DEFAULT_MAX_AGE_PREFERENCE
         authVM.isDiscoverNotificationsEnabled = userPreferences.isDiscoverNotificationsEnabled
     }
 }

@@ -28,7 +28,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     private func addObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateLocation), name: Notification.Name(Constants.updateLocationNotificationKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLocation), name: .updateLocation, object: nil)
     }
     
     func requestLocation() {
@@ -39,7 +39,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let newLocation = locations.first else { return }
         
-        if location == nil || newLocation.distance(from: location!) >= Constants.significantDistanceMeters {
+        if location == nil || newLocation.distance(from: location!) >= Constants.SIGNIFICANT_DISTANCE_METERS {
             self.location = newLocation
             notifyLocationSensitiveDataRefresh()
         }
@@ -56,8 +56,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     private func notifyLocationSensitiveDataRefresh() {
-        let name = Notification.Name(Constants.refreshLocationSensitiveDataNotificationKey)
-        NotificationCenter.default.post(name: name, object: nil)
+        NotificationCenter.default.post(name: .refreshLocationSensitiveData, object: nil)
     }
     
     @objc private func updateLocation() {

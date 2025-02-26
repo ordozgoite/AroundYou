@@ -60,7 +60,7 @@ class DiscoverViewModel: ObservableObject {
         
         switch result {
         case .success:
-            print("✅ User Discoverability Successfully Enabled!")
+            LocalState.agreedWithDiscoverDisclaimer = true
         case .failure(let error):
             if error == .unprocessableEntity {
                 isPreferencesViewDisplayed = true

@@ -23,7 +23,11 @@ class NotificationManager: NSObject, ObservableObject {
     @Published var username: String?
     @Published var senderUserUid: String?
     @Published var chatPic: String?
+    @Published var isLocked: Bool?
     @Published var isChatDisplayed: Bool = false
+    
+    // Discover
+    @Published var isPeopleTabDisplayed: Bool = false
     
     override init() {
         super.init()
@@ -31,6 +35,8 @@ class NotificationManager: NSObject, ObservableObject {
     }
     
 }
+
+// MARK: - Payload
 
 extension NotificationManager: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_: UNUserNotificationCenter, willPresent _: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -56,12 +62,18 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
                 displayCommentScreen(with: userInfo)
             case "message":
                 displayMessageScreen(with: userInfo)
+            case "discover":
+                goToPeopleTab()
             default:
                 print("❌ Unknown user info received.")
             }
         }
     }
-    
+}
+
+// MARK: - Screen
+
+extension NotificationManager {
     private func displayCommentScreen(with userInfo: [AnyHashable: Any]) {
         if let publicationId = userInfo["publicationId"] as? String {
             self.publicationId = publicationId
@@ -75,15 +87,21 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
         if
             let chatId = userInfo["chatId"] as? String,
             let username = userInfo["username"] as? String,
-            let senderUserUid = userInfo["senderUserUid"] as? String
+            let senderUserUid = userInfo["senderUserUid"] as? String,
+            let isLocked = userInfo["isLocked"] as? Bool
         {
             self.chatId = chatId
             self.username = username
             self.senderUserUid = senderUserUid
+            self.isLocked = isLocked
             if let chatPic = userInfo["chatPic"] as? String { self.chatPic = chatPic }
             self.isChatDisplayed = true
         } else {
             print("❌ Incorrect userInfo to display Message screen.")
         }
+    }
+    
+    private func goToPeopleTab() {
+        self.isPeopleTabDisplayed = true
     }
 }

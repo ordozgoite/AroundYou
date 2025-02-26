@@ -11,6 +11,7 @@ struct ActivateDiscoverView: View {
     
     @State private var isDisclaimerDisplayed: Bool = false
     @Binding var isLoading: Bool
+    @State private var isHeartPulsing = false
     var activate: () -> ()
     
     var body: some View {
@@ -43,10 +44,10 @@ struct ActivateDiscoverView: View {
     }
     
     //MARK: - ImageView
-    
+
     @ViewBuilder
     private func ImageView() -> some View {
-        Image(systemName: "flame")
+        Image(systemName: "heart.fill")
             .resizable()
             .scaledToFit()
             .frame(width: 128, height: 128)
@@ -57,7 +58,17 @@ struct ActivateDiscoverView: View {
                     endPoint: .bottom
                 )
             )
+            .scaleEffect(isHeartPulsing ? 1.2 : 1.0)
+            .animation(
+                .easeInOut(duration: 0.8)
+                .repeatForever(autoreverses: true),
+                value: isHeartPulsing
+            )
+            .onAppear {
+                isHeartPulsing = true
+            }
     }
+
     
     //MARK: - Disclaimer
     

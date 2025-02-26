@@ -79,6 +79,24 @@ protocol AYServiceable {
     func deactivateUserDiscoverability(token: String) async -> Result<DeactivateUserDiscoverabilityResponse, RequestError>
     func updateUserPreferences(gender: String, interestGenders: [String], age: Int, minInterestAge: Int, maxInterestAge: Int, isNotificationsEnabled: Bool, token: String) async -> Result<UserDiscoverPreferences, RequestError>
     func discoverUsersByPreferences(latitude: Double, longitude: Double, token: String) async -> Result<[UserDiscoverInfo], RequestError>
+    
+    // Community
+    func postNewCommunity(name: String, description: String?, duration: Int, isLocationVisible: Bool, isPrivate: Bool, imageUrl: String?, latitude: Double, longitude: Double, token: String) async -> Result<Community, RequestError>
+    func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedCommunity], RequestError>
+    func joinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError>
+    func askToJoinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError>
+    func getCommunityInfo(communityId: String, token: String) async -> Result<GetCommunityInfoResponse, RequestError>
+    func approveUserToCommunity(communityId: String, requestUserUid: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func deleteCommunity(communityId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func exitCommunity(communityId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func removeUserFromCommunity(communityId: String, userUidToRemove: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func editCommunity(communityId: String, communityName: String, communityImageUrl: String?, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func editCommunityDescription(communityId: String, description: String?, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    
+    // Community Message
+    func postCommunityMessage(communityId: String, latitude: Double, longitude: Double, text: String, repliedMessageId: String?, token: String) async -> Result<CommunityMessage, RequestError>
+    func getCommunityMessages(communityId: String, timestamp: Int?, token: String) async -> Result<[CommunityMessage], RequestError>
+    func deleteCommunityMessage(communityMessageId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -300,5 +318,65 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func discoverUsersByPreferences(latitude: Double, longitude: Double, token: String) async -> Result<[UserDiscoverInfo], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.discoverUsersByPreferences(latitude: latitude, longitude: longitude, token: token), responseModel: [UserDiscoverInfo].self)
+    }
+    
+    // MARK: - Commmunity
+    
+    func postNewCommunity(name: String, description: String?, duration: Int, isLocationVisible: Bool, isPrivate: Bool, imageUrl: String?, latitude: Double, longitude: Double, token: String) async -> Result<Community, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewCommunity(name: name, description: description, duration: duration, isLocationVisible: isLocationVisible, isPrivate: isPrivate, imageUrl: imageUrl, latitude: latitude, longitude: longitude, token: token), responseModel: Community.self)
+    }
+    
+    func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedCommunity], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token), responseModel: [FormattedCommunity].self)
+    }
+    
+    func joinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.joinCommunity(communityId: communityId, latitude: latitude, longitude: longitude, token: token), responseModel: JoinCommunityResponse.self)
+    }
+    
+    func askToJoinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.askToJoinCommunity(communityId: communityId, latitude: latitude, longitude: longitude, token: token), responseModel: JoinCommunityResponse.self)
+    }
+    
+    func getCommunityInfo(communityId: String, token: String) async -> Result<GetCommunityInfoResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getCommunityInfo(communityId: communityId, token: token), responseModel: GetCommunityInfoResponse.self)
+    }
+    
+    func approveUserToCommunity(communityId: String, requestUserUid: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.approveUserToCommunity(communityId: communityId, requestUserUid: requestUserUid, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func deleteCommunity(communityId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteCommunity(communityId: communityId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func exitCommunity(communityId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.exitCommunity(communityId: communityId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func removeUserFromCommunity(communityId: String, userUidToRemove: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.removeUserFromCommunity(communityId: communityId, userUidToRemove: userUidToRemove, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func editCommunity(communityId: String, communityName: String, communityImageUrl: String?, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.editCommunity(communityId: communityId, communityName: communityName, communityImageUrl: communityImageUrl, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func editCommunityDescription(communityId: String, description: String?, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.editCommunityDescription(communityId: communityId, description: description, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    // MARK: - Community Message
+    
+    func postCommunityMessage(communityId: String, latitude: Double, longitude: Double, text: String, repliedMessageId: String?, token: String) async -> Result<CommunityMessage, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postCommunityMessage(communityId: communityId, latitude: latitude, longitude: longitude, text: text, repliedMessageId: repliedMessageId, token: token), responseModel: CommunityMessage.self)
+    }
+    
+    func getCommunityMessages(communityId: String, timestamp: Int?, token: String) async -> Result<[CommunityMessage], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getCommunityMessages(communityId: communityId, timestamp: timestamp, token: token), responseModel: [CommunityMessage].self)
+    }
+    
+    func deleteCommunityMessage(communityMessageId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteCommunityMessage(communityMessageId: communityMessageId, token: token), responseModel: SuccessMessageResponse.self)
     }
 }

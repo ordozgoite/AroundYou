@@ -81,6 +81,12 @@
     "%@" : {
 
     },
+    "%@ member(s)" : {
+
+    },
+    "%@ request(s)" : {
+
+    },
     "%@ your %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -368,6 +374,15 @@
         }
       }
     },
+    "Add Community Description" : {
+
+    },
+    "Add Group Description" : {
+
+    },
+    "admin" : {
+
+    },
     "Age Range" : {
 
     },
@@ -430,6 +445,9 @@
         }
       }
     },
+    "Approve" : {
+
+    },
     "Around You" : {
 
     },
@@ -471,6 +489,12 @@
         }
       }
     },
+    "Ask To Join" : {
+
+    },
+    "Ask to join:" : {
+
+    },
     "Asking for information" : {
       "localizations" : {
         "pt-BR" : {
@@ -486,6 +510,9 @@
           }
         }
       }
+    },
+    "Asking..." : {
+
     },
     "Audio %lld" : {
 
@@ -522,6 +549,9 @@
           }
         }
       }
+    },
+    "Be the first to create a community in your region..." : {
+
     },
     "Be the first to make a post in your region..." : {
       "localizations" : {
@@ -602,6 +632,9 @@
           }
         }
       }
+    },
+    "Briefly describe your Community..." : {
+
     },
     "By signing up, you agree to our [Terms of Use](https://aroundyou3.wordpress.com/terms-of-use) and [Privacy Policy](https://aroundyou3.wordpress.com/policy-privacy)." : {
       "localizations" : {
@@ -776,6 +809,21 @@
         }
       }
     },
+    "Communities" : {
+
+    },
+    "Communities Around You" : {
+
+    },
+    "Community Description" : {
+
+    },
+    "Community Info" : {
+
+    },
+    "Community's Location" : {
+
+    },
     "Confirm" : {
       "localizations" : {
         "pt-BR" : {
@@ -847,6 +895,9 @@
         }
       }
     },
+    "Create Community" : {
+
+    },
     "Create new post" : {
       "localizations" : {
         "pt-BR" : {
@@ -863,7 +914,7 @@
         }
       }
     },
-    "Crop View" : {
+    "Creating..." : {
 
     },
     "Data & Privacy" : {
@@ -917,6 +968,9 @@
         }
       }
     },
+    "Delete Community" : {
+
+    },
     "Delete Message" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -949,6 +1003,12 @@
           }
         }
       }
+    },
+    "Deleting Community..." : {
+
+    },
+    "Deleting this community will permanently remove it for all members without prior notice. This action cannot be undone." : {
+
     },
     "Deleting your account is permanent. Are you sure you want to proceed?." : {
       "localizations" : {
@@ -997,6 +1057,9 @@
           }
         }
       }
+    },
+    "Description:" : {
+
     },
     "Disable notifications" : {
       "localizations" : {
@@ -1090,6 +1153,9 @@
         }
       }
     },
+    "Display Location:" : {
+
+    },
     "Distance: %@ meters" : {
       "localizations" : {
         "pt-BR" : {
@@ -1154,6 +1220,9 @@
         }
       }
     },
+    "Duration:" : {
+
+    },
     "e" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1185,7 +1254,6 @@
       }
     },
     "Edit" : {
-      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1200,6 +1268,9 @@
           }
         }
       }
+    },
+    "Edit Community" : {
+
     },
     "Edit photo" : {
       "localizations" : {
@@ -1345,6 +1416,9 @@
           }
         }
       }
+    },
+    "Enter a Community Name" : {
+
     },
     "Error" : {
       "localizations" : {
@@ -1737,6 +1811,12 @@
     "Invite %@ to chat" : {
 
     },
+    "Join" : {
+
+    },
+    "Joining..." : {
+
+    },
     "Just chatting" : {
       "localizations" : {
         "pt-BR" : {
@@ -1786,6 +1866,12 @@
       }
     },
     "Latitude: %lf" : {
+
+    },
+    "Leave Community" : {
+
+    },
+    "Leaving Community..." : {
 
     },
     "liked" : {
@@ -1981,6 +2067,12 @@
         }
       }
     },
+    "New Community" : {
+
+    },
+    "No communities found nearby." : {
+
+    },
     "No matches found nearby." : {
 
     },
@@ -2070,6 +2162,9 @@
         }
       }
     },
+    "Only people within a 1 km radius of your community will be able to see and interact with it." : {
+
+    },
     "Oops! Looks like something went wrong." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2148,6 +2243,9 @@
           }
         }
       }
+    },
+    "People" : {
+
     },
     "Photos" : {
       "localizations" : {
@@ -2316,6 +2414,9 @@
         }
       }
     },
+    "Posts" : {
+
+    },
     "Posts on AroundYou remain active for just **8 hours**, ensuring you discover timely and relevant information effortlessly." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2460,6 +2561,9 @@
           }
         }
       }
+    },
+    "Remove" : {
+
     },
     "Remove photo" : {
       "localizations" : {
@@ -2670,6 +2774,9 @@
           }
         }
       }
+    },
+    "Save" : {
+
     },
     "Save Preferences" : {
 
@@ -3013,6 +3120,9 @@
         }
       }
     },
+    "The community description is visible to everyone who can see this community." : {
+
+    },
     "The username you have chosen contains invalid characters. Please try another." : {
       "localizations" : {
         "pt-BR" : {
@@ -3041,6 +3151,9 @@
       }
     },
     "These help us show you people who fit your preferences." : {
+
+    },
+    "These users want to join your community. Approve their request or ignore it." : {
 
     },
     "This message was not sent" : {
@@ -3263,6 +3376,9 @@
         }
       }
     },
+    "View All" : {
+
+    },
     "Wanna buy" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3438,6 +3554,9 @@
           }
         }
       }
+    },
+    "You are the admin of this community and cannot leave it." : {
+
     },
     "You can enable Discover Notifications to stay updated when someone matching your interests is nearby." : {
 
