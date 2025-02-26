@@ -26,23 +26,22 @@ struct CommunityMessageView: View {
         Reply()
         
         HStack {
-//            if message.text.isSingleEmoji {
-//                Emoji(message.text)
-//            } else {
             HStack {
-                if !message.isCurrentUser && message.isFirst {
-                    ProfilePicView(profilePic: message.senderProfilePic, size: 32)
+                if message.text.isSingleEmoji {
+                    Emoji(message.text)
                 } else {
-                    // preciso que a textbuble continue alinhada com a que tem a imagem do usuário à esquerda
-                    // como faço isso?
-                    // adiciono um espaçamento?
-                    // ou uma emptyview com o width 32?
-                    Spacer().frame(width: 40)
+                    if message.shouldDisplaySenderProfilePic {
+                        ProfilePicView(profilePic: message.senderProfilePic, size: 32)
+                    } else {
+                        // Gambiarra para que as mensagens fiquem todas alinhadas
+                        // Sem isso, a mensagem que acompanha a imagem de perfil ficaria desalinhada com as demais
+                        // Pra resolver isso, eu criei esse espaçamento para as mansagens que não acompanham a imagem
+                        Spacer().frame(width: 40)
+                    }
+                    
+                    TextBubble()
                 }
-                
-                TextBubble()
             }
-//            }
             
             switch message.status {
             case .sent:
@@ -70,7 +69,7 @@ struct CommunityMessageView: View {
     // MARK: - Username
     @ViewBuilder
     private func Username() -> some View {
-        if message.userDivider {
+        if message.shouldDispaySenderUsername {
             HStack {
                 Spacer().frame(width: 40)
                 Text(message.senderUsername)
@@ -211,7 +210,8 @@ struct CommunityMessageView: View {
             createdAt: 1609459200,
             senderUsername: "amanda",
             senderProfilePic: nil,
-            userDivider: true
+            shouldDispaySenderUsername: true,
+            shouldDisplaySenderProfilePic: true
         ),
         replyMessage: {},
         tappedRepliedMessage: {},

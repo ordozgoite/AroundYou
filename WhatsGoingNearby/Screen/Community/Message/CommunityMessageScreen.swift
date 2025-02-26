@@ -181,7 +181,7 @@ struct CommunityMessageScreen: View {
     @ViewBuilder
     private func MessageComposer() -> some View {
         VStack {
-            //            Reply()
+            Reply()
             
             HStack(spacing: 8) {
                 TextField("Write a message...", text: $communityMessageVM.messageText, axis: .vertical)
@@ -213,35 +213,30 @@ struct CommunityMessageScreen: View {
     
     //MARK: - Reply
     
-    //    @ViewBuilder
-    //    private func Reply() -> some View {
-    //        if let repliedMessage = messageVM.repliedMessage {
-    //            HStack {
-    //                VStack(alignment: .leading) {
-    //                    Text(repliedMessage.isCurrentUser ? "You" : username)
-    //                        .font(.subheadline)
-    //
-    //                    if let repliedMessageText = repliedMessage.message {
-    //                        Text(repliedMessageText)
-    //                            .foregroundStyle(.gray)
-    //                            .lineLimit(2)
-    //                    } else if repliedMessage.imageUrl != nil {
-    //                        Label("Image", systemImage: "photo")
-    //                            .foregroundStyle(.gray)
-    //                    }
-    //                }
-    //
-    //                Spacer()
-    //
-    //                Image(systemName: "xmark.circle")
-    //                    .foregroundStyle(.blue)
-    //                    .onTapGesture {
-    //                        messageVM.repliedMessage = nil
-    //                    }
-    //            }
-    //            .padding(10)
-    //        }
-    //    }
+    @ViewBuilder
+    private func Reply() -> some View {
+        if let repliedMessage = communityMessageVM.repliedMessage {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(repliedMessage.senderUsername)
+                        .font(.subheadline)
+                    
+                    Text(repliedMessage.text)
+                        .foregroundStyle(.gray)
+                        .lineLimit(2)
+                }
+                
+                Spacer()
+                
+                Image(systemName: "xmark.circle")
+                    .foregroundStyle(.blue)
+                    .onTapGesture {
+                        communityMessageVM.repliedMessage = nil
+                    }
+            }
+            .padding(10)
+        }
+    }
     
     //MARK: - Private Method
     
@@ -255,14 +250,14 @@ struct CommunityMessageScreen: View {
     }
     
     private func listenToMessages() {
-        //        socket.socket?.on("message") { data, ack in
-        //            if let message = data as? [Any] {
-        //                print("📩 Received message: \(message)")
-        //                communityMessageVM.processMessage(message, toChat: community.id) { messageId in
-        //                    emitReadCommand(forMessage: messageId)
-        //                }
-        //            }
-        //        }
+        socket.socket?.on("communityMessage") { data, ack in
+            if let message = data as? [Any] {
+                print("📩 Received message: \(message)")
+                communityMessageVM.processSocketMessage(message, toChat: community.id) { messageId in
+                    emitReadCommand(forMessage: messageId)
+                }
+            }
+        }
     }
     
     private func emitReadCommand(forMessage messageId: String) {

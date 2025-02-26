@@ -20,19 +20,22 @@ struct CommunityMessageIntermediary {
     var senderUsername: String
     var senderProfilePic: String?
     
-    func formatMessage(isFirst: Bool, timeDivider: Int?, userDivider: Bool) -> FormattedCommunityMessage {
+    func formatMessage(isFirst: Bool, timeDivider: Int?, shouldDispaySenderUsername: Bool, shouldDisplaySenderProfilePic: Bool) -> FormattedCommunityMessage {
         return FormattedCommunityMessage(
             id: self.id,
             communityId: self.communityId,
             text: self.text,
             isCurrentUser: self.isCurrentUser,
             isFirst: isFirst,
+            repliedMessageText: self.repliedMessageText,
+            repliedMessageId: self.repliedMessageId,
             timeDivider: timeDivider,
             status: self.status ?? .sent,
             createdAt: self.createdAt,
             senderUsername: self.senderUsername,
             senderProfilePic: self.senderProfilePic,
-            userDivider: userDivider
+            shouldDispaySenderUsername: shouldDispaySenderUsername,
+            shouldDisplaySenderProfilePic: shouldDisplaySenderProfilePic
         )
     }
 }

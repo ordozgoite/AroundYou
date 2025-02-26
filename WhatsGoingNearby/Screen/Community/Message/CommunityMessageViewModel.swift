@@ -160,19 +160,19 @@ class CommunityMessageViewModel: ObservableObject {
     
     //MARK: - Receive Message
     
-    func processMessage(_ data: [Any], toChat communityId: String,  emitReadCommand: (String) -> ()) {
-//        let newMessage = decodeMessage(data)
-//        if let msg = newMessage, !msg.isCurrentUser, !wasMessageReceived(msg), msg.communityId == communityId {
-//            DispatchQueue.main.async {
-//                self.intermediaryMessages.append(msg)
-//                self.lastMessageAdded = msg.id
-//                self.playReceivedMessageSound(forMessageId: msg.id)
-//            }
-//            emitReadCommand(msg.id)
-//        }
+    func processSocketMessage(_ data: [Any], toChat communityId: String,  emitReadCommand: (String) -> ()) {
+        let newMessage = decodeMessage(data)
+        if let msg = newMessage, !msg.isCurrentUser, !wasMessageReceived(msg), msg.communityId == communityId {
+            DispatchQueue.main.async {
+                self.intermediaryMessages.append(msg)
+                self.lastMessageAdded = msg.id
+                self.playReceivedMessageSound(forMessageId: msg.id)
+            }
+            emitReadCommand(msg.id)
+        }
     }
     
-    private func wasMessageReceived(_ message: MessageIntermediary) -> Bool {
+    private func wasMessageReceived(_ message: CommunityMessageIntermediary) -> Bool {
         return intermediaryMessages.contains { $0.id == message.id }
     }
     
@@ -217,7 +217,12 @@ class CommunityMessageViewModel: ObservableObject {
     private func formatMessages() {
         var messages: [FormattedCommunityMessage] = []
         for (index, message) in intermediaryMessages.enumerated() {
-            let formattedMessage = message.formatMessage(isFirst: getTail(forMessage: message, withIndex: index), timeDivider: getTimeDivider(forMessage: message, withIndex: index), userDivider: getUserDivider(forMessage: message, withIndex: index))
+            let formattedMessage = message.formatMessage(
+                isFirst: getTail(forMessage: message, withIndex: index),
+                timeDivider: getTimeDivider(forMessage: message, withIndex: index),
+                shouldDispaySenderUsername: shouldDispaySenderUsername(forMessage: message, withIndex: index),
+                shouldDisplaySenderProfilePic: shouldDisplaySenderProfilePic(forMessage: message, withIndex: index)
+            )
             messages.append(formattedMessage)
         }
         self.formattedMessages = messages
@@ -243,15 +248,31 @@ class CommunityMessageViewModel: ObservableObject {
         return timeDifferenceSec >= 3600 ? message.createdAt : nil
     }
     
-    private func getUserDivider(forMessage message: CommunityMessageIntermediary, withIndex index: Int) -> Bool {
+    private func shouldDispaySenderUsername(forMessage message: CommunityMessageIntermediary, withIndex index: Int) -> Bool {
         guard index > 0 else {
             return !message.isCurrentUser
         }
         
         let previousMessage = intermediaryMessages[index - 1]
-        let isMessageSenderDifferentFromPrevious = previousMessage.senderUsername != message.senderUsername
+        let isMessageSenderDifferentFromPrevious = previousMessage.senderUserUid != message.senderUserUid
         let isCurrentUser = message.isCurrentUser
         return isMessageSenderDifferentFromPrevious && !isCurrentUser
+    }
+    
+    private func shouldDisplaySenderProfilePic(forMessage message: CommunityMessageIntermediary, withIndex index: Int) -> Bool {
+        if isTheLastMessage(forIndex: index) {
+            return !message.isCurrentUser
+        }
+        
+        let nextMessage = intermediaryMessages[index + 1]
+        let isMessageSenderDifferentFromNext = nextMessage.senderUserUid != message.senderUserUid
+        let isCurrentUser = message.isCurrentUser
+        
+        return isMessageSenderDifferentFromNext && !isCurrentUser
+    }
+    
+    private func isTheLastMessage(forIndex index: Int) -> Bool {
+        return index >= intermediaryMessages.count - 1
     }
     
     private func playSound(withName soundName: String) {

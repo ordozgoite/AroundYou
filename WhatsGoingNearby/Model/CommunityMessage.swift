@@ -24,6 +24,8 @@ struct CommunityMessage: Codable {
             communityId: self.communityId,
             text: self.text,
             createdAt: self.createdAt,
+            repliedMessageId: self.repliedMessageId,
+            repliedMessageText: self.repliedMessageText,
             isCurrentUser: userUid == self.senderUserUid,
             senderUserUid: self.senderUserUid,
             senderUsername: self.senderUsername ?? "",

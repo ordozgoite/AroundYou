@@ -21,5 +21,6 @@ struct FormattedCommunityMessage: Identifiable, Equatable, Hashable {
     var createdAt: Int
     var senderUsername: String
     var senderProfilePic: String?
-    var userDivider: Bool
+    var shouldDispaySenderUsername: Bool
+    var shouldDisplaySenderProfilePic: Bool
 }
