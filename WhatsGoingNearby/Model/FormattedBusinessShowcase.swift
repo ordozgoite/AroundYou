@@ -7,15 +7,23 @@
 
 import Foundation
 
-struct FormattedBusinessShowcase: Codable {
+enum BusinessCategory: Codable {
+    case food
+    case service
+    // TODO: completar com demais categorias
+}
+
+struct FormattedBusinessShowcase: Codable, Identifiable {
     let id: String
+    let testImageName: String // ONLY FOR TESTS PURPOSE!
     let imageUrl: String?
-    let showcaseTitle: String
+    let title: String
     let description: String
 //    let category: BusinessCategory
     let latitude: Double
     let longitude: Double
-//    let contactMethod: BusinessShowcaseContactMethod
+    let isLocationVisible: Bool
     let phoneNumber: String?
-    let websiteLink: String?
+    let whatsAppNumber: String?
+    let instagramUsername: String?
 }

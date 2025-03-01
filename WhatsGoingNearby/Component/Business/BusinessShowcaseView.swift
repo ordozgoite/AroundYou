@@ -7,24 +7,6 @@
 
 import SwiftUI
 
-//Foto ✅
-//Nome da empresa ✅
-//Texto ✅
-//Link ou número de celular
-//Categoria ✅
-//Localização ✅
-
-enum BusinessCategory {
-    case food
-    case service
-    // TODO: completar com demais categorias
-}
-
-enum BusinessShowcaseContactMethod {
-    case phoneNumber
-    case websiteLink
-}
-
 struct BusinessShowcaseView: View {
     
     let showcase: FormattedBusinessShowcase
@@ -43,22 +25,24 @@ struct BusinessShowcaseView: View {
                 Description()
                 
                 HStack {
-                    Contact()
+                    Location()
                     
                     Spacer()
                     
-                    Go()
+                    Contacts()
                 }
+                .frame(maxHeight: .infinity, alignment: .bottom)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .frame(height: imageSize)
     }
     
     // MARK: - Image
     
     @ViewBuilder
     private func ShowcaseImage() -> some View {
-        Image("mcdonalds")
+        Image(showcase.testImageName)
             .resizable()
             .scaledToFill()
             .frame(width: imageSize, height: imageSize)
@@ -70,7 +54,7 @@ struct BusinessShowcaseView: View {
     
     @ViewBuilder
     private func Title() -> some View {
-        Text(showcase.showcaseTitle)
+        Text(showcase.title)
             .fontWeight(.bold)
     }
     
@@ -84,50 +68,100 @@ struct BusinessShowcaseView: View {
             .lineLimit(3)
     }
     
-    // MARK: - Contact
+    // MARK: - Location
     
     @ViewBuilder
-    private func Contact() -> some View {
-        if let number = showcase.phoneNumber {
-            Button {
-                // O que fazer?
-                // Copiar número de telefone?
-                // Adicinar à agenda telefônica?
-                // redirecionar ao whatsapp?
-            } label: {
-                HStack {
-                    Image(systemName: "phone.fill")
-                    Text("Add Contact")
-                        .font(.footnote)
+    private func Location() -> some View {
+        HStack {
+            if showcase.isLocationVisible {
+                Button {
+                    // Go To Maps
+                } label: {
+                    Label("250m", systemImage: "map")
                 }
             }
         }
     }
     
-    // MARK: - Go
+    // MARK: - Contacts
     
     @ViewBuilder
-    private func Go() -> some View {
+    private func Contacts() -> some View {
+        HStack {
+            if let phoneNumber = showcase.phoneNumber {
+                Phone(number: phoneNumber)
+            }
+            
+            if let whatsAppNumber = showcase.whatsAppNumber {
+                WhatsApp(number: whatsAppNumber)
+            }
+            
+            if let instagramUsername = showcase.instagramUsername {
+                Instagram(usersame: instagramUsername)
+            }
+        }
+    }
+    
+    // MARK: - Phone
+    
+    @ViewBuilder
+    private func Phone(number: String) -> some View {
         Button {
             // Go to Directions
         } label: {
-            Label("Go!", systemImage: "location.fill")
-                .fontWeight(.semibold)
+            Image(systemName: "phone.circle.fill")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 28, height: 28, alignment: .center)
         }
-        .buttonStyle(.borderedProminent)
+    }
+    
+    // MARK: - WhatsApp
+    
+    @ViewBuilder
+    private func WhatsApp(number: String) -> some View {
+        Button {
+            // Go to WhatsApp
+        } label: {
+            Image("whatsapp")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 28, height: 28, alignment: .center)
+        }
+    }
+    
+    // MARK: - Instagram
+    
+    @ViewBuilder
+    private func Instagram(usersame: String) -> some View {
+        Button {
+            // Go to Instagram
+        } label: {
+            Image("instagram")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 28, height: 28, alignment: .center)
+        }
     }
 }
 
+// MARK: - Private Methods
+
+extension BusinessShowcaseView {
+//    private func get
+}
 
 #Preview {
-    BusinessShowcaseView(showcase: FormattedBusinessShowcase(
-        id: UUID().uuidString,
-        imageUrl: nil,
-        showcaseTitle: "Combo Clássico por R$20",
-        description: "Peça o seu combo (sanduíche clássico, batata e refri) por apenas R$20,00.\nOferta válida até dia 08/03.",
-        latitude: 0,
-        longitude: 0,
-        phoneNumber: "+55 (92) 98213-4433",
-        websiteLink: "https://www.mcdonalds.com.br"
-    ))
+//    BusinessShowcaseView(showcase: FormattedBusinessShowcase(
+//        id: UUID().uuidString,
+//        testImageName: "mcdonalds",
+//        imageUrl: nil,
+//        title: "Combo Clássico por R$20",
+//        description: "Peça o seu combo (sanduíche clássico, batata e refri) por apenas R$20,00.\nOferta válida até dia 08/03.",
+//        latitude: 0,
+//        longitude: 0,
+//        isLocationVisible: false,
+//        phoneNumber: nil,
+//        websiteLink: "https://www.mcdonalds.com.br"
+//    ))
 }

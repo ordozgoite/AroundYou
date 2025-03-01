@@ -8,10 +8,17 @@
 import SwiftUI
 
 struct BusinessScreen: View {
+    
+    @State private var showcases: [FormattedBusinessShowcase] = FormattedBusinessShowcase.mocks
+    
     var body: some View {
         NavigationStack {
             VStack {
-                
+                List {
+                    ForEach(showcases) { showcase in
+                        BusinessShowcaseView(showcase: showcase)
+                    }
+                }
             }
             .navigationTitle("Business")
         }
