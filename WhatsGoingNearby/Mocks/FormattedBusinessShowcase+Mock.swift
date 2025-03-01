@@ -20,7 +20,8 @@ extension FormattedBusinessShowcase {
             isLocationVisible: true,
             phoneNumber: "+5592982134433",
             whatsAppNumber: "+5592982134433",
-            instagramUsername: nil
+            instagramUsername: nil,
+            isPremium: false
         ),
         FormattedBusinessShowcase(
             id: UUID().uuidString,
@@ -33,7 +34,8 @@ extension FormattedBusinessShowcase {
             isLocationVisible: false,
             phoneNumber: "+5592982134433",
             whatsAppNumber: nil,
-            instagramUsername: nil
+            instagramUsername: nil,
+            isPremium: false
         ),
         FormattedBusinessShowcase(
             id: UUID().uuidString,
@@ -46,7 +48,8 @@ extension FormattedBusinessShowcase {
             isLocationVisible: false,
             phoneNumber: nil,
             whatsAppNumber: "+5592982134433",
-            instagramUsername: "picanhamania"
+            instagramUsername: "picanhamania",
+            isPremium: false
         )
     ]
 }

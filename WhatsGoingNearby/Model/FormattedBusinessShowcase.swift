@@ -26,4 +26,5 @@ struct FormattedBusinessShowcase: Codable, Identifiable {
     let phoneNumber: String?
     let whatsAppNumber: String?
     let instagramUsername: String?
+    let isPremium: Bool
 }

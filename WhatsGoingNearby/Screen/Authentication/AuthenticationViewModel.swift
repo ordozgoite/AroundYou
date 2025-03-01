@@ -227,7 +227,7 @@ extension AuthenticationViewModel {
             resetInputs()
         }
         catch {
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, LocalizedStringKey(stringLiteral: error.localizedDescription))
         }
     }
     
@@ -243,7 +243,7 @@ extension AuthenticationViewModel {
             return true
         }
         catch {
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, LocalizedStringKey(stringLiteral: error.localizedDescription))
             return false
         }
     }
@@ -255,7 +255,7 @@ extension AuthenticationViewModel {
             self.isLoading = false
             return true
         } catch {
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, LocalizedStringKey(stringLiteral: error.localizedDescription))
             self.isLoading = false
             return false
         }
