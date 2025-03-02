@@ -213,7 +213,6 @@
       }
     },
     "%lld/250" : {
-      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -377,10 +376,16 @@
         }
       }
     },
+    "Add Business" : {
+
+    },
     "Add Community Description" : {
 
     },
     "Add Group Description" : {
+
+    },
+    "Add Photo" : {
 
     },
     "admin" : {
@@ -706,6 +711,9 @@
         }
       }
     },
+    "Category" : {
+
+    },
     "Chats" : {
       "localizations" : {
         "pt-BR" : {
@@ -738,6 +746,9 @@
           }
         }
       }
+    },
+    "Choose a Category" : {
+
     },
     "Choose a username" : {
       "extractionState" : "stale",
@@ -1063,6 +1074,12 @@
           }
         }
       }
+    },
+    "Describe your business" : {
+
+    },
+    "Description" : {
+
     },
     "Description:" : {
 
@@ -2063,7 +2080,6 @@
 
     },
     "Name" : {
-      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -2535,6 +2551,9 @@
           }
         }
       }
+    },
+    "Publish" : {
+
     },
     "Recover Password" : {
       "localizations" : {
@@ -3247,6 +3266,9 @@
           }
         }
       }
+    },
+    "Type your business' name" : {
+
     },
     "Unblock" : {
       "localizations" : {

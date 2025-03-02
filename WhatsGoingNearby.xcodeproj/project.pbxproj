@@ -228,6 +228,7 @@
 		EDCF2C332BB65FC60066950F /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C322BB65FC60066950F /* Chat.swift */; };
 		EDCF2C352BB661960066950F /* MuteChatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C342BB661960066950F /* MuteChatResponse.swift */; };
 		EDCF2C382BB66E400066950F /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF2C372BB66E400066950F /* Message.swift */; };
+		EDD40C5D2D74BA5700E33663 /* PublishBusinessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD40C5C2D74BA5700E33663 /* PublishBusinessView.swift */; };
 		EDD639A02CF81C7800978927 /* GenderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD6399F2CF81C7800978927 /* GenderPickerView.swift */; };
 		EDDC9E002BD78C9D00000EA4 /* received-message-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EDDC9DFE2BD78C9D00000EA4 /* received-message-sound.mp3 */; };
 		EDDC9E012BD78C9D00000EA4 /* sent-message-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EDDC9DFF2BD78C9D00000EA4 /* sent-message-sound.mp3 */; };
@@ -458,6 +459,7 @@
 		EDCF2C322BB65FC60066950F /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		EDCF2C342BB661960066950F /* MuteChatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteChatResponse.swift; sourceTree = "<group>"; };
 		EDCF2C372BB66E400066950F /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		EDD40C5C2D74BA5700E33663 /* PublishBusinessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishBusinessView.swift; sourceTree = "<group>"; };
 		EDD6399F2CF81C7800978927 /* GenderPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderPickerView.swift; sourceTree = "<group>"; };
 		EDDC9DFE2BD78C9D00000EA4 /* received-message-sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "received-message-sound.mp3"; sourceTree = "<group>"; };
 		EDDC9DFF2BD78C9D00000EA4 /* sent-message-sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "sent-message-sound.mp3"; sourceTree = "<group>"; };
@@ -630,6 +632,7 @@
 			isa = PBXGroup;
 			children = (
 				ED30CE812D6F9D46001FB213 /* BusinessShowcaseView.swift */,
+				EDD40C5C2D74BA5700E33663 /* PublishBusinessView.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -1508,6 +1511,7 @@
 				EDEF7A712D524E370030B7A6 /* CommunityImageView.swift in Sources */,
 				EDEF7A722D524E370030B7A6 /* CommunityView.swift in Sources */,
 				ED57D24A2B95880800FC7351 /* SheetView.swift in Sources */,
+				EDD40C5D2D74BA5700E33663 /* PublishBusinessView.swift in Sources */,
 				EDDC9E062BD86D9D00000EA4 /* MessageIntermediary.swift in Sources */,
 				ED4D7C3A2D4D32AD007FC1FF /* BlurView.swift in Sources */,
 				ED598BF82B7C1B9400B6C23D /* Date.swift in Sources */,
