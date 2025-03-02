@@ -9,6 +9,8 @@ import SwiftUI
 
 struct BusinessScreen: View {
     
+    @EnvironmentObject var authVM: AuthenticationViewModel
+    
     @State private var showcases: [FormattedBusinessShowcase] = FormattedBusinessShowcase.mocks
     
     var body: some View {
@@ -21,6 +23,11 @@ struct BusinessScreen: View {
                 }
             }
             .navigationTitle("Business")
+            .toolbar {
+                NavigationLink(destination: PublishBusinessScreen().environmentObject(authVM)) {
+                    Image(systemName: "plus")
+                }
+            }
         }
     }
 }

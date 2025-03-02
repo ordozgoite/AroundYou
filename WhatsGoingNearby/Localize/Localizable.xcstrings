@@ -213,6 +213,7 @@
       }
     },
     "%lld/250" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
