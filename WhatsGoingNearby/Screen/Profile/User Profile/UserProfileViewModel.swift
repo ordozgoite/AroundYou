@@ -19,6 +19,7 @@ class UserProfileViewModel: ObservableObject {
     @Published var isProfilePicFullScreen: Bool = false
     @Published var isPostingNewChat: Bool = false
     @Published var isMessageScreenPresented: Bool = false
+    @Published var image: UIImage?
     
     // Chat
     @Published var chatUser: Chat? = nil

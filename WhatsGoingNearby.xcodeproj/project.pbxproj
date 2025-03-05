@@ -187,6 +187,8 @@
 		ED8CDFC42BB2704700B8852E /* PostDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8CDFC32BB2704700B8852E /* PostDuration.swift */; };
 		ED8E6AF62BACD36D002D633D /* HeartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8E6AF52BACD36D002D633D /* HeartView.swift */; };
 		ED95B0542C023288009B9FBB /* SocketStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED95B0532C023288009B9FBB /* SocketStatusView.swift */; };
+		ED9A332D2D78DE24007EB6FC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = ED9A332C2D78DE24007EB6FC /* Kingfisher */; };
+		ED9A332F2D78E448007EB6FC /* KingfisherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED9A332E2D78E448007EB6FC /* KingfisherService.swift */; };
 		EDA30DE52B7FAB20003EB22D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EDA30DE42B7FAB20003EB22D /* Lottie */; };
 		EDA30DE92B7FAB69003EB22D /* radar.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE72B7FAB68003EB22D /* radar.json */; };
 		EDA30DEA2B7FAB69003EB22D /* map.json in Resources */ = {isa = PBXBuildFile; fileRef = EDA30DE82B7FAB69003EB22D /* map.json */; };
@@ -422,6 +424,7 @@
 		ED8CDFC32BB2704700B8852E /* PostDuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDuration.swift; sourceTree = "<group>"; };
 		ED8E6AF52BACD36D002D633D /* HeartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartView.swift; sourceTree = "<group>"; };
 		ED95B0532C023288009B9FBB /* SocketStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketStatusView.swift; sourceTree = "<group>"; };
+		ED9A332E2D78E448007EB6FC /* KingfisherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingfisherService.swift; sourceTree = "<group>"; };
 		EDA30DE72B7FAB68003EB22D /* radar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = radar.json; sourceTree = "<group>"; };
 		EDA30DE82B7FAB69003EB22D /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
 		EDA30DEB2B7FABA9003EB22D /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
@@ -532,6 +535,7 @@
 				ED598C1E2B7C550400B6C23D /* FirebaseAppDistribution-Beta in Frameworks */,
 				ED598C222B7C550400B6C23D /* FirebaseAuthCombine-Community in Frameworks */,
 				ED598C402B7C550400B6C23D /* FirebasePerformance in Frameworks */,
+				ED9A332D2D78DE24007EB6FC /* Kingfisher in Frameworks */,
 				ED598C382B7C550400B6C23D /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
 				ED598C462B7C550400B6C23D /* FirebaseStorage in Frameworks */,
 				ED598C2A2B7C550400B6C23D /* FirebaseDynamicLinks in Frameworks */,
@@ -1115,6 +1119,7 @@
 				EDA3222B2B7CA3A8009905B5 /* AYServices.swift */,
 				EDCBEBF82BB8A5A700087325 /* SocketService.swift */,
 				ED16B8DD2D57F4240034B190 /* FirebaseService.swift */,
+				ED9A332E2D78E448007EB6FC /* KingfisherService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1317,6 +1322,7 @@
 				EDA30DE42B7FAB20003EB22D /* Lottie */,
 				EDCBEBF62BB8A52F00087325 /* SocketIO */,
 				ED3B54E22CCEAAE1007AA1D0 /* Sliders */,
+				ED9A332C2D78DE24007EB6FC /* Kingfisher */,
 			);
 			productName = WhatsGoingNearby;
 			productReference = ED5CB1652B7C11C000C336EC /* WhatsGoingNearby.app */;
@@ -1353,6 +1359,7 @@
 				EDA30DE32B7FAB20003EB22D /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				EDCBEBF52BB8A52F00087325 /* XCRemoteSwiftPackageReference "socket" */,
 				ED3B54E12CCEAAE1007AA1D0 /* XCRemoteSwiftPackageReference "swiftui-sliders" */,
+				ED9A332B2D78DE24007EB6FC /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = ED5CB1662B7C11C000C336EC /* Products */;
 			projectDirPath = "";
@@ -1606,6 +1613,7 @@
 				EDEF7A7E2D53A3990030B7A6 /* CreateCommunityScreen.swift in Sources */,
 				ED74E8072BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift in Sources */,
 				ED3B54E72CCEC704007AA1D0 /* ActivateUserDiscoverabilityResponse.swift in Sources */,
+				ED9A332F2D78E448007EB6FC /* KingfisherService.swift in Sources */,
 				EDA322292B7CA362009905B5 /* Endpoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1852,6 +1860,14 @@
 				minimumVersion = 10.21.0;
 			};
 		};
+		ED9A332B2D78DE24007EB6FC /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.0;
+			};
+		};
 		EDA30DE32B7FAB20003EB22D /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
@@ -2010,6 +2026,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = ED598C122B7C550400B6C23D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageCombine-Community";
+		};
+		ED9A332C2D78DE24007EB6FC /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ED9A332B2D78DE24007EB6FC /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		EDA30DE42B7FAB20003EB22D /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;

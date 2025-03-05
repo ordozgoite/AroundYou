@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MainTabView: View {
     
@@ -57,10 +58,14 @@ struct MainTabView: View {
                 .tag(4)
         }
         .onAppear {
-            loadProfileImage()
+            Task {
+                await loadProfileImage()
+            }
         }
         .onChange(of: authVM.profilePic) { _ in
-            loadProfileImage()
+            Task {
+                await loadProfileImage()
+            }
         }
         .onChange(of: notificationManager.isPeopleTabDisplayed) { newValue in
             if newValue {
@@ -109,17 +114,12 @@ extension MainTabView {
         }
     }
     
-    private func loadProfileImage() {
-        guard let urlString = authVM.profilePic, let url = URL(string: urlString) else { return }
+    private func loadProfileImage() async {
+        guard let urlString = authVM.profilePic else { return }
         
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url), let uiImage = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    self.profileImage = uiImage
-                }
-            }
-        }
+        self.profileImage = await KingfisherService.shared.loadImage(from: urlString)
     }
+
 }
 
 fileprivate extension UIImage {

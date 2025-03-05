@@ -51,8 +51,8 @@ struct UserProfileScreen: View {
         }
         .onAppear {
             Task {
-                let token = try await authVM.getFirebaseToken()
-                await userProfileVM.getUserProfile(userUid: userUid, token: token)
+                try await getUserInfo()
+                await loadProfileImage()
             }
         }
         .alert(isPresented: $userProfileVM.isBlockAlertPresented) {
@@ -172,8 +172,9 @@ struct UserProfileScreen: View {
     
     private var ProfilePic: some View {
         VStack {
-            if let imageURL = userProfileVM.userProfile?.profilePic {
-                URLImageView(imageURL: imageURL)
+            if let image = userProfileVM.image {
+                Image(uiImage: image)
+                    .resizable()
                     .aspectRatio(contentMode: .fill)
                     .clipShape(Circle())
             } else {
@@ -219,6 +220,19 @@ struct UserProfileScreen: View {
                         .environmentObject(authVM)
                 }
             }
+        }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func getUserInfo() async throws {
+        let token = try await authVM.getFirebaseToken()
+        await userProfileVM.getUserProfile(userUid: userUid, token: token)
+    }
+    
+    private func loadProfileImage() async {
+        if let imageUrl = userProfileVM.userProfile?.profilePic {
+            userProfileVM.image = await KingfisherService.shared.loadImage(from: imageUrl)
         }
     }
 }
