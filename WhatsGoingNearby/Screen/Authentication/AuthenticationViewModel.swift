@@ -277,7 +277,7 @@ extension AuthenticationViewModel {
                 return true
             } else {
                 signOut()
-                overlayError = (true, ErrorMessage.defaultErrorMessage)
+                overlayError = (true, "Error trying to post new user")
             }
         }
         return false
@@ -304,7 +304,8 @@ extension AuthenticationViewModel {
                 await getUserBanExpirationDate(token: token)
             } else {
                 signOut()
-                overlayError = (true, ErrorMessage.defaultErrorMessage)
+                overlayError = (true, "Status Code: \(LocalState.lastResponseStatusCode)")
+                // 🚨 O FAMOSO ERRO ESTÁ AQUI!!!
             }
         }
         return false
@@ -339,9 +340,9 @@ extension AuthenticationViewModel {
         case .success(let expirationDate):
             signOut()
             overlayError = (true, ErrorMessage.getTempBannedErrorMessage(expirationDate: expirationDate.banExpirationDateTime))
-        case .failure:
+        case .failure(let error):
             signOut()
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, "Error trying to get user ban expiration date")
         }
     }
     

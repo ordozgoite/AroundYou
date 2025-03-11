@@ -1460,6 +1460,12 @@
         }
       }
     },
+    "Error trying to get user ban expiration date" : {
+
+    },
+    "Error trying to post new user" : {
+
+    },
     "Error trying to select photo." : {
       "localizations" : {
         "pt-BR" : {
@@ -3070,6 +3076,9 @@
           }
         }
       }
+    },
+    "Status Code: %lld" : {
+
     },
     "Temporary posts ⏳" : {
       "localizations" : {

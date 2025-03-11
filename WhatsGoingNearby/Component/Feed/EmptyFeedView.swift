@@ -46,10 +46,7 @@ struct EmptyFeedView: View {
                 VStack {
                     NewPostView()
                         .environmentObject(authVM)
-//                        .padding(.bottom, geometry.safeAreaInsets.bottom)
-                    
-                    CommunitySuggestionView(locationManager: locationManager)
-                        .environmentObject(authVM)
+                        .padding(.bottom, geometry.safeAreaInsets.bottom)
                     
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
