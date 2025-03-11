@@ -21,10 +21,10 @@ import Foundation
 
 struct FormattedBusinessShowcase: Codable, Identifiable {
     let id: String
-    let testImageName: String // ONLY FOR TESTS PURPOSE!
+//    let testImageName: String // ONLY FOR TESTS PURPOSE!
     let imageUrl: String?
     let title: String
-    let description: String
+    let description: String?
     let category: BusinessCategory
     let latitude: Double
     let longitude: Double

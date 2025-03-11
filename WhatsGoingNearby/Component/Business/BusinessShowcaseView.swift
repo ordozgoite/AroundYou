@@ -36,33 +36,25 @@ struct BusinessShowcaseView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(height: imageSize)
-        .padding(showcase.isPremium ? 6 : 0) // Espaço para o stroke apenas se for premium
-        .background(
-            showcase.isPremium ? AnyView(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(LinearGradient(
-                        gradient: Gradient(colors: [
-                            Color.yellow.opacity(0.9),
-                            Color.orange,
-                            Color.yellow.opacity(0.9)
-                        ]),
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    ), lineWidth: 4)
-            ) : AnyView(EmptyView())
-        )
     }
     
     // MARK: - Image
     
     @ViewBuilder
     private func ShowcaseImage() -> some View {
-        Image(showcase.testImageName)
-            .resizable()
-            .scaledToFill()
-            .frame(width: imageSize, height: imageSize)
-            .cornerRadius(8)
-            .clipped()
+        if let imageUrl = showcase.imageUrl {
+            URLImageView(imageURL: imageUrl)
+                .scaledToFill()
+                .frame(width: imageSize, height: imageSize)
+                .cornerRadius(8)
+                .clipped()
+        } else {
+            Image(systemName: "photo")
+                .resizable()
+                .scaledToFit()
+                .frame(width: imageSize, height: imageSize)
+                .foregroundColor(.gray)
+        }
     }
     
     // MARK: - Title
@@ -77,10 +69,12 @@ struct BusinessShowcaseView: View {
     
     @ViewBuilder
     private func Description() -> some View {
-        Text(showcase.description)
-            .foregroundStyle(.gray)
-            .font(.footnote)
-            .lineLimit(3)
+        if let description = showcase.description {
+            Text(description)
+                .foregroundStyle(.gray)
+                .font(.footnote)
+                .lineLimit(3)
+        }
     }
     
     // MARK: - Location
@@ -92,10 +86,9 @@ struct BusinessShowcaseView: View {
                 Button {
                     // Go To Maps
                 } label: {
-                    //                    Label("250m", systemImage: "map")
                     HStack(spacing: 4) {
                         Image(systemName: "map")
-                        Text("250m") // change value programatically
+                        Text("250m") // TODO: change value programatically
                     }
                 }
             }
@@ -164,23 +157,6 @@ struct BusinessShowcaseView: View {
     }
 }
 
-// MARK: - Private Methods
-
-extension BusinessShowcaseView {
-    //    private func get
-}
-
 #Preview {
-    //    BusinessShowcaseView(showcase: FormattedBusinessShowcase(
-    //        id: UUID().uuidString,
-    //        testImageName: "mcdonalds",
-    //        imageUrl: nil,
-    //        title: "Combo Clássico por R$20",
-    //        description: "Peça o seu combo (sanduíche clássico, batata e refri) por apenas R$20,00.\nOferta válida até dia 08/03.",
-    //        latitude: 0,
-    //        longitude: 0,
-    //        isLocationVisible: false,
-    //        phoneNumber: nil,
-    //        websiteLink: "https://www.mcdonalds.com.br"
-    //    ))
+     BusinessShowcaseView(showcase: FormattedBusinessShowcase.mocks[1])
 }

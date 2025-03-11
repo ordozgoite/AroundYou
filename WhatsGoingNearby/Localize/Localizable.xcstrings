@@ -894,6 +894,9 @@
         }
       }
     },
+    "Contact" : {
+
+    },
     "Continue" : {
 
     },
@@ -1463,6 +1466,9 @@
     "Error trying to get user ban expiration date" : {
 
     },
+    "Error trying to post Business." : {
+
+    },
     "Error trying to post new user" : {
 
     },
@@ -1787,6 +1793,9 @@
       }
     },
     "Iniciar Gravação" : {
+
+    },
+    "Instagram username" : {
 
     },
     "Interact with people 🌐" : {
@@ -2274,6 +2283,9 @@
       }
     },
     "People" : {
+
+    },
+    "Phone number" : {
 
     },
     "Photos" : {
@@ -3518,6 +3530,9 @@
         }
       }
     },
+    "WhatsApp number" : {
+
+    },
     "Working" : {
       "localizations" : {
         "pt-BR" : {
@@ -3594,6 +3609,9 @@
       }
     },
     "You are the admin of this community and cannot leave it." : {
+
+    },
+    "You can" : {
 
     },
     "You can enable Discover Notifications to stay updated when someone matching your interests is nearby." : {

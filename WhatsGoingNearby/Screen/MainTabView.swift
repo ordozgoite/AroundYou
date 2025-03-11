@@ -43,7 +43,7 @@ struct MainTabView: View {
                 .environmentObject(authVM)
                 .tag(2)
             
-            BusinessScreen()
+            BusinessScreen(locationManager: locationManager)
                 .tabItem {
                     Label("Business", systemImage: "storefront.fill")
                 }

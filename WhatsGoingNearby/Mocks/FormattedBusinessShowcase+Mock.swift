@@ -11,8 +11,7 @@ extension FormattedBusinessShowcase {
     static let mocks = [
         FormattedBusinessShowcase(
             id: UUID().uuidString,
-            testImageName: "mcdonalds",
-            imageUrl: nil,
+            imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ16ZTT_mvdBUEmvMsAEjo0Lzo-Hleizud_ig&s",
             title: "Combo Clássico por R$20",
             description: "Peça o seu combo (sanduíche clássico, batata e refri) por apenas R$20,00.\nOferta válida até dia 08/03.",
             category: .eatAndDrink,
@@ -26,7 +25,6 @@ extension FormattedBusinessShowcase {
         ),
         FormattedBusinessShowcase(
             id: UUID().uuidString,
-            testImageName: "bike",
             imageUrl: nil,
             title: "Bicicleta semi-nova R$500",
             description: "Usada por pouco tempo. Preciso me desfazer porque preciso de dinheiro.",
@@ -41,7 +39,6 @@ extension FormattedBusinessShowcase {
         ),
         FormattedBusinessShowcase(
             id: UUID().uuidString,
-            testImageName: "picanha",
             imageUrl: "https://example.com/image.jpg",
             title: "Picanha Mania",
             description: "Conheça a melhor picanha de Manaus.",

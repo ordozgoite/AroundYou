@@ -12,8 +12,8 @@ struct Business: Codable {
     let description: String?
     let imageUrl: String?
     let category: String
-    let latitude: String
-    let longitude: String
+    let latitude: Double
+    let longitude: Double
     let isLocationVisible: Bool
     let phoneNumber: String?
     let whatsAppNumber: String?
