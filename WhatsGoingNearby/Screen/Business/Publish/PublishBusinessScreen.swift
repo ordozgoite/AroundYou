@@ -35,14 +35,13 @@ struct PublishBusinessScreen: View {
                 Category()
                 
                 Contact()
+                
+                LocationView()
+                
+                Publish()
             }
             .navigationTitle("Add Business")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Publish()
-                }
-            }
         }
     }
     
@@ -70,7 +69,7 @@ struct PublishBusinessScreen: View {
     
     @ViewBuilder
     private func Name() -> some View {
-       Section {
+        Section {
             TextField("Type your business' name", text: $publishBusinessVM.nameInput)
                 .onChange(of: publishBusinessVM.nameInput) { newValue in
                     if newValue.count > maxNameLenght {
@@ -143,33 +142,78 @@ struct PublishBusinessScreen: View {
     @ViewBuilder
     private func Contact() -> some View {
         Section {
-            VStack {
-                TextField("Phone number", text: $publishBusinessVM.phoneNumber)
-                TextField("WhatsApp number", text: $publishBusinessVM.whatsAppNumber)
-                TextField("Instagram username", text: $publishBusinessVM.instagramUsername)
+            VStack(spacing: 12) {
+                AYPhoneNumberTextField(number: $publishBusinessVM.phoneNumber, placeholder: "Phone number")
+                    .padding(.top)
+                
+                Divider()
+                
+                AYPhoneNumberTextField(number: $publishBusinessVM.whatsAppNumber, placeholder: "WhatsApp number")
+                
+                Divider()
+                
+                HStack {
+                    Text("@")
+                        .foregroundColor(.gray)
+                    
+                    TextField("Instagram username", text: $publishBusinessVM.instagramUsername)
+                        .textContentType(.username)
+                        .autocapitalization(.none)
+                        .onChange(of: publishBusinessVM.instagramUsername) { newValue in
+                            if newValue.hasPrefix("@") {
+                                publishBusinessVM.instagramUsername = String(newValue.dropFirst())
+                            }
+                        }
+                }
+                .padding(.bottom)
             }
         } header: {
             Text("Contact")
         } footer: {
-            Text("You can")
+            Text("Let potential customers know how to reach you easily.")
         }
-
+    }
+    
+    // MARK: - Location
+    
+    @ViewBuilder
+    private func LocationView() -> some View {
+        Section {
+            VStack {
+                Toggle(isOn: $publishBusinessVM.isLocationVisible) {
+                    Text("Display Precise Location")
+                }
+                
+                if let location = locationManager.location {
+                    MapView(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+                        .frame(height: 256)
+                        .opacity(publishBusinessVM.isLocationVisible ? 1 : 0.5)
+                }
+            }
+        } header: {
+            Text("Location")
+        } footer: {
+            Text("Your location will be used to display your business to people nearby.")
+        }
     }
     
     // MARK: - Publish
     
     @ViewBuilder
     private func Publish() -> some View {
-        if publishBusinessVM.isLoading {
-            ProgressView()
-        } else {
-            Button("Publish") {
-                Task {
-                    try await attemptBusinessPost()
+        ZStack {
+            if publishBusinessVM.isLoading {
+                AYProgressButton(title: "Publishing...")
+            } else {
+                AYButton(title: "Publish") {
+                    Task {
+                        try await attemptBusinessPost()
+                    }
                 }
+                .disabled(!areInputsValid())
             }
-            .disabled(!areInputsValid())
         }
+        .listRowBackground(Color(.systemGroupedBackground))
     }
 }
 
@@ -177,7 +221,7 @@ struct PublishBusinessScreen: View {
 
 extension PublishBusinessScreen {
     private func areInputsValid() -> Bool {
-        return !(publishBusinessVM.nameInput.isEmpty || publishBusinessVM.descriptionInput.isEmpty || publishBusinessVM.selectedCategory == nil)
+        return !(publishBusinessVM.nameInput.isEmpty || publishBusinessVM.selectedCategory == nil)
     }
     
     private func handleReturnKey(withNewValue newValue: String) {

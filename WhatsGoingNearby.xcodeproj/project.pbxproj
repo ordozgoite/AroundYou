@@ -86,6 +86,9 @@
 		ED50C4602B7F98620001EDF6 /* Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C45F2B7F98620001EDF6 /* Sizes.swift */; };
 		ED50C4622B7F9C030001EDF6 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4612B7F9C030001EDF6 /* UserProfileViewModel.swift */; };
 		ED50C4642B7FA2B80001EDF6 /* EmptyFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4632B7FA2B80001EDF6 /* EmptyFeedView.swift */; };
+		ED5329112D80FF0D00AEED74 /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = ED5329102D80FF0D00AEED74 /* PhoneNumberKit */; };
+		ED5329152D80FF0D00AEED74 /* PhoneNumberKit-Static in Frameworks */ = {isa = PBXBuildFile; productRef = ED5329142D80FF0D00AEED74 /* PhoneNumberKit-Static */; };
+		ED5329172D82498800AEED74 /* AYPhoneNumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5329162D82498800AEED74 /* AYPhoneNumberTextField.swift */; };
 		ED57D24A2B95880800FC7351 /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED57D2492B95880800FC7351 /* SheetView.swift */; };
 		ED57D24C2B95888D00FC7351 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED57D24B2B95888D00FC7351 /* LocationService.swift */; };
 		ED598BED2B7C139D00B6C23D /* FeedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED598BEC2B7C139D00B6C23D /* FeedScreen.swift */; };
@@ -352,6 +355,7 @@
 		ED50C45F2B7F98620001EDF6 /* Sizes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sizes.swift; sourceTree = "<group>"; };
 		ED50C4612B7F9C030001EDF6 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
 		ED50C4632B7FA2B80001EDF6 /* EmptyFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyFeedView.swift; sourceTree = "<group>"; };
+		ED5329162D82498800AEED74 /* AYPhoneNumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYPhoneNumberTextField.swift; sourceTree = "<group>"; };
 		ED57D2492B95880800FC7351 /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
 		ED57D24B2B95888D00FC7351 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		ED598BEC2B7C139D00B6C23D /* FeedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedScreen.swift; sourceTree = "<group>"; };
@@ -530,6 +534,7 @@
 				ED598C1A2B7C550400B6C23D /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				ED598C202B7C550400B6C23D /* FirebaseAuth in Frameworks */,
 				ED598C242B7C550400B6C23D /* FirebaseCrashlytics in Frameworks */,
+				ED5329152D80FF0D00AEED74 /* PhoneNumberKit-Static in Frameworks */,
 				ED598C442B7C550400B6C23D /* FirebaseRemoteConfigSwift in Frameworks */,
 				ED598C362B7C550400B6C23D /* FirebaseInAppMessaging-Beta in Frameworks */,
 				ED3B54E32CCEAAE1007AA1D0 /* Sliders in Frameworks */,
@@ -542,6 +547,7 @@
 				ED598C222B7C550400B6C23D /* FirebaseAuthCombine-Community in Frameworks */,
 				ED598C402B7C550400B6C23D /* FirebasePerformance in Frameworks */,
 				ED9A332D2D78DE24007EB6FC /* Kingfisher in Frameworks */,
+				ED5329112D80FF0D00AEED74 /* PhoneNumberKit in Frameworks */,
 				ED598C382B7C550400B6C23D /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
 				ED598C462B7C550400B6C23D /* FirebaseStorage in Frameworks */,
 				ED598C2A2B7C550400B6C23D /* FirebaseDynamicLinks in Frameworks */,
@@ -817,6 +823,7 @@
 				EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */,
 				ED0B4B282D5FDCF6000A21F6 /* CustomBadge.swift */,
 				ED30CE572D699C2A001FB213 /* RemoveMediaButton.swift */,
+				ED5329162D82498800AEED74 /* AYPhoneNumberTextField.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -1332,6 +1339,8 @@
 				EDCBEBF62BB8A52F00087325 /* SocketIO */,
 				ED3B54E22CCEAAE1007AA1D0 /* Sliders */,
 				ED9A332C2D78DE24007EB6FC /* Kingfisher */,
+				ED5329102D80FF0D00AEED74 /* PhoneNumberKit */,
+				ED5329142D80FF0D00AEED74 /* PhoneNumberKit-Static */,
 			);
 			productName = WhatsGoingNearby;
 			productReference = ED5CB1652B7C11C000C336EC /* WhatsGoingNearby.app */;
@@ -1369,6 +1378,7 @@
 				EDCBEBF52BB8A52F00087325 /* XCRemoteSwiftPackageReference "socket" */,
 				ED3B54E12CCEAAE1007AA1D0 /* XCRemoteSwiftPackageReference "swiftui-sliders" */,
 				ED9A332B2D78DE24007EB6FC /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				ED53290F2D80FF0D00AEED74 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
 			);
 			productRefGroup = ED5CB1662B7C11C000C336EC /* Products */;
 			projectDirPath = "";
@@ -1552,6 +1562,7 @@
 				ED57D24A2B95880800FC7351 /* SheetView.swift in Sources */,
 				EDD40C5D2D74BA5700E33663 /* PublishBusinessScreen.swift in Sources */,
 				EDDC9E062BD86D9D00000EA4 /* MessageIntermediary.swift in Sources */,
+				ED5329172D82498800AEED74 /* AYPhoneNumberTextField.swift in Sources */,
 				ED4D7C3A2D4D32AD007FC1FF /* BlurView.swift in Sources */,
 				ED598BF82B7C1B9400B6C23D /* Date.swift in Sources */,
 				ED6CF4CA2BBD029700990DBD /* BlackLogo.swift in Sources */,
@@ -1864,6 +1875,14 @@
 				minimumVersion = 2.1.0;
 			};
 		};
+		ED53290F2D80FF0D00AEED74 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/PhoneNumberKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.2;
+			};
+		};
 		ED598C122B7C550400B6C23D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1903,6 +1922,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = ED3B54E12CCEAAE1007AA1D0 /* XCRemoteSwiftPackageReference "swiftui-sliders" */;
 			productName = Sliders;
+		};
+		ED5329102D80FF0D00AEED74 /* PhoneNumberKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ED53290F2D80FF0D00AEED74 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
+			productName = PhoneNumberKit;
+		};
+		ED5329142D80FF0D00AEED74 /* PhoneNumberKit-Static */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ED53290F2D80FF0D00AEED74 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
+			productName = "PhoneNumberKit-Static";
 		};
 		ED598C132B7C550400B6C23D /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

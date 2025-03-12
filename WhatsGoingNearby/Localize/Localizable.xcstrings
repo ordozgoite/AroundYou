@@ -65,6 +65,9 @@
     "[Learn More](https://aroundyou3.wordpress.com/policy-privacy)" : {
 
     },
+    "@" : {
+
+    },
     "@%@" : {
       "localizations" : {
         "pt-BR" : {
@@ -1183,6 +1186,9 @@
     "Display Location:" : {
 
     },
+    "Display Precise Location" : {
+
+    },
     "Distance: %@ meters" : {
       "localizations" : {
         "pt-BR" : {
@@ -1913,6 +1919,9 @@
     "Leaving Community..." : {
 
     },
+    "Let potential customers know how to reach you easily." : {
+
+    },
     "liked" : {
       "localizations" : {
         "pt-BR" : {
@@ -1946,6 +1955,9 @@
       }
     },
     "Loading..." : {
+
+    },
+    "Location" : {
 
     },
     "Location 📍" : {
@@ -2285,9 +2297,6 @@
     "People" : {
 
     },
-    "Phone number" : {
-
-    },
     "Photos" : {
       "localizations" : {
         "pt-BR" : {
@@ -2572,6 +2581,9 @@
       }
     },
     "Publish" : {
+
+    },
+    "Publishing..." : {
 
     },
     "Recover Password" : {
@@ -3530,9 +3542,6 @@
         }
       }
     },
-    "WhatsApp number" : {
-
-    },
     "Working" : {
       "localizations" : {
         "pt-BR" : {
@@ -3609,9 +3618,6 @@
       }
     },
     "You are the admin of this community and cannot leave it." : {
-
-    },
-    "You can" : {
 
     },
     "You can enable Discover Notifications to stay updated when someone matching your interests is nearby." : {
@@ -3754,6 +3760,9 @@
           }
         }
       }
+    },
+    "Your location will be used to display your business to people nearby." : {
+
     },
     "Your location:" : {
       "localizations" : {

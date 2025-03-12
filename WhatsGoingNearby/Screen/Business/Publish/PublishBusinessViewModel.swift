@@ -16,7 +16,7 @@ class PublishBusinessViewModel: ObservableObject {
     @Published var descriptionInput: String = ""
     @Published var selectedCategory: BusinessCategory? = nil
     @Published var isLoading: Bool = false
-    @Published var isLocationVisible: Bool = false
+    @Published var isLocationVisible: Bool = true
     @Published var phoneNumber: String = ""
     @Published var whatsAppNumber: String = ""
     @Published var instagramUsername: String = ""
