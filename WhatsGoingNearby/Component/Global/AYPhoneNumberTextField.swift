@@ -22,7 +22,6 @@ struct PhoneNumberTextFieldView: UIViewRepresentable {
         @objc func textFieldDidChange(_ textField: UITextField) {
             var currentText = textField.text ?? ""
             
-            // Garante que o "+" esteja sempre presente no início
             if !currentText.hasPrefix("+") {
                 currentText = "+" + currentText
             }
@@ -38,12 +37,13 @@ struct PhoneNumberTextFieldView: UIViewRepresentable {
     
     func makeUIView(context: Context) -> PhoneNumberTextField {
         let textField = PhoneNumberTextField()
+        
         textField.delegate = context.coordinator
         textField.addTarget(context.coordinator, action: #selector(Coordinator.textFieldDidChange(_:)), for: .editingChanged)
         textField.placeholder = placeholder
-        textField.withPrefix = true  // Exibe o prefixo do país
-        textField.withFlag = true    // Exibe a bandeira do país
-        textField.text = text.isEmpty ? "+" : text // Garante que inicie com "+"
+        textField.withPrefix = true
+        textField.withFlag = true
+        
         return textField
     }
     
@@ -54,10 +54,7 @@ struct PhoneNumberTextFieldView: UIViewRepresentable {
     }
 }
 
-
-
 struct AYPhoneNumberTextField: View {
-    
     @Binding var number: String
     let placeholder: String
     
@@ -65,23 +62,6 @@ struct AYPhoneNumberTextField: View {
         VStack {
             PhoneNumberTextFieldView(text: $number, placeholder: placeholder)
         }
-        .onAppear {
-            addRegionCode()
-        }
-    }
-    
-    private func addRegionCode() {
-//        let phoneNumberKit = PhoneNumberUtility()
-//        
-//        // Verifica se já há um código no número, para não sobrescrever
-//        guard number.isEmpty else { return }
-//        
-//        if let regionCode = phoneNumberKit.code,
-//           let countryCode = phoneNumberKit.countryCode(for: regionCode) {
-//            self.number = "+\(countryCode)"
-//        } else {
-//            self.number = "+"  // Fallback se não conseguir detectar o país
-//        }
     }
 }
 

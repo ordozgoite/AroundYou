@@ -53,8 +53,8 @@ class PublishBusinessViewModel: ObservableObject {
             imageUrl: imageUrl, category: selectedCategory!.rawValue,
             latitude: location.latitude, longitude: location.longitude,
             isLocationVisible: self.isLocationVisible,
-            phoneNumber: self.phoneNumber.nonEmptyOrNil(),
-            whatsAppNumber: self.whatsAppNumber.nonEmptyOrNil(),
+            phoneNumber: self.phoneNumber.normalizePhoneNumber().nonEmptyOrNil(),
+            whatsAppNumber: self.whatsAppNumber.normalizePhoneNumber().nonEmptyOrNil(),
             instagramUsername: self.instagramUsername.nonEmptyOrNil()
         )
     }

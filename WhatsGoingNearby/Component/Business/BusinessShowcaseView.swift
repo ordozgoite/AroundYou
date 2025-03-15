@@ -109,7 +109,7 @@ struct BusinessShowcaseView: View {
             }
             
             if let instagramUsername = showcase.instagramUsername {
-                Instagram(usersame: instagramUsername)
+                Instagram(username: instagramUsername)
             }
         }
     }
@@ -119,13 +119,14 @@ struct BusinessShowcaseView: View {
     @ViewBuilder
     private func Phone(number: String) -> some View {
         Button {
-            // Go to Directions
+            callNumber(number: number)
         } label: {
             Image(systemName: "phone.circle.fill")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 28, height: 28, alignment: .center)
         }
+        .buttonStyle(.plain)
     }
     
     // MARK: - WhatsApp
@@ -133,30 +134,58 @@ struct BusinessShowcaseView: View {
     @ViewBuilder
     private func WhatsApp(number: String) -> some View {
         Button {
-            // Go to WhatsApp
+            goToWhatsAppChat(withNumber: number)
         } label: {
             Image("whatsapp")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 28, height: 28, alignment: .center)
         }
+        .buttonStyle(.plain)
     }
     
     // MARK: - Instagram
     
     @ViewBuilder
-    private func Instagram(usersame: String) -> some View {
+    private func Instagram(username: String) -> some View {
         Button {
-            // Go to Instagram
+            goToInstagramProfile(forUsername: username)
         } label: {
             Image("instagram")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 28, height: 28, alignment: .center)
         }
+        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Private Methods
+
+extension BusinessShowcaseView {
+    private func callNumber(number: String) {
+        if let url = URL(string: "tel://\(number.normalizePhoneNumber())"), UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    private func goToWhatsAppChat(withNumber number: String) {
+        let webURL = URL(string: "https://wa.me/\(number.normalizePhoneNumber())")!
+        UIApplication.shared.open(webURL, options: [:], completionHandler: nil)
+    }
+    
+    private func goToInstagramProfile(forUsername username: String) {
+        let appURL = URL(string: "instagram://user?username=\(username)")!
+        let webURL = URL(string: "https://www.instagram.com/\(username)")!
+        
+        if UIApplication.shared.canOpenURL(appURL) {
+            UIApplication.shared.open(appURL, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.open(webURL, options: [:], completionHandler: nil)
+        }
     }
 }
 
 #Preview {
-     BusinessShowcaseView(showcase: FormattedBusinessShowcase.mocks[1])
+    BusinessShowcaseView(showcase: FormattedBusinessShowcase.mocks[1])
 }

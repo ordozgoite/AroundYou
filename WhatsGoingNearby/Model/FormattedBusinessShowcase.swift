@@ -21,7 +21,6 @@ import Foundation
 
 struct FormattedBusinessShowcase: Codable, Identifiable {
     let id: String
-//    let testImageName: String // ONLY FOR TESTS PURPOSE!
     let imageUrl: String?
     let title: String
     let description: String?
@@ -32,5 +31,18 @@ struct FormattedBusinessShowcase: Codable, Identifiable {
     let phoneNumber: String?
     let whatsAppNumber: String?
     let instagramUsername: String?
-    let isPremium: Bool
+    
+    enum CodingKeys: String, CodingKey, Decodable {
+        case id = "_id"
+        case imageUrl
+        case title
+        case description
+        case category
+        case latitude
+        case longitude
+        case isLocationVisible
+        case phoneNumber
+        case whatsAppNumber
+        case instagramUsername
+    }
 }
