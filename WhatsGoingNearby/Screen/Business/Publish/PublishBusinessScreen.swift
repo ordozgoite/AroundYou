@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct PublishBusinessScreen: View {
     
@@ -26,7 +27,7 @@ struct PublishBusinessScreen: View {
     var body: some View {
         NavigationStack {
             Form {
-                ImageView()
+                EditBusinessImage()
                 
                 Name()
                 
@@ -40,28 +41,62 @@ struct PublishBusinessScreen: View {
                 
                 Publish()
             }
+            .onChange(of: publishBusinessVM.imageSelection) { newItem in
+                Task {
+                    if let data = try? await newItem?.loadTransferable(type: Data.self), let image = UIImage(data: data) {
+                        publishBusinessVM.image = image
+                    }
+                }
+            }
             .navigationTitle("Add Business")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
     
-    // MARK: - Image
+    // MARK: - Edit Image
     
     @ViewBuilder
-    private func ImageView() -> some View {
-        Section {
-            VStack {
-                Image(systemName: "photo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 24)
-                
-                Text("Add Photo")
-                    .bold()
+    private func EditBusinessImage() -> some View {
+        ZStack(alignment: .topTrailing) {
+            PhotosPicker(selection: $publishBusinessVM.imageSelection, matching: .images, preferredItemEncoding: .automatic) {
+                BusinessImage()
             }
-            .foregroundStyle(.blue)
-            .frame(height: 200)
-            .frame(maxWidth: .infinity, alignment: .center)
+            
+            if publishBusinessVM.image != nil {
+                Button {
+                    removePhoto()
+                } label: {
+                    RemoveMediaButton(size: .medium)
+                }
+            }
+        }
+    }
+    
+    // MARK: - Business Image
+    
+    @ViewBuilder
+    private func BusinessImage() -> some View {
+        Section {
+            if let image = publishBusinessVM.image {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 200)
+                    .listRowBackground(Color(.systemGroupedBackground))
+            } else {
+                VStack {
+                    Image(systemName: "photo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 24)
+                    
+                    Text("Add Photo")
+                        .bold()
+                }
+                .foregroundStyle(.blue)
+                .frame(height: 200)
+                .frame(maxWidth: .infinity, alignment: .center)
+            }
         }
     }
     
@@ -266,6 +301,10 @@ extension PublishBusinessScreen {
             
             try await publishBusinessVM.publishBusiness(location: currentLocation, token: token)
         }
+    }
+    
+    private func removePhoto() {
+        publishBusinessVM.image = nil
     }
 }
 
