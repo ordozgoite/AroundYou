@@ -16,10 +16,12 @@ struct BusinessScreen: View {
     var body: some View {
         NavigationStack {
             VStack {
-                List {
-                    ForEach(businessVM.businesses) { business in
-                        BusinessShowcaseView(showcase: business)
-                    }
+                if businessVM.isLoading {
+                    LoadingView()
+                } else if businessVM.businesses.isEmpty {
+                    EmptyBusinessView()
+                } else {
+                    BusinessList()
                 }
             }
             .onAppear {
@@ -32,6 +34,30 @@ struct BusinessScreen: View {
                 NavigationLink(destination: PublishBusinessScreen(locationManager: locationManager).environmentObject(authVM)) {
                     Image(systemName: "plus")
                 }
+            }
+        }
+    }
+    
+    //MARK: - Loading
+    
+    @ViewBuilder
+    private func LoadingView() -> some View {
+        VStack {
+            AYProgressView()
+            
+            Text("Looking around you...")
+                .foregroundStyle(.gray)
+                .fontWeight(.semibold)
+        }
+    }
+    
+    // MARK: - Business List
+    
+    @ViewBuilder
+    private func BusinessList() -> some View {
+        List {
+            ForEach(businessVM.businesses) { business in
+                BusinessShowcaseView(showcase: business)
             }
         }
     }
