@@ -58,6 +58,7 @@ struct BusinessScreen: View {
         List {
             ForEach(businessVM.businesses) { business in
                 BusinessShowcaseView(showcase: business)
+                    .environmentObject(authVM)
             }
         }
     }

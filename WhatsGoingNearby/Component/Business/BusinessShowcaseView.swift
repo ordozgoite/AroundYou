@@ -15,12 +15,16 @@ struct BusinessShowcaseView: View {
         return screenWidth * 0.28
     }
     
+    @EnvironmentObject var authVM: AuthenticationViewModel
+    @State private var isOptionsPopoverDisplayed: Bool = false
+    @State private var isReportScreenPresented: Bool = false
+    
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             ShowcaseImage()
             
             VStack(alignment: .leading) {
-                Title()
+                Header()
                 
                 Description()
                 
@@ -57,12 +61,77 @@ struct BusinessShowcaseView: View {
         }
     }
     
-    // MARK: - Title
+    // MARK: - Header
     
     @ViewBuilder
-    private func Title() -> some View {
-        Text(showcase.title)
-            .fontWeight(.bold)
+    private func Header() -> some View {
+        HStack {
+            Text(showcase.title)
+                .fontWeight(.bold)
+            
+            Image(systemName: "ellipsis")
+                .foregroundStyle(.gray)
+                .popover(isPresented: self.$isOptionsPopoverDisplayed) {
+                    Options()
+                }
+                .onTapGesture {
+                    self.isOptionsPopoverDisplayed = true
+                }
+        }
+    }
+    
+    // MARK: - Options
+    
+    @ViewBuilder
+    private func Options() -> some View {
+        VStack {
+            if showcase.isOwner {
+                DeleteButton()
+            } else {
+                ReportButton()
+            }
+        }
+        .presentationCompactAdaptation(.popover)
+    }
+    
+    // MARK: - Delete Business
+    
+    @ViewBuilder
+    private func DeleteButton() -> some View {
+        Button(role: .destructive) {
+            Task {
+                try await deleteBusiness()
+            }
+        } label: {
+            Text("Delete Business")
+            Image(systemName: "trash")
+        }
+        .padding()
+    }
+    
+    // MARK: - Report Business
+    
+    @ViewBuilder
+    private func ReportButton() -> some View {
+        Button {
+            isOptionsPopoverDisplayed = false
+            isReportScreenPresented = true
+        } label: {
+            Text("Report Business")
+                .foregroundStyle(.gray)
+            Image(systemName: "exclamationmark.bubble")
+                .foregroundStyle(.gray)
+        }
+        .padding()
+        .navigationDestination(isPresented: $isReportScreenPresented) {
+            ReportScreen(
+                reportedUserUid: showcase.ownerUid,
+                publicationId: nil,
+                commentId: nil,
+                businessId: showcase.id
+            )
+                .environmentObject(authVM)
+        }
     }
     
     // MARK: - Description
@@ -163,6 +232,10 @@ struct BusinessShowcaseView: View {
 // MARK: - Private Methods
 
 extension BusinessShowcaseView {
+    private func deleteBusiness() async throws {
+        
+    }
+    
     private func callNumber(number: String) {
         if let url = URL(string: "tel://\(number.normalizePhoneNumber())"), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)

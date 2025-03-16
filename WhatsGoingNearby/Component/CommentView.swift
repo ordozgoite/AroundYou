@@ -36,7 +36,7 @@ struct CommentView: View {
                 }
             }
             NavigationLink(
-                destination: ReportScreen(reportedUserUid: comment.userUid, publicationId: nil, commentId: comment.id).environmentObject(authVM),
+                destination: ReportScreen(reportedUserUid: comment.userUid, publicationId: nil, commentId: comment.id, businessId: nil).environmentObject(authVM),
                 isActive: $isReportScreenPresented,
                 label: { EmptyView() }
             )

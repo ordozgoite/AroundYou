@@ -976,6 +976,9 @@
         }
       }
     },
+    "Delete Business" : {
+
+    },
     "Delete Comment" : {
       "localizations" : {
         "pt-BR" : {
@@ -2785,6 +2788,9 @@
           }
         }
       }
+    },
+    "Report Business" : {
+
     },
     "Report Comment" : {
       "localizations" : {

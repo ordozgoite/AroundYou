@@ -11,6 +11,7 @@ enum ReportTarget {
     case user
     case publication
     case comment
+    case business
 }
 
 struct ReportScreen: View {
@@ -18,6 +19,15 @@ struct ReportScreen: View {
     let reportedUserUid: String
     let publicationId: String?
     let commentId: String?
+    let businessId: String?
+    
+    init(reportedUserUid: String, publicationId: String? = nil, commentId: String? = nil, businessId: String? = nil) {
+        self.reportedUserUid = reportedUserUid
+        self.publicationId = publicationId
+        self.commentId = commentId
+        self.businessId = businessId
+    }
+    
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var reportVM = ReportViewModel()
     @Environment(\.presentationMode) var presentationMode
@@ -80,6 +90,6 @@ struct ReportScreen: View {
 }
 
 #Preview {
-    ReportScreen(reportedUserUid: "", publicationId: "", commentId: "")
+    ReportScreen(reportedUserUid: "", publicationId: nil, commentId: nil, businessId: nil)
         .environmentObject(AuthenticationViewModel())
 }

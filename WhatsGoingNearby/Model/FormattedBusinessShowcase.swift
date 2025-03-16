@@ -31,6 +31,9 @@ struct FormattedBusinessShowcase: Codable, Identifiable {
     let phoneNumber: String?
     let whatsAppNumber: String?
     let instagramUsername: String?
+    let isOwner: Bool
+    let distance: Int
+    let ownerUid: String
     
     enum CodingKeys: String, CodingKey, Decodable {
         case id = "_id"
@@ -44,5 +47,8 @@ struct FormattedBusinessShowcase: Codable, Identifiable {
         case phoneNumber
         case whatsAppNumber
         case instagramUsername
+        case isOwner
+        case distance
+        case ownerUid
     }
 }
