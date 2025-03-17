@@ -101,10 +101,10 @@ protocol AYServiceable {
     // Business
     func postNewBusiness(business: Business, token: String) async -> Result<Business, RequestError>
     func getBusinessesNearBy(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError>
+    func deleteBusiness(businessId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
-    
     static let shared = AYServices()
     private init() {}
     
@@ -392,5 +392,9 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getBusinessesNearBy(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getBusinessesNearBy(location: location, token: token), responseModel: [FormattedBusinessShowcase].self)
+    }
+    
+    func deleteBusiness(businessId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteBusiness(businessId: businessId, token: token), responseModel: SuccessMessageResponse.self)
     }
 }
