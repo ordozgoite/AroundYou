@@ -35,20 +35,20 @@ struct FormattedBusinessShowcase: Codable, Identifiable {
     let distance: Int
     let ownerUid: String
     
-    enum CodingKeys: String, CodingKey, Decodable {
-        case id = "_id"
-        case imageUrl
-        case title
-        case description
-        case category
-        case latitude
-        case longitude
-        case isLocationVisible
-        case phoneNumber
-        case whatsAppNumber
-        case instagramUsername
-        case isOwner
-        case distance
-        case ownerUid
-    }
+//    enum CodingKeys: String, CodingKey, Decodable {
+//        case id = "_id"
+//        case imageUrl
+//        case title
+//        case description
+//        case category
+//        case latitude
+//        case longitude
+//        case isLocationVisible
+//        case phoneNumber
+//        case whatsAppNumber
+//        case instagramUsername
+//        case isOwner
+//        case distance
+//        case ownerUid
+//    }
 }

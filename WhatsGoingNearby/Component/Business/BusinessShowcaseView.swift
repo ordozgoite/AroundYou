@@ -40,6 +40,15 @@ struct BusinessShowcaseView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(height: imageSize)
+        .navigationDestination(isPresented: $isReportScreenPresented) {
+            ReportScreen(
+                reportedUserUid: showcase.ownerUid,
+                publicationId: nil,
+                commentId: nil,
+                businessId: showcase.id
+            )
+                .environmentObject(authVM)
+        }
     }
     
     // MARK: - Image
@@ -68,6 +77,7 @@ struct BusinessShowcaseView: View {
         HStack {
             Text(showcase.title)
                 .fontWeight(.bold)
+                .frame(maxWidth: .infinity, alignment: .leading)
             
             Image(systemName: "ellipsis")
                 .foregroundStyle(.gray)
@@ -123,15 +133,6 @@ struct BusinessShowcaseView: View {
                 .foregroundStyle(.gray)
         }
         .padding()
-        .navigationDestination(isPresented: $isReportScreenPresented) {
-            ReportScreen(
-                reportedUserUid: showcase.ownerUid,
-                publicationId: nil,
-                commentId: nil,
-                businessId: showcase.id
-            )
-                .environmentObject(authVM)
-        }
     }
     
     // MARK: - Description
@@ -153,11 +154,11 @@ struct BusinessShowcaseView: View {
         HStack {
             if showcase.isLocationVisible {
                 Button {
-                    // Go To Maps
+                    // TODO: Go To Maps
                 } label: {
                     HStack(spacing: 4) {
                         Image(systemName: "map")
-                        Text("250m") // TODO: change value programatically
+                        Text("\(String(showcase.distance))m")
                     }
                 }
             }
