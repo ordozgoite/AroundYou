@@ -16,6 +16,7 @@ struct BusinessShowcaseView: View {
     }
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @ObservedObject var businessVM: BusinessViewModel
     @State private var isOptionsPopoverDisplayed: Bool = false
     @State private var isReportScreenPresented: Bool = false
     
@@ -110,7 +111,7 @@ struct BusinessShowcaseView: View {
     private func DeleteButton() -> some View {
         Button(role: .destructive) {
             Task {
-                try await deleteBusiness()
+                try await handleBusinessDeletion()
             }
         } label: {
             Text("Delete Business")
@@ -233,8 +234,17 @@ struct BusinessShowcaseView: View {
 // MARK: - Private Methods
 
 extension BusinessShowcaseView {
-    private func deleteBusiness() async throws {
-        
+    private func handleBusinessDeletion() async throws {
+        do {
+            try await attemptDeletion()
+        } catch {
+            print("❌ Error trying to delete Business.")
+        }
+    }
+    
+    private func attemptDeletion() async throws {
+        let token = try await authVM.getFirebaseToken()
+        try await businessVM.deleteBusiness(businessId: self.showcase.id, token: token)
     }
     
     private func callNumber(number: String) {
@@ -261,5 +271,5 @@ extension BusinessShowcaseView {
 }
 
 #Preview {
-    BusinessShowcaseView(showcase: FormattedBusinessShowcase.mocks[1])
+    BusinessShowcaseView(showcase: FormattedBusinessShowcase.mocks[1], businessVM: BusinessViewModel())
 }

@@ -57,7 +57,7 @@ struct BusinessScreen: View {
     private func BusinessList() -> some View {
         List {
             ForEach(businessVM.businesses) { business in
-                BusinessShowcaseView(showcase: business)
+                BusinessShowcaseView(showcase: business, businessVM: businessVM)
                     .environmentObject(authVM)
             }
         }

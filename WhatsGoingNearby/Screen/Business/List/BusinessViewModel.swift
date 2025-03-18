@@ -8,6 +8,10 @@
 import Foundation
 import SwiftUI
 
+enum BusinessError: Error {
+    case deletionFailed
+}
+
 @MainActor
 class BusinessViewModel: ObservableObject {
     
@@ -27,5 +31,21 @@ class BusinessViewModel: ObservableObject {
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
+    }
+    
+    func deleteBusiness(businessId: String, token: String) async throws {
+        let result = await AYServices.shared.deleteBusiness(businessId: businessId, token: token)
+        
+        switch result {
+        case .success:
+            removeBusiness(withId: businessId)
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            throw BusinessError.deletionFailed
+        }
+    }
+    
+    private func removeBusiness(withId businessId: String) {
+        self.businesses.removeAll { $0.id == businessId }
     }
 }
