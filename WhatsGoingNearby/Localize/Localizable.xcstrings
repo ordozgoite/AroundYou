@@ -2110,6 +2110,9 @@
     "My Profile" : {
 
     },
+    "MyBusinessView" : {
+
+    },
     "Name" : {
       "localizations" : {
         "pt-BR" : {
@@ -3630,6 +3633,9 @@
 
     },
     "You can enable Discover Notifications to stay updated when someone matching your interests is nearby." : {
+
+    },
+    "You can only have one active Business at a time." : {
 
     },
     "You can send only one message with this invite. The chat will unlock once they respond." : {

@@ -16,7 +16,7 @@ struct BusinessScreen: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if businessVM.isLoading {
+                if businessVM.isFetchingBusinessesNearBy {
                     LoadingView()
                 } else if businessVM.businesses.isEmpty {
                     EmptyBusinessView()
@@ -26,14 +26,17 @@ struct BusinessScreen: View {
             }
             .onAppear {
                 Task {
-                    try await getBusinesses()
+                    await withTaskGroup(of: Void.self) { group in
+                        group.addTask { try? await getBusinessesFromLocation() }
+                        group.addTask { try? await getBusinessesFromUser() }
+                    }
                 }
             }
             .navigationTitle("Business")
             .toolbar {
-                NavigationLink(destination: PublishBusinessScreen(locationManager: locationManager).environmentObject(authVM)) {
-                    Image(systemName: "plus")
-                }
+                MyBusiness()
+                
+                CreateBusinessButton()
             }
         }
     }
@@ -62,12 +65,73 @@ struct BusinessScreen: View {
             }
         }
     }
+    
+    // MARK: - My Business
+    
+    @ViewBuilder
+    private func MyBusiness() -> some View {
+        Button {
+            businessVM.isMyBusinessViewDisplayed = true
+        } label: {
+            Image(systemName: "person.circle.fill")
+        }
+        .sheet(isPresented: $businessVM.isMyBusinessViewDisplayed) {
+            Text("MyBusinessView")
+        }
+    }
+    
+    // MARK: - Create Business
+    
+    @ViewBuilder
+    private func CreateBusinessButton() -> some View {
+        if businessVM.isFetchingUserBusinesses {
+            ProgressView()
+        } else if businessVM.userBusinesses?.count != 0 {
+            DisabledAddButton()
+        } else if businessVM.userBusinesses?.count == 0 {
+            AddButton()
+        }
+    }
+    
+    // MARK: - Disabled Add Button
+    
+    @ViewBuilder
+    private func DisabledAddButton() -> some View {
+        Button {
+            businessVM.isBusinessLimitErrorPopoverDisplayed = true
+        } label: {
+            Image(systemName: "plus")
+                .foregroundStyle(.gray)
+        }
+        .popover(isPresented: $businessVM.isBusinessLimitErrorPopoverDisplayed) {
+            Text("You can only have one active Business at a time.")
+                .font(.caption)
+                .foregroundStyle(.gray)
+                .padding()
+                .presentationCompactAdaptation(.popover)
+        }
+    }
+    
+    // MARK: - Add Button
+    
+    @ViewBuilder
+    private func AddButton() -> some View {
+        Button {
+            businessVM.isPublishBusinessScreenDisplayed = true
+        } label: {
+            Image(systemName: "plus")
+        }
+        .navigationDestination(isPresented: $businessVM.isPublishBusinessScreenDisplayed) {
+            PublishBusinessScreen(locationManager: locationManager)
+                .environmentObject(authVM)
+        }
+    }
 }
 
 // MARK: - Private Methods
 
 extension BusinessScreen {
-    private func getBusinesses() async throws {
+    private func getBusinessesFromLocation() async throws {
         locationManager.requestLocation()
         if let location = locationManager.location {
             let token = try await authVM.getFirebaseToken()
@@ -76,7 +140,20 @@ extension BusinessScreen {
             let longitude = location.coordinate.longitude
             let currentLocation = Location(latitude: latitude, longitude: longitude)
             
-            await businessVM.getBusinesses(location: currentLocation, token: token)
+            await businessVM.getBusinesses(fromLocation: currentLocation, token: token)
+        }
+    }
+    
+    private func getBusinessesFromUser() async throws {
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let token = try await authVM.getFirebaseToken()
+            
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            let currentLocation = Location(latitude: latitude, longitude: longitude)
+            
+            await businessVM.getBusinessByUser(withLocation: currentLocation, token: token)
         }
     }
 }

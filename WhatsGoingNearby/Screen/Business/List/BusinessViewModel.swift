@@ -16,18 +16,37 @@ enum BusinessError: Error {
 class BusinessViewModel: ObservableObject {
     
     @Published var businesses: [FormattedBusinessShowcase] = []
-    @Published var isLoading: Bool = false
+    @Published var userBusinesses: [FormattedBusinessShowcase]? = nil
+    @Published var isFetchingBusinessesNearBy: Bool = false
+    @Published var isFetchingUserBusinesses: Bool = false
+    @Published var isBusinessLimitErrorPopoverDisplayed: Bool = false
+    @Published var isPublishBusinessScreenDisplayed: Bool = false
+    @Published var isMyBusinessViewDisplayed: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     
-    func getBusinesses(location: Location, token: String) async {
-        isLoading = true
-        defer { isLoading = false }
+    func getBusinesses(fromLocation location: Location, token: String) async {
+        isFetchingBusinessesNearBy = true
+        defer { isFetchingBusinessesNearBy = false }
         
         let result = await AYServices.shared.getBusinessesNearBy(location: location, token: token)
         
         switch result {
         case .success(let businesses):
             self.businesses = businesses
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
+    }
+    
+    func getBusinessByUser(withLocation location: Location, token: String) async {
+        isFetchingUserBusinesses = true
+        defer { isFetchingUserBusinesses = false }
+        
+        let result = await AYServices.shared.getBusinessByUser(location: location, token: token)
+        
+        switch result {
+        case .success(let businesses):
+            self.userBusinesses = businesses
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
