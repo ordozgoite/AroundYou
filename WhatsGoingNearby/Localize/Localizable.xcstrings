@@ -2107,10 +2107,10 @@
     "My Age" : {
 
     },
-    "My Profile" : {
+    "My Businesses" : {
 
     },
-    "MyBusinessView" : {
+    "My Profile" : {
 
     },
     "Name" : {
@@ -3656,6 +3656,9 @@
           }
         }
       }
+    },
+    "You don't have any business published." : {
+
     },
     "You have no notifications yet." : {
       "localizations" : {

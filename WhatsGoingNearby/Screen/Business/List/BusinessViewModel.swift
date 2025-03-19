@@ -18,20 +18,23 @@ class BusinessViewModel: ObservableObject {
     @Published var businesses: [FormattedBusinessShowcase] = []
     @Published var userBusinesses: [FormattedBusinessShowcase]? = nil
     @Published var isFetchingBusinessesNearBy: Bool = false
+    @Published var initialBusinessesFetched: Bool = false
     @Published var isFetchingUserBusinesses: Bool = false
     @Published var isBusinessLimitErrorPopoverDisplayed: Bool = false
     @Published var isPublishBusinessScreenDisplayed: Bool = false
     @Published var isMyBusinessViewDisplayed: Bool = false
+    @Published var timer: Timer?
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     
     func getBusinesses(fromLocation location: Location, token: String) async {
-        isFetchingBusinessesNearBy = true
+        if !initialBusinessesFetched { isFetchingBusinessesNearBy = true }
         defer { isFetchingBusinessesNearBy = false }
         
         let result = await AYServices.shared.getBusinessesNearBy(location: location, token: token)
         
         switch result {
         case .success(let businesses):
+            initialBusinessesFetched = true
             self.businesses = businesses
         case .failure:
             overlayError = (true, ErrorMessage.defaultErrorMessage)
@@ -66,5 +69,6 @@ class BusinessViewModel: ObservableObject {
     
     private func removeBusiness(withId businessId: String) {
         self.businesses.removeAll { $0.id == businessId }
+        self.userBusinesses?.removeAll { $0.id == businessId }
     }
 }

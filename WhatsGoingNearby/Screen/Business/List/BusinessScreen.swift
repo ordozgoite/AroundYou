@@ -13,6 +13,9 @@ struct BusinessScreen: View {
     @StateObject private var businessVM = BusinessViewModel()
     @ObservedObject var locationManager: LocationManager
     
+    @State private var refreshObserver = NotificationCenter.default
+        .publisher(for: .refreshLocationSensitiveData)
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -30,7 +33,16 @@ struct BusinessScreen: View {
                         group.addTask { try? await getBusinessesFromLocation() }
                         group.addTask { try? await getBusinessesFromUser() }
                     }
+                    startUpdatingUsers()
                 }
+            }
+            .onReceive(refreshObserver) { _ in
+                Task {
+                    try await getBusinessesFromLocation()
+                }
+            }
+            .onDisappear {
+                stopTimer()
             }
             .navigationTitle("Business")
             .toolbar {
@@ -64,6 +76,12 @@ struct BusinessScreen: View {
                     .environmentObject(authVM)
             }
         }
+        .refreshable {
+            hapticFeedback(style: .soft)
+            Task {
+                try await getBusinessesFromLocation()
+            }
+        }
     }
     
     // MARK: - My Business
@@ -76,7 +94,8 @@ struct BusinessScreen: View {
             Image(systemName: "person.circle.fill")
         }
         .sheet(isPresented: $businessVM.isMyBusinessViewDisplayed) {
-            Text("MyBusinessView")
+            MyBusinessView(businessVM: businessVM)
+                .environmentObject(authVM)
         }
     }
     
@@ -131,6 +150,19 @@ struct BusinessScreen: View {
 // MARK: - Private Methods
 
 extension BusinessScreen {
+    private func startUpdatingUsers() {
+        businessVM.timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+            Task {
+                try await getBusinessesFromLocation()
+            }
+        }
+        businessVM.timer?.fire()
+    }
+    
+    private func stopTimer() {
+        businessVM.timer?.invalidate()
+    }
+    
     private func getBusinessesFromLocation() async throws {
         locationManager.requestLocation()
         if let location = locationManager.location {

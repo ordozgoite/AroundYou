@@ -182,6 +182,7 @@
 		ED7D8F8E2BBB864E00544A8B /* CreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7D8F8D2BBB864E00544A8B /* CreatePostViewModel.swift */; };
 		ED7D8F912BBC5D1C00544A8B /* EditPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7D8F902BBC5D1C00544A8B /* EditPostViewModel.swift */; };
 		ED7D8F932BBC5D2700544A8B /* EditPostScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7D8F922BBC5D2700544A8B /* EditPostScreen.swift */; };
+		ED82CD0C2D8B09390075EFB8 /* MyBusinessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED82CD0B2D8B09390075EFB8 /* MyBusinessView.swift */; };
 		ED842C502BCF5A29006B8DBB /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED842C4F2BCF5A29006B8DBB /* Color.swift */; };
 		ED842C522BD0A9DB006B8DBB /* ComposePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED842C512BD0A9DB006B8DBB /* ComposePostView.swift */; };
 		ED8618692BB9E48400A26121 /* CameraRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8618682BB9E48400A26121 /* CameraRepresentable.swift */; };
@@ -424,6 +425,7 @@
 		ED7D8F8D2BBB864E00544A8B /* CreatePostViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePostViewModel.swift; sourceTree = "<group>"; };
 		ED7D8F902BBC5D1C00544A8B /* EditPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewModel.swift; sourceTree = "<group>"; };
 		ED7D8F922BBC5D2700544A8B /* EditPostScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostScreen.swift; sourceTree = "<group>"; };
+		ED82CD0B2D8B09390075EFB8 /* MyBusinessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBusinessView.swift; sourceTree = "<group>"; };
 		ED842C4F2BCF5A29006B8DBB /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		ED842C512BD0A9DB006B8DBB /* ComposePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposePostView.swift; sourceTree = "<group>"; };
 		ED8618682BB9E48400A26121 /* CameraRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraRepresentable.swift; sourceTree = "<group>"; };
@@ -656,6 +658,7 @@
 			children = (
 				ED30CE812D6F9D46001FB213 /* BusinessShowcaseView.swift */,
 				ED1FFB682D865CD50091E5B5 /* EmptyBusinessView.swift */,
+				ED82CD0B2D8B09390075EFB8 /* MyBusinessView.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -1575,6 +1578,7 @@
 				EDE199212CCC5D3F0065206C /* VerifyUserDiscoverabilityResponse.swift in Sources */,
 				ED755F1D2BB50D56004BC6C3 /* BubbleView.swift in Sources */,
 				ED7D8F822BBA0D9300544A8B /* PostImageView.swift in Sources */,
+				ED82CD0C2D8B09390075EFB8 /* MyBusinessView.swift in Sources */,
 				ED4D7C362D418710007FC1FF /* EmptyDiscoverView.swift in Sources */,
 				EDCF2C382BB66E400066950F /* Message.swift in Sources */,
 				ED30CE7A2D6F549A001FB213 /* BusinessScreen.swift in Sources */,
