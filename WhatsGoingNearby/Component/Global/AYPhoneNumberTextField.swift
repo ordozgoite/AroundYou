@@ -22,6 +22,12 @@ struct PhoneNumberTextFieldView: UIViewRepresentable {
         @objc func textFieldDidChange(_ textField: UITextField) {
             var currentText = textField.text ?? ""
             
+            if currentText.isEmpty {
+                parent.text = ""
+                textField.text = ""
+                return
+            }
+            
             if !currentText.hasPrefix("+") {
                 currentText = "+" + currentText
             }
@@ -48,8 +54,11 @@ struct PhoneNumberTextFieldView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: PhoneNumberTextField, context: Context) {
-        if !uiView.text!.hasPrefix("+") {
-            uiView.text = "+" + uiView.text!
+        if text.isEmpty {
+            uiView.text = ""
+        } else if !text.hasPrefix("+") {
+            uiView.text = "+" + text
+            text = "+" + text
         }
     }
 }

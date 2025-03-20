@@ -19,6 +19,8 @@ struct BusinessShowcaseView: View {
     @ObservedObject var businessVM: BusinessViewModel
     @State private var isOptionsPopoverDisplayed: Bool = false
     @State private var isReportScreenPresented: Bool = false
+    @State private var isMapDisplayed: Bool = false
+    @State private var isFullScreenImageDisplayed: Bool = false
     
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
@@ -41,6 +43,9 @@ struct BusinessShowcaseView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(height: imageSize)
+        .fullScreenCover(isPresented: $isFullScreenImageDisplayed) {
+            FullScreenUrlImage(url: self.showcase.imageUrl ?? "")
+        }
         .navigationDestination(isPresented: $isReportScreenPresented) {
             ReportScreen(
                 reportedUserUid: showcase.ownerUid,
@@ -62,6 +67,9 @@ struct BusinessShowcaseView: View {
                 .frame(width: imageSize, height: imageSize)
                 .cornerRadius(8)
                 .clipped()
+                .onTapGesture {
+                    self.isFullScreenImageDisplayed = true
+                }
         } else {
             Image(systemName: "photo")
                 .resizable()
@@ -155,14 +163,19 @@ struct BusinessShowcaseView: View {
         HStack {
             if showcase.isLocationVisible {
                 Button {
-                    // TODO: Go To Maps
+                    self.isMapDisplayed = true
                 } label: {
                     HStack(spacing: 4) {
                         Image(systemName: "map")
                         Text("\(String(showcase.distance))m")
                     }
+                    .foregroundStyle(.blue)
                 }
+                .buttonStyle(.plain)
             }
+        }
+        .navigationDestination(isPresented: $isMapDisplayed) {
+            MapView(latitude: showcase.latitude, longitude: showcase.longitude)
         }
     }
     
