@@ -911,7 +911,7 @@
 				EDA30DED2B7FBAF8003EB22D /* LaunchScreen.swift */,
 				EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */,
 				ED598BE92B7C121000B6C23D /* Authentication */,
-				ED5CC5162B97BE91009B17E3 /* Posts */,
+				ED5CC5162B97BE91009B17E3 /* Home */,
 				ED755F112BB4D521004BC6C3 /* Message */,
 				EDE1991D2CCB67D20065206C /* Discover */,
 				EDEF7A752D5250500030B7A6 /* Community */,
@@ -924,7 +924,7 @@
 			path = Screen;
 			sourceTree = "<group>";
 		};
-		ED5CC5162B97BE91009B17E3 /* Posts */ = {
+		ED5CC5162B97BE91009B17E3 /* Home */ = {
 			isa = PBXGroup;
 			children = (
 				ED598BEA2B7C121D00B6C23D /* Feed */,
@@ -935,7 +935,7 @@
 				ED6DD4972B82E5DB00ADBB64 /* Location */,
 				ED6E84CC2B882DD800B94F5C /* Like */,
 			);
-			path = Posts;
+			path = Home;
 			sourceTree = "<group>";
 		};
 		ED5CC5172B97BEC2009B17E3 /* Profile */ = {

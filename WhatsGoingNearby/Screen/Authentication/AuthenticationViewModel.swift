@@ -303,9 +303,10 @@ extension AuthenticationViewModel {
             } else if error == .unauthorized {
                 await getUserBanExpirationDate(token: token)
             } else {
-                signOut()
-                overlayError = (true, "Status Code: \(LocalState.lastResponseStatusCode)")
+//                signOut()
+                overlayError = (true, "Debug: Esse error se refere à função getUserInfo")
                 // 🚨 O FAMOSO ERRO ESTÁ AQUI!!!
+                // Esse erro faz com que, ao retornar ao app, o usuário esteja deslogado
             }
         }
         return false

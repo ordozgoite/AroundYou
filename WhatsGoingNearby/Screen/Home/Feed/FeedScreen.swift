@@ -55,12 +55,12 @@ struct FeedScreen: View {
                     }
                 }
                 
-                ToolbarItem {
-                    NavigationLink(destination: ChatListScreen(socket: socket).environmentObject(authVM)) {
-                        Image(systemName: "bubble")
-                    }
-                    .overlay(CustomBadge(count: unreadChats))
-                }
+//                ToolbarItem {
+//                    NavigationLink(destination: ChatListScreen(socket: socket).environmentObject(authVM)) {
+//                        Image(systemName: "bubble")
+//                    }
+//                    .overlay(CustomBadge(count: unreadChats))
+//                }
             }
             .navigationTitle("Around You")
             .navigationBarTitleDisplayMode(.large)

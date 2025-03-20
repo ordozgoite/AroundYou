@@ -944,6 +944,9 @@
     "Data & Privacy" : {
 
     },
+    "Debug: Esse error se refere à função getUserInfo" : {
+
+    },
     "Delete" : {
       "localizations" : {
         "pt-BR" : {
@@ -1695,6 +1698,9 @@
     "Hiding Account" : {
 
     },
+    "Home" : {
+
+    },
     "Hungry" : {
       "localizations" : {
         "pt-BR" : {
@@ -2303,9 +2309,6 @@
         }
       }
     },
-    "People" : {
-
-    },
     "Photos" : {
       "localizations" : {
         "pt-BR" : {
@@ -2472,9 +2475,6 @@
           }
         }
       }
-    },
-    "Posts" : {
-
     },
     "Posts on AroundYou remain active for just **8 hours**, ensuring you discover timely and relevant information effortlessly." : {
       "extractionState" : "stale",
@@ -3112,9 +3112,6 @@
           }
         }
       }
-    },
-    "Status Code: %lld" : {
-
     },
     "Temporary posts ⏳" : {
       "localizations" : {
