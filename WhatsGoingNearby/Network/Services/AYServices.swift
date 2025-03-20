@@ -97,10 +97,15 @@ protocol AYServiceable {
     func postCommunityMessage(communityId: String, latitude: Double, longitude: Double, text: String, repliedMessageId: String?, token: String) async -> Result<CommunityMessage, RequestError>
     func getCommunityMessages(communityId: String, timestamp: Int?, token: String) async -> Result<[CommunityMessage], RequestError>
     func deleteCommunityMessage(communityMessageId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    
+    // Business
+    func postNewBusiness(business: Business, token: String) async -> Result<Business, RequestError>
+    func getBusinessesNearBy(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError>
+    func deleteBusiness(businessId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func getBusinessByUser(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
-    
     static let shared = AYServices()
     private init() {}
     
@@ -378,5 +383,23 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func deleteCommunityMessage(communityMessageId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.deleteCommunityMessage(communityMessageId: communityMessageId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    // MARK: - Business
+    
+    func postNewBusiness(business: Business, token: String) async -> Result<Business, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewBusiness(business: business, token: token), responseModel: Business.self)
+    }
+    
+    func getBusinessesNearBy(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getBusinessesNearBy(location: location, token: token), responseModel: [FormattedBusinessShowcase].self)
+    }
+    
+    func deleteBusiness(businessId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteBusiness(businessId: businessId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func getBusinessByUser(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getBusinessByUser(location: location, token: token), responseModel: [FormattedBusinessShowcase].self)
     }
 }

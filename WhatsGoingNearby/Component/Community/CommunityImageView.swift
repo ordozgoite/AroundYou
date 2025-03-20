@@ -26,7 +26,6 @@ struct CommunityImageView: View {
         } else {
             CustomPerson3CircleFill(size: size)
         }
-            
     }
 }
 

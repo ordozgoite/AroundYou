@@ -25,8 +25,10 @@ struct FullScreenUrlImage: View {
             Exit()
         }
         .onAppear {
-            startAnimation()
-            loadImage(from: URL(string: url)!)
+            Task {
+                startAnimation()
+                await loadImage()
+            }
         }
     }
     
@@ -65,16 +67,8 @@ struct FullScreenUrlImage: View {
         }
     }
     
-    private func loadImage(from url: URL) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else {
-                print("Failed to load image from URL:", error ?? "Unknown error")
-                return
-            }
-            DispatchQueue.main.async {
-                loadedImage = UIImage(data: data)
-            }
-        }.resume()
+    private func loadImage() async {
+        self.loadedImage = await KingfisherService.shared.loadImage(from: self.url)
     }
 }
 

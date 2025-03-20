@@ -65,6 +65,9 @@
     "[Learn More](https://aroundyou3.wordpress.com/policy-privacy)" : {
 
     },
+    "@" : {
+
+    },
     "@%@" : {
       "localizations" : {
         "pt-BR" : {
@@ -109,6 +112,9 @@
           }
         }
       }
+    },
+    "%@m" : {
+
     },
     "%lld" : {
 
@@ -374,10 +380,16 @@
         }
       }
     },
+    "Add Business" : {
+
+    },
     "Add Community Description" : {
 
     },
     "Add Group Description" : {
+
+    },
+    "Add Photo" : {
 
     },
     "admin" : {
@@ -636,6 +648,9 @@
     "Briefly describe your Community..." : {
 
     },
+    "Business" : {
+
+    },
     "By signing up, you agree to our [Terms of Use](https://aroundyou3.wordpress.com/terms-of-use) and [Privacy Policy](https://aroundyou3.wordpress.com/policy-privacy)." : {
       "localizations" : {
         "pt-BR" : {
@@ -700,6 +715,9 @@
         }
       }
     },
+    "Category" : {
+
+    },
     "Chats" : {
       "localizations" : {
         "pt-BR" : {
@@ -732,6 +750,9 @@
           }
         }
       }
+    },
+    "Choose a Category" : {
+
     },
     "Choose a username" : {
       "extractionState" : "stale",
@@ -876,6 +897,9 @@
         }
       }
     },
+    "Contact" : {
+
+    },
     "Continue" : {
 
     },
@@ -951,6 +975,9 @@
           }
         }
       }
+    },
+    "Delete Business" : {
+
     },
     "Delete Comment" : {
       "localizations" : {
@@ -1058,6 +1085,12 @@
         }
       }
     },
+    "Describe your business" : {
+
+    },
+    "Description" : {
+
+    },
     "Description:" : {
 
     },
@@ -1154,6 +1187,9 @@
       }
     },
     "Display Location:" : {
+
+    },
+    "Display Precise Location" : {
 
     },
     "Distance: %@ meters" : {
@@ -1435,6 +1471,15 @@
           }
         }
       }
+    },
+    "Error trying to get user ban expiration date" : {
+
+    },
+    "Error trying to post Business." : {
+
+    },
+    "Error trying to post new user" : {
+
     },
     "Error trying to select photo." : {
       "localizations" : {
@@ -1759,6 +1804,9 @@
     "Iniciar Gravação" : {
 
     },
+    "Instagram username" : {
+
+    },
     "Interact with people 🌐" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1874,6 +1922,9 @@
     "Leaving Community..." : {
 
     },
+    "Let potential customers know how to reach you easily." : {
+
+    },
     "liked" : {
       "localizations" : {
         "pt-BR" : {
@@ -1907,6 +1958,9 @@
       }
     },
     "Loading..." : {
+
+    },
+    "Location" : {
 
     },
     "Location 📍" : {
@@ -2053,11 +2107,13 @@
     "My Age" : {
 
     },
+    "My Businesses" : {
+
+    },
     "My Profile" : {
 
     },
     "Name" : {
-      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -2068,6 +2124,9 @@
       }
     },
     "New Community" : {
+
+    },
+    "No business found nearby." : {
 
     },
     "No communities found nearby." : {
@@ -2530,6 +2589,12 @@
         }
       }
     },
+    "Publish" : {
+
+    },
+    "Publishing..." : {
+
+    },
     "Recover Password" : {
       "localizations" : {
         "pt-BR" : {
@@ -2726,6 +2791,9 @@
           }
         }
       }
+    },
+    "Report Business" : {
+
     },
     "Report Comment" : {
       "localizations" : {
@@ -3045,6 +3113,9 @@
         }
       }
     },
+    "Status Code: %lld" : {
+
+    },
     "Temporary posts ⏳" : {
       "localizations" : {
         "pt-BR" : {
@@ -3241,6 +3312,9 @@
           }
         }
       }
+    },
+    "Type your business' name" : {
+
     },
     "Unblock" : {
       "localizations" : {
@@ -3561,6 +3635,9 @@
     "You can enable Discover Notifications to stay updated when someone matching your interests is nearby." : {
 
     },
+    "You can only have one active Business at a time." : {
+
+    },
     "You can send only one message with this invite. The chat will unlock once they respond." : {
 
     },
@@ -3579,6 +3656,9 @@
           }
         }
       }
+    },
+    "You don't have any business published." : {
+
     },
     "You have no notifications yet." : {
       "localizations" : {
@@ -3698,6 +3778,9 @@
           }
         }
       }
+    },
+    "Your location will be used to display your business to people nearby." : {
+
     },
     "Your location:" : {
       "localizations" : {

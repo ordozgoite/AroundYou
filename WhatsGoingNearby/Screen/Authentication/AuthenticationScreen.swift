@@ -46,7 +46,7 @@ struct AuthenticationScreen: View {
                         
                         Or()
                         
-                        SiwAButton()
+                        SiwA()
                         
                         if authVM.flow == .login  {
                             Button("Forgot your password?") {
@@ -137,7 +137,20 @@ struct AuthenticationScreen: View {
         }
     }
     
-    //MARK: - Sign in with Apple Button
+    //MARK: - SiwA
+    
+    @ViewBuilder
+    private func SiwA() -> some View {
+        if self.colorScheme == .light {
+            SiwAButton()
+                .signInWithAppleButtonStyle(.black)
+        } else {
+            SiwAButton()
+                .signInWithAppleButtonStyle(.white)
+        }
+    }
+    
+    //MARK: - SiwA Button
     
     @ViewBuilder
     private func SiwAButton() -> some View {
@@ -146,10 +159,10 @@ struct AuthenticationScreen: View {
         } onCompletion: { result in
             authVM.handleSignInWithAppleCompletion(result)
         }
-        .signInWithAppleButtonStyle(colorScheme == .light ? .black : .white)
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 58, maxHeight: 58)
         .cornerRadius(10)
     }
+    
 }
 
 #Preview {
