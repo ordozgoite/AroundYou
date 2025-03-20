@@ -183,6 +183,8 @@
 		ED7D8F912BBC5D1C00544A8B /* EditPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7D8F902BBC5D1C00544A8B /* EditPostViewModel.swift */; };
 		ED7D8F932BBC5D2700544A8B /* EditPostScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7D8F922BBC5D2700544A8B /* EditPostScreen.swift */; };
 		ED82CD0C2D8B09390075EFB8 /* MyBusinessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED82CD0B2D8B09390075EFB8 /* MyBusinessView.swift */; };
+		ED82CD0E2D8CA8170075EFB8 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED82CD0D2D8CA8170075EFB8 /* HomeScreen.swift */; };
+		ED82CD112D8CAB660075EFB8 /* AYFeatureSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED82CD102D8CAB660075EFB8 /* AYFeatureSelector.swift */; };
 		ED842C502BCF5A29006B8DBB /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED842C4F2BCF5A29006B8DBB /* Color.swift */; };
 		ED842C522BD0A9DB006B8DBB /* ComposePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED842C512BD0A9DB006B8DBB /* ComposePostView.swift */; };
 		ED8618692BB9E48400A26121 /* CameraRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8618682BB9E48400A26121 /* CameraRepresentable.swift */; };
@@ -426,6 +428,8 @@
 		ED7D8F902BBC5D1C00544A8B /* EditPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewModel.swift; sourceTree = "<group>"; };
 		ED7D8F922BBC5D2700544A8B /* EditPostScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostScreen.swift; sourceTree = "<group>"; };
 		ED82CD0B2D8B09390075EFB8 /* MyBusinessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBusinessView.swift; sourceTree = "<group>"; };
+		ED82CD0D2D8CA8170075EFB8 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
+		ED82CD102D8CAB660075EFB8 /* AYFeatureSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYFeatureSelector.swift; sourceTree = "<group>"; };
 		ED842C4F2BCF5A29006B8DBB /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		ED842C512BD0A9DB006B8DBB /* ComposePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposePostView.swift; sourceTree = "<group>"; };
 		ED8618682BB9E48400A26121 /* CameraRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraRepresentable.swift; sourceTree = "<group>"; };
@@ -776,6 +780,7 @@
 		ED598BF32B7C16DA00B6C23D /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				ED82CD0F2D8CAB540075EFB8 /* Home */,
 				ED30CE802D6F9D33001FB213 /* Business */,
 				EDEF7A762D52506C0030B7A6 /* Community */,
 				EDE199262CCC608C0065206C /* Discover */,
@@ -927,6 +932,7 @@
 		ED5CC5162B97BE91009B17E3 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				ED82CD0D2D8CA8170075EFB8 /* HomeScreen.swift */,
 				ED598BEA2B7C121D00B6C23D /* Feed */,
 				EDA322422B7DB059009905B5 /* Create Post */,
 				ED7D8F8F2BBC5CF700544A8B /* Edit Post */,
@@ -1083,6 +1089,14 @@
 				ED7D8F922BBC5D2700544A8B /* EditPostScreen.swift */,
 			);
 			path = "Edit Post";
+			sourceTree = "<group>";
+		};
+		ED82CD0F2D8CAB540075EFB8 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				ED82CD102D8CAB660075EFB8 /* AYFeatureSelector.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		ED86186A2BB9E6C400A26121 /* Camera */ = {
@@ -1493,6 +1507,7 @@
 				ED6E84F42B89C82C00B94F5C /* PostLocationScreen.swift in Sources */,
 				ED22678F2B9026C1006FE9D3 /* NotificationManager.swift in Sources */,
 				ED598BFA2B7C217400B6C23D /* AYProgressView.swift in Sources */,
+				ED82CD0E2D8CA8170075EFB8 /* HomeScreen.swift in Sources */,
 				ED3B54DC2CCCAD39007AA1D0 /* FloatingHeartsButtonView.swift in Sources */,
 				ED755F1B2BB4E54F004BC6C3 /* MessageScreen.swift in Sources */,
 				ED30CE562D696BD2001FB213 /* ImageDisplaySource.swift in Sources */,
@@ -1598,6 +1613,7 @@
 				EDE8B3792BC3502200DFF750 /* ExpandedPostSettings.swift in Sources */,
 				ED24FAF82B9E6535002F7A11 /* ReportDTO.swift in Sources */,
 				ED9A33332D80BB9D007EB6FC /* Business.swift in Sources */,
+				ED82CD112D8CAB660075EFB8 /* AYFeatureSelector.swift in Sources */,
 				ED8CDFC22BB2702E00B8852E /* PostTag.swift in Sources */,
 				ED9A33372D80BC62007EB6FC /* Location.swift in Sources */,
 				ED2F1A6E2B90E4FA001F4300 /* IndepCommentViewModel.swift in Sources */,

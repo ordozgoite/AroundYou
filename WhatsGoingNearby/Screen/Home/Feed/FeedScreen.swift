@@ -13,7 +13,6 @@ struct FeedScreen: View {
     @StateObject private var feedVM = FeedViewModel()
     @StateObject private var communityVM = CommunityViewModel()
     @ObservedObject var locationManager: LocationManager
-//    @StateObject public var notificationManager = NotificationManager()
     @ObservedObject var socket: SocketService
     
     @State private var refreshObserver = NotificationCenter.default

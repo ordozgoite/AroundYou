@@ -27,7 +27,7 @@ struct MainTabView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            FeedScreen(locationManager: locationManager, socket: socket)
+            HomeScreen(locationManager: locationManager, socket: socket)
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }

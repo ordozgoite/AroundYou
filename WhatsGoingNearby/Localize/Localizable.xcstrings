@@ -2855,6 +2855,9 @@
     "Search Around You" : {
 
     },
+    "Seção" : {
+
+    },
     "Second Location" : {
       "localizations" : {
         "pt-BR" : {
@@ -3414,6 +3417,9 @@
           }
         }
       }
+    },
+    "UrgentScreen" : {
+
     },
     "Username" : {
       "localizations" : {
