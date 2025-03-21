@@ -37,7 +37,8 @@ struct HomeScreen: View {
                     BusinessScreen(businessVM: businessVM, locationManager: locationManager)
                         .environmentObject(authVM)
                 case .urgent:
-                    Text("UrgentScreen")
+                    UrgentScreen()
+                        .environmentObject(authVM)
                 case .communities:
                     CommunityListScreen(communityVM: communityVM, locationManager: locationManager, socket: socket)
                         .environmentObject(authVM)

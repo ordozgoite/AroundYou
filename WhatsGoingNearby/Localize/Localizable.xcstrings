@@ -446,6 +446,9 @@
         }
       }
     },
+    "Animal Violence" : {
+
+    },
     "Answering %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1199,6 +1202,9 @@
         }
       }
     },
+    "Domestic Violence" : {
+
+    },
     "Don't Allow" : {
       "localizations" : {
         "pt-BR" : {
@@ -1507,6 +1513,9 @@
     "Female" : {
 
     },
+    "Filter" : {
+
+    },
     "Filters" : {
 
     },
@@ -1637,6 +1646,9 @@
         }
       }
     },
+    "Help me!" : {
+
+    },
     "Help us to improve the app we love! If you find any failure, tell us what happened." : {
       "localizations" : {
         "pt-BR" : {
@@ -1720,6 +1732,9 @@
           }
         }
       }
+    },
+    "I lost something" : {
+
     },
     "I'm a..." : {
 
@@ -2017,6 +2032,9 @@
           }
         }
       }
+    },
+    "Lost items" : {
+
     },
     "Male" : {
 
@@ -2764,6 +2782,9 @@
         }
       }
     },
+    "Report animal abuse" : {
+
+    },
     "Report Bug" : {
       "localizations" : {
         "pt-BR" : {
@@ -2798,6 +2819,9 @@
           }
         }
       }
+    },
+    "Report domestic violence" : {
+
     },
     "Report Post" : {
       "localizations" : {
@@ -3402,9 +3426,6 @@
           }
         }
       }
-    },
-    "UrgentScreen" : {
-
     },
     "Username" : {
       "localizations" : {
