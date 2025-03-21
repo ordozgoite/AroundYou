@@ -10,7 +10,7 @@ import SwiftUI
 struct DiscoverScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @StateObject private var discoverVM = DiscoverViewModel()
+    @ObservedObject var discoverVM: DiscoverViewModel
     @ObservedObject var locationManager: LocationManager
     @ObservedObject var socket: SocketService
     

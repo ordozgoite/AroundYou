@@ -10,7 +10,7 @@ import SwiftUI
 struct BusinessScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @StateObject private var businessVM = BusinessViewModel()
+    @ObservedObject var businessVM: BusinessViewModel
     @ObservedObject var locationManager: LocationManager
     
     @State private var refreshObserver = NotificationCenter.default
@@ -44,7 +44,7 @@ struct BusinessScreen: View {
             .onDisappear {
                 stopTimer()
             }
-            .navigationTitle("Business")
+//            .navigationTitle("Business")
             .toolbar {
                 MyBusiness()
                 
@@ -191,5 +191,5 @@ extension BusinessScreen {
 }
 
 #Preview {
-    BusinessScreen(locationManager: LocationManager())
+    BusinessScreen(businessVM: BusinessViewModel(), locationManager: LocationManager())
 }

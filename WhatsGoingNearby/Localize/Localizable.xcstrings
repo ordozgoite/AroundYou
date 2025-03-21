@@ -460,9 +460,6 @@
     "Approve" : {
 
     },
-    "Around You" : {
-
-    },
     "AroundYou displays posts to everybody within a **1km radius**, enabling interaction for making friends, asking for help, and getting information about places and events around you." : {
       "localizations" : {
         "pt-BR" : {
@@ -648,9 +645,6 @@
     "Briefly describe your Community..." : {
 
     },
-    "Business" : {
-
-    },
     "By signing up, you agree to our [Terms of Use](https://aroundyou3.wordpress.com/terms-of-use) and [Privacy Policy](https://aroundyou3.wordpress.com/policy-privacy)." : {
       "localizations" : {
         "pt-BR" : {
@@ -829,9 +823,6 @@
           }
         }
       }
-    },
-    "Communities" : {
-
     },
     "Communities Around You" : {
 
@@ -1144,9 +1135,6 @@
           }
         }
       }
-    },
-    "Discover" : {
-
     },
     "Discover endless features with AroundYou! Meet new people or reconnect with old friends, search for local information, ask for and offer help, and explore nearby events - all at your fingertips." : {
       "localizations" : {
@@ -2853,9 +2841,6 @@
 
     },
     "Search Around You" : {
-
-    },
-    "Seção" : {
 
     },
     "Second Location" : {

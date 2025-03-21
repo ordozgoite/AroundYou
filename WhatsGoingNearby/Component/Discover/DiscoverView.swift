@@ -37,7 +37,7 @@ struct DiscoverView: View {
                     }
                 }
             }
-            .navigationTitle("Discover")
+//            .navigationTitle("Discover")
         }
         .onReceive(refreshObserver) { _ in
             Task {

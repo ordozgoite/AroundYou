@@ -13,38 +13,38 @@ struct HomeScreen: View {
     @ObservedObject var locationManager: LocationManager
     @ObservedObject var socket: SocketService
     
+    // Views States
+    @StateObject private var feedVM = FeedViewModel()
+    @StateObject private var discoverVM = DiscoverViewModel()
+    @StateObject private var businessVM = BusinessViewModel()
+    @StateObject private var communityVM = CommunityViewModel()
+    
     @State private var selectedSection: HomeSection = .posts
 
     var body: some View {
-        VStack {
-            Picker("Seção", selection: $selectedSection) {
-                ForEach(HomeSection.allCases, id: \.self) { section in
-                    Text(section.rawValue).tag(section)
+        NavigationStack {
+            VStack {
+                AYFeatureSelector(selectedSection: $selectedSection)
+                
+                switch selectedSection {
+                case .posts:
+                    FeedScreen(feedVM: feedVM, locationManager: locationManager, socket: socket)
+                        .environmentObject(authVM)
+                case .discover:
+                    DiscoverScreen(discoverVM: discoverVM, locationManager: locationManager, socket: socket)
+                        .environmentObject(authVM)
+                case .business:
+                    BusinessScreen(businessVM: businessVM, locationManager: locationManager)
+                        .environmentObject(authVM)
+                case .urgent:
+                    Text("UrgentScreen")
+                case .communities:
+                    CommunityListScreen(communityVM: communityVM, locationManager: locationManager, socket: socket)
+                        .environmentObject(authVM)
                 }
+                
+                Spacer()
             }
-            .pickerStyle(.segmented)
-            .padding()
-
-            Spacer()
-
-            switch selectedSection {
-            case .posts:
-                FeedScreen(locationManager: locationManager, socket: socket)
-                    .environmentObject(authVM)
-            case .discover:
-                DiscoverScreen(locationManager: locationManager, socket: socket)
-                    .environmentObject(authVM)
-            case .business:
-                BusinessScreen(locationManager: locationManager)
-                    .environmentObject(authVM)
-            case .urgent:
-                Text("UrgentScreen")
-            case .communities:
-                CommunityListScreen(locationManager: locationManager, socket: socket)
-                    .environmentObject(authVM)
-            }
-            
-            Spacer()
         }
     }
 }

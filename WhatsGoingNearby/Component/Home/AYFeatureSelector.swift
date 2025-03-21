@@ -48,7 +48,7 @@ enum HomeSection: String, CaseIterable {
 import SwiftUI
 
 struct AYFeatureSelector: View {
-    @State private var selectedSection: HomeSection = .posts
+    @Binding var selectedSection: HomeSection
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -94,5 +94,5 @@ struct AYFeatureSelector: View {
 }
 
 #Preview {
-    AYFeatureSelector()
+    AYFeatureSelector(selectedSection: .constant(.posts))
 }

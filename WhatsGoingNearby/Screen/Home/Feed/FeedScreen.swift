@@ -10,19 +10,13 @@ import SwiftUI
 struct FeedScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @StateObject private var feedVM = FeedViewModel()
+    @ObservedObject var feedVM: FeedViewModel
     @StateObject private var communityVM = CommunityViewModel()
     @ObservedObject var locationManager: LocationManager
     @ObservedObject var socket: SocketService
     
     @State private var refreshObserver = NotificationCenter.default
         .publisher(for: .refreshLocationSensitiveData)
-    
-    let pub = NotificationCenter.default
-        .publisher(for:.updateBadge)
-
-    @State private var badgeTimer: Timer?
-    @State private var unreadChats: Int = 0
     
     var body: some View {
         NavigationStack {
@@ -44,8 +38,6 @@ struct FeedScreen: View {
                 }
                 
                 AYErrorAlert(message: feedVM.overlayError.1 , isErrorAlertPresented: $feedVM.overlayError.0)
-                
-//                Navigation()
             }
             .toolbar {
                 ToolbarItem {
@@ -53,29 +45,12 @@ struct FeedScreen: View {
                         Image(systemName: "bell")
                     }
                 }
-                
-//                ToolbarItem {
-//                    NavigationLink(destination: ChatListScreen(socket: socket).environmentObject(authVM)) {
-//                        Image(systemName: "bubble")
-//                    }
-//                    .overlay(CustomBadge(count: unreadChats))
-//                }
             }
-            .navigationTitle("Around You")
-            .navigationBarTitleDisplayMode(.large)
-        }
-        .onChange(of: socket.status) { status in
-            if status == .connected {
-                updateBadge()
-            }
-        }
-        .onReceive(pub) { (output) in
-            self.updateBadge()
+//            .navigationTitle("Around You")
+//            .navigationBarTitleDisplayMode(.large)
         }
         .onAppear {
             startUpdatingFeed()
-            updateBadge()
-            listenToMessages()
         }
         .onReceive(refreshObserver) { _ in
             Task {
@@ -164,54 +139,7 @@ struct FeedScreen: View {
         }
     }
     
-    //MARK: - Navigation
-    
-//    @ViewBuilder
-//    private func Navigation() -> some View {
-//        NavigationLink(
-//            destination: IndepCommentScreen(postId: notificationManager.publicationId ?? "", location: $locationManager.location, socket: socket),
-//            isActive: $notificationManager.isPublicationDisplayed,
-//            label: { EmptyView() }
-//        )
-//        
-//        NavigationLink(
-//            destination: MessageScreen(
-//                chatId: notificationManager.chatId ?? "",
-//                username: notificationManager.username ?? "",
-//                otherUserUid: notificationManager.senderUserUid ?? "",
-//                chatPic: notificationManager.chatPic,
-//                socket: socket),
-//            isActive: $notificationManager.isChatDisplayed,
-//            label: { EmptyView() }
-//        )
-//    }
-    
     //MARK: - Private Method
-    
-    private func updateBadge() {
-        Task {
-            self.unreadChats = try await getChatBadge() ?? 0
-        }
-    }
-    
-    private func listenToMessages() {
-        socket.socket?.on("badge") { data, ack in
-            updateBadge()
-        }
-    }
-    
-    private func getChatBadge() async throws -> Int? {
-        let token = try await authVM.getFirebaseToken()
-        let result = await AYServices.shared.getUnreadChatsNumber(token: token)
-        
-        switch result {
-        case .success(let response):
-            return response.quantity
-        case .failure:
-            print("❌ Error trying to get unread messages number.")
-        }
-        return nil
-    }
     
     private func startUpdatingFeed() {
         feedVM.feedTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
