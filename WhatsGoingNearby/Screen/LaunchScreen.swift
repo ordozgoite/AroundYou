@@ -35,7 +35,7 @@ struct LaunchScreen: View {
     
     private func runAnimation() {
         withAnimation(.easeInOut(duration: 0.5).delay(1)) {
-            scale = 80
+            scale = 150
             opacity = 0
         }
         

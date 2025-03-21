@@ -18,6 +18,7 @@ struct DiscoverScreen: View {
         ZStack {
             if discoverVM.isLoading {
                 ProgressView()
+                    .frame(maxHeight: .infinity, alignment: .center)
             } else if !authVM.isUserDiscoverable {
                 ActivateDiscoverView(isLoading: $discoverVM.isActivatingDiscover) {
                     Task {

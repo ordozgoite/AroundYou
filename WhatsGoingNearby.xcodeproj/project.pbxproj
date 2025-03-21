@@ -915,8 +915,9 @@
 			children = (
 				EDA30DED2B7FBAF8003EB22D /* LaunchScreen.swift */,
 				EDEECA202B8A6DA100BD517D /* OnBoardingScreen.swift */,
+				ED82CD0D2D8CA8170075EFB8 /* HomeScreen.swift */,
 				ED598BE92B7C121000B6C23D /* Authentication */,
-				ED5CC5162B97BE91009B17E3 /* Home */,
+				ED5CC5162B97BE91009B17E3 /* Posts */,
 				ED755F112BB4D521004BC6C3 /* Message */,
 				EDE1991D2CCB67D20065206C /* Discover */,
 				EDEF7A752D5250500030B7A6 /* Community */,
@@ -929,10 +930,9 @@
 			path = Screen;
 			sourceTree = "<group>";
 		};
-		ED5CC5162B97BE91009B17E3 /* Home */ = {
+		ED5CC5162B97BE91009B17E3 /* Posts */ = {
 			isa = PBXGroup;
 			children = (
-				ED82CD0D2D8CA8170075EFB8 /* HomeScreen.swift */,
 				ED598BEA2B7C121D00B6C23D /* Feed */,
 				EDA322422B7DB059009905B5 /* Create Post */,
 				ED7D8F8F2BBC5CF700544A8B /* Edit Post */,
@@ -941,7 +941,7 @@
 				ED6DD4972B82E5DB00ADBB64 /* Location */,
 				ED6E84CC2B882DD800B94F5C /* Like */,
 			);
-			path = Home;
+			path = Posts;
 			sourceTree = "<group>";
 		};
 		ED5CC5172B97BEC2009B17E3 /* Profile */ = {
