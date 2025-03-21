@@ -42,7 +42,7 @@ class BusinessViewModel: ObservableObject {
     }
     
     func getBusinessByUser(withLocation location: Location, token: String) async {
-        isFetchingUserBusinesses = true
+        if !initialBusinessesFetched { isFetchingUserBusinesses = true }
         defer { isFetchingUserBusinesses = false }
         
         let result = await AYServices.shared.getBusinessByUser(location: location, token: token)

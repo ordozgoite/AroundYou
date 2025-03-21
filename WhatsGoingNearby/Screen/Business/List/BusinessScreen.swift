@@ -33,7 +33,7 @@ struct BusinessScreen: View {
                         group.addTask { try? await getBusinessesFromLocation() }
                         group.addTask { try? await getBusinessesFromUser() }
                     }
-                    startUpdatingUsers()
+                    startUpdatingBusiness()
                 }
             }
             .onReceive(refreshObserver) { _ in
@@ -151,7 +151,7 @@ struct BusinessScreen: View {
 // MARK: - Private Methods
 
 extension BusinessScreen {
-    private func startUpdatingUsers() {
+    private func startUpdatingBusiness() {
         businessVM.timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
             Task {
                 try await getBusinessesFromLocation()

@@ -10,7 +10,7 @@ import SwiftUI
 enum HomeSection: String, CaseIterable {
     case posts = "Posts"
     case discover = "People"
-    case business = "Business"
+    case business = "Businesses"
     case urgent = "Urgent"
     case communities = "Communities"
     
@@ -55,7 +55,7 @@ struct AYFeatureSelector: View {
             HStack {
                 ForEach(HomeSection.allCases, id: \.self) { section in
                     ItemView(forSection: section)
-                        .animation(.spring(), value: selectedSection) // Animação aplicada às mudanças de estado
+                        .animation(.spring(), value: selectedSection)
                 }
             }
         }
@@ -76,7 +76,7 @@ struct AYFeatureSelector: View {
             if selectedSection == section {
                 Text(section.rawValue)
                     .foregroundStyle(.white)
-                    .transition(.move(edge: .trailing).combined(with: .opacity)) // Animação ao aparecer/desaparecer
+                    .transition(.move(edge: .trailing).combined(with: .opacity))
             }
         }
         .padding()
@@ -86,9 +86,16 @@ struct AYFeatureSelector: View {
                 .animation(.easeInOut, value: selectedSection)
         )
         .onTapGesture {
-            withAnimation(.spring()) {
-                self.selectedSection = section
+            if self.selectedSection != section {
+                changeSelectedSection(section)
             }
+        }
+    }
+    
+    private func changeSelectedSection(_ section: HomeSection) {
+        withAnimation(.spring()) {
+            hapticFeedback(style: .soft)
+            self.selectedSection = section
         }
     }
 }
