@@ -53,6 +53,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var name: String?
     @Published var profilePic: String?
     @Published var biography: String?
+    @Published var isGettingUserInfo: Bool = false
     
     // User Discover Preferences
     @Published var isUserDiscoverable: Bool = false
@@ -283,8 +284,13 @@ extension AuthenticationViewModel {
         return false
     }
     
-    func getUserInfo(token: String) async -> Bool {
+    func getUserInfo(token: String) async {
+        isGettingUserInfo = true
+        defer { isGettingUserInfo = false }
+        
         let result = await AYServices.shared.getUserInfo(userRegistrationToken: LocalState.userRegistrationToken.isEmpty ? nil : LocalState.userRegistrationToken, preferredLanguage: getPreferredLanguage(), token: token)
+        
+        isGettingUserInfo = false
         
         switch result {
         case .success(let user):
@@ -292,10 +298,10 @@ extension AuthenticationViewModel {
         case .failure(let error):
             if error == .dataNotFound {
                 if usernameInput.isEmpty {
-                    return true
+                    goToUsernameScreen()
                 } else {
                     let isUsernameConflict = await postNewUser(username: usernameInput, name: nil, token: token)
-                    if isUsernameConflict { return true }
+                    if isUsernameConflict { goToUsernameScreen() }
                 }
             } else if error == .forbidden {
                 signOut()
@@ -303,13 +309,24 @@ extension AuthenticationViewModel {
             } else if error == .unauthorized {
                 await getUserBanExpirationDate(token: token)
             } else {
-//                signOut()
+                /*
+                 🚨 O FAMOSO ERRO ESTÁ AQUI!!!
+                 Esse erro faz com que, ao retornar ao app, o usuário esteja deslogado
+                 */
+                
+                displayRetryButton()
                 overlayError = (true, "Debug: Esse error se refere à função getUserInfo")
-                // 🚨 O FAMOSO ERRO ESTÁ AQUI!!!
-                // Esse erro faz com que, ao retornar ao app, o usuário esteja deslogado
+                // signOut()
             }
         }
-        return false
+    }
+    
+    private func goToUsernameScreen() {
+        NotificationCenter.default.post(name: .goToUsernameScreen, object: nil)
+    }
+    
+    private func displayRetryButton() {
+        NotificationCenter.default.post(name: .displayRetryGetUserInfoButton, object: nil)
     }
     
     private func deleteUser() async throws -> Bool {
@@ -354,7 +371,7 @@ extension AuthenticationViewModel {
         let (_, b, c) = errorMessage
         return b == nil && c == nil ? true : false
     }
-
+    
     func isSignupInputValid() -> Bool {
         errorMessage = (nil, nil, nil)
         if usernameInput.isEmpty { errorMessage.0 = "Please enter your username." }

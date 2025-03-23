@@ -1472,6 +1472,9 @@
     "Error trying to get user ban expiration date" : {
 
     },
+    "Error trying to get user info." : {
+
+    },
     "Error trying to post Business." : {
 
     },
@@ -2860,6 +2863,9 @@
           }
         }
       }
+    },
+    "Retry" : {
+
     },
     "Save" : {
 

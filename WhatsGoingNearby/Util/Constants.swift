@@ -13,6 +13,8 @@ extension Notification.Name {
     static let updateLocation = Notification.Name("updateLocation")
     static let updateBadge = Notification.Name("updateBadge")
     static let popCommunity = Notification.Name("popCommunity")
+    static let goToUsernameScreen = Notification.Name("goToUsernameScreen")
+    static let displayRetryGetUserInfoButton = Notification.Name("displayRetryGetUserInfoButton")
 }
 
 struct Constants {
