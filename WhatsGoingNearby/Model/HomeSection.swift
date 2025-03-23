@@ -10,9 +10,11 @@ import SwiftUI
 enum HomeSection: String, CaseIterable {
     case posts = "Posts"
     case discover = "People"
-    case business = "Businesses"
-    case urgent = "Urgent"
     case communities = "Communities"
+    case business = "Businesses"
+    case lostAndFound = "Lost and Found"
+    case report = "Reports"
+    case urgent = "Urgent"
     
     var iconName: String {
         return switch self {
@@ -26,6 +28,10 @@ enum HomeSection: String, CaseIterable {
             "light.beacon.max"
         case .communities:
             "person.3"
+        case .lostAndFound:
+            "magnifyingglass"
+        case .report:
+            "megaphone"
         }
     }
     
@@ -41,6 +47,10 @@ enum HomeSection: String, CaseIterable {
                 .red
         case .communities:
                 .brown
+        case .lostAndFound:
+                .teal
+        case .report:
+                .orange
         }
     }
 }
