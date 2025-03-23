@@ -290,8 +290,6 @@ extension AuthenticationViewModel {
         
         let result = await AYServices.shared.getUserInfo(userRegistrationToken: LocalState.userRegistrationToken.isEmpty ? nil : LocalState.userRegistrationToken, preferredLanguage: getPreferredLanguage(), token: token)
         
-        isGettingUserInfo = false
-        
         switch result {
         case .success(let user):
             updateCurrentInformation(for: user)
@@ -311,7 +309,7 @@ extension AuthenticationViewModel {
             } else {
                 /*
                  🚨 O FAMOSO ERRO ESTÁ AQUI!!!
-                 Esse erro faz com que, ao retornar ao app, o usuário esteja deslogado
+                 Esse erro faz com que, às vezes, ao retornar ao app, o usuário esteja deslogado (Corrigido?)
                  */
                 
                 displayRetryButton()

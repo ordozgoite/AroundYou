@@ -7,108 +7,51 @@
 
 import SwiftUI
 
-enum UrgentFilterOption: CaseIterable {
-    case all
-    case lost
-    case domesticViolence
-    case animalViolence
-    case sos
-    
-    var title: LocalizedStringKey {
-        return switch self {
-        case .all:
-            "All"
-        case .lost:
-            "Lost items"
-        case .domesticViolence:
-            "Domestic Violence"
-        case .animalViolence:
-            "Animal Violence"
-        case .sos:
-            "Help"
-        }
-    }
-    
-    var iconName: String {
-        return switch self {
-        case .all:
-            ""
-        case .lost:
-            "magnifyingglass"
-        case .domesticViolence:
-            "house"
-        case .animalViolence:
-            "dog"
-        case .sos:
-            "sos"
-        }
-    }
-}
-
 struct UrgentScreen: View {
-    
-    @State private var selectedFilterOption: UrgentFilterOption = .all
-    
     var body: some View {
         NavigationStack {
             VStack {
-                Filter()
+                Warning()
                 
-                Spacer()
+                AlertButton()
             }
-            .toolbar {
-                Plus()
-            }
+            .padding()
         }
     }
     
-    // MARK: - Filter
+    // MARK: - Warning
     
     @ViewBuilder
-    private func Filter() -> some View {
-        Picker("Filter", selection: $selectedFilterOption) {
-            ForEach(UrgentFilterOption.allCases, id: \.self) { option in
-                Label(option.title, systemImage: option.iconName)
-                    .tag(option)
-            }
+    private func Warning() -> some View {
+        VStack {
+            Image(systemName: "light.beacon.max")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 128)
+                .foregroundStyle(.gray)
+            
+            Text("This functionality should only be used in case of a real emergency. Your location will be automatically shared with the police.")
+                .multilineTextAlignment(.center)
+                .foregroundStyle(.gray)
         }
-        .pickerStyle(MenuPickerStyle())
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .trailing)
+        .frame(maxHeight: .infinity, alignment: .center)
     }
     
-    // MARK: - Plus
+    // MARK: - Alert Button
     
     @ViewBuilder
-    private func Plus() -> some View {
-        Menu {
-            Button {
-                // TODO: Go to Form
-            } label: {
-                Label("I lost something", systemImage: "magnifyingglass")
+    private func AlertButton() -> some View {
+        VStack(spacing: 0) {
+            AYButton(title: "Alert Police") {
+                // TODO: Integrar com a polícia
             }
+            .disabled(true)
             
-            Button {
-                // TODO: Go to Form
-            } label: {
-                Label("Report domestic violence", systemImage: "house")
-            }
-            
-            Button {
-                // TODO: Go to Form
-            } label: {
-                Label("Report animal abuse", systemImage: "dog")
-            }
-            
-            Button {
-                // TODO: Go to Form
-            } label: {
-                Label("Help me!", systemImage: "sos")
-            }
-        } label: {
-            Image(systemName: "plus")
+            Text("Under Construction.")
+                .foregroundStyle(.gray)
+                .font(.caption)
         }
-        
+        .frame(maxHeight: .infinity, alignment: .bottom)
     }
 }
 
