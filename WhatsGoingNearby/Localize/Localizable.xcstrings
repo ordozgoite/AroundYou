@@ -463,6 +463,9 @@
     "Approve" : {
 
     },
+    "Approximate date and time" : {
+
+    },
     "AroundYou displays posts to everybody within a **1km radius**, enabling interaction for making friends, asking for help, and getting information about places and events around you." : {
       "localizations" : {
         "pt-BR" : {
@@ -1865,6 +1868,9 @@
     "Invite %@ to chat" : {
 
     },
+    "Item description" : {
+
+    },
     "Join" : {
 
     },
@@ -1985,6 +1991,9 @@
         }
       }
     },
+    "Location and Date" : {
+
+    },
     "Longitude" : {
       "localizations" : {
         "pt-BR" : {
@@ -2029,6 +2038,12 @@
           }
         }
       }
+    },
+    "Lost & Found" : {
+
+    },
+    "Lost Item Information" : {
+
     },
     "Male" : {
 
@@ -2205,6 +2220,9 @@
           }
         }
       }
+    },
+    "Offer a reward?" : {
+
     },
     "OK" : {
       "localizations" : {
@@ -2549,6 +2567,9 @@
         }
       }
     },
+    "Provide the location and time when you lost the item to help with the search." : {
+
+    },
     "publication" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2846,6 +2867,9 @@
     "Retry" : {
 
     },
+    "Reward" : {
+
+    },
     "Save" : {
 
     },
@@ -3116,6 +3140,9 @@
         }
       }
     },
+    "Submit" : {
+
+    },
     "Temporary posts ⏳" : {
       "localizations" : {
         "pt-BR" : {
@@ -3225,6 +3252,9 @@
 
     },
     "These users want to join your community. Approve their request or ignore it." : {
+
+    },
+    "This feature is not available yet." : {
 
     },
     "This functionality should only be used in case of a real emergency. Your location will be automatically shared with the **police**." : {
@@ -3350,9 +3380,6 @@
           }
         }
       }
-    },
-    "Under Construction." : {
-
     },
     "Undo Send" : {
 
@@ -3528,6 +3555,9 @@
     "We'll match you with people who are interested in your gender and age." : {
 
     },
+    "What did you lose?" : {
+
+    },
     "What type of issue are you reporting?" : {
       "localizations" : {
         "pt-BR" : {
@@ -3559,6 +3589,9 @@
           }
         }
       }
+    },
+    "Where did you lose it?" : {
+
     },
     "Working" : {
       "localizations" : {
@@ -3639,6 +3672,9 @@
 
     },
     "You can enable Discover Notifications to stay updated when someone matching your interests is nearby." : {
+
+    },
+    "You can offer a reward to encourage people to return your item." : {
 
     },
     "You can only have one active Business at a time." : {

@@ -57,6 +57,11 @@ struct PlacesScreen: View {
             HelpView()
                 .environmentObject(authVM)
         }
+        .sheet(isPresented: $placesVM.isLostAndFoundScreenDisplayed) {
+            LostAndFoundView(isViewDisplayed: $placesVM.isLostAndFoundScreenDisplayed)
+                .environmentObject(authVM)
+        }
+        .interactiveDismissDisabled(true)
         .onAppear {
             startUpdatingFeed()
         }
@@ -100,9 +105,6 @@ struct PlacesScreen: View {
             VStack {
                 NewPostView()
                     .environmentObject(authVM)
-                
-//                CommunitySuggestionView(locationManager: locationManager)
-//                    .environmentObject(authVM)
                 
                 Posts(ofType: .active)
                 

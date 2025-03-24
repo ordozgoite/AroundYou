@@ -271,6 +271,7 @@
 		EDEECA232B8A77CE00BD517D /* meet.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA222B8A77CE00BD517D /* meet.json */; };
 		EDEECA252B8A77D500BD517D /* party.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA242B8A77D500BD517D /* party.json */; };
 		EDEECA272B8A7CD400BD517D /* TimerAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEECA262B8A7CD400BD517D /* TimerAnimation.swift */; };
+		EDEF4E7A2D91E723009CA424 /* LostAndFoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF4E792D91E723009CA424 /* LostAndFoundView.swift */; };
 		EDEF7A692D51C4EC0030B7A6 /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A682D51C4EC0030B7A6 /* Community.swift */; };
 		EDEF7A712D524E370030B7A6 /* CommunityImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A6F2D524E370030B7A6 /* CommunityImageView.swift */; };
 		EDEF7A722D524E370030B7A6 /* CommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A702D524E370030B7A6 /* CommunityView.swift */; };
@@ -515,6 +516,7 @@
 		EDEECA222B8A77CE00BD517D /* meet.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = meet.json; sourceTree = "<group>"; };
 		EDEECA242B8A77D500BD517D /* party.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = party.json; sourceTree = "<group>"; };
 		EDEECA262B8A7CD400BD517D /* TimerAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerAnimation.swift; sourceTree = "<group>"; };
+		EDEF4E792D91E723009CA424 /* LostAndFoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LostAndFoundView.swift; sourceTree = "<group>"; };
 		EDEF7A682D51C4EC0030B7A6 /* Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
 		EDEF7A6F2D524E370030B7A6 /* CommunityImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityImageView.swift; sourceTree = "<group>"; };
 		EDEF7A702D524E370030B7A6 /* CommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityView.swift; sourceTree = "<group>"; };
@@ -927,7 +929,6 @@
 				EDE1991D2CCB67D20065206C /* Discover */,
 				EDEF7A752D5250500030B7A6 /* Community */,
 				ED30CE782D6F5406001FB213 /* Business */,
-				ED82CD142D8DA12F0075EFB8 /* Urgent */,
 				ED5CC5172B97BEC2009B17E3 /* Profile */,
 				ED6D82C12B93D1BE00C57937 /* Map */,
 				ED30CE7B2D6F99CA001FB213 /* Wrappers */,
@@ -940,6 +941,7 @@
 			isa = PBXGroup;
 			children = (
 				ED598BEA2B7C121D00B6C23D /* Feed */,
+				ED82CD142D8DA12F0075EFB8 /* Urgent */,
 				EDA322422B7DB059009905B5 /* Create Post */,
 				ED7D8F8F2BBC5CF700544A8B /* Edit Post */,
 				ED2F1A712B91426F001F4300 /* Notification */,
@@ -1109,6 +1111,7 @@
 			isa = PBXGroup;
 			children = (
 				ED82CD152D8DA15B0075EFB8 /* HelpView.swift */,
+				EDEF4E792D91E723009CA424 /* LostAndFoundView.swift */,
 			);
 			path = Urgent;
 			sourceTree = "<group>";
@@ -1472,6 +1475,7 @@
 				EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */,
 				ED6DD4992B82E5E900ADBB64 /* NewPostLocationScreen.swift in Sources */,
 				ED30CE712D6D61FD001FB213 /* CommunityMessage.swift in Sources */,
+				EDEF4E7A2D91E723009CA424 /* LostAndFoundView.swift in Sources */,
 				EDD40C632D74FFEE00E33663 /* BusinessCategory.swift in Sources */,
 				ED3B54E92CCEC7EB007AA1D0 /* UserDiscoverPreferences.swift in Sources */,
 				ED06525B2B814722005B6413 /* BugReport.swift in Sources */,

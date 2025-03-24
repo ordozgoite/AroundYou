@@ -49,7 +49,7 @@ struct HelpView: View {
             }
             .disabled(true)
             
-            Text("Under Construction.")
+            Text("This feature is not available yet.")
                 .foregroundStyle(.gray)
                 .font(.caption)
         }
