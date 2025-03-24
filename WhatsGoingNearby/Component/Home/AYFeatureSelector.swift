@@ -11,14 +11,13 @@ struct AYFeatureSelector: View {
     @Binding var selectedSection: HomeSection
     
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-                ForEach(HomeSection.allCases, id: \.self) { section in
-                    ItemView(forSection: section)
-                        .animation(.spring(), value: selectedSection)
-                }
+        HStack {
+            ForEach(HomeSection.allCases, id: \.self) { section in
+                ItemView(forSection: section)
+                    .animation(.spring(), value: selectedSection)
             }
         }
+        .padding()
     }
     
     // MARK: - Section Item
@@ -40,6 +39,7 @@ struct AYFeatureSelector: View {
             }
         }
         .padding()
+        .frame(maxWidth: selectedSection == section ? .infinity : nil)
         .background(
             RoundedRectangle(cornerRadius: 20)
                 .fill(selectedSection == section ? section.color : .gray.opacity(0.2))
@@ -51,7 +51,11 @@ struct AYFeatureSelector: View {
             }
         }
     }
-    
+}
+
+// MARK: - Private Methods
+
+extension AYFeatureSelector {
     private func changeSelectedSection(_ section: HomeSection) {
         withAnimation(.spring()) {
             hapticFeedback(style: .soft)
@@ -61,5 +65,5 @@ struct AYFeatureSelector: View {
 }
 
 #Preview {
-    AYFeatureSelector(selectedSection: .constant(.posts))
+    AYFeatureSelector(selectedSection: .constant(.places))
 }

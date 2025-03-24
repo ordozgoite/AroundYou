@@ -1659,6 +1659,9 @@
         }
       }
     },
+    "Help!" : {
+
+    },
     "Hide Account" : {
 
     },
@@ -1726,6 +1729,9 @@
           }
         }
       }
+    },
+    "I Lost Something" : {
+
     },
     "I'm a..." : {
 
@@ -2023,9 +2029,6 @@
           }
         }
       }
-    },
-    "lostAndFound" : {
-
     },
     "Male" : {
 
@@ -2741,9 +2744,6 @@
         }
       }
     },
-    "report" : {
-
-    },
     "Report" : {
       "localizations" : {
         "pt-BR" : {
@@ -3227,7 +3227,7 @@
     "These users want to join your community. Approve their request or ignore it." : {
 
     },
-    "This functionality should only be used in case of a real emergency. Your location will be automatically shared with the police." : {
+    "This functionality should only be used in case of a real emergency. Your location will be automatically shared with the **police**." : {
 
     },
     "This message was not sent" : {

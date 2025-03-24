@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UrgentScreen: View {
+struct HelpView: View {
     var body: some View {
         NavigationStack {
             VStack {
@@ -16,6 +16,8 @@ struct UrgentScreen: View {
                 AlertButton()
             }
             .padding()
+            
+            .navigationTitle("Help!")
         }
     }
     
@@ -24,13 +26,13 @@ struct UrgentScreen: View {
     @ViewBuilder
     private func Warning() -> some View {
         VStack {
-            Image(systemName: "light.beacon.max")
+            Image(systemName: "hand.raised")
                 .resizable()
                 .scaledToFit()
                 .frame(height: 128)
                 .foregroundStyle(.gray)
             
-            Text("This functionality should only be used in case of a real emergency. Your location will be automatically shared with the police.")
+            Text("This functionality should only be used in case of a real emergency. Your location will be automatically shared with the **police**.")
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.gray)
         }
@@ -56,5 +58,5 @@ struct UrgentScreen: View {
 }
 
 #Preview {
-    UrgentScreen()
+    HelpView()
 }

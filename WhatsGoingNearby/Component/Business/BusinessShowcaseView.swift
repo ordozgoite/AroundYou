@@ -47,7 +47,7 @@ struct BusinessShowcaseView: View {
             FullScreenUrlImage(url: self.showcase.imageUrl ?? "")
         }
         .navigationDestination(isPresented: $isReportScreenPresented) {
-            ReportScreen(
+            ReportIssueScreen(
                 reportedUserUid: showcase.ownerUid,
                 publicationId: nil,
                 commentId: nil,

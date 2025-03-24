@@ -14,7 +14,7 @@ struct PreparingSessionAnimationView: View {
     
     @State private var isRetryButtonDisplayed: Bool = false
     @State private var refreshObserver = NotificationCenter.default
-        .publisher(for: .goToUsernameScreen)
+        .publisher(for: .displayRetryGetUserInfoButton)
     
     var body: some View {
         NavigationStack {

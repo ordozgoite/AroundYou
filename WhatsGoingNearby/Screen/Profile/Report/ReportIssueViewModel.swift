@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @MainActor
-class ReportViewModel: ObservableObject {
+class ReportIssueViewModel: ObservableObject {
     
     let maxDescriptionLenght = 500
     @Published var descriptionTextInput: String = ""

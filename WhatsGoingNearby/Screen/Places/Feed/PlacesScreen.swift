@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct FeedScreen: View {
+struct PlacesScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var placesVM: PlacesViewModel
     @StateObject private var communityVM = CommunityViewModel()
     @ObservedObject var locationManager: LocationManager
     @ObservedObject var socket: SocketService
@@ -26,10 +26,10 @@ struct FeedScreen: View {
                         EnableLocationView()
                     } else if !locationManager.isUsingFullAccuracy {
                         EnableFullAccuracyView()
-                    } else if feedVM.isLoading {
+                    } else if placesVM.isLoading {
                         LoadingView()
-                    } else if feedVM.initialPostsFetched {
-                        if feedVM.posts.isEmpty {
+                    } else if placesVM.initialPostsFetched {
+                        if placesVM.posts.isEmpty {
                             EmptyFeed()
                         } else {
                             Feed()
@@ -37,9 +37,13 @@ struct FeedScreen: View {
                     }
                 }
                 
-                AYErrorAlert(message: feedVM.overlayError.1 , isErrorAlertPresented: $feedVM.overlayError.0)
+                AYErrorAlert(message: placesVM.overlayError.1 , isErrorAlertPresented: $placesVM.overlayError.0)
             }
             .toolbar {
+                ToolbarItem {
+                    Urgent()
+                }
+                
                 ToolbarItem {
                     NavigationLink(destination: NotificationScreen(location: $locationManager.location, socket: socket).environmentObject(authVM)) {
                         Image(systemName: "bell")
@@ -48,6 +52,10 @@ struct FeedScreen: View {
             }
 //            .navigationTitle("Around You")
 //            .navigationBarTitleDisplayMode(.large)
+        }
+        .sheet(isPresented: $placesVM.isHelpViewDisplayed) {
+            HelpView()
+                .environmentObject(authVM)
         }
         .onAppear {
             startUpdatingFeed()
@@ -120,16 +128,16 @@ struct FeedScreen: View {
     
     @ViewBuilder
     private func Posts(ofType postType: PostType) -> some View {
-        ForEach($feedVM.posts) { $post in
+        ForEach($placesVM.posts) { $post in
             if post.type == postType {
                 NavigationLink(destination: CommentScreen(postId: post.id, post: $post, location: $locationManager.location, socket: socket).environmentObject(authVM)) {
                     PostView(post: $post, location: $locationManager.location, socket: socket, deletePost: {
                         Task {
                             let token = try await authVM.getFirebaseToken()
-                            await feedVM.deletePublication(publicationId: post.id, token: token)
+                            await placesVM.deletePublication(publicationId: post.id, token: token)
                         }
                     }) { shouldUpdate in
-                        feedVM.shouldUpdateFeed = shouldUpdate
+                        placesVM.shouldUpdateFeed = shouldUpdate
                     }
                     .padding()
                 }
@@ -140,15 +148,43 @@ struct FeedScreen: View {
         }
     }
     
+    // MARK: - Urgent
+    
+    @ViewBuilder
+    private func Urgent() -> some View {
+        Menu {
+            Button {
+                placesVM.isLostAndFoundScreenDisplayed = true
+            } label: {
+                Label("I Lost Something", systemImage: "hand.raised")
+            }
+            
+            Button {
+                placesVM.isReportScreenDisplayed = true
+            } label: {
+                Label("Report", systemImage: "megaphone")
+            }
+            
+            Button {
+                placesVM.isHelpViewDisplayed = true
+            } label: {
+                Label("Help!", systemImage: "light.beacon.max")
+            }
+        } label: {
+            Image(systemName: "light.beacon.max")
+        }
+
+    }
+    
     //MARK: - Private Method
     
     private func startUpdatingFeed() {
-        feedVM.feedTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+        placesVM.feedTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
             Task {
                 try await getNearByPosts()
             }
         }
-        feedVM.feedTimer?.fire()
+        placesVM.feedTimer?.fire()
     }
     
     private func getNearByPosts() async throws {
@@ -159,16 +195,16 @@ struct FeedScreen: View {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             
-            await feedVM.getPosts(latitude: latitude, longitude: longitude, token: token)
+            await placesVM.getPosts(latitude: latitude, longitude: longitude, token: token)
         }
     }
     
     private func stopTimer() {
-        feedVM.feedTimer?.invalidate()
+        placesVM.feedTimer?.invalidate()
     }
     
     private func hasInactivePublication() -> Bool {
-        for publication in feedVM.posts {
+        for publication in placesVM.posts {
             if publication.type == .inactive {
                 return true
             }

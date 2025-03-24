@@ -305,7 +305,7 @@ struct PostView: View {
         )
         
         NavigationLink(
-            destination: ReportScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil, businessId: nil).environmentObject(authVM),
+            destination: ReportIssueScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil, businessId: nil).environmentObject(authVM),
             isActive: $isReportScreenPresented,
             label: { EmptyView() }
         )
