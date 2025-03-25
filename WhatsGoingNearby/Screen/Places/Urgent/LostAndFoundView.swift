@@ -18,7 +18,7 @@ struct LostAndFoundView: View {
     @State private var lostDate: Date = Date()
     @State private var rewardOffer: Bool = false
     
-    @State private var selectedItem: PhotosPickerItem? = nil
+    @State private var imageSelection: PhotosPickerItem? = nil
     @State private var selectedImage: UIImage? = nil
     
     var body: some View {
@@ -31,6 +31,13 @@ struct LostAndFoundView: View {
                 LocationAndDate()
                 
                 Reward()
+            }
+            .onChange(of: imageSelection) { newItem in
+                Task {
+                    if let data = try? await newItem?.loadTransferable(type: Data.self), let image = UIImage(data: data) {
+                        selectedImage = image
+                    }
+                }
             }
             .navigationBarTitle("Lost & Found")
             .toolbar {
@@ -66,15 +73,17 @@ struct LostAndFoundView: View {
     @ViewBuilder
     private func Picture() -> some View {
         Section(header: Text("Add a Picture (Optional)")) {
-            PhotosPicker(selection: $selectedItem, matching: .images) {
-                ItemImage()
-            }
-            
-            if selectedImage != nil {
-                Button {
-                    removePhoto()
-                } label: {
-                    RemoveMediaButton(size: .medium)
+            ZStack(alignment: .topTrailing) {
+                PhotosPicker(selection: $imageSelection, matching: .images) {
+                    ItemImage()
+                }
+                
+                if selectedImage != nil {
+                    Button {
+                        removePhoto()
+                    } label: {
+                        RemoveMediaButton(size: .medium)
+                    }
                 }
             }
         }
@@ -84,6 +93,7 @@ struct LostAndFoundView: View {
     
     @ViewBuilder
     private func ItemImage() -> some View {
+        
         if let image = selectedImage {
             Image(uiImage: image)
                 .resizable()
@@ -121,9 +131,9 @@ struct LostAndFoundView: View {
                     lostItemCoordinate == nil ? "Choose location" : "\(lostItemCoordinate!.latitude), \(lostItemCoordinate!.longitude)",
                     systemImage: "mappin"
                 )
-                    .foregroundStyle(.blue)
+                .foregroundStyle(.blue)
             }
-
+            
             
             DatePicker("Date and time", selection: $lostDate, displayedComponents: [.date, .hourAndMinute])
         } header: {
@@ -152,7 +162,8 @@ struct LostAndFoundView: View {
 
 extension LostAndFoundView {
     private func removePhoto() {
-        self.selectedItem = nil
+        self.imageSelection = nil
+        self.selectedImage = nil
     }
 }
 
