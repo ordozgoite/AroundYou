@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct LostAndFoundView: View {
     @Binding var isViewDisplayed: Bool
@@ -13,13 +14,19 @@ struct LostAndFoundView: View {
     @State private var itemType: String = ""
     @State private var itemDescription: String = ""
     @State private var lostLocation: String = ""
+    @State private var lostItemCoordinate: CLLocationCoordinate2D?
     @State private var lostDate: Date = Date()
     @State private var rewardOffer: Bool = false
+    
+    @State private var selectedItem: PhotosPickerItem? = nil
+    @State private var selectedImage: UIImage? = nil
     
     var body: some View {
         NavigationStack {
             Form {
                 Description()
+                
+                Picture()
                 
                 LocationAndDate()
                 
@@ -50,8 +57,52 @@ struct LostAndFoundView: View {
             TextField("What did you lose?", text: $itemType)
                 .textFieldStyle(.plain)
             
-            TextField("Item description", text: $itemDescription)
-                .textFieldStyle(.plain)
+            TextField("Item description (optional)", text: $itemDescription)
+            .textFieldStyle(.plain)        }
+    }
+    
+    // MARK: - Picture
+    
+    @ViewBuilder
+    private func Picture() -> some View {
+        Section(header: Text("Add a Picture (Optional)")) {
+            PhotosPicker(selection: $selectedItem, matching: .images) {
+                ItemImage()
+            }
+            
+            if selectedImage != nil {
+                Button {
+                    removePhoto()
+                } label: {
+                    RemoveMediaButton(size: .medium)
+                }
+            }
+        }
+    }
+    
+    // MARK: - Item Image
+    
+    @ViewBuilder
+    private func ItemImage() -> some View {
+        if let image = selectedImage {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(height: 200)
+                .listRowBackground(Color(.systemGroupedBackground))
+        } else {
+            VStack {
+                Image(systemName: "photo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 24)
+                
+                Text("Add Photo")
+                    .bold()
+            }
+            .foregroundStyle(.blue)
+            .frame(height: 200)
+            .frame(maxWidth: .infinity, alignment: .center)
         }
     }
     
@@ -60,14 +111,25 @@ struct LostAndFoundView: View {
     @ViewBuilder
     private func LocationAndDate() -> some View {
         Section {
-            TextField("Where did you lose it?", text: $lostLocation)
+            TextField("Describe the location (optional)", text: $lostLocation)
                 .textFieldStyle(.plain)
             
-            DatePicker("Approximate date and time", selection: $lostDate, displayedComponents: [.date, .hourAndMinute])
+            NavigationLink {
+                LostItemMapView(selectedCoordinate: $lostItemCoordinate)
+            } label: {
+                Label(
+                    lostItemCoordinate == nil ? "Choose location" : "\(lostItemCoordinate!.latitude), \(lostItemCoordinate!.longitude)",
+                    systemImage: "mappin"
+                )
+                    .foregroundStyle(.blue)
+            }
+
+            
+            DatePicker("Date and time", selection: $lostDate, displayedComponents: [.date, .hourAndMinute])
         } header: {
             Text("Location and Date")
         } footer: {
-            Text("Provide the location and time when you lost the item to help with the search.")
+            Text("Provide the approximate location and time when you lost the item to help with the search.")
         }
     }
     
@@ -83,6 +145,14 @@ struct LostAndFoundView: View {
         } footer: {
             Text("You can offer a reward to encourage people to return your item.")
         }
+    }
+}
+
+// MARK: - Private Methods
+
+extension LostAndFoundView {
+    private func removePhoto() {
+        self.selectedItem = nil
     }
 }
 

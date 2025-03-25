@@ -272,6 +272,8 @@
 		EDEECA252B8A77D500BD517D /* party.json in Resources */ = {isa = PBXBuildFile; fileRef = EDEECA242B8A77D500BD517D /* party.json */; };
 		EDEECA272B8A7CD400BD517D /* TimerAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEECA262B8A7CD400BD517D /* TimerAnimation.swift */; };
 		EDEF4E7A2D91E723009CA424 /* LostAndFoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF4E792D91E723009CA424 /* LostAndFoundView.swift */; };
+		EDEF4E7D2D92F35D009CA424 /* LostItemMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF4E7C2D92F35D009CA424 /* LostItemMapView.swift */; };
+		EDEF4E7F2D930131009CA424 /* MapPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF4E7E2D930131009CA424 /* MapPickerView.swift */; };
 		EDEF7A692D51C4EC0030B7A6 /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A682D51C4EC0030B7A6 /* Community.swift */; };
 		EDEF7A712D524E370030B7A6 /* CommunityImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A6F2D524E370030B7A6 /* CommunityImageView.swift */; };
 		EDEF7A722D524E370030B7A6 /* CommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A702D524E370030B7A6 /* CommunityView.swift */; };
@@ -517,6 +519,8 @@
 		EDEECA242B8A77D500BD517D /* party.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = party.json; sourceTree = "<group>"; };
 		EDEECA262B8A7CD400BD517D /* TimerAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerAnimation.swift; sourceTree = "<group>"; };
 		EDEF4E792D91E723009CA424 /* LostAndFoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LostAndFoundView.swift; sourceTree = "<group>"; };
+		EDEF4E7C2D92F35D009CA424 /* LostItemMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LostItemMapView.swift; sourceTree = "<group>"; };
+		EDEF4E7E2D930131009CA424 /* MapPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPickerView.swift; sourceTree = "<group>"; };
 		EDEF7A682D51C4EC0030B7A6 /* Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
 		EDEF7A6F2D524E370030B7A6 /* CommunityImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityImageView.swift; sourceTree = "<group>"; };
 		EDEF7A702D524E370030B7A6 /* CommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityView.swift; sourceTree = "<group>"; };
@@ -787,6 +791,7 @@
 		ED598BF32B7C16DA00B6C23D /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				EDEF4E7B2D92F34F009CA424 /* Urgent */,
 				ED82CD0F2D8CAB540075EFB8 /* Home */,
 				ED30CE802D6F9D33001FB213 /* Business */,
 				EDEF7A762D52506C0030B7A6 /* Community */,
@@ -842,6 +847,7 @@
 				ED0B4B282D5FDCF6000A21F6 /* CustomBadge.swift */,
 				ED30CE572D699C2A001FB213 /* RemoveMediaButton.swift */,
 				ED5329162D82498800AEED74 /* AYPhoneNumberTextField.swift */,
+				EDEF4E7E2D930131009CA424 /* MapPickerView.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -1301,6 +1307,14 @@
 			path = "Compose Post";
 			sourceTree = "<group>";
 		};
+		EDEF4E7B2D92F34F009CA424 /* Urgent */ = {
+			isa = PBXGroup;
+			children = (
+				EDEF4E7C2D92F35D009CA424 /* LostItemMapView.swift */,
+			);
+			path = Urgent;
+			sourceTree = "<group>";
+		};
 		EDEF7A752D5250500030B7A6 /* Community */ = {
 			isa = PBXGroup;
 			children = (
@@ -1553,6 +1567,7 @@
 				ED82CD162D8DA15B0075EFB8 /* HelpView.swift in Sources */,
 				ED7D8F912BBC5D1C00544A8B /* EditPostViewModel.swift in Sources */,
 				EDE8B37B2BC3530600DFF750 /* CompactedPostSettings.swift in Sources */,
+				EDEF4E7F2D930131009CA424 /* MapPickerView.swift in Sources */,
 				ED6D82BF2B938E4E00C57937 /* DeleteNotificationResponse.swift in Sources */,
 				EDCF2C312BB60B450066950F /* FormattedChat.swift in Sources */,
 				EDA30DEE2B7FBAF8003EB22D /* LaunchScreen.swift in Sources */,
@@ -1665,6 +1680,7 @@
 				ED2F1A7C2B91440E001F4300 /* FormattedNotification.swift in Sources */,
 				ED842C522BD0A9DB006B8DBB /* ComposePostView.swift in Sources */,
 				ED50C4642B7FA2B80001EDF6 /* EmptyFeedView.swift in Sources */,
+				EDEF4E7D2D92F35D009CA424 /* LostItemMapView.swift in Sources */,
 				ED6E84CE2B882DED00B94F5C /* LikeScreen.swift in Sources */,
 				ED24FAF62B9E6533002F7A11 /* UserProfileDTO.swift in Sources */,
 				ED24FAEE2B9E64F4002F7A11 /* EditProfileResponse.swift in Sources */,

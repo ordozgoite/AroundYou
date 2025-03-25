@@ -116,6 +116,16 @@
     "%@m" : {
 
     },
+    "%lf, %lf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lf, %2$lf"
+          }
+        }
+      }
+    },
     "%lld" : {
 
     },
@@ -364,6 +374,9 @@
         }
       }
     },
+    "Add a Picture (Optional)" : {
+
+    },
     "Add a reply..." : {
       "localizations" : {
         "pt-BR" : {
@@ -461,9 +474,6 @@
       }
     },
     "Approve" : {
-
-    },
-    "Approximate date and time" : {
 
     },
     "AroundYou displays posts to everybody within a **1km radius**, enabling interaction for making friends, asking for help, and getting information about places and events around you." : {
@@ -781,6 +791,9 @@
         }
       }
     },
+    "Choose location" : {
+
+    },
     "Comment this post" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -941,6 +954,9 @@
     "Data & Privacy" : {
 
     },
+    "Date and time" : {
+
+    },
     "Debug: Esse error se refere à função getUserInfo" : {
 
     },
@@ -1068,6 +1084,9 @@
           }
         }
       }
+    },
+    "Describe the location (optional)" : {
+
     },
     "Describe what happened..." : {
       "localizations" : {
@@ -1868,7 +1887,7 @@
     "Invite %@ to chat" : {
 
     },
-    "Item description" : {
+    "Item description (optional)" : {
 
     },
     "Join" : {
@@ -2567,7 +2586,7 @@
         }
       }
     },
-    "Provide the location and time when you lost the item to help with the search." : {
+    "Provide the approximate location and time when you lost the item to help with the search." : {
 
     },
     "publication" : {
@@ -3141,6 +3160,9 @@
       }
     },
     "Submit" : {
+
+    },
+    "Tap on the aproximmate location." : {
 
     },
     "Temporary posts ⏳" : {

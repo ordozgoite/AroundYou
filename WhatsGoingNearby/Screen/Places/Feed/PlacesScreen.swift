@@ -158,7 +158,7 @@ struct PlacesScreen: View {
             Button {
                 placesVM.isLostAndFoundScreenDisplayed = true
             } label: {
-                Label("I Lost Something", systemImage: "hand.raised")
+                Label("I Lost Something", systemImage: "magnifyingglass")
             }
             
             Button {
@@ -170,7 +170,7 @@ struct PlacesScreen: View {
             Button {
                 placesVM.isHelpViewDisplayed = true
             } label: {
-                Label("Help!", systemImage: "light.beacon.max")
+                Label("Help!", systemImage: "hand.raised")
             }
         } label: {
             Image(systemName: "light.beacon.max")
