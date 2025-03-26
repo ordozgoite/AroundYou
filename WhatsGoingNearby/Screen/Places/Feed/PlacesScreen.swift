@@ -60,8 +60,14 @@ struct PlacesScreen: View {
         .sheet(isPresented: $placesVM.isLostAndFoundScreenDisplayed) {
             LostAndFoundView(isViewDisplayed: $placesVM.isLostAndFoundScreenDisplayed)
                 .environmentObject(authVM)
+                .interactiveDismissDisabled(true)
         }
-        .interactiveDismissDisabled(true)
+        .sheet(isPresented: $placesVM.isReportScreenDisplayed) {
+            ReportView(isViewDisplayed: $placesVM.isReportScreenDisplayed)
+                .environmentObject(authVM)
+                .interactiveDismissDisabled(true)
+        }
+        
         .onAppear {
             startUpdatingFeed()
         }

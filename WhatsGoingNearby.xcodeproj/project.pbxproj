@@ -274,6 +274,7 @@
 		EDEF4E7A2D91E723009CA424 /* LostAndFoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF4E792D91E723009CA424 /* LostAndFoundView.swift */; };
 		EDEF4E7D2D92F35D009CA424 /* LostItemMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF4E7C2D92F35D009CA424 /* LostItemMapView.swift */; };
 		EDEF4E7F2D930131009CA424 /* MapPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF4E7E2D930131009CA424 /* MapPickerView.swift */; };
+		EDEF4E842D933575009CA424 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF4E832D933575009CA424 /* ReportView.swift */; };
 		EDEF7A692D51C4EC0030B7A6 /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A682D51C4EC0030B7A6 /* Community.swift */; };
 		EDEF7A712D524E370030B7A6 /* CommunityImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A6F2D524E370030B7A6 /* CommunityImageView.swift */; };
 		EDEF7A722D524E370030B7A6 /* CommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A702D524E370030B7A6 /* CommunityView.swift */; };
@@ -521,6 +522,7 @@
 		EDEF4E792D91E723009CA424 /* LostAndFoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LostAndFoundView.swift; sourceTree = "<group>"; };
 		EDEF4E7C2D92F35D009CA424 /* LostItemMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LostItemMapView.swift; sourceTree = "<group>"; };
 		EDEF4E7E2D930131009CA424 /* MapPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPickerView.swift; sourceTree = "<group>"; };
+		EDEF4E832D933575009CA424 /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		EDEF7A682D51C4EC0030B7A6 /* Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
 		EDEF7A6F2D524E370030B7A6 /* CommunityImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityImageView.swift; sourceTree = "<group>"; };
 		EDEF7A702D524E370030B7A6 /* CommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityView.swift; sourceTree = "<group>"; };
@@ -1116,8 +1118,9 @@
 		ED82CD142D8DA12F0075EFB8 /* Urgent */ = {
 			isa = PBXGroup;
 			children = (
-				ED82CD152D8DA15B0075EFB8 /* HelpView.swift */,
-				EDEF4E792D91E723009CA424 /* LostAndFoundView.swift */,
+				EDEF4E822D933567009CA424 /* Report */,
+				EDEF4E812D933558009CA424 /* Lost And Found */,
+				EDEF4E802D93354F009CA424 /* Help */,
 			);
 			path = Urgent;
 			sourceTree = "<group>";
@@ -1313,6 +1316,30 @@
 				EDEF4E7C2D92F35D009CA424 /* LostItemMapView.swift */,
 			);
 			path = Urgent;
+			sourceTree = "<group>";
+		};
+		EDEF4E802D93354F009CA424 /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				ED82CD152D8DA15B0075EFB8 /* HelpView.swift */,
+			);
+			path = Help;
+			sourceTree = "<group>";
+		};
+		EDEF4E812D933558009CA424 /* Lost And Found */ = {
+			isa = PBXGroup;
+			children = (
+				EDEF4E792D91E723009CA424 /* LostAndFoundView.swift */,
+			);
+			path = "Lost And Found";
+			sourceTree = "<group>";
+		};
+		EDEF4E822D933567009CA424 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				EDEF4E832D933575009CA424 /* ReportView.swift */,
+			);
+			path = Report;
 			sourceTree = "<group>";
 		};
 		EDEF7A752D5250500030B7A6 /* Community */ = {
@@ -1541,6 +1568,7 @@
 				ED598BFA2B7C217400B6C23D /* AYProgressView.swift in Sources */,
 				ED82CD0E2D8CA8170075EFB8 /* HomeScreen.swift in Sources */,
 				ED3B54DC2CCCAD39007AA1D0 /* FloatingHeartsButtonView.swift in Sources */,
+				EDEF4E842D933575009CA424 /* ReportView.swift in Sources */,
 				ED755F1B2BB4E54F004BC6C3 /* MessageScreen.swift in Sources */,
 				ED30CE562D696BD2001FB213 /* ImageDisplaySource.swift in Sources */,
 				ED2F1A6B2B9048DC001F4300 /* IndepCommentScreen.swift in Sources */,

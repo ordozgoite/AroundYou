@@ -93,7 +93,6 @@ struct LostAndFoundView: View {
     
     @ViewBuilder
     private func ItemImage() -> some View {
-        
         if let image = selectedImage {
             Image(uiImage: image)
                 .resizable()

@@ -462,6 +462,9 @@
         }
       }
     },
+    "Animal Abuse" : {
+
+    },
     "Answering %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -474,6 +477,9 @@
       }
     },
     "Approve" : {
+
+    },
+    "Are you the victim?" : {
 
     },
     "AroundYou displays posts to everybody within a **1km radius**, enabling interaction for making friends, asking for help, and getting information about places and events around you." : {
@@ -1085,7 +1091,13 @@
         }
       }
     },
+    "Describe the incident" : {
+
+    },
     "Describe the location (optional)" : {
+
+    },
+    "Describe the victim (optional)" : {
 
     },
     "Describe what happened..." : {
@@ -1647,6 +1659,9 @@
       }
     },
     "Gravador de Áudio" : {
+
+    },
+    "Harm to a Person" : {
 
     },
     "Help" : {
@@ -2586,6 +2601,9 @@
         }
       }
     },
+    "Property Damage" : {
+
+    },
     "Provide the approximate location and time when you lost the item to help with the search." : {
 
     },
@@ -2866,6 +2884,9 @@
           }
         }
       }
+    },
+    "Report Type" : {
+
     },
     "Reporting..." : {
       "localizations" : {
@@ -3575,6 +3596,9 @@
       }
     },
     "We'll match you with people who are interested in your gender and age." : {
+
+    },
+    "What are you reporting?" : {
 
     },
     "What did you lose?" : {
