@@ -8,7 +8,7 @@
 import SwiftUI
 import PhotosUI
 
-enum ReportType: String, Codable, CaseIterable {
+enum IncidentType: String, Codable, CaseIterable {
     case human
     case animal
     case property
@@ -36,10 +36,9 @@ enum ReportType: String, Codable, CaseIterable {
     }
 }
 
-struct ReportView: View {
-    
+struct ReportIncidentView: View {
     @Binding var isViewDisplayed: Bool
-    @State private var selectedReportType: ReportType?
+    @State private var selectedReportType: IncidentType?
     @State private var isUserTheVictim: Bool = true
     @State private var humanVictimDetails: String = ""
     @State private var reportDescription: String = ""
@@ -76,7 +75,7 @@ struct ReportView: View {
     private func Type() -> some View {
         Section("Report Type") {
             Menu {
-                ForEach(ReportType.allCases, id: \.self) { type in
+                ForEach(IncidentType.allCases, id: \.self) { type in
                     Button {
                         selectedReportType = type
                     } label: {
@@ -181,7 +180,7 @@ struct ReportView: View {
     }
 }
 
-extension ReportView {
+extension ReportIncidentView {
     private func removePhoto() {
         self.imageSelection = nil
         self.selectedImage = nil
@@ -189,5 +188,5 @@ extension ReportView {
 }
 
 #Preview {
-    ReportView(isViewDisplayed: .constant(true))
+    ReportIncidentView(isViewDisplayed: .constant(true))
 }

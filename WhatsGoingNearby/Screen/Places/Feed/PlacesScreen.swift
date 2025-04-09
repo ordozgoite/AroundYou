@@ -63,7 +63,7 @@ struct PlacesScreen: View {
                 .interactiveDismissDisabled(true)
         }
         .sheet(isPresented: $placesVM.isReportScreenDisplayed) {
-            ReportView(isViewDisplayed: $placesVM.isReportScreenDisplayed)
+            ReportIncidentView(isViewDisplayed: $placesVM.isReportScreenDisplayed)
                 .environmentObject(authVM)
                 .interactiveDismissDisabled(true)
         }

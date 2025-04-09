@@ -106,6 +106,9 @@ protocol AYServiceable {
     
     // Lost Item
     func postLostItem(lostItem: LostItem, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    
+    // Report Incident
+    func postReportIncident(reportIncident: ReportIncident, token: String) async -> Result<SuccessMessageResponse, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -410,5 +413,11 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func postLostItem(lostItem: LostItem, token: String) async -> Result<SuccessMessageResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.postLostItem(lostItem: lostItem, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    // MARK: - Report Incident
+    
+    func postReportIncident(reportIncident: ReportIncident, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postReportIncident(reportIncident: reportIncident, token: token), responseModel: SuccessMessageResponse.self)
     }
 }
