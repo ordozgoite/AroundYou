@@ -176,6 +176,8 @@
 		ED755F1D2BB50D56004BC6C3 /* BubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F1C2BB50D56004BC6C3 /* BubbleView.swift */; };
 		ED755F1F2BB52BE8004BC6C3 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F1E2BB52BE7004BC6C3 /* MessageViewModel.swift */; };
 		ED755F212BB52C35004BC6C3 /* FormattedMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED755F202BB52C35004BC6C3 /* FormattedMessage.swift */; };
+		ED7AF5CD2DA6E9B700966B5C /* LostItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7AF5CC2DA6E9B700966B5C /* LostItem.swift */; };
+		ED7AF5CF2DA6EDD200966B5C /* LostAndFoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7AF5CE2DA6EDD200966B5C /* LostAndFoundViewModel.swift */; };
 		ED7D8F802BB9EDEB00544A8B /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7D8F7F2BB9EDEB00544A8B /* CameraView.swift */; };
 		ED7D8F822BBA0D9300544A8B /* PostImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7D8F812BBA0D9300544A8B /* PostImageView.swift */; };
 		ED7D8F842BBA191E00544A8B /* FullScreenUrlImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7D8F832BBA191E00544A8B /* FullScreenUrlImage.swift */; };
@@ -427,6 +429,8 @@
 		ED755F1C2BB50D56004BC6C3 /* BubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleView.swift; sourceTree = "<group>"; };
 		ED755F1E2BB52BE7004BC6C3 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
 		ED755F202BB52C35004BC6C3 /* FormattedMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedMessage.swift; sourceTree = "<group>"; };
+		ED7AF5CC2DA6E9B700966B5C /* LostItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LostItem.swift; sourceTree = "<group>"; };
+		ED7AF5CE2DA6EDD200966B5C /* LostAndFoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LostAndFoundViewModel.swift; sourceTree = "<group>"; };
 		ED7D8F7F2BB9EDEB00544A8B /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		ED7D8F812BBA0D9300544A8B /* PostImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageView.swift; sourceTree = "<group>"; };
 		ED7D8F832BBA191E00544A8B /* FullScreenUrlImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenUrlImage.swift; sourceTree = "<group>"; };
@@ -786,6 +790,7 @@
 				EDD40C622D74FFEE00E33663 /* BusinessCategory.swift */,
 				EDA322392B7CCD79009905B5 /* Response */,
 				ED82CD122D8D9FBA0075EFB8 /* HomeSection.swift */,
+				ED7AF5CC2DA6E9B700966B5C /* LostItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1329,6 +1334,7 @@
 		EDEF4E812D933558009CA424 /* Lost And Found */ = {
 			isa = PBXGroup;
 			children = (
+				ED7AF5CE2DA6EDD200966B5C /* LostAndFoundViewModel.swift */,
 				EDEF4E792D91E723009CA424 /* LostAndFoundView.swift */,
 			);
 			path = "Lost And Found";
@@ -1533,6 +1539,7 @@
 				EDA322302B7CB12D009905B5 /* FormattedPost.swift in Sources */,
 				ED0B4AF22D5F8C3E000A21F6 /* CustomPerson3CircleFill.swift in Sources */,
 				EDA30DF82B7FE9B6003EB22D /* PostType.swift in Sources */,
+				ED7AF5CD2DA6E9B700966B5C /* LostItem.swift in Sources */,
 				ED598C032B7C42B500B6C23D /* AuthenticationScreen.swift in Sources */,
 				EDD639A02CF81C7800978927 /* GenderPickerView.swift in Sources */,
 				ED0652592B813859005B6413 /* BugViewModel.swift in Sources */,
@@ -1589,6 +1596,7 @@
 				EDEF7A692D51C4EC0030B7A6 /* Community.swift in Sources */,
 				ED2F1A752B9142AA001F4300 /* NotificationViewModel.swift in Sources */,
 				ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */,
+				ED7AF5CF2DA6EDD200966B5C /* LostAndFoundViewModel.swift in Sources */,
 				ED6D82C52B93D7BE00C57937 /* MapViewModel.swift in Sources */,
 				ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */,
 				EDEF7A7A2D5257470030B7A6 /* CommunitySuggestionView.swift in Sources */,

@@ -8,6 +8,10 @@
 import Foundation
 import CoreLocation
 
+enum LocationError: Error {
+    case unableToGetCurrentLocation
+}
+
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     private var locationManager = CLLocationManager()

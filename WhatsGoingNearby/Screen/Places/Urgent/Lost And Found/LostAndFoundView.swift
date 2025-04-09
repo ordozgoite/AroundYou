@@ -10,16 +10,10 @@ import PhotosUI
 
 struct LostAndFoundView: View {
     @Binding var isViewDisplayed: Bool
-    
-    @State private var itemType: String = ""
-    @State private var itemDescription: String = ""
-    @State private var lostLocation: String = ""
-    @State private var lostItemCoordinate: CLLocationCoordinate2D?
-    @State private var lostDate: Date = Date()
-    @State private var rewardOffer: Bool = false
-    
-    @State private var imageSelection: PhotosPickerItem? = nil
-    @State private var selectedImage: UIImage? = nil
+    @EnvironmentObject var authVM: AuthenticationViewModel
+    @StateObject private var vm = LostAndFoundViewModel()
+    @ObservedObject var locationManager: LocationManager
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         NavigationStack {
@@ -32,25 +26,21 @@ struct LostAndFoundView: View {
                 
                 Reward()
             }
-            .onChange(of: imageSelection) { newItem in
+            .onChange(of: vm.imageSelection) { newItem in
                 Task {
                     if let data = try? await newItem?.loadTransferable(type: Data.self), let image = UIImage(data: data) {
-                        selectedImage = image
+                        vm.selectedImage = image
                     }
                 }
             }
             .navigationBarTitle("Lost & Found")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel") {
-                        self.isViewDisplayed = false
-                    }
+                    Cancel()
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Submit") {
-                        // TODO: Post LostAndFound
-                    }
+                    Submit()
                 }
             }
         }
@@ -61,10 +51,10 @@ struct LostAndFoundView: View {
     @ViewBuilder
     private func Description() -> some View {
         Section("Lost Item Information") {
-            TextField("What did you lose?", text: $itemType)
+            TextField("What did you lose?", text: $vm.itemName)
                 .textFieldStyle(.plain)
             
-            TextField("Item description (optional)", text: $itemDescription)
+            TextField("Item description (optional)", text: $vm.itemDescription)
             .textFieldStyle(.plain)        }
     }
     
@@ -74,13 +64,13 @@ struct LostAndFoundView: View {
     private func Picture() -> some View {
         Section(header: Text("Add a Picture (Optional)")) {
             ZStack(alignment: .topTrailing) {
-                PhotosPicker(selection: $imageSelection, matching: .images) {
+                PhotosPicker(selection: $vm.imageSelection, matching: .images) {
                     ItemImage()
                 }
                 
-                if selectedImage != nil {
+                if vm.selectedImage != nil {
                     Button {
-                        removePhoto()
+                        vm.removePhoto()
                     } label: {
                         RemoveMediaButton(size: .medium)
                     }
@@ -93,7 +83,7 @@ struct LostAndFoundView: View {
     
     @ViewBuilder
     private func ItemImage() -> some View {
-        if let image = selectedImage {
+        if let image = vm.selectedImage {
             Image(uiImage: image)
                 .resizable()
                 .scaledToFill()
@@ -120,21 +110,21 @@ struct LostAndFoundView: View {
     @ViewBuilder
     private func LocationAndDate() -> some View {
         Section {
-            TextField("Describe the location (optional)", text: $lostLocation)
+            TextField("Describe the location (optional)", text: $vm.lostLocationDescription)
                 .textFieldStyle(.plain)
             
             NavigationLink {
-                LostItemMapView(selectedCoordinate: $lostItemCoordinate)
+                LostItemMapView(selectedCoordinate: $vm.lostItemCoordinate)
             } label: {
                 Label(
-                    lostItemCoordinate == nil ? "Choose location" : "\(lostItemCoordinate!.latitude), \(lostItemCoordinate!.longitude)",
+                    vm.lostItemCoordinate == nil ? "Choose location" : "\(vm.lostItemCoordinate!.latitude), \(vm.lostItemCoordinate!.longitude)",
                     systemImage: "mappin"
                 )
                 .foregroundStyle(.blue)
             }
             
             
-            DatePicker("Date and time", selection: $lostDate, displayedComponents: [.date, .hourAndMinute])
+            DatePicker("Date and time", selection: $vm.lostDate, displayedComponents: [.date, .hourAndMinute])
         } header: {
             Text("Location and Date")
         } footer: {
@@ -147,7 +137,7 @@ struct LostAndFoundView: View {
     @ViewBuilder
     private func Reward() -> some View {
         Section {
-            Toggle("Offer a reward?", isOn: $rewardOffer)
+            Toggle("Offer a reward?", isOn: $vm.rewardOffer)
                 .toggleStyle(SwitchToggleStyle())
         } header: {
             Text("Reward")
@@ -155,17 +145,63 @@ struct LostAndFoundView: View {
             Text("You can offer a reward to encourage people to return your item.")
         }
     }
+    
+    // MARK: - Cancel
+    
+    @ViewBuilder
+    private func Cancel() -> some View {
+        Button("Cancel") {
+            self.isViewDisplayed = false
+        }
+    }
+    
+    // MARK: - Submit
+    
+    @ViewBuilder
+    private func Submit() -> some View {
+        if vm.isPostingItem {
+            ProgressView()
+        } else {
+            Button("Submit") {
+                attemptPostItem()
+            }
+            .disabled(!vm.isSubmitButtonEnabled())
+        }
+    }
 }
 
 // MARK: - Private Methods
 
 extension LostAndFoundView {
-    private func removePhoto() {
-        self.imageSelection = nil
-        self.selectedImage = nil
+    private func attemptPostItem() {
+        Task {
+            do {
+                try await handlePostItem()
+            } catch {
+                print("❌ Error posting item: \(error)")
+            }
+        }
+    }
+    
+    private func handlePostItem() async throws {
+        let currentLocation = try getCurrentLocation()
+        let token = try await authVM.getFirebaseToken()
+        try await vm.postLostItem(location: currentLocation, token: token)
+        dismiss()
+    }
+    
+    private func getCurrentLocation() throws -> Location {
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            return Location(latitude: latitude, longitude: longitude)
+        } else {
+            throw LocationError.unableToGetCurrentLocation
+        }
     }
 }
 
 #Preview {
-    LostAndFoundView(isViewDisplayed: .constant(true))
+    LostAndFoundView(isViewDisplayed: .constant(true), locationManager: LocationManager())
 }

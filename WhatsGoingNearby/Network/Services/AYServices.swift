@@ -103,6 +103,9 @@ protocol AYServiceable {
     func getBusinessesNearBy(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError>
     func deleteBusiness(businessId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
     func getBusinessByUser(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError>
+    
+    // Lost Item
+    func postLostItem(lostItem: LostItem, token: String) async -> Result<SuccessMessageResponse, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -401,5 +404,11 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getBusinessByUser(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getBusinessByUser(location: location, token: token), responseModel: [FormattedBusinessShowcase].self)
+    }
+    
+    // MARK: - Lost Item
+    
+    func postLostItem(lostItem: LostItem, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postLostItem(lostItem: lostItem, token: token), responseModel: SuccessMessageResponse.self)
     }
 }

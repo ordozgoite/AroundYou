@@ -29,7 +29,9 @@ class CreateCommunityViewModel: ObservableObject {
     @Published var isPhotoPickerPresented: Bool = false
     
     func resetCreateCommunityInputs() {
-        // TODO: Remove Image
+        self.imageSelection = nil
+        self.image = nil
+        self.croppedImage = nil
         self.communityNameInput = ""
         communityDescriptionInput = ""
     }

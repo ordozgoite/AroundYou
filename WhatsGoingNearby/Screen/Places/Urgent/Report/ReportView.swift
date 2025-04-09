@@ -57,7 +57,7 @@ struct ReportView: View {
                     Picture()
                 }
             }
-            .navigationTitle("Report")
+            .navigationTitle("Report an Incident")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Cancel()

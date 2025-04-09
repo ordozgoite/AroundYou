@@ -403,11 +403,13 @@ struct PostView: View {
     }
 }
 
-//#Preview {
-//    PostView(post: .constant(FormattedPost(
-//        id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
-//        username: "ordozgoite",
-//        timestamp: Int(Date().timeIntervalSince1970), expirationDate: Int(Date().timeIntervalSince1970),
-//        text: "Alguém sabe quando o KFC vai ser inaugurado?? Já faz tempo que eles estão anunciando...", likes: 2, didLike: true, comment: 2, latitude: -3.125847431319091, longitude: -60.022035207661695, distanceToMe: 50.0, isFromRecipientUser: true, isLocationVisible: false, isSubscribed: false)), deletePost: {})
-//    .environmentObject(AuthenticationViewModel())
-//}
+#Preview {
+    PostView(
+        post: .constant(FormattedPost(id: "1", userUid: "1", userProfilePic: nil, username: "ordozgoite", timestamp: 1, expirationDate: 1, text: "Olá", likes: 11, didLike: false, comment: 4, latitude: nil, longitude: nil, distanceToMe: nil, isFromRecipientUser: false, isLocationVisible: false, tag: "chat", imageUrl: nil, isOwnerFarAway: false, isFinished: false, duration: 4, isSubscribed: false)),
+        location: .constant(nil),
+        socket: SocketService(),
+        deletePost: {},
+        toggleFeedUpdate: { _ in }
+    )
+    .environmentObject(AuthenticationViewModel())
+}

@@ -58,7 +58,7 @@ struct PlacesScreen: View {
                 .environmentObject(authVM)
         }
         .sheet(isPresented: $placesVM.isLostAndFoundScreenDisplayed) {
-            LostAndFoundView(isViewDisplayed: $placesVM.isLostAndFoundScreenDisplayed)
+            LostAndFoundView(isViewDisplayed: $placesVM.isLostAndFoundScreenDisplayed, locationManager: locationManager)
                 .environmentObject(authVM)
                 .interactiveDismissDisabled(true)
         }
@@ -170,7 +170,7 @@ struct PlacesScreen: View {
             Button {
                 placesVM.isReportScreenDisplayed = true
             } label: {
-                Label("Report", systemImage: "megaphone")
+                Label("Report an Incident", systemImage: "megaphone")
             }
             
             Button {
