@@ -26,6 +26,13 @@ struct ReportIncidentView: View {
                     Picture()
                 }
             }
+            .onChange(of: vm.imageSelection) { newItem in
+                Task {
+                    if let data = try? await newItem?.loadTransferable(type: Data.self), let image = UIImage(data: data) {
+                        vm.selectedImage = image
+                    }
+                }
+            }
             .navigationTitle("Report an Incident")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
