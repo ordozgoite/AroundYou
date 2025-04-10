@@ -63,7 +63,7 @@ struct PlacesScreen: View {
                 .interactiveDismissDisabled(true)
         }
         .sheet(isPresented: $placesVM.isReportScreenDisplayed) {
-            ReportIncidentView(isViewDisplayed: $placesVM.isReportScreenDisplayed)
+            ReportIncidentView(isViewDisplayed: $placesVM.isReportScreenDisplayed, locationManager: locationManager)
                 .environmentObject(authVM)
                 .interactiveDismissDisabled(true)
         }
@@ -176,7 +176,7 @@ struct PlacesScreen: View {
             Button {
                 placesVM.isHelpViewDisplayed = true
             } label: {
-                Label("Help!", systemImage: "hand.raised")
+                Label("Help!", systemImage: "sos")
             }
         } label: {
             Image(systemName: "light.beacon.max")

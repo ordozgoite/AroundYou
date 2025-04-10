@@ -26,7 +26,7 @@ struct HelpView: View {
     @ViewBuilder
     private func Warning() -> some View {
         VStack {
-            Image(systemName: "hand.raised")
+            Image(systemName: "sos")
                 .resizable()
                 .scaledToFit()
                 .frame(height: 128)

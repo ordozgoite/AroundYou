@@ -8,49 +8,19 @@
 import SwiftUI
 import PhotosUI
 
-enum IncidentType: String, Codable, CaseIterable {
-    case human
-    case animal
-    case property
-    
-    var title: LocalizedStringKey {
-        return switch self {
-        case .human:
-            "Harm to a Person"
-        case .animal:
-            "Animal Abuse"
-        case .property:
-            "Property Damage"
-        }
-    }
-    
-    var iconName: String {
-        return switch self {
-        case .human:
-            "figure.stand"
-        case .animal:
-            "dog"
-        case .property:
-            "house.fill"
-        }
-    }
-}
-
 struct ReportIncidentView: View {
     @Binding var isViewDisplayed: Bool
-    @State private var selectedReportType: IncidentType?
-    @State private var isUserTheVictim: Bool = true
-    @State private var humanVictimDetails: String = ""
-    @State private var reportDescription: String = ""
-    @State private var imageSelection: PhotosPickerItem? = nil
-    @State private var selectedImage: UIImage? = nil
+    @EnvironmentObject var authVM: AuthenticationViewModel
+    @StateObject private var vm = ReportIncidentViewModel()
+    @ObservedObject var locationManager: LocationManager
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         NavigationStack {
             Form {
                 Type()
                 
-                if selectedReportType != nil {
+                if vm.selectedReportType != nil {
                     Description()
                     
                     Picture()
@@ -77,11 +47,11 @@ struct ReportIncidentView: View {
             Menu {
                 ForEach(IncidentType.allCases, id: \.self) { type in
                     Button {
-                        selectedReportType = type
+                        vm.selectedReportType = type
                     } label: {
                         Label(type.title, systemImage: type.iconName)
                         
-                        if selectedReportType == type {
+                        if vm.selectedReportType == type {
                             Image(systemName: "checkmark")
                         }
                     }
@@ -90,7 +60,7 @@ struct ReportIncidentView: View {
                 HStack {
                     Text("What are you reporting?")
                     Spacer()
-                    Label(selectedReportType?.title ?? "", systemImage: selectedReportType?.iconName ?? "")
+                    Label(vm.selectedReportType?.title ?? "", systemImage: vm.selectedReportType?.iconName ?? "")
                         .foregroundColor(.gray)
                 }
             }
@@ -102,15 +72,15 @@ struct ReportIncidentView: View {
     @ViewBuilder
     private func Description() -> some View {
         Section("Description") {
-            if selectedReportType == .human {
-                Toggle("Are you the victim?", isOn: $isUserTheVictim)
+            if vm.selectedReportType == .human {
+                Toggle("Are you the victim?", isOn: $vm.isUserTheVictim)
                 
-                if !isUserTheVictim {
-                    TextField("Describe the victim (optional)", text: $humanVictimDetails)
+                if !vm.isUserTheVictim {
+                    TextField("Describe the victim (optional)", text: $vm.humanVictimDetails)
                 }
             }
             
-            TextField("Describe the incident", text: $reportDescription)
+            TextField("Describe the incident", text: $vm.reportDescription)
         }
     }
     
@@ -120,13 +90,13 @@ struct ReportIncidentView: View {
     private func Picture() -> some View {
         Section(header: Text("Add a Picture (Optional)")) {
             ZStack(alignment: .topTrailing) {
-                PhotosPicker(selection: $imageSelection, matching: .images) {
+                PhotosPicker(selection: $vm.imageSelection, matching: .images) {
                     ReportImage()
                 }
                 
-                if selectedImage != nil {
+                if vm.selectedImage != nil {
                     Button {
-                        removePhoto()
+                        vm.removePhoto()
                     } label: {
                         RemoveMediaButton(size: .medium)
                     }
@@ -139,7 +109,7 @@ struct ReportIncidentView: View {
     
     @ViewBuilder
     private func ReportImage() -> some View {
-        if let image = selectedImage {
+        if let image = vm.selectedImage {
             Image(uiImage: image)
                 .resizable()
                 .scaledToFill()
@@ -174,19 +144,49 @@ struct ReportIncidentView: View {
     
     @ViewBuilder
     private func Post() -> some View {
-        Button("Post") {
-            // TODO: Post Report
+        if vm.isPostingReport {
+            ProgressView()
+        } else {
+            Button("Post") {
+                attemptReportPost()
+            }
+            .disabled(!vm.isSubmitButtonEnabled())
         }
     }
 }
 
+// MARK: - Private Methods
+
 extension ReportIncidentView {
-    private func removePhoto() {
-        self.imageSelection = nil
-        self.selectedImage = nil
+    private func attemptReportPost() {
+        Task {
+            do {
+                try await handleReportPost()
+            } catch {
+                print("❌ Error posting report: \(error)")
+            }
+        }
+    }
+    
+    private func handleReportPost() async throws {
+        let currentLocation = try getCurrentLocation()
+        let token = try await authVM.getFirebaseToken()
+        try await vm.postReport(location: currentLocation, token: token)
+        dismiss()
+    }
+    
+    private func getCurrentLocation() throws -> Location {
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            return Location(latitude: latitude, longitude: longitude)
+        } else {
+            throw LocationError.unableToGetCurrentLocation
+        }
     }
 }
 
 #Preview {
-    ReportIncidentView(isViewDisplayed: .constant(true))
+    ReportIncidentView(isViewDisplayed: .constant(true), locationManager: LocationManager())
 }

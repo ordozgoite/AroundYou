@@ -179,6 +179,8 @@
 		ED7AF5CD2DA6E9B700966B5C /* LostItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7AF5CC2DA6E9B700966B5C /* LostItem.swift */; };
 		ED7AF5CF2DA6EDD200966B5C /* LostAndFoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7AF5CE2DA6EDD200966B5C /* LostAndFoundViewModel.swift */; };
 		ED7AF5D12DA73CAA00966B5C /* ReportIncident.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7AF5D02DA73CAA00966B5C /* ReportIncident.swift */; };
+		ED7AF5D32DA73FD100966B5C /* ReportIncidentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7AF5D22DA73FD100966B5C /* ReportIncidentViewModel.swift */; };
+		ED7AF5D52DA7401100966B5C /* IncidentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7AF5D42DA7401100966B5C /* IncidentType.swift */; };
 		ED7D8F802BB9EDEB00544A8B /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7D8F7F2BB9EDEB00544A8B /* CameraView.swift */; };
 		ED7D8F822BBA0D9300544A8B /* PostImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7D8F812BBA0D9300544A8B /* PostImageView.swift */; };
 		ED7D8F842BBA191E00544A8B /* FullScreenUrlImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7D8F832BBA191E00544A8B /* FullScreenUrlImage.swift */; };
@@ -433,6 +435,8 @@
 		ED7AF5CC2DA6E9B700966B5C /* LostItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LostItem.swift; sourceTree = "<group>"; };
 		ED7AF5CE2DA6EDD200966B5C /* LostAndFoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LostAndFoundViewModel.swift; sourceTree = "<group>"; };
 		ED7AF5D02DA73CAA00966B5C /* ReportIncident.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportIncident.swift; sourceTree = "<group>"; };
+		ED7AF5D22DA73FD100966B5C /* ReportIncidentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportIncidentViewModel.swift; sourceTree = "<group>"; };
+		ED7AF5D42DA7401100966B5C /* IncidentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentType.swift; sourceTree = "<group>"; };
 		ED7D8F7F2BB9EDEB00544A8B /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		ED7D8F812BBA0D9300544A8B /* PostImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageView.swift; sourceTree = "<group>"; };
 		ED7D8F832BBA191E00544A8B /* FullScreenUrlImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenUrlImage.swift; sourceTree = "<group>"; };
@@ -794,6 +798,7 @@
 				ED82CD122D8D9FBA0075EFB8 /* HomeSection.swift */,
 				ED7AF5CC2DA6E9B700966B5C /* LostItem.swift */,
 				ED7AF5D02DA73CAA00966B5C /* ReportIncident.swift */,
+				ED7AF5D42DA7401100966B5C /* IncidentType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1346,6 +1351,7 @@
 		EDEF4E822D933567009CA424 /* Report */ = {
 			isa = PBXGroup;
 			children = (
+				ED7AF5D22DA73FD100966B5C /* ReportIncidentViewModel.swift */,
 				EDEF4E832D933575009CA424 /* ReportIncidentView.swift */,
 			);
 			path = Report;
@@ -1625,6 +1631,7 @@
 				ED50C4622B7F9C030001EDF6 /* UserProfileViewModel.swift in Sources */,
 				ED3775A52B9A5E5200BEF3D8 /* DeleteUserResponse.swift in Sources */,
 				ED598C4C2B7C587100B6C23D /* AuthenticatedScreen.swift in Sources */,
+				ED7AF5D52DA7401100966B5C /* IncidentType.swift in Sources */,
 				ED30CE752D6D6443001FB213 /* CommunityMessageViewModel.swift in Sources */,
 				ED6DD4962B82E5B900ADBB64 /* MapView.swift in Sources */,
 				ED3B54EB2CCF29CF007AA1D0 /* DiscoverView.swift in Sources */,
@@ -1649,6 +1656,7 @@
 				ED95B0542C023288009B9FBB /* SocketStatusView.swift in Sources */,
 				ED1FFB692D865CD50091E5B5 /* EmptyBusinessView.swift in Sources */,
 				ED50C45E2B7F86A30001EDF6 /* CommentViewModel.swift in Sources */,
+				ED7AF5D32DA73FD100966B5C /* ReportIncidentViewModel.swift in Sources */,
 				ED598C012B7C3A3900B6C23D /* AccountScreen.swift in Sources */,
 				EDE8B37D2BC39D2200DFF750 /* ImagePicker.swift in Sources */,
 				ED0B4B292D5FDCF6000A21F6 /* CustomBadge.swift in Sources */,
