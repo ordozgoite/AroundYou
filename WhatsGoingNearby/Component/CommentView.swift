@@ -11,7 +11,7 @@ import CoreLocation
 struct CommentView: View {
     
     let isPostFromRecipientUser: Bool
-    let postType: PostType
+    let postType: PostStatus
     @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject var socket: SocketService
     @Binding var comment: FormattedComment

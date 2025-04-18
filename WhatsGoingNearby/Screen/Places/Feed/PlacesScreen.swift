@@ -122,7 +122,7 @@ struct PlacesScreen: View {
                         .padding()
                 }
                 
-                Posts(ofType: .inactive)
+                Posts(ofType: .expired)
                     .opacity(0.5)
             }
         }
@@ -135,9 +135,9 @@ struct PlacesScreen: View {
     //MARK: - Posts
     
     @ViewBuilder
-    private func Posts(ofType postType: PostType) -> some View {
+    private func Posts(ofType postType: PostStatus) -> some View {
         ForEach($placesVM.posts) { $post in
-            if post.type == postType {
+            if post.status == postType {
                 NavigationLink(destination: CommentScreen(postId: post.id, post: $post, location: $locationManager.location, socket: socket).environmentObject(authVM)) {
                     PostView(post: $post, location: $locationManager.location, socket: socket, deletePost: {
                         Task {
@@ -213,7 +213,7 @@ struct PlacesScreen: View {
     
     private func hasInactivePublication() -> Bool {
         for publication in placesVM.posts {
-            if publication.type == .inactive {
+            if publication.status == .expired {
                 return true
             }
         }

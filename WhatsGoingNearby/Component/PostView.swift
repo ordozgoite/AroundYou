@@ -70,40 +70,42 @@ struct PostView: View {
     
     @ViewBuilder
     private func HeaderView() -> some View {
-        HStack {
-            Text(post.username)
-                .fontWeight(.semibold)
-                .lineLimit(1)
-            
-            if post.type == .active {
-                CircleTimerView(postDate: post.timestamp.timeIntervalSince1970InSeconds, expirationDate: post.expirationDate.timeIntervalSince1970InSeconds)
-                    .popover(isPresented: $isTimeLeftPopoverDisplayed) {
-                        Text(getTimeLeftText())
-                            .font(.subheadline)
-                            .foregroundStyle(.gray)
-                            .padding([.leading, .trailing], 10)
-                            .presentationCompactAdaptation(.popover)
+        VStack(alignment: .leading) {
+            HStack {
+                Text(post.username)
+                    .fontWeight(.semibold)
+                    .lineLimit(1)
+                
+                if post.status == .active && post.postSource == .publication {
+                    CircleTimerView(postDate: post.timestamp.timeIntervalSince1970InSeconds, expirationDate: post.expirationDate.timeIntervalSince1970InSeconds)
+                        .popover(isPresented: $isTimeLeftPopoverDisplayed) {
+                            Text(getTimeLeftText())
+                                .font(.subheadline)
+                                .foregroundStyle(.gray)
+                                .padding([.leading, .trailing], 10)
+                                .presentationCompactAdaptation(.popover)
+                        }
+                        .onTapGesture {
+                            isTimeLeftPopoverDisplayed = true
+                        }
+                } else {
+                    Text(post.timestamp.convertTimestampToDate().formatDatetoPost())
+                        .foregroundStyle(.gray)
+                        .font(.caption)
+                }
+                
+                
+                Spacer()
+                
+                Image(systemName: "ellipsis")
+                    .foregroundStyle(.gray)
+                    .popover(isPresented: self.$isOptionsPopoverDisplayed) {
+                        Options()
                     }
                     .onTapGesture {
-                        isTimeLeftPopoverDisplayed = true
+                        self.isOptionsPopoverDisplayed = true
                     }
-            } else {
-                Text(post.timestamp.convertTimestampToDate().formatDatetoPost())
-                    .foregroundStyle(.gray)
-                    .font(.caption)
             }
-            
-            
-            Spacer()
-            
-            Image(systemName: "ellipsis")
-                .foregroundStyle(.gray)
-                .popover(isPresented: self.$isOptionsPopoverDisplayed) {
-                    Options()
-                }
-                .onTapGesture {
-                    self.isOptionsPopoverDisplayed = true
-                }
         }
     }
     
@@ -113,7 +115,7 @@ struct PostView: View {
     private func Options() -> some View {
         VStack {
             if post.isFromRecipientUser {
-                if post.type == .active {
+                if post.status == .active {
                     Button {
                         isOptionsPopoverDisplayed = false
                         isEditPostScreenDisplayed = true
@@ -146,38 +148,40 @@ struct PostView: View {
                 }
                 .padding()
             } else {
-                if post.isSubscribed {
-                    Button(action: {
-                        isOptionsPopoverDisplayed = false
-                        Task {
-                            let token = try await authVM.getFirebaseToken()
-                            if let isFollowing = await unfollowPost(postId: self.post.id, token: token) {
-                                self.post.isSubscribed = isFollowing
+                if let isSubscribed = post.isSubscribed {
+                    if isSubscribed {
+                        Button(action: {
+                            isOptionsPopoverDisplayed = false
+                            Task {
+                                let token = try await authVM.getFirebaseToken()
+                                if let isFollowing = await unfollowPost(postId: self.post.id, token: token) {
+                                    self.post.isSubscribed = isFollowing
+                                }
                             }
+                        }) {
+                            Text("Disable notifications")
+                                .foregroundStyle(.gray)
+                            Image(systemName: "bell.slash.fill")
+                                .foregroundStyle(.gray)
                         }
-                    }) {
-                        Text("Disable notifications")
-                            .foregroundStyle(.gray)
-                        Image(systemName: "bell.slash.fill")
-                            .foregroundStyle(.gray)
-                    }
-                    .padding()
-                } else {
-                    Button {
-                        isOptionsPopoverDisplayed = false
-                        Task {
-                            let token = try await authVM.getFirebaseToken()
-                            if let isFollowing = await followPost(postId: self.post.id, token: token) {
-                                self.post.isSubscribed = isFollowing
+                        .padding()
+                    } else {
+                        Button {
+                            isOptionsPopoverDisplayed = false
+                            Task {
+                                let token = try await authVM.getFirebaseToken()
+                                if let isFollowing = await followPost(postId: self.post.id, token: token) {
+                                    self.post.isSubscribed = isFollowing
+                                }
                             }
+                        } label: {
+                            Text("Enable notifications")
+                                .foregroundStyle(.gray)
+                            Image(systemName: "bell.and.waves.left.and.right")
+                                .foregroundStyle(.gray)
                         }
-                    } label: {
-                        Text("Enable notifications")
-                            .foregroundStyle(.gray)
-                        Image(systemName: "bell.and.waves.left.and.right")
-                            .foregroundStyle(.gray)
+                        .padding()
                     }
-                    .padding()
                 }
                 
                 Divider()
@@ -210,6 +214,15 @@ struct PostView: View {
                     .font(.caption)
             }
             .foregroundStyle(postTag.color)
+        } else if post.postSource == .lostItem {
+            HStack(spacing: 2) {
+                Image(systemName: "magnifyingglass")
+                    .scaleEffect(0.8)
+                
+                Text("Lost Something")
+                    .font(.caption)
+            }
+            .foregroundStyle(.gray)
         }
     }
     
@@ -217,9 +230,16 @@ struct PostView: View {
     
     @ViewBuilder
     private func TextView() -> some View {
-        if let text = post.text {
-            Text(LocalizedStringKey(text))
-                .textSelection(.enabled)
+        VStack(alignment: .leading) {
+            if post.postSource == .lostItem {
+                Text("Help me to find my... ")
+                    .foregroundStyle(.gray)
+            }
+            
+            if let text = post.text {
+                Text(LocalizedStringKey(text))
+                    .textSelection(.enabled)
+            }
         }
     }
     
@@ -242,46 +262,66 @@ struct PostView: View {
     
     @ViewBuilder
     private func Footer() -> some View {
+        if post.postSource == .publication {
+            RealPostFooter()
+        } else {
+            NotRealPostFooter()
+        }
+    }
+    
+    // MARK: - Post Footer
+    
+    @ViewBuilder
+    private func RealPostFooter() -> some View {
         HStack(spacing: 32) {
             HStack {
-                HeartView(isLiked: $post.didLike) {
+                HeartView(isLiked: Binding(
+                    get: { post.didLike ?? false },
+                    set: { post.didLike = $0 }
+                )) {
                     Task {
                         let token = try await authVM.getFirebaseToken()
-                        if post.didLike {
+                        
+                        if post.didLike ?? false {
                             post.didLike = false
-                            post.likes -= 1
-                            await unlikePublication(publicationId: post.id, token: token) { toggleFeedUpdate($0) }
+                            post.likes = (post.likes ?? 1) - 1
+                            await unlikePublication(publicationId: post.id, token: token) {
+                                toggleFeedUpdate($0)
+                            }
                         } else {
                             hapticFeedback()
                             post.didLike = true
-                            post.likes += 1
-                            await likePublication(publicationId: post.id, token: token) { toggleFeedUpdate($0) }
+                            post.likes = (post.likes ?? 0) + 1
+                            await likePublication(publicationId: post.id, token: token) {
+                                toggleFeedUpdate($0)
+                            }
                         }
                     }
                 }
                 
-                Text(String(post.likes))
+                Text(String(post.likes ?? 0))
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .onTapGesture {
                         isLikeScreenDisplayed = true
                     }
             }
+            
             HStack {
                 Image(systemName: "bubble.left")
                     .foregroundColor(.gray)
                 
-                Text(String(post.comment))
+                Text(String(post.comment ?? 0))
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
             
-            if post.isLocationVisible {
+            if post.isLocationVisible ?? false, let distance = post.formattedDistanceToMe {
                 HStack {
                     Image(systemName: "map")
                         .foregroundStyle(.gray)
                     
-                    Text(post.formattedDistanceToMe!)
+                    Text(distance)
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
@@ -290,6 +330,27 @@ struct PostView: View {
                 }
             }
             
+            Spacer()
+        }
+    }
+    
+    // MARK: - Not Real Post Footer
+    
+    @ViewBuilder
+    private func NotRealPostFooter() -> some View {
+        HStack {
+            Button {
+                // TODO: Go to DetailScreen
+            } label: {
+                HStack {
+                    Text("See Details")
+                    Image(systemName: "chevron.forward")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 12)
+                }
+            }
+
             Spacer()
         }
     }
@@ -405,7 +466,30 @@ struct PostView: View {
 
 #Preview {
     PostView(
-        post: .constant(FormattedPost(id: "1", userUid: "1", userProfilePic: nil, username: "ordozgoite", timestamp: 1, expirationDate: 1, text: "Olá", likes: 11, didLike: false, comment: 4, latitude: nil, longitude: nil, distanceToMe: nil, isFromRecipientUser: false, isLocationVisible: false, tag: "chat", imageUrl: nil, isOwnerFarAway: false, isFinished: false, duration: 4, isSubscribed: false)),
+        post: .constant(FormattedPost(
+            id: "680006cd9c7c5a27d55e6a34",
+            userUid: "ntDPci9E8ZURHYcqFfektUSFWw53",
+            userProfilePic: "https://www.apple.com/leadership/images/bio/tim-cook_image.png.og.png?1736784653666",
+            username: "ordozgoite",
+            timestamp: 1744832205133,
+            expirationDate: 1744918605133,
+            text: "AirPods Pro 2ª geração",
+            likes: nil,
+            didLike: nil,
+            comment: nil,
+            latitude: -60.022406872388324,
+            longitude: -3.1263690427109263,
+            distanceToMe: nil,
+            isFromRecipientUser: false,
+            isLocationVisible: false,
+            tag: nil,
+            imageUrl: "https://m.media-amazon.com/images/I/51OoKCakCfL._AC_UF350,350_QL80_.jpg",
+            isOwnerFarAway: nil,
+            isFinished: nil,
+            duration: nil,
+            isSubscribed: nil,
+            source: "lostItem"
+        )),
         location: .constant(nil),
         socket: SocketService(),
         deletePost: {},
@@ -413,3 +497,7 @@ struct PostView: View {
     )
     .environmentObject(AuthenticationViewModel())
 }
+
+//"https:\/\/firebasestorage.googleapis.com:443\/v0\/b\/aroundyou-b8364.appspot.com\/o\/post-image%2F32A37A97-A770-4103-80BF-4614736B2706.jpg?alt=media&token=d4d6ac06-73a9-4805-8a48-7218f8a334dc"
+
+//"https:\/\/firebasestorage.googleapis.com:443\/v0\/b\/aroundyou-b8364.appspot.com\/o\/post-image%2F6014DE96-A1DF-485D-BC5F-A1D1AC35CF71.jpg?alt=media&token=cafbcd10-81bf-48af-9e25-39e06d05143a"

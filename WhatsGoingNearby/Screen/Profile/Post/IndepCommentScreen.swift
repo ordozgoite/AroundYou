@@ -67,7 +67,7 @@ struct IndepCommentScreen: View {
     private func Comments() -> some View {
         VStack {
             ForEach($postVM.comments) { $comment in
-                CommentView(isPostFromRecipientUser: true, postType: postVM.post.type, socket: socket, comment: $comment, deleteComment: {
+                CommentView(isPostFromRecipientUser: true, postType: postVM.post.status, socket: socket, comment: $comment, deleteComment: {
                     Task {
                         let token = try await authVM.getFirebaseToken()
                         await postVM.deleteComment(commentId: comment.id, token: token)

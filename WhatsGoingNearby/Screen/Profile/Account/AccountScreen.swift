@@ -124,7 +124,7 @@ struct AccountScreen: View {
                             .padding()
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .opacity(post.type == .inactive ? 0.5 : 1)
+                    .opacity(post.status == .expired ? 0.5 : 1)
                     
                     Divider()
                 }
@@ -139,9 +139,9 @@ struct AccountScreen: View {
         case .all:
             return true
         case .active:
-            return post.type == .active
+            return post.status == .active
         case .inactive:
-            return post.type == .inactive
+            return post.status == .expired
         }
     }
 }

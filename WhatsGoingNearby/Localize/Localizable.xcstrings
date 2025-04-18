@@ -1680,6 +1680,9 @@
         }
       }
     },
+    "Help me to find my... " : {
+
+    },
     "Help us to improve the app we love! If you find any failure, tell us what happened." : {
       "localizations" : {
         "pt-BR" : {
@@ -2077,6 +2080,9 @@
 
     },
     "Lost Item Information" : {
+
+    },
+    "Lost Something" : {
 
     },
     "Male" : {
@@ -2940,6 +2946,9 @@
           }
         }
       }
+    },
+    "See Details" : {
+
     },
     "Seeking hangout" : {
       "localizations" : {

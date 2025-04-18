@@ -105,7 +105,7 @@ struct EditPostScreen: View {
     
     private func setupInitialValues() {
         editPostVM.postText = post.text ?? ""
-        editPostVM.isLocationVisible = post.isLocationVisible
+        editPostVM.isLocationVisible = post.isLocationVisible ?? false
         editPostVM.selectedPostDuration = post.postDuration
         editPostVM.selectedPostTag = post.postTag ?? .chat
     }
