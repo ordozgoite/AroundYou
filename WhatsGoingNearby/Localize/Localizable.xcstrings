@@ -1020,6 +1020,9 @@
     "Delete Community" : {
 
     },
+    "Delete Lost Item" : {
+
+    },
     "Delete Message" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1052,6 +1055,9 @@
           }
         }
       }
+    },
+    "Delete Report" : {
+
     },
     "Deleting Community..." : {
 

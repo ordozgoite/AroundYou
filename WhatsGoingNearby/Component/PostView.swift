@@ -142,7 +142,14 @@ struct PostView: View {
                     FinishPostButton()
                 }
                 
-                DeletePostButton()
+                switch post.postSource {
+                case .publication:
+                    DeletePostButton()
+                case .lostItem:
+                    DeleteLostItemButton()
+                case .report:
+                    DeleteReportButton()
+                }
             } else if post.postSource == .publication {
                 if let isSubscribed = post.isSubscribed {
                     if isSubscribed {
@@ -201,6 +208,38 @@ struct PostView: View {
             deletePost()
         } label: {
             Text("Delete Post")
+            Image(systemName: "trash")
+        }
+        .padding()
+    }
+    
+    // MARK: - Delete Lost Item
+    
+    @ViewBuilder
+    private func DeleteLostItemButton() -> some View {
+        Button(role: .destructive) {
+            Task {
+                let token = try await authVM.getFirebaseToken()
+                await deleteLostItem(token: token)
+            }
+        } label: {
+            Text("Delete Lost Item")
+            Image(systemName: "trash")
+        }
+        .padding()
+    }
+    
+    // MARK: - Delete Report
+    
+    @ViewBuilder
+    private func DeleteReportButton() -> some View {
+        Button(role: .destructive) {
+            Task {
+                let token = try await authVM.getFirebaseToken()
+                await deleteReport(token: token)
+            }
+        } label: {
+            Text("Delete Report")
             Image(systemName: "trash")
         }
         .padding()
@@ -487,6 +526,28 @@ struct PostView: View {
     }
     
     //MARK: - Auxiliary Methods
+    
+    private func deleteLostItem(token: String) async {
+        let result = await AYServices.shared.deleteLostItem(lostItemId: self.post.id, token: token)
+        
+        switch result {
+        case .success:
+            refreshFeed()
+        case .failure:
+            print("❌ Error trying to delete Lost Item.")
+        }
+    }
+    
+    private func deleteReport(token: String) async {
+        let result = await AYServices.shared.deleteReportIncident(reportId: self.post.id, token: token)
+        
+        switch result {
+        case .success:
+            refreshFeed()
+        case .failure:
+            print("❌ Error trying to delete Incident Report.")
+        }
+    }
     
     private func getTimeLeftText() -> LocalizedStringKey {
         var timeLeft: Int
