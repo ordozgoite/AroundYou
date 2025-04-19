@@ -170,7 +170,7 @@ struct PlacesScreen: View {
             Button {
                 placesVM.isReportScreenDisplayed = true
             } label: {
-                Label("Report an Incident", systemImage: "megaphone")
+                Label("Report an Incident", systemImage: "exclamationmark.bubble")
             }
             
             Button {

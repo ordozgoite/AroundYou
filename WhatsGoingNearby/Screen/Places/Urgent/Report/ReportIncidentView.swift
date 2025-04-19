@@ -14,6 +14,8 @@ struct ReportIncidentView: View {
     @StateObject private var vm = ReportIncidentViewModel()
     @ObservedObject var locationManager: LocationManager
     @Environment(\.dismiss) var dismiss
+    @FocusState private var isEditingIncidentDescription: Bool
+    @FocusState private var isEditingPersonDescription: Bool
     
     var body: some View {
         NavigationStack {
@@ -83,11 +85,27 @@ struct ReportIncidentView: View {
                 Toggle("Are you the victim?", isOn: $vm.isUserTheVictim)
                 
                 if !vm.isUserTheVictim {
-                    TextField("Describe the victim (optional)", text: $vm.humanVictimDetails)
+                    TextField("Describe the victim (optional)", text: $vm.humanVictimDetails, axis: .vertical)
+                        .lineLimit(3...3)
+                        .focused($isEditingPersonDescription)
+                        .onChange(of: vm.humanVictimDetails) { newValue in
+                            if newValue.contains("\n") {
+                                vm.humanVictimDetails = newValue.replacingOccurrences(of: "\n", with: "")
+                                isEditingPersonDescription = false
+                            }
+                        }
                 }
             }
             
-            TextField("Describe the incident", text: $vm.reportDescription)
+            TextField("Describe the incident", text: $vm.reportDescription, axis: .vertical)
+                .lineLimit(3...3)
+                .focused($isEditingIncidentDescription)
+                .onChange(of: vm.reportDescription) { newValue in
+                    if newValue.contains("\n") {
+                        vm.reportDescription = newValue.replacingOccurrences(of: "\n", with: "")
+                        isEditingIncidentDescription = false
+                    }
+                }
         }
     }
     
