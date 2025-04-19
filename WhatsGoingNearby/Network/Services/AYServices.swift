@@ -106,9 +106,11 @@ protocol AYServiceable {
     
     // Lost Item
     func postLostItem(lostItem: LostItem, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func deleteLostItem(lostItemId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
     
     // Report Incident
     func postReportIncident(reportIncident: ReportIncident, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func deleteReportIncident(reportId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -415,9 +417,17 @@ struct AYServices: HTTPClient, AYServiceable {
         return await sendRequest(endpoint: AYEndpoints.postLostItem(lostItem: lostItem, token: token), responseModel: SuccessMessageResponse.self)
     }
     
+    func deleteLostItem(lostItemId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteLostItem(lostItemId: lostItemId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
     // MARK: - Report Incident
     
     func postReportIncident(reportIncident: ReportIncident, token: String) async -> Result<SuccessMessageResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.postReportIncident(reportIncident: reportIncident, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func deleteReportIncident(reportId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteReportIncident(reportId: reportId, token: token), responseModel: SuccessMessageResponse.self)
     }
 }
