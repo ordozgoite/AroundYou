@@ -16,15 +16,8 @@ struct PostView: View {
     let deletePost: () -> ()
     let toggleFeedUpdate: (Bool) -> ()
     
-    @State private var isTimeLeftPopoverDisplayed: Bool = false
-    @State private var isOptionsPopoverDisplayed: Bool = false
-    @State private var isReportScreenPresented: Bool = false
-    @State private var isMapScreenPresented: Bool = false
-    @State private var isLikeScreenDisplayed: Bool = false
-    @State private var isFullScreenImageDisplayed: Bool = false
-    @State private var isEditPostScreenDisplayed: Bool = false
-    
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @StateObject private var postVM = PostViewModel()
     
     var body: some View {
         VStack {
@@ -45,7 +38,7 @@ struct PostView: View {
                     Footer()
                 }
             }
-            .fullScreenCover(isPresented: $isFullScreenImageDisplayed) {
+            .fullScreenCover(isPresented: $postVM.isFullScreenImageDisplayed) {
                 FullScreenUrlImage(url: post.imageUrl ?? "")
             }
             
@@ -97,17 +90,17 @@ struct PostView: View {
     
     @ViewBuilder
     private func TimeInfo() -> some View {
-        if isActivePublication() {
+        if postVM.isActivePublication(post) {
             CircleTimerView(postDate: post.timestamp.timeIntervalSince1970InSeconds, expirationDate: post.expirationDate.timeIntervalSince1970InSeconds)
-                .popover(isPresented: $isTimeLeftPopoverDisplayed) {
-                    Text(getTimeLeftText())
+                .popover(isPresented: $postVM.isTimeLeftPopoverDisplayed) {
+                    Text(postVM.getTimeLeftText(forPost: post))
                         .font(.subheadline)
                         .foregroundStyle(.gray)
                         .padding([.leading, .trailing], 10)
                         .presentationCompactAdaptation(.popover)
                 }
                 .onTapGesture {
-                    isTimeLeftPopoverDisplayed = true
+                    postVM.isTimeLeftPopoverDisplayed = true
                 }
         } else {
             Text(post.timestamp.convertTimestampToDate().formatDatetoPost())
@@ -122,11 +115,11 @@ struct PostView: View {
     private func OptionsButton() -> some View {
         Image(systemName: "ellipsis")
             .foregroundStyle(.gray)
-            .popover(isPresented: self.$isOptionsPopoverDisplayed) {
+            .popover(isPresented: $postVM.isOptionsPopoverDisplayed) {
                 Options()
             }
             .onTapGesture {
-                self.isOptionsPopoverDisplayed = true
+                postVM.isOptionsPopoverDisplayed = true
             }
     }
     
@@ -136,7 +129,7 @@ struct PostView: View {
     private func Options() -> some View {
         VStack {
             if post.isFromRecipientUser {
-                if isActivePublication() {
+                if postVM.isActivePublication(post) {
                     EditPostButton()
                     
                     FinishPostButton()
@@ -172,8 +165,8 @@ struct PostView: View {
     @ViewBuilder
     private func EditPostButton() -> some View {
         Button {
-            isOptionsPopoverDisplayed = false
-            isEditPostScreenDisplayed = true
+            postVM.isOptionsPopoverDisplayed = false
+            postVM.isEditPostScreenDisplayed = true
         } label: {
             Text("Edit Post")
             Image(systemName: "pencil")
@@ -187,10 +180,11 @@ struct PostView: View {
     @ViewBuilder
     private func FinishPostButton() -> some View {
         Button {
-            isOptionsPopoverDisplayed = false
+            postVM.isOptionsPopoverDisplayed = false
             Task {
                 let token = try await authVM.getFirebaseToken()
-                await finishPublication(token: token)
+                try await postVM.finishPublication(postId: post.id, token: token)
+                self.post.isFinished = true
             }
         } label: {
             Text("Finish Post")
@@ -220,7 +214,7 @@ struct PostView: View {
         Button(role: .destructive) {
             Task {
                 let token = try await authVM.getFirebaseToken()
-                await deleteLostItem(token: token)
+                await postVM.deleteLostItem(lostItemId: post.id, token: token)
             }
         } label: {
             Text("Delete Lost Item")
@@ -236,7 +230,7 @@ struct PostView: View {
         Button(role: .destructive) {
             Task {
                 let token = try await authVM.getFirebaseToken()
-                await deleteReport(token: token)
+                await postVM.deleteReport(reportId: post.id,token: token)
             }
         } label: {
             Text("Delete Report")
@@ -250,10 +244,10 @@ struct PostView: View {
     @ViewBuilder
     private func DisableNotificationsButton() -> some View {
         Button {
-            isOptionsPopoverDisplayed = false
+            postVM.isOptionsPopoverDisplayed = false
             Task {
                 let token = try await authVM.getFirebaseToken()
-                if let isFollowing = await unfollowPost(postId: self.post.id, token: token) {
+                if let isFollowing = await postVM.unfollowPost(postId: self.post.id, token: token) {
                     self.post.isSubscribed = isFollowing
                 }
             }
@@ -271,10 +265,10 @@ struct PostView: View {
     @ViewBuilder
     private func EnableNotificationsButton() -> some View {
         Button {
-            isOptionsPopoverDisplayed = false
+            postVM.isOptionsPopoverDisplayed = false
             Task {
                 let token = try await authVM.getFirebaseToken()
-                if let isFollowing = await followPost(postId: self.post.id, token: token) {
+                if let isFollowing = await postVM.followPost(postId: self.post.id, token: token) {
                     self.post.isSubscribed = isFollowing
                 }
             }
@@ -292,8 +286,8 @@ struct PostView: View {
     @ViewBuilder
     private func ReportPostButton() -> some View {
         Button {
-            isOptionsPopoverDisplayed = false
-            isReportScreenPresented = true
+            postVM.isOptionsPopoverDisplayed = false
+            postVM.isReportScreenPresented = true
         } label: {
             Text("Report Post")
                 .foregroundStyle(.gray)
@@ -365,7 +359,7 @@ struct PostView: View {
                 .frame(width: 128)
                 .cornerRadius(8)
                 .onTapGesture {
-                    isFullScreenImageDisplayed = true
+                    postVM.isFullScreenImageDisplayed = true
                 }
         }
     }
@@ -411,14 +405,14 @@ struct PostView: View {
                     if post.didLike ?? false {
                         post.didLike = false
                         post.likes = (post.likes ?? 1) - 1
-                        await unlikePublication(publicationId: post.id, token: token) {
+                        await postVM.unlikePublication(publicationId: post.id, token: token) {
                             toggleFeedUpdate($0)
                         }
                     } else {
                         hapticFeedback()
                         post.didLike = true
                         post.likes = (post.likes ?? 0) + 1
-                        await likePublication(publicationId: post.id, token: token) {
+                        await postVM.likePublication(publicationId: post.id, token: token) {
                             toggleFeedUpdate($0)
                         }
                     }
@@ -429,7 +423,7 @@ struct PostView: View {
                 .font(.subheadline)
                 .foregroundColor(.gray)
                 .onTapGesture {
-                    isLikeScreenDisplayed = true
+                    postVM.isLikeScreenDisplayed = true
                 }
         }
     }
@@ -462,7 +456,7 @@ struct PostView: View {
                     .foregroundColor(.gray)
             }
             .onTapGesture {
-                isMapScreenPresented = true
+                postVM.isMapScreenPresented = true
             }
         }
     }
@@ -494,133 +488,40 @@ struct PostView: View {
     private func Navigation() -> some View {
         NavigationLink(
             destination: EditPostScreen(post: post, location: $location).environmentObject(authVM),
-            isActive: $isEditPostScreenDisplayed,
+            isActive: $postVM.isEditPostScreenDisplayed,
             label: { EmptyView() }
         )
         
         NavigationLink(
             destination: ReportIssueScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil, businessId: nil).environmentObject(authVM),
-            isActive: $isReportScreenPresented,
+            isActive: $postVM.isReportScreenPresented,
             label: { EmptyView() }
         )
         
         if #available(iOS 17.0, *) {
             NavigationLink(
                 destination: NewPostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, username: post.username, profilePic: post.userProfilePic).environmentObject(authVM),
-                isActive: $isMapScreenPresented,
+                isActive: $postVM.isMapScreenPresented,
                 label: { EmptyView() }
             )
         } else {
             NavigationLink(
                 destination: PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0).environmentObject(authVM),
-                isActive: $isMapScreenPresented,
+                isActive: $postVM.isMapScreenPresented,
                 label: { EmptyView() }
             )
         }
         
         NavigationLink(
             destination: LikeScreen(id: post.id, type: .publication, socket: socket).environmentObject(authVM),
-            isActive: $isLikeScreenDisplayed,
+            isActive: $postVM.isLikeScreenDisplayed,
             label: { EmptyView() }
         )
     }
     
     //MARK: - Auxiliary Methods
     
-    private func deleteLostItem(token: String) async {
-        let result = await AYServices.shared.deleteLostItem(lostItemId: self.post.id, token: token)
-        
-        switch result {
-        case .success:
-            refreshFeed()
-        case .failure:
-            print("❌ Error trying to delete Lost Item.")
-        }
-    }
     
-    private func deleteReport(token: String) async {
-        let result = await AYServices.shared.deleteReportIncident(reportId: self.post.id, token: token)
-        
-        switch result {
-        case .success:
-            refreshFeed()
-        case .failure:
-            print("❌ Error trying to delete Incident Report.")
-        }
-    }
-    
-    private func getTimeLeftText() -> LocalizedStringKey {
-        var timeLeft: Int
-        var pluralModifier: String = ""
-        
-        let timeLeftInSeconds = post.expirationDate.timeIntervalSince1970InSeconds - getCurrentDateTimestamp()
-        if timeLeftInSeconds < 60 {
-            timeLeft = timeLeftInSeconds
-            if timeLeft != 1 { pluralModifier = "s" }
-            return LocalizedStringKey("\(timeLeft) second\(pluralModifier) to expire")
-        } else if timeLeftInSeconds < 3600 {
-            timeLeft = Int(timeLeftInSeconds / 60)
-            if timeLeft != 1 { pluralModifier = "s" }
-            return LocalizedStringKey("\(timeLeft) minute\(pluralModifier) to expire")
-        } else {
-            timeLeft = Int(timeLeftInSeconds / 3600)
-            if timeLeft != 1 { pluralModifier = "s" }
-            return LocalizedStringKey("\(timeLeft) hour\(pluralModifier) to expire")
-        }
-    }
-    
-    private func followPost(postId: String, token: String) async -> Bool? {
-        let result = await AYServices.shared.subscribeUserToPublication(publicationId: postId, token: token)
-        
-        switch result {
-        case .success:
-            return true
-        case .failure:
-            return nil
-        }
-    }
-    
-    private func unfollowPost(postId: String, token: String) async -> Bool? {
-        let result = await AYServices.shared.unsubscribeUser(publicationId: postId, token: token)
-        
-        switch result {
-        case .success:
-            return false
-        case .failure:
-            return nil
-        }
-    }
-    
-    private func likePublication(publicationId: String, token: String, toggleFeedUpdate: (Bool) -> ()) async {
-        toggleFeedUpdate(false)
-        _ = await AYServices.shared.likePublication(publicationId: publicationId, token: token)
-        toggleFeedUpdate(true)
-    }
-    
-    private func unlikePublication(publicationId: String, token: String, toggleFeedUpdate: (Bool) -> ()) async {
-        toggleFeedUpdate(false)
-        _ = await AYServices.shared.unlikePublication(publicationId: publicationId, token: token)
-        toggleFeedUpdate(true)
-    }
-    
-    private func finishPublication(token: String) async {
-        let result = await AYServices.shared.finishPublication(publicationId: post.id, token: token)
-        
-        switch result {
-        case .success:
-            post.isFinished = true
-        case .failure:
-            print("❌ Error trying to Finish Publication.")
-        }
-    }
-    
-    private func refreshFeed() {
-        NotificationCenter.default.post(name: .refreshLocationSensitiveData, object: nil)
-    }
-    
-    private func isActivePublication() -> Bool {
-        return post.status == .active && post.postSource == .publication
-    }
 }
 
 #Preview {
