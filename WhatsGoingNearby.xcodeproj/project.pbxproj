@@ -24,6 +24,8 @@
 		ED10262B2D664E29009FF94B /* GetCommunityInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10262A2D664E29009FF94B /* GetCommunityInfoResponse.swift */; };
 		ED13B0A12CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */; };
 		ED1612BC2DB41F200037413C /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1612BB2DB41F200037413C /* PostViewModel.swift */; };
+		ED1613372DC2F06B0037413C /* ReportDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1613362DC2F06B0037413C /* ReportDetailScreen.swift */; };
+		ED16133B2DC30F5E0037413C /* ReportDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED16133A2DC30F5E0037413C /* ReportDetailViewModel.swift */; };
 		ED16B8DE2D57F4240034B190 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED16B8DD2D57F4240034B190 /* FirebaseService.swift */; };
 		ED16B8E22D5800E00034B190 /* CreateCommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED16B8E12D5800E00034B190 /* CreateCommunityViewModel.swift */; };
 		ED1FFB692D865CD50091E5B5 /* EmptyBusinessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1FFB682D865CD50091E5B5 /* EmptyBusinessView.swift */; };
@@ -88,6 +90,7 @@
 		ED50C4602B7F98620001EDF6 /* Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C45F2B7F98620001EDF6 /* Sizes.swift */; };
 		ED50C4622B7F9C030001EDF6 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4612B7F9C030001EDF6 /* UserProfileViewModel.swift */; };
 		ED50C4642B7FA2B80001EDF6 /* EmptyFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4632B7FA2B80001EDF6 /* EmptyFeedView.swift */; };
+		ED52D8D32DC327C20098D450 /* ReportIncident+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED52D8D22DC327C20098D450 /* ReportIncident+Mock.swift */; };
 		ED5329112D80FF0D00AEED74 /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = ED5329102D80FF0D00AEED74 /* PhoneNumberKit */; };
 		ED5329152D80FF0D00AEED74 /* PhoneNumberKit-Static in Frameworks */ = {isa = PBXBuildFile; productRef = ED5329142D80FF0D00AEED74 /* PhoneNumberKit-Static */; };
 		ED5329172D82498800AEED74 /* AYPhoneNumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5329162D82498800AEED74 /* AYPhoneNumberTextField.swift */; };
@@ -311,6 +314,8 @@
 		ED10262A2D664E29009FF94B /* GetCommunityInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCommunityInfoResponse.swift; sourceTree = "<group>"; };
 		ED13B0A02CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeactivateUserDiscoverabilityResponse.swift; sourceTree = "<group>"; };
 		ED1612BB2DB41F200037413C /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
+		ED1613362DC2F06B0037413C /* ReportDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDetailScreen.swift; sourceTree = "<group>"; };
+		ED16133A2DC30F5E0037413C /* ReportDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDetailViewModel.swift; sourceTree = "<group>"; };
 		ED16B8DD2D57F4240034B190 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		ED16B8E12D5800E00034B190 /* CreateCommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommunityViewModel.swift; sourceTree = "<group>"; };
 		ED1FFB682D865CD50091E5B5 /* EmptyBusinessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBusinessView.swift; sourceTree = "<group>"; };
@@ -374,6 +379,7 @@
 		ED50C45F2B7F98620001EDF6 /* Sizes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sizes.swift; sourceTree = "<group>"; };
 		ED50C4612B7F9C030001EDF6 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
 		ED50C4632B7FA2B80001EDF6 /* EmptyFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyFeedView.swift; sourceTree = "<group>"; };
+		ED52D8D22DC327C20098D450 /* ReportIncident+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportIncident+Mock.swift"; sourceTree = "<group>"; };
 		ED5329162D82498800AEED74 /* AYPhoneNumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYPhoneNumberTextField.swift; sourceTree = "<group>"; };
 		ED57D2492B95880800FC7351 /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
 		ED57D24B2B95888D00FC7351 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -630,6 +636,24 @@
 			path = Post;
 			sourceTree = "<group>";
 		};
+		ED1613382DC30F390037413C /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				ED1613362DC2F06B0037413C /* ReportDetailScreen.swift */,
+				ED16133A2DC30F5E0037413C /* ReportDetailViewModel.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		ED1613392DC30F430037413C /* Create */ = {
+			isa = PBXGroup;
+			children = (
+				ED7AF5D22DA73FD100966B5C /* ReportIncidentViewModel.swift */,
+				EDEF4E832D933575009CA424 /* ReportIncidentView.swift */,
+			);
+			path = Create;
+			sourceTree = "<group>";
+		};
 		ED16B8DF2D58000A0034B190 /* List */ = {
 			isa = PBXGroup;
 			children = (
@@ -706,6 +730,7 @@
 			isa = PBXGroup;
 			children = (
 				ED30CE862D6FEA1E001FB213 /* FormattedBusinessShowcase+Mock.swift */,
+				ED52D8D22DC327C20098D450 /* ReportIncident+Mock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1365,8 +1390,8 @@
 		EDEF4E822D933567009CA424 /* Report */ = {
 			isa = PBXGroup;
 			children = (
-				ED7AF5D22DA73FD100966B5C /* ReportIncidentViewModel.swift */,
-				EDEF4E832D933575009CA424 /* ReportIncidentView.swift */,
+				ED1613392DC30F430037413C /* Create */,
+				ED1613382DC30F390037413C /* Detail */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -1662,6 +1687,7 @@
 				EDE8B3762BC3301900DFF750 /* NewPostView.swift in Sources */,
 				ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */,
 				EDA30DFC2B804BE6003EB22D /* Report.swift in Sources */,
+				ED1613372DC2F06B0037413C /* ReportDetailScreen.swift in Sources */,
 				ED30CE7D2D6F99EB001FB213 /* IndepCommentScreenWrapper.swift in Sources */,
 				ED13B0A12CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift in Sources */,
 				EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */,
@@ -1686,6 +1712,7 @@
 				ED5329172D82498800AEED74 /* AYPhoneNumberTextField.swift in Sources */,
 				ED4D7C3A2D4D32AD007FC1FF /* BlurView.swift in Sources */,
 				ED598BF82B7C1B9400B6C23D /* Date.swift in Sources */,
+				ED16133B2DC30F5E0037413C /* ReportDetailViewModel.swift in Sources */,
 				ED6CF4CA2BBD029700990DBD /* BlackLogo.swift in Sources */,
 				ED598BED2B7C139D00B6C23D /* PlacesScreen.swift in Sources */,
 				EDA322342B7CB861009905B5 /* URLImageView.swift in Sources */,
@@ -1701,6 +1728,7 @@
 				ED41409E2B7DF84E002690A5 /* DeleteCommentResponse.swift in Sources */,
 				EDCBEBF22BB75E5800087325 /* DeleteMessageResponse.swift in Sources */,
 				ED06525D2B8171C5005B6413 /* ForgotPasswordScreen.swift in Sources */,
+				ED52D8D32DC327C20098D450 /* ReportIncident+Mock.swift in Sources */,
 				ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */,
 				EDD40C612D74E9A100E33663 /* PublishBusinessViewModel.swift in Sources */,
 				ED74E80C2BF43CE900371334 /* PersistenceController.swift in Sources */,

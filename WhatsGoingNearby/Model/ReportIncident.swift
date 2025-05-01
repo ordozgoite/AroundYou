@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ReportIncident {
+struct ReportIncident: Codable {
     let type: IncidentType
     let description: String
     let latitude: Double

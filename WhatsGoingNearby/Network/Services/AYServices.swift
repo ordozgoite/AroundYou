@@ -111,6 +111,7 @@ protocol AYServiceable {
     // Report Incident
     func postReportIncident(reportIncident: ReportIncident, token: String) async -> Result<SuccessMessageResponse, RequestError>
     func deleteReportIncident(reportId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func getReport(reportId: String, token: String) async -> Result<ReportIncident, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -429,5 +430,9 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func deleteReportIncident(reportId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.deleteReportIncident(reportId: reportId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func getReport(reportId: String, token: String) async -> Result<ReportIncident, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getReport(reportId: reportId, token: token), responseModel: ReportIncident.self)
     }
 }

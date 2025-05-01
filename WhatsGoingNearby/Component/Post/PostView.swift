@@ -467,7 +467,11 @@ struct PostView: View {
     private func NotRealPostFooter() -> some View {
         HStack {
             Button {
-                // TODO: Go to DetailScreen
+                if post.postSource == .lostItem {
+                    postVM.isLostItemDetailScreenPresented = true
+                } else if post.postSource == .report {
+                    postVM.isReportDetailScreenPresented = true
+                }
             } label: {
                 HStack {
                     Text("See Details")
@@ -486,6 +490,12 @@ struct PostView: View {
     
     @ViewBuilder
     private func Navigation() -> some View {
+        NavigationLink(
+            destination: ReportDetailScreen(reportId: post.id),
+            isActive: $postVM.isReportDetailScreenPresented,
+            label: { EmptyView() }
+        )
+        
         NavigationLink(
             destination: EditPostScreen(post: post, location: $location).environmentObject(authVM),
             isActive: $postVM.isEditPostScreenDisplayed,
