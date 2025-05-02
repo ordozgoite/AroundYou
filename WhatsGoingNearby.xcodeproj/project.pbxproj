@@ -91,6 +91,8 @@
 		ED50C4622B7F9C030001EDF6 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4612B7F9C030001EDF6 /* UserProfileViewModel.swift */; };
 		ED50C4642B7FA2B80001EDF6 /* EmptyFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50C4632B7FA2B80001EDF6 /* EmptyFeedView.swift */; };
 		ED52D8D32DC327C20098D450 /* ReportIncident+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED52D8D22DC327C20098D450 /* ReportIncident+Mock.swift */; };
+		ED52D8D72DC475050098D450 /* LostItemDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED52D8D62DC475050098D450 /* LostItemDetailScreen.swift */; };
+		ED52D8DB2DC4767A0098D450 /* LostItemDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED52D8DA2DC4767A0098D450 /* LostItemDetailViewModel.swift */; };
 		ED5329112D80FF0D00AEED74 /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = ED5329102D80FF0D00AEED74 /* PhoneNumberKit */; };
 		ED5329152D80FF0D00AEED74 /* PhoneNumberKit-Static in Frameworks */ = {isa = PBXBuildFile; productRef = ED5329142D80FF0D00AEED74 /* PhoneNumberKit-Static */; };
 		ED5329172D82498800AEED74 /* AYPhoneNumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5329162D82498800AEED74 /* AYPhoneNumberTextField.swift */; };
@@ -380,6 +382,8 @@
 		ED50C4612B7F9C030001EDF6 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
 		ED50C4632B7FA2B80001EDF6 /* EmptyFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyFeedView.swift; sourceTree = "<group>"; };
 		ED52D8D22DC327C20098D450 /* ReportIncident+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportIncident+Mock.swift"; sourceTree = "<group>"; };
+		ED52D8D62DC475050098D450 /* LostItemDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LostItemDetailScreen.swift; sourceTree = "<group>"; };
+		ED52D8DA2DC4767A0098D450 /* LostItemDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LostItemDetailViewModel.swift; sourceTree = "<group>"; };
 		ED5329162D82498800AEED74 /* AYPhoneNumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYPhoneNumberTextField.swift; sourceTree = "<group>"; };
 		ED57D2492B95880800FC7351 /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
 		ED57D24B2B95888D00FC7351 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -757,6 +761,24 @@
 				EDE8B3752BC3301900DFF750 /* NewPostView.swift */,
 			);
 			path = Feed;
+			sourceTree = "<group>";
+		};
+		ED52D8D42DC474E20098D450 /* Create */ = {
+			isa = PBXGroup;
+			children = (
+				ED7AF5CE2DA6EDD200966B5C /* LostAndFoundViewModel.swift */,
+				EDEF4E792D91E723009CA424 /* LostAndFoundView.swift */,
+			);
+			path = Create;
+			sourceTree = "<group>";
+		};
+		ED52D8D52DC474F00098D450 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				ED52D8DA2DC4767A0098D450 /* LostItemDetailViewModel.swift */,
+				ED52D8D62DC475050098D450 /* LostItemDetailScreen.swift */,
+			);
+			path = Detail;
 			sourceTree = "<group>";
 		};
 		ED598BE92B7C121000B6C23D /* Authentication */ = {
@@ -1381,8 +1403,8 @@
 		EDEF4E812D933558009CA424 /* Lost And Found */ = {
 			isa = PBXGroup;
 			children = (
-				ED7AF5CE2DA6EDD200966B5C /* LostAndFoundViewModel.swift */,
-				EDEF4E792D91E723009CA424 /* LostAndFoundView.swift */,
+				ED52D8D42DC474E20098D450 /* Create */,
+				ED52D8D52DC474F00098D450 /* Detail */,
 			);
 			path = "Lost And Found";
 			sourceTree = "<group>";
@@ -1720,6 +1742,7 @@
 				ED755F1D2BB50D56004BC6C3 /* BubbleView.swift in Sources */,
 				ED7D8F822BBA0D9300544A8B /* PostImageView.swift in Sources */,
 				ED82CD0C2D8B09390075EFB8 /* MyBusinessView.swift in Sources */,
+				ED52D8D72DC475050098D450 /* LostItemDetailScreen.swift in Sources */,
 				ED4D7C362D418710007FC1FF /* EmptyDiscoverView.swift in Sources */,
 				EDCF2C382BB66E400066950F /* Message.swift in Sources */,
 				ED30CE7A2D6F549A001FB213 /* BusinessScreen.swift in Sources */,
@@ -1790,6 +1813,7 @@
 				ED3B54E72CCEC704007AA1D0 /* ActivateUserDiscoverabilityResponse.swift in Sources */,
 				ED9A332F2D78E448007EB6FC /* KingfisherService.swift in Sources */,
 				EDA322292B7CA362009905B5 /* Endpoint.swift in Sources */,
+				ED52D8DB2DC4767A0098D450 /* LostItemDetailViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

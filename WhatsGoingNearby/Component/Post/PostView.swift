@@ -491,8 +491,14 @@ struct PostView: View {
     @ViewBuilder
     private func Navigation() -> some View {
         NavigationLink(
-            destination: ReportDetailScreen(reportId: post.id),
+            destination: ReportDetailScreen(reportId: post.id).environmentObject(authVM),
             isActive: $postVM.isReportDetailScreenPresented,
+            label: { EmptyView() }
+        )
+        
+        NavigationLink(
+            destination: LostItemDetailScreen(lostItemId: post.id).environmentObject(authVM),
+            isActive: $postVM.isLostItemDetailScreenPresented,
             label: { EmptyView() }
         )
         

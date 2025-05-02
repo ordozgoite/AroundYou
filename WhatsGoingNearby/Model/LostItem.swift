@@ -15,6 +15,6 @@ struct LostItem: Codable {
     let locationDescription: String?
     let latitude: Double
     let longitude: Double
-    let lostDate: Double
+    let lostDate: Int
     let hasReward: Bool
 }

@@ -55,7 +55,7 @@ class LostAndFoundViewModel: ObservableObject {
             locationDescription: self.lostLocationDescription.nonEmptyOrNil(),
             latitude: location.latitude,
             longitude: location.longitude,
-            lostDate: self.lostDate.timeIntervalSince1970 * 1000, // JavaScript usa timestamp em milisegundos
+            lostDate: Int(self.lostDate.timeIntervalSince1970 * 1000), // JavaScript usa timestamp em milisegundos
             hasReward: self.rewardOffer
         )
     }
