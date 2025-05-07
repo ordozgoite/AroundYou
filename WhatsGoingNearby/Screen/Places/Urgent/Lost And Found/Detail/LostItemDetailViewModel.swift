@@ -26,4 +26,10 @@ class LostItemDetailViewModel: ObservableObject {
             overlayError = (true, ErrorMessage.defaultErrorMessage)
         }
     }
+    
+    func setItemAsFound(lostItemId: String, token: String) async {
+        let result = await AYServices.shared.setItemAsFound(lostItemId: lostItemId, token: token)
+        
+        // Vou tratar o resultado?
+    }
 }

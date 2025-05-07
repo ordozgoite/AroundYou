@@ -26,6 +26,8 @@ class PostViewModel: ObservableObject {
     @Published var isLikeScreenDisplayed: Bool = false
     @Published var isFullScreenImageDisplayed: Bool = false
     @Published var isEditPostScreenDisplayed: Bool = false
+    
+    @Published var isCommentScreenPresented: Bool = false
     @Published var isReportDetailScreenPresented: Bool = false
     @Published var isLostItemDetailScreenPresented: Bool = false
     

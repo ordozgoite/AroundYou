@@ -11,8 +11,8 @@ import CoreLocation
 struct PostView: View {
     
     @Binding var post: FormattedPost
-    @Binding var location: CLLocation?
     @ObservedObject var socket: SocketService
+    @ObservedObject var locationManager: LocationManager
     let deletePost: () -> ()
     let toggleFeedUpdate: (Bool) -> ()
     
@@ -36,6 +36,16 @@ struct PostView: View {
                     ImagePreview()
                     
                     Footer()
+                }
+            }
+            .onTapGesture {
+                switch self.post.postSource {
+                case .publication:
+                    postVM.isCommentScreenPresented = true
+                case .lostItem:
+                    postVM.isLostItemDetailScreenPresented = true
+                case .report:
+                    postVM.isReportDetailScreenPresented = true
                 }
             }
             .fullScreenCover(isPresented: $postVM.isFullScreenImageDisplayed) {
@@ -491,6 +501,12 @@ struct PostView: View {
     @ViewBuilder
     private func Navigation() -> some View {
         NavigationLink(
+            destination: CommentScreen(postId: post.id, post: $post, locationManager: locationManager, socket: socket).environmentObject(authVM),
+            isActive: $postVM.isCommentScreenPresented,
+            label: { EmptyView() }
+        )
+        
+        NavigationLink(
             destination: ReportDetailScreen(reportId: post.id).environmentObject(authVM),
             isActive: $postVM.isReportDetailScreenPresented,
             label: { EmptyView() }
@@ -503,7 +519,7 @@ struct PostView: View {
         )
         
         NavigationLink(
-            destination: EditPostScreen(post: post, location: $location).environmentObject(authVM),
+            destination: EditPostScreen(post: post, location: $locationManager.location).environmentObject(authVM),
             isActive: $postVM.isEditPostScreenDisplayed,
             label: { EmptyView() }
         )
@@ -566,8 +582,8 @@ struct PostView: View {
             isSubscribed: nil,
             source: "lostItem"
         )),
-        location: .constant(nil),
         socket: SocketService(),
+        locationManager: LocationManager(),
         deletePost: {},
         toggleFeedUpdate: { _ in }
     )

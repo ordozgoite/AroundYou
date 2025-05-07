@@ -63,7 +63,7 @@ struct MainTabView: View {
             //                .environmentObject(authVM)
             //                .tag(3)
             
-            AccountScreen(socket: socket)
+            AccountScreen(locationManager: locationManager, socket: socket)
                 .tabItem {
                     ProfileTabItemLabel()
                 }

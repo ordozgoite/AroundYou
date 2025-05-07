@@ -21,6 +21,7 @@ class PlacesViewModel: ObservableObject {
     @Published var isLostAndFoundScreenDisplayed: Bool = false
     @Published var isReportScreenDisplayed: Bool = false
     @Published var isHelpViewDisplayed: Bool = false
+    @Published var navigationTarget: (postId: FormattedPost?, isActive: Bool) = (nil, false)
     
     func getPosts(latitude: Double, longitude: Double, token: String) async {
         if !initialPostsFetched { isLoading = true }

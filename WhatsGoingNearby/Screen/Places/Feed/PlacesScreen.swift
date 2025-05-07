@@ -45,7 +45,7 @@ struct PlacesScreen: View {
                 }
                 
                 ToolbarItem {
-                    NavigationLink(destination: NotificationScreen(location: $locationManager.location, socket: socket).environmentObject(authVM)) {
+                    NavigationLink(destination: NotificationScreen(location: $locationManager.location, socket: socket, locationManager: locationManager).environmentObject(authVM)) {
                         Image(systemName: "bell")
                     }
                 }
@@ -138,8 +138,8 @@ struct PlacesScreen: View {
     private func Posts(ofType postType: PostStatus) -> some View {
         ForEach($placesVM.posts) { $post in
             if post.status == postType {
-                NavigationLink(destination: CommentScreen(postId: post.id, post: $post, location: $locationManager.location, socket: socket).environmentObject(authVM)) {
-                    PostView(post: $post, location: $locationManager.location, socket: socket, deletePost: {
+//                NavigationLink(destination: CommentScreen(postId: post.id, post: $post, location: $locationManager.location, socket: socket).environmentObject(authVM)) {
+                PostView(post: $post, socket: socket, locationManager: locationManager, deletePost: {
                         Task {
                             let token = try await authVM.getFirebaseToken()
                             await placesVM.deletePublication(publicationId: post.id, token: token)
@@ -148,8 +148,8 @@ struct PlacesScreen: View {
                         placesVM.shouldUpdateFeed = shouldUpdate
                     }
                     .padding()
-                }
-                .buttonStyle(PlainButtonStyle())
+//                }
+//                .buttonStyle(PlainButtonStyle())
                 
                 Divider()
             }

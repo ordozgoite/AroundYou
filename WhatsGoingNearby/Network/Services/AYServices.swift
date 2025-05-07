@@ -23,7 +23,7 @@ protocol AYServiceable {
     func finishPublication(publicationId: String, token: String) async -> Result<Post, RequestError>
     func deletePublication(publicationId: String, token: String) async -> Result<DeletePublicationResponse, RequestError>
     func getAllPublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
-    func getAllPublicationsByUser(token: String) async -> Result<[FormattedPost], RequestError>
+    func getAllPublicationsByUser(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
     func getPublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<FormattedPost, RequestError>
     func likePublication(publicationId: String, token: String) async -> Result<LikePublicationResponse, RequestError>
     func unlikePublication(publicationId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError>
@@ -172,8 +172,8 @@ struct AYServices: HTTPClient, AYServiceable {
         return await sendRequest(endpoint: AYEndpoints.getAllPublicationsNearBy(latitude: latitude, longitude: longitude, token: token), responseModel: [FormattedPost].self)
     }
     
-    func getAllPublicationsByUser(token: String) async -> Result<[FormattedPost], RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.getAllPublicationsByUser(token: token), responseModel: [FormattedPost].self)
+    func getAllPublicationsByUser(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getAllPublicationsByUser(latitude: latitude, longitude: longitude, token: token), responseModel: [FormattedPost].self)
     }
     
     func getPublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<FormattedPost, RequestError> {
