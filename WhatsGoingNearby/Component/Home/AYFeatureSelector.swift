@@ -33,7 +33,7 @@ struct AYFeatureSelector: View {
                 .transition(.opacity)
             
             if selectedSection == section {
-                Text(section.rawValue)
+                Text(section.title)
                     .foregroundStyle(.white)
                     .transition(.move(edge: .trailing).combined(with: .opacity))
             }

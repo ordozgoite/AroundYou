@@ -8,10 +8,10 @@
 import SwiftUI
 
 enum HomeSection: String, CaseIterable {
-    case places = "Places"
-    case discover = "People"
-    case communities = "Communities"
-    case business = "Businesses"
+    case places
+    case discover
+    case communities
+    case business
     
     var iconName: String {
         return switch self {
@@ -23,6 +23,19 @@ enum HomeSection: String, CaseIterable {
             "storefront"
         case .communities:
             "person.3"
+        }
+    }
+    
+    var title: LocalizedStringKey {
+        return switch self {
+        case .places:
+            "Places"
+        case .discover:
+            "People"
+        case .communities:
+            "Communities"
+        case .business:
+            "Businesses"
         }
     }
     

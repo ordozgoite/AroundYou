@@ -111,7 +111,7 @@ struct CommunityDetailScreen: View {
                 }
             } else {
                 if community.isOwner {
-                    Button("Add Group Description") {
+                    Button("Add Community Description") {
                         communityDetailVM.isEditDescriptionViewDisplayed = true
                     }
                 }

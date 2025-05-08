@@ -21,7 +21,7 @@ struct DiscoverPreferencesView: View {
                     ProfileInfoView()
                 }
                 
-                Section(header: Text("Discover Notifications"), footer: Text("If this option is enabled, we will notify you whenever we find someone matching your interests nearby.")) {
+                Section(header: Text("Notifications"), footer: Text("If this option is enabled, we will notify you whenever we find someone matching your interests nearby.")) {
                     NotificationToggle()
                 }
                 

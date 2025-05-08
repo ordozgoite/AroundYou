@@ -328,7 +328,7 @@ struct PostView: View {
                 Image(systemName: "exclamationmark.bubble")
                     .scaleEffect(0.8)
                 
-                Text("Report")
+                Text("Incident Report")
                     .font(.caption)
             }
             .foregroundStyle(.red)

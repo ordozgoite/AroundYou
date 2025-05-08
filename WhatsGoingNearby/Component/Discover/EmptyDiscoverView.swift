@@ -29,7 +29,7 @@ struct EmptyDiscoverView: View {
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
                         
-                        Text("You can enable Discover Notifications to stay updated when someone matching your interests is nearby.")
+                        Text("You can enable notifications to stay updated when someone matching your interests is nearby.")
                         .font(.subheadline)
                         .foregroundStyle(.gray)
                         .fontWeight(.regular)
