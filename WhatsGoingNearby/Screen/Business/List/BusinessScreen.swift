@@ -10,7 +10,7 @@ import SwiftUI
 struct BusinessScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @StateObject private var businessVM = BusinessViewModel()
+    @ObservedObject var businessVM: BusinessViewModel
     @ObservedObject var locationManager: LocationManager
     
     @State private var refreshObserver = NotificationCenter.default
@@ -33,7 +33,7 @@ struct BusinessScreen: View {
                         group.addTask { try? await getBusinessesFromLocation() }
                         group.addTask { try? await getBusinessesFromUser() }
                     }
-                    startUpdatingUsers()
+                    startUpdatingBusiness()
                 }
             }
             .onReceive(refreshObserver) { _ in
@@ -44,7 +44,7 @@ struct BusinessScreen: View {
             .onDisappear {
                 stopTimer()
             }
-            .navigationTitle("Business")
+//            .navigationTitle("Business")
             .toolbar {
                 MyBusiness()
                 
@@ -64,6 +64,7 @@ struct BusinessScreen: View {
                 .foregroundStyle(.gray)
                 .fontWeight(.semibold)
         }
+        .frame(maxHeight: .infinity, alignment: .center)
     }
     
     // MARK: - Business List
@@ -150,7 +151,7 @@ struct BusinessScreen: View {
 // MARK: - Private Methods
 
 extension BusinessScreen {
-    private func startUpdatingUsers() {
+    private func startUpdatingBusiness() {
         businessVM.timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
             Task {
                 try await getBusinessesFromLocation()
@@ -191,5 +192,5 @@ extension BusinessScreen {
 }
 
 #Preview {
-    BusinessScreen(locationManager: LocationManager())
+    BusinessScreen(businessVM: BusinessViewModel(), locationManager: LocationManager())
 }

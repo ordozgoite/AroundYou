@@ -33,7 +33,11 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
             }
         }
         
-        scheduleAppRefresh()
+        /*
+        Função scheduleAppRefresh começou a lançar uma exceção após a atualização do iOS 18.4.
+         TODO: Corrigir erro!
+        */
+//        scheduleAppRefresh()
         
         print("💾 Last notification: \(LocalState.lastNotificationTime)")
         

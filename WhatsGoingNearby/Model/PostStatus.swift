@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PostType {
+enum PostStatus {
     case active
-    case inactive
+    case expired
 }

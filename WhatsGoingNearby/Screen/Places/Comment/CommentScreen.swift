@@ -18,14 +18,14 @@ struct CommentScreen: View {
     @Binding var post: FormattedPost
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var commentIsFocused: Bool
-    @Binding var location: CLLocation?
+    @ObservedObject var locationManager: LocationManager
     @ObservedObject var socket: SocketService
     
     var body: some View {
         ZStack {
             VStack {
                 ScrollView {
-                    PostView(post: $post, location: $location, socket: socket) {
+                    PostView(post: $post, socket: socket, locationManager: locationManager) {
                         Task {
                             let token = try await authVM.getFirebaseToken()
                             await commentVM.deletePost(publicationId: postId, token: token) {
@@ -37,10 +37,14 @@ struct CommentScreen: View {
                     
                     Divider()
                     
-                    Comments()
+                    if post.postSource == .publication {
+                        Comments()
+                    }
                 }
                 
-                CommentTextField()
+                if post.postSource == .publication {
+                    CommentTextField()
+                }
             }
             
             AYErrorAlert(message: commentVM.overlayError.1 , isErrorAlertPresented: $commentVM.overlayError.0)
@@ -61,7 +65,7 @@ struct CommentScreen: View {
     private func Comments() -> some View {
         VStack {
             ForEach($commentVM.comments) { $comment in
-                CommentView(isPostFromRecipientUser: post.isFromRecipientUser, postType: post.type, socket: socket, comment: $comment, deleteComment: {
+                CommentView(isPostFromRecipientUser: post.isFromRecipientUser, postType: post.status, socket: socket, comment: $comment, deleteComment: {
                     Task {
                         let token = try await authVM.getFirebaseToken()
                         await commentVM.deleteComment(commentId: comment.id, token: token)
@@ -69,7 +73,7 @@ struct CommentScreen: View {
                 }, reply: {
                     commentIsFocused = true
                     commentVM.repliedComment = comment
-                }, location: $location)
+                }, location: $locationManager.location)
                 .padding()
                 Divider()
             }
@@ -137,7 +141,7 @@ struct CommentScreen: View {
     //MARK: - Auxiliary methods
     
     private func postNewComment() async throws {
-        if let location = location {
+        if let location = locationManager.location {
             let token = try await authVM.getFirebaseToken()
             
             let latitude = location.coordinate.latitude

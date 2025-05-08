@@ -23,7 +23,7 @@ protocol AYServiceable {
     func finishPublication(publicationId: String, token: String) async -> Result<Post, RequestError>
     func deletePublication(publicationId: String, token: String) async -> Result<DeletePublicationResponse, RequestError>
     func getAllPublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
-    func getAllPublicationsByUser(token: String) async -> Result<[FormattedPost], RequestError>
+    func getAllPublicationsByUser(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
     func getPublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<FormattedPost, RequestError>
     func likePublication(publicationId: String, token: String) async -> Result<LikePublicationResponse, RequestError>
     func unlikePublication(publicationId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError>
@@ -103,6 +103,17 @@ protocol AYServiceable {
     func getBusinessesNearBy(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError>
     func deleteBusiness(businessId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
     func getBusinessByUser(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError>
+    
+    // Lost Item
+    func postLostItem(lostItem: LostItem, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func deleteLostItem(lostItemId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func getLostItem(lostItemId: String, token: String) async -> Result<LostItem, RequestError>
+    func setItemAsFound(lostItemId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    
+    // Report Incident
+    func postReportIncident(reportIncident: ReportIncident, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func deleteReportIncident(reportId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func getReport(reportId: String, token: String) async -> Result<ReportIncident, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
@@ -161,8 +172,8 @@ struct AYServices: HTTPClient, AYServiceable {
         return await sendRequest(endpoint: AYEndpoints.getAllPublicationsNearBy(latitude: latitude, longitude: longitude, token: token), responseModel: [FormattedPost].self)
     }
     
-    func getAllPublicationsByUser(token: String) async -> Result<[FormattedPost], RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.getAllPublicationsByUser(token: token), responseModel: [FormattedPost].self)
+    func getAllPublicationsByUser(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getAllPublicationsByUser(latitude: latitude, longitude: longitude, token: token), responseModel: [FormattedPost].self)
     }
     
     func getPublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<FormattedPost, RequestError> {
@@ -401,5 +412,37 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getBusinessByUser(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getBusinessByUser(location: location, token: token), responseModel: [FormattedBusinessShowcase].self)
+    }
+    
+    // MARK: - Lost Item
+    
+    func postLostItem(lostItem: LostItem, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postLostItem(lostItem: lostItem, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func deleteLostItem(lostItemId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteLostItem(lostItemId: lostItemId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func getLostItem(lostItemId: String, token: String) async -> Result<LostItem, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getLostItem(lostItemId: lostItemId, token: token), responseModel: LostItem.self)
+    }
+    
+    func setItemAsFound(lostItemId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.setItemAsFound(lostItemId: lostItemId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    // MARK: - Report Incident
+    
+    func postReportIncident(reportIncident: ReportIncident, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postReportIncident(reportIncident: reportIncident, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func deleteReportIncident(reportId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteReportIncident(reportId: reportId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func getReport(reportId: String, token: String) async -> Result<ReportIncident, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getReport(reportId: reportId, token: token), responseModel: ReportIncident.self)
     }
 }

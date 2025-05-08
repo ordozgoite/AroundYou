@@ -14,6 +14,8 @@ struct PreparingSessionScreen: View {
     
     @State private var hasCompletedOnboarding = LocalState.hasCompletedOnboarding
     @State private var isMissingUsername: Bool = false
+    @State private var refreshObserver = NotificationCenter.default
+        .publisher(for: .goToUsernameScreen)
     
     var body: some View {
         VStack {
@@ -29,13 +31,16 @@ struct PreparingSessionScreen: View {
                     UsernameScreen()
                         .environmentObject(authVM)
                 } else {
-                    PreparingSessionAnimationView(isMissingUsername: $isMissingUsername)
+                    PreparingSessionAnimationView()
                         .environmentObject(authVM)
                 }
             }
         }
         .onAppear {
             prepareToGetNewUserInfo()
+        }
+        .onReceive(refreshObserver) { _ in
+            goToUserNameScreen()
         }
     }
     
@@ -44,6 +49,10 @@ struct PreparingSessionScreen: View {
     private func prepareToGetNewUserInfo() {
         print("🌎 prepareToGetNewUserInfo")
         authVM.isUserInfoFetched = false
+    }
+    
+    private func goToUserNameScreen() {
+        self.isMissingUsername = true
     }
 }
 

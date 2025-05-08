@@ -14,7 +14,7 @@ enum ReportTarget {
     case business
 }
 
-struct ReportScreen: View {
+struct ReportIssueScreen: View {
     
     let reportedUserUid: String
     let publicationId: String?
@@ -29,7 +29,7 @@ struct ReportScreen: View {
     }
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @StateObject private var reportVM = ReportViewModel()
+    @StateObject private var vm = ReportIssueViewModel()
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var reportDescriptionIsFocused: Bool
     
@@ -46,26 +46,26 @@ struct ReportScreen: View {
                 
                 Spacer()
                 
-                TextField("Describe what happened...", text: $reportVM.descriptionTextInput, axis: .vertical)
+                TextField("Describe what happened...", text: $vm.descriptionTextInput, axis: .vertical)
                     .textFieldStyle(.roundedBorder)
                     .lineLimit(10...10)
                     .focused($reportDescriptionIsFocused)
-                    .onChange(of: reportVM.descriptionTextInput) { newValue in
-                        if newValue.count > reportVM.maxDescriptionLenght {
-                            reportVM.descriptionTextInput = String(newValue.prefix(reportVM.maxDescriptionLenght))
+                    .onChange(of: vm.descriptionTextInput) { newValue in
+                        if newValue.count > vm.maxDescriptionLenght {
+                            vm.descriptionTextInput = String(newValue.prefix(vm.maxDescriptionLenght))
                         }
                     }
                 
                 HStack {
                     Spacer()
-                    Text("\(reportVM.descriptionTextInput.count)/\(reportVM.maxDescriptionLenght)")
+                    Text("\(vm.descriptionTextInput.count)/\(vm.maxDescriptionLenght)")
                         .foregroundStyle(.gray)
                         .font(.subheadline)
                 }
                 
                 Spacer()
                 
-                if reportVM.isPostingReport {
+                if vm.isPostingReport {
                     AYProgressButton(title: "Reporting...")
                 } else {
                     AYButton(title: "Report") {
@@ -73,8 +73,8 @@ struct ReportScreen: View {
                             reportDescriptionIsFocused = false
                             let token = try await authVM.getFirebaseToken()
                             var reportDescription: String?
-                            if !reportVM.descriptionTextInput.isEmpty { reportDescription = reportVM.descriptionTextInput  }
-                            await reportVM.postReport(reportedUserUid: reportedUserUid, publicationId: publicationId, commentId: commentId, reportDescription: reportDescription, token: token) {
+                            if !vm.descriptionTextInput.isEmpty { reportDescription = vm.descriptionTextInput  }
+                            await vm.postReport(reportedUserUid: reportedUserUid, publicationId: publicationId, commentId: commentId, reportDescription: reportDescription, token: token) {
                                 presentationMode.wrappedValue.dismiss()
                             }
                         }
@@ -83,13 +83,13 @@ struct ReportScreen: View {
             }
             .padding()
             
-            AYErrorAlert(message: reportVM.overlayError.1, isErrorAlertPresented: $reportVM.overlayError.0)
+            AYErrorAlert(message: vm.overlayError.1, isErrorAlertPresented: $vm.overlayError.0)
         }
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 #Preview {
-    ReportScreen(reportedUserUid: "", publicationId: nil, commentId: nil, businessId: nil)
+    ReportIssueScreen(reportedUserUid: "", publicationId: nil, commentId: nil, businessId: nil)
         .environmentObject(AuthenticationViewModel())
 }

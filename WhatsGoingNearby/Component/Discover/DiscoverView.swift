@@ -37,7 +37,7 @@ struct DiscoverView: View {
                     }
                 }
             }
-            .navigationTitle("Discover")
+//            .navigationTitle("Discover")
         }
         .onReceive(refreshObserver) { _ in
             Task {
@@ -63,6 +63,7 @@ struct DiscoverView: View {
                 .foregroundStyle(.gray)
                 .fontWeight(.semibold)
         }
+        .frame(maxHeight: .infinity, alignment: .center)
     }
     
     // MARK: - Users

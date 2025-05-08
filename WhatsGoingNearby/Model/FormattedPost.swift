@@ -15,20 +15,25 @@ struct FormattedPost: Identifiable, Codable {
     let timestamp: Int
     let expirationDate: Int
     let text: String?
-    var likes: Int
-    var didLike: Bool
-    var comment: Int
+    var likes: Int?
+    var didLike: Bool?
+    var comment: Int?
     let latitude: Double?
     let longitude: Double?
     let distanceToMe: Double?
     let isFromRecipientUser: Bool
-    let isLocationVisible: Bool
+    let isLocationVisible: Bool?
     let tag: String?
     let imageUrl: String?
-    let isOwnerFarAway: Bool
-    var isFinished: Bool
-    let duration: Int
-    var isSubscribed: Bool
+    let isOwnerFarAway: Bool?
+    var isFinished: Bool?
+    let duration: Int?
+    var isSubscribed: Bool?
+    let source: String
+    var description: String?
+    var name: String?
+    var wasFound: Bool?
+    
     var postDuration: PostDuration {
         switch duration {
         case 1:
@@ -64,7 +69,7 @@ struct FormattedPost: Identifiable, Codable {
         case "work":
                 .work
         default:
-                nil
+            nil
         }
     }
     var date: Date {
@@ -86,7 +91,19 @@ struct FormattedPost: Identifiable, Codable {
         return expirationDate.timeIntervalSince1970InSeconds < getCurrentDateTimestamp()
     }
     
-    var type: PostType {
-        return isOld || isOwnerFarAway || isFinished ? .inactive : .active
+    var status: PostStatus {
+        return isOld || isOwnerFarAway ?? false || isFinished ?? false ? .expired : .active
+    }
+
+    
+    var postSource: PostSource {
+        return switch source {
+        case "report":
+                .report
+        case "lostItem":
+                .lostItem
+        default:
+                .publication
+        }
     }
 }

@@ -11,7 +11,7 @@ import CoreLocation
 struct CommentView: View {
     
     let isPostFromRecipientUser: Bool
-    let postType: PostType
+    let postType: PostStatus
     @EnvironmentObject var authVM: AuthenticationViewModel
     @ObservedObject var socket: SocketService
     @Binding var comment: FormattedComment
@@ -36,7 +36,7 @@ struct CommentView: View {
                 }
             }
             NavigationLink(
-                destination: ReportScreen(reportedUserUid: comment.userUid, publicationId: nil, commentId: comment.id, businessId: nil).environmentObject(authVM),
+                destination: ReportIssueScreen(reportedUserUid: comment.userUid, publicationId: nil, commentId: comment.id, businessId: nil).environmentObject(authVM),
                 isActive: $isReportScreenPresented,
                 label: { EmptyView() }
             )

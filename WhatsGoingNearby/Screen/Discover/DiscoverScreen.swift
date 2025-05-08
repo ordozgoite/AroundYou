@@ -10,7 +10,7 @@ import SwiftUI
 struct DiscoverScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @StateObject private var discoverVM = DiscoverViewModel()
+    @ObservedObject var discoverVM: DiscoverViewModel
     @ObservedObject var locationManager: LocationManager
     @ObservedObject var socket: SocketService
     
@@ -18,6 +18,7 @@ struct DiscoverScreen: View {
         ZStack {
             if discoverVM.isLoading {
                 ProgressView()
+                    .frame(maxHeight: .infinity, alignment: .center)
             } else if !authVM.isUserDiscoverable {
                 ActivateDiscoverView(isLoading: $discoverVM.isActivatingDiscover) {
                     Task {

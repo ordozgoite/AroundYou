@@ -10,7 +10,7 @@ import SwiftUI
 struct CommunityListScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @StateObject private var communityVM = CommunityViewModel()
+    @ObservedObject var communityVM: CommunityViewModel
     @ObservedObject var locationManager: LocationManager
     @ObservedObject var socket: SocketService
     
@@ -53,7 +53,7 @@ struct CommunityListScreen: View {
                     }
                 }
             }
-            .navigationTitle("Communities")
+//            .navigationTitle("Communities")
         }
     }
     
@@ -68,6 +68,7 @@ struct CommunityListScreen: View {
                 .foregroundStyle(.gray)
                 .fontWeight(.semibold)
         }
+        .frame(maxHeight: .infinity, alignment: .center)
     }
     
     // MARK: - Communities
@@ -175,6 +176,6 @@ struct CommunityListScreen: View {
 }
 
 #Preview {
-    CommunityListScreen(locationManager: LocationManager(), socket: SocketService())
+    CommunityListScreen(communityVM: CommunityViewModel(), locationManager: LocationManager(), socket: SocketService())
         .environmentObject(AuthenticationViewModel())
 }

@@ -304,6 +304,7 @@ extension PublishBusinessScreen {
     }
     
     private func removePhoto() {
+        publishBusinessVM.imageSelection = nil
         publishBusinessVM.image = nil
     }
 }

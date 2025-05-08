@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @MainActor
-class FeedViewModel: ObservableObject {
+class PlacesViewModel: ObservableObject {
     
     @Published var posts: [FormattedPost] = []
     @Published var isLoading: Bool = false
@@ -18,13 +18,10 @@ class FeedViewModel: ObservableObject {
     @Published var initialPostsFetched: Bool = false
     @Published var feedTimer: Timer?
     @Published var shouldUpdateFeed: Bool = true
-    
-//    var groupedPosts: [(Date, [FormattedPost])] {
-//        let groupedDict = Dictionary(grouping: posts) { (post) -> Date in
-//            return Date(timeIntervalSince1970: TimeInterval(post.timestamp))
-//        }
-//        return groupedDict.sorted { $0.key > $1.key }
-//    }
+    @Published var isLostAndFoundScreenDisplayed: Bool = false
+    @Published var isReportScreenDisplayed: Bool = false
+    @Published var isHelpViewDisplayed: Bool = false
+    @Published var navigationTarget: (postId: FormattedPost?, isActive: Bool) = (nil, false)
     
     func getPosts(latitude: Double, longitude: Double, token: String) async {
         if !initialPostsFetched { isLoading = true }

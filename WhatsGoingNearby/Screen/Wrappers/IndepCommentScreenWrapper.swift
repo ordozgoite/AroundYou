@@ -15,7 +15,7 @@ struct IndepCommentScreenWrapper: View {
     
     var body: some View {
         NavigationView {
-            IndepCommentScreen(postId: postId, location: $locationManager.location, socket: socket)
+            IndepCommentScreen(postId: postId, locationManager: locationManager, socket: socket)
                 .navigationBarItems(leading: Button(action: {
                     presentationMode.wrappedValue.dismiss()
                 }, label: {

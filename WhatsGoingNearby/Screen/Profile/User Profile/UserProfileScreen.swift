@@ -216,7 +216,7 @@ struct UserProfileScreen: View {
                     Image(systemName: "ellipsis.circle")
                 }
                 .navigationDestination(isPresented: $userProfileVM.isReportScreenPresented) {
-                    ReportScreen(reportedUserUid: userUid)
+                    ReportIssueScreen(reportedUserUid: userUid)
                         .environmentObject(authVM)
                 }
             }

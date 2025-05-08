@@ -116,6 +116,16 @@
     "%@m" : {
 
     },
+    "%lf, %lf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lf, %2$lf"
+          }
+        }
+      }
+    },
     "%lld" : {
 
     },
@@ -364,6 +374,9 @@
         }
       }
     },
+    "Add a Picture (Optional)" : {
+
+    },
     "Add a reply..." : {
       "localizations" : {
         "pt-BR" : {
@@ -396,6 +409,9 @@
 
     },
     "Age Range" : {
+
+    },
+    "Alert Police" : {
 
     },
     "All" : {
@@ -446,6 +462,9 @@
         }
       }
     },
+    "Animal Abuse" : {
+
+    },
     "Answering %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -460,7 +479,7 @@
     "Approve" : {
 
     },
-    "Around You" : {
+    "Are you the victim?" : {
 
     },
     "AroundYou displays posts to everybody within a **1km radius**, enabling interaction for making friends, asking for help, and getting information about places and events around you." : {
@@ -648,9 +667,6 @@
     "Briefly describe your Community..." : {
 
     },
-    "Business" : {
-
-    },
     "By signing up, you agree to our [Terms of Use](https://aroundyou3.wordpress.com/terms-of-use) and [Privacy Policy](https://aroundyou3.wordpress.com/policy-privacy)." : {
       "localizations" : {
         "pt-BR" : {
@@ -781,6 +797,9 @@
         }
       }
     },
+    "Choose location" : {
+
+    },
     "Comment this post" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -829,9 +848,6 @@
           }
         }
       }
-    },
-    "Communities" : {
-
     },
     "Communities Around You" : {
 
@@ -944,6 +960,12 @@
     "Data & Privacy" : {
 
     },
+    "Date and time" : {
+
+    },
+    "Debug: Esse error se refere à função getUserInfo" : {
+
+    },
     "Delete" : {
       "localizations" : {
         "pt-BR" : {
@@ -998,6 +1020,9 @@
     "Delete Community" : {
 
     },
+    "Delete Lost Item" : {
+
+    },
     "Delete Message" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1030,6 +1055,9 @@
           }
         }
       }
+    },
+    "Delete Report" : {
+
     },
     "Deleting Community..." : {
 
@@ -1068,6 +1096,15 @@
           }
         }
       }
+    },
+    "Describe the incident" : {
+
+    },
+    "Describe the location (optional)" : {
+
+    },
+    "Describe the victim (optional)" : {
+
     },
     "Describe what happened..." : {
       "localizations" : {
@@ -1141,9 +1178,6 @@
           }
         }
       }
-    },
-    "Discover" : {
-
     },
     "Discover endless features with AroundYou! Meet new people or reconnect with old friends, search for local information, ask for and offer help, and explore nearby events - all at your fingertips." : {
       "localizations" : {
@@ -1475,6 +1509,9 @@
     "Error trying to get user ban expiration date" : {
 
     },
+    "Error trying to get user info." : {
+
+    },
     "Error trying to post Business." : {
 
     },
@@ -1608,6 +1645,9 @@
         }
       }
     },
+    "Found" : {
+
+    },
     "From " : {
 
     },
@@ -1630,6 +1670,9 @@
     "Gravador de Áudio" : {
 
     },
+    "Harm to a Person" : {
+
+    },
     "Help" : {
       "localizations" : {
         "pt-BR" : {
@@ -1646,6 +1689,9 @@
         }
       }
     },
+    "Help me to find my... " : {
+
+    },
     "Help us to improve the app we love! If you find any failure, tell us what happened." : {
       "localizations" : {
         "pt-BR" : {
@@ -1661,6 +1707,9 @@
           }
         }
       }
+    },
+    "Help!" : {
+
     },
     "Hide Account" : {
 
@@ -1695,6 +1744,9 @@
     "Hiding Account" : {
 
     },
+    "Home" : {
+
+    },
     "Hungry" : {
       "localizations" : {
         "pt-BR" : {
@@ -1726,6 +1778,9 @@
           }
         }
       }
+    },
+    "I Lost Something" : {
+
     },
     "I'm a..." : {
 
@@ -1801,6 +1856,9 @@
         }
       }
     },
+    "Incident Description" : {
+
+    },
     "Iniciar Gravação" : {
 
     },
@@ -1857,6 +1915,15 @@
       }
     },
     "Invite %@ to chat" : {
+
+    },
+    "Item description (optional)" : {
+
+    },
+    "Item Found" : {
+
+    },
+    "Item Info" : {
 
     },
     "Join" : {
@@ -1979,6 +2046,9 @@
         }
       }
     },
+    "Location and Date" : {
+
+    },
     "Longitude" : {
       "localizations" : {
         "pt-BR" : {
@@ -2023,6 +2093,18 @@
           }
         }
       }
+    },
+    "Lost & Found" : {
+
+    },
+    "Lost at " : {
+
+    },
+    "Lost Item Information" : {
+
+    },
+    "Lost Something" : {
+
     },
     "Male" : {
 
@@ -2200,6 +2282,12 @@
         }
       }
     },
+    "Offer a reward?" : {
+
+    },
+    "Offers Reward." : {
+
+    },
     "OK" : {
       "localizations" : {
         "pt-BR" : {
@@ -2302,9 +2390,6 @@
           }
         }
       }
-    },
-    "People" : {
-
     },
     "Photos" : {
       "localizations" : {
@@ -2473,9 +2558,6 @@
         }
       }
     },
-    "Posts" : {
-
-    },
     "Posts on AroundYou remain active for just **8 hours**, ensuring you discover timely and relevant information effortlessly." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2548,6 +2630,12 @@
           }
         }
       }
+    },
+    "Property Damage" : {
+
+    },
+    "Provide the approximate location and time when you lost the item to help with the search." : {
+
     },
     "publication" : {
       "extractionState" : "stale",
@@ -2776,6 +2864,9 @@
         }
       }
     },
+    "Report an Incident" : {
+
+    },
     "Report Bug" : {
       "localizations" : {
         "pt-BR" : {
@@ -2827,6 +2918,9 @@
         }
       }
     },
+    "Report Type" : {
+
+    },
     "Reporting..." : {
       "localizations" : {
         "pt-BR" : {
@@ -2842,6 +2936,12 @@
           }
         }
       }
+    },
+    "Retry" : {
+
+    },
+    "Reward" : {
+
     },
     "Save" : {
 
@@ -2870,6 +2970,9 @@
           }
         }
       }
+    },
+    "See Details" : {
+
     },
     "Seeking hangout" : {
       "localizations" : {
@@ -3113,7 +3216,10 @@
         }
       }
     },
-    "Status Code: %lld" : {
+    "Submit" : {
+
+    },
+    "Tap on the aproximmate location." : {
 
     },
     "Temporary posts ⏳" : {
@@ -3225,6 +3331,12 @@
 
     },
     "These users want to join your community. Approve their request or ignore it." : {
+
+    },
+    "This feature is not available yet." : {
+
+    },
+    "This functionality should only be used in case of a real emergency. Your location will be automatically shared with the **police**." : {
 
     },
     "This message was not sent" : {
@@ -3450,6 +3562,9 @@
         }
       }
     },
+    "Victim Details" : {
+
+    },
     "View All" : {
 
     },
@@ -3522,6 +3637,12 @@
     "We'll match you with people who are interested in your gender and age." : {
 
     },
+    "What are you reporting?" : {
+
+    },
+    "What did you lose?" : {
+
+    },
     "What type of issue are you reporting?" : {
       "localizations" : {
         "pt-BR" : {
@@ -3553,6 +3674,9 @@
           }
         }
       }
+    },
+    "Where did you lose it?" : {
+
     },
     "Working" : {
       "localizations" : {
@@ -3633,6 +3757,9 @@
 
     },
     "You can enable Discover Notifications to stay updated when someone matching your interests is nearby." : {
+
+    },
+    "You can offer a reward to encourage people to return your item." : {
 
     },
     "You can only have one active Business at a time." : {
