@@ -17,8 +17,8 @@ struct LostItemDetailScreen: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                if vm.isLoading {
-                   ProgressView()
+                if vm.isGettingLostItem {
+                    ProgressView()
                 } else if let lostItem = vm.lostItem {
                     Form {
                         Image(forLostItem: lostItem)
@@ -31,7 +31,7 @@ struct LostItemDetailScreen: View {
                     }
                 }
             }
-            .navigationTitle("Lost Item")
+            .navigationTitle(getNavTitle())
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 FoundButton()
@@ -102,8 +102,10 @@ struct LostItemDetailScreen: View {
     
     @ViewBuilder
     private func FoundButton() -> some View {
-        if vm.lostItem?.userUid == LocalState.currentUserUid {
-            if !(vm.lostItem?.wasFound ?? false) {
+        if canSetItemAsFound() {
+            if vm.isSettingItemAsLost == true {
+                ProgressView()
+            } else {
                 Button("Found") {
                     Task {
                         let token = try await authVM.getFirebaseToken()
@@ -112,6 +114,22 @@ struct LostItemDetailScreen: View {
                 }
             }
         }
+    }
+    
+    private func getNavTitle() -> String {
+        return wasItemFound() ? "Item Found ✅" : "Item Lost"
+    }
+    
+    private func canSetItemAsFound() -> Bool {
+        return isUserLostItem() && !wasItemFound()
+    }
+    
+    private func isUserLostItem() -> Bool {
+        return vm.lostItem?.userUid == LocalState.currentUserUid
+    }
+    
+    private func wasItemFound() -> Bool {
+        return vm.lostItem?.wasFound ?? false
     }
 }
 

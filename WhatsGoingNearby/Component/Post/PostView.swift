@@ -38,15 +38,9 @@ struct PostView: View {
                     Footer()
                 }
             }
+            .contentShape(Rectangle())
             .onTapGesture {
-                switch self.post.postSource {
-                case .publication:
-                    postVM.isCommentScreenPresented = true
-                case .lostItem:
-                    postVM.isLostItemDetailScreenPresented = true
-                case .report:
-                    postVM.isReportDetailScreenPresented = true
-                }
+                handleOnTapGesture()
             }
             .fullScreenCover(isPresented: $postVM.isFullScreenImageDisplayed) {
                 FullScreenUrlImage(url: post.imageUrl ?? "")
@@ -346,7 +340,7 @@ struct PostView: View {
     @ViewBuilder
     private func TextView() -> some View {
         VStack(alignment: .leading) {
-            if post.postSource == .lostItem {
+            if post.wasFound == false {
                 Text("Help me to find my... ")
                     .font(.callout)
                     .foregroundStyle(.gray)
@@ -476,24 +470,54 @@ struct PostView: View {
     @ViewBuilder
     private func NotRealPostFooter() -> some View {
         HStack {
-            Button {
-                if post.postSource == .lostItem {
-                    postVM.isLostItemDetailScreenPresented = true
-                } else if post.postSource == .report {
-                    postVM.isReportDetailScreenPresented = true
-                }
-            } label: {
-                HStack {
-                    Text("See Details")
-                    Image(systemName: "chevron.forward")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 12)
-                }
+            if post.wasFound == true {
+                ItemFound()
+            } else {
+                SeeDetails()
             }
 
             Spacer()
         }
+    }
+    
+    // MARK: - See Details
+    
+    @ViewBuilder
+    private func SeeDetails() -> some View {
+        Button {
+            if post.postSource == .lostItem {
+                postVM.isLostItemDetailScreenPresented = true
+            } else if post.postSource == .report {
+                postVM.isReportDetailScreenPresented = true
+            }
+        } label: {
+            HStack {
+                Text("See Details")
+                Image(systemName: "chevron.forward")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 12)
+            }
+        }
+    }
+    
+    // MARK: - Item Found
+    
+    @ViewBuilder
+    private func ItemFound() -> some View {
+        HStack(spacing: 6) {
+            Image(systemName: "checkmark.seal.fill")
+                .foregroundColor(.green)
+
+            Text("Item Found")
+                .font(.subheadline)
+                .foregroundColor(.green)
+                .bold()
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 6)
+        .background(Capsule().fill(Color.green.opacity(0.2)))
+
     }
     
     //MARK: - Navigation
@@ -553,7 +577,16 @@ struct PostView: View {
     
     //MARK: - Auxiliary Methods
     
-    
+    private func handleOnTapGesture() {
+        switch self.post.postSource {
+        case .publication:
+            postVM.isCommentScreenPresented = true
+        case .lostItem:
+            postVM.isLostItemDetailScreenPresented = true
+        case .report:
+            postVM.isReportDetailScreenPresented = true
+        }
+    }
 }
 
 #Preview {

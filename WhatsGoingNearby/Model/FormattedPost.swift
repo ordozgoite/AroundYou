@@ -32,6 +32,7 @@ struct FormattedPost: Identifiable, Codable {
     let source: String
     var description: String?
     var name: String?
+    var wasFound: Bool?
     
     var postDuration: PostDuration {
         switch duration {

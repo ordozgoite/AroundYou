@@ -11,13 +11,14 @@ import SwiftUI
 @MainActor
 class LostItemDetailViewModel: ObservableObject {
     @Published var lostItem: LostItem? = nil
-    @Published var isLoading: Bool = false
+    @Published var isGettingLostItem: Bool = false
+    @Published var isSettingItemAsLost: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     
     func getLostItem(withId lostItemId: String, token: String) async {
-        isLoading = true
+        isGettingLostItem = true
         let result = await AYServices.shared.getLostItem(lostItemId: lostItemId, token: token)
-        isLoading = false
+        isGettingLostItem = false
         
         switch result {
         case .success(let lostItem):
@@ -28,8 +29,15 @@ class LostItemDetailViewModel: ObservableObject {
     }
     
     func setItemAsFound(lostItemId: String, token: String) async {
+        isSettingItemAsLost = true
         let result = await AYServices.shared.setItemAsFound(lostItemId: lostItemId, token: token)
+        isSettingItemAsLost = false
         
-        // Vou tratar o resultado?
+        switch result {
+        case .success:
+            self.lostItem?.wasFound = true
+        case .failure:
+            overlayError = (true, ErrorMessage.defaultErrorMessage)
+        }
     }
 }
