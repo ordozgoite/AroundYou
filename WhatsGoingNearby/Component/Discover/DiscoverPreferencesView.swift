@@ -11,7 +11,7 @@ import Sliders
 struct DiscoverPreferencesView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject var discoverVM: DiscoverViewModel
+    @ObservedObject var discoverVM: PeopleViewModel
     @ObservedObject var locationManager: LocationManager
     
     var body: some View {
@@ -232,6 +232,6 @@ struct DiscoverPreferencesView: View {
 }
 
 #Preview {
-    DiscoverPreferencesView(discoverVM: DiscoverViewModel(), locationManager: LocationManager())
+    DiscoverPreferencesView(discoverVM: PeopleViewModel(), locationManager: LocationManager())
         .environmentObject(AuthenticationViewModel())
 }

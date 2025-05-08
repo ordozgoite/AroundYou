@@ -26,20 +26,24 @@ struct PublishBusinessScreen: View {
     
     var body: some View {
         NavigationStack {
-            Form {
-                EditBusinessImage()
+            ZStack {
+                Form {
+                    EditBusinessImage()
+                    
+                    Name()
+                    
+                    Description()
+                    
+                    Category()
+                    
+                    Contact()
+                    
+                    LocationView()
+                    
+                    Publish()
+                }
                 
-                Name()
-                
-                Description()
-                
-                Category()
-                
-                Contact()
-                
-                LocationView()
-                
-                Publish()
+                AYErrorAlert(message: publishBusinessVM.overlayError.1 , isErrorAlertPresented: $publishBusinessVM.overlayError.0)
             }
             .onChange(of: publishBusinessVM.imageSelection) { newItem in
                 Task {

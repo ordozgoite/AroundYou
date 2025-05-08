@@ -19,6 +19,7 @@ struct ErrorMessage {
     static let selectPhotoErrorMessage: LocalizedStringKey = "Error trying to select photo."
     static let permaBannedErrorMessage: LocalizedStringKey = "Your account has been permanently banned."
     static let editDistanceLimitExceededErrorMessage: LocalizedStringKey = "Sorry, you're too far away to edit this post."
+    static let postImageErrorMessage: LocalizedStringKey = "Error trying to post image."
     
     static func getTempBannedErrorMessage(expirationDate: Int) -> LocalizedStringKey {
         return "Your account has been temporarily banned until \(expirationDate.convertTimestampToDate().convertDateToString())"

@@ -7,38 +7,40 @@
 
 import SwiftUI
 
-struct DiscoverScreen: View {
+struct PeopleScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject var discoverVM: DiscoverViewModel
+    @ObservedObject var peopleVM: PeopleViewModel
     @ObservedObject var locationManager: LocationManager
     @ObservedObject var socket: SocketService
     
     var body: some View {
         ZStack {
-            if discoverVM.isLoading {
+            if peopleVM.isLoading {
                 ProgressView()
                     .frame(maxHeight: .infinity, alignment: .center)
             } else if !authVM.isUserDiscoverable {
-                ActivateDiscoverView(isLoading: $discoverVM.isActivatingDiscover) {
+                ActivateDiscoverView(isLoading: $peopleVM.isActivatingDiscover) {
                     Task {
                         try await activateDiscover()
                     }
                 }
             } else {
-                DiscoverView(discoverVM: discoverVM, locationManager: locationManager, socket: socket)
+                DiscoverView(discoverVM: peopleVM, locationManager: locationManager, socket: socket)
             }
+            
+            AYErrorAlert(message: peopleVM.overlayError.1 , isErrorAlertPresented: $peopleVM.overlayError.0)
         }
         .onAppear {
             Task {
                 let token = try await authVM.getFirebaseToken()
-                if let userPreferences = await discoverVM.verifyUserDiscoverability(token: token) {
+                if let userPreferences = await peopleVM.verifyUserDiscoverability(token: token) {
                     updateEnv(withPreferences: userPreferences)
                 }
             }
         }
-        .sheet(isPresented: $discoverVM.isPreferencesViewDisplayed) {
-            DiscoverPreferencesView(discoverVM: discoverVM, locationManager: locationManager)
+        .sheet(isPresented: $peopleVM.isPreferencesViewDisplayed) {
+            DiscoverPreferencesView(discoverVM: peopleVM, locationManager: locationManager)
                 .environmentObject(authVM)
         }
     }
@@ -48,7 +50,7 @@ struct DiscoverScreen: View {
     private func activateDiscover() async throws {
         let token = try await authVM.getFirebaseToken()
         do {
-            try await discoverVM.activateUserDiscoverability(token: token)
+            try await peopleVM.activateUserDiscoverability(token: token)
             authVM.isUserDiscoverable = true
         } catch {
             print("❌ Error trying to activate Discover.")

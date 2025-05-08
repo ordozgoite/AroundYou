@@ -17,7 +17,7 @@ struct HomeScreen: View {
      Os ViewModels são instanciados nesta tela parent em vez de dentro de suas respectivas Views. Isso garante a persistência do estado de cada View ao navegar para fora e voltar, utilizando o AYFeatureSelector.
     */
     @StateObject private var placesVM = PlacesViewModel()
-    @StateObject private var discoverVM = DiscoverViewModel()
+    @StateObject private var discoverVM = PeopleViewModel()
     @StateObject private var businessVM = BusinessViewModel()
     @StateObject private var communityVM = CommunityViewModel()
     
@@ -33,7 +33,7 @@ struct HomeScreen: View {
                     PlacesScreen(placesVM: placesVM, locationManager: locationManager, socket: socket)
                         .environmentObject(authVM)
                 case .discover:
-                    DiscoverScreen(discoverVM: discoverVM, locationManager: locationManager, socket: socket)
+                    PeopleScreen(peopleVM: discoverVM, locationManager: locationManager, socket: socket)
                         .environmentObject(authVM)
                 case .business:
                     BusinessScreen(businessVM: businessVM, locationManager: locationManager)

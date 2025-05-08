@@ -17,14 +17,18 @@ struct LostAndFoundView: View {
     
     var body: some View {
         NavigationStack {
-            Form {
-                Description()
+            ZStack {
+                Form {
+                    Description()
+                    
+                    Picture()
+                    
+                    LocationAndDate()
+                    
+                    Reward()
+                }
                 
-                Picture()
-                
-                LocationAndDate()
-                
-                Reward()
+                AYErrorAlert(message: vm.overlayError.1 , isErrorAlertPresented: $vm.overlayError.0)
             }
             .onChange(of: vm.imageSelection) { newItem in
                 Task {

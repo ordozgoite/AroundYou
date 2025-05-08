@@ -29,7 +29,7 @@ struct CreatePostScreen: View {
                 message: Text("Your precise location will be used to display on the map where you made this post."),
                 primaryButton: .default((Text("Allow Once"))) {
                     Task {
-                        try await postNewPublication()
+                        try await createNewPost()
                     }
                 },
                 secondaryButton: .cancel(Text("Don't Allow")) {}
@@ -90,7 +90,7 @@ struct CreatePostScreen: View {
                 createPostVM.isShareLocationAlertDisplayed = true
             } else {
                 Task {
-                    try await postNewPublication()
+                    await createNewPost()
                 }
             }
         } label: {
@@ -101,21 +101,33 @@ struct CreatePostScreen: View {
     
     //MARK: - Private Methods
     
-    private func postNewPublication() async throws {
+    private func createNewPost() async {
         locationManager.requestLocation()
-        if let location = locationManager.location {
-            let latitude = location.coordinate.latitude
-            let longitude = location.coordinate.longitude
-            
-            let token = try await authVM.getFirebaseToken()
-            await createPostVM.postNewPublication(latitude: latitude, longitude: longitude, token: token) {
-                presentationMode.wrappedValue.dismiss()
-                refreshFeed()
-            }
-        } else {
+        guard let location = locationManager.location else {
             createPostVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
+            return
+        }
+
+        let currentLocation = Location(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        await attemptPostCreation(withLocation: currentLocation)
+    }
+
+    private func attemptPostCreation(withLocation location: Location) async {
+        do {
+            try await performPostCreation(withLocation: location)
+            presentationMode.wrappedValue.dismiss()
+            refreshFeed()
+        } catch {
+            print("❌ Error trying to create new post: \(error)")
+            createPostVM.overlayError = (true, "Error trying to create new post. Try again later.")
         }
     }
+
+    private func performPostCreation(withLocation location: Location) async throws {
+        let token = try await authVM.getFirebaseToken()
+        try await createPostVM.createNewPost(latitude: location.latitude, longitude: location.longitude, token: token)
+    }
+
     
     private func refreshFeed() {
         NotificationCenter.default.post(name: .refreshLocationSensitiveData, object: nil)

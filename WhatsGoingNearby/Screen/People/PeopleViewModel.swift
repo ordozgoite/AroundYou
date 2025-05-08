@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @MainActor
-class DiscoverViewModel: ObservableObject {
+class PeopleViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     @Published var discoverabilityVerified: Bool = false

@@ -1898,6 +1898,21 @@
         }
       }
     },
+    "Error trying to create new post. Try again later." : {
+
+    },
+    "Error trying to delete post." : {
+
+    },
+    "Error trying to fetch lost item info." : {
+
+    },
+    "Error trying to fetch nearby posts." : {
+
+    },
+    "Error trying to fetch report info." : {
+
+    },
     "Error trying to get user ban expiration date" : {
       "localizations" : {
         "pt-BR" : {
@@ -1928,6 +1943,15 @@
         }
       }
     },
+    "Error trying to post image." : {
+
+    },
+    "Error trying to post incident report. Please try again later." : {
+
+    },
+    "Error trying to post Lost Item." : {
+
+    },
     "Error trying to post new user" : {
       "localizations" : {
         "pt-BR" : {
@@ -1953,6 +1977,9 @@
           }
         }
       }
+    },
+    "Error trying to set item as 'found'." : {
+
     },
     "Expired" : {
       "localizations" : {

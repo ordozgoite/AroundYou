@@ -10,7 +10,7 @@ import SwiftUI
 struct DiscoverView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject var discoverVM: DiscoverViewModel
+    @ObservedObject var discoverVM: PeopleViewModel
     @ObservedObject var locationManager: LocationManager
     @ObservedObject var socket: SocketService
     

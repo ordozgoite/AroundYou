@@ -18,14 +18,18 @@ struct BusinessScreen: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                if businessVM.isFetchingBusinessesNearBy {
-                    LoadingView()
-                } else if businessVM.businesses.isEmpty {
-                    EmptyBusinessView()
-                } else {
-                    BusinessList()
+            ZStack {
+                VStack {
+                    if businessVM.isFetchingBusinessesNearBy {
+                        LoadingView()
+                    } else if businessVM.businesses.isEmpty {
+                        EmptyBusinessView()
+                    } else {
+                        BusinessList()
+                    }
                 }
+                
+                AYErrorAlert(message: businessVM.overlayError.1 , isErrorAlertPresented: $businessVM.overlayError.0)
             }
             .onAppear {
                 Task {

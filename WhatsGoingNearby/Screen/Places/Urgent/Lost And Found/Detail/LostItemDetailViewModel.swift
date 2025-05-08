@@ -17,27 +17,33 @@ class LostItemDetailViewModel: ObservableObject {
     
     func getLostItem(withId lostItemId: String, token: String) async {
         isGettingLostItem = true
+        defer { isGettingLostItem = false }
         let result = await AYServices.shared.getLostItem(lostItemId: lostItemId, token: token)
-        isGettingLostItem = false
-        
+        handleGetLostItemResult(result)
+    }
+    
+    private func handleGetLostItemResult(_ result: Result<LostItem, RequestError>) {
         switch result {
         case .success(let lostItem):
             self.lostItem = lostItem
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, "Error trying to fetch lost item info.")
         }
     }
     
     func setItemAsFound(lostItemId: String, token: String) async {
         isSettingItemAsLost = true
+        defer { isSettingItemAsLost = false }
         let result = await AYServices.shared.setItemAsFound(lostItemId: lostItemId, token: token)
-        isSettingItemAsLost = false
-        
+        handleSetItemAsFoundResult(result)
+    }
+    
+    private func handleSetItemAsFoundResult(_ result: Result<SuccessMessageResponse, RequestError>) {
         switch result {
         case .success:
             self.lostItem?.wasFound = true
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, "Error trying to set item as 'found'.")
         }
     }
 }

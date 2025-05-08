@@ -48,6 +48,8 @@ struct ReportDetailScreen: View {
                         }
                     }
                 }
+                
+                AYErrorAlert(message: vm.overlayError.1 , isErrorAlertPresented: $vm.overlayError.0)
             }
             .navigationTitle(vm.reportIncident?.type.title ?? "Report")
             .navigationBarTitleDisplayMode(.large)
