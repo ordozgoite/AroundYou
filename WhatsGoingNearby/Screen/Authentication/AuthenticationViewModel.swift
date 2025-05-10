@@ -278,7 +278,7 @@ extension AuthenticationViewModel {
                 return true
             } else {
                 signOut()
-                overlayError = (true, "Error trying to post new user")
+                overlayError = (true, ErrorMessage.postUserErrorMessage)
             }
         }
         return false
@@ -358,7 +358,7 @@ extension AuthenticationViewModel {
             overlayError = (true, ErrorMessage.getTempBannedErrorMessage(expirationDate: expirationDate.banExpirationDateTime))
         case .failure(let error):
             signOut()
-            overlayError = (true, "Error trying to get user ban expiration date")
+            overlayError = (true, ErrorMessage.getUserBanExpirarationDateErrorMessage)
         }
     }
     

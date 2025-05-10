@@ -24,21 +24,25 @@ class CreatePostViewModel: ObservableObject {
     @Published var image: UIImage?
     @Published var isCameraDisplayed = false
     
-    func postNewPublication(latitude: Double, longitude: Double, token: String, dismissScreen: () -> ()) async {
+    func createNewPost(latitude: Double, longitude: Double, token: String) async throws {
         isLoading = true
+        defer { isLoading = false }
         let imageURL = image == nil ? nil : await storeImage()
         let result = await AYServices.shared.postNewPublication(text: postText.nonEmptyOrNil(), tag: selectedPostTag.rawValue, imageUrl: imageURL, postDuration: selectedPostDuration.value, latitude: latitude, longitude: longitude, isLocationVisible: isLocationVisible, token: token)
-        isLoading = false
-        
+        try handleCreateNewPostResult(result)
+    }
+    
+    private func handleCreateNewPostResult(_ result: Result<Post, RequestError>) throws {
         switch result {
         case .success:
-            dismissScreen()
+            print("✅ Post successfully created.")
         case .failure(let error):
             if error == .forbidden {
                 overlayError = (true, ErrorMessage.publicationLimitExceededErrorMessage)
             } else {
-                overlayError = (true, ErrorMessage.defaultErrorMessage)
+                overlayError = (true, ErrorMessage.createPostErrorMessage)
             }
+            throw error
         }
     }
     
@@ -46,7 +50,7 @@ class CreatePostViewModel: ObservableObject {
         do {
             return try await FirebaseService.shared.storeImageAndGetUrl(self.image!)
         } catch {
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.postImageErrorMessage)
             isLoading = false
             return nil
         }

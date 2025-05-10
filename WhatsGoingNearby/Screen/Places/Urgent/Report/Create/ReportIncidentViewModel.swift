@@ -21,6 +21,7 @@ class ReportIncidentViewModel: ObservableObject {
     @Published var imageSelection: PhotosPickerItem? = nil
     @Published var selectedImage: UIImage? = nil
     @Published var isPostingReport: Bool = false
+    @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     
     func postReport(location: Location, token: String) async throws {
         isPostingReport = true
@@ -38,7 +39,7 @@ class ReportIncidentViewModel: ObservableObject {
         do {
             return try await FirebaseService.shared.storeImageAndGetUrl(image)
         } catch {
-            // TODO: Display Error
+            overlayError = (true, ErrorMessage.postImageErrorMessage)
             return nil
         }
     }
@@ -60,7 +61,7 @@ class ReportIncidentViewModel: ObservableObject {
         case .success:
             print("✅ Report successfully posted!")
         case .failure:
-            // TODO: Display Error
+            overlayError = (true, ErrorMessage.postIncidentReportErrorMessage)
             throw PostReportIncidentError.genericError
         }
     }

@@ -16,14 +16,17 @@ class ReportDetailViewModel: ObservableObject {
     
     func getReport(withId reportId: String, token: String) async {
         isLoading = true
+        defer { isLoading = false }
         let result = await AYServices.shared.getReport(reportId: reportId, token: token)
-        isLoading = false
-        
+        handleGetReportResult(result)
+    }
+    
+    private func handleGetReportResult(_ result: Result<ReportIncident, RequestError>) {
         switch result {
         case .success(let report):
             self.reportIncident = report
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getReportInfoErrorMessage)
         }
     }
 }

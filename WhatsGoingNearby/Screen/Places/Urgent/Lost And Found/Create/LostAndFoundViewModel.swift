@@ -41,7 +41,7 @@ class LostAndFoundViewModel: ObservableObject {
         do {
             return try await FirebaseService.shared.storeImageAndGetUrl(image)
         } catch {
-            // TODO: Display Error
+            overlayError = (true, ErrorMessage.postImageErrorMessage)
             return nil
         }
     }
@@ -67,7 +67,7 @@ class LostAndFoundViewModel: ObservableObject {
         case .success:
             print("✅ Lost Item successfully posted!")
         case .failure:
-            // TODO: Display Error
+            overlayError = (true, ErrorMessage.postLostItemErrorMessage)
             throw PostLostItemError.genericError
         }
     }

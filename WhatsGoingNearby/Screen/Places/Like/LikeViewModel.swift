@@ -26,7 +26,7 @@ class LikeViewModel: ObservableObject {
             self.users = users
             usersFetched = true
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getPostLikes)
         }
     }
     
@@ -40,7 +40,7 @@ class LikeViewModel: ObservableObject {
             self.users = users
             usersFetched = true
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getCommentLikes)
         }
     }
 }

@@ -42,7 +42,7 @@ class CommunityMessageViewModel: ObservableObject {
         case .success(let messages):
             self.intermediaryMessages.insert(contentsOf: convertReceivedMessages(messages), at: 0)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getMessages)
         }
     }
     
@@ -53,7 +53,7 @@ class CommunityMessageViewModel: ObservableObject {
         case .success(let messages):
             self.intermediaryMessages = convertReceivedMessages(messages)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getMessages)
         }
     }
     
@@ -119,7 +119,7 @@ class CommunityMessageViewModel: ObservableObject {
             updateMessage(withId: tempId, toPostedMessage: message)
         case .failure:
             updateMessage(withId: tempId, toStatus: .failed)
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.sendMessage)
         }
     }
     
@@ -204,7 +204,7 @@ class CommunityMessageViewModel: ObservableObject {
         case .success:
             removeMessage(withId: messageId)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.deleteMessage)
         }
     }
     

@@ -16,26 +16,30 @@ struct CommunityDetailScreen: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        Form {
-            Header()
-            
-            Description()
-            
-            if communityDetailVM.hasFetchedCommunityInfo {
-                if community.isOwner {
-                    UserRequests()
+        ZStack {
+            Form {
+                Header()
+                
+                Description()
+                
+                if communityDetailVM.hasFetchedCommunityInfo {
+                    if community.isOwner {
+                        UserRequests()
+                    }
+                    
+                    Members()
+                    
+                    Location()
                 }
                 
-                Members()
+                LeaveButton()
                 
-                Location()
+                if community.isOwner {
+                    DeleteButton()
+                }
             }
             
-            LeaveButton()
-            
-            if community.isOwner {
-                DeleteButton()
-            }
+            AYErrorAlert(message: communityDetailVM.overlayError.1 , isErrorAlertPresented: $communityDetailVM.overlayError.0)
         }
         .navigationTitle("Community Info")
         .navigationBarTitleDisplayMode(.inline)

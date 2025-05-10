@@ -51,7 +51,7 @@ class MessageViewModel: ObservableObject {
         case .success(let messages):
             self.intermediaryMessages.insert(contentsOf: convertReceivedMessages(messages), at: 0)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getMessages)
         }
     }
     
@@ -62,7 +62,7 @@ class MessageViewModel: ObservableObject {
         case .success(let messages):
             self.intermediaryMessages = convertReceivedMessages(messages)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getMessages)
         }
     }
     
@@ -87,7 +87,9 @@ class MessageViewModel: ObservableObject {
                     do {
                         try await self.sendMessage(message, token: token)
                     } catch {
-                        print("Error sending message: \(error)")
+                        DispatchQueue.main.async {
+                            self.overlayError = (true, ErrorMessage.sendMessage)
+                        }
                     }
                 }
             }
@@ -144,7 +146,7 @@ class MessageViewModel: ObservableObject {
             do {
                 return try await storeImage(img)
             } catch {
-                overlayError = (true, ErrorMessage.defaultErrorMessage)
+                overlayError = (true, ErrorMessage.postImageErrorMessage)
             }
         }
         return nil
@@ -169,7 +171,7 @@ class MessageViewModel: ObservableObject {
             updateMessage(withId: tempId, toPostedMessage: message)
         case .failure:
             updateMessage(withId: tempId, toStatus: .failed)
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.sendMessage)
         }
     }
     
@@ -254,7 +256,7 @@ class MessageViewModel: ObservableObject {
         case .success:
             removeMessage(withId: messageId)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.deleteMessage)
         }
     }
     

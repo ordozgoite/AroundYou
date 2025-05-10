@@ -142,7 +142,7 @@ struct PlacesScreen: View {
                 PostView(post: $post, socket: socket, locationManager: locationManager, deletePost: {
                         Task {
                             let token = try await authVM.getFirebaseToken()
-                            await placesVM.deletePublication(publicationId: post.id, token: token)
+                            await placesVM.deletePost(postId: post.id, token: token)
                         }
                     }) { shouldUpdate in
                         placesVM.shouldUpdateFeed = shouldUpdate

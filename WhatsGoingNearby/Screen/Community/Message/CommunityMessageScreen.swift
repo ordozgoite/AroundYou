@@ -86,6 +86,8 @@ struct CommunityMessageScreen: View {
                 
                 MessageComposer()
             }
+            
+            AYErrorAlert(message: communityMessageVM.overlayError.1 , isErrorAlertPresented: $communityMessageVM.overlayError.0)
         }
         .onAppear {
             Task {

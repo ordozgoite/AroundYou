@@ -30,6 +30,8 @@ struct LostItemDetailScreen: View {
                         Location(forLostItem: lostItem)
                     }
                 }
+                
+                AYErrorAlert(message: vm.overlayError.1 , isErrorAlertPresented: $vm.overlayError.0)
             }
             .navigationTitle(getNavTitle())
             .navigationBarTitleDisplayMode(.large)

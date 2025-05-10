@@ -26,6 +26,8 @@ struct CommunityListScreen: View {
                 } else {
                     Communities()
                 }
+                
+                AYErrorAlert(message: communityVM.overlayError.1 , isErrorAlertPresented: $communityVM.overlayError.0)
             }
             .sheet(isPresented: $communityVM.isCreateCommunityViewDisplayed) {
                 CreateCommunityScreen(

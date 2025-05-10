@@ -32,7 +32,7 @@ class EditPostViewModel: ObservableObject {
             if error == .forbidden {
                 overlayError = (true, ErrorMessage.editDistanceLimitExceededErrorMessage)
             } else {
-                overlayError = (true, ErrorMessage.defaultErrorMessage)
+                overlayError = (true, ErrorMessage.editPostErrorMessage)
             }
         }
     }

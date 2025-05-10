@@ -31,7 +31,7 @@ class ChatListViewModel: ObservableObject {
             self.chats = chats
             isInitialChatsFetched = true
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getChats)
         }
     }
     
@@ -42,7 +42,7 @@ class ChatListViewModel: ObservableObject {
         case .success:
             await getChats(token: token)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.deleteChat)
         }
     }
     
@@ -53,7 +53,7 @@ class ChatListViewModel: ObservableObject {
         case .success:
             updateChat(withId: chatId, to: .mute)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.muteChat)
         }
     }
     
@@ -64,7 +64,7 @@ class ChatListViewModel: ObservableObject {
         case .success:
             updateChat(withId: chatId, to: .unmute)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.unmuteChat)
         }
     }
     

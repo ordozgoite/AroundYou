@@ -265,9 +265,9 @@
 		EDDC9E082BD86E6A00000EA4 /* MessageStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDC9E072BD86E6A00000EA4 /* MessageStatus.swift */; };
 		EDDC9E0A2BDCB01400000EA4 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDC9E092BDCB01400000EA4 /* Character.swift */; };
 		EDDC9E0C2BDCB0AE00000EA4 /* EmojiMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDC9E0B2BDCB0AE00000EA4 /* EmojiMessageView.swift */; };
-		EDE1991F2CCB67E80065206C /* DiscoverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE1991E2CCB67E80065206C /* DiscoverScreen.swift */; };
+		EDE1991F2CCB67E80065206C /* PeopleScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE1991E2CCB67E80065206C /* PeopleScreen.swift */; };
 		EDE199212CCC5D3F0065206C /* VerifyUserDiscoverabilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE199202CCC5D3F0065206C /* VerifyUserDiscoverabilityResponse.swift */; };
-		EDE199232CCC5E3E0065206C /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE199222CCC5E3E0065206C /* DiscoverViewModel.swift */; };
+		EDE199232CCC5E3E0065206C /* PeopleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE199222CCC5E3E0065206C /* PeopleViewModel.swift */; };
 		EDE199282CCC60A20065206C /* ActivateDiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE199272CCC60A20065206C /* ActivateDiscoverView.swift */; };
 		EDE8994A2D5666C90094E7C0 /* CommunityDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE899492D5666C90094E7C0 /* CommunityDuration.swift */; };
 		EDE8B36D2BC1D11500DFF750 /* PostSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B36C2BC1D11500DFF750 /* PostSettingsView.swift */; };
@@ -525,9 +525,9 @@
 		EDDC9E072BD86E6A00000EA4 /* MessageStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStatus.swift; sourceTree = "<group>"; };
 		EDDC9E092BDCB01400000EA4 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		EDDC9E0B2BDCB0AE00000EA4 /* EmojiMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiMessageView.swift; sourceTree = "<group>"; };
-		EDE1991E2CCB67E80065206C /* DiscoverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverScreen.swift; sourceTree = "<group>"; };
+		EDE1991E2CCB67E80065206C /* PeopleScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleScreen.swift; sourceTree = "<group>"; };
 		EDE199202CCC5D3F0065206C /* VerifyUserDiscoverabilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyUserDiscoverabilityResponse.swift; sourceTree = "<group>"; };
-		EDE199222CCC5E3E0065206C /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
+		EDE199222CCC5E3E0065206C /* PeopleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleViewModel.swift; sourceTree = "<group>"; };
 		EDE199272CCC60A20065206C /* ActivateDiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivateDiscoverView.swift; sourceTree = "<group>"; };
 		EDE899492D5666C90094E7C0 /* CommunityDuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityDuration.swift; sourceTree = "<group>"; };
 		EDE8B36C2BC1D11500DFF750 /* PostSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSettingsView.swift; sourceTree = "<group>"; };
@@ -661,8 +661,8 @@
 		ED16B8DF2D58000A0034B190 /* List */ = {
 			isa = PBXGroup;
 			children = (
-				EDEF7A732D524E370030B7A6 /* CommunityListScreen.swift */,
 				EDEF7A772D5251670030B7A6 /* CommunityViewModel.swift */,
+				EDEF7A732D524E370030B7A6 /* CommunityListScreen.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -1008,7 +1008,7 @@
 				ED598BE92B7C121000B6C23D /* Authentication */,
 				ED5CC5162B97BE91009B17E3 /* Places */,
 				ED755F112BB4D521004BC6C3 /* Chats */,
-				EDE1991D2CCB67D20065206C /* Discover */,
+				EDE1991D2CCB67D20065206C /* People */,
 				EDEF7A752D5250500030B7A6 /* Community */,
 				ED30CE782D6F5406001FB213 /* Business */,
 				ED5CC5172B97BEC2009B17E3 /* Profile */,
@@ -1348,13 +1348,13 @@
 			path = Audio;
 			sourceTree = "<group>";
 		};
-		EDE1991D2CCB67D20065206C /* Discover */ = {
+		EDE1991D2CCB67D20065206C /* People */ = {
 			isa = PBXGroup;
 			children = (
-				EDE199222CCC5E3E0065206C /* DiscoverViewModel.swift */,
-				EDE1991E2CCB67E80065206C /* DiscoverScreen.swift */,
+				EDE199222CCC5E3E0065206C /* PeopleViewModel.swift */,
+				EDE1991E2CCB67E80065206C /* PeopleScreen.swift */,
 			);
-			path = Discover;
+			path = People;
 			sourceTree = "<group>";
 		};
 		EDE199262CCC608C0065206C /* Discover */ = {
@@ -1589,7 +1589,7 @@
 				ED598C0F2B7C499400B6C23D /* AYSecureTextField.swift in Sources */,
 				EDA30DF02B7FC620003EB22D /* AccountViewModel.swift in Sources */,
 				ED1026222D64D803009FF94B /* CommunityMessageScreen.swift in Sources */,
-				EDE1991F2CCB67E80065206C /* DiscoverScreen.swift in Sources */,
+				EDE1991F2CCB67E80065206C /* PeopleScreen.swift in Sources */,
 				EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */,
 				ED6DD4992B82E5E900ADBB64 /* NewPostLocationScreen.swift in Sources */,
 				ED30CE712D6D61FD001FB213 /* CommunityMessage.swift in Sources */,
@@ -1627,7 +1627,7 @@
 				ED2F1A732B914288001F4300 /* NotificationScreen.swift in Sources */,
 				ED6DD4902B8272DD00ADBB64 /* BlockedUserScreen.swift in Sources */,
 				ED8618692BB9E48400A26121 /* CameraRepresentable.swift in Sources */,
-				EDE199232CCC5E3E0065206C /* DiscoverViewModel.swift in Sources */,
+				EDE199232CCC5E3E0065206C /* PeopleViewModel.swift in Sources */,
 				EDA30E002B804FD1003EB22D /* ReportIssueScreen.swift in Sources */,
 				EDA322382B7CC145009905B5 /* TimestampTestScreen.swift in Sources */,
 				ED6DD48D2B82685D00ADBB64 /* Block.swift in Sources */,

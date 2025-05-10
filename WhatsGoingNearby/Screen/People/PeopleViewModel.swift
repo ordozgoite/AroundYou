@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @MainActor
-class DiscoverViewModel: ObservableObject {
+class PeopleViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     @Published var discoverabilityVerified: Bool = false
@@ -48,7 +48,7 @@ class DiscoverViewModel: ObservableObject {
             self.discoverabilityVerified = true
             return response
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.verifyUserDiscoverability)
             return nil
         }
     }
@@ -65,7 +65,7 @@ class DiscoverViewModel: ObservableObject {
             if error == .unprocessableEntity {
                 isPreferencesViewDisplayed = true
             } else {
-                overlayError = (true, ErrorMessage.defaultErrorMessage)
+                overlayError = (true, ErrorMessage.activateUserDiscoverability)
             }
             throw error
         }
@@ -80,7 +80,7 @@ class DiscoverViewModel: ObservableObject {
         case .success:
             isPreferencesViewDisplayed = false
         case .failure(let error):
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.deactivateUserDiscoverability)
             throw error
         }
     }
@@ -94,7 +94,7 @@ class DiscoverViewModel: ObservableObject {
         case .success:
             isPreferencesViewDisplayed = false
         case .failure(let error):
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.updateUserPreferences)
             throw error
         }
     }
@@ -113,7 +113,7 @@ class DiscoverViewModel: ObservableObject {
             self.usersFound = users
             self.initialUsersFetched = true
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getUsersNearBy)
         }
     }
     
@@ -125,7 +125,7 @@ class DiscoverViewModel: ObservableObject {
             self.chatUser = chat
             self.isMessageScreenDisplayed = true
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.postNewChat)
         }
     }
 }

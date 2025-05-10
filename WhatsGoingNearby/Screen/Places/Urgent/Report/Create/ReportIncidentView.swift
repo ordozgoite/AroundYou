@@ -19,14 +19,18 @@ struct ReportIncidentView: View {
     
     var body: some View {
         NavigationStack {
-            Form {
-                Type()
-                
-                if vm.selectedReportType != nil {
-                    Description()
+            ZStack {
+                Form {
+                    Type()
                     
-                    Picture()
+                    if vm.selectedReportType != nil {
+                        Description()
+                        
+                        Picture()
+                    }
                 }
+                
+                AYErrorAlert(message: vm.overlayError.1 , isErrorAlertPresented: $vm.overlayError.0)
             }
             .onChange(of: vm.imageSelection) { newItem in
                 Task {

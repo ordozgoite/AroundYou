@@ -25,15 +25,18 @@ class PlacesViewModel: ObservableObject {
     
     func getPosts(latitude: Double, longitude: Double, token: String) async {
         if !initialPostsFetched { isLoading = true }
-        let response = await AYServices.shared.getAllPublicationsNearBy(latitude: latitude, longitude: longitude, token: token)
-        if !initialPostsFetched { isLoading = false }
-        
-        switch response {
+        defer { isLoading = false }
+        let result = await AYServices.shared.getAllPublicationsNearBy(latitude: latitude, longitude: longitude, token: token)
+        handleGetPostsResult(result)
+    }
+    
+    private func handleGetPostsResult(_ result: Result<[FormattedPost], RequestError>) {
+        switch result {
         case .success(let posts):
             updatePosts(with: posts)
             initialPostsFetched = true
-        case .failure(let error):
-            print("❌ Error: \(error)")
+        case .failure:
+            overlayError = (true, ErrorMessage.getPostsErrorMessage)
         }
     }
     
@@ -43,16 +46,19 @@ class PlacesViewModel: ObservableObject {
         }
     }
     
-    func deletePublication(publicationId: String, token: String) async {
+    func deletePost(postId: String, token: String) async {
         isLoading = true
-        let response = await AYServices.shared.deletePublication(publicationId: publicationId, token: token)
-        isLoading = false
-        
-        switch response {
+        defer { isLoading = false }
+        let result = await AYServices.shared.deletePublication(publicationId: postId, token: token)
+        handlePostDeletionResult(withId: postId, result)
+    }
+    
+    private func handlePostDeletionResult(withId postId: String, _ result: Result<DeletePublicationResponse, RequestError>) {
+        switch result {
         case .success:
-            posts.removeAll { $0.id == publicationId }
+            posts.removeAll { $0.id == postId }
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.deletePostErrorMessage)
         }
     }
 }

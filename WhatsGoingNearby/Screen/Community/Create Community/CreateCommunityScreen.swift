@@ -20,24 +20,28 @@ struct CreateCommunityScreen: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 16) {
-                EditCommunityImage()
-                
-                Name()
-                
-                Divider()
-                
-                Description()
-                
-                Settings()
-                
-                Spacer()
-                
-                VStack {
-                    Create()
+            ZStack {
+                VStack(spacing: 16) {
+                    EditCommunityImage()
                     
-                    Disclaimer()
+                    Name()
+                    
+                    Divider()
+                    
+                    Description()
+                    
+                    Settings()
+                    
+                    Spacer()
+                    
+                    VStack {
+                        Create()
+                        
+                        Disclaimer()
+                    }
                 }
+                
+                AYErrorAlert(message: createCommunityVM.overlayError.1 , isErrorAlertPresented: $createCommunityVM.overlayError.0)
             }
             .padding()
             .onAppear {

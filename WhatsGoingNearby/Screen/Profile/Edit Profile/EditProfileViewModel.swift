@@ -42,7 +42,7 @@ class EditProfileViewModel: ObservableObject {
         case .success(let user):
             updateInfo(forUser: user)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getUserInfo)
         }
     }
     
@@ -67,7 +67,7 @@ class EditProfileViewModel: ObservableObject {
             if error == .conflict {
                 overlayError = (true, ErrorMessage.usernameInUseMessage)
             } else {
-                overlayError = (true, ErrorMessage.defaultErrorMessage)
+                overlayError = (true, ErrorMessage.editProfile)
             }
         }
         return false
@@ -86,7 +86,7 @@ class EditProfileViewModel: ObservableObject {
             await getUserInfo(token: token)
             return imageUrl
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.postImageErrorMessage)
         }
         return nil
     }
@@ -100,7 +100,7 @@ class EditProfileViewModel: ObservableObject {
         case .success:
             await getUserInfo(token: token)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.removePhoto)
         }
     }
     
