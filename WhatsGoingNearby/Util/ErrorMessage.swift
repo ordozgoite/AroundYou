@@ -46,7 +46,7 @@ struct ErrorMessage {
     static let getCommentLikes: LocalizedStringKey = "Failed to load comment likes. Please try again."
 
     static let getNotifications: LocalizedStringKey = "Failed to load notifications. Please try again."
-    static let deleteNotifications: LocalizedStringKey = "Failed to delete notifications. Please try again."
+    static let deleteNotification: LocalizedStringKey = "Failed to delete notification. Please try again."
 
     static let getAllComments: LocalizedStringKey = "Failed to load comments. Please try again."
     static let postComment: LocalizedStringKey = "Failed to post comment. Please try again."

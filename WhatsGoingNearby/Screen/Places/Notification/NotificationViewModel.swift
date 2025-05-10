@@ -37,7 +37,7 @@ class NotificationViewModel: ObservableObject {
         case .success:
             notifications = notifications.filter { $0.id != notificationId }
         case .failure:
-            overlayError = (true, ErrorMessage.deleteNotifications)
+            overlayError = (true, ErrorMessage.deleteNotification)
         }
     }
 }

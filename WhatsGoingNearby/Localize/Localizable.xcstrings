@@ -1899,7 +1899,14 @@
       }
     },
     "Error trying to create new post. Try again later." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao tentar criar uma nova publicação. Tente novamente mais tarde."
+          }
+        }
+      }
     },
     "Error trying to get user ban expiration date" : {
       "extractionState" : "stale",
@@ -1977,172 +1984,568 @@
       }
     },
     "Failed to activate discoverability. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao ativar a descoberta. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to approve user. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao aprovar o usuário. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to block user. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao bloquear o usuário. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to create community. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao criar comunidade. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to create post. Please try again later." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao criar a publicação. Tente novamente mais tarde."
+          }
+        }
+      }
     },
     "Failed to create user. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao criar usuário. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to deactivate discoverability. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao desativar a descoberta. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to delete business. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao deletar o negócio. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to delete chat. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao deletar a conversa. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to delete comment. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao deletar o comentário. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to delete community. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao deletar a comunidade. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to delete message. Please try again." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao deletar a mensagem. Tente novamente."
+          }
+        }
+      }
+    },
+    "Failed to delete notification. Please try again." : {
 
     },
     "Failed to delete notifications. Please try again." : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao deletar as notificações. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to delete post. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao deletar a publicação. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to edit community description. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao editar a descrição da comunidade. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to edit post. Please try again later." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao editar a publicação. Tente novamente mais tarde."
+          }
+        }
+      }
     },
     "Failed to join community. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao entrar na comunidade. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to leave community. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao sair da comunidade. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load blocked users. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar usuários bloqueados. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load chats. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar conversas. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load comment likes. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar curtidas. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load comments. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar os comentários. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load community information. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar as informações da comunidade. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load lost item details. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar os detalhes do item perdido. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load messages. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar as mensagens. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load nearby businesses. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar negócios próximos. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load nearby communities. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar comunidades próximas. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load nearby posts. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar publicações próximas. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load nearby users. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar usuários próximos. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load notifications. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar as notificações. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load post likes. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar as curtidas da publicação. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load report details. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar os detalhes da denúncia. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load user information. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar as informações do usuário. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load user profile. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar o perfil do usuário. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load your businesses. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar seus negócios. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to load your posts. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar suas publicações. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to mark item as found. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao marcar o item como encontrado. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to mute chat. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao silenciar a conversa. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to post comment. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao postar o comentário. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to post lost item. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao postar o item perdido. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to publish business. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao publicar o negócio. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to remove profile picture. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao remover a foto do perfil. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to request to join community. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao solicitar entrada na comunidade. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to retrieve ban expiration date." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao recuperar a data de expiração do banimento."
+          }
+        }
+      }
     },
     "Failed to retrieve user information." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao recuperar informações do usuário."
+          }
+        }
+      }
     },
     "Failed to select a photo. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível selecionar uma foto. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to send message. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao enviar a mensagem. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to start new chat. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao iniciar nova conversa. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to submit report. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao enviar a denúncia. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to unblock user. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao desbloquear o usuário. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to unmute chat. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao ativar o som do chat. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to update community. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao atualizar a comunidade. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to update preferences. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao atualizar as preferências. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to update profile. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao atualizar o perfil. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to upload image. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar a imagem. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to verify discoverability. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao verificar se a descoberta está ativa. Tente novamente."
+          }
+        }
+      }
     },
     "Female" : {
       "localizations" : {
@@ -3253,7 +3656,14 @@
       }
     },
     "Oops! Something went wrong. Please try again later." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ops! Algo deu errado. Tente novamente mais tarde."
+          }
+        }
+      }
     },
     "or" : {
       "localizations" : {
@@ -4500,10 +4910,24 @@
       }
     },
     "This username contains invalid characters. Please choose another one." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este nome de usuário contém caracteres inválidos. Escolha outro."
+          }
+        }
+      }
     },
     "This username is already taken. Please try a different one." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este nome de usuário já foi usado. Tente outro."
+          }
+        }
+      }
     },
     "This username isn't available. Please try another." : {
       "extractionState" : "stale",
@@ -4764,7 +5188,14 @@
       }
     },
     "We couldn’t access your location. Please enable location permissions in your device settings." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível acessar sua localização. Ative as permissões de localização nas configurações do seu dispositivo."
+          }
+        }
+      }
     },
     "We couldn't access your location. Please make sure to allow access in your device's settings." : {
       "extractionState" : "stale",
@@ -5055,16 +5486,44 @@
       }
     },
     "You're too far away to comment on this post." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você está muito longe para comentar esta postagem."
+          }
+        }
+      }
     },
     "You're too far away to edit this post." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você está muito longe para editar esta postagem."
+          }
+        }
+      }
     },
     "You’ve reached the maximum number of active posts allowed." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você atingiu o número máximo de publicações ativas permitidas."
+          }
+        }
+      }
     },
     "You’ve reached the maximum number of businesses you can publish." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você atingiu o número máximo de negócios que pode publicar."
+          }
+        }
+      }
     },
     "your" : {
       "extractionState" : "stale",
@@ -5128,7 +5587,14 @@
       }
     },
     "Your account has been temporarily banned until %@." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua conta foi temporariamente banida até %@."
+          }
+        }
+      }
     },
     "Your account has been temporarily banned." : {
       "extractionState" : "stale",
