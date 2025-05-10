@@ -1901,19 +1901,8 @@
     "Error trying to create new post. Try again later." : {
 
     },
-    "Error trying to delete post." : {
-
-    },
-    "Error trying to fetch lost item info." : {
-
-    },
-    "Error trying to fetch nearby posts." : {
-
-    },
-    "Error trying to fetch report info." : {
-
-    },
     "Error trying to get user ban expiration date" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1943,16 +1932,8 @@
         }
       }
     },
-    "Error trying to post image." : {
-
-    },
-    "Error trying to post incident report. Please try again later." : {
-
-    },
-    "Error trying to post Lost Item." : {
-
-    },
     "Error trying to post new user" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1963,6 +1944,7 @@
       }
     },
     "Error trying to select photo." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -1977,9 +1959,6 @@
           }
         }
       }
-    },
-    "Error trying to set item as 'found'." : {
-
     },
     "Expired" : {
       "localizations" : {
@@ -1996,6 +1975,174 @@
           }
         }
       }
+    },
+    "Failed to activate discoverability. Please try again." : {
+
+    },
+    "Failed to approve user. Please try again." : {
+
+    },
+    "Failed to block user. Please try again." : {
+
+    },
+    "Failed to create community. Please try again." : {
+
+    },
+    "Failed to create post. Please try again later." : {
+
+    },
+    "Failed to create user. Please try again." : {
+
+    },
+    "Failed to deactivate discoverability. Please try again." : {
+
+    },
+    "Failed to delete business. Please try again." : {
+
+    },
+    "Failed to delete chat. Please try again." : {
+
+    },
+    "Failed to delete comment. Please try again." : {
+
+    },
+    "Failed to delete community. Please try again." : {
+
+    },
+    "Failed to delete message. Please try again." : {
+
+    },
+    "Failed to delete notifications. Please try again." : {
+
+    },
+    "Failed to delete post. Please try again." : {
+
+    },
+    "Failed to edit community description. Please try again." : {
+
+    },
+    "Failed to edit post. Please try again later." : {
+
+    },
+    "Failed to join community. Please try again." : {
+
+    },
+    "Failed to leave community. Please try again." : {
+
+    },
+    "Failed to load blocked users. Please try again." : {
+
+    },
+    "Failed to load chats. Please try again." : {
+
+    },
+    "Failed to load comment likes. Please try again." : {
+
+    },
+    "Failed to load comments. Please try again." : {
+
+    },
+    "Failed to load community information. Please try again." : {
+
+    },
+    "Failed to load lost item details. Please try again." : {
+
+    },
+    "Failed to load messages. Please try again." : {
+
+    },
+    "Failed to load nearby businesses. Please try again." : {
+
+    },
+    "Failed to load nearby communities. Please try again." : {
+
+    },
+    "Failed to load nearby posts. Please try again." : {
+
+    },
+    "Failed to load nearby users. Please try again." : {
+
+    },
+    "Failed to load notifications. Please try again." : {
+
+    },
+    "Failed to load post likes. Please try again." : {
+
+    },
+    "Failed to load report details. Please try again." : {
+
+    },
+    "Failed to load user information. Please try again." : {
+
+    },
+    "Failed to load user profile. Please try again." : {
+
+    },
+    "Failed to load your businesses. Please try again." : {
+
+    },
+    "Failed to load your posts. Please try again." : {
+
+    },
+    "Failed to mark item as found. Please try again." : {
+
+    },
+    "Failed to mute chat. Please try again." : {
+
+    },
+    "Failed to post comment. Please try again." : {
+
+    },
+    "Failed to post lost item. Please try again." : {
+
+    },
+    "Failed to publish business. Please try again." : {
+
+    },
+    "Failed to remove profile picture. Please try again." : {
+
+    },
+    "Failed to request to join community. Please try again." : {
+
+    },
+    "Failed to retrieve ban expiration date." : {
+
+    },
+    "Failed to retrieve user information." : {
+
+    },
+    "Failed to select a photo. Please try again." : {
+
+    },
+    "Failed to send message. Please try again." : {
+
+    },
+    "Failed to start new chat. Please try again." : {
+
+    },
+    "Failed to submit report. Please try again." : {
+
+    },
+    "Failed to unblock user. Please try again." : {
+
+    },
+    "Failed to unmute chat. Please try again." : {
+
+    },
+    "Failed to update community. Please try again." : {
+
+    },
+    "Failed to update preferences. Please try again." : {
+
+    },
+    "Failed to update profile. Please try again." : {
+
+    },
+    "Failed to upload image. Please try again." : {
+
+    },
+    "Failed to verify discoverability. Please try again." : {
+
     },
     "Female" : {
       "localizations" : {
@@ -3089,6 +3236,7 @@
       }
     },
     "Oops! Looks like something went wrong. Try again later." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -3103,6 +3251,9 @@
           }
         }
       }
+    },
+    "Oops! Something went wrong. Please try again later." : {
+
     },
     "or" : {
       "localizations" : {
@@ -4077,6 +4228,7 @@
       }
     },
     "Sorry, you have reached the maximum allowed number of active publications." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -4093,6 +4245,7 @@
       }
     },
     "Sorry, you're too far away to comment on this post." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -4109,6 +4262,7 @@
       }
     },
     "Sorry, you're too far away to edit this post." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -4230,6 +4384,7 @@
       }
     },
     "The username you have chosen contains invalid characters. Please try another." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -4344,7 +4499,14 @@
         }
       }
     },
+    "This username contains invalid characters. Please choose another one." : {
+
+    },
+    "This username is already taken. Please try a different one." : {
+
+    },
     "This username isn't available. Please try another." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -4601,7 +4763,11 @@
         }
       }
     },
+    "We couldn’t access your location. Please enable location permissions in your device settings." : {
+
+    },
     "We couldn't access your location. Please make sure to allow access in your device's settings." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -4888,6 +5054,18 @@
         }
       }
     },
+    "You're too far away to comment on this post." : {
+
+    },
+    "You're too far away to edit this post." : {
+
+    },
+    "You’ve reached the maximum number of active posts allowed." : {
+
+    },
+    "You’ve reached the maximum number of businesses you can publish." : {
+
+    },
     "your" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -4933,6 +5111,7 @@
       }
     },
     "Your account has been temporarily banned until %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -4947,6 +5126,9 @@
           }
         }
       }
+    },
+    "Your account has been temporarily banned until %@." : {
+
     },
     "Your account has been temporarily banned." : {
       "extractionState" : "stale",

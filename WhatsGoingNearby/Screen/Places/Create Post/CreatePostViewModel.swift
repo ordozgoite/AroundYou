@@ -40,7 +40,7 @@ class CreatePostViewModel: ObservableObject {
             if error == .forbidden {
                 overlayError = (true, ErrorMessage.publicationLimitExceededErrorMessage)
             } else {
-                overlayError = (true, "Error trying to create new post. Try again later.")
+                overlayError = (true, ErrorMessage.createPostErrorMessage)
             }
             throw error
         }
@@ -50,7 +50,7 @@ class CreatePostViewModel: ObservableObject {
         do {
             return try await FirebaseService.shared.storeImageAndGetUrl(self.image!)
         } catch {
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.postImageErrorMessage)
             isLoading = false
             return nil
         }

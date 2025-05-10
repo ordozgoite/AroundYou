@@ -661,8 +661,8 @@
 		ED16B8DF2D58000A0034B190 /* List */ = {
 			isa = PBXGroup;
 			children = (
-				EDEF7A732D524E370030B7A6 /* CommunityListScreen.swift */,
 				EDEF7A772D5251670030B7A6 /* CommunityViewModel.swift */,
+				EDEF7A732D524E370030B7A6 /* CommunityListScreen.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";

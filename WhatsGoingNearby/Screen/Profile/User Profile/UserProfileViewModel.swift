@@ -33,7 +33,7 @@ class UserProfileViewModel: ObservableObject {
         case .success(let user):
             userProfile = user
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getUserProfile)
         }
     }
     
@@ -60,7 +60,7 @@ class UserProfileViewModel: ObservableObject {
             self.chatUser = chat
             self.isMessageScreenPresented = true
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.postNewChat)
         }
     }
 }

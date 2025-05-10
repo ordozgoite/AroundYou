@@ -36,7 +36,7 @@ class PlacesViewModel: ObservableObject {
             updatePosts(with: posts)
             initialPostsFetched = true
         case .failure:
-            overlayError = (true, "Error trying to fetch nearby posts.")
+            overlayError = (true, ErrorMessage.getPostsErrorMessage)
         }
     }
     
@@ -58,7 +58,7 @@ class PlacesViewModel: ObservableObject {
         case .success:
             posts.removeAll { $0.id == postId }
         case .failure:
-            overlayError = (true, "Error trying to delete post.")
+            overlayError = (true, ErrorMessage.deletePostErrorMessage)
         }
     }
 }

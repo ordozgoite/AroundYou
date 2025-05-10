@@ -34,8 +34,7 @@ class CommunityViewModel: ObservableObject {
             self.communities = communities
             initialCommunitiesFetched = true
         case .failure(let error):
-            // TODO: Display Error
-            print("Error: \(error)")
+            overlayError = (true, ErrorMessage.getCommunitiesNearBy)
         }
     }
     
@@ -50,7 +49,7 @@ class CommunityViewModel: ObservableObject {
             goToChat(forCommunityId: communityId)
             await getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.joinCommunity)
         }
     }
     
@@ -75,7 +74,7 @@ class CommunityViewModel: ObservableObject {
             isJoinCommunityViewDisplayed = false
             await getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.askToJoinCommunity)
         }
     }
 }

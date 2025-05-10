@@ -37,7 +37,7 @@ class BusinessViewModel: ObservableObject {
             initialBusinessesFetched = true
             self.businesses = businesses
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getBusinesses)
         }
     }
     
@@ -51,7 +51,7 @@ class BusinessViewModel: ObservableObject {
         case .success(let businesses):
             self.userBusinesses = businesses
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getBusinessByUser)
         }
     }
     
@@ -62,7 +62,7 @@ class BusinessViewModel: ObservableObject {
         case .success:
             removeBusiness(withId: businessId)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.deleteBusiness)
             throw BusinessError.deletionFailed
         }
     }

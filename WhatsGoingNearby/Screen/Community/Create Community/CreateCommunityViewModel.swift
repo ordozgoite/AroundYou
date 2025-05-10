@@ -50,8 +50,7 @@ class CreateCommunityViewModel: ObservableObject {
         case .success:
             dismiss()
         case .failure(let error):
-            // TODO: Display error
-            print("Error: \(error)")
+            overlayError = (true, ErrorMessage.postNewCommunity)
         }
     }
     
@@ -59,7 +58,7 @@ class CreateCommunityViewModel: ObservableObject {
         do {
             return try await FirebaseService.shared.storeImageAndGetUrl(self.croppedImage!)
         } catch {
-            // TODO: Display Error
+            overlayError = (true, ErrorMessage.postImageErrorMessage)
             return nil
         }
     }

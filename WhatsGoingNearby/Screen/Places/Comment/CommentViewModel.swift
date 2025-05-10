@@ -26,7 +26,7 @@ class CommentViewModel: ObservableObject {
         case .success(let comments):
             self.comments = comments
         case .failure(let error):
-            print("❌ Error: \(error)")
+            overlayError = (true, ErrorMessage.getAllComments)
         }
     }
     
@@ -47,7 +47,7 @@ class CommentViewModel: ObservableObject {
             if error == .forbidden {
                 overlayError = (true, ErrorMessage.commentDistanceLimitExceededErrorMessage)
             } else {
-                overlayError = (true, ErrorMessage.defaultErrorMessage)
+                overlayError = (true, ErrorMessage.postComment)
             }
         }
     }
@@ -59,7 +59,7 @@ class CommentViewModel: ObservableObject {
         case .success:
             popComment(commentId: commentId)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.deleteComment)
         }
     }
     
@@ -74,7 +74,7 @@ class CommentViewModel: ObservableObject {
         case .success:
             dismissScreen()
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.deletePost)
         }
     }
     

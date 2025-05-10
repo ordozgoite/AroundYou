@@ -26,7 +26,7 @@ class ReportDetailViewModel: ObservableObject {
         case .success(let report):
             self.reportIncident = report
         case .failure:
-            overlayError = (true, "Error trying to fetch report info.")
+            overlayError = (true, ErrorMessage.getReportInfoErrorMessage)
         }
     }
 }

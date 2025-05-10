@@ -67,7 +67,7 @@ class LostAndFoundViewModel: ObservableObject {
         case .success:
             print("✅ Lost Item successfully posted!")
         case .failure:
-            overlayError = (true, "Error trying to post Lost Item.")
+            overlayError = (true, ErrorMessage.postLostItemErrorMessage)
             throw PostLostItemError.genericError
         }
     }

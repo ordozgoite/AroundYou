@@ -27,7 +27,7 @@ class LostItemDetailViewModel: ObservableObject {
         case .success(let lostItem):
             self.lostItem = lostItem
         case .failure:
-            overlayError = (true, "Error trying to fetch lost item info.")
+            overlayError = (true, ErrorMessage.getLostItemInfoErrorMessage)
         }
     }
     
@@ -43,7 +43,7 @@ class LostItemDetailViewModel: ObservableObject {
         case .success:
             self.lostItem?.wasFound = true
         case .failure:
-            overlayError = (true, "Error trying to set item as 'found'.")
+            overlayError = (true, ErrorMessage.setItemAsFoundErrorMessage)
         }
     }
 }

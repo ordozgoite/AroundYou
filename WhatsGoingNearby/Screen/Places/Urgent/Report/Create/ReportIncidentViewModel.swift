@@ -61,7 +61,7 @@ class ReportIncidentViewModel: ObservableObject {
         case .success:
             print("✅ Report successfully posted!")
         case .failure:
-            overlayError = (true, "Error trying to post incident report. Please try again later.")
+            overlayError = (true, ErrorMessage.postIncidentReportErrorMessage)
             throw PostReportIncidentError.genericError
         }
     }

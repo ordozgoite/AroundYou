@@ -40,9 +40,11 @@ class PublishBusinessViewModel: ObservableObject {
         case .success:
             print("✅ Business successfully published!")
         case .failure(let error):
-            // TODO: display error
-            // Verifique se o erro é de permissão e exiba a mensagem adequada!
-            overlayError = (true, "Error trying to post Business.") // TODO: change!
+            if error == .locked {
+                overlayError = (true, ErrorMessage.businessesPublishedLimitExceeded)
+            } else {
+                overlayError = (true, ErrorMessage.publishBusiness)
+            }
         }
     }
     
@@ -63,7 +65,7 @@ class PublishBusinessViewModel: ObservableObject {
         do {
             return try await FirebaseService.shared.storeImageAndGetUrl(self.image!)
         } catch {
-            // TODO: Display Error
+            overlayError = (true, ErrorMessage.postImageErrorMessage)
             return nil
         }
     }

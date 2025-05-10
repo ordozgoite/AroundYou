@@ -46,7 +46,7 @@ class CommunityDetailViewModel: ObservableObject {
             setCommunityInfo(communityInfo)
             hasFetchedCommunityInfo = true
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getCommunityInfo)
         }
     }
     
@@ -66,7 +66,7 @@ class CommunityDetailViewModel: ObservableObject {
             removeFromJoinRequests(requestUser.userUid)
             addToMembers(requestUser)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.approveUserToCommunity)
         }
     }
     
@@ -105,7 +105,7 @@ class CommunityDetailViewModel: ObservableObject {
         case .success:
             print("✅ Success!")
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.leaveCommunity)
             throw NSError(domain: "LeaveCommunityError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to leave community"])
         }
     }
@@ -119,7 +119,7 @@ class CommunityDetailViewModel: ObservableObject {
         case .success:
             print("✅ Success!")
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.deleteCommunity)
             throw NSError(domain: "DeleteCommunityError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to delete community"])
         }
     }
@@ -133,7 +133,7 @@ class CommunityDetailViewModel: ObservableObject {
         case .success:
             print("✅ Success!")
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.editCommunityDescription)
             throw NSError(domain: "EditCommunityDescriptionError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to edit community description"])
         }
     }
@@ -148,7 +148,7 @@ class CommunityDetailViewModel: ObservableObject {
         case .success:
             print("✅ Success!")
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.editCommunity)
             throw NSError(domain: "EditCommunityError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to edit community"])
         }
     }
@@ -166,7 +166,7 @@ class CommunityDetailViewModel: ObservableObject {
         do {
             return try await FirebaseService.shared.storeImageAndGetUrl(self.croppedImage!)
         } catch {
-            // TODO: Display Error
+            overlayError = (true, ErrorMessage.postImageErrorMessage)
             return nil
         }
     }

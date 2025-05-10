@@ -46,6 +46,7 @@ enum RequestError: Error {
     case unknown
     case badRequest
     case unprocessableEntity
+    case locked
     
     var customMessage: String {
         switch self {
@@ -63,6 +64,8 @@ enum RequestError: Error {
             return "Conflict data"
         case .unprocessableEntity:
             return "The request could not be processed due to semantic errors."
+        case .locked:
+            return "Access denied: the requested resource is locked."
         default:
             return "Unknown error"
         }

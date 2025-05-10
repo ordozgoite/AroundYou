@@ -18,14 +18,13 @@ class AccountViewModel: ObservableObject {
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     
     func getUserPosts(location:  Location, token: String) async {
-        print("getUserPosts")
         let response = await AYServices.shared.getAllPublicationsByUser(latitude: location.latitude, longitude: location.longitude, token: token)
         
         switch response {
         case .success(let posts):
             self.posts = posts
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getUserPosts)
         }
     }
     
@@ -36,7 +35,7 @@ class AccountViewModel: ObservableObject {
         case .success:
             posts.removeAll { $0.id == publicationId }
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.deletePost)
         }
     }
 }
