@@ -3750,6 +3750,16 @@
         }
       }
     },
+    "Phone number" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de telefone"
+          }
+        }
+      }
+    },
     "Photos" : {
       "localizations" : {
         "pt-BR" : {
@@ -5440,6 +5450,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O que está rolando ao seu redor?"
+          }
+        }
+      }
+    },
+    "WhatsApp number" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de WhatsApp"
           }
         }
       }

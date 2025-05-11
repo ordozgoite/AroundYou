@@ -65,11 +65,11 @@ struct PhoneNumberTextFieldView: UIViewRepresentable {
 
 struct AYPhoneNumberTextField: View {
     @Binding var number: String
-    let placeholder: String
+    let placeholder: LocalizedStringKey
     
     var body: some View {
         VStack {
-            PhoneNumberTextFieldView(text: $number, placeholder: placeholder)
+            PhoneNumberTextFieldView(text: $number, placeholder: placeholder.stringKey)
         }
     }
 }
