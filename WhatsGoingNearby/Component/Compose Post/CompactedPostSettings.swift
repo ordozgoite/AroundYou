@@ -85,7 +85,7 @@ struct CompactedPostSettings: View {
     CompactedPostSettings(
         maxPostLength: 250,
         text: .constant(""),
-        selectedPostTag: .constant(.buy),
+        selectedPostTag: .constant(.chilling),
         selectedPostDuration: .constant(.oneHour),
         isExpanded: .constant(false)
     )

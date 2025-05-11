@@ -636,6 +636,7 @@
       }
     },
     "Asking for information" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -2104,7 +2105,14 @@
       }
     },
     "Failed to delete notification. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao deletar notificação. Tente novamente."
+          }
+        }
+      }
     },
     "Failed to delete notifications. Please try again." : {
       "extractionState" : "stale",
@@ -2822,6 +2830,7 @@
       }
     },
     "Hungry" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -2838,6 +2847,7 @@
       }
     },
     "I am" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -2859,6 +2869,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eu Perdi Algo"
+          }
+        }
+      }
+    },
+    "I want" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eu quero"
           }
         }
       }
@@ -3101,6 +3121,7 @@
       }
     },
     "Just chatting" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -3117,6 +3138,7 @@
       }
     },
     "Just chilling" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -3289,6 +3311,7 @@
       }
     },
     "Looking for help" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -4444,6 +4467,7 @@
       }
     },
     "Seeking hangout" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -4477,6 +4501,7 @@
       }
     },
     "Seeking to purchase" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -4552,6 +4577,7 @@
       }
     },
     "Sharing news" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -4633,6 +4659,48 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sair"
+          }
+        }
+      }
+    },
+    "some company" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "companhia"
+          }
+        }
+      }
+    },
+    "Some Company" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Companhia"
+          }
+        }
+      }
+    },
+    "some help" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ajuda"
+          }
+        }
+      }
+    },
+    "Some Help" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuda"
           }
         }
       }
@@ -4942,6 +5010,90 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Esse nome de usuário está indisponível. Por favor tente outro."
+          }
+        }
+      }
+    },
+    "to chill" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "relaxar"
+          }
+        }
+      }
+    },
+    "To Chill" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relaxar"
+          }
+        }
+      }
+    },
+    "to kill time" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "matar o tempo"
+          }
+        }
+      }
+    },
+    "To Kill Time" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Matar o Tempo"
+          }
+        }
+      }
+    },
+    "to party" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "festejar"
+          }
+        }
+      }
+    },
+    "To Party" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Festejar"
+          }
+        }
+      }
+    },
+    "to share something" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "compartilhar algo"
+          }
+        }
+      }
+    },
+    "To Share Something" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartilhar Algo"
           }
         }
       }
@@ -5303,6 +5455,7 @@
       }
     },
     "Working" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -5625,9 +5778,15 @@
     },
     "Your location will be used to display your business to people nearby." : {
       "localizations" : {
-        "pt-BR" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "\\"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Sua localização será usada para exibir seu negócio às pessoas próximas."
           }
         }

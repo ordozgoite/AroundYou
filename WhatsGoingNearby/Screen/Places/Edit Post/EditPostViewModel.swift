@@ -16,7 +16,7 @@ class EditPostViewModel: ObservableObject {
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var isLocationVisible: Bool = false
     @Published var isSettingsExpanded: Bool = false
-    @Published var selectedPostTag: PostTag = .chat
+    @Published var selectedPostTag: PostTag = .chilling
     @Published var selectedPostDuration: PostDuration = .fourHours
     @Published var isShareLocationAlertDisplayed: Bool = false
     

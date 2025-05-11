@@ -139,7 +139,7 @@ struct PlacesScreen: View {
         ForEach($placesVM.posts) { $post in
             if post.status == postType {
 //                NavigationLink(destination: CommentScreen(postId: post.id, post: $post, location: $locationManager.location, socket: socket).environmentObject(authVM)) {
-                PostView(post: $post, socket: socket, locationManager: locationManager, deletePost: {
+                PostView(post: $post, socket: socket, locationManager: locationManager, isClickable: true, deletePost: {
                         Task {
                             let token = try await authVM.getFirebaseToken()
                             await placesVM.deletePost(postId: post.id, token: token)

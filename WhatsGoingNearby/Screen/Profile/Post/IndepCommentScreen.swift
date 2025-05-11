@@ -25,7 +25,7 @@ struct IndepCommentScreen: View {
             VStack {
                 ScrollView {
                     if postVM.isPostFetched {
-                        PostView(post: $postVM.post, socket: socket, locationManager: locationManager) {
+                        PostView(post: $postVM.post, socket: socket, locationManager: locationManager, isClickable: false) {
                             Task {
                                 let token = try await authVM.getFirebaseToken()
                                 await postVM.deletePost(publicationId: postId, token: token) {

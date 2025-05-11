@@ -50,24 +50,18 @@ struct FormattedPost: Identifiable, Codable {
     }
     var postTag: PostTag? {
         return switch tag {
-        case "chat":
-                .chat
         case "help":
                 .help
-        case "info":
-                .info
         case "hangout":
                 .hangout
         case "news":
                 .news
         case "chilling":
                 .chilling
-        case "buy":
-                .buy
-        case "eat":
-                .eat
-        case "work":
-                .work
+        case "party":
+                .party
+        case "bored":
+                .bored
         default:
             nil
         }

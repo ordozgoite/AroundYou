@@ -129,13 +129,13 @@ struct ComposePostView: View {
             }
             .padding(.bottom)
             
-            Chevron()
+//            Chevron()
             
-            if isSettingsExpanded {
+//            if isSettingsExpanded {
                 ExpandedPostSettings(maxPostLength: maxLength, text: $text, selectedPostTag: $tag, selectedPostDuration: $duration, isExpanded: $isSettingsExpanded)
-            } else {
-                CompactedPostSettings(maxPostLength: maxLength, text: $text, selectedPostTag: $tag, selectedPostDuration: $duration, isExpanded: $isSettingsExpanded)
-            }
+//            } else {
+//                CompactedPostSettings(maxPostLength: maxLength, text: $text, selectedPostTag: $tag, selectedPostDuration: $duration, isExpanded: $isSettingsExpanded)
+//            }
         }
         .frame(maxHeight: .infinity, alignment: .bottom)
     }

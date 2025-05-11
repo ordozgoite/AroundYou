@@ -32,7 +32,7 @@ struct ExpandedPostSettings: View {
     @ViewBuilder
     private func Tag() -> some View {
         HStack {
-            Label("I am", systemImage: "ellipsis.bubble")
+            Label("I want", systemImage: "ellipsis.bubble")
             
             Spacer()
             
@@ -94,7 +94,7 @@ struct ExpandedPostSettings: View {
     ExpandedPostSettings(
         maxPostLength: 250,
         text: .constant(""),
-        selectedPostTag: .constant(.buy),
+        selectedPostTag: .constant(.chilling),
         selectedPostDuration: .constant(.oneHour),
         isExpanded: .constant(true)
     )

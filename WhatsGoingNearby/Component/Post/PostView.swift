@@ -13,8 +13,10 @@ struct PostView: View {
     @Binding var post: FormattedPost
     @ObservedObject var socket: SocketService
     @ObservedObject var locationManager: LocationManager
+    let isClickable: Bool
     let deletePost: () -> ()
     let toggleFeedUpdate: (Bool) -> ()
+    
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var postVM = PostViewModel()
@@ -578,13 +580,15 @@ struct PostView: View {
     //MARK: - Auxiliary Methods
     
     private func handleOnTapGesture() {
-        switch self.post.postSource {
-        case .publication:
-            postVM.isCommentScreenPresented = true
-        case .lostItem:
-            postVM.isLostItemDetailScreenPresented = true
-        case .report:
-            postVM.isReportDetailScreenPresented = true
+        if isClickable {
+            switch self.post.postSource {
+            case .publication:
+                postVM.isCommentScreenPresented = true
+            case .lostItem:
+                postVM.isLostItemDetailScreenPresented = true
+            case .report:
+                postVM.isReportDetailScreenPresented = true
+            }
         }
     }
 }
@@ -617,7 +621,7 @@ struct PostView: View {
         )),
         socket: SocketService(),
         locationManager: LocationManager(),
-        deletePost: {},
+        isClickable: false, deletePost: {},
         toggleFeedUpdate: { _ in }
     )
     .environmentObject(AuthenticationViewModel())

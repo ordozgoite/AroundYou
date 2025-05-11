@@ -107,7 +107,7 @@ struct EditPostScreen: View {
         editPostVM.postText = post.text ?? ""
         editPostVM.isLocationVisible = post.isLocationVisible ?? false
         editPostVM.selectedPostDuration = post.postDuration
-        editPostVM.selectedPostTag = post.postTag ?? .chat
+        editPostVM.selectedPostTag = post.postTag ?? .chilling
     }
     
     private func editPublication() async throws {

@@ -121,5 +121,5 @@ struct PostSettingsView: View {
 }
 
 #Preview {
-    PostSettingsView(tag: .constant(.chat), duration: .constant(.oneHour))
+    PostSettingsView(tag: .constant(.chilling), duration: .constant(.oneHour))
 }

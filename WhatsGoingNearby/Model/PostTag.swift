@@ -9,68 +9,70 @@ import Foundation
 import SwiftUI
 
 enum PostTag: String, CaseIterable, Decodable {
-    case chat
     case help
-    case info
     case hangout
-    case news
     case chilling
-    case eat
-    case buy
-    case work
+    case news
+    case party
+    case bored
     
     var title: LocalizedStringKey {
         return switch self {
         case .help:
-             "Looking for help"
-        case .info:
-            "Asking for information"
-        case .chat:
-            "Just chatting"
+            "Some Help"
         case .hangout:
-            "Seeking hangout"
-        case .news:
-            "Sharing news"
+            "Some Company"
         case .chilling:
-            "Just chilling"
-        case .eat:
-            "Hungry"
-        case .buy:
-            "Seeking to purchase"
-        case .work:
-             "Working"
+            "To Chill"
+        case .news:
+            "To Share Something"
+        case .party:
+            "To Party"
+        case .bored:
+            "To Kill Time"
         }
     }
-    
+
+
+//    var title: LocalizedStringKey {
+//        return switch self {
+//        case .help:
+//            "Looking for help"
+//        case .hangout:
+//            "Looking for company"
+//        case .chilling:
+//            "Just chilling"
+//        case .news:
+//            "Sharing information"
+//        case .party:
+//            "Partying"
+//        case .bored:
+//            "Feeling bored"
+//        }
+//    }
+
     var iconName: String {
         return switch self {
         case .help:
             "hand.raised"
-        case .info:
-            "questionmark.bubble"
-        case .chat:
-            "bubble.left.and.bubble.right"
         case .hangout:
-            "party.popper"
-        case .news:
-            "megaphone"
+            "sparkles"
         case .chilling:
             "face.smiling"
-        case .eat:
-            "fork.knife"
-        case .buy:
-            "cart"
-        case .work:
-            "bag"
+        case .news:
+            "megaphone"
+        case .party:
+            "party.popper"
+        case .bored:
+            "zzz"
         }
     }
-    
+
+    /*
+     As cores das tags devem ser sempre cinza.
+     Mas podemos, um dia, talvez por um curto período de tempo, adicionar uma tag especial com um design mais chamativo.
+     */
     var color: Color {
-        return switch self {
-        case .help:
-                .red
-        default:
-                .gray
-        }
+        return .gray
     }
 }

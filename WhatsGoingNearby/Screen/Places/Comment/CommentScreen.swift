@@ -25,7 +25,7 @@ struct CommentScreen: View {
         ZStack {
             VStack {
                 ScrollView {
-                    PostView(post: $post, socket: socket, locationManager: locationManager) {
+                    PostView(post: $post, socket: socket, locationManager: locationManager, isClickable: false) {
                         Task {
                             let token = try await authVM.getFirebaseToken()
                             await commentVM.deletePost(publicationId: postId, token: token) {
