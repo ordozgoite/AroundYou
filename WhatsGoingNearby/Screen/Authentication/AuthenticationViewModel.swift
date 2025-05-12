@@ -43,14 +43,26 @@ class AuthenticationViewModel: ObservableObject {
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var user: User?
     
-    @Published var username: String = ""
-    @Published var name: String?
-    @Published var profilePic: String?
-    @Published var biography: String?
     @Published var isUserInfoFetched: Bool = false
     @Published var isLoading: Bool = false
     @Published var isForgotPasswordScreenDisplayed: Bool = false
     @Published var errorMessage: (LocalizedStringKey?, LocalizedStringKey?, LocalizedStringKey?) = (nil, nil, nil)
+    
+    // User Profile
+    @Published var username: String = ""
+    @Published var name: String?
+    @Published var profilePic: String?
+    @Published var biography: String?
+    @Published var isGettingUserInfo: Bool = false
+    
+    // User Discover Preferences
+    @Published var isUserDiscoverable: Bool = false
+    @Published var age: Int = 18
+    @Published var gender: Gender = .cisMale
+    @Published var interestGenders: Set<Gender> = []
+    @Published var minInterestAge: Int = 25
+    @Published var maxInterestAge: Int = 40
+    @Published var isDiscoverNotificationsEnabled: Bool = true
     
     init() {
         registerAuthStateHandler()
@@ -216,7 +228,7 @@ extension AuthenticationViewModel {
             resetInputs()
         }
         catch {
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, LocalizedStringKey(stringLiteral: error.localizedDescription))
         }
     }
     
@@ -232,7 +244,7 @@ extension AuthenticationViewModel {
             return true
         }
         catch {
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, LocalizedStringKey(stringLiteral: error.localizedDescription))
             return false
         }
     }
@@ -244,7 +256,7 @@ extension AuthenticationViewModel {
             self.isLoading = false
             return true
         } catch {
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, LocalizedStringKey(stringLiteral: error.localizedDescription))
             self.isLoading = false
             return false
         }
@@ -266,13 +278,16 @@ extension AuthenticationViewModel {
                 return true
             } else {
                 signOut()
-                overlayError = (true, ErrorMessage.defaultErrorMessage)
+                overlayError = (true, ErrorMessage.postUserErrorMessage)
             }
         }
         return false
     }
     
-    func getUserInfo(token: String) async -> Bool {
+    func getUserInfo(token: String) async {
+        isGettingUserInfo = true
+        defer { isGettingUserInfo = false }
+        
         let result = await AYServices.shared.getUserInfo(userRegistrationToken: LocalState.userRegistrationToken.isEmpty ? nil : LocalState.userRegistrationToken, preferredLanguage: getPreferredLanguage(), token: token)
         
         switch result {
@@ -281,10 +296,10 @@ extension AuthenticationViewModel {
         case .failure(let error):
             if error == .dataNotFound {
                 if usernameInput.isEmpty {
-                    return true
+                    goToUsernameScreen()
                 } else {
                     let isUsernameConflict = await postNewUser(username: usernameInput, name: nil, token: token)
-                    if isUsernameConflict { return true }
+                    if isUsernameConflict { goToUsernameScreen() }
                 }
             } else if error == .forbidden {
                 signOut()
@@ -292,11 +307,24 @@ extension AuthenticationViewModel {
             } else if error == .unauthorized {
                 await getUserBanExpirationDate(token: token)
             } else {
-                signOut()
-                overlayError = (true, ErrorMessage.defaultErrorMessage)
+                /*
+                 🚨 O FAMOSO ERRO ESTÁ AQUI!!!
+                 Esse erro faz com que, às vezes, ao retornar ao app, o usuário esteja deslogado (Corrigido?)
+                 */
+                
+                displayRetryButton()
+                overlayError = (true, "Debug: Esse error se refere à função getUserInfo")
+                // signOut()
             }
         }
-        return false
+    }
+    
+    private func goToUsernameScreen() {
+        NotificationCenter.default.post(name: .goToUsernameScreen, object: nil)
+    }
+    
+    private func displayRetryButton() {
+        NotificationCenter.default.post(name: .displayRetryGetUserInfoButton, object: nil)
     }
     
     private func deleteUser() async throws -> Bool {
@@ -312,6 +340,7 @@ extension AuthenticationViewModel {
     }
     
     private func updateCurrentInformation(for user: MongoUser) {
+        print("🌎 updateCurrentInformation: \(user)")
         LocalState.currentUserUid = user.userUid
         self.username = user.username
         self.name = user.name ?? ""
@@ -327,9 +356,9 @@ extension AuthenticationViewModel {
         case .success(let expirationDate):
             signOut()
             overlayError = (true, ErrorMessage.getTempBannedErrorMessage(expirationDate: expirationDate.banExpirationDateTime))
-        case .failure:
+        case .failure(let error):
             signOut()
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getUserBanExpirarationDateErrorMessage)
         }
     }
     
@@ -340,7 +369,7 @@ extension AuthenticationViewModel {
         let (_, b, c) = errorMessage
         return b == nil && c == nil ? true : false
     }
-
+    
     func isSignupInputValid() -> Bool {
         errorMessage = (nil, nil, nil)
         if usernameInput.isEmpty { errorMessage.0 = "Please enter your username." }
@@ -359,6 +388,7 @@ extension AuthenticationViewModel {
     }
     
     private func resetUserInfo() {
+        print("🌎 resetUserInfo")
         username = ""
         name = nil
         profilePic = nil

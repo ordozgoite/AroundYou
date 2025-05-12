@@ -23,7 +23,7 @@ protocol AYServiceable {
     func finishPublication(publicationId: String, token: String) async -> Result<Post, RequestError>
     func deletePublication(publicationId: String, token: String) async -> Result<DeletePublicationResponse, RequestError>
     func getAllPublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
-    func getAllPublicationsByUser(token: String) async -> Result<[FormattedPost], RequestError>
+    func getAllPublicationsByUser(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
     func getPublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<FormattedPost, RequestError>
     func likePublication(publicationId: String, token: String) async -> Result<LikePublicationResponse, RequestError>
     func unlikePublication(publicationId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError>
@@ -72,10 +72,51 @@ protocol AYServiceable {
     
     // Ban
     func getUserBanExpireDate(token: String) async -> Result<GetUserBanExpireDateResponse, RequestError>
+    
+    // Discover
+    func verifyUserDiscoverability(token: String) async -> Result<VerifyUserDiscoverabilityResponse, RequestError>
+    func activateUserDiscoverability(token: String) async -> Result<ActivateUserDiscoverabilityResponse, RequestError>
+    func deactivateUserDiscoverability(token: String) async -> Result<DeactivateUserDiscoverabilityResponse, RequestError>
+    func updateUserPreferences(gender: String, interestGenders: [String], age: Int, minInterestAge: Int, maxInterestAge: Int, isNotificationsEnabled: Bool, token: String) async -> Result<UserDiscoverPreferences, RequestError>
+    func discoverUsersByPreferences(latitude: Double, longitude: Double, token: String) async -> Result<[UserDiscoverInfo], RequestError>
+    
+    // Community
+    func postNewCommunity(name: String, description: String?, duration: Int, isLocationVisible: Bool, isPrivate: Bool, imageUrl: String?, latitude: Double, longitude: Double, token: String) async -> Result<Community, RequestError>
+    func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedCommunity], RequestError>
+    func joinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError>
+    func askToJoinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError>
+    func getCommunityInfo(communityId: String, token: String) async -> Result<GetCommunityInfoResponse, RequestError>
+    func approveUserToCommunity(communityId: String, requestUserUid: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func deleteCommunity(communityId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func exitCommunity(communityId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func removeUserFromCommunity(communityId: String, userUidToRemove: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func editCommunity(communityId: String, communityName: String, communityImageUrl: String?, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func editCommunityDescription(communityId: String, description: String?, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    
+    // Community Message
+    func postCommunityMessage(communityId: String, latitude: Double, longitude: Double, text: String, repliedMessageId: String?, token: String) async -> Result<CommunityMessage, RequestError>
+    func getCommunityMessages(communityId: String, timestamp: Int?, token: String) async -> Result<[CommunityMessage], RequestError>
+    func deleteCommunityMessage(communityMessageId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    
+    // Business
+    func postNewBusiness(business: Business, token: String) async -> Result<Business, RequestError>
+    func getBusinessesNearBy(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError>
+    func deleteBusiness(businessId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func getBusinessByUser(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError>
+    
+    // Lost Item
+    func postLostItem(lostItem: LostItem, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func deleteLostItem(lostItemId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func getLostItem(lostItemId: String, token: String) async -> Result<LostItem, RequestError>
+    func setItemAsFound(lostItemId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    
+    // Report Incident
+    func postReportIncident(reportIncident: ReportIncident, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func deleteReportIncident(reportId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func getReport(reportId: String, token: String) async -> Result<ReportIncident, RequestError>
 }
 
 struct AYServices: HTTPClient, AYServiceable {
-    
     static let shared = AYServices()
     private init() {}
     
@@ -131,8 +172,8 @@ struct AYServices: HTTPClient, AYServiceable {
         return await sendRequest(endpoint: AYEndpoints.getAllPublicationsNearBy(latitude: latitude, longitude: longitude, token: token), responseModel: [FormattedPost].self)
     }
     
-    func getAllPublicationsByUser(token: String) async -> Result<[FormattedPost], RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.getAllPublicationsByUser(token: token), responseModel: [FormattedPost].self)
+    func getAllPublicationsByUser(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getAllPublicationsByUser(latitude: latitude, longitude: longitude, token: token), responseModel: [FormattedPost].self)
     }
     
     func getPublication(publicationId: String, latitude: Double, longitude: Double, token: String) async -> Result<FormattedPost, RequestError> {
@@ -271,5 +312,137 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getUserBanExpireDate(token: String) async -> Result<GetUserBanExpireDateResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getUserBanExpireDate(token: token), responseModel: GetUserBanExpireDateResponse.self)
+    }
+    
+    //MARK: - Discover
+    
+    func verifyUserDiscoverability(token: String) async -> Result<VerifyUserDiscoverabilityResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.verifyUserDiscoverability(token: token), responseModel: VerifyUserDiscoverabilityResponse.self)
+    }
+    
+    func activateUserDiscoverability(token: String) async -> Result<ActivateUserDiscoverabilityResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.activateUserDiscoverability(token: token), responseModel: ActivateUserDiscoverabilityResponse.self)
+    }
+    
+    func deactivateUserDiscoverability(token: String) async -> Result<DeactivateUserDiscoverabilityResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deactivateUserDiscoverability(token: token), responseModel: DeactivateUserDiscoverabilityResponse.self)
+    }
+    
+    func updateUserPreferences(gender: String, interestGenders: [String], age: Int, minInterestAge: Int, maxInterestAge: Int, isNotificationsEnabled: Bool, token: String) async -> Result<UserDiscoverPreferences, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.updateUserPreferences(gender: gender, interestGenders: interestGenders, age: age, minInterestAge: minInterestAge, maxInterestAge: maxInterestAge, isNotificationsEnabled: isNotificationsEnabled, token: token), responseModel: UserDiscoverPreferences.self)
+    }
+    
+    func discoverUsersByPreferences(latitude: Double, longitude: Double, token: String) async -> Result<[UserDiscoverInfo], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.discoverUsersByPreferences(latitude: latitude, longitude: longitude, token: token), responseModel: [UserDiscoverInfo].self)
+    }
+    
+    // MARK: - Commmunity
+    
+    func postNewCommunity(name: String, description: String?, duration: Int, isLocationVisible: Bool, isPrivate: Bool, imageUrl: String?, latitude: Double, longitude: Double, token: String) async -> Result<Community, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewCommunity(name: name, description: description, duration: duration, isLocationVisible: isLocationVisible, isPrivate: isPrivate, imageUrl: imageUrl, latitude: latitude, longitude: longitude, token: token), responseModel: Community.self)
+    }
+    
+    func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedCommunity], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token), responseModel: [FormattedCommunity].self)
+    }
+    
+    func joinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.joinCommunity(communityId: communityId, latitude: latitude, longitude: longitude, token: token), responseModel: JoinCommunityResponse.self)
+    }
+    
+    func askToJoinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.askToJoinCommunity(communityId: communityId, latitude: latitude, longitude: longitude, token: token), responseModel: JoinCommunityResponse.self)
+    }
+    
+    func getCommunityInfo(communityId: String, token: String) async -> Result<GetCommunityInfoResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getCommunityInfo(communityId: communityId, token: token), responseModel: GetCommunityInfoResponse.self)
+    }
+    
+    func approveUserToCommunity(communityId: String, requestUserUid: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.approveUserToCommunity(communityId: communityId, requestUserUid: requestUserUid, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func deleteCommunity(communityId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteCommunity(communityId: communityId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func exitCommunity(communityId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.exitCommunity(communityId: communityId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func removeUserFromCommunity(communityId: String, userUidToRemove: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.removeUserFromCommunity(communityId: communityId, userUidToRemove: userUidToRemove, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func editCommunity(communityId: String, communityName: String, communityImageUrl: String?, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.editCommunity(communityId: communityId, communityName: communityName, communityImageUrl: communityImageUrl, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func editCommunityDescription(communityId: String, description: String?, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.editCommunityDescription(communityId: communityId, description: description, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    // MARK: - Community Message
+    
+    func postCommunityMessage(communityId: String, latitude: Double, longitude: Double, text: String, repliedMessageId: String?, token: String) async -> Result<CommunityMessage, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postCommunityMessage(communityId: communityId, latitude: latitude, longitude: longitude, text: text, repliedMessageId: repliedMessageId, token: token), responseModel: CommunityMessage.self)
+    }
+    
+    func getCommunityMessages(communityId: String, timestamp: Int?, token: String) async -> Result<[CommunityMessage], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getCommunityMessages(communityId: communityId, timestamp: timestamp, token: token), responseModel: [CommunityMessage].self)
+    }
+    
+    func deleteCommunityMessage(communityMessageId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteCommunityMessage(communityMessageId: communityMessageId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    // MARK: - Business
+    
+    func postNewBusiness(business: Business, token: String) async -> Result<Business, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewBusiness(business: business, token: token), responseModel: Business.self)
+    }
+    
+    func getBusinessesNearBy(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getBusinessesNearBy(location: location, token: token), responseModel: [FormattedBusinessShowcase].self)
+    }
+    
+    func deleteBusiness(businessId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteBusiness(businessId: businessId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func getBusinessByUser(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getBusinessByUser(location: location, token: token), responseModel: [FormattedBusinessShowcase].self)
+    }
+    
+    // MARK: - Lost Item
+    
+    func postLostItem(lostItem: LostItem, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postLostItem(lostItem: lostItem, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func deleteLostItem(lostItemId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteLostItem(lostItemId: lostItemId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func getLostItem(lostItemId: String, token: String) async -> Result<LostItem, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getLostItem(lostItemId: lostItemId, token: token), responseModel: LostItem.self)
+    }
+    
+    func setItemAsFound(lostItemId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.setItemAsFound(lostItemId: lostItemId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    // MARK: - Report Incident
+    
+    func postReportIncident(reportIncident: ReportIncident, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postReportIncident(reportIncident: reportIncident, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func deleteReportIncident(reportId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.deleteReportIncident(reportId: reportId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func getReport(reportId: String, token: String) async -> Result<ReportIncident, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getReport(reportId: reportId, token: token), responseModel: ReportIncident.self)
     }
 }

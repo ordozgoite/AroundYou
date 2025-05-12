@@ -6,25 +6,33 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MainTabView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var socket = SocketService()
-    let persistenceController = PersistenceController.shared
-    let pub = NotificationCenter.default
-        .publisher(for: NSNotification.Name(Constants.updateBadgeNotificationKey))
+    @StateObject public var notificationManager = NotificationManager()
+    @StateObject private var locationManager = LocationManager()
+    @Environment(\.colorScheme) var colorScheme
     
+    let pub = NotificationCenter.default
+        .publisher(for: .updateBadge)
+    
+    //    @State private var isPeopleTabDisplayed: Bool = false
+    @State private var selectedTab: Int = 0
+    @State private var profileImage: UIImage?
     @State private var badgeTimer: Timer?
     @State private var unreadChats: Int?
     
     var body: some View {
-        TabView {
-            FeedScreen(socket: socket)
+        TabView(selection: $selectedTab) {
+            HomeScreen(locationManager: locationManager, socket: socket)
                 .tabItem {
-                    Label("Around You", systemImage: "mappin.and.ellipse")
+                    Label("Home", systemImage: "house.fill")
                 }
                 .environmentObject(authVM)
+                .tag(0)
             
             ChatListScreen(socket: socket)
                 .tabItem {
@@ -32,30 +40,92 @@ struct MainTabView: View {
                 }
                 .environmentObject(authVM)
                 .badge(unreadChats ?? 0)
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .tag(1)
             
-            AccountScreen(socket: socket)
+            //            CommunityListScreen(locationManager: locationManager, socket: socket)
+            //                .tabItem {
+            //                    Label("Communities", systemImage: "person.3.fill")
+            //                }
+            //                .environmentObject(authVM)
+            //                .tag(1)
+            //
+            //            DiscoverScreen(locationManager: locationManager, socket: socket)
+            //                .tabItem {
+            //                    Label("People", systemImage: "heart.fill")
+            //                }
+            //                .environmentObject(authVM)
+            //                .tag(2)
+            //
+            //            BusinessScreen(locationManager: locationManager)
+            //                .tabItem {
+            //                    Label("Business", systemImage: "storefront.fill")
+            //                }
+            //                .environmentObject(authVM)
+            //                .tag(3)
+            
+            AccountScreen(locationManager: locationManager, socket: socket)
                 .tabItem {
-                    Label("Profile", systemImage: "person.fill")
+                    ProfileTabItemLabel()
                 }
                 .environmentObject(authVM)
+                .tag(2)
         }
-        .onChange(of: socket.status) { status in
-            if status == .connected {
+        .onAppear {
+            Task {
+                await loadProfileImage()
                 updateBadge()
+                listenToMessages()
             }
         }
         .onReceive(pub) { (output) in
             self.updateBadge()
         }
-        .onAppear {
-            updateBadge()
-            listenToMessages()
+        .onChange(of: authVM.profilePic) { _ in
+            Task {
+                await loadProfileImage()
+            }
+        }
+        .onChange(of: notificationManager.isPeopleTabDisplayed) { newValue in
+            if newValue {
+                goToTabPeople()
+            }
+        }
+        .fullScreenCover(isPresented: $notificationManager.isPublicationDisplayed) {
+            IndepCommentScreenWrapper(
+                postId: notificationManager.publicationId ?? "",
+                locationManager: locationManager,
+                socket: socket)
+        }
+        .fullScreenCover(isPresented: $notificationManager.isChatDisplayed) {
+            MessageScreenWrapper(
+                chatId: notificationManager.chatId ?? "",
+                username: notificationManager.username ?? "",
+                otherUserUid: notificationManager.senderUserUid ?? "",
+                chatPic: notificationManager.chatPic,
+                socket: socket)
         }
     }
-    
-    //MARK: - Private Method
-    
+}
+
+// MARK: - Profile Tab Label
+
+private extension MainTabView {
+    @ViewBuilder
+    private func ProfileTabItemLabel() -> some View {
+        ZStack {
+            if let profilePicture = profileImage?.createTabItemLabelFromImage(selectedTab == 4) {
+                Image(uiImage: profilePicture)
+            } else {
+                Label("Profile", systemImage: "person.circle.fill")
+            }
+        }
+        .animation(.none, value: colorScheme)
+    }
+}
+
+// MARK: - Private Methods
+
+extension MainTabView {
     private func updateBadge() {
         Task {
             self.unreadChats = try await getChatBadge()
@@ -79,5 +149,41 @@ struct MainTabView: View {
             print("❌ Error trying to get unread messages number.")
         }
         return nil
+    }
+    
+    private func goToTabPeople() {
+        withAnimation {
+            selectedTab = 2
+        }
+    }
+    
+    private func loadProfileImage() async {
+        guard let urlString = authVM.profilePic else { return }
+        
+        self.profileImage = await KingfisherService.shared.loadImage(from: urlString)
+    }
+    
+}
+
+fileprivate extension UIImage {
+    func createTabItemLabelFromImage(_ isSelected: Bool) -> UIImage? {
+        let imageSize = CGSize(width: 32, height: 32)
+        
+        return UIGraphicsImageRenderer(size: imageSize).image { context in
+            let rect = CGRect(origin: .init(x: 0, y: 0), size: imageSize)
+            let clipPath = UIBezierPath(ovalIn: rect)
+            clipPath.addClip()
+            
+            self.draw(in: rect)
+            if isSelected {
+                context.cgContext.setStrokeColor(UIColor.label.cgColor)
+                context.cgContext.setLineJoin(.round)
+                context.cgContext.setLineCap(.round)
+                clipPath.lineWidth = 3
+                
+                clipPath.stroke()
+            }
+        }
+        .withRenderingMode(.alwaysOriginal)
     }
 }

@@ -26,7 +26,7 @@ class BlockedUserViewModel: ObservableObject {
         case .success(let users):
             blockedUsers = users
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getBockedUsers)
         }
     }
     
@@ -39,7 +39,7 @@ class BlockedUserViewModel: ObservableObject {
         case .success:
             removeBlockedUser(withUserUid: blockedUserUid)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.unblockUser)
         }
     }
     

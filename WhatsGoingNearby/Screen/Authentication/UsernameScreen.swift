@@ -21,8 +21,8 @@ struct UsernameScreen: View {
                     AYTextField(imageName: "person.fill", title: "Choose a username...", error: $authVM.errorMessage.0, inputText: $authVM.usernameInput)
                         .focused($authInputIsFocused)
                         .onChange(of: authVM.usernameInput) { newValue in
-                            if newValue.count > Constants.maxUsernameLenght {
-                                authVM.usernameInput = String(newValue.prefix(Constants.maxUsernameLenght))
+                            if newValue.count > Constants.MAX_USERNAME_LENGHT {
+                                authVM.usernameInput = String(newValue.prefix(Constants.MAX_USERNAME_LENGHT))
                             }
                         }
                     

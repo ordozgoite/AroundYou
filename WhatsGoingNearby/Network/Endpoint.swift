@@ -21,7 +21,7 @@ protocol Endpoint {
 extension Endpoint {
     
     var baseUrl: URL {
-        return URL(string: Constants.serverUrl)!
+        return URL(string: Constants.API_URL)!
 //        return URL(string: "http://localhost:3000")!
     }
 }
@@ -45,6 +45,8 @@ enum RequestError: Error {
     case forbidden
     case unknown
     case badRequest
+    case unprocessableEntity
+    case locked
     
     var customMessage: String {
         switch self {
@@ -60,6 +62,10 @@ enum RequestError: Error {
             return "You entered incorrect OTP"
         case .conflict:
             return "Conflict data"
+        case .unprocessableEntity:
+            return "The request could not be processed due to semantic errors."
+        case .locked:
+            return "Access denied: the requested resource is locked."
         default:
             return "Unknown error"
         }

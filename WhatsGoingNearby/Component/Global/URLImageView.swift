@@ -7,23 +7,6 @@
 
 import SwiftUI
 
-class ImageLoader: ObservableObject {
-    
-    @Published var downloadedData: Data?
-    
-    func downloadImage(url: String) {
-        guard let imageURL = URL(string: url) else { return }
-        
-        URLSession.shared.dataTask(with: imageURL) { data, _, error in
-            guard let data = data, error == nil else { return }
-            
-            DispatchQueue.main.async {
-                self.downloadedData = data
-            }
-        }.resume()
-    }
-}
-
 struct URLImageView: View {
     
     let imageURL: String
@@ -40,20 +23,14 @@ struct URLImageView: View {
             }
         }
         .onAppear {
-            loadImage(from: URL(string: imageURL)!)
+            Task {
+                await loadImage()
+            }
         }
     }
     
-    private func loadImage(from url: URL) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else {
-                print("Failed to load image from URL:", error ?? "Unknown error")
-                return
-            }
-            DispatchQueue.main.async {
-                image = UIImage(data: data)
-            }
-        }.resume()
+    private func loadImage() async {
+        self.image = await KingfisherService.shared.loadImage(from: imageURL)
     }
 }
 

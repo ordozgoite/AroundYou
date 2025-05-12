@@ -17,7 +17,7 @@ struct IndepCommentScreen: View {
     @StateObject private var postVM = IndepCommentViewModel()
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var commentIsFocused: Bool
-    @Binding var location: CLLocation?
+    @ObservedObject var locationManager: LocationManager
     @ObservedObject var socket: SocketService
     
     var body: some View {
@@ -25,7 +25,7 @@ struct IndepCommentScreen: View {
             VStack {
                 ScrollView {
                     if postVM.isPostFetched {
-                        PostView(post: $postVM.post, location: $location, socket: socket) {
+                        PostView(post: $postVM.post, socket: socket, locationManager: locationManager, isClickable: false) {
                             Task {
                                 let token = try await authVM.getFirebaseToken()
                                 await postVM.deletePost(publicationId: postId, token: token) {
@@ -67,7 +67,7 @@ struct IndepCommentScreen: View {
     private func Comments() -> some View {
         VStack {
             ForEach($postVM.comments) { $comment in
-                CommentView(isPostFromRecipientUser: true, postType: postVM.post.type, socket: socket, comment: $comment, deleteComment: {
+                CommentView(isPostFromRecipientUser: true, postType: postVM.post.status, socket: socket, comment: $comment, deleteComment: {
                     Task {
                         let token = try await authVM.getFirebaseToken()
                         await postVM.deleteComment(commentId: comment.id, token: token)
@@ -75,7 +75,7 @@ struct IndepCommentScreen: View {
                 }, reply: {
                     commentIsFocused = true
                     postVM.repliedComment = comment
-                }, location: $location)
+                }, location: $locationManager.location)
                 .padding()
                 Divider()
             }
@@ -143,7 +143,7 @@ struct IndepCommentScreen: View {
     //MARK: - Auxiliary methods
     
     private func getPublication() async throws {
-        if let location = location {
+        if let location = locationManager.location {
             let token = try await authVM.getFirebaseToken()
             
             let latitude = location.coordinate.latitude
@@ -156,7 +156,7 @@ struct IndepCommentScreen: View {
     }
     
     private func postNewComment() async throws {
-        if let location = location {
+        if let location = locationManager.location {
             let token = try await authVM.getFirebaseToken()
             
             let latitude = location.coordinate.latitude

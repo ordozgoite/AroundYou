@@ -42,7 +42,7 @@ class EditProfileViewModel: ObservableObject {
         case .success(let user):
             updateInfo(forUser: user)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.getUserInfo)
         }
     }
     
@@ -67,33 +67,26 @@ class EditProfileViewModel: ObservableObject {
             if error == .conflict {
                 overlayError = (true, ErrorMessage.usernameInUseMessage)
             } else {
-                overlayError = (true, ErrorMessage.defaultErrorMessage)
+                overlayError = (true, ErrorMessage.editProfile)
             }
         }
         return false
     }
     
-    func storeImage(forUser userUid: String, token: String) async throws -> String? {
+    func storeImageAndGetUrl(forUser userUid: String, token: String) async throws -> String? {
         isStoringPhoto = true
         guard croppedImage != nil else { return nil }
-        let storageRef = Storage.storage().reference()
-        let fileRef = storageRef.child("profile-pic/\(userUid).jpg")
-        
-        let imageData = croppedImage?.jpegData(compressionQuality: 0.8)
-        _ = try await fileRef.putDataAsync(imageData!)
-        
-        let imageUrl = try await fileRef.downloadURL()
-        let profile = UserProfileDTO(username: nil, name: nil, profilePic: imageUrl.absoluteString, biography: nil)
-        
+        let imageUrl = try await FirebaseService.shared.storeImageAndGetUrl(croppedImage!)
+        let profile = UserProfileDTO(username: nil, name: nil, profilePic: imageUrl, biography: nil)
         let result = await AYServices.shared.editProfile(profile: profile, token: token)
         isStoringPhoto = false
         
         switch result {
         case .success:
             await getUserInfo(token: token)
-            return imageUrl.absoluteString
+            return imageUrl
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.postImageErrorMessage)
         }
         return nil
     }
@@ -107,7 +100,7 @@ class EditProfileViewModel: ObservableObject {
         case .success:
             await getUserInfo(token: token)
         case .failure:
-            overlayError = (true, ErrorMessage.defaultErrorMessage)
+            overlayError = (true, ErrorMessage.removePhoto)
         }
     }
     

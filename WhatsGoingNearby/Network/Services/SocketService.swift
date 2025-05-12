@@ -20,7 +20,7 @@ enum SocketStatus: String {
 final class SocketService: ObservableObject {
     
     @Published var socket: SocketIOClient?
-    let manager = SocketManager(socketURL: URL(string: Constants.serverUrl)!, config: [.log(true), .compress, .reconnects(true), .reconnectAttempts(-1), .reconnectWait(5)])
+    let manager = SocketManager(socketURL: URL(string: Constants.API_URL)!, config: [.log(true), .compress, .reconnects(true), .reconnectAttempts(-1), .reconnectWait(5)])
     @Published var status: SocketStatus = .disconnected
     
     init() {
@@ -53,11 +53,5 @@ final class SocketService: ObservableObject {
         }
 
         socket?.connect()
-
-//        socket?.on("message") { data, ack in
-//            if let message = data[0] as? String {
-//                print("✉️ Received message: \(message)")
-//            }
-//        }
     }
 }

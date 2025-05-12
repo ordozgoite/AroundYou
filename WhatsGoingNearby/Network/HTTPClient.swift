@@ -81,6 +81,11 @@ extension HTTPClient {
             }
 #endif
             
+            // DEBUG:
+            // Quero saber qual é o status code que gera aquele famoso erro!
+            
+            LocalState.lastResponseStatusCode = response.statusCode
+            
             switch response.statusCode {
             case 200...299:
                 do {
@@ -115,7 +120,7 @@ extension HTTPClient {
                     return .failure(.decode)
                 }
             case 400:
-                return . failure(.badRequest)
+                return .failure(.badRequest)
             case 401:
                 return .failure(.unauthorized)
             case 403:
@@ -126,6 +131,10 @@ extension HTTPClient {
                 return .failure(.conflict)
             case 412:
                 return .failure(.incorrectOTP)
+            case 422:
+                return .failure(.unprocessableEntity)
+            case 423:
+                return .failure(.locked)
             case 500...502:
                 return .failure(.unexpectedStatusCode)
             default:

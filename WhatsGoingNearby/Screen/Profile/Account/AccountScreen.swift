@@ -12,13 +12,13 @@ struct AccountScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var accountVM = AccountViewModel()
-    @ObservedObject var locationManager = LocationManager()
+    @ObservedObject var locationManager: LocationManager
     @ObservedObject var socket: SocketService
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                ZStack {
+            ZStack {
+                ScrollView {
                     VStack(spacing: 32) {
                         ProfileHeader()
                         
@@ -30,8 +30,7 @@ struct AccountScreen: View {
             }
             .onAppear {
                 Task {
-                    let token = try await authVM.getFirebaseToken()
-                    await accountVM.getUserPosts(token: token)
+                    try await getAllPosts()
                 }
             }
             .toolbar {
@@ -44,6 +43,7 @@ struct AccountScreen: View {
                     }
                 }
             }
+            
             NavigationLink(
                 destination: EditProfileScreen(),
                 isActive: $accountVM.isEditProfileScreenPresented,
@@ -86,6 +86,7 @@ struct AccountScreen: View {
                 Text(authVM.biography ?? "")
                     .foregroundStyle(.gray)
                     .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
         .padding()
@@ -112,17 +113,17 @@ struct AccountScreen: View {
         ScrollView {
             ForEach($accountVM.posts) { $post in
                 if shouldDisplay(post: post) {
-                    NavigationLink(destination: IndepCommentScreen(postId: post.id, location: $locationManager.location, socket: socket)) {
-                        PostView(post: $post, location: $locationManager.location, socket: socket) {
+                    NavigationLink(destination: IndepCommentScreen(postId: post.id, locationManager: locationManager, socket: socket)) {
+                        PostView(post: $post, socket: socket, locationManager: locationManager, isClickable: true) {
                             Task {
                                 let token = try await authVM.getFirebaseToken()
                                 await accountVM.deletePublication(publicationId: post.id, token: token)
                             }
                         } toggleFeedUpdate: { _ in }
-                        .padding()
+                            .padding()
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .opacity(post.type == .inactive ? 0.5 : 1)
+                    .opacity(post.status == .expired ? 0.5 : 1)
                     
                     Divider()
                 }
@@ -137,14 +138,23 @@ struct AccountScreen: View {
         case .all:
             return true
         case .active:
-            return post.type == .active
+            return post.status == .active
         case .inactive:
-            return post.type == .inactive
+            return post.status == .expired
+        }
+    }
+    
+    private func getAllPosts() async throws {
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let token = try await authVM.getFirebaseToken()
+            let currentLocation = Location(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            await accountVM.getUserPosts(location: currentLocation, token: token)
         }
     }
 }
 
 #Preview {
-    AccountScreen(socket: SocketService())
+    AccountScreen(locationManager: LocationManager(), socket: SocketService())
         .environmentObject(AuthenticationViewModel())
 }

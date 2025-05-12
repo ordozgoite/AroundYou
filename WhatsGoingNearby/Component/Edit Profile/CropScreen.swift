@@ -25,7 +25,7 @@ struct CropScreen: View {
     var body: some View{
         NavigationStack{
             ImageView()
-                .navigationTitle("Crop View")
+//                .navigationTitle("Crop Image")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbarBackground(.visible, for: .navigationBar)
                 .toolbarBackground(Color.black, for: .navigationBar)

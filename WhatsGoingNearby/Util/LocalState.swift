@@ -16,6 +16,10 @@ public class LocalState {
         case isPostLocationVisible
         case hasCompletedOnboarding
         case preferredLanguage
+        case agreedWithDiscoverDisclaimer
+        
+        // Debug
+        case lastResponseStatusCode
     }
     
     public static var userRegistrationToken: String {
@@ -69,6 +73,24 @@ public class LocalState {
         }
         set(newValue) {
             UserDefaults.standard.set(newValue, forKey: Keys.preferredLanguage.rawValue)
+        }
+    }
+    
+    public static var agreedWithDiscoverDisclaimer: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: Keys.agreedWithDiscoverDisclaimer.rawValue)
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.agreedWithDiscoverDisclaimer.rawValue)
+        }
+    }
+    
+    public static var lastResponseStatusCode: Int {
+        get {
+            return UserDefaults.standard.integer(forKey: Keys.lastResponseStatusCode.rawValue)
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.lastResponseStatusCode.rawValue)
         }
     }
 }

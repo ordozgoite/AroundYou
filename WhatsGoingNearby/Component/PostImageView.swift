@@ -1,11 +1,5 @@
-//
-//  ProfilePictureView.swift
-//  WhatsGoingNearby
-//
-//  Created by Victor Ordozgoite on 14/02/24.
-//
-
 import SwiftUI
+import Kingfisher
 
 struct PostImageView: View {
     
@@ -29,19 +23,13 @@ struct PostImageView: View {
             withAnimation(Animation.easeInOut(duration: 1).repeatForever()) {
                 opacity = 0.5
             }
-            loadImage(from: URL(string: imageURL)!)
+            Task {
+                await loadImage()
+            }
         }
     }
     
-    private func loadImage(from url: URL) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else {
-                print("Failed to load image from URL:", error ?? "Unknown error")
-                return
-            }
-            DispatchQueue.main.async {
-                image = UIImage(data: data)
-            }
-        }.resume()
+    private func loadImage() async {
+        self.image = await KingfisherService.shared.loadImage(from: self.imageURL)
     }
 }

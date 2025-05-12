@@ -12,4 +12,5 @@ struct Chat: Codable {
     let mutedUserUids: [String]
     let participantUserUids: [String]
     let createdAt: String
+    var isLocked: Bool
 }
