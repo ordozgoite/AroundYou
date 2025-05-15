@@ -81,10 +81,6 @@ extension HTTPClient {
             }
 #endif
             
-            // DEBUG:
-            // Quero saber qual é o status code que gera aquele famoso erro!
-            
-            LocalState.lastResponseStatusCode = response.statusCode
             
             switch response.statusCode {
             case 200...299:

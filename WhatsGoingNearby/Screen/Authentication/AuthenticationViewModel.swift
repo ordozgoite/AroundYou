@@ -313,7 +313,7 @@ extension AuthenticationViewModel {
                  */
                 
                 displayRetryButton()
-                overlayError = (true, "Debug: Esse error se refere à função getUserInfo")
+                overlayError = (true, ErrorMessage.getUserInfo)
                 // signOut()
             }
         }
@@ -341,12 +341,30 @@ extension AuthenticationViewModel {
     
     private func updateCurrentInformation(for user: MongoUser) {
         print("🌎 updateCurrentInformation: \(user)")
-        LocalState.currentUserUid = user.userUid
         self.username = user.username
         self.name = user.name ?? ""
         self.profilePic = user.profilePic
         self.biography = user.biography
         self.isUserInfoFetched = true
+        
+        persistNewProfile(forUser: user)
+    }
+    
+    func retrieveUserProfile() {
+        self.username = LocalState.username
+        self.name = LocalState.name
+        self.profilePic = LocalState.profilePic
+        self.biography = LocalState.biography
+        self.isUserInfoFetched = true
+    }
+    
+    private func persistNewProfile(forUser user: MongoUser) {
+        LocalState.currentUserUid = user.userUid
+        LocalState.username = user.username
+        if let name = user.name { LocalState.name = name }
+        if let profilePic = user.profilePic { LocalState.profilePic = profilePic }
+        if let biography = user.biography { LocalState.biography = biography }
+        LocalState.isUserInfoFetched = true
     }
     
     private func getUserBanExpirationDate(token: String) async {
@@ -392,7 +410,19 @@ extension AuthenticationViewModel {
         username = ""
         name = nil
         profilePic = nil
+        biography = nil
         isUserInfoFetched = false
+        
+        forgetUserProfile()
+    }
+    
+    private func forgetUserProfile() {
+        LocalState.currentUserUid = ""
+        LocalState.username = ""
+        LocalState.name = ""
+        LocalState.profilePic = ""
+        LocalState.biography = ""
+        LocalState.isUserInfoFetched = false
     }
     
     private func resetInputs() {

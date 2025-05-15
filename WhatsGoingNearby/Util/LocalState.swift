@@ -11,15 +11,19 @@ public class LocalState {
     
     private enum Keys: String {
         case userRegistrationToken
-        case currentUserUid
         case lastNotificationTime
         case isPostLocationVisible
         case hasCompletedOnboarding
         case preferredLanguage
         case agreedWithDiscoverDisclaimer
         
-        // Debug
-        case lastResponseStatusCode
+        // User Profile
+        case currentUserUid
+        case username
+        case name
+        case profilePic
+        case biography
+        case isUserInfoFetched
     }
     
     public static var userRegistrationToken: String {
@@ -28,15 +32,6 @@ public class LocalState {
         }
         set(newValue) {
             UserDefaults.standard.set(newValue, forKey: Keys.userRegistrationToken.rawValue)
-        }
-    }
-    
-    public static var currentUserUid: String {
-        get {
-            return UserDefaults.standard.string(forKey: Keys.currentUserUid.rawValue) ?? ""
-        }
-        set(newValue) {
-            UserDefaults.standard.set(newValue, forKey: Keys.currentUserUid.rawValue)
         }
     }
     
@@ -85,12 +80,59 @@ public class LocalState {
         }
     }
     
-    public static var lastResponseStatusCode: Int {
+    // MARK: - User Profile
+    
+    public static var currentUserUid: String {
         get {
-            return UserDefaults.standard.integer(forKey: Keys.lastResponseStatusCode.rawValue)
+            return UserDefaults.standard.string(forKey: Keys.currentUserUid.rawValue) ?? ""
         }
         set(newValue) {
-            UserDefaults.standard.set(newValue, forKey: Keys.lastResponseStatusCode.rawValue)
+            UserDefaults.standard.set(newValue, forKey: Keys.currentUserUid.rawValue)
+        }
+    }
+    
+    public static var username: String {
+        get {
+            return UserDefaults.standard.string(forKey: Keys.username.rawValue) ?? ""
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.username.rawValue)
+        }
+    }
+    
+    public static var name: String {
+        get {
+            return UserDefaults.standard.string(forKey: Keys.name.rawValue) ?? ""
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.name.rawValue)
+        }
+    }
+    
+    public static var profilePic: String {
+        get {
+            return UserDefaults.standard.string(forKey: Keys.profilePic.rawValue) ?? ""
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.profilePic.rawValue)
+        }
+    }
+    
+    public static var biography: String {
+        get {
+            return UserDefaults.standard.string(forKey: Keys.biography.rawValue) ?? ""
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.biography.rawValue)
+        }
+    }
+    
+    public static var isUserInfoFetched: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: Keys.isUserInfoFetched.rawValue)
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.isUserInfoFetched.rawValue)
         }
     }
 }

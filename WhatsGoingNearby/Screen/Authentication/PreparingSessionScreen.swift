@@ -12,7 +12,6 @@ struct PreparingSessionScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @Environment(\.colorScheme) var colorScheme
     
-    @State private var hasCompletedOnboarding = LocalState.hasCompletedOnboarding
     @State private var isMissingUsername: Bool = false
     @State private var refreshObserver = NotificationCenter.default
         .publisher(for: .goToUsernameScreen)
@@ -20,12 +19,8 @@ struct PreparingSessionScreen: View {
     var body: some View {
         VStack {
             if authVM.isUserInfoFetched {
-                if !hasCompletedOnboarding {
-                    OnBoardingScreen(hasCompletedOnboarding: $hasCompletedOnboarding)
-                } else {
-                    MainTabView()
-                        .environmentObject(authVM)
-                }
+                MainTabView()
+                    .environmentObject(authVM)
             } else {
                 if isMissingUsername {
                     UsernameScreen()
@@ -48,7 +43,15 @@ struct PreparingSessionScreen: View {
     
     private func prepareToGetNewUserInfo() {
         print("🌎 prepareToGetNewUserInfo")
-        authVM.isUserInfoFetched = false
+        if LocalState.isUserInfoFetched {
+            retrieveUserInfo()
+        } else {
+            authVM.isUserInfoFetched = false
+        }
+    }
+    
+    private func retrieveUserInfo() {
+        authVM.retrieveUserProfile()
     }
     
     private func goToUserNameScreen() {

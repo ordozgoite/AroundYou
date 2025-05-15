@@ -10,13 +10,21 @@ import SwiftUI
 struct LaunchScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @State private var displayLaunchScreen = true
     @State private var scale: CGFloat = 1.0
     @State private var opacity: Double = 1.0
+    @State private var hideLogo = false
     
     var body: some View {
-        VStack {
-            if displayLaunchScreen {
+        ZStack {
+            // Tela principal já sendo carregada no fundo
+            AuthenticatedScreen()
+                .environmentObject(authVM)
+            
+            // Animação da logo por cima
+            if !hideLogo {
+                Color(.systemBackground) // Evita mostrar partes da tela no início
+                    .ignoresSafeArea()
+                
                 Image("logo")
                     .resizable()
                     .scaledToFit()
@@ -26,9 +34,6 @@ struct LaunchScreen: View {
                     .onAppear {
                         runAnimation()
                     }
-            } else {
-                AuthenticatedScreen()
-                    .environmentObject(authVM)
             }
         }
     }
@@ -40,10 +45,11 @@ struct LaunchScreen: View {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            displayLaunchScreen = false
+            hideLogo = true
         }
     }
 }
+
 
 
 #Preview {
