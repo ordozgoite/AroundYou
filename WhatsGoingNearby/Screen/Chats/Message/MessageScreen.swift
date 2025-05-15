@@ -166,6 +166,13 @@ struct MessageScreen: View {
             } label: {
                 Label("Copy", systemImage: "doc.on.doc")
             }
+            
+            Button {
+                messageVM.repliedMessage = message
+                isFocused = true
+            } label: {
+                Label("Reply", systemImage: "arrowshape.turn.up.left")
+            }
         }
         
         if message.message != nil && message.isCurrentUser {

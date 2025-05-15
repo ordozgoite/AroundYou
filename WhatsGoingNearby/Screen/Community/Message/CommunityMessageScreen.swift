@@ -161,6 +161,13 @@ struct CommunityMessageScreen: View {
             Label("Copy", systemImage: "doc.on.doc")
         }
         
+        Button {
+            communityMessageVM.repliedMessage = message
+            isFocused = true
+        } label: {
+            Label("Reply", systemImage: "arrowshape.turn.up.left")
+        }
+        
         if message.isCurrentUser {
             Divider()
         }
