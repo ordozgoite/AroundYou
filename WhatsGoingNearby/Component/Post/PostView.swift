@@ -87,9 +87,12 @@ struct PostView: View {
     
     @ViewBuilder
     private func Username() -> some View {
-        Text(post.username)
-            .fontWeight(.semibold)
-            .lineLimit(1)
+        NavigationLink(destination: UserProfileScreen(userUid: post.userUid, socket: socket).environmentObject(authVM)) {
+            Text(post.username)
+                .fontWeight(.semibold)
+                .lineLimit(1)
+        }
+        .buttonStyle(PlainButtonStyle())
     }
     
     // MARK: - Time Info
