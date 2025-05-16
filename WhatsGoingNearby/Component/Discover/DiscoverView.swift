@@ -71,7 +71,7 @@ struct DiscoverView: View {
     @ViewBuilder
     private func Users() -> some View {
         ScrollView {
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 32) {
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
                 ForEach(discoverVM.usersFound) { user in
                     ZStack {
                         DiscoverUserView(
