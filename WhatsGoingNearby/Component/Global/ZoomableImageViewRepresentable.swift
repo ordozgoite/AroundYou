@@ -11,7 +11,7 @@ import SwiftUI
  
  
 // Reference: https://tinyurl.com/y2aamlqd and https://tinyurl.com/y62jzxsv
-struct ZoomableImageView: UIViewRepresentable {
+struct ZoomableImageViewRepresentable: UIViewRepresentable {
   var image: UIImage
  
   func makeUIView(context: Context) -> UIScrollView {

@@ -37,7 +37,7 @@ struct FullScreenUrlImage: View {
     @ViewBuilder
     private func ZoomableImage() -> some View {
         if let img = loadedImage {
-            ZoomableImageView(image: img)
+            ZoomableImageViewRepresentable(image: img)
         } else {
             Rectangle()
                 .foregroundStyle(.gray)

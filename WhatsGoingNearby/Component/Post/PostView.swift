@@ -44,9 +44,6 @@ struct PostView: View {
             .onTapGesture {
                 handleOnTapGesture()
             }
-            .fullScreenCover(isPresented: $postVM.isFullScreenImageDisplayed) {
-                FullScreenUrlImage(url: post.imageUrl ?? "")
-            }
             
             Navigation()
         }
@@ -367,9 +364,6 @@ struct PostView: View {
                 .scaledToFit()
                 .frame(width: 128)
                 .cornerRadius(8)
-                .onTapGesture {
-                    postVM.isFullScreenImageDisplayed = true
-                }
         }
     }
     

@@ -6,6 +6,7 @@ struct PostImageView: View {
     let imageURL: String
     @State private var image: UIImage? = nil
     @State private var opacity: Double = 1.0
+    @State private var isZoomableImageDisplayed: Bool = false
     
     var body: some View {
         VStack {
@@ -13,6 +14,12 @@ struct PostImageView: View {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .onTapGesture {
+                        isZoomableImageDisplayed = true
+                    }
+                    .fullScreenCover(isPresented: $isZoomableImageDisplayed) {
+                        FullScreenUIImage(image: image)
+                    }
             } else {
                 Rectangle()
                     .foregroundStyle(.gray)

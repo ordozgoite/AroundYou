@@ -11,6 +11,7 @@ struct URLImageView: View {
     
     let imageURL: String
     @State private var image: UIImage? = nil
+    @State private var isZoomableImageDisplayed: Bool = false
     
     var body: some View {
         VStack {
@@ -18,6 +19,12 @@ struct URLImageView: View {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .onTapGesture {
+                        isZoomableImageDisplayed = true
+                    }
+                    .fullScreenCover(isPresented: $isZoomableImageDisplayed) {
+                        FullScreenUIImage(image: image)
+                    }
             } else {
                 Circle().fill(.gray)
             }
