@@ -36,32 +36,11 @@ struct MainTabView: View {
             
             ChatListScreen(socket: socket)
                 .tabItem {
-                    Label("Chats", systemImage: "bubble.left.and.bubble.right")
+                    Label("Chats", systemImage: "bubble")
                 }
                 .environmentObject(authVM)
                 .badge(unreadChats ?? 0)
                 .tag(1)
-            
-            //            CommunityListScreen(locationManager: locationManager, socket: socket)
-            //                .tabItem {
-            //                    Label("Communities", systemImage: "person.3.fill")
-            //                }
-            //                .environmentObject(authVM)
-            //                .tag(1)
-            //
-            //            DiscoverScreen(locationManager: locationManager, socket: socket)
-            //                .tabItem {
-            //                    Label("People", systemImage: "heart.fill")
-            //                }
-            //                .environmentObject(authVM)
-            //                .tag(2)
-            //
-            //            BusinessScreen(locationManager: locationManager)
-            //                .tabItem {
-            //                    Label("Business", systemImage: "storefront.fill")
-            //                }
-            //                .environmentObject(authVM)
-            //                .tag(3)
             
             AccountScreen(locationManager: locationManager, socket: socket)
                 .tabItem {

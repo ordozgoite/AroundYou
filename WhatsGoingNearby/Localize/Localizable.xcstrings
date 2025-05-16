@@ -1132,6 +1132,7 @@
       }
     },
     "Connections" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -3752,7 +3753,6 @@
       }
     },
     "People" : {
-      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {

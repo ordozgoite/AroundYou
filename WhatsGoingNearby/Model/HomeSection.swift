@@ -18,11 +18,11 @@ enum HomeSection: String, CaseIterable {
         case .places:
             "building.2"
         case .discover:
-            "heart"
+            "person.3"
         case .business:
             "storefront"
         case .communities:
-            "person.3"
+            "bubble.left.and.bubble.right"
         }
     }
     
@@ -31,7 +31,7 @@ enum HomeSection: String, CaseIterable {
         case .places:
             "Places"
         case .discover:
-            "Connections"
+            "People"
         case .communities:
             "Communities"
         case .business:
