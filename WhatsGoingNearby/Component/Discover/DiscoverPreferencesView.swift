@@ -119,10 +119,10 @@ struct DiscoverPreferencesView: View {
             }
             
             HStack {
-                Text("12")
+                Text(String(Constants.minDiscoverAge))
                     .foregroundStyle(.gray)
-                RangeSlider(range: $discoverVM.ageRange, in: 12...99, step: 1)
-                Text("99")
+                RangeSlider(range: $discoverVM.ageRange, in: Double(Constants.minDiscoverAge)...Double(Constants.maxDiscoverAge), step: 1)
+                Text(String(Constants.maxDiscoverAge))
                     .foregroundStyle(.gray)
             }
         }

@@ -42,6 +42,8 @@ struct Constants {
     static let DEFAULT_USER_AGE: Int = 18
     static let DEFAULT_MIN_AGE_PREFERENCE: Int = 25
     static let DEFAULT_MAX_AGE_PREFERENCE: Int = 40
+    static let minDiscoverAge: Int = 18
+    static let maxDiscoverAge: Int = 99
     
     // MARK: - Icons
     
