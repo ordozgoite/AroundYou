@@ -25,7 +25,7 @@ struct ReportDetailScreen: View {
                 } else if let report = vm.reportIncident {
                     Form {
                         if let url = report.imageUrl {
-                            URLImageView(imageURL: url)
+                            URLTapableImageView(imageURL: url)
                                 .scaledToFit()
                                 .frame(height: 256)
                                 .frame(maxWidth: .infinity, alignment: .center)

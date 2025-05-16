@@ -20,7 +20,6 @@ struct BusinessShowcaseView: View {
     @State private var isOptionsPopoverDisplayed: Bool = false
     @State private var isReportScreenPresented: Bool = false
     @State private var isMapDisplayed: Bool = false
-    @State private var isFullScreenImageDisplayed: Bool = false
     
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
@@ -43,9 +42,6 @@ struct BusinessShowcaseView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(height: imageSize)
-        .fullScreenCover(isPresented: $isFullScreenImageDisplayed) {
-            FullScreenUrlImage(url: self.showcase.imageUrl ?? "")
-        }
         .navigationDestination(isPresented: $isReportScreenPresented) {
             ReportIssueScreen(
                 reportedUserUid: showcase.ownerUid,
@@ -62,14 +58,11 @@ struct BusinessShowcaseView: View {
     @ViewBuilder
     private func ShowcaseImage() -> some View {
         if let imageUrl = showcase.imageUrl {
-            URLImageView(imageURL: imageUrl)
+            URLTapableImageView(imageURL: imageUrl)
                 .scaledToFill()
                 .frame(width: imageSize, height: imageSize)
                 .cornerRadius(8)
                 .clipped()
-                .onTapGesture {
-                    self.isFullScreenImageDisplayed = true
-                }
         } else {
             Image(systemName: "photo")
                 .resizable()

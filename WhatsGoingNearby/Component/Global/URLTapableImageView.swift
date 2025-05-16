@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct URLImageView: View {
+struct URLTapableImageView: View {
     
     let imageURL: String
     @State private var image: UIImage? = nil
@@ -26,7 +26,7 @@ struct URLImageView: View {
                         FullScreenUIImage(image: image)
                     }
             } else {
-                Circle().fill(.gray)
+                Rectangle().fill(.gray)
             }
         }
         .onAppear {
@@ -42,5 +42,5 @@ struct URLImageView: View {
 }
 
 #Preview {
-    URLImageView(imageURL: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg")
+    URLTapableImageView(imageURL: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg")
 }

@@ -52,7 +52,7 @@ struct LostItemDetailScreen: View {
     @ViewBuilder
     private func Image(forLostItem lostItem: LostItem) -> some View {
         if let url = lostItem.imageUrl {
-            URLImageView(imageURL: url)
+            URLTapableImageView(imageURL: url)
                 .scaledToFit()
                 .frame(height: 256)
                 .frame(maxWidth: .infinity, alignment: .center)

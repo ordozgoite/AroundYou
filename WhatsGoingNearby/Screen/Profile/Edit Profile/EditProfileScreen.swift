@@ -240,7 +240,7 @@ struct EditProfileScreen: View {
         if editProfileVM.isStoringPhoto {
             ProgressView()
         } else if let url = editProfileVM.profilePicUrl {
-            URLImageView(imageURL: url)
+            URLTapableImageView(imageURL: url)
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 128, height: 128)
                 .clipShape(Circle())

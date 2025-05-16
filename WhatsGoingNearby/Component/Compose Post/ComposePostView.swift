@@ -57,7 +57,7 @@ struct ComposePostView: View {
     @ViewBuilder
     private func ProfilePic() -> some View {
         if let imageURL = authVM.profilePic {
-            URLImageView(imageURL: imageURL)
+            URLTapableImageView(imageURL: imageURL)
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 50, height: 50)
                 .clipShape(Circle())

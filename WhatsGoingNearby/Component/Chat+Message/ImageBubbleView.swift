@@ -48,7 +48,7 @@ struct ImageBubbleView: View {
                     isUrlImageFullScreen = true
                 }
                 .fullScreenCover(isPresented: $isUrlImageFullScreen) {
-                    FullScreenUrlImage(url: url)
+                    URLTapableImageView(imageURL: url)
                 }
         }
     }

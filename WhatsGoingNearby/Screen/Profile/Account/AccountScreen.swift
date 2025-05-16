@@ -58,7 +58,7 @@ struct AccountScreen: View {
     private func ProfileHeader() -> some View {
         VStack(spacing: 16) {
             if let imageURL = authVM.profilePic {
-                URLImageView(imageURL: imageURL)
+                URLTapableImageView(imageURL: imageURL)
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 128, height: 128)
                     .clipShape(Circle())
