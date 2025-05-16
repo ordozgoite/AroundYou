@@ -31,7 +31,7 @@ enum HomeSection: String, CaseIterable {
         case .places:
             "Places"
         case .discover:
-            "People"
+            "Connections"
         case .communities:
             "Communities"
         case .business:

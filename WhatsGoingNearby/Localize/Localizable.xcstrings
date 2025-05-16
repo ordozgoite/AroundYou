@@ -1121,6 +1121,16 @@
         }
       }
     },
+    "Connections" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conexões"
+          }
+        }
+      }
+    },
     "Contact" : {
       "localizations" : {
         "pt-BR" : {
@@ -3732,6 +3742,7 @@
       }
     },
     "People" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
