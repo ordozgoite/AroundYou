@@ -45,8 +45,10 @@ struct CommunityDetailScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button("Edit") {
-                    communityDetailVM.isEditCommunityViewDisplayed = true
+                if community.isOwner {
+                    Button("Edit") {
+                        communityDetailVM.isEditCommunityViewDisplayed = true
+                    }
                 }
             }
         }
