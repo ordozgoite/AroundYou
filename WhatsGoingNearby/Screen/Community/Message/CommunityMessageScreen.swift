@@ -93,7 +93,7 @@ struct CommunityMessageScreen: View {
             Task {
                 try await getMessages(.newest)
             }
-            startLocationTimer()
+//            startLocationTimer()
             listenToMessages()
             updateBadge()
         }
@@ -203,8 +203,7 @@ struct CommunityMessageScreen: View {
                 if shouldDisplaySendButton() {
                     Button {
                         Task {
-                            let token = try await authVM.getFirebaseToken()
-                            await communityMessageVM.sendMessage(forCommunityId: self.community.id, text: communityMessageVM.messageText, repliedMessage: communityMessageVM.repliedMessage, token: token)
+                            try await sendMessage()
                         }
                     } label: {
                         Image(systemName: "paperplane.fill")
@@ -249,14 +248,14 @@ struct CommunityMessageScreen: View {
     
     //MARK: - Private Method
     
-    private func startLocationTimer() {
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
-            if let location = locationManager.location {
-                communityMessageVM.latitude = location.coordinate.latitude
-                communityMessageVM.longitude = location.coordinate.longitude
-            }
-        }
-    }
+//    private func startLocationTimer() {
+//        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+//            if let location = locationManager.location {
+//                communityMessageVM.latitude = location.coordinate.latitude
+//                communityMessageVM.longitude = location.coordinate.longitude
+//            }
+//        }
+//    }
     
     private func listenToMessages() {
         socket.socket?.on("communityMessage") { data, ack in
@@ -266,6 +265,17 @@ struct CommunityMessageScreen: View {
                     emitReadCommand(forMessage: messageId)
                 }
             }
+        }
+    }
+    
+    private func sendMessage() async throws {
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let token = try await authVM.getFirebaseToken()
+            
+            let currentLocation = Location(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            
+            await communityMessageVM.sendMessage(forCommunityId: self.community.id, text: communityMessageVM.messageText, repliedMessage: communityMessageVM.repliedMessage, location: currentLocation, token: token)
         }
     }
     
@@ -317,8 +327,14 @@ struct CommunityMessageScreen: View {
     }
     
     private func resendMessage(withId messageId: String) async throws {
-        let token = try await authVM.getFirebaseToken()
-        await communityMessageVM.resendMessage(withTempId: messageId, token: token)
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let token = try await authVM.getFirebaseToken()
+            
+            let currentLocation = Location(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            
+            await communityMessageVM.resendMessage(withTempId: messageId, location: currentLocation, token: token)
+        }
     }
     
     private func shouldDisplaySendButton() -> Bool {

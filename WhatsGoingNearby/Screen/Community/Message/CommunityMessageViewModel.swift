@@ -30,8 +30,8 @@ class CommunityMessageViewModel: ObservableObject {
     @Published var highlightedMessageId: String?
     @Published var lastMessageAdded: String?
     
-    @Published var latitude: Double = 0
-    @Published var longitude: Double = 0
+//    @Published var latitude: Double = 0
+//    @Published var longitude: Double = 0
     
     //MARK: - Fetch Messages
     
@@ -68,14 +68,14 @@ class CommunityMessageViewModel: ObservableObject {
     
     //MARK: - Send Message
     
-    func sendMessage(forCommunityId communityId: String, text: String, repliedMessage: FormattedCommunityMessage?, token: String) async {
+    func sendMessage(forCommunityId communityId: String, text: String, repliedMessage: FormattedCommunityMessage?, location: Location, token: String) async {
         resetInputs()
         let messagesToBeSent = getMessagesToBeSent(communityId: communityId, text: text, repliedMessage: repliedMessage)
         displayMessages(fromArray: messagesToBeSent)
         await withTaskGroup(of: Void.self) { group in
             for message in messagesToBeSent {
                 group.addTask {
-                    await self.sendMessage(message, token: token)
+                    await self.sendMessage(message, location: location, token: token)
                 }
             }
         }
@@ -105,12 +105,12 @@ class CommunityMessageViewModel: ObservableObject {
         }
     }
     
-    private func sendMessage(_ message: CommunityMessageIntermediary, token: String) async {
-        await postNewMessage(withTemporaryId: message.id, communityId: message.communityId, text: message.text, repliedMessageId: message.repliedMessageId, repliedMessageText: message.repliedMessageText, token: token)
+    private func sendMessage(_ message: CommunityMessageIntermediary, location: Location, token: String) async {
+        await postNewMessage(withTemporaryId: message.id, communityId: message.communityId, text: message.text, repliedMessageId: message.repliedMessageId, repliedMessageText: message.repliedMessageText, location: location, token: token)
     }
     
-    private func postNewMessage(withTemporaryId tempId: String, communityId: String, text: String, repliedMessageId: String?, repliedMessageText: String?, token: String) async {
-        let result = await AYServices.shared.postCommunityMessage(communityId: communityId, latitude: latitude, longitude: longitude, text: text, repliedMessageId: repliedMessageId, token: token)
+    private func postNewMessage(withTemporaryId tempId: String, communityId: String, text: String, repliedMessageId: String?, repliedMessageText: String?, location: Location, token: String) async {
+        let result = await AYServices.shared.postCommunityMessage(communityId: communityId, latitude: location.latitude, longitude: location.longitude, text: text, repliedMessageId: repliedMessageId, token: token)
         
         switch result {
         case .success(let message):
@@ -144,9 +144,9 @@ class CommunityMessageViewModel: ObservableObject {
         playSound(withName: "sent-message-sound")
     }
     
-    func resendMessage(withTempId tempId: String, token: String) async {
+    func resendMessage(withTempId tempId: String, location: Location, token: String) async {
         if let message = getMessage(withId: tempId) {
-            await postNewMessage(withTemporaryId: tempId, communityId: message.communityId, text: message.text, repliedMessageId: message.repliedMessageId, repliedMessageText: message.repliedMessageText, token: token)
+            await postNewMessage(withTemporaryId: tempId, communityId: message.communityId, text: message.text, repliedMessageId: message.repliedMessageId, repliedMessageText: message.repliedMessageText, location: location, token: token)
         }
     }
     
