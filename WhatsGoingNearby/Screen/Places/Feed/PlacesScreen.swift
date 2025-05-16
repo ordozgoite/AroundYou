@@ -50,8 +50,8 @@ struct PlacesScreen: View {
                     }
                 }
             }
-//            .navigationTitle("Around You")
-//            .navigationBarTitleDisplayMode(.large)
+            //            .navigationTitle("Around You")
+            //            .navigationBarTitleDisplayMode(.large)
         }
         .sheet(isPresented: $placesVM.isHelpViewDisplayed) {
             HelpView()
@@ -138,18 +138,15 @@ struct PlacesScreen: View {
     private func Posts(ofType postType: PostStatus) -> some View {
         ForEach($placesVM.posts) { $post in
             if post.status == postType {
-//                NavigationLink(destination: CommentScreen(postId: post.id, post: $post, location: $locationManager.location, socket: socket).environmentObject(authVM)) {
                 PostView(post: $post, socket: socket, locationManager: locationManager, isClickable: true, deletePost: {
-                        Task {
-                            let token = try await authVM.getFirebaseToken()
-                            await placesVM.deletePost(postId: post.id, token: token)
-                        }
-                    }) { shouldUpdate in
-                        placesVM.shouldUpdateFeed = shouldUpdate
+                    Task {
+                        let token = try await authVM.getFirebaseToken()
+                        await placesVM.deletePost(postId: post.id, token: token)
                     }
-                    .padding()
-//                }
-//                .buttonStyle(PlainButtonStyle())
+                }) { shouldUpdate in
+                    placesVM.shouldUpdateFeed = shouldUpdate
+                }
+                .padding()
                 
                 Divider()
             }
@@ -181,7 +178,7 @@ struct PlacesScreen: View {
         } label: {
             Image(systemName: "light.beacon.max")
         }
-
+        
     }
     
     //MARK: - Private Method

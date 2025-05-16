@@ -63,7 +63,7 @@
         }
       }
     },
-    "· %@" : {
+    "· " : {
 
     },
     "· %lld years old" : {
@@ -4302,7 +4302,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Denunciar"
+            "value" : "Denunciar Incidente"
           }
         }
       }

@@ -26,7 +26,7 @@ struct DiscoverUserView: View {
             
             VStack(alignment: .leading) {
                 Text("· \(age) years old")
-                Text("· \(gender.title.stringKey)")
+                Text("· ") + Text(gender.title)
                 Text("· Seen \(lastSeen.convertTimestampToDate().timeAgoDisplay())")
             }
             .foregroundStyle(.gray)
