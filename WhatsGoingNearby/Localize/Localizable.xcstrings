@@ -76,6 +76,16 @@
         }
       }
     },
+    "· Seen %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· Visto %@"
+          }
+        }
+      }
+    },
     "[Learn More](https://aroundyou3.wordpress.com/policy-privacy)" : {
       "localizations" : {
         "pt-BR" : {

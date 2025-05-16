@@ -22,15 +22,17 @@ struct DiscoverUserView: View {
             Text(userName)
                 .font(.title2)
                 .fontWeight(.bold)
+                .padding(.bottom)
             
             VStack(alignment: .leading) {
                 Text("· \(age) years old")
                 Text("· \(gender.title.stringKey)")
-                Text("· \(lastSeen.convertTimestampToDate().timeAgoDisplay())")
+                Text("· Seen \(lastSeen.convertTimestampToDate().timeAgoDisplay())")
             }
             .foregroundStyle(.gray)
         }
         .frame(maxWidth: .infinity)
+        .frame(height: 256)
         .padding(.vertical)
         .background(
             Color.white.opacity(0.2)
