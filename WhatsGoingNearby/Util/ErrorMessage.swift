@@ -71,6 +71,7 @@ struct ErrorMessage {
     static let getCommunitiesNearBy: LocalizedStringKey = "Failed to load nearby communities. Please try again."
     static let joinCommunity: LocalizedStringKey = "Failed to join community. Please try again."
     static let askToJoinCommunity: LocalizedStringKey = "Failed to request to join community. Please try again."
+    static let askToJoinCommunityRepeatedAction: LocalizedStringKey = "You already asked to join this community"
     static let postNewCommunity: LocalizedStringKey = "Failed to create community. Please try again."
     static let getCommunityInfo: LocalizedStringKey = "Failed to load community information. Please try again."
     static let approveUserToCommunity: LocalizedStringKey = "Failed to approve user. Please try again."

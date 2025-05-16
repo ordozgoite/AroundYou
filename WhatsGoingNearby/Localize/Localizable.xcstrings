@@ -5509,6 +5509,16 @@
         }
       }
     },
+    "You already asked to join this community" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você já pediu para participar desta comunidade."
+          }
+        }
+      }
+    },
     "You are about to share your current location within your post. This means that anyone nearby will be able to see the place where you made the post. Are you sure you want to proceed?" : {
       "extractionState" : "stale",
       "localizations" : {

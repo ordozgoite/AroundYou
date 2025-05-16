@@ -73,8 +73,12 @@ class CommunityViewModel: ObservableObject {
         case .success:
             isJoinCommunityViewDisplayed = false
             await getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
-        case .failure:
-            overlayError = (true, ErrorMessage.askToJoinCommunity)
+        case .failure(let error):
+            if error == .conflict {
+                overlayError = (true, ErrorMessage.askToJoinCommunityRepeatedAction)
+            } else {
+                overlayError = (true, ErrorMessage.askToJoinCommunity)
+            }
         }
     }
 }
