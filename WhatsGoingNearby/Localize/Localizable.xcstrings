@@ -5700,6 +5700,16 @@
         }
       }
     },
+    "You're too far from this community to send a message." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você está muito longe dessa comunidade para mandar uma mensagem."
+          }
+        }
+      }
+    },
     "You’ve reached the maximum number of active posts allowed." : {
       "localizations" : {
         "pt-BR" : {

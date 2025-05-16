@@ -117,9 +117,13 @@ class CommunityMessageViewModel: ObservableObject {
             playSendMessageSound()
             updateMessage(withId: tempId, toStatus: .sent)
             updateMessage(withId: tempId, toPostedMessage: message)
-        case .failure:
+        case .failure(let error):
+            if error == .unprocessableEntity {
+                overlayError = (true, ErrorMessage.sendCommunityMessageDistanceLimitExceeded)
+            } else {
+                overlayError = (true, ErrorMessage.sendMessage)
+            }
             updateMessage(withId: tempId, toStatus: .failed)
-            overlayError = (true, ErrorMessage.sendMessage)
         }
     }
     
