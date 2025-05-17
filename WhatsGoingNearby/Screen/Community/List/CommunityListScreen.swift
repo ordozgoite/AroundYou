@@ -112,6 +112,12 @@ struct CommunityListScreen: View {
                 }
                 .padding()
             }
+            .refreshable {
+                hapticFeedback(style: .soft)
+                Task {
+                    try await getCommunities()
+                }
+            }
             
             JoinCommunity()
         }
