@@ -3652,6 +3652,16 @@
         }
       }
     },
+    "Only people nearby this post can interact with it, including the owner." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Somente pessoas próximas podem interagir com esta publicação — inclusive o dono."
+          }
+        }
+      }
+    },
     "Only people within a 1 km radius of your community will be able to see and interact with it." : {
       "localizations" : {
         "pt-BR" : {

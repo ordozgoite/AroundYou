@@ -64,6 +64,9 @@ struct CommentScreen: View {
     @ViewBuilder
     private func Comments() -> some View {
         VStack {
+            Disclaimer()
+            Divider()
+            
             ForEach($commentVM.comments) { $comment in
                 CommentView(isPostFromRecipientUser: post.isFromRecipientUser, postType: post.status, socket: socket, comment: $comment, deleteComment: {
                     Task {
@@ -78,6 +81,19 @@ struct CommentScreen: View {
                 Divider()
             }
         }
+    }
+    
+    // MARK: - Disclaimer
+    
+    @ViewBuilder
+    private func Disclaimer() -> some View {
+        Label(
+            "Only people nearby this post can interact with it, including the owner.",
+            systemImage: "info.circle"
+        )
+        .foregroundStyle(.gray)
+        .italic()
+        .padding()
     }
     
     //MARK: - Comment Text Field

@@ -243,6 +243,7 @@
 		EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3224A2B7DB345009905B5 /* FormattedComment.swift */; };
 		EDABC4562D626A650014C15E /* JoinCommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDABC4552D626A650014C15E /* JoinCommunityView.swift */; };
 		EDAECA452DD7D4A100D1A938 /* URLNotTapableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA442DD7D4A000D1A938 /* URLNotTapableImageView.swift */; };
+		EDAECA472DD8304F00D1A938 /* DisclaimerTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA462DD8304F00D1A938 /* DisclaimerTestView.swift */; };
 		EDB3F63E2BEC9086004F05B1 /* FullScreenUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */; };
 		EDC54BDE2D02AFC9006A5697 /* DiscoverDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */; };
 		EDCBEBF22BB75E5800087325 /* DeleteMessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */; };
@@ -504,6 +505,7 @@
 		EDA3224A2B7DB345009905B5 /* FormattedComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedComment.swift; sourceTree = "<group>"; };
 		EDABC4552D626A650014C15E /* JoinCommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinCommunityView.swift; sourceTree = "<group>"; };
 		EDAECA442DD7D4A000D1A938 /* URLNotTapableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLNotTapableImageView.swift; sourceTree = "<group>"; };
+		EDAECA462DD8304F00D1A938 /* DisclaimerTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerTestView.swift; sourceTree = "<group>"; };
 		EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenUIImage.swift; sourceTree = "<group>"; };
 		EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverDisclaimerView.swift; sourceTree = "<group>"; };
 		EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageResponse.swift; sourceTree = "<group>"; };
@@ -1083,6 +1085,7 @@
 				ED598C502B7C80EC00B6C23D /* LocationTestScreen.swift */,
 				EDA322372B7CC145009905B5 /* TimestampTestScreen.swift */,
 				EDE8B36E2BC1D9A800DFF750 /* AudioRecorder.swift */,
+				EDAECA462DD8304F00D1A938 /* DisclaimerTestView.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -1590,6 +1593,7 @@
 				EDA30DF02B7FC620003EB22D /* AccountViewModel.swift in Sources */,
 				ED1026222D64D803009FF94B /* CommunityMessageScreen.swift in Sources */,
 				EDE1991F2CCB67E80065206C /* PeopleScreen.swift in Sources */,
+				EDAECA472DD8304F00D1A938 /* DisclaimerTestView.swift in Sources */,
 				EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */,
 				ED6DD4992B82E5E900ADBB64 /* NewPostLocationScreen.swift in Sources */,
 				ED30CE712D6D61FD001FB213 /* CommunityMessage.swift in Sources */,
