@@ -3659,7 +3659,14 @@
       }
     },
     "Only people nearby this community can interact with it, including the owner." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Somente pessoas próximas desta comunidade podem interagir com ela, incluindo o proprietário."
+          }
+        }
+      }
     },
     "Only people nearby this post can interact with it, including the owner." : {
       "localizations" : {
@@ -3969,7 +3976,14 @@
       }
     },
     "Posts are shown only to those around you." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As publicações são exibidas apenas para quem está ao seu redor."
+          }
+        }
+      }
     },
     "Posts on AroundYou remain active for just **8 hours**, ensuring you discover timely and relevant information effortlessly." : {
       "extractionState" : "stale",

@@ -201,6 +201,7 @@ extension ReportIncidentView {
         let currentLocation = try getCurrentLocation()
         let token = try await authVM.getFirebaseToken()
         try await vm.postReport(location: currentLocation, token: token)
+        notifyLocationSensitiveDataRefresh()
         dismiss()
     }
     
@@ -213,6 +214,10 @@ extension ReportIncidentView {
         } else {
             throw LocationError.unableToGetCurrentLocation
         }
+    }
+    
+    private func notifyLocationSensitiveDataRefresh() {
+        NotificationCenter.default.post(name: .refreshLocationSensitiveData, object: nil)
     }
 }
 

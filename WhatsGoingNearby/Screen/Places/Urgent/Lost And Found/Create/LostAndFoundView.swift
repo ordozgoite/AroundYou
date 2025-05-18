@@ -191,6 +191,7 @@ extension LostAndFoundView {
         let currentLocation = try getCurrentLocation()
         let token = try await authVM.getFirebaseToken()
         try await vm.postLostItem(location: currentLocation, token: token)
+        notifyLocationSensitiveDataRefresh()
         dismiss()
     }
     
@@ -203,6 +204,10 @@ extension LostAndFoundView {
         } else {
             throw LocationError.unableToGetCurrentLocation
         }
+    }
+    
+    private func notifyLocationSensitiveDataRefresh() {
+        NotificationCenter.default.post(name: .refreshLocationSensitiveData, object: nil)
     }
 }
 
