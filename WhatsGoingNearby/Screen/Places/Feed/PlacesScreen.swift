@@ -50,8 +50,6 @@ struct PlacesScreen: View {
                     }
                 }
             }
-            //            .navigationTitle("Around You")
-            //            .navigationBarTitleDisplayMode(.large)
         }
         .sheet(isPresented: $placesVM.isHelpViewDisplayed) {
             HelpView()

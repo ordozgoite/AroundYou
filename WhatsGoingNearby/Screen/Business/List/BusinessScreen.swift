@@ -48,11 +48,8 @@ struct BusinessScreen: View {
             .onDisappear {
                 stopTimer()
             }
-//            .navigationTitle("Business")
             .toolbar {
-                MyBusiness()
-                
-                CreateBusinessButton()
+                Ellipsis()
             }
         }
     }
@@ -90,6 +87,40 @@ struct BusinessScreen: View {
         }
     }
     
+    // MARK: - Ellipsis
+    
+    @ViewBuilder
+    private func Ellipsis() -> some View {
+        if businessVM.isFetchingUserBusinesses {
+            ProgressView()
+        } else {
+            Menu {
+                PublishBusiness()
+                
+                Divider()
+                
+                MyBusiness()
+            } label: {
+                Image(systemName: "ellipsis.circle")
+            }
+            .sheet(isPresented: $businessVM.isMyBusinessViewDisplayed) {
+                MyBusinessView(businessVM: businessVM)
+                    .environmentObject(authVM)
+            }
+            .navigationDestination(isPresented: $businessVM.isPublishBusinessScreenDisplayed) {
+                PublishBusinessScreen(locationManager: locationManager)
+                    .environmentObject(authVM)
+            }
+            .popover(isPresented: $businessVM.isBusinessLimitErrorPopoverDisplayed) {
+                Text("You can only have one active Business at a time.")
+                    .font(.caption)
+                    .foregroundStyle(.gray)
+                    .padding()
+                    .presentationCompactAdaptation(.popover)
+            }
+        }
+    }
+    
     // MARK: - My Business
     
     @ViewBuilder
@@ -97,58 +128,23 @@ struct BusinessScreen: View {
         Button {
             businessVM.isMyBusinessViewDisplayed = true
         } label: {
-            Image(systemName: "person.circle.fill")
+            Label("My Businesses", systemImage: "person.circle.fill")
         }
-        .sheet(isPresented: $businessVM.isMyBusinessViewDisplayed) {
-            MyBusinessView(businessVM: businessVM)
-                .environmentObject(authVM)
-        }
+        
     }
     
-    // MARK: - Create Business
+    // MARK: - Publish Business
     
     @ViewBuilder
-    private func CreateBusinessButton() -> some View {
-        if businessVM.isFetchingUserBusinesses {
-            ProgressView()
-        } else if businessVM.userBusinesses?.count != 0 {
-            DisabledAddButton()
-        } else if businessVM.userBusinesses?.count == 0 {
-            AddButton()
-        }
-    }
-    
-    // MARK: - Disabled Add Button
-    
-    @ViewBuilder
-    private func DisabledAddButton() -> some View {
+    private func PublishBusiness() -> some View {
         Button {
-            businessVM.isBusinessLimitErrorPopoverDisplayed = true
+            if businessVM.userBusinesses?.count == 0 {
+                businessVM.isPublishBusinessScreenDisplayed = true
+            } else {
+                businessVM.isBusinessLimitErrorPopoverDisplayed = true
+            }
         } label: {
-            Image(systemName: "plus")
-                .foregroundStyle(.gray)
-        }
-        .popover(isPresented: $businessVM.isBusinessLimitErrorPopoverDisplayed) {
-            Text("You can only have one active Business at a time.")
-                .font(.caption)
-                .foregroundStyle(.gray)
-                .padding()
-                .presentationCompactAdaptation(.popover)
-        }
-    }
-    
-    // MARK: - Add Button
-    
-    @ViewBuilder
-    private func AddButton() -> some View {
-        Button {
-            businessVM.isPublishBusinessScreenDisplayed = true
-        } label: {
-            Image(systemName: "plus")
-        }
-        .navigationDestination(isPresented: $businessVM.isPublishBusinessScreenDisplayed) {
-            PublishBusinessScreen(locationManager: locationManager)
-                .environmentObject(authVM)
+            Label("Publish New Business", systemImage: "storefront")
         }
     }
 }

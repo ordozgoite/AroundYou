@@ -48,8 +48,12 @@ struct CommunityListScreen: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        communityVM.isCreateCommunityViewDisplayed = true
+                    Menu {
+                        Button {
+                            communityVM.isCreateCommunityViewDisplayed = true
+                        } label: {
+                            Label("Create New Community", systemImage: Constants.communityIconImageName)
+                        }
                     } label: {
                         Image(systemName: "plus")
                     }

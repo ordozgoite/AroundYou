@@ -1185,6 +1185,9 @@
         }
       }
     },
+    "Create New Community" : {
+
+    },
     "Create new post" : {
       "localizations" : {
         "pt-BR" : {
@@ -4136,6 +4139,9 @@
           }
         }
       }
+    },
+    "Publish New Business" : {
+
     },
     "Publishing..." : {
       "localizations" : {
