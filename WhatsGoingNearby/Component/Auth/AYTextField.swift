@@ -58,6 +58,7 @@ struct AYTextField: View {
     private func Error() -> some View {
         HStack {
             Text(error ?? "")
+                .font(.caption)
                 .foregroundColor(.red)
             
             Spacer()

@@ -374,7 +374,7 @@ extension AuthenticationViewModel {
         case .success(let expirationDate):
             signOut()
             overlayError = (true, ErrorMessage.getTempBannedErrorMessage(expirationDate: expirationDate.banExpirationDateTime))
-        case .failure(let error):
+        case .failure:
             signOut()
             overlayError = (true, ErrorMessage.getUserBanExpirarationDateErrorMessage)
         }
@@ -391,6 +391,7 @@ extension AuthenticationViewModel {
     func isSignupInputValid() -> Bool {
         errorMessage = (nil, nil, nil)
         if usernameInput.isEmpty { errorMessage.0 = "Please enter your username." }
+        _ = isUsernameValid()
         if emailInput.isEmpty { errorMessage.1 = "Please enter your email." }
         if passwordInput.isEmpty { errorMessage.2 = "Please enter your password." }
         let (a, b, c) = errorMessage
@@ -401,7 +402,7 @@ extension AuthenticationViewModel {
         let regex = try! NSRegularExpression(pattern: "^[a-zA-Z0-9._]+$")
         let range = NSRange(location: 0, length: usernameInput.utf16.count)
         let isUserNameValid = regex.firstMatch(in: usernameInput, options: [], range: range) != nil
-        if !isUserNameValid { errorMessage.0 = "Invalid username format." }
+        if !isUserNameValid { errorMessage.0 = "Username can only contain letters, numbers, dots (.) and underscores (_), with no spaces or special characters." }
         return isUserNameValid
     }
     

@@ -3057,6 +3057,7 @@
       }
     },
     "Invalid username format." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -5323,6 +5324,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nome de usuário"
+          }
+        }
+      }
+    },
+    "Username can only contain letters, numbers, dots (.) and underscores (_), with no spaces or special characters." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O nome de usuário pode conter apenas letras, números, pontos (.) e sublinhados (_), sem espaços ou caracteres especiais.\n"
           }
         }
       }
