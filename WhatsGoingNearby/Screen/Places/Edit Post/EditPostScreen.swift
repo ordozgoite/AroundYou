@@ -69,7 +69,6 @@ struct EditPostScreen: View {
             image: .constant(nil),
             isCameraDisplayed: .constant(false),
             tag: $editPostVM.selectedPostTag,
-            duration: $editPostVM.selectedPostDuration
         ).environmentObject(authVM)
     }
     
@@ -106,7 +105,6 @@ struct EditPostScreen: View {
     private func setupInitialValues() {
         editPostVM.postText = post.text ?? ""
         editPostVM.isLocationVisible = post.isLocationVisible ?? false
-        editPostVM.selectedPostDuration = post.postDuration
         editPostVM.selectedPostTag = post.postTag ?? .chilling
     }
     

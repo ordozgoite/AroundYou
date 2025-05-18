@@ -17,7 +17,6 @@ struct ComposePostView: View {
     @Binding var image: UIImage?
     @Binding var isCameraDisplayed: Bool
     @Binding var tag: PostTag
-    @Binding var duration: PostDuration
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @FocusState private var isFocused: Bool
@@ -57,7 +56,7 @@ struct ComposePostView: View {
     @ViewBuilder
     private func ProfilePic() -> some View {
         if let imageURL = authVM.profilePic {
-            URLTapableImageView(imageURL: imageURL)
+            URLNotTapableImageView(imageURL: imageURL)
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 50, height: 50)
                 .clipShape(Circle())
@@ -132,9 +131,9 @@ struct ComposePostView: View {
 //            Chevron()
             
 //            if isSettingsExpanded {
-                ExpandedPostSettings(maxPostLength: maxLength, text: $text, selectedPostTag: $tag, selectedPostDuration: $duration, isExpanded: $isSettingsExpanded)
+                ExpandedPostSettings(maxPostLength: maxLength, text: $text, selectedPostTag: $tag, isExpanded: $isSettingsExpanded)
 //            } else {
-//                CompactedPostSettings(maxPostLength: maxLength, text: $text, selectedPostTag: $tag, selectedPostDuration: $duration, isExpanded: $isSettingsExpanded)
+//                CompactedPostSettings(maxPostLength: maxLength, text: $text, selectedPostTag: $tag, isExpanded: $isSettingsExpanded)
 //            }
         }
         .frame(maxHeight: .infinity, alignment: .bottom)

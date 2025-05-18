@@ -65,8 +65,7 @@ struct CreatePostScreen: View {
             isSettingsExpanded: $createPostVM.isSettingsExpanded,
             image: $createPostVM.image,
             isCameraDisplayed: $createPostVM.isCameraDisplayed,
-            tag: $createPostVM.selectedPostTag,
-            duration: $createPostVM.selectedPostDuration
+            tag: $createPostVM.selectedPostTag
         ).environmentObject(authVM)
     }
     

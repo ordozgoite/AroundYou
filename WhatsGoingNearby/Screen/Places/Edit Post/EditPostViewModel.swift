@@ -17,12 +17,11 @@ class EditPostViewModel: ObservableObject {
     @Published var isLocationVisible: Bool = false
     @Published var isSettingsExpanded: Bool = false
     @Published var selectedPostTag: PostTag = .chilling
-    @Published var selectedPostDuration: PostDuration = .fourHours
     @Published var isShareLocationAlertDisplayed: Bool = false
     
     func editPublication(publicationId: String, latitude: Double, longitude: Double, token: String, dismissScreen: () -> ()) async {
         isLoading = true
-        let result = await AYServices.shared.editPublication(publicationId: publicationId, text: postText.nonEmptyOrNil(), tag: selectedPostTag.rawValue, postDuration: selectedPostDuration.value, isLocationVisible: isLocationVisible, latitude: latitude, longitude: longitude, token: token)
+        let result = await AYServices.shared.editPublication(publicationId: publicationId, text: postText.nonEmptyOrNil(), tag: selectedPostTag.rawValue, isLocationVisible: isLocationVisible, latitude: latitude, longitude: longitude, token: token)
         isLoading = false
         
         switch result {

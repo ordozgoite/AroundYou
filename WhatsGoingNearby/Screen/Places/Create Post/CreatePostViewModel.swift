@@ -17,7 +17,6 @@ class CreatePostViewModel: ObservableObject {
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var isLocationVisible: Bool = false
     @Published var selectedPostTag: PostTag = .chilling
-    @Published var selectedPostDuration: PostDuration = .oneHour
     @Published var isShareLocationAlertDisplayed: Bool = false
     @Published var isSettingsExpanded: Bool = false
     
@@ -28,7 +27,7 @@ class CreatePostViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         let imageURL = image == nil ? nil : await storeImage()
-        let result = await AYServices.shared.postNewPublication(text: postText.nonEmptyOrNil(), tag: selectedPostTag.rawValue, imageUrl: imageURL, postDuration: selectedPostDuration.value, latitude: latitude, longitude: longitude, isLocationVisible: isLocationVisible, token: token)
+        let result = await AYServices.shared.postNewPublication(text: postText.nonEmptyOrNil(), tag: selectedPostTag.rawValue, imageUrl: imageURL, latitude: latitude, longitude: longitude, isLocationVisible: isLocationVisible, token: token)
         try handleCreateNewPostResult(result)
     }
     
