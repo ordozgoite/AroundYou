@@ -182,35 +182,78 @@ struct PublishBusinessScreen: View {
     private func Contact() -> some View {
         Section {
             VStack(spacing: 12) {
-                AYPhoneNumberTextField(number: $publishBusinessVM.phoneNumber, placeholder: "Phone number")
-                    .padding(.top)
+                PhoneNumber()
                 
                 Divider()
                 
-                AYPhoneNumberTextField(number: $publishBusinessVM.whatsAppNumber, placeholder: "WhatsApp number")
+                WhatsApp()
                 
                 Divider()
                 
-                HStack {
-                    Text("@")
-                        .foregroundColor(.gray)
-                    
-                    TextField("Instagram username", text: $publishBusinessVM.instagramUsername)
-                        .textContentType(.username)
-                        .autocapitalization(.none)
-                        .onChange(of: publishBusinessVM.instagramUsername) { newValue in
-                            if newValue.hasPrefix("@") {
-                                publishBusinessVM.instagramUsername = String(newValue.dropFirst())
-                            }
-                        }
-                }
-                .padding(.bottom)
+                Instagram()
             }
         } header: {
             Text("Contact")
         } footer: {
             Text("Let potential customers know how to reach you easily.")
         }
+    }
+    
+    // MARK: - Phone Number
+    
+    @ViewBuilder
+    private func PhoneNumber() -> some View {
+        HStack {
+            Image(systemName: "phone.circle.fill")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 24, height: 24, alignment: .center)
+            
+            TextField("Phone Number", text: $publishBusinessVM.phoneNumber)
+                .keyboardType(.phonePad)
+                .textContentType(.telephoneNumber)
+                .autocapitalization(.none)
+        }
+        .padding(.top)
+    }
+    
+    // MARK: - WhatsApp
+    
+    @ViewBuilder
+    private func WhatsApp() -> some View {
+        HStack {
+            Image(Constants.whatsAppLogoImageName)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 24, height: 24, alignment: .center)
+            
+            TextField("WhatsApp Number", text: $publishBusinessVM.whatsAppNumber)
+                .keyboardType(.phonePad)
+                .textContentType(.telephoneNumber)
+                .autocapitalization(.none)
+        }
+    }
+    
+    // MARK: - Instagram
+    
+    @ViewBuilder
+    private func Instagram() -> some View {
+        HStack {
+            Image(Constants.instagramLogoImageName)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 24, height: 24, alignment: .center)
+            
+            TextField("Instagram username", text: $publishBusinessVM.instagramUsername)
+                .textContentType(.username)
+                .autocapitalization(.none)
+                .onChange(of: publishBusinessVM.instagramUsername) { newValue in
+                    if newValue.hasPrefix("@") {
+                        publishBusinessVM.instagramUsername = String(newValue.dropFirst())
+                    }
+                }
+        }
+        .padding(.bottom)
     }
     
     // MARK: - Location

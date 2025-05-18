@@ -213,7 +213,7 @@ struct BusinessShowcaseView: View {
         Button {
             goToWhatsAppChat(withNumber: number)
         } label: {
-            Image("whatsapp")
+            Image(Constants.whatsAppLogoImageName)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 28, height: 28, alignment: .center)
@@ -228,7 +228,7 @@ struct BusinessShowcaseView: View {
         Button {
             goToInstagramProfile(forUsername: username)
         } label: {
-            Image("instagram")
+            Image(Constants.instagramLogoImageName)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 28, height: 28, alignment: .center)

@@ -96,9 +96,6 @@
         }
       }
     },
-    "@" : {
-
-    },
     "@%@" : {
       "localizations" : {
         "pt-BR" : {
@@ -3790,6 +3787,7 @@
       }
     },
     "Phone number" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -3798,6 +3796,9 @@
           }
         }
       }
+    },
+    "Phone Number" : {
+
     },
     "Photos" : {
       "localizations" : {
@@ -5514,6 +5515,7 @@
       }
     },
     "WhatsApp number" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -5522,6 +5524,9 @@
           }
         }
       }
+    },
+    "WhatsApp Number" : {
+
     },
     "Where did you lose it?" : {
       "localizations" : {

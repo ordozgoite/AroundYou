@@ -20,6 +20,11 @@ extension Notification.Name {
 struct Constants {
     static let API_URL: String = "https://around-you-3acb9615e8a5.herokuapp.com"
     
+    // MARK: - Images
+    
+    static let instagramLogoImageName: String = "instagram"
+    static let whatsAppLogoImageName: String = "whatsapp"
+    
     // MARK: -  User
     
     static let MAX_USERNAME_LENGHT: Int = 20
