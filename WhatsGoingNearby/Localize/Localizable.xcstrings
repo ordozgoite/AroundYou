@@ -3968,6 +3968,9 @@
         }
       }
     },
+    "Posts are shown only to those around you." : {
+
+    },
     "Posts on AroundYou remain active for just **8 hours**, ensuring you discover timely and relevant information effortlessly." : {
       "extractionState" : "stale",
       "localizations" : {

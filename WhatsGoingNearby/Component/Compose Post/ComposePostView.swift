@@ -106,7 +106,7 @@ struct ComposePostView: View {
     private func PostText() -> some View {
         TextField("What's going on around you?", text: $text, axis: .vertical)
             .focused($isFocused)
-            .lineLimit(3...)
+            .lineLimit(3...4)
             .onChange(of: text) { newValue in
                 if newValue.count > maxLength {
                     text = String(newValue.prefix(maxLength))
@@ -128,10 +128,13 @@ struct ComposePostView: View {
             }
             .padding(.bottom)
             
+            Disclaimer()
+            
 //            Chevron()
             
 //            if isSettingsExpanded {
                 ExpandedPostSettings(maxPostLength: maxLength, text: $text, selectedPostTag: $tag, isExpanded: $isSettingsExpanded)
+                .padding(.top)
 //            } else {
 //                CompactedPostSettings(maxPostLength: maxLength, text: $text, selectedPostTag: $tag, isExpanded: $isSettingsExpanded)
 //            }
@@ -190,6 +193,20 @@ struct ComposePostView: View {
             }
     }
     
+    // MARK: - Disclaimer
+    
+    @ViewBuilder
+    private func Disclaimer() -> some View {
+        Label(
+            "Posts are shown only to those around you.",
+            systemImage: "info.circle"
+        )
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .foregroundStyle(.gray)
+        .italic()
+        .font(.footnote)
+    }
+    
     //MARK: - Chevron
     
     @ViewBuilder
@@ -209,5 +226,6 @@ struct ComposePostView: View {
 }
 
 //#Preview {
-//    ComposePostView()
+//    ComposePostView(maxLength: 150, isCameraEnabled: true, text: .constant(""), isLocationVisible: .constant(false), isSettingsExpanded: .constant(true), image: .constant(nil), isCameraDisplayed: .constant(false), tag: .constant(.bored))
+//        .environmentObject(AuthenticationViewModel())
 //}
