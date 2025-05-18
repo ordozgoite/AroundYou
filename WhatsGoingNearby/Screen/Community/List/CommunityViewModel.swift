@@ -33,7 +33,7 @@ class CommunityViewModel: ObservableObject {
         case .success(let communities):
             self.communities = communities
             initialCommunitiesFetched = true
-        case .failure(let error):
+        case .failure:
             overlayError = (true, ErrorMessage.getCommunitiesNearBy)
         }
     }

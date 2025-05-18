@@ -91,6 +91,8 @@ struct JoinCommunityView: View {
     private func JoinButton() -> some View {
         if communityVM.isJoiningCommunity {
             AYProgressButton(title: community.isPrivate ? "Asking..." : "Joining...")
+        } else if community.askedToJoin ?? false {
+             AYDisabledButton(title: "Asked to Join")
         } else {
             AYButton(title: community.isPrivate ? "Ask To Join" : "Join") {
                 if community.isPrivate {

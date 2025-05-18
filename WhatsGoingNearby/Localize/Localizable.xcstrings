@@ -636,6 +636,9 @@
         }
       }
     },
+    "Asked to Join" : {
+
+    },
     "Asking for information" : {
       "extractionState" : "stale",
       "localizations" : {

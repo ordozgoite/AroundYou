@@ -15,6 +15,7 @@ struct FormattedCommunity: Codable, Identifiable {
     let createdAt: Int
     let expirationDate: Int
     var isMember: Bool
+    var askedToJoin: Bool?
     let isOwner: Bool
     var isPrivate: Bool
     let isLocationVisible: Bool

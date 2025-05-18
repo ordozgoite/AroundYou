@@ -245,6 +245,7 @@
 		EDAECA452DD7D4A100D1A938 /* URLNotTapableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA442DD7D4A000D1A938 /* URLNotTapableImageView.swift */; };
 		EDAECA472DD8304F00D1A938 /* DisclaimerTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA462DD8304F00D1A938 /* DisclaimerTestView.swift */; };
 		EDAECA492DDA5A7B00D1A938 /* CommunityIconCircleFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA482DDA5A7B00D1A938 /* CommunityIconCircleFill.swift */; };
+		EDAECA4B2DDA913300D1A938 /* AYDisabledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA4A2DDA913300D1A938 /* AYDisabledButton.swift */; };
 		EDB3F63E2BEC9086004F05B1 /* FullScreenUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */; };
 		EDC54BDE2D02AFC9006A5697 /* DiscoverDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */; };
 		EDCBEBF22BB75E5800087325 /* DeleteMessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */; };
@@ -508,6 +509,7 @@
 		EDAECA442DD7D4A000D1A938 /* URLNotTapableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLNotTapableImageView.swift; sourceTree = "<group>"; };
 		EDAECA462DD8304F00D1A938 /* DisclaimerTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerTestView.swift; sourceTree = "<group>"; };
 		EDAECA482DDA5A7B00D1A938 /* CommunityIconCircleFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityIconCircleFill.swift; sourceTree = "<group>"; };
+		EDAECA4A2DDA913300D1A938 /* AYDisabledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYDisabledButton.swift; sourceTree = "<group>"; };
 		EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenUIImage.swift; sourceTree = "<group>"; };
 		EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverDisclaimerView.swift; sourceTree = "<group>"; };
 		EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageResponse.swift; sourceTree = "<group>"; };
@@ -928,6 +930,7 @@
 				ED30CE572D699C2A001FB213 /* RemoveMediaButton.swift */,
 				ED5329162D82498800AEED74 /* AYPhoneNumberTextField.swift */,
 				EDEF4E7E2D930131009CA424 /* MapPickerView.swift */,
+				EDAECA4A2DDA913300D1A938 /* AYDisabledButton.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -1670,6 +1673,7 @@
 				ED5CC5282B983982009B17E3 /* EnableFullAccuracyView.swift in Sources */,
 				EDA322452B7DB07D009905B5 /* CommentScreen.swift in Sources */,
 				ED74E80A2BF436F200371334 /* WhatsGoingNearby.xcdatamodeld in Sources */,
+				EDAECA4B2DDA913300D1A938 /* AYDisabledButton.swift in Sources */,
 				EDE8B37F2BC3B67200DFF750 /* ImageBubbleView.swift in Sources */,
 				EDEF7A692D51C4EC0030B7A6 /* Community.swift in Sources */,
 				ED2F1A752B9142AA001F4300 /* NotificationViewModel.swift in Sources */,
