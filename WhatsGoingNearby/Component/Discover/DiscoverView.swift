@@ -93,6 +93,7 @@ struct DiscoverView: View {
         }
         .refreshable {
             hapticFeedback(style: .soft)
+            discoverVM.initialUsersFetched = false
             Task {
                 try await getUsersNearBy()
             }

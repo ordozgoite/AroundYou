@@ -118,7 +118,7 @@ struct LostItemDetailScreen: View {
         }
     }
     
-    private func getNavTitle() -> String {
+    private func getNavTitle() -> LocalizedStringKey {
         return wasItemFound() ? "Item Found ✅" : "Item Lost"
     }
     

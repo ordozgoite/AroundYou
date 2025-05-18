@@ -83,6 +83,7 @@ struct BusinessScreen: View {
         }
         .refreshable {
             hapticFeedback(style: .soft)
+            businessVM.initialBusinessesFetched = false
             Task {
                 try await getBusinessesFromLocation()
             }

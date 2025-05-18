@@ -71,6 +71,8 @@ struct CommunityMessageScreen: View {
                                         }
                                     }
                                 }
+                                
+                                Disclaimer()
                             }
                             .padding(.horizontal, 10)
                         }
@@ -93,7 +95,7 @@ struct CommunityMessageScreen: View {
             Task {
                 try await getMessages(.newest)
             }
-//            startLocationTimer()
+            //            startLocationTimer()
             listenToMessages()
             updateBadge()
         }
@@ -185,6 +187,38 @@ struct CommunityMessageScreen: View {
         }
     }
     
+    // MARK: - Disclaimer
+    
+    @ViewBuilder
+    private func Disclaimer() -> some View {
+        HStack(alignment: .bottom) {
+            // info icon
+            Image(systemName: "info.circle")
+                .resizable()
+                .foregroundStyle(.gray)
+                .frame(width: 32, height: 32)
+            
+            // Text bubble
+            Text("Only people nearby this community can interact with it, including the owner.")
+                .italic()
+                .foregroundStyle(.gray)
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+                .background(
+                    Color(uiColor: .secondarySystemBackground),
+                    in: RoundedRectangle(cornerRadius: 20, style: .continuous)
+                )
+                .background(alignment: .bottomLeading) {
+                    Image("incomingTail")
+                        .renderingMode(.template)
+                        .foregroundStyle(Color(uiColor: .secondarySystemBackground))
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .padding(.trailing, 64)
+                .padding(.bottom, 8)
+        }
+    }
+    
     //MARK: - Message Composer
     
     @ViewBuilder
@@ -248,14 +282,14 @@ struct CommunityMessageScreen: View {
     
     //MARK: - Private Method
     
-//    private func startLocationTimer() {
-//        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
-//            if let location = locationManager.location {
-//                communityMessageVM.latitude = location.coordinate.latitude
-//                communityMessageVM.longitude = location.coordinate.longitude
-//            }
-//        }
-//    }
+    //    private func startLocationTimer() {
+    //        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+    //            if let location = locationManager.location {
+    //                communityMessageVM.latitude = location.coordinate.latitude
+    //                communityMessageVM.longitude = location.coordinate.longitude
+    //            }
+    //        }
+    //    }
     
     private func listenToMessages() {
         socket.socket?.on("communityMessage") { data, ack in

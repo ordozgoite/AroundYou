@@ -128,6 +128,7 @@ struct PlacesScreen: View {
         }
         .refreshable {
             hapticFeedback(style: .soft)
+            placesVM.initialPostsFetched = false
             updateLocation()
         }
     }

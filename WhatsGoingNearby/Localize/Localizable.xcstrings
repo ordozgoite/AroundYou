@@ -3102,6 +3102,9 @@
         }
       }
     },
+    "Item Found ✅" : {
+
+    },
     "Item Info" : {
       "localizations" : {
         "pt-BR" : {
@@ -3111,6 +3114,9 @@
           }
         }
       }
+    },
+    "Item Lost" : {
+
     },
     "Join" : {
       "localizations" : {
@@ -3651,6 +3657,9 @@
           }
         }
       }
+    },
+    "Only people nearby this community can interact with it, including the owner." : {
+
     },
     "Only people nearby this post can interact with it, including the owner." : {
       "localizations" : {

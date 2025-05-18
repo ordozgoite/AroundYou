@@ -114,6 +114,7 @@ struct CommunityListScreen: View {
             }
             .refreshable {
                 hapticFeedback(style: .soft)
+                communityVM.initialCommunitiesFetched = false
                 Task {
                     try await getCommunities()
                 }
