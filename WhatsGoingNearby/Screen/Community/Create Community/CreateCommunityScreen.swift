@@ -99,14 +99,16 @@ struct CreateCommunityScreen: View {
     @ViewBuilder
     private func CommunityImage() -> some View {
         if let selectedImage = createCommunityVM.croppedImage {
-            /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Container@*/VStack/*@END_MENU_TOKEN@*/ {
-                Image(uiImage: selectedImage)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 128, height: 128, alignment: .center)
-            }
+            Image(uiImage: selectedImage)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 128, height: 128, alignment: .center)
         } else {
-            CustomPerson3CircleFill(size: 128)
+            Image(systemName: "camera.circle.fill")
+                .resizable()
+                .foregroundStyle(.gray)
+                .scaledToFit()
+                .frame(width: 128, height: 128, alignment: .center)
         }
     }
     
@@ -306,4 +308,5 @@ struct CreateCommunityScreen: View {
         locationManager: LocationManager(),
         isViewDisplayed: .constant(true)
     )
+    .environmentObject(AuthenticationViewModel())
 }

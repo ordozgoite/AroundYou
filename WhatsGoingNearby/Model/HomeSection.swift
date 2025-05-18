@@ -22,7 +22,7 @@ enum HomeSection: String, CaseIterable {
         case .business:
             "storefront"
         case .communities:
-            "bubble.left.and.bubble.right"
+            Constants.communityIconImageName
         }
     }
     

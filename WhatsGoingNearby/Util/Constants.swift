@@ -47,5 +47,5 @@ struct Constants {
     
     // MARK: - Icons
     
-    static let COMMUNITY_IMAGE_PLACEHOLDER = "person.2.circle.fill"
+    static let communityIconImageName: String = "bubble.left.and.bubble.right"
 }

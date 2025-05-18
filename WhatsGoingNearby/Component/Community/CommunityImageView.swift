@@ -24,7 +24,7 @@ struct CommunityImageView: View {
                 .frame(width: size, height: size)
                 .clipShape(Circle())
         } else {
-            CustomPerson3CircleFill(size: size)
+            CommunityIconCircleFill(size: size)
         }
     }
 }

@@ -1,13 +1,13 @@
 //
-//  CustomPerson3CircleFill.swift
+//  CommunityCircleFill.swift
 //  WhatsGoingNearby
 //
-//  Created by Victor Ordozgoite on 14/02/25.
+//  Created by Victor Ordozgoite on 18/05/25.
 //
 
 import SwiftUI
 
-struct CustomPerson3CircleFill: View {
+struct CommunityIconCircleFill: View {
     let size: CGFloat
     
     var body: some View {
@@ -16,16 +16,16 @@ struct CustomPerson3CircleFill: View {
                 .fill(.gray)
                 .frame(width: size, height: size)
 
-            Image(systemName: "person.3.fill")
+            Image(systemName: Constants.communityIconImageName)
                 .resizable()
                 .foregroundColor(.white)
                 .scaledToFit()
-                .padding(size / 10)
+                .padding(size / 5)
                 .frame(width: size, height: size)
         }
     }
 }
 
 #Preview {
-    CustomPerson3CircleFill(size: 160)
+    CommunityIconCircleFill(size: 160)
 }
