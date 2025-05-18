@@ -80,7 +80,7 @@ struct DiscoverPreferencesView: View {
     @ViewBuilder
     private func AgeView() -> some View {
         Picker("My Age", selection: $discoverVM.selectedAge) {
-            ForEach(12...99, id: \.self) { age in
+            ForEach(Constants.minDiscoverAge...Constants.maxDiscoverAge, id: \.self) { age in
                 Text("\(age)").tag(age)
             }
         }
