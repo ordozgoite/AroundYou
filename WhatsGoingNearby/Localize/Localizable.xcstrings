@@ -5702,6 +5702,9 @@
         }
       }
     },
+    "You don't have any active community." : {
+
+    },
     "You don't have any business published." : {
       "localizations" : {
         "pt-BR" : {

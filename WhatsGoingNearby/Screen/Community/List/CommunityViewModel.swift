@@ -14,10 +14,15 @@ class CommunityViewModel: ObservableObject {
     @Published var communities: [FormattedCommunity] = []
     @Published var isLoading: Bool = false
     @Published var isCreateCommunityViewDisplayed: Bool = false
+    @Published var isMyCommunitiesViewDisplayed: Bool = false
     @Published var initialCommunitiesFetched: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var isCommunityChatScreenDisplayed: Bool = false
     @Published var selectedCommunityToChat: FormattedCommunity?
+    
+    // MyCommunities
+    @Published var userCommunities: [FormattedCommunity]? = nil
+    @Published var isFetchingUserCommunities: Bool = false
     
     // Join Community
     @Published var isJoinCommunityViewDisplayed: Bool = false

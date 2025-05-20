@@ -158,6 +158,10 @@ struct CommunityListScreen: View {
         } label: {
             Image(systemName: "ellipsis.circle")
         }
+        .sheet(isPresented: $communityVM.isMyCommunitiesViewDisplayed) {
+            MyCommunitiesView(communityVM: communityVM)
+                .environmentObject(authVM)
+        }
     }
     
     // MARK: - Create Community
@@ -176,7 +180,7 @@ struct CommunityListScreen: View {
     @ViewBuilder
     private func MyCommunities() -> some View {
         Button {
-            // TODO: Display MyCommunitiesView
+            communityVM.isMyCommunitiesViewDisplayed = true
         } label: {
             Label("My Communities", systemImage: "list.bullet")
         }

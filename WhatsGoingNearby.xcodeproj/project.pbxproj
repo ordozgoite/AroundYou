@@ -246,6 +246,7 @@
 		EDAECA472DD8304F00D1A938 /* DisclaimerTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA462DD8304F00D1A938 /* DisclaimerTestView.swift */; };
 		EDAECA492DDA5A7B00D1A938 /* CommunityIconCircleFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA482DDA5A7B00D1A938 /* CommunityIconCircleFill.swift */; };
 		EDAECA4B2DDA913300D1A938 /* AYDisabledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA4A2DDA913300D1A938 /* AYDisabledButton.swift */; };
+		EDAECA4D2DDC9DF500D1A938 /* MyCommunitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA4C2DDC9DF500D1A938 /* MyCommunitiesView.swift */; };
 		EDB3F63E2BEC9086004F05B1 /* FullScreenUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */; };
 		EDC54BDE2D02AFC9006A5697 /* DiscoverDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */; };
 		EDCBEBF22BB75E5800087325 /* DeleteMessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */; };
@@ -510,6 +511,7 @@
 		EDAECA462DD8304F00D1A938 /* DisclaimerTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerTestView.swift; sourceTree = "<group>"; };
 		EDAECA482DDA5A7B00D1A938 /* CommunityIconCircleFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityIconCircleFill.swift; sourceTree = "<group>"; };
 		EDAECA4A2DDA913300D1A938 /* AYDisabledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYDisabledButton.swift; sourceTree = "<group>"; };
+		EDAECA4C2DDC9DF500D1A938 /* MyCommunitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunitiesView.swift; sourceTree = "<group>"; };
 		EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenUIImage.swift; sourceTree = "<group>"; };
 		EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverDisclaimerView.swift; sourceTree = "<group>"; };
 		EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageResponse.swift; sourceTree = "<group>"; };
@@ -1450,6 +1452,7 @@
 				ED30CE6C2D6D5F4B001FB213 /* CommunityMessageView.swift */,
 				EDAECA482DDA5A7B00D1A938 /* CommunityIconCircleFill.swift */,
 				ED0B4AF12D5F8C3E000A21F6 /* CustomPerson3CircleFill.swift */,
+				EDAECA4C2DDC9DF500D1A938 /* MyCommunitiesView.swift */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -1660,6 +1663,7 @@
 				EDEF4E842D933575009CA424 /* ReportIncidentView.swift in Sources */,
 				ED755F1B2BB4E54F004BC6C3 /* MessageScreen.swift in Sources */,
 				ED30CE562D696BD2001FB213 /* ImageDisplaySource.swift in Sources */,
+				EDAECA4D2DDC9DF500D1A938 /* MyCommunitiesView.swift in Sources */,
 				ED2F1A6B2B9048DC001F4300 /* IndepCommentScreen.swift in Sources */,
 				ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */,
 				ED755F132BB4D625004BC6C3 /* ChatListScreen.swift in Sources */,
