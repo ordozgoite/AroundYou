@@ -30,9 +30,6 @@ class CommunityMessageViewModel: ObservableObject {
     @Published var highlightedMessageId: String?
     @Published var lastMessageAdded: String?
     
-//    @Published var latitude: Double = 0
-//    @Published var longitude: Double = 0
-    
     //MARK: - Fetch Messages
     
     func getMessages(communityId: String, token: String) async {
@@ -46,12 +43,18 @@ class CommunityMessageViewModel: ObservableObject {
         }
     }
     
+    private func addDisclaimer() {
+        print("⚠️ addDisclaimer")
+        self.formattedMessages.append(FormattedCommunityMessage(id: Constants.communityDiscaimerMessageId, communityId: "", text: "", isCurrentUser: false, isFirst: true, status: .sent, createdAt: 0, senderUsername: "", shouldDispaySenderUsername: false, shouldDisplaySenderProfilePic: false))
+    }
+    
     func getLastMessages(communityId: String, token: String) async {
         let result = await AYServices.shared.getCommunityMessages(communityId: communityId, timestamp: nil, token: token)
         
         switch result {
         case .success(let messages):
             self.intermediaryMessages = convertReceivedMessages(messages)
+            addDisclaimer()
         case .failure:
             overlayError = (true, ErrorMessage.getMessages)
         }

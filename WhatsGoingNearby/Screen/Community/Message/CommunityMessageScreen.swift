@@ -33,22 +33,26 @@ struct CommunityMessageScreen: View {
                         ZStack {
                             VStack(spacing: 0) {
                                 ForEach(communityMessageVM.formattedMessages) { message in
-                                    CommunityMessageView(message: message) {
-                                        communityMessageVM.repliedMessage = message
-                                        isFocused = true
-                                    } tappedRepliedMessage: {
-                                        if let repliedMessageId = message.repliedMessageId {
-                                            scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
-                                            highlightMessage(withId: repliedMessageId)
+                                    if message.id == Constants.communityDiscaimerMessageId {
+                                        Disclaimer()
+                                    } else {
+                                        CommunityMessageView(message: message) {
+                                            communityMessageVM.repliedMessage = message
+                                            isFocused = true
+                                        } tappedRepliedMessage: {
+                                            if let repliedMessageId = message.repliedMessageId {
+                                                scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
+                                                highlightMessage(withId: repliedMessageId)
+                                            }
+                                        } resendMessage: {
+                                            Task {
+                                                try await resendMessage(withId: message.id)
+                                            }
                                         }
-                                    } resendMessage: {
-                                        Task {
-                                            try await resendMessage(withId: message.id)
+                                        .background(communityMessageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
+                                        .contextMenu {
+                                            MessageMenu(forMessage: message)
                                         }
-                                    }
-                                    .background(communityMessageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
-                                    .contextMenu {
-                                        MessageMenu(forMessage: message)
                                     }
                                 }
                                 .onAppear {
@@ -71,8 +75,6 @@ struct CommunityMessageScreen: View {
                                         }
                                     }
                                 }
-                                
-                                Disclaimer()
                             }
                             .padding(.horizontal, 10)
                         }
@@ -95,7 +97,6 @@ struct CommunityMessageScreen: View {
             Task {
                 try await getMessages(.newest)
             }
-            //            startLocationTimer()
             listenToMessages()
             updateBadge()
         }

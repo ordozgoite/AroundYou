@@ -50,6 +50,10 @@ struct Constants {
     static let minDiscoverAge: Int = 18
     static let maxDiscoverAge: Int = 99
     
+    // MARK: - Community
+    
+    static let communityDiscaimerMessageId: String = "community_disclaimer_message_id"
+    
     // MARK: - Icons
     
     static let communityIconImageName: String = "bubble.left.and.bubble.right"
