@@ -1924,6 +1924,9 @@
         }
       }
     },
+    "Error trying to fetch my communities. Please try again." : {
+
+    },
     "Error trying to get user ban expiration date" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3685,7 +3688,11 @@
         }
       }
     },
+    "Only people nearby your community will be able to interact with it, even you." : {
+
+    },
     "Only people within a 1 km radius of your community will be able to see and interact with it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {

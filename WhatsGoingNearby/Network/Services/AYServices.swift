@@ -92,6 +92,7 @@ protocol AYServiceable {
     func removeUserFromCommunity(communityId: String, userUidToRemove: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
     func editCommunity(communityId: String, communityName: String, communityImageUrl: String?, token: String) async -> Result<SuccessMessageResponse, RequestError>
     func editCommunityDescription(communityId: String, description: String?, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func getMyCommunities(token: String) async -> Result<[FormattedCommunity], RequestError>
     
     // Community Message
     func postCommunityMessage(communityId: String, latitude: Double, longitude: Double, text: String, repliedMessageId: String?, token: String) async -> Result<CommunityMessage, RequestError>
@@ -344,6 +345,10 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedCommunity], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token), responseModel: [FormattedCommunity].self)
+    }
+    
+    func getMyCommunities(token: String) async -> Result<[FormattedCommunity], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getMyCommunities(token: token), responseModel: [FormattedCommunity].self)
     }
     
     func joinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError> {

@@ -15,8 +15,7 @@ struct CreateCommunityScreen: View {
     @ObservedObject var communityVM: CommunityViewModel
     @ObservedObject var locationManager: LocationManager
     @FocusState private var isDescriptionTextFieldFocused: Bool
-    
-    @Binding var isViewDisplayed: Bool
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         NavigationStack {
@@ -46,12 +45,6 @@ struct CreateCommunityScreen: View {
             .padding()
             .onAppear {
                 createCommunityVM.resetCreateCommunityInputs()
-            }
-            
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Cancel()
-                }
             }
             .onChange(of: createCommunityVM.imageSelection) { newItem in
                 Task {
@@ -240,16 +233,6 @@ struct CreateCommunityScreen: View {
         .padding(.vertical, 4)
     }
     
-    
-    // MARK: - Cancel
-    
-    @ViewBuilder
-    private func Cancel() -> some View {
-        Button("Cancel") {
-            isViewDisplayed = false
-        }
-    }
-    
     // MARK: - Create
     
     @ViewBuilder
@@ -270,10 +253,14 @@ struct CreateCommunityScreen: View {
     
     @ViewBuilder
     private func Disclaimer() -> some View {
-        Text("Only people within a 1 km radius of your community will be able to see and interact with it.")
-            .multilineTextAlignment(.center)
-            .foregroundStyle(.gray)
-            .font(.caption)
+        Label(
+            "Only people nearby your community will be able to interact with it, even you.",
+            systemImage: "info.circle"
+        )
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .foregroundStyle(.gray)
+        .italic()
+        .font(.footnote)
     }
     
     // MARK: - Private Methods
@@ -285,12 +272,8 @@ struct CreateCommunityScreen: View {
             let longitude = location.coordinate.longitude
             
             let token = try await authVM.getFirebaseToken()
-            await createCommunityVM.posNewCommunity(latitude: latitude, longitude: longitude, token: token) {
-                Task {
-                    self.isViewDisplayed = false
-                    await communityVM.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
-                }
-            }
+            await createCommunityVM.posNewCommunity(latitude: latitude, longitude: longitude, token: token)
+            dismiss()
         } else {
             createCommunityVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
         }
@@ -305,8 +288,7 @@ struct CreateCommunityScreen: View {
 #Preview {
     CreateCommunityScreen(
         communityVM: CommunityViewModel(),
-        locationManager: LocationManager(),
-        isViewDisplayed: .constant(true)
+        locationManager: LocationManager()
     )
     .environmentObject(AuthenticationViewModel())
 }

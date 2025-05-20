@@ -40,7 +40,7 @@ class CreateCommunityViewModel: ObservableObject {
         return !communityNameInput.isEmpty
     }
     
-    func posNewCommunity(latitude: Double, longitude: Double, token: String, dismiss: () -> ()) async {
+    func posNewCommunity(latitude: Double, longitude: Double, token: String) async {
         isCreatingCommunity = true
         let imageUrl = self.croppedImage == nil ? nil : await getImageUrl()
         let result = await AYServices.shared.postNewCommunity(name: self.communityNameInput, description: self.communityDescriptionInput.isEmpty ? nil : self.communityDescriptionInput, duration: self.selectedCommunityDuration.value, isLocationVisible: self.isLocationVisible, isPrivate: self.isCommunityPrivate, imageUrl: imageUrl, latitude: latitude, longitude: longitude, token: token)
@@ -48,7 +48,7 @@ class CreateCommunityViewModel: ObservableObject {
         
         switch result {
         case .success:
-            dismiss()
+            print("✅ New Community successfully posted!")
         case .failure(let error):
             overlayError = (true, ErrorMessage.postNewCommunity)
         }

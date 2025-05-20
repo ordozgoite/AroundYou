@@ -13,7 +13,7 @@ class CommunityViewModel: ObservableObject {
     
     @Published var communities: [FormattedCommunity] = []
     @Published var isLoading: Bool = false
-    @Published var isCreateCommunityViewDisplayed: Bool = false
+    @Published var isCreateCommunityScreenDisplayed: Bool = false
     @Published var isMyCommunitiesViewDisplayed: Bool = false
     @Published var initialCommunitiesFetched: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
@@ -40,6 +40,19 @@ class CommunityViewModel: ObservableObject {
             initialCommunitiesFetched = true
         case .failure:
             overlayError = (true, ErrorMessage.getCommunitiesNearBy)
+        }
+    }
+    
+    func getCommunitiesFromUser(token: String) async {
+        isFetchingUserCommunities = true
+        defer { isFetchingUserCommunities = false }
+        let result = await AYServices.shared.getMyCommunities(token: token)
+        
+        switch result {
+        case .success(let communities):
+            self.userCommunities = communities
+        case .failure:
+            overlayError = (true, "Error trying to fetch my communities. Please try again.")
         }
     }
     

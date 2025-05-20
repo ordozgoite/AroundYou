@@ -29,17 +29,19 @@ struct CommunityListScreen: View {
                 
                 AYErrorAlert(message: communityVM.overlayError.1 , isErrorAlertPresented: $communityVM.overlayError.0)
             }
-            .sheet(isPresented: $communityVM.isCreateCommunityViewDisplayed) {
+            .navigationDestination(isPresented: $communityVM.isCreateCommunityScreenDisplayed) {
                 CreateCommunityScreen(
                     communityVM: communityVM,
-                    locationManager: locationManager,
-                    isViewDisplayed: $communityVM.isCreateCommunityViewDisplayed
+                    locationManager: locationManager
                 )
-                .interactiveDismissDisabled(true)
+                    .environmentObject(authVM)
             }
             .onAppear {
                 Task {
-                    try await getCommunities()
+                    await withTaskGroup(of: Void.self) { group in
+                        group.addTask { try? await getCommunities() }
+                        group.addTask { try? await getMyCommunties() }
+                    }
                 }
                 startExpirationTimer()
             }
@@ -169,7 +171,7 @@ struct CommunityListScreen: View {
     @ViewBuilder
     private func CreateCommunityButton() -> some View {
         Button {
-            communityVM.isCreateCommunityViewDisplayed = true
+            communityVM.isCreateCommunityScreenDisplayed = true
         } label: {
             Label("Create New Community", systemImage: "plus")
         }
@@ -199,6 +201,11 @@ struct CommunityListScreen: View {
             
             await communityVM.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
         }
+    }
+    
+    private func getMyCommunties() async throws {
+        let token = try await authVM.getFirebaseToken()
+        await communityVM.getCommunitiesFromUser(token: token)
     }
     
     private func startExpirationTimer() {
