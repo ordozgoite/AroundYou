@@ -1608,6 +1608,9 @@
         }
       }
     },
+    "Do you really want to delete the community %@?" : {
+
+    },
     "Don't Allow" : {
       "localizations" : {
         "pt-BR" : {

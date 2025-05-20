@@ -54,17 +54,21 @@ struct MyCommunitiesView: View {
                 ) {
                     ForEach(myCommunities) { community in
                         if community.isActive {
-                            CommunityView(
-                                imageUrl: community.imageUrl,
-                                imageSize: 64,
-                                name: community.name,
-                                isMember: community.isMember,
-                                isPrivate: community.isPrivate,
-                                creationDate: community.createdAt.timeIntervalSince1970InSeconds,
-                                expirationDate: community.expirationDate.timeIntervalSince1970InSeconds
-                            )
+                            ZStack(alignment: .topTrailing) {
+                                CommunityView(
+                                    imageUrl: community.imageUrl,
+                                    imageSize: 64,
+                                    name: community.name,
+                                    isMember: community.isMember,
+                                    isPrivate: community.isPrivate,
+                                    creationDate: community.createdAt.timeIntervalSince1970InSeconds,
+                                    expirationDate: community.expirationDate.timeIntervalSince1970InSeconds
+                                )
+                                
+                                RemoveMediaButton(size: .small)
+                            }
                             .onTapGesture {
-                                // TODO: Display DeleteCommunityView
+                                communityVM.selectedCommunityToDelete = community
                             }
                         }
                     }
@@ -72,6 +76,20 @@ struct MyCommunitiesView: View {
                 .padding()
             }
         }
+        .alert(item: $communityVM.selectedCommunityToDelete) { community in
+            Alert(
+                title: Text("Delete Community"),
+                message: Text("Do you really want to delete the community \(community.name)?"),
+                primaryButton: .destructive(Text("Delete")) {
+                    Task {
+                        let token = try await authVM.getFirebaseToken()
+                        try await communityVM.deleteCommunity(communityId: community.id, token: token)
+                    }
+                },
+                secondaryButton: .cancel()
+            )
+        }
+
     }
 }
 

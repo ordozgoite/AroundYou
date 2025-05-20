@@ -23,6 +23,7 @@ class CommunityViewModel: ObservableObject {
     // MyCommunities
     @Published var userCommunities: [FormattedCommunity]? = nil
     @Published var isFetchingUserCommunities: Bool = false
+    @Published var selectedCommunityToDelete: FormattedCommunity? = nil
     
     // Join Community
     @Published var isJoinCommunityViewDisplayed: Bool = false
@@ -98,5 +99,22 @@ class CommunityViewModel: ObservableObject {
                 overlayError = (true, ErrorMessage.askToJoinCommunity)
             }
         }
+    }
+    
+    func deleteCommunity(communityId: String, token: String) async throws {
+        let result = await AYServices.shared.deleteCommunity(communityId: communityId, token: token)
+        
+        switch result {
+        case .success:
+            removeCommunity(withId: communityId)
+        case .failure:
+            overlayError = (true, ErrorMessage.deleteCommunity)
+            throw NSError(domain: "DeleteCommunityError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to delete community"])
+        }
+    }
+    
+    private func removeCommunity(withId communityId: String) {
+        self.communities.removeAll { $0.id == communityId }
+        self.userCommunities?.removeAll { $0.id == communityId }
     }
 }
