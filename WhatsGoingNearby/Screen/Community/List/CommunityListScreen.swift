@@ -47,19 +47,8 @@ struct CommunityListScreen: View {
                 stopExpirationTimer()
             }
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Menu {
-                        Button {
-                            communityVM.isCreateCommunityViewDisplayed = true
-                        } label: {
-                            Label("Create New Community", systemImage: Constants.communityIconImageName)
-                        }
-                    } label: {
-                        Image(systemName: "plus")
-                    }
-                }
+                Ellipsis()
             }
-//            .navigationTitle("Communities")
         }
     }
     
@@ -154,6 +143,44 @@ struct CommunityListScreen: View {
                 community: community
             )
         }
+    }
+    
+    // MARK: - Ellipsis
+    
+    @ViewBuilder
+    private func Ellipsis() -> some View {
+        Menu {
+            CreateCommunityButton()
+            
+            Divider()
+            
+            MyCommunities()
+        } label: {
+            Image(systemName: "ellipsis.circle")
+        }
+    }
+    
+    // MARK: - Create Community
+    
+    @ViewBuilder
+    private func CreateCommunityButton() -> some View {
+        Button {
+            communityVM.isCreateCommunityViewDisplayed = true
+        } label: {
+            Label("Create New Community", systemImage: "plus")
+        }
+    }
+    
+    // MARK: - My Communities
+    
+    @ViewBuilder
+    private func MyCommunities() -> some View {
+        Button {
+            // TODO: Display MyCommunitiesView
+        } label: {
+            Label("My Communities", systemImage: "list.bullet")
+        }
+        
     }
     
     // MARK: - Private Methods

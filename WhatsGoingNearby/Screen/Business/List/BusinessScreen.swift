@@ -128,7 +128,7 @@ struct BusinessScreen: View {
         Button {
             businessVM.isMyBusinessViewDisplayed = true
         } label: {
-            Label("My Businesses", systemImage: "person.circle.fill")
+            Label("My Businesses", systemImage: "list.bullet")
         }
         
     }
@@ -144,7 +144,7 @@ struct BusinessScreen: View {
                 businessVM.isBusinessLimitErrorPopoverDisplayed = true
             }
         } label: {
-            Label("Publish New Business", systemImage: "storefront")
+            Label("Publish New Business", systemImage: "plus")
         }
     }
 }
