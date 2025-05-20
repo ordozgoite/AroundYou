@@ -19,10 +19,6 @@ class CommunityViewModel: ObservableObject {
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var isCommunityChatScreenDisplayed: Bool = false
     @Published var selectedCommunityToChat: FormattedCommunity?
-    
-    // MyCommunities
-    @Published var userCommunities: [FormattedCommunity]? = nil
-    @Published var isFetchingUserCommunities: Bool = false
     @Published var selectedCommunityToDelete: FormattedCommunity? = nil
     
     // Join Community
@@ -30,30 +26,30 @@ class CommunityViewModel: ObservableObject {
     @Published var selectedCommunityToJoin: FormattedCommunity?
     @Published var isJoiningCommunity: Bool = false
     
-    func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async {
+    //    func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async {
+    //        if !initialCommunitiesFetched { isLoading = true }
+    //        let result = await AYServices.shared.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
+    //        if !initialCommunitiesFetched { isLoading = false }
+    //
+    //        switch result {
+    //        case .success(let communities):
+    //            self.communitiesNearBy = communities
+    //            initialCommunitiesFetched = true
+    //        case .failure:
+    //            overlayError = (true, ErrorMessage.getCommunitiesNearBy)
+    //        }
+    //    }
+    
+    func getCommunities(location: Location, token: String) async {
         if !initialCommunitiesFetched { isLoading = true }
-        let result = await AYServices.shared.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
+        let result = await AYServices.shared.getRelevantCommunities(location: location, token: token)
         if !initialCommunitiesFetched { isLoading = false }
         
         switch result {
         case .success(let communities):
             self.communities = communities
-            initialCommunitiesFetched = true
         case .failure:
             overlayError = (true, ErrorMessage.getCommunitiesNearBy)
-        }
-    }
-    
-    func getCommunitiesFromUser(token: String) async {
-        isFetchingUserCommunities = true
-        defer { isFetchingUserCommunities = false }
-        let result = await AYServices.shared.getMyCommunities(token: token)
-        
-        switch result {
-        case .success(let communities):
-            self.userCommunities = communities
-        case .failure:
-            overlayError = (true, "Error trying to fetch my communities. Please try again.")
         }
     }
     
@@ -66,7 +62,7 @@ class CommunityViewModel: ObservableObject {
         case .success:
             isJoinCommunityViewDisplayed = false
             goToChat(forCommunityId: communityId)
-            await getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
+            await getCommunities(location: Location(latitude: latitude, longitude: longitude), token: token)
         case .failure:
             overlayError = (true, ErrorMessage.joinCommunity)
         }
@@ -91,7 +87,7 @@ class CommunityViewModel: ObservableObject {
         switch result {
         case .success:
             isJoinCommunityViewDisplayed = false
-            await getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
+            await getCommunities(location: Location(latitude: latitude, longitude: longitude), token: token)
         case .failure(let error):
             if error == .conflict {
                 overlayError = (true, ErrorMessage.askToJoinCommunityRepeatedAction)
@@ -115,6 +111,5 @@ class CommunityViewModel: ObservableObject {
     
     private func removeCommunity(withId communityId: String) {
         self.communities.removeAll { $0.id == communityId }
-        self.userCommunities?.removeAll { $0.id == communityId }
     }
 }

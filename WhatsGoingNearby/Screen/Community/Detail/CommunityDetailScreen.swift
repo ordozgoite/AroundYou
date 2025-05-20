@@ -371,6 +371,6 @@ extension CommunityDetailScreen {
 }
 
 #Preview {
-    CommunityDetailScreen(community: FormattedCommunity(id: "1", name: "Jogadores de Catan", imageUrl: nil, description: "Comunidade exclusiva para jogadores de Catan dispostos a construir aldeias e cidades diariamente.", createdAt: 0, expirationDate: 0, isMember: true, isOwner: true, isPrivate: false, isLocationVisible: false, latitude: nil, longitude: nil))
+    CommunityDetailScreen(community: FormattedCommunity(id: "1", name: "Jogadores de Catan", imageUrl: nil, description: "Comunidade exclusiva para jogadores de Catan dispostos a construir aldeias e cidades diariamente.", createdAt: 0, expirationDate: 0, isMember: true, isOwner: true, isPrivate: false, isLocationVisible: false, latitude: nil, longitude: nil, isNearBy: true))
         .environmentObject(AuthenticationViewModel())
 }

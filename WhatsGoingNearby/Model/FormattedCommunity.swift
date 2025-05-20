@@ -21,6 +21,7 @@ struct FormattedCommunity: Codable, Identifiable {
     let isLocationVisible: Bool
     let latitude: Double?
     let longitude: Double?
+    var isNearBy: Bool
     
     var isActive: Bool {
         return expirationDate.timeIntervalSince1970InSeconds >= getCurrentDateTimestamp()
