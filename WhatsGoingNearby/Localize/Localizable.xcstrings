@@ -6011,6 +6011,16 @@
         }
       }
     },
+    "Your message couldn’t be sent because the community was deleted by its owner." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua mensagem não pôde ser enviada porque a comunidade foi excluída pelo seu criador.\n"
+          }
+        }
+      }
+    },
     "Your passwords do not match." : {
       "extractionState" : "stale",
       "localizations" : {

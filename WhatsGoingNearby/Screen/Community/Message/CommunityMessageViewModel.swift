@@ -123,11 +123,18 @@ class CommunityMessageViewModel: ObservableObject {
         case .failure(let error):
             if error == .unprocessableEntity {
                 overlayError = (true, ErrorMessage.sendCommunityMessageDistanceLimitExceeded)
+            } else if error == .dataNotFound {
+                overlayError = (true, ErrorMessage.sendMessageToDeletedCommunity)
+                dismissCommunityMessageScreenAndRefreshCommunities()
             } else {
                 overlayError = (true, ErrorMessage.sendMessage)
             }
             updateMessage(withId: tempId, toStatus: .failed)
         }
+    }
+    
+    private func dismissCommunityMessageScreenAndRefreshCommunities() {
+        NotificationCenter.default.post(name: .popCommunity, object: nil)
     }
     
     private func updateMessage(withId messageId: String, toStatus newStatus: MessageStatus) {

@@ -80,6 +80,7 @@ struct ErrorMessage {
     static let editCommunityDescription: LocalizedStringKey = "Failed to edit community description. Please try again."
     static let editCommunity: LocalizedStringKey = "Failed to update community. Please try again."
     static let sendCommunityMessageDistanceLimitExceeded: LocalizedStringKey = "You're too far from this community to send a message."
+    static let sendMessageToDeletedCommunity: LocalizedStringKey = "Your message couldn’t be sent because the community was deleted by its owner."
 
     static let getBusinesses: LocalizedStringKey = "Failed to load nearby businesses. Please try again."
     static let getBusinessByUser: LocalizedStringKey = "Failed to load your businesses. Please try again."
