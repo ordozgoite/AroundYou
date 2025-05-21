@@ -247,6 +247,8 @@
 		EDAECA492DDA5A7B00D1A938 /* CommunityIconCircleFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA482DDA5A7B00D1A938 /* CommunityIconCircleFill.swift */; };
 		EDAECA4B2DDA913300D1A938 /* AYDisabledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA4A2DDA913300D1A938 /* AYDisabledButton.swift */; };
 		EDAECA4D2DDC9DF500D1A938 /* MyCommunitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA4C2DDC9DF500D1A938 /* MyCommunitiesView.swift */; };
+		EDAECA4F2DDD499E00D1A938 /* LeaveCommunityButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA4E2DDD499E00D1A938 /* LeaveCommunityButton.swift */; };
+		EDAECA512DDD82BF00D1A938 /* DeleteCommunityButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA502DDD82BF00D1A938 /* DeleteCommunityButton.swift */; };
 		EDB3F63E2BEC9086004F05B1 /* FullScreenUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */; };
 		EDC54BDE2D02AFC9006A5697 /* DiscoverDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */; };
 		EDCBEBF22BB75E5800087325 /* DeleteMessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */; };
@@ -512,6 +514,8 @@
 		EDAECA482DDA5A7B00D1A938 /* CommunityIconCircleFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityIconCircleFill.swift; sourceTree = "<group>"; };
 		EDAECA4A2DDA913300D1A938 /* AYDisabledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYDisabledButton.swift; sourceTree = "<group>"; };
 		EDAECA4C2DDC9DF500D1A938 /* MyCommunitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunitiesView.swift; sourceTree = "<group>"; };
+		EDAECA4E2DDD499E00D1A938 /* LeaveCommunityButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveCommunityButton.swift; sourceTree = "<group>"; };
+		EDAECA502DDD82BF00D1A938 /* DeleteCommunityButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommunityButton.swift; sourceTree = "<group>"; };
 		EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenUIImage.swift; sourceTree = "<group>"; };
 		EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverDisclaimerView.swift; sourceTree = "<group>"; };
 		EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageResponse.swift; sourceTree = "<group>"; };
@@ -1453,6 +1457,8 @@
 				EDAECA482DDA5A7B00D1A938 /* CommunityIconCircleFill.swift */,
 				ED0B4AF12D5F8C3E000A21F6 /* CustomPerson3CircleFill.swift */,
 				EDAECA4C2DDC9DF500D1A938 /* MyCommunitiesView.swift */,
+				EDAECA4E2DDD499E00D1A938 /* LeaveCommunityButton.swift */,
+				EDAECA502DDD82BF00D1A938 /* DeleteCommunityButton.swift */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -1633,6 +1639,7 @@
 				ED50C4602B7F98620001EDF6 /* Sizes.swift in Sources */,
 				EDA30E032B811FD4003EB22D /* ReportIssueViewModel.swift in Sources */,
 				ED10261F2D63A0A6009FF94B /* JoinCommunityResponse.swift in Sources */,
+				EDAECA512DDD82BF00D1A938 /* DeleteCommunityButton.swift in Sources */,
 				EDE8B36D2BC1D11500DFF750 /* PostSettingsView.swift in Sources */,
 				ED74E8152BF4682200371334 /* CDFormattedMessage+helper.swift in Sources */,
 				ED3B54E02CCEA0E3007AA1D0 /* DiscoverPreferencesView.swift in Sources */,
@@ -1652,6 +1659,7 @@
 				EDA3222C2B7CA3A8009905B5 /* AYServices.swift in Sources */,
 				ED6E84CB2B87EA9C00B94F5C /* CheckNearByPublicationsResponse.swift in Sources */,
 				ED7D8F932BBC5D2700544A8B /* EditPostScreen.swift in Sources */,
+				EDAECA4F2DDD499E00D1A938 /* LeaveCommunityButton.swift in Sources */,
 				EDCF2C352BB661960066950F /* MuteChatResponse.swift in Sources */,
 				ED598C4A2B7C576A00B6C23D /* AYProgressButton.swift in Sources */,
 				ED5CC5222B97CA15009B17E3 /* LocalizedStringKey.swift in Sources */,

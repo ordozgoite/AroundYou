@@ -637,7 +637,14 @@
       }
     },
     "Asked to Join" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pediu para Participar"
+          }
+        }
+      }
     },
     "Asking for information" : {
       "extractionState" : "stale",
@@ -1605,8 +1612,25 @@
         }
       }
     },
-    "Do you really want to delete the community %@?" : {
-
+    "Do you really want to delete the community **%@**?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você realmente quer deletar a comunidade **%@**?"
+          }
+        }
+      }
+    },
+    "Do you really want to leave the community **%@**?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você realmente quer deixar a comunidade **%@**?"
+          }
+        }
+      }
     },
     "Don't Allow" : {
       "localizations" : {
@@ -3107,7 +3131,14 @@
       }
     },
     "Item Found ✅" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Item Encontrado ✅"
+          }
+        }
+      }
     },
     "Item Info" : {
       "localizations" : {
@@ -3120,7 +3151,14 @@
       }
     },
     "Item Lost" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Item Perdido"
+          }
+        }
+      }
     },
     "Join" : {
       "localizations" : {
@@ -3194,6 +3232,16 @@
     },
     "Latitude: %lf" : {
 
+    },
+    "Leave" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixar"
+          }
+        }
+      }
     },
     "Leave Community" : {
       "localizations" : {
@@ -3683,7 +3731,14 @@
       }
     },
     "Only people nearby your community will be able to interact with it, even you." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apenas pessoas próximas da sua comunidade poderão interagir com ela, até mesmo você."
+          }
+        }
+      }
     },
     "Only people within a 1 km radius of your community will be able to see and interact with it." : {
       "extractionState" : "stale",
@@ -3808,7 +3863,14 @@
       }
     },
     "Phone Number" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de Telefone"
+          }
+        }
+      }
     },
     "Photos" : {
       "localizations" : {
@@ -4148,7 +4210,14 @@
       }
     },
     "Publish New Business" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publicar Novo Negócio"
+          }
+        }
+      }
     },
     "Publishing..." : {
       "localizations" : {
@@ -5539,7 +5608,14 @@
       }
     },
     "WhatsApp Number" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de WhatsApp"
+          }
+        }
+      }
     },
     "Where did you lose it?" : {
       "localizations" : {
@@ -5643,6 +5719,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você é o administrador dessa comunidade e não pode deixá-la."
+          }
+        }
+      }
+    },
+    "You are too far from this community. Tap and hold to leave it." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você está muito longe desta comunidade. Toque e segure para sair dela.\n"
           }
         }
       }

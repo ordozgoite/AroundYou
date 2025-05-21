@@ -8,6 +8,20 @@
 import Foundation
 import SwiftUI
 
+enum CommunityAlertType: Identifiable {
+    case delete(FormattedCommunity)
+    case leave(FormattedCommunity)
+    case farAway(FormattedCommunity)
+    
+    var id: String {
+        switch self {
+        case .delete(let community), .leave(let community), .farAway(let community):
+            return community.id
+        }
+    }
+}
+
+
 @MainActor
 class CommunityViewModel: ObservableObject {
     
@@ -19,7 +33,11 @@ class CommunityViewModel: ObservableObject {
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var isCommunityChatScreenDisplayed: Bool = false
     @Published var selectedCommunityToChat: FormattedCommunity?
-    @Published var selectedCommunityToDelete: FormattedCommunity? = nil
+    @Published var activeAlert: CommunityAlertType?
+
+//    @Published var selectedCommunityToDelete: FormattedCommunity? = nil
+//    @Published var selectedFarAwayCommunity: FormattedCommunity? = nil
+//    @Published var selectedCommunityToLeave: FormattedCommunity? = nil
     
     // Join Community
     @Published var isJoinCommunityViewDisplayed: Bool = false
@@ -48,6 +66,7 @@ class CommunityViewModel: ObservableObject {
         switch result {
         case .success(let communities):
             self.communities = communities
+            initialCommunitiesFetched = true
         case .failure:
             overlayError = (true, ErrorMessage.getCommunitiesNearBy)
         }
@@ -61,10 +80,16 @@ class CommunityViewModel: ObservableObject {
         switch result {
         case .success:
             isJoinCommunityViewDisplayed = false
+            updateListAfterJoiningCommunity(withId: communityId)
             goToChat(forCommunityId: communityId)
-            await getCommunities(location: Location(latitude: latitude, longitude: longitude), token: token)
         case .failure:
             overlayError = (true, ErrorMessage.joinCommunity)
+        }
+    }
+    
+    private func updateListAfterJoiningCommunity(withId communityId: String) {
+        if let index = communities.firstIndex(where: { $0.id == communityId }) {
+            communities[index].isMember = true
         }
     }
     
@@ -87,13 +112,19 @@ class CommunityViewModel: ObservableObject {
         switch result {
         case .success:
             isJoinCommunityViewDisplayed = false
-            await getCommunities(location: Location(latitude: latitude, longitude: longitude), token: token)
+            updateListAfterAskingToJoinCommunity(withId: communityId)
         case .failure(let error):
             if error == .conflict {
                 overlayError = (true, ErrorMessage.askToJoinCommunityRepeatedAction)
             } else {
                 overlayError = (true, ErrorMessage.askToJoinCommunity)
             }
+        }
+    }
+    
+    private func updateListAfterAskingToJoinCommunity(withId communityId: String) {
+        if let index = communities.firstIndex(where: { $0.id == communityId }) {
+            communities[index].askedToJoin = true
         }
     }
     
@@ -111,5 +142,26 @@ class CommunityViewModel: ObservableObject {
     
     private func removeCommunity(withId communityId: String) {
         self.communities.removeAll { $0.id == communityId }
+    }
+    
+    func leaveCommunity(communityId: String, token: String) async {
+        let result = await AYServices.shared.exitCommunity(communityId: communityId, token: token)
+        
+        switch result {
+        case .success:
+            updateListAfterLeavingCommunity(withId: communityId)
+        case .failure:
+            overlayError = (true, ErrorMessage.leaveCommunity)
+        }
+    }
+    
+    private func updateListAfterLeavingCommunity(withId communityId: String) {
+        if let index = communities.firstIndex(where: { $0.id == communityId }) {
+            if communities[index].isNearBy {
+                communities[index].isMember = false
+            } else {
+                removeCommunity(withId: communityId)
+            }
+        }
     }
 }

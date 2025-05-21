@@ -45,6 +45,68 @@ struct CommunityListScreen: View {
             .onDisappear {
                 stopExpirationTimer()
             }
+            .alert(item: $communityVM.activeAlert) { alert in
+                switch alert {
+                case .delete(let community):
+                    return Alert(
+                        title: Text("Delete Community"),
+                        message: Text("Do you really want to delete the community **\(community.name)**?"),
+                        primaryButton: .destructive(Text("Delete")) {
+                            Task {
+                                let token = try await authVM.getFirebaseToken()
+                                try await communityVM.deleteCommunity(communityId: community.id, token: token)
+                            }
+                        },
+                        secondaryButton: .cancel()
+                    )
+                    
+                case .leave(let community):
+                    return Alert(
+                        title: Text("Leave Community"),
+                        message: Text("Do you really want to leave the community **\(community.name)**?"),
+                        primaryButton: .destructive(Text("Leave")) {
+                            Task {
+                                let token = try await authVM.getFirebaseToken()
+                                await communityVM.leaveCommunity(communityId: community.id, token: token)
+                            }
+                        },
+                        secondaryButton: .cancel()
+                    )
+                    
+                case .farAway(let community):
+                    return Alert(
+                        title: Text(community.name),
+                        message: Text("You are too far from this community. Tap and hold to leave it."),
+                        dismissButton: .default(Text("OK"))
+                    )
+                }
+            }
+//            .alert(item: $communityVM.selectedCommunityToDelete) { community in
+//                Alert(
+//                    title: Text("Delete Community"),
+//                    message: Text("Do you really want to delete the community **\(community.name)**?"),
+//                    primaryButton: .destructive(Text("Delete")) {
+//                        Task {
+//                            let token = try await authVM.getFirebaseToken()
+//                            try await communityVM.deleteCommunity(communityId: community.id, token: token)
+//                        }
+//                    },
+//                    secondaryButton: .cancel()
+//                )
+//            }
+//            .alert(item: $communityVM.selectedCommunityToLeave) { community in
+//                Alert(
+//                    title: Text("Leave Community"),
+//                    message: Text("Do you really want to leave the community **\(community.name)**?"),
+//                    primaryButton: .destructive(Text("Leave")) {
+//                        Task {
+//                            let token = try await authVM.getFirebaseToken()
+//                            await communityVM.leaveCommunity(communityId: community.id, token: token)
+//                        }
+//                    },
+//                    secondaryButton: .cancel()
+//                )
+//            }
             .toolbar {
                 CreateCommunityButton()
             }
@@ -95,19 +157,6 @@ struct CommunityListScreen: View {
             
             JoinCommunity()
         }
-        .alert(item: $communityVM.selectedCommunityToDelete) { community in
-            Alert(
-                title: Text("Delete Community"),
-                message: Text("Do you really want to delete the community \(community.name)?"),
-                primaryButton: .destructive(Text("Delete")) {
-                    Task {
-                        let token = try await authVM.getFirebaseToken()
-                        try await communityVM.deleteCommunity(communityId: community.id, token: token)
-                    }
-                },
-                secondaryButton: .cancel()
-            )
-        }
         .navigationDestination(isPresented: $communityVM.isCommunityChatScreenDisplayed) {
             if let community = communityVM.selectedCommunityToChat {
                 CommunityMessageScreen(
@@ -130,35 +179,41 @@ struct CommunityListScreen: View {
     @ViewBuilder
     private func Community(_ community: FormattedCommunity) -> some View {
         if community.isActive {
-            ZStack(alignment: .topTrailing) {
-                CommunityView(
-                    imageUrl: community.imageUrl,
-                    imageSize: 64,
-                    name: community.name,
-                    isMember: community.isMember,
-                    isPrivate: community.isPrivate,
-                    creationDate: community.createdAt.timeIntervalSince1970InSeconds,
-                    expirationDate: community.expirationDate.timeIntervalSince1970InSeconds
-                )
-                .opacity(community.isNearBy ? 1 : 0.5)
-                .onTapGesture {
-                    if community.isNearBy {
-                        if community.isMember {
-                            communityVM.selectedCommunityToChat = community
-                            communityVM.isCommunityChatScreenDisplayed = true
-                        } else {
-                            communityVM.selectedCommunityToJoin = community
-                            communityVM.isJoinCommunityViewDisplayed = true
-                        }
-                    }
-                }
-                
-                if community.isOwner {
-                    RemoveMediaButton(size: .small)
-                        .onTapGesture {
-                            communityVM.selectedCommunityToDelete = community
-                        }
-                }
+            CommunityView(
+                imageUrl: community.imageUrl,
+                imageSize: 64,
+                name: community.name,
+                isMember: community.isMember,
+                isPrivate: community.isPrivate,
+                creationDate: community.createdAt.timeIntervalSince1970InSeconds,
+                expirationDate: community.expirationDate.timeIntervalSince1970InSeconds
+            )
+            .opacity(community.isNearBy ? 1 : 0.5)
+            .contextMenu {
+                CommunityMenu(community)
+            }
+            
+            .onTapGesture {
+                tapOnCommunity(community)
+            }
+        }
+    }
+    
+    // MARK: - Menu
+    
+    @ViewBuilder
+    private func CommunityMenu(_ community: FormattedCommunity) -> some View {
+        if community.isOwner {
+            Button {
+                communityVM.activeAlert = .delete(community)
+            } label: {
+                Label("Delete Community", systemImage: "trash")
+            }
+        } else if community.isMember {
+            Button {
+                communityVM.activeAlert = .leave(community)
+            } label: {
+                Label("Leave Community", systemImage: "rectangle.portrait.and.arrow.right")
             }
         }
     }
@@ -176,25 +231,6 @@ struct CommunityListScreen: View {
         }
     }
     
-    // MARK: - Ellipsis
-    
-    //    @ViewBuilder
-    //    private func Ellipsis() -> some View {
-    //        Menu {
-    //            CreateCommunityButton()
-    //
-    //            Divider()
-    //
-    //            MyCommunities()
-    //        } label: {
-    //            Image(systemName: "ellipsis.circle")
-    //        }
-    //        .sheet(isPresented: $communityVM.isMyCommunitiesViewDisplayed) {
-    //            MyCommunitiesView(communityVM: communityVM)
-    //                .environmentObject(authVM)
-    //        }
-    //    }
-    
     // MARK: - Create Community
     
     @ViewBuilder
@@ -204,19 +240,10 @@ struct CommunityListScreen: View {
         } label: {
             Image(systemName: "plus")
         }
+//        .alert(item: $communityVM.selectedFarAwayCommunity) { community in
+//            Alert(title: Text(community.name), message: Text("You are too far from this community. Tap and hold to leave it."), dismissButton: nil)
+//        }
     }
-    
-    // MARK: - My Communities
-    
-    //    @ViewBuilder
-    //    private func MyCommunities() -> some View {
-    //        Button {
-    //            communityVM.isMyCommunitiesViewDisplayed = true
-    //        } label: {
-    //            Label("My Communities", systemImage: "list.bullet")
-    //        }
-    //
-    //    }
     
     // MARK: - Private Methods
     
@@ -231,10 +258,43 @@ struct CommunityListScreen: View {
         }
     }
     
-    //    private func getMyCommunties() async throws {
-    //        let token = try await authVM.getFirebaseToken()
-    //        await communityVM.getCommunitiesFromUser(token: token)
-    //    }
+    private func tapOnCommunity(_ community: FormattedCommunity) {
+        if isOwner(forCommunity: community) || isNearByMember(forCommunity: community) {
+            goToCommunity(community)
+        } else if isFarAwayMember(forCommunity: community) {
+            displayFarAwayAlert(forCommunity: community)
+        } else {
+            displayJoinCommunityView(community)
+        }
+    }
+    
+    private func isOwner(forCommunity community: FormattedCommunity) -> Bool {
+        return community.isOwner
+    }
+    
+    private func isNearByMember(forCommunity community: FormattedCommunity) -> Bool {
+        return !community.isOwner && community.isMember && community.isNearBy
+    }
+    
+    private func isFarAwayMember(forCommunity community: FormattedCommunity) -> Bool {
+        return !community.isOwner && community.isMember && !community.isNearBy
+    }
+    
+    private func goToCommunity(_ community: FormattedCommunity) {
+        communityVM.selectedCommunityToChat = community
+        communityVM.isCommunityChatScreenDisplayed = true
+    }
+    
+    private func displayFarAwayAlert(forCommunity community: FormattedCommunity) {
+        print("⚠️ Should display popover!")
+//        communityVM.selectedFarAwayCommunity = community
+        communityVM.activeAlert = .farAway(community)
+    }
+    
+    private func displayJoinCommunityView(_ community: FormattedCommunity) {
+        communityVM.selectedCommunityToJoin = community
+        communityVM.isJoinCommunityViewDisplayed = true
+    }
     
     private func startExpirationTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
