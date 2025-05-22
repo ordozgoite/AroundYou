@@ -15,7 +15,7 @@ struct Community: Codable, Identifiable {
     let latitude: Double
     let longitude: Double
     let isLocationVisible: Bool
-    let duration: Int
+//    let duration: Int
 //    let createdAt: Date
 //    let expirationDate: Date
     
@@ -27,7 +27,7 @@ struct Community: Codable, Identifiable {
         case latitude
         case longitude
         case isLocationVisible
-        case duration
+//        case duration
 //        case createdAt
 //        case expirationDate
     }

@@ -14,11 +14,11 @@ class CreateCommunityViewModel: ObservableObject {
     
     @Published var communityNameInput: String = ""
     @Published var communityDescriptionInput: String = ""
-    @Published var selectedCommunityDuration: CommunityDuration = .oneHour
     @Published var isLocationVisible: Bool = false
     @Published var isCommunityPrivate: Bool = false
     @Published var isCreatingCommunity: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
+    @Published var isDurationInfoPopoverDisplayed: Bool = false
     
     // Community Image
     @Published var isImageOptionsDisplayed: Bool = false
@@ -43,7 +43,7 @@ class CreateCommunityViewModel: ObservableObject {
     func posNewCommunity(latitude: Double, longitude: Double, token: String) async {
         isCreatingCommunity = true
         let imageUrl = self.croppedImage == nil ? nil : await getImageUrl()
-        let result = await AYServices.shared.postNewCommunity(name: self.communityNameInput, description: self.communityDescriptionInput.isEmpty ? nil : self.communityDescriptionInput, duration: self.selectedCommunityDuration.value, isLocationVisible: self.isLocationVisible, isPrivate: self.isCommunityPrivate, imageUrl: imageUrl, latitude: latitude, longitude: longitude, token: token)
+        let result = await AYServices.shared.postNewCommunity(name: self.communityNameInput, description: self.communityDescriptionInput.isEmpty ? nil : self.communityDescriptionInput, isLocationVisible: self.isLocationVisible, isPrivate: self.isCommunityPrivate, imageUrl: imageUrl, latitude: latitude, longitude: longitude, token: token)
         isCreatingCommunity = false
         
         switch result {

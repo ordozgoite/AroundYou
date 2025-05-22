@@ -345,6 +345,16 @@
         }
       }
     },
+    "24 hours" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24 horas"
+          }
+        }
+      }
+    },
     "Account Deletion" : {
       "localizations" : {
         "pt-BR" : {
@@ -1035,6 +1045,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Comunidades"
+          }
+        }
+      }
+    },
+    "Communities are available for 24 hours only." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comunidades ficam disponíveis por apenas 24 horas."
           }
         }
       }

@@ -173,27 +173,59 @@ struct CreateCommunityScreen: View {
             
             Spacer()
             
-            Menu {
-                ForEach(CommunityDuration.allCases, id: \.self) { duration in
-                    Button {
-                        createCommunityVM.selectedCommunityDuration = duration
-                    } label: {
-                        Text(duration.title)
+            HStack {
+                Text("24 hours")
+                    .bold()
+                    .frame(width: 80, alignment: .trailing) // Mantém o tamanho fixo
+                Image(systemName: "info.circle")
+                    .onTapGesture {
+                        createCommunityVM.isDurationInfoPopoverDisplayed = true
                     }
-                }
-            } label: {
-                HStack {
-                    Text(createCommunityVM.selectedCommunityDuration.title)
-                        .frame(width: 80, alignment: .trailing) // Mantém o tamanho fixo
-                    Image(systemName: "chevron.up.chevron.down")
-                        .scaleEffect(0.8)
-                }
+                    .popover(isPresented: $createCommunityVM.isDurationInfoPopoverDisplayed) {
+                        Text("Communities are available for 24 hours only.")
+                            .font(.caption)
+                            .foregroundStyle(.gray)
+                            .padding()
+                            .presentationCompactAdaptation(.popover)
+                    }
             }
+            
         }
         .frame(height: 32)
         .foregroundStyle(.gray)
         .padding(.vertical, 4)
     }
+    
+//    @ViewBuilder
+//    private func Duration() -> some View {
+//        HStack {
+//            Text("Duration:")
+//                .fontWeight(.bold)
+//                .frame(minWidth: 120, alignment: .leading) // Mantém largura fixa
+//            
+//            Spacer()
+//            
+//            Menu {
+//                ForEach(CommunityDuration.allCases, id: \.self) { duration in
+//                    Button {
+//                        createCommunityVM.selectedCommunityDuration = duration
+//                    } label: {
+//                        Text(duration.title)
+//                    }
+//                }
+//            } label: {
+//                HStack {
+//                    Text(createCommunityVM.selectedCommunityDuration.title)
+//                        .frame(width: 80, alignment: .trailing) // Mantém o tamanho fixo
+//                    Image(systemName: "chevron.up.chevron.down")
+//                        .scaleEffect(0.8)
+//                }
+//            }
+//        }
+//        .frame(height: 32)
+//        .foregroundStyle(.gray)
+//        .padding(.vertical, 4)
+//    }
     
     // MARK: - Location
     
