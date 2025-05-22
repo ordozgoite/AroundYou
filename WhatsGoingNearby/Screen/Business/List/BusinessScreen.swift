@@ -137,8 +137,12 @@ struct BusinessScreen: View {
     
     @ViewBuilder
     private func PublishBusiness() -> some View {
+        /*
+         A lógica abaixo deve ser mudada quando a quantidade de Business permitido por usuário mudar.
+         (22/05/25: 1 Business ativo por usuário)
+         */
         Button {
-            if businessVM.userBusinesses?.count == 0 {
+            if businessVM.countActiveUserBusinesses() == 0 {
                 businessVM.isPublishBusinessScreenDisplayed = true
             } else {
                 businessVM.isBusinessLimitErrorPopoverDisplayed = true

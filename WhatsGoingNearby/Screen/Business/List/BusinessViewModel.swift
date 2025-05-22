@@ -72,15 +72,17 @@ class BusinessViewModel: ObservableObject {
         self.userBusinesses?.removeAll { $0.id == businessId }
     }
     
+    func countActiveUserBusinesses() -> Int? {
+        return userBusinesses?.filter { !$0.isExpired }.count
+    }
+    
     func getTimeLeftText(forBusiness business: FormattedBusinessShowcase) -> LocalizedStringKey {
         var timeLeft: Int
         var pluralModifier: String = ""
         
         let timeLeftInSeconds = business.expirationDate.timeIntervalSince1970InSeconds - getCurrentDateTimestamp()
         
-        if timeLeftInSeconds < 0 {
-            return LocalizedStringKey("Expired")
-        } else if timeLeftInSeconds < 60 {
+        if timeLeftInSeconds < 60 {
             timeLeft = timeLeftInSeconds
             if timeLeft != 1 { pluralModifier = "s" }
             return LocalizedStringKey("\(timeLeft) second\(pluralModifier) to expire")

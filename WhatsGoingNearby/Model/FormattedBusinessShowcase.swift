@@ -36,6 +36,10 @@ struct FormattedBusinessShowcase: Codable, Identifiable {
     let ownerUid: String
     let expirationDate: Int
     
+    var isExpired: Bool {
+        return self.expirationDate.timeIntervalSince1970InSeconds < getCurrentDateTimestamp()
+    }
+    
 //    enum CodingKeys: String, CodingKey, Decodable {
 //        case id = "_id"
 //        case imageUrl
