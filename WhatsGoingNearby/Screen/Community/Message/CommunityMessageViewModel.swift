@@ -123,6 +123,7 @@ class CommunityMessageViewModel: ObservableObject {
         case .failure(let error):
             if error == .unprocessableEntity {
                 overlayError = (true, ErrorMessage.sendCommunityMessageDistanceLimitExceeded)
+                removeMessage(withId: tempId)
             } else if error == .dataNotFound {
                 overlayError = (true, ErrorMessage.sendMessageToDeletedCommunity)
                 dismissCommunityMessageScreenAndRefreshCommunities()
