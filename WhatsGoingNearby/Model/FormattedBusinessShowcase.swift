@@ -34,6 +34,7 @@ struct FormattedBusinessShowcase: Codable, Identifiable {
     let isOwner: Bool
     let distance: Int
     let ownerUid: String
+    let expirationDate: Int
     
 //    enum CodingKeys: String, CodingKey, Decodable {
 //        case id = "_id"

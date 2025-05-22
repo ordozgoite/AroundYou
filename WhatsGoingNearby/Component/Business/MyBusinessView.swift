@@ -44,8 +44,15 @@ struct MyBusinessView: View {
     private func MyBusinesses(_ myBusinesses: [FormattedBusinessShowcase]) -> some View {
         List {
             ForEach(myBusinesses) { business in
-                BusinessShowcaseView(showcase: business, businessVM: businessVM)
-                    .environmentObject(authVM)
+                VStack {
+                    Text(businessVM.getTimeLeftText(forBusiness: business))
+                        .font(.caption)
+                        .foregroundStyle(.gray)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                    
+                    BusinessShowcaseView(showcase: business, businessVM: businessVM)
+                        .environmentObject(authVM)
+                }
             }
         }
     }

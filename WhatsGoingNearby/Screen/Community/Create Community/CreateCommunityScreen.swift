@@ -196,37 +196,6 @@ struct CreateCommunityScreen: View {
         .padding(.vertical, 4)
     }
     
-//    @ViewBuilder
-//    private func Duration() -> some View {
-//        HStack {
-//            Text("Duration:")
-//                .fontWeight(.bold)
-//                .frame(minWidth: 120, alignment: .leading) // Mantém largura fixa
-//            
-//            Spacer()
-//            
-//            Menu {
-//                ForEach(CommunityDuration.allCases, id: \.self) { duration in
-//                    Button {
-//                        createCommunityVM.selectedCommunityDuration = duration
-//                    } label: {
-//                        Text(duration.title)
-//                    }
-//                }
-//            } label: {
-//                HStack {
-//                    Text(createCommunityVM.selectedCommunityDuration.title)
-//                        .frame(width: 80, alignment: .trailing) // Mantém o tamanho fixo
-//                    Image(systemName: "chevron.up.chevron.down")
-//                        .scaleEffect(0.8)
-//                }
-//            }
-//        }
-//        .frame(height: 32)
-//        .foregroundStyle(.gray)
-//        .padding(.vertical, 4)
-//    }
-    
     // MARK: - Location
     
     @ViewBuilder
@@ -285,14 +254,7 @@ struct CreateCommunityScreen: View {
     
     @ViewBuilder
     private func Disclaimer() -> some View {
-        Label(
-            "Only people nearby your community will be able to interact with it, even you.",
-            systemImage: "info.circle"
-        )
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .foregroundStyle(.gray)
-        .italic()
-        .font(.footnote)
+        AYDisabledButton(title: "Only people nearby your community will be able to interact with it, even you.")
     }
     
     // MARK: - Private Methods

@@ -87,15 +87,7 @@ struct CommentScreen: View {
     
     @ViewBuilder
     private func Disclaimer() -> some View {
-        Label(
-            "Only people nearby this post can interact with it, including the owner.",
-            systemImage: "info.circle"
-        )
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .foregroundStyle(.gray)
-        .italic()
-        .font(.footnote)
-        .padding()
+        AYDisabledButton(title: "Only people nearby this post can interact with it, including the owner.")
     }
     
     //MARK: - Comment Text Field

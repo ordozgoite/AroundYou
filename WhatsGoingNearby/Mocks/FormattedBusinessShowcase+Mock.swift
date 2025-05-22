@@ -23,7 +23,8 @@ extension FormattedBusinessShowcase {
             instagramUsername: nil,
             isOwner: false,
             distance: 240,
-            ownerUid: UUID().uuidString
+            ownerUid: UUID().uuidString,
+            expirationDate: 1
         ),
         FormattedBusinessShowcase(
             id: UUID().uuidString,
@@ -39,7 +40,8 @@ extension FormattedBusinessShowcase {
             instagramUsername: nil,
             isOwner: false,
             distance: 333,
-            ownerUid: UUID().uuidString
+            ownerUid: UUID().uuidString,
+            expirationDate: 1
         ),
         FormattedBusinessShowcase(
             id: UUID().uuidString,
@@ -55,7 +57,8 @@ extension FormattedBusinessShowcase {
             instagramUsername: "picanhamania",
             isOwner: false,
             distance: 132,
-            ownerUid: UUID().uuidString
+            ownerUid: UUID().uuidString,
+            expirationDate: 1
         )
     ]
 }

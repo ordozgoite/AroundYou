@@ -283,19 +283,32 @@ struct PublishBusinessScreen: View {
     
     @ViewBuilder
     private func Publish() -> some View {
-        ZStack {
-            if publishBusinessVM.isLoading {
-                AYProgressButton(title: "Publishing...")
-            } else {
-                AYButton(title: "Publish") {
-                    Task {
-                        try await attemptBusinessPost()
+        Section {
+            VStack {
+                ZStack {
+                    if publishBusinessVM.isLoading {
+                        AYProgressButton(title: "Publishing...")
+                    } else {
+                        AYButton(title: "Publish") {
+                            Task {
+                                try await attemptBusinessPost()
+                            }
+                        }
+                        .disabled(!areInputsValid())
                     }
                 }
-                .disabled(!areInputsValid())
+                
+                Disclaimer()
             }
         }
         .listRowBackground(Color(.systemGroupedBackground))
+    }
+    
+    // MARK: - Disclaimer
+    
+    @ViewBuilder
+    private func Disclaimer() -> some View {
+        AYDisclaimerView(text: "Your Business will be available for **15 days**.")
     }
 }
 

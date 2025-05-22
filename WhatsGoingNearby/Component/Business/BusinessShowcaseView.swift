@@ -30,14 +30,7 @@ struct BusinessShowcaseView: View {
                 
                 Description()
                 
-                HStack {
-                    Location()
-                    
-                    Spacer()
-                    
-                    Contacts()
-                }
-                .frame(maxHeight: .infinity, alignment: .bottom)
+                Footer()
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -135,6 +128,20 @@ struct BusinessShowcaseView: View {
                 .foregroundStyle(.gray)
         }
         .padding()
+    }
+    
+    // MARK: - Footer
+    
+    @ViewBuilder
+    private func Footer() -> some View {
+        HStack {
+            Location()
+            
+            Spacer()
+            
+            Contacts()
+        }
+        .frame(maxHeight: .infinity, alignment: .bottom)
     }
     
     // MARK: - Description
@@ -278,4 +285,5 @@ extension BusinessShowcaseView {
 
 #Preview {
     BusinessShowcaseView(showcase: FormattedBusinessShowcase.mocks[1], businessVM: BusinessViewModel())
+        .environmentObject(AuthenticationViewModel())
 }

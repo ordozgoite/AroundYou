@@ -128,7 +128,7 @@ struct ComposePostView: View {
             }
             .padding(.bottom)
             
-            Disclaimer()
+            AYDisclaimerView(text: "Posts are shown only to those around you.")
             
 //            Chevron()
             
@@ -191,20 +191,6 @@ struct ComposePostView: View {
                     hapticFeedback(style: .soft)
                 }
             }
-    }
-    
-    // MARK: - Disclaimer
-    
-    @ViewBuilder
-    private func Disclaimer() -> some View {
-        Label(
-            "Posts are shown only to those around you.",
-            systemImage: "info.circle"
-        )
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .foregroundStyle(.gray)
-        .italic()
-        .font(.footnote)
     }
     
     //MARK: - Chevron

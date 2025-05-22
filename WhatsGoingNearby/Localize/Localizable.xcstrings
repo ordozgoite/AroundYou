@@ -194,6 +194,16 @@
         }
       }
     },
+    "%lld day%@ to expire" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld day%2$@ to expire"
+          }
+        }
+      }
+    },
     "%lld hour%@ to expire" : {
       "localizations" : {
         "en" : {
@@ -5979,6 +5989,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sua conta foi temporariamente banida."
+          }
+        }
+      }
+    },
+    "Your Business will be available for **15 days**." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu Negócio ficará disponível por **15 dias**."
           }
         }
       }
