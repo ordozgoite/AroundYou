@@ -412,7 +412,7 @@ struct MessageScreen: View {
     }
     
     private func shouldDisplayMessageComposer() -> Bool {
-        return !(self.isLocked && didISendMessage())
+        return !(self.isLocked && didISendMessage() && !didOtherUserSendMessage())
     }
     
     private func didISendMessage() -> Bool {
@@ -432,6 +432,7 @@ struct MessageScreen: View {
     }
     
     private func updateChatLockedStatus() {
+        print("⚠️ updateChatLockedStatus")
         if isLocked && didISendMessage() && didOtherUserSendMessage() {
             self.isLocked = false
         }
