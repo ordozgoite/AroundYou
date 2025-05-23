@@ -12,6 +12,7 @@ struct MessageScreenWrapper: View {
     let username: String
     let otherUserUid: String
     let chatPic: String?
+    let isLocked: Bool
     @ObservedObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
     
@@ -22,7 +23,7 @@ struct MessageScreenWrapper: View {
                 username: username,
                 otherUserUid: otherUserUid,
                 chatPic: chatPic,
-                isLocked: false, // TODO: verify if it's really false
+                isLocked: isLocked,
                 socket: socket)
             .navigationBarItems(leading: Button(action: {
                 presentationMode.wrappedValue.dismiss()

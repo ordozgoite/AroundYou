@@ -1978,6 +1978,9 @@
         }
       }
     },
+    "Error trying to fetch community info." : {
+
+    },
     "Error trying to get user ban expiration date" : {
       "extractionState" : "stale",
       "localizations" : {

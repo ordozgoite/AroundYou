@@ -19,7 +19,6 @@ struct MainTabView: View {
     let pub = NotificationCenter.default
         .publisher(for: .updateBadge)
     
-    //    @State private var isPeopleTabDisplayed: Bool = false
     @State private var selectedTab: Int = 0
     @State private var profileImage: UIImage?
     @State private var badgeTimer: Timer?
@@ -73,7 +72,8 @@ struct MainTabView: View {
             IndepCommentScreenWrapper(
                 postId: notificationManager.publicationId ?? "",
                 locationManager: locationManager,
-                socket: socket)
+                socket: socket
+            )
         }
         .fullScreenCover(isPresented: $notificationManager.isChatDisplayed) {
             MessageScreenWrapper(
@@ -81,7 +81,17 @@ struct MainTabView: View {
                 username: notificationManager.username ?? "",
                 otherUserUid: notificationManager.senderUserUid ?? "",
                 chatPic: notificationManager.chatPic,
-                socket: socket)
+                isLocked: notificationManager.isLocked ?? false,
+                socket: socket
+            )
+        }
+        .fullScreenCover(isPresented: $notificationManager.isCommunityChatDisplayed) {
+            CommunityMessageScreenWrapper(
+                communityId: notificationManager.communityId ?? "",
+                locationManager: locationManager,
+                socket: socket
+            )
+            .environmentObject(authVM)
         }
     }
 }

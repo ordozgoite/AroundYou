@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct LaunchScreen: View {
-    
     @EnvironmentObject var authVM: AuthenticationViewModel
     @State private var scale: CGFloat = 1.0
     @State private var opacity: Double = 1.0
@@ -16,13 +15,11 @@ struct LaunchScreen: View {
     
     var body: some View {
         ZStack {
-            // Tela principal já sendo carregada no fundo
             AuthenticatedScreen()
                 .environmentObject(authVM)
             
-            // Animação da logo por cima
             if !hideLogo {
-                Color(.systemBackground) // Evita mostrar partes da tela no início
+                Color(.systemBackground)
                     .ignoresSafeArea()
                 
                 Image("logo")

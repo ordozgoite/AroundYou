@@ -26,6 +26,12 @@ class NotificationManager: NSObject, ObservableObject {
     @Published var isLocked: Bool?
     @Published var isChatDisplayed: Bool = false
     
+    // Community Message
+    @Published var communityId: String?
+    @Published var communityName: String?
+    @Published var communityImageUrl: String?
+    @Published var isCommunityChatDisplayed: Bool = false
+    
     // Discover
     @Published var isPeopleTabDisplayed: Bool = false
     
@@ -62,6 +68,8 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
                 displayCommentScreen(with: userInfo)
             case "message":
                 displayMessageScreen(with: userInfo)
+            case "communityMessage":
+                displayCommunityMessageScreen(with: userInfo)
             case "discover":
                 goToPeopleTab()
             default:
@@ -96,6 +104,20 @@ extension NotificationManager {
             self.isLocked = isLocked
             if let chatPic = userInfo["chatPic"] as? String { self.chatPic = chatPic }
             self.isChatDisplayed = true
+        } else {
+            print("❌ Incorrect userInfo to display Message screen.")
+        }
+    }
+    
+    private func displayCommunityMessageScreen(with userInfo: [AnyHashable: Any]) {
+        if
+            let communityId = userInfo["communityId"] as? String,
+            let communityName = userInfo["communityName"] as? String
+        {
+            self.communityId = communityId
+            self.communityName = communityName
+            if let communityImageUrl = userInfo["communityImageUrl"] as? String { self.communityImageUrl = communityImageUrl }
+            self.isCommunityChatDisplayed = true
         } else {
             print("❌ Incorrect userInfo to display Message screen.")
         }

@@ -87,7 +87,8 @@ struct CommentScreen: View {
     
     @ViewBuilder
     private func Disclaimer() -> some View {
-        AYDisabledButton(title: "Only people nearby this post can interact with it, including the owner.")
+        AYDisclaimerView(text: "Only people nearby this post can interact with it, including the owner.")
+            .padding()
     }
     
     //MARK: - Comment Text Field

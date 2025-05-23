@@ -20,23 +20,14 @@ struct AYFeatureSelector: View {
         .padding()
     }
     
-    // MARK: - Section Item
+    // MARK: - Item
     
     @ViewBuilder
     private func ItemView(forSection section: HomeSection) -> some View {
         HStack {
-            Image(systemName: section.iconName)
-                .resizable()
-                .scaledToFit()
-                .frame(height: 24)
-                .foregroundColor(selectedSection == section ? .white : .gray)
-                .transition(.opacity)
+            Icon(forSection: section)
             
-            if selectedSection == section {
-                Text(section.title)
-                    .foregroundStyle(.white)
-                    .transition(.move(edge: .trailing).combined(with: .opacity))
-            }
+            Title(forSection: section)
         }
         .padding()
         .frame(maxWidth: selectedSection == section ? .infinity : nil)
@@ -49,6 +40,31 @@ struct AYFeatureSelector: View {
             if self.selectedSection != section {
                 changeSelectedSection(section)
             }
+        }
+    }
+    
+    // MARK: - Icon
+    
+    @ViewBuilder
+    private func Icon(forSection section: HomeSection) -> some View {
+        Image(systemName: section.iconName)
+            .resizable()
+            .scaledToFit()
+            .frame(height: 24)
+            .foregroundColor(selectedSection == section ? .white : .gray)
+            .transition(.opacity)
+    }
+    
+    // MARK: - Title
+    
+    @ViewBuilder
+    private func Title(forSection section: HomeSection) -> some View {
+        if selectedSection == section {
+            Text(section.title)
+                .foregroundStyle(.white)
+                .transition(.move(edge: .trailing).combined(with: .opacity))
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
         }
     }
 }

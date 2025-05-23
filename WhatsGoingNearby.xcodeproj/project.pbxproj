@@ -302,6 +302,7 @@
 		EDEF7A7E2D53A3990030B7A6 /* CreateCommunityScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A7D2D53A3990030B7A6 /* CreateCommunityScreen.swift */; };
 		EDF324ED2DDF79D400752A64 /* AYDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF324EC2DDF79D400752A64 /* AYDisclaimerView.swift */; };
 		EDF324EF2DE0907900752A64 /* NotDiscoveringScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF324EE2DE0907900752A64 /* NotDiscoveringScreen.swift */; };
+		EDF324F12DE09DB500752A64 /* CommunityMessageScreenWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF324F02DE09DB500752A64 /* CommunityMessageScreenWrapper.swift */; };
 		EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF43E922B86E6B60037CC9F /* LocalState.swift */; };
 		EDFADBA02CF11F3D0050E322 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFADB9F2CF11F3D0050E322 /* Gender.swift */; };
 /* End PBXBuildFile section */
@@ -570,6 +571,7 @@
 		EDEF7A7D2D53A3990030B7A6 /* CreateCommunityScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommunityScreen.swift; sourceTree = "<group>"; };
 		EDF324EC2DDF79D400752A64 /* AYDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYDisclaimerView.swift; sourceTree = "<group>"; };
 		EDF324EE2DE0907900752A64 /* NotDiscoveringScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotDiscoveringScreen.swift; sourceTree = "<group>"; };
+		EDF324F02DE09DB500752A64 /* CommunityMessageScreenWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityMessageScreenWrapper.swift; sourceTree = "<group>"; };
 		EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhatsGoingNearby.entitlements; sourceTree = "<group>"; };
 		EDF43E912B869F3E0037CC9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EDF43E922B86E6B60037CC9F /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
@@ -732,6 +734,7 @@
 			children = (
 				ED30CE7C2D6F99EB001FB213 /* IndepCommentScreenWrapper.swift */,
 				ED30CE7E2D6F9A06001FB213 /* MessageScreenWrapper.swift */,
+				EDF324F02DE09DB500752A64 /* CommunityMessageScreenWrapper.swift */,
 			);
 			path = Wrappers;
 			sourceTree = "<group>";
@@ -1702,6 +1705,7 @@
 				ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */,
 				EDEF7A7A2D5257470030B7A6 /* CommunitySuggestionView.swift in Sources */,
 				ED82CD162D8DA15B0075EFB8 /* HelpView.swift in Sources */,
+				EDF324F12DE09DB500752A64 /* CommunityMessageScreenWrapper.swift in Sources */,
 				ED7D8F912BBC5D1C00544A8B /* EditPostViewModel.swift in Sources */,
 				EDE8B37B2BC3530600DFF750 /* CompactedPostSettings.swift in Sources */,
 				EDEF4E7F2D930131009CA424 /* MapPickerView.swift in Sources */,
