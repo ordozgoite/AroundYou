@@ -14,6 +14,9 @@ class NotificationManager: NSObject, ObservableObject {
     
     let notificationCenter = UNUserNotificationCenter.current()
     
+    var isReady: Bool = false
+    var pendingPayload: (() -> Void)? = nil
+    
     // Comment
     @Published var publicationId: String?
     @Published var isPublicationDisplayed: Bool = false
@@ -92,22 +95,31 @@ extension NotificationManager {
     }
     
     private func displayMessageScreen(with userInfo: [AnyHashable: Any]) {
-        if
-            let chatId = userInfo["chatId"] as? String,
-            let username = userInfo["username"] as? String,
-            let senderUserUid = userInfo["senderUserUid"] as? String,
-            let isLocked = userInfo["isLocked"] as? Bool
-        {
-            self.chatId = chatId
-            self.username = username
-            self.senderUserUid = senderUserUid
-            self.isLocked = isLocked
-            if let chatPic = userInfo["chatPic"] as? String { self.chatPic = chatPic }
-            self.isChatDisplayed = true
+        let displayBlock = {
+            if
+                let chatId = userInfo["chatId"] as? String,
+                let username = userInfo["username"] as? String,
+                let senderUserUid = userInfo["senderUserUid"] as? String,
+                let isLocked = userInfo["isLocked"] as? Bool
+            {
+                self.chatId = chatId
+                self.username = username
+                self.senderUserUid = senderUserUid
+                self.isLocked = isLocked
+                if let chatPic = userInfo["chatPic"] as? String { self.chatPic = chatPic }
+                self.isChatDisplayed = true
+            } else {
+                print("❌ Incorrect userInfo to display Message screen.")
+            }
+        }
+
+        if isReady {
+            displayBlock()
         } else {
-            print("❌ Incorrect userInfo to display Message screen.")
+            pendingPayload = displayBlock
         }
     }
+
     
     private func displayCommunityMessageScreen(with userInfo: [AnyHashable: Any]) {
         if

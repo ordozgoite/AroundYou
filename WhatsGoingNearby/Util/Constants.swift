@@ -16,6 +16,7 @@ extension Notification.Name {
     static let popCommunity = Notification.Name("popCommunity")
     static let goToUsernameScreen = Notification.Name("goToUsernameScreen")
     static let displayRetryGetUserInfoButton = Notification.Name("displayRetryGetUserInfoButton")
+    static let launchAnimationFinished = Notification.Name("launchAnimationFinished")
 }
 
 struct Constants {

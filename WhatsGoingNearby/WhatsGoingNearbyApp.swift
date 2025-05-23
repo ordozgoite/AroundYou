@@ -76,10 +76,12 @@ struct WhatsGoingNearbyApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @ObservedObject public var locationManager = LocationManager()
+    @StateObject var notificationManager = NotificationManager()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(notificationManager)
         }
         .backgroundTask(.appRefresh(taskId)) {
             scheduleAppRefresh()

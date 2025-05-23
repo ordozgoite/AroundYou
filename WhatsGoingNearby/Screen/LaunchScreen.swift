@@ -43,7 +43,12 @@ struct LaunchScreen: View {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             hideLogo = true
+            processPendingNotifications()
         }
+    }
+    
+    private func processPendingNotifications() {
+        NotificationCenter.default.post(name: .launchAnimationFinished, object: nil)
     }
 }
 

@@ -12,12 +12,14 @@ struct MainTabView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var socket = SocketService()
-    @StateObject public var notificationManager = NotificationManager()
+    @EnvironmentObject var notificationManager: NotificationManager
     @StateObject private var locationManager = LocationManager()
     @Environment(\.colorScheme) var colorScheme
     
     let pub = NotificationCenter.default
         .publisher(for: .updateBadge)
+    @State private var launchAnimationObserver = NotificationCenter.default
+        .publisher(for: .launchAnimationFinished)
     
     @State private var selectedTab: Int = 0
     @State private var profileImage: UIImage?
@@ -57,6 +59,9 @@ struct MainTabView: View {
         }
         .onReceive(pub) { (output) in
             self.updateBadge()
+        }
+        .onReceive(launchAnimationObserver) { _ in
+            processPendingNotifications()
         }
         .onChange(of: authVM.profilePic) { _ in
             Task {
@@ -115,6 +120,12 @@ private extension MainTabView {
 // MARK: - Private Methods
 
 extension MainTabView {
+    private func processPendingNotifications() {
+        notificationManager.isReady = true
+        notificationManager.pendingPayload?()
+        notificationManager.pendingPayload = nil
+    }
+    
     private func updateBadge() {
         Task {
             self.unreadChats = try await getChatBadge()
