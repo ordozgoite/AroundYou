@@ -11,6 +11,7 @@ import CoreLocation
 extension Notification.Name {
     static let refreshLocationSensitiveData = Notification.Name("refreshFeed")
     static let updateLocation = Notification.Name("updateLocation")
+    static let updateUserProfilePosts = Notification.Name("updateUserProfilePosts")
     static let updateBadge = Notification.Name("updateBadge")
     static let popCommunity = Notification.Name("popCommunity")
     static let goToUsernameScreen = Notification.Name("goToUsernameScreen")

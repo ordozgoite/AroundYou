@@ -37,6 +37,7 @@ class PostViewModel: ObservableObject {
         switch result {
         case .success:
             refreshFeed()
+            updateUserProfilePosts()
         case .failure:
             print("❌ Error trying to delete Lost Item.")
         }
@@ -48,6 +49,7 @@ class PostViewModel: ObservableObject {
         switch result {
         case .success:
             refreshFeed()
+            updateUserProfilePosts()
         case .failure:
             print("❌ Error trying to delete Incident Report.")
         }
@@ -125,5 +127,9 @@ class PostViewModel: ObservableObject {
     
     func isActivePublication(_ post: FormattedPost) -> Bool {
         return post.status == .active && post.postSource == .publication
+    }
+    
+    private func updateUserProfilePosts() {
+        NotificationCenter.default.post(name: .updateUserProfilePosts, object: nil)
     }
 }

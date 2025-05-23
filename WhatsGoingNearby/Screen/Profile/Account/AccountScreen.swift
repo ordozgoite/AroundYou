@@ -15,6 +15,9 @@ struct AccountScreen: View {
     @ObservedObject var locationManager: LocationManager
     @ObservedObject var socket: SocketService
     
+    @State private var refreshObserver = NotificationCenter.default
+        .publisher(for: .updateUserProfilePosts)
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -29,6 +32,11 @@ struct AccountScreen: View {
                 }
             }
             .onAppear {
+                Task {
+                    try await getAllPosts()
+                }
+            }
+            .onReceive(refreshObserver) { _ in
                 Task {
                     try await getAllPosts()
                 }
