@@ -301,6 +301,7 @@
 		EDEF7A7A2D5257470030B7A6 /* CommunitySuggestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */; };
 		EDEF7A7E2D53A3990030B7A6 /* CreateCommunityScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEF7A7D2D53A3990030B7A6 /* CreateCommunityScreen.swift */; };
 		EDF324ED2DDF79D400752A64 /* AYDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF324EC2DDF79D400752A64 /* AYDisclaimerView.swift */; };
+		EDF324EF2DE0907900752A64 /* NotDiscoveringScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF324EE2DE0907900752A64 /* NotDiscoveringScreen.swift */; };
 		EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF43E922B86E6B60037CC9F /* LocalState.swift */; };
 		EDFADBA02CF11F3D0050E322 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFADB9F2CF11F3D0050E322 /* Gender.swift */; };
 /* End PBXBuildFile section */
@@ -568,6 +569,7 @@
 		EDEF7A792D5257470030B7A6 /* CommunitySuggestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunitySuggestionView.swift; sourceTree = "<group>"; };
 		EDEF7A7D2D53A3990030B7A6 /* CreateCommunityScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommunityScreen.swift; sourceTree = "<group>"; };
 		EDF324EC2DDF79D400752A64 /* AYDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYDisclaimerView.swift; sourceTree = "<group>"; };
+		EDF324EE2DE0907900752A64 /* NotDiscoveringScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotDiscoveringScreen.swift; sourceTree = "<group>"; };
 		EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhatsGoingNearby.entitlements; sourceTree = "<group>"; };
 		EDF43E912B869F3E0037CC9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EDF43E922B86E6B60037CC9F /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
@@ -1387,6 +1389,7 @@
 				EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */,
 				ED4D7C352D418710007FC1FF /* EmptyDiscoverView.swift */,
 				ED4D7C392D4D32AD007FC1FF /* BlurView.swift */,
+				EDF324EE2DE0907900752A64 /* NotDiscoveringScreen.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -1781,6 +1784,7 @@
 				ED06525D2B8171C5005B6413 /* ForgotPasswordScreen.swift in Sources */,
 				ED52D8D32DC327C20098D450 /* ReportIncident+Mock.swift in Sources */,
 				ED4140A02B7DFEEF002690A5 /* DeletePublicationResponse.swift in Sources */,
+				EDF324EF2DE0907900752A64 /* NotDiscoveringScreen.swift in Sources */,
 				EDD40C612D74E9A100E33663 /* PublishBusinessViewModel.swift in Sources */,
 				ED74E80C2BF43CE900371334 /* PersistenceController.swift in Sources */,
 				ED50C44C2B7E396C0001EDF6 /* View.swift in Sources */,
