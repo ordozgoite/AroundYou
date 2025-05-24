@@ -95,6 +95,7 @@ protocol AYServiceable {
     func getMyCommunities(token: String) async -> Result<[FormattedCommunity], RequestError>
     func getRelevantCommunities(location: Location, token: String) async -> Result<[FormattedCommunity], RequestError>
     func getCommunity(communityId: String, location: Location, token: String) async -> Result<FormattedCommunity, RequestError>
+    func updateCommunityPrivacy(communityId: String, isPrivate: Bool, token: String) async -> Result<SuccessMessageResponse, RequestError>
     
     // Community Message
     func postCommunityMessage(communityId: String, latitude: Double, longitude: Double, text: String, repliedMessageId: String?, token: String) async -> Result<CommunityMessage, RequestError>
@@ -395,6 +396,10 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func getCommunity(communityId: String, location: Location, token: String) async -> Result<FormattedCommunity, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getCommunity(communityId: communityId, location: location, token: token), responseModel: FormattedCommunity.self)
+    }
+    
+    func updateCommunityPrivacy(communityId: String, isPrivate: Bool, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.updateCommunityPrivacy(communityId: communityId, isPrivate: isPrivate, token: token), responseModel: SuccessMessageResponse.self)
     }
     
     // MARK: - Community Message

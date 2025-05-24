@@ -220,7 +220,7 @@ struct CreateCommunityScreen: View {
     @ViewBuilder
     private func Private() -> some View {
         HStack {
-            Text("Ask to join:")
+            Text("Private Community:")
                 .fontWeight(.bold)
                 .frame(minWidth: 120, alignment: .leading)
             
@@ -254,7 +254,7 @@ struct CreateCommunityScreen: View {
     
     @ViewBuilder
     private func Disclaimer() -> some View {
-        AYDisabledButton(title: "Only people nearby your community will be able to interact with it, even you.")
+        AYDisclaimerView(text: "Only people nearby your community will be able to interact with it, even you.")
     }
     
     // MARK: - Private Methods

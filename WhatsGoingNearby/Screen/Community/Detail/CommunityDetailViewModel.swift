@@ -15,6 +15,7 @@ class CommunityDetailViewModel: ObservableObject {
     @Published var members: [MongoUser] = []
     @Published var joinRequests: [MongoUser]?
     @Published var communityOwnerUid: String = ""
+    @Published var isCommunityPrivate: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var hasFetchedCommunityInfo: Bool = false
     @Published var isEditDescriptionViewDisplayed: Bool = false
@@ -150,6 +151,19 @@ class CommunityDetailViewModel: ObservableObject {
         case .failure:
             overlayError = (true, ErrorMessage.editCommunity)
             throw NSError(domain: "EditCommunityError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to edit community"])
+        }
+    }
+    
+    func updateCommunityPrivacy(withId communityId: String, token: String) async {
+        let newPrivacyStatus = self.isCommunityPrivate
+        let result = await AYServices.shared.updateCommunityPrivacy(communityId: communityId, isPrivate: newPrivacyStatus, token: token)
+        
+        switch result {
+        case .success:
+            print("✅ Success!")
+        case .failure:
+            self.isCommunityPrivate = !newPrivacyStatus
+            overlayError = (true, "Error trying to update community privacy")
         }
     }
     

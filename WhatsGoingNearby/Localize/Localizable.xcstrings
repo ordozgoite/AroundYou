@@ -647,6 +647,7 @@
       }
     },
     "Ask to join:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -2040,6 +2041,9 @@
         }
       }
     },
+    "Error trying to update community privacy" : {
+
+    },
     "Expired" : {
       "localizations" : {
         "pt-BR" : {
@@ -2974,6 +2978,9 @@
           }
         }
       }
+    },
+    "If the community is private, users must request to join it — and you’ll need to approve their request before they can enter." : {
+
     },
     "If this option is enabled, we will notify you whenever we find someone matching your interests nearby." : {
       "localizations" : {
@@ -4156,6 +4163,12 @@
         }
       }
     },
+    "Private Community" : {
+
+    },
+    "Private Community:" : {
+
+    },
     "Profile" : {
       "localizations" : {
         "pt-BR" : {
@@ -5083,6 +5096,9 @@
           }
         }
       }
+    },
+    "This community is private." : {
+
     },
     "This feature is not available yet." : {
       "localizations" : {

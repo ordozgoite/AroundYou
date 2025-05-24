@@ -22,6 +22,8 @@ struct CommunityDetailScreen: View {
                 
                 Description()
                 
+                Privacy()
+                
                 if communityDetailVM.hasFetchedCommunityInfo {
                     if community.isOwner {
                         UserRequests()
@@ -134,6 +136,32 @@ struct CommunityDetailScreen: View {
             )
             .environmentObject(authVM)
             .interactiveDismissDisabled(true)
+        }
+    }
+    
+    // MARK: - Privacy
+    
+    @ViewBuilder
+    private func Privacy() -> some View {
+        if community.isOwner {
+            Section {
+                Toggle(isOn: $communityDetailVM.isCommunityPrivate) { Text("Private Community") }
+                    .onAppear {
+                        communityDetailVM.isCommunityPrivate = community.isPrivate
+                    }
+                    .onChange(of: communityDetailVM.isCommunityPrivate) { _ in
+                        Task {
+                            try await handleCommunityPrivacyUpdate()
+                        }
+                    }
+            } footer: {
+                Text("If the community is private, users must request to join it — and you’ll need to approve their request before they can enter.")
+            }
+        } else if community.isPrivate {
+            Section {
+                Label("This community is private.", systemImage: "lock")
+                    .foregroundStyle(.gray)
+            }
         }
     }
     
@@ -350,6 +378,20 @@ extension CommunityDetailScreen {
         try await communityDetailVM.deleteCommunity(communityId: self.community.id, token: token)
         dismiss()
         dismissCommunityMessageScreenAndRefreshCommunities()
+    }
+    
+    private func handleCommunityPrivacyUpdate() async throws {
+        do {
+            try await performCommunityPrivacyUpdate()
+        } catch {
+            print("❌ Error updating community privacy: \(error.localizedDescription)")
+        }
+    }
+    
+    private func performCommunityPrivacyUpdate() async throws {
+        let token = try await authVM.getFirebaseToken()
+        await communityDetailVM.updateCommunityPrivacy(withId: self.community.id, token: token)
+        self.community.isPrivate = communityDetailVM.isCommunityPrivate
     }
     
     private func updateCommunityDescription(_ newDescription: String) {
