@@ -45,7 +45,7 @@ class NotificationManager: NSObject, ObservableObject {
     
 }
 
-// MARK: - Payload
+// MARK: - Process Payload
 
 extension NotificationManager: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_: UNUserNotificationCenter, willPresent _: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -82,16 +82,20 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
     }
 }
 
-// MARK: - Screen
+// MARK: - Display Screen
 
 extension NotificationManager {
     private func displayCommentScreen(with userInfo: [AnyHashable: Any]) {
-        if let publicationId = userInfo["publicationId"] as? String {
-            self.publicationId = publicationId
-            self.isPublicationDisplayed = true
-        } else {
-            print("❌ Incorrect userInfo to display Comment screen.")
+        let displayBlock = {
+            if let publicationId = userInfo["publicationId"] as? String {
+                self.publicationId = publicationId
+                self.isPublicationDisplayed = true
+            } else {
+                print("❌ Incorrect userInfo to display Comment screen.")
+            }
         }
+        
+        enqueueIfNotReady(displayBlock)
     }
     
     private func displayMessageScreen(with userInfo: [AnyHashable: Any]) {
@@ -113,29 +117,37 @@ extension NotificationManager {
             }
         }
 
+        enqueueIfNotReady(displayBlock)
+    }
+
+    
+    private func displayCommunityMessageScreen(with userInfo: [AnyHashable: Any]) {
+        let displayBlock = {
+            if
+                let communityId = userInfo["communityId"] as? String,
+                let communityName = userInfo["communityName"] as? String
+            {
+                self.communityId = communityId
+                self.communityName = communityName
+                if let communityImageUrl = userInfo["communityImageUrl"] as? String { self.communityImageUrl = communityImageUrl }
+                self.isCommunityChatDisplayed = true
+            } else {
+                print("❌ Incorrect userInfo to display Message screen.")
+            }
+        }
+        
+        enqueueIfNotReady(displayBlock)
+    }
+    
+    private func goToPeopleTab() {
+        self.isPeopleTabDisplayed = true
+    }
+    
+    private func enqueueIfNotReady(_ displayBlock: @escaping (() -> Void)) {
         if isReady {
             displayBlock()
         } else {
             pendingPayload = displayBlock
         }
-    }
-
-    
-    private func displayCommunityMessageScreen(with userInfo: [AnyHashable: Any]) {
-        if
-            let communityId = userInfo["communityId"] as? String,
-            let communityName = userInfo["communityName"] as? String
-        {
-            self.communityId = communityId
-            self.communityName = communityName
-            if let communityImageUrl = userInfo["communityImageUrl"] as? String { self.communityImageUrl = communityImageUrl }
-            self.isCommunityChatDisplayed = true
-        } else {
-            print("❌ Incorrect userInfo to display Message screen.")
-        }
-    }
-    
-    private func goToPeopleTab() {
-        self.isPeopleTabDisplayed = true
     }
 }
