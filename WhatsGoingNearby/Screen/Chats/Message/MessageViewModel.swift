@@ -260,7 +260,7 @@ class MessageViewModel: ObservableObject {
         }
     }
     
-    private func removeMessage(withId messageId: String) {
+    func removeMessage(withId messageId: String) {
         intermediaryMessages.removeAll { $0.id == messageId }
     }
     

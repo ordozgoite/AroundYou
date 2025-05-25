@@ -95,6 +95,7 @@ struct MessageScreen: View {
                 try await getMessages(.newest)
             }
             listenToMessages()
+            listenToDeletedMessages()
             updateBadge()
         }
         .onDisappear {
@@ -344,15 +345,26 @@ struct MessageScreen: View {
     
     private func listenToMessages() {
         socket.socket?.on("message") { data, ack in
-            if let message = data as? [Any] {
-                print("📩 Received message: \(message)")
-                messageVM.processMessage(message, toChat: chatId) { messageId in
-                    emitReadCommand(forMessage: messageId)
-                }
-                updateChatLockedStatus()
+            print("📩 Received message: \(data)")
+            messageVM.processMessage(data, toChat: chatId) { messageId in
+                emitReadCommand(forMessage: messageId)
+            }
+            updateChatLockedStatus()
+        }
+    }
+
+    
+    private func listenToDeletedMessages() {
+        socket.socket?.on("message-delete") { data, ack in
+            if let messageId = data.first as? String {
+                print("📩 Message deleted with id: \(messageId)")
+                messageVM.removeMessage(withId: messageId)
+            } else {
+                print("⚠️ Couldn't parse message ID from delete event")
             }
         }
     }
+
     
     private func emitReadCommand(forMessage messageId: String) {
         socket.socket?.emit("read", messageId)

@@ -42,7 +42,7 @@ struct Constants {
     static let BACKGROUND_TASK_DELAY_HOURS: Int = 1
     static let NOTIFICATION_DELAY_SECONDS: Int = 4 * 60 * 60
     static let SIGNIFICANT_DISTANCE_METERS: CLLocationDistance = 50
-    static let MAX_ELAPSED_TIME_DELETE_MESSAGE_SECONDS: Int = 60
+    static let MAX_ELAPSED_TIME_DELETE_MESSAGE_SECONDS: Int = 10 * 60
     
     //MARK: - Discover Defaults
     
