@@ -75,8 +75,8 @@ struct CommunityListScreen: View {
                     
                 case .farAway(let community):
                     return Alert(
-                        title: Text(community.name),
-                        message: Text("You are too far from this community. Tap and hold to leave it."),
+                        title: Text("You're too far away!"),
+                        message: Text("If you want to leave this community, tap and hold it."),
                         dismissButton: .default(Text("OK"))
                     )
                 }

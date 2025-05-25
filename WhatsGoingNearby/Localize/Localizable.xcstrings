@@ -1980,7 +1980,14 @@
       }
     },
     "Error trying to fetch community info." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao tentar recuperar informações da comunidade."
+          }
+        }
+      }
     },
     "Error trying to get user ban expiration date" : {
       "extractionState" : "stale",
@@ -2042,7 +2049,14 @@
       }
     },
     "Error trying to update community privacy" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao tentar atualizar privacidade da comunidade."
+          }
+        }
+      }
     },
     "Expired" : {
       "localizations" : {
@@ -2768,6 +2782,7 @@
       }
     },
     "Full name" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -2782,6 +2797,9 @@
           }
         }
       }
+    },
+    "Full name (optional)" : {
+
     },
     "Gravador de Áudio" : {
 
@@ -2980,7 +2998,14 @@
       }
     },
     "If the community is private, users must request to join it — and you’ll need to approve their request before they can enter." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se a comunidade for privada, os usuários devem solicitar a entrada nela — e você precisará aprovar a solicitação antes que eles possam entrar."
+          }
+        }
+      }
     },
     "If this option is enabled, we will notify you whenever we find someone matching your interests nearby." : {
       "localizations" : {
@@ -3004,6 +3029,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se você sair dessa tela, você vai perder suas mudanças."
+          }
+        }
+      }
+    },
+    "If you want to leave this community, tap and hold it." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se você quiser deixar essa comunidade, aperte e segura no seu ícone."
           }
         }
       }
@@ -4164,10 +4199,24 @@
       }
     },
     "Private Community" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comunidade Privada"
+          }
+        }
+      }
     },
     "Private Community:" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comunidade Privada:"
+          }
+        }
+      }
     },
     "Profile" : {
       "localizations" : {
@@ -5098,7 +5147,14 @@
       }
     },
     "This community is private." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Essa comunidade é privada."
+          }
+        }
+      }
     },
     "This feature is not available yet." : {
       "localizations" : {
@@ -5773,6 +5829,7 @@
       }
     },
     "You are too far from this community. Tap and hold to leave it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -5900,6 +5957,16 @@
         }
       }
     },
+    "You're too far away!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você está longe demais!"
+          }
+        }
+      }
+    },
     "You're too far from this community to send a message." : {
       "localizations" : {
         "pt-BR" : {
@@ -6012,6 +6079,9 @@
         }
       }
     },
+    "Your biography will be displayed on your profile. Write anything you want to share about yourself." : {
+
+    },
     "Your Business will be available for **15 days**." : {
       "localizations" : {
         "pt-BR" : {
@@ -6037,6 +6107,9 @@
           }
         }
       }
+    },
+    "Your full name will be displayed on your profile." : {
+
     },
     "Your location will be used to display your business to people nearby." : {
       "localizations" : {
@@ -6128,6 +6201,9 @@
           }
         }
       }
+    },
+    "Your username needs to be unique. This is the main way other users will see you on the app." : {
+
     }
   },
   "version" : "1.0"
