@@ -14,6 +14,7 @@ struct EditProfileScreen: View {
     @StateObject private var editProfileVM = EditProfileViewModel()
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
+    @FocusState private var isBioTextFieldFocused: Bool
     
     private var hasChangedProfile: Bool {
         let usernameChanged = editProfileVM.usernameInput != authVM.username
@@ -226,6 +227,13 @@ struct EditProfileScreen: View {
                     .frame(width: 80)
                 
                 TextField("Biography", text: $editProfileVM.bioInput, axis: .vertical)
+                    .focused($isBioTextFieldFocused)
+                    .onReceive(editProfileVM.bioInput.publisher.last()) {
+                        if ($0 as Character).asciiValue == 10 {
+                            isBioTextFieldFocused = false
+                            editProfileVM.bioInput.removeLast()
+                        }
+                    }
                     .onChange(of: editProfileVM.bioInput) { newValue in
                         trimBio(withNewValue: newValue)
                     }

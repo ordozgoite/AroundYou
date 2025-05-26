@@ -26,6 +26,10 @@ struct UsernameScreen: View {
                             }
                         }
                     
+                    Text("Your username needs to be unique. This is the main way other users will see you on the app.")
+                        .foregroundStyle(.gray)
+                        .font(.caption)
+                    
                     Spacer()
                     
                     AYButton(title: "Done") {
