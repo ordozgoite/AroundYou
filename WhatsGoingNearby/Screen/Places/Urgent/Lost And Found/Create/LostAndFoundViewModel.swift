@@ -22,7 +22,9 @@ class LostAndFoundViewModel: ObservableObject {
     @Published var rewardOffer: Bool = false
     @Published var isPostingItem: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
-    @Published var imageSelection: PhotosPickerItem? = nil
+    
+    @Published var isCameraPickerDisplayed: Bool = false
+    @Published var isPhotoPickerDisplayed: Bool = false
     @Published var selectedImage: UIImage? = nil
     
     func postLostItem(location: Location, token: String) async throws {
@@ -77,7 +79,6 @@ class LostAndFoundViewModel: ObservableObject {
     }
     
     func removePhoto() {
-        self.imageSelection = nil
         self.selectedImage = nil
     }
 }

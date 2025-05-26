@@ -201,6 +201,12 @@
             "state" : "new",
             "value" : "%1$lld day%2$@ to expire"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld dia%2$@ para expirar"
+          }
         }
       }
     },
