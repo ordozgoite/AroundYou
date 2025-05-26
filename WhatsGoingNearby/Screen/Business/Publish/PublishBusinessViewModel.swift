@@ -23,10 +23,9 @@ class PublishBusinessViewModel: ObservableObject {
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     
     // Business Image
-    @Published var isImageOptionsDisplayed: Bool = false
-    @Published var imageSelection: PhotosPickerItem?
+    @Published var isCameraPickerDisplayed: Bool = false
+    @Published var isPhotoPickerDisplayed: Bool = false
     @Published var image: UIImage?
-    @Published var isPhotoPickerPresented: Bool = false
     
     func publishBusiness(location: Location, token: String) async throws {
         isLoading = true
@@ -68,22 +67,4 @@ class PublishBusinessViewModel: ObservableObject {
             overlayError = (true, ErrorMessage.postImageErrorMessage)
             return nil
         }
-    }
-    
-    private func loadTransferable(from imageSelection: PhotosPickerItem) -> Progress {
-        return imageSelection.loadTransferable(type: Image.self) { result in
-            DispatchQueue.main.async {
-                guard imageSelection == self.imageSelection else { return }
-                switch result {
-                case .success(let image?):
-                    print("✅ Success!")
-                case .success(nil):
-                    print("✅ Success!")
-                case .failure(let error):
-                    print("❌ Error: \(error)")
-                    self.overlayError = (true, ErrorMessage.selectPhotoErrorMessage)
-                }
-            }
-        }
-    }
-}
+    }}

@@ -489,6 +489,16 @@
     "admin" : {
 
     },
+    "Adult" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adulto"
+          }
+        }
+      }
+    },
     "Age Range" : {
       "localizations" : {
         "pt-BR" : {
@@ -1758,6 +1768,16 @@
         }
       }
     },
+    "Eat & Drink" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comidas e Bebidas"
+          }
+        }
+      }
+    },
     "Edit" : {
       "localizations" : {
         "pt-BR" : {
@@ -1854,6 +1874,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Edite essa informação nas suas configurações de perfil."
+          }
+        }
+      }
+    },
+    "Education" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Educação"
           }
         }
       }
@@ -2799,7 +2829,14 @@
       }
     },
     "Full name (optional)" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome completo (opcional)"
+          }
+        }
+      }
     },
     "Gravador de Áudio" : {
 
@@ -2810,6 +2847,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dano a uma Pessoa"
+          }
+        }
+      }
+    },
+    "Health" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saúde"
           }
         }
       }
@@ -3883,6 +3930,16 @@
     "Parar Gravação" : {
 
     },
+    "Party & Event" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Festas e Eventos"
+          }
+        }
+      }
+    },
     "password" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3925,6 +3982,9 @@
           }
         }
       }
+    },
+    "Pets" : {
+
     },
     "Phone number" : {
       "extractionState" : "stale",
@@ -4770,6 +4830,16 @@
         }
       }
     },
+    "Selling" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À Venda"
+          }
+        }
+      }
+    },
     "Send Email" : {
       "localizations" : {
         "pt-BR" : {
@@ -4782,6 +4852,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enviar Email"
+          }
+        }
+      }
+    },
+    "Services" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serviços"
           }
         }
       }
@@ -5009,6 +5089,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Toque na localização aproximada."
+          }
+        }
+      }
+    },
+    "Tech & Games" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tecnologia e Jogos"
           }
         }
       }
@@ -5649,6 +5739,16 @@
         }
       }
     },
+    "Wellness" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bem-estar"
+          }
+        }
+      }
+    },
     "What are you reporting?" : {
       "localizations" : {
         "pt-BR" : {
@@ -6080,7 +6180,14 @@
       }
     },
     "Your biography will be displayed on your profile. Write anything you want to share about yourself." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua biografia será exibida no seu perfil. Escreva algo sobre você que deseja compartilhar."
+          }
+        }
+      }
     },
     "Your Business will be available for **15 days**." : {
       "localizations" : {
@@ -6109,7 +6216,14 @@
       }
     },
     "Your full name will be displayed on your profile." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu completo será exibido no seu perfil."
+          }
+        }
+      }
     },
     "Your location will be used to display your business to people nearby." : {
       "localizations" : {
@@ -6203,7 +6317,14 @@
       }
     },
     "Your username needs to be unique. This is the main way other users will see you on the app." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu nome de usuário precisa ser único. Essa é a principal forma como outros usuários verão você no app."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

@@ -45,13 +45,6 @@ struct PublishBusinessScreen: View {
                 
                 AYErrorAlert(message: publishBusinessVM.overlayError.1 , isErrorAlertPresented: $publishBusinessVM.overlayError.0)
             }
-            .onChange(of: publishBusinessVM.imageSelection) { newItem in
-                Task {
-                    if let data = try? await newItem?.loadTransferable(type: Data.self), let image = UIImage(data: data) {
-                        publishBusinessVM.image = image
-                    }
-                }
-            }
             .navigationTitle("Add Business")
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -62,8 +55,28 @@ struct PublishBusinessScreen: View {
     @ViewBuilder
     private func EditBusinessImage() -> some View {
         ZStack(alignment: .topTrailing) {
-            PhotosPicker(selection: $publishBusinessVM.imageSelection, matching: .images, preferredItemEncoding: .automatic) {
+            Menu {
+                Button {
+                    publishBusinessVM.isCameraPickerDisplayed = true
+                } label: {
+                    Label("Camera", systemImage: "camera")
+                }
+                
+                Button {
+                    publishBusinessVM.isPhotoPickerDisplayed = true
+                } label: {
+                    Label("Photos", systemImage: "photo")
+                }
+            } label: {
                 BusinessImage()
+            }
+            .fullScreenCover(isPresented: $publishBusinessVM.isCameraPickerDisplayed) {
+                CameraView { image in
+                    publishBusinessVM.image = image
+                }
+            }
+            .sheet(isPresented: $publishBusinessVM.isPhotoPickerDisplayed) {
+                PhotoPicker(selectedPhoto: $publishBusinessVM.image)
             }
             
             if publishBusinessVM.image != nil {
@@ -364,7 +377,6 @@ extension PublishBusinessScreen {
     }
     
     private func removePhoto() {
-        publishBusinessVM.imageSelection = nil
         publishBusinessVM.image = nil
     }
 }
