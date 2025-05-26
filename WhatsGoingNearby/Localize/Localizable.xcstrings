@@ -2976,6 +2976,16 @@
         }
       }
     },
+    "Home " : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Casa"
+          }
+        }
+      }
+    },
     "Hungry" : {
       "extractionState" : "stale",
       "localizations" : {

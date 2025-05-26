@@ -304,6 +304,7 @@
 		EDF324EF2DE0907900752A64 /* NotDiscoveringScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF324EE2DE0907900752A64 /* NotDiscoveringScreen.swift */; };
 		EDF324F12DE09DB500752A64 /* CommunityMessageScreenWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF324F02DE09DB500752A64 /* CommunityMessageScreenWrapper.swift */; };
 		EDF325282DE4912800752A64 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF325272DE4912800752A64 /* PhotoPicker.swift */; };
+		EDF3252B2DE4EDAA00752A64 /* EditBusinessDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF3252A2DE4EDAA00752A64 /* EditBusinessDTO.swift */; };
 		EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF43E922B86E6B60037CC9F /* LocalState.swift */; };
 		EDFADBA02CF11F3D0050E322 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFADB9F2CF11F3D0050E322 /* Gender.swift */; };
 /* End PBXBuildFile section */
@@ -574,6 +575,7 @@
 		EDF324EE2DE0907900752A64 /* NotDiscoveringScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotDiscoveringScreen.swift; sourceTree = "<group>"; };
 		EDF324F02DE09DB500752A64 /* CommunityMessageScreenWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityMessageScreenWrapper.swift; sourceTree = "<group>"; };
 		EDF325272DE4912800752A64 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
+		EDF3252A2DE4EDAA00752A64 /* EditBusinessDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBusinessDTO.swift; sourceTree = "<group>"; };
 		EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhatsGoingNearby.entitlements; sourceTree = "<group>"; };
 		EDF43E912B869F3E0037CC9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EDF43E922B86E6B60037CC9F /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
@@ -837,6 +839,7 @@
 			isa = PBXGroup;
 			children = (
 				ED9A33362D80BC62007EB6FC /* Location.swift */,
+				ED24FAF32B9E6530002F7A11 /* CommentDTO.swift */,
 				EDA3222F2B7CB12C009905B5 /* FormattedPost.swift */,
 				EDA3224A2B7DB345009905B5 /* FormattedComment.swift */,
 				ED2F1A7B2B91440E001F4300 /* FormattedNotification.swift */,
@@ -853,7 +856,6 @@
 				ED06525A2B814722005B6413 /* BugReport.swift */,
 				ED2F1A7D2B927D9B001F4300 /* Subscription.swift */,
 				ED5CC51F2B97C13A009B17E3 /* Post.swift */,
-				ED24FAF32B9E6530002F7A11 /* CommentDTO.swift */,
 				ED24FAF52B9E6533002F7A11 /* UserProfileDTO.swift */,
 				ED24FAF72B9E6535002F7A11 /* ReportDTO.swift */,
 				ED8CDFC12BB2702E00B8852E /* PostTag.swift */,
@@ -881,6 +883,7 @@
 				ED7AF5D02DA73CAA00966B5C /* ReportIncident.swift */,
 				ED7AF5D42DA7401100966B5C /* IncidentType.swift */,
 				ED7AF5D62DB0354E00966B5C /* PostSource.swift */,
+				EDF3252A2DE4EDAA00752A64 /* EditBusinessDTO.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1640,6 +1643,7 @@
 				ED1026272D663E4E009FF94B /* CommunityDetailViewModel.swift in Sources */,
 				ED598BFC2B7C268C00B6C23D /* CreatePostScreen.swift in Sources */,
 				EDA322302B7CB12D009905B5 /* FormattedPost.swift in Sources */,
+				EDF3252B2DE4EDAA00752A64 /* EditBusinessDTO.swift in Sources */,
 				ED0B4AF22D5F8C3E000A21F6 /* CustomPerson3CircleFill.swift in Sources */,
 				EDA30DF82B7FE9B6003EB22D /* PostStatus.swift in Sources */,
 				ED7AF5CD2DA6E9B700966B5C /* LostItem.swift in Sources */,

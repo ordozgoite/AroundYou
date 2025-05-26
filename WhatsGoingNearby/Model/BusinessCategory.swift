@@ -32,7 +32,7 @@ enum BusinessCategory: String, Codable, CaseIterable {
         case .pets: "Pets"
         case .education: "Education"
         case .adult: "Adult"
-        case .home: "Home"
+        case .home: "Home " // espaço colocado propositalmente para criar um novo contexto, diferenciando a tradução do "Home" da TabBar
         }
     }
     

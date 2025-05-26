@@ -107,6 +107,7 @@ protocol AYServiceable {
     func getBusinessesNearBy(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError>
     func deleteBusiness(businessId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
     func getBusinessByUser(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError>
+    func editBusiness(business: EditBusinessDTO, token: String) async -> Result<Business, RequestError>
     
     // Lost Item
     func postLostItem(lostItem: LostItem, token: String) async -> Result<SuccessMessageResponse, RequestError>
@@ -450,6 +451,10 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func setItemAsFound(lostItemId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.setItemAsFound(lostItemId: lostItemId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func editBusiness(business: EditBusinessDTO, token: String) async -> Result<Business, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.editBusiness(business: business, token: token), responseModel: Business.self)
     }
     
     // MARK: - Report Incident
