@@ -5974,6 +5974,12 @@
         }
       }
     },
+    "You can not edit your Business location." : {
+
+    },
+    "You can not edit your Business photo." : {
+
+    },
     "You can offer a reward to encourage people to return your item." : {
       "localizations" : {
         "pt-BR" : {

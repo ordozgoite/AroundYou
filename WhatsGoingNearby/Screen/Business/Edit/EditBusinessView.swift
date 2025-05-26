@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct EditBusinessView: View {
-    
-    let businessId: String
-    let business: Business
+    let business: FormattedBusinessShowcase
     
     private enum Field {
         case name
@@ -41,7 +39,7 @@ struct EditBusinessView: View {
                     
                     LocationView()
                     
-                    Publish()
+                    EditButton()
                 }
                 
                 AYErrorAlert(message: editBusinessVM.overlayError.1 , isErrorAlertPresented: $editBusinessVM.overlayError.0)
@@ -75,6 +73,8 @@ struct EditBusinessView: View {
                 .frame(height: 200)
                 .frame(maxWidth: .infinity, alignment: .center)
             }
+        } footer: {
+            Text("You can not edit your Business photo.")
         }
     }
     
@@ -247,14 +247,14 @@ struct EditBusinessView: View {
         } header: {
             Text("Location")
         } footer: {
-            Text("Your location will be used to display your business to people nearby.")
+            Text("You can not edit your Business location.")
         }
     }
     
-    // MARK: - Publish
+    // MARK: - Edit
     
     @ViewBuilder
-    private func Publish() -> some View {
+    private func EditButton() -> some View {
         Section {
             ZStack {
                 if editBusinessVM.isEditing {
@@ -262,7 +262,7 @@ struct EditBusinessView: View {
                 } else {
                     AYButton(title: "Edit Business") {
                         Task {
-//                            try await attemptBusinessPost()
+                            try await handleBusinessEdit()
                         }
                     }
                     .disabled(!areInputsValid())
@@ -278,7 +278,7 @@ struct EditBusinessView: View {
 extension EditBusinessView {
     private func setCurrentValues() {
         editBusinessVM.descriptionInput = self.business.description ?? ""
-        editBusinessVM.selectedCategory = BusinessCategory(rawValue: self.business.category)
+        editBusinessVM.selectedCategory = self.business.category
         editBusinessVM.isLocationVisible = self.business.isLocationVisible
         editBusinessVM.nameInput = self.business.title
         editBusinessVM.instagramUsername = self.business.instagramUsername ?? ""
@@ -318,7 +318,7 @@ extension EditBusinessView {
     
     private func attemptBusinessEdit() async throws {
         let token = try await authVM.getFirebaseToken()
-        try await editBusinessVM.editBusiness(businessId: self.businessId, token: token)
+        try await editBusinessVM.editBusiness(businessId: business.id, token: token)
         dismiss()
     }
 }

@@ -19,6 +19,7 @@ struct BusinessShowcaseView: View {
     @ObservedObject var businessVM: BusinessViewModel
     @State private var isOptionsPopoverDisplayed: Bool = false
     @State private var isReportScreenPresented: Bool = false
+    @State private var isEditBusinessScreenPresented: Bool = false
     @State private var isMapDisplayed: Bool = false
     
     var body: some View {
@@ -42,6 +43,10 @@ struct BusinessShowcaseView: View {
                 commentId: nil,
                 businessId: showcase.id
             )
+                .environmentObject(authVM)
+        }
+        .navigationDestination(isPresented: $isEditBusinessScreenPresented) {
+            EditBusinessView(business: self.showcase)
                 .environmentObject(authVM)
         }
     }
@@ -91,12 +96,32 @@ struct BusinessShowcaseView: View {
     private func Options() -> some View {
         VStack {
             if showcase.isOwner {
+                EditButton()
+                
+                Divider()
+                
                 DeleteButton()
             } else {
                 ReportButton()
             }
         }
         .presentationCompactAdaptation(.popover)
+    }
+    
+    // MARK: - Edit Business
+    
+    @ViewBuilder
+    private func EditButton() -> some View {
+        Button {
+            isOptionsPopoverDisplayed = false
+            isEditBusinessScreenPresented = true
+        } label: {
+            Text("Edit Business")
+                .foregroundStyle(.gray)
+            Image(systemName: "pencil")
+                .foregroundStyle(.gray)
+        }
+        .padding()
     }
     
     // MARK: - Delete Business
