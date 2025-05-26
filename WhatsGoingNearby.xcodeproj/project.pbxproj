@@ -305,6 +305,8 @@
 		EDF324F12DE09DB500752A64 /* CommunityMessageScreenWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF324F02DE09DB500752A64 /* CommunityMessageScreenWrapper.swift */; };
 		EDF325282DE4912800752A64 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF325272DE4912800752A64 /* PhotoPicker.swift */; };
 		EDF3252B2DE4EDAA00752A64 /* EditBusinessDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF3252A2DE4EDAA00752A64 /* EditBusinessDTO.swift */; };
+		EDF3252D2DE4EF5C00752A64 /* EditBusinessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF3252C2DE4EF5C00752A64 /* EditBusinessView.swift */; };
+		EDF325302DE4EFFC00752A64 /* EditBusinessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF3252F2DE4EFFC00752A64 /* EditBusinessViewModel.swift */; };
 		EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF43E922B86E6B60037CC9F /* LocalState.swift */; };
 		EDFADBA02CF11F3D0050E322 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFADB9F2CF11F3D0050E322 /* Gender.swift */; };
 /* End PBXBuildFile section */
@@ -576,6 +578,8 @@
 		EDF324F02DE09DB500752A64 /* CommunityMessageScreenWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityMessageScreenWrapper.swift; sourceTree = "<group>"; };
 		EDF325272DE4912800752A64 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		EDF3252A2DE4EDAA00752A64 /* EditBusinessDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBusinessDTO.swift; sourceTree = "<group>"; };
+		EDF3252C2DE4EF5C00752A64 /* EditBusinessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBusinessView.swift; sourceTree = "<group>"; };
+		EDF3252F2DE4EFFC00752A64 /* EditBusinessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBusinessViewModel.swift; sourceTree = "<group>"; };
 		EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhatsGoingNearby.entitlements; sourceTree = "<group>"; };
 		EDF43E912B869F3E0037CC9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EDF43E922B86E6B60037CC9F /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
@@ -729,6 +733,7 @@
 			children = (
 				EDD40C5F2D74E98A00E33663 /* List */,
 				EDD40C5E2D74E98000E33663 /* Publish */,
+				EDF3252E2DE4EFD900752A64 /* Edit */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -1478,6 +1483,15 @@
 			path = Community;
 			sourceTree = "<group>";
 		};
+		EDF3252E2DE4EFD900752A64 /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				EDF3252F2DE4EFFC00752A64 /* EditBusinessViewModel.swift */,
+				EDF3252C2DE4EF5C00752A64 /* EditBusinessView.swift */,
+			);
+			path = Edit;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1710,6 +1724,7 @@
 				ED7AF5CF2DA6EDD200966B5C /* LostAndFoundViewModel.swift in Sources */,
 				ED6D82C52B93D7BE00C57937 /* MapViewModel.swift in Sources */,
 				ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */,
+				EDF3252D2DE4EF5C00752A64 /* EditBusinessView.swift in Sources */,
 				EDEF7A7A2D5257470030B7A6 /* CommunitySuggestionView.swift in Sources */,
 				ED82CD162D8DA15B0075EFB8 /* HelpView.swift in Sources */,
 				EDF324F12DE09DB500752A64 /* CommunityMessageScreenWrapper.swift in Sources */,
@@ -1755,6 +1770,7 @@
 				ED30CE7D2D6F99EB001FB213 /* IndepCommentScreenWrapper.swift in Sources */,
 				ED13B0A12CD94B240046C34B /* DeactivateUserDiscoverabilityResponse.swift in Sources */,
 				EDA322242B7C99B6009905B5 /* CalculateDistanceTestScreen.swift in Sources */,
+				EDF325302DE4EFFC00752A64 /* EditBusinessViewModel.swift in Sources */,
 				EDABC4562D626A650014C15E /* JoinCommunityView.swift in Sources */,
 				EDCF2C332BB65FC60066950F /* Chat.swift in Sources */,
 				ED50C4502B7E4AB70001EDF6 /* AYErrorAlert.swift in Sources */,

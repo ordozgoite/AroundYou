@@ -1800,6 +1800,9 @@
         }
       }
     },
+    "Edit Business" : {
+
+    },
     "Edit Community" : {
       "localizations" : {
         "pt-BR" : {
@@ -1883,6 +1886,9 @@
           }
         }
       }
+    },
+    "Editing..." : {
+
     },
     "Education" : {
       "localizations" : {
@@ -2014,6 +2020,9 @@
           }
         }
       }
+    },
+    "Error trying to edit Business. Please try again." : {
+
     },
     "Error trying to fetch community info." : {
       "localizations" : {
