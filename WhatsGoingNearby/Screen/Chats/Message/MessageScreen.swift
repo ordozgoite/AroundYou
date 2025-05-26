@@ -129,7 +129,7 @@ struct MessageScreen: View {
             }
         }
         .sheet(isPresented: $messageVM.isPhotosDisplayed) {
-            PhotoPicker(selectedPhotos: $messageVM.images)
+            MultiplePhotosPicker(selectedPhotos: $messageVM.images)
         }
     }
     

@@ -21,20 +21,12 @@ class CreateCommunityViewModel: ObservableObject {
     @Published var isDurationInfoPopoverDisplayed: Bool = false
     
     // Community Image
-    @Published var isImageOptionsDisplayed: Bool = false
-    @Published var imageSelection: PhotosPickerItem?
+    @Published var isCameraPickerDisplayed: Bool = false
+    @Published var isPhotoPickerDisplayed: Bool = false
     @Published var isCropViewDisplayed: Bool = false
-    @Published var image: UIImage?
+    @Published var imageFromCamera: UIImage?
+    @Published var imageFromAlbum: UIImage?
     @Published var croppedImage: UIImage?
-    @Published var isPhotoPickerPresented: Bool = false
-    
-    func resetCreateCommunityInputs() {
-        self.imageSelection = nil
-        self.image = nil
-        self.croppedImage = nil
-        self.communityNameInput = ""
-        communityDescriptionInput = ""
-    }
     
     func areInputsValid() -> Bool {
         return !communityNameInput.isEmpty
@@ -49,7 +41,7 @@ class CreateCommunityViewModel: ObservableObject {
         switch result {
         case .success:
             print("✅ New Community successfully posted!")
-        case .failure(let error):
+        case .failure:
             overlayError = (true, ErrorMessage.postNewCommunity)
         }
     }
@@ -60,23 +52,6 @@ class CreateCommunityViewModel: ObservableObject {
         } catch {
             overlayError = (true, ErrorMessage.postImageErrorMessage)
             return nil
-        }
-    }
-    
-    private func loadTransferable(from imageSelection: PhotosPickerItem) -> Progress {
-        return imageSelection.loadTransferable(type: Image.self) { result in
-            DispatchQueue.main.async {
-                guard imageSelection == self.imageSelection else { return }
-                switch result {
-                case .success(let image?):
-                    print("✅ Success!")
-                case .success(nil):
-                    print("✅ Success!")
-                case .failure(let error):
-                    print("❌ Error: \(error)")
-                    self.overlayError = (true, ErrorMessage.selectPhotoErrorMessage)
-                }
-            }
         }
     }
 }
