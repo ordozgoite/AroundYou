@@ -8,10 +8,6 @@
 import SwiftUI
 import PhotosUI
 
-enum PostReportIncidentError: Error {
-    case genericError
-}
-
 @MainActor
 class ReportIncidentViewModel: ObservableObject {
     @Published var selectedReportType: IncidentType?
@@ -61,9 +57,13 @@ class ReportIncidentViewModel: ObservableObject {
         switch result {
         case .success:
             print("✅ Report successfully posted!")
-        case .failure:
-            overlayError = (true, ErrorMessage.postIncidentReportErrorMessage)
-            throw PostReportIncidentError.genericError
+        case .failure(let error):
+            if error == .locked {
+                overlayError = (true, "You can only have one active Incident Report published at a time.")
+            } else {
+                overlayError = (true, ErrorMessage.postIncidentReportErrorMessage)
+            }
+            throw error
         }
     }
     

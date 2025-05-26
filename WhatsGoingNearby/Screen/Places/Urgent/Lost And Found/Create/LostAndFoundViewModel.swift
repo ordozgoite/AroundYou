@@ -68,8 +68,12 @@ class LostAndFoundViewModel: ObservableObject {
         switch result {
         case .success:
             print("✅ Lost Item successfully posted!")
-        case .failure:
-            overlayError = (true, ErrorMessage.postLostItemErrorMessage)
+        case .failure(let error):
+            if error == .locked {
+                overlayError = (true, "You can only have one active Lost Item published at a time.")
+            } else {
+                overlayError = (true, ErrorMessage.postLostItemErrorMessage)
+            }
             throw PostLostItemError.genericError
         }
     }

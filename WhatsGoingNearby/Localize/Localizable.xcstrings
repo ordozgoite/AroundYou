@@ -1801,7 +1801,14 @@
       }
     },
     "Edit Business" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar Negócio"
+          }
+        }
+      }
     },
     "Edit Community" : {
       "localizations" : {
@@ -1888,7 +1895,14 @@
       }
     },
     "Editing..." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editando…"
+          }
+        }
+      }
     },
     "Education" : {
       "localizations" : {
@@ -2022,7 +2036,14 @@
       }
     },
     "Error trying to edit Business. Please try again." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao editar Negócio. Tente novamente."
+          }
+        }
+      }
     },
     "Error trying to fetch community info." : {
       "localizations" : {
@@ -5975,10 +5996,24 @@
       }
     },
     "You can not edit your Business location." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você não pode editar a localização do seu Negócio."
+          }
+        }
+      }
     },
     "You can not edit your Business photo." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você não pode editar a foto do seu Negócio."
+          }
+        }
+      }
     },
     "You can offer a reward to encourage people to return your item." : {
       "localizations" : {
@@ -5996,6 +6031,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você só pode ter um Negócio publicado por vez."
+          }
+        }
+      }
+    },
+    "You can only have one active Incident Report published at a time." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você pode ter apenas uma Denúncia publicada por vez."
+          }
+        }
+      }
+    },
+    "You can only have one active Lost Item published at a time." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você pode ter apenas um Item Perdido publicado por vez."
           }
         }
       }
