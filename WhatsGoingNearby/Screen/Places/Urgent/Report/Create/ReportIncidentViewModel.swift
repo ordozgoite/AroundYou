@@ -18,7 +18,8 @@ class ReportIncidentViewModel: ObservableObject {
     @Published var isUserTheVictim: Bool = true
     @Published var humanVictimDetails: String = ""
     @Published var reportDescription: String = ""
-    @Published var imageSelection: PhotosPickerItem? = nil
+    @Published var isCameraPickerDisplayed: Bool = false
+    @Published var isPhotoPickerDisplayed: Bool = false
     @Published var selectedImage: UIImage? = nil
     @Published var isPostingReport: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
@@ -71,7 +72,6 @@ class ReportIncidentViewModel: ObservableObject {
     }
     
     func removePhoto() {
-        self.imageSelection = nil
         self.selectedImage = nil
     }
 }
