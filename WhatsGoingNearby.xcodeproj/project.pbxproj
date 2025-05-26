@@ -1989,6 +1989,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhatsGoingNearby/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Around You";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will be used to search for posts around you.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to your microphone.";
@@ -2029,6 +2030,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhatsGoingNearby/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Around You";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will be used to search for posts around you.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to your microphone.";

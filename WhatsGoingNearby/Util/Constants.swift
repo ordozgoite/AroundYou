@@ -22,6 +22,14 @@ extension Notification.Name {
 struct Constants {
     static let API_URL: String = "https://around-you-3acb9615e8a5.herokuapp.com"
     
+    // MARK: - BG Tasks
+
+    /*
+     Toda vez que for mudar o Id de uma Background Task, é necessário atualizar o valor na Info Plist!
+     */
+    
+    static let updateLocBGTaskId: String = "ordozgoite.WhatsGoingNearby.backgroundTask.updateLoc"
+    
     // MARK: - Images
     
     static let instagramLogoImageName: String = "instagram"
