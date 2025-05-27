@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct DiscoverView: View {
-    
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var socket: SocketService
     @ObservedObject var discoverVM: PeopleViewModel
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
     
     @State private var refreshObserver = NotificationCenter.default
         .publisher(for: .refreshLocationSensitiveData)
@@ -37,7 +36,6 @@ struct DiscoverView: View {
                     }
                 }
             }
-//            .navigationTitle("Discover")
         }
         .onReceive(refreshObserver) { _ in
             Task {
@@ -105,8 +103,7 @@ struct DiscoverView: View {
                     username: discoverVM.userToChatWith?.username ?? "",
                     otherUserUid: discoverVM.userToChatWith?.userUid ?? "",
                     chatPic: discoverVM.userToChatWith?.profilePic,
-                    isLocked: chatUser.isLocked,
-                    socket: socket
+                    isLocked: chatUser.isLocked
                 )
             }
         }

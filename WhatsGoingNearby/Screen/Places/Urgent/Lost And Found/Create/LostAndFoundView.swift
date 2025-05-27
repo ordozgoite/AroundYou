@@ -11,8 +11,8 @@ import PhotosUI
 struct LostAndFoundView: View {
     @Binding var isViewDisplayed: Bool
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
     @StateObject private var vm = LostAndFoundViewModel()
-    @ObservedObject var locationManager: LocationManager
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -225,5 +225,5 @@ extension LostAndFoundView {
 }
 
 #Preview {
-    LostAndFoundView(isViewDisplayed: .constant(true), locationManager: LocationManager())
+    LostAndFoundView(isViewDisplayed: .constant(true))
 }

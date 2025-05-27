@@ -7,13 +7,21 @@
 
 import SwiftUI
 
-struct PlacesScreen: View {
-    
+enum PostNavigation: Hashable {
+    case comment(FormattedPost)
+    case reportDetail(String)
+    case lostItemDetail(String)
+    case editPost(FormattedPost)
+    case reportIssue(FormattedPost)
+    case map(FormattedPost)
+    case like(FormattedPost)
+}
+
+struct PlacesScreen: View, PostViewActionHandler {
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var socket: SocketService
     @ObservedObject var placesVM: PlacesViewModel
-    @StateObject private var communityVM = CommunityViewModel()
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
     
     @State private var refreshObserver = NotificationCenter.default
         .publisher(for: .refreshLocationSensitiveData)
@@ -45,10 +53,32 @@ struct PlacesScreen: View {
                 }
                 
                 ToolbarItem {
-                    NavigationLink(destination: NotificationScreen(location: $locationManager.location, socket: socket, locationManager: locationManager).environmentObject(authVM)) {
-                        Image(systemName: "bell")
-                    }
+                    Notifications()
                 }
+            }
+        }
+        .navigationDestination(isPresented: $placesVM.selectedNav.0) {
+            switch placesVM.selectedNav.1 {
+            case .comment(let post):
+                CommentScreen(post: post)
+            case .reportDetail(let reportId):
+                ReportDetailScreen(reportId: reportId)
+            case .lostItemDetail(let lostItemId):
+                LostItemDetailScreen(lostItemId: lostItemId)
+            case .editPost(let post):
+                EditPostScreen(post: post)
+            case .reportIssue(let post):
+                ReportIssueScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil, businessId: nil)
+            case .like(let post):
+                LikeScreen(id: post.id, type: .publication)
+            case .map(let post):
+                if #available(iOS 17.0, *) {
+                    NewPostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, username: post.username, profilePic: post.userProfilePic)
+                } else {
+                    PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0)
+                }
+            default:
+                EmptyView()
             }
         }
         .sheet(isPresented: $placesVM.isHelpViewDisplayed) {
@@ -56,12 +86,12 @@ struct PlacesScreen: View {
                 .environmentObject(authVM)
         }
         .sheet(isPresented: $placesVM.isLostAndFoundScreenDisplayed) {
-            LostAndFoundView(isViewDisplayed: $placesVM.isLostAndFoundScreenDisplayed, locationManager: locationManager)
+            LostAndFoundView(isViewDisplayed: $placesVM.isLostAndFoundScreenDisplayed)
                 .environmentObject(authVM)
                 .interactiveDismissDisabled(true)
         }
         .sheet(isPresented: $placesVM.isReportScreenDisplayed) {
-            ReportIncidentView(isViewDisplayed: $placesVM.isReportScreenDisplayed, locationManager: locationManager)
+            ReportIncidentView(isViewDisplayed: $placesVM.isReportScreenDisplayed)
                 .environmentObject(authVM)
                 .interactiveDismissDisabled(true)
         }
@@ -97,7 +127,7 @@ struct PlacesScreen: View {
     
     @ViewBuilder
     private func EmptyFeed() -> some View {
-        EmptyFeedView(communityVM: communityVM, locationManager: locationManager)
+        EmptyFeedView()
             .environmentObject(authVM)
     }
     
@@ -137,18 +167,20 @@ struct PlacesScreen: View {
     private func Posts(ofType postType: PostStatus) -> some View {
         ForEach($placesVM.posts) { $post in
             if post.status == postType {
-                PostView(post: $post, socket: socket, locationManager: locationManager, isClickable: true, deletePost: {
-                    Task {
-                        let token = try await authVM.getFirebaseToken()
-                        await placesVM.deletePost(postId: post.id, token: token)
-                    }
-                }) { shouldUpdate in
-                    placesVM.shouldUpdateFeed = shouldUpdate
-                }
+                PostView(post: post, delegate: self, isClickable: true, selectedNav: $placesVM.selectedNav)
                 .padding()
                 
                 Divider()
             }
+        }
+    }
+    
+    // MARK: - Notifications
+    
+    @ViewBuilder
+    private func Notifications() -> some View {
+        NavigationLink(destination: NotificationScreen(location: $locationManager.location, socket: socket, locationManager: locationManager).environmentObject(authVM)) {
+            Image(systemName: "bell")
         }
     }
     
@@ -218,6 +250,42 @@ struct PlacesScreen: View {
     
     private func updateLocation() {
         NotificationCenter.default.post(name: .updateLocation, object: nil)
+    }
+}
+
+// MARK: - Post View Protocol
+
+extension PlacesScreen {
+    func postViewDidLikePublication(_ content: FormattedPost) {
+        placesVM.likePost(withId: content.id)
+    }
+    
+    func postViewDidUnlikePublication(_ content: FormattedPost) {
+        placesVM.unlikePost(withId: content.id)
+    }
+    
+    func postViewDidDeletePublication(_ content: FormattedPost) {
+        placesVM.removePost(withId: content.id)
+    }
+    
+    func postViewDidDeleteLostItem(_ content: FormattedPost) {
+        placesVM.removePost(withId: content.id)
+    }
+    
+    func postViewDidDeleteReport(_ content: FormattedPost) {
+        placesVM.removePost(withId: content.id)
+    }
+    
+    func postViewDidFollow(_ content: FormattedPost) {
+        placesVM.followPost(withId: content.id)
+    }
+    
+    func postViewDidUnfollow(_ content: FormattedPost) {
+        placesVM.unfollowPost(withId: content.id)
+    }
+    
+    func postViewDidMarkAsCompleted(_ content: FormattedPost) {
+        placesVM.finishPost(withId: content.id)
     }
 }
 

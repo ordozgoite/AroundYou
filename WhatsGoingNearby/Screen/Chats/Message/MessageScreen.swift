@@ -19,8 +19,8 @@ struct MessageScreen: View {
     @State var isLocked: Bool
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var socket: SocketService
     @StateObject private var messageVM = MessageViewModel()
-    @ObservedObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
     

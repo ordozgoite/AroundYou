@@ -42,7 +42,7 @@ struct CommentView: View {
             )
             
             NavigationLink(
-                destination: LikeScreen(id: comment.id, type: .comment, socket: socket).environmentObject(authVM),
+                destination: LikeScreen(id: comment.id, type: .comment).environmentObject(authVM),
                 isActive: $isLikeScreenDisplayed,
                 label: { EmptyView() }
             )

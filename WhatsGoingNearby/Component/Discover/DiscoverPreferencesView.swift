@@ -9,10 +9,9 @@ import SwiftUI
 import Sliders
 
 struct DiscoverPreferencesView: View {
-    
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
     @ObservedObject var discoverVM: PeopleViewModel
-    @ObservedObject var locationManager: LocationManager
     
     var body: some View {
         NavigationStack {
@@ -232,6 +231,6 @@ struct DiscoverPreferencesView: View {
 }
 
 #Preview {
-    DiscoverPreferencesView(discoverVM: PeopleViewModel(), locationManager: LocationManager())
+    DiscoverPreferencesView(discoverVM: PeopleViewModel())
         .environmentObject(AuthenticationViewModel())
 }

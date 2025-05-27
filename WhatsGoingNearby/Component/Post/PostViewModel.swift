@@ -18,40 +18,42 @@ enum IncidentReportError: Error {
 
 @MainActor
 class PostViewModel: ObservableObject {
-    
     @Published var isTimeLeftPopoverDisplayed: Bool = false
     @Published var isOptionsPopoverDisplayed: Bool = false
-    @Published var isReportScreenPresented: Bool = false
-    @Published var isMapScreenPresented: Bool = false
-    @Published var isLikeScreenDisplayed: Bool = false
     @Published var isFullScreenImageDisplayed: Bool = false
-    @Published var isEditPostScreenDisplayed: Bool = false
+    @Published var didLikePost: Bool = false
+    @Published var postLikes: Int = 0
     
-    @Published var isCommentScreenPresented: Bool = false
-    @Published var isReportDetailScreenPresented: Bool = false
-    @Published var isLostItemDetailScreenPresented: Bool = false
+    func deletePost(postId: String, token: String) async throws {
+        let result = await AYServices.shared.deletePublication(publicationId: postId, token: token)
+        
+        switch result {
+        case .success:
+            print("✅ Succesfully deleted post!")
+        case .failure(let error):
+            throw error
+        }
+    }
     
-    func deleteLostItem(lostItemId: String, token: String) async {
+    func deleteLostItem(lostItemId: String, token: String) async throws {
         let result = await AYServices.shared.deleteLostItem(lostItemId: lostItemId, token: token)
         
         switch result {
         case .success:
-            refreshFeed()
-            updateUserProfilePosts()
-        case .failure:
-            print("❌ Error trying to delete Lost Item.")
+            print("✅ Succesfully deleted lost item!")
+        case .failure(let error):
+            throw error
         }
     }
     
-    func deleteReport(reportId: String, token: String) async {
+    func deleteReport(reportId: String, token: String) async throws {
         let result = await AYServices.shared.deleteReportIncident(reportId: reportId, token: token)
         
         switch result {
         case .success:
-            refreshFeed()
-            updateUserProfilePosts()
-        case .failure:
-            print("❌ Error trying to delete Incident Report.")
+            print("✅ Succesfully deleted report!")
+        case .failure(let error):
+            throw error
         }
     }
     
@@ -75,38 +77,48 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func followPost(postId: String, token: String) async -> Bool? {
+    func followPost(postId: String, token: String) async throws {
         let result = await AYServices.shared.subscribeUserToPublication(publicationId: postId, token: token)
         
         switch result {
         case .success:
-            return true
-        case .failure:
-            return nil
+            print("✅ Succesfully followed post!")
+        case .failure(let error):
+            throw error
         }
     }
     
-    func unfollowPost(postId: String, token: String) async -> Bool? {
+    func unfollowPost(postId: String, token: String) async throws {
         let result = await AYServices.shared.unsubscribeUser(publicationId: postId, token: token)
         
         switch result {
         case .success:
-            return false
-        case .failure:
-            return nil
+            print("✅ Succesfully unfollowed post!")
+        case .failure(let error):
+            throw error
         }
     }
     
-    func likePublication(publicationId: String, token: String, toggleFeedUpdate: (Bool) -> ()) async {
-        toggleFeedUpdate(false)
-        _ = await AYServices.shared.likePublication(publicationId: publicationId, token: token)
-        toggleFeedUpdate(true)
+    func likePublication(publicationId: String, token: String) async throws {
+        let result = await AYServices.shared.likePublication(publicationId: publicationId, token: token)
+        
+        switch result {
+        case .success:
+            print("✅ Succesfully liked post!")
+        case .failure(let error):
+            throw error
+        }
     }
     
-    func unlikePublication(publicationId: String, token: String, toggleFeedUpdate: (Bool) -> ()) async {
-        toggleFeedUpdate(false)
-        _ = await AYServices.shared.unlikePublication(publicationId: publicationId, token: token)
-        toggleFeedUpdate(true)
+    func unlikePublication(publicationId: String, token: String) async throws {
+        let result = await AYServices.shared.unlikePublication(publicationId: publicationId, token: token)
+        
+        switch result {
+        case .success:
+            print("✅ Succesfully unliked post!")
+        case .failure(let error):
+            throw error
+        }
     }
     
     func finishPublication(postId: String, token: String) async throws {
@@ -121,15 +133,15 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func refreshFeed() {
-        NotificationCenter.default.post(name: .refreshLocationSensitiveData, object: nil)
-    }
+//    func refreshFeed() {
+//        NotificationCenter.default.post(name: .refreshLocationSensitiveData, object: nil)
+//    }
     
     func isActivePublication(_ post: FormattedPost) -> Bool {
         return post.status == .active && post.postSource == .publication
     }
     
-    private func updateUserProfilePosts() {
-        NotificationCenter.default.post(name: .updateUserProfilePosts, object: nil)
-    }
+//    private func updateUserProfilePosts() {
+//        NotificationCenter.default.post(name: .updateUserProfilePosts, object: nil)
+//    }
 }

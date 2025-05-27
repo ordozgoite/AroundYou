@@ -11,8 +11,8 @@ struct CommunityMessageScreenWrapper: View {
     let communityId: String
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
     
     @State private var community: FormattedCommunity? = nil
@@ -26,13 +26,7 @@ struct CommunityMessageScreenWrapper: View {
             } else {
                 if let community = community {
                     NavigationView {
-                        CommunityMessageScreen(
-                            community: community,
-                            isViewDisplayed: .constant(true),
-                            locationManager: locationManager,
-                            socket: socket,
-                            refreshCommunities: {}
-                        )
+                        CommunityMessageScreen(community: community, refreshCommunities: {})
                         .navigationBarItems(leading: Button(action: {
                             presentationMode.wrappedValue.dismiss()
                         }, label: {
@@ -100,5 +94,5 @@ extension CommunityMessageScreenWrapper {
 }
 
 #Preview {
-    CommunityMessageScreenWrapper(communityId: UUID().uuidString, locationManager: LocationManager(), socket: SocketService())
+    CommunityMessageScreenWrapper(communityId: UUID().uuidString)
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FormattedPost: Identifiable, Codable {
+struct FormattedPost: Identifiable, Codable, Equatable, Hashable {
     let id: String
     let userUid: String
     let userProfilePic: String?

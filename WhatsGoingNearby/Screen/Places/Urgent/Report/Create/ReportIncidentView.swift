@@ -11,8 +11,8 @@ import PhotosUI
 struct ReportIncidentView: View {
     @Binding var isViewDisplayed: Bool
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
     @StateObject private var vm = ReportIncidentViewModel()
-    @ObservedObject var locationManager: LocationManager
     @Environment(\.dismiss) var dismiss
     @FocusState private var isEditingIncidentDescription: Bool
     @FocusState private var isEditingPersonDescription: Bool
@@ -235,5 +235,5 @@ extension ReportIncidentView {
 }
 
 #Preview {
-    ReportIncidentView(isViewDisplayed: .constant(true), locationManager: LocationManager())
+    ReportIncidentView(isViewDisplayed: .constant(true))
 }

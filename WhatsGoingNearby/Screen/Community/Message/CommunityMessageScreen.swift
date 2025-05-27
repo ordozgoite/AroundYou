@@ -8,14 +8,12 @@
 import SwiftUI
 
 struct CommunityMessageScreen: View {
-    
     var community: FormattedCommunity
-    @Binding var isViewDisplayed: Bool
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var socket: SocketService
     @StateObject private var communityMessageVM = CommunityMessageViewModel()
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
     @Environment(\.dismiss) var dismiss

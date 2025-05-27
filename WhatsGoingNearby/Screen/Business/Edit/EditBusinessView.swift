@@ -44,7 +44,7 @@ struct EditBusinessView: View {
                 
                 AYErrorAlert(message: editBusinessVM.overlayError.1 , isErrorAlertPresented: $editBusinessVM.overlayError.0)
             }
-            .navigationTitle("Add Business")
+            .navigationTitle("Edit Business")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 setCurrentValues()

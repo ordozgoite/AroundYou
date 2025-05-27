@@ -8,31 +8,23 @@
 import SwiftUI
 import CoreLocation
 
-struct CommentScreen: View {
-    
-    let postId: String
+struct CommentScreen: View, PostViewActionHandler {
+    var post: FormattedPost
     private let maxCommentLength = 250
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var commentVM = CommentViewModel()
-    @Binding var post: FormattedPost
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var commentIsFocused: Bool
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var socket: SocketService
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
             VStack {
                 ScrollView {
-                    PostView(post: $post, socket: socket, locationManager: locationManager, isClickable: false) {
-                        Task {
-                            let token = try await authVM.getFirebaseToken()
-                            await commentVM.deletePost(publicationId: postId, token: token) {
-                                presentationMode.wrappedValue.dismiss()
-                            }
-                        }
-                    } toggleFeedUpdate: { _ in }
+                    PostView(post: post, delegate: self, isClickable: false, selectedNav: $commentVM.selectedNav)
                         .padding()
                     
                     Divider()
@@ -57,6 +49,30 @@ struct CommentScreen: View {
         }
         .navigationTitle("Comments")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationDestination(isPresented: $commentVM.selectedNav.0) {
+            switch commentVM.selectedNav.1 {
+            case .comment(let post):
+                CommentScreen(post: post)
+            case .reportDetail(let reportId):
+                ReportDetailScreen(reportId: reportId)
+            case .lostItemDetail(let lostItemId):
+                LostItemDetailScreen(lostItemId: lostItemId)
+            case .editPost(let post):
+                EditPostScreen(post: post)
+            case .reportIssue(let post):
+                ReportIssueScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil, businessId: nil)
+            case .like(let post):
+                LikeScreen(id: post.id, type: .publication)
+            case .map(let post):
+                if #available(iOS 17.0, *) {
+                    NewPostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, username: post.username, profilePic: post.userProfilePic)
+                } else {
+                    PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0)
+                }
+            default:
+                EmptyView()
+            }
+        }
     }
     
     //MARK: - Comments
@@ -158,7 +174,7 @@ struct CommentScreen: View {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             
-            await commentVM.postNewComment(publicationId: postId, text: commentVM.newCommentText, latitude: latitude, longitude: longitude, token: token)
+            await commentVM.postNewComment(publicationId: post.id, text: commentVM.newCommentText, latitude: latitude, longitude: longitude, token: token)
         }
     }
     
@@ -166,7 +182,7 @@ struct CommentScreen: View {
         commentVM.timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
             Task {
                 let token = try await authVM.getFirebaseToken()
-                await commentVM.getAllComments(publicationId: postId, token: token)
+                await commentVM.getAllComments(publicationId: post.id, token: token)
             }
         }
         commentVM.timer?.fire()
@@ -174,6 +190,42 @@ struct CommentScreen: View {
     
     private func stopTimer() {
         commentVM.timer?.invalidate()
+    }
+}
+
+// MARK: - Post View Protocol
+
+extension CommentScreen {
+    func postViewDidLikePublication(_ content: FormattedPost) {
+        
+    }
+    
+    func postViewDidUnlikePublication(_ content: FormattedPost) {
+        
+    }
+    
+    func postViewDidDeletePublication(_ content: FormattedPost) {
+        dismiss()
+    }
+    
+    func postViewDidDeleteLostItem(_ content: FormattedPost) {
+        
+    }
+    
+    func postViewDidDeleteReport(_ content: FormattedPost) {
+        
+    }
+    
+    func postViewDidFollow(_ content: FormattedPost) {
+        // TODO: mark as subscribed
+    }
+    
+    func postViewDidUnfollow(_ content: FormattedPost) {
+        // TODO: mark as not subscribed
+    }
+    
+    func postViewDidMarkAsCompleted(_ content: FormattedPost) {
+        // TODO: mark as finished
     }
 }
 

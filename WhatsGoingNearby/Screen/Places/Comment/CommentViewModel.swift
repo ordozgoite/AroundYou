@@ -15,7 +15,7 @@ class CommentViewModel: ObservableObject {
     @Published var newCommentText: String = ""
     @Published var repliedComment: FormattedComment?
     @Published var isPostingComment: Bool = false
-    
+    @Published var selectedNav: (Bool, PostNavigation?) = (false, nil)
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var timer: Timer?
     

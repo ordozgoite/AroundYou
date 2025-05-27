@@ -133,14 +133,20 @@ extension AppDelegate: MessagingDelegate {
 
 @main
 struct WhatsGoingNearbyApp: App {
-    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     @StateObject var notificationManager = NotificationManager()
+    @StateObject var authVM = AuthenticationViewModel()
+    @StateObject private var socket = SocketService()
+    @StateObject private var locationManager = LocationManager()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(notificationManager)
+                .environmentObject(authVM)
+                .environmentObject(socket)
+                .environmentObject(locationManager)
         }
 //        .backgroundTask(.appRefresh(Constants.updateLocBGTaskId)) {
 //            scheduleAppRefresh()

@@ -11,9 +11,9 @@ import Kingfisher
 struct MainTabView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @StateObject private var socket = SocketService()
+    @EnvironmentObject var socket: SocketService
     @EnvironmentObject var notificationManager: NotificationManager
-    @StateObject private var locationManager = LocationManager()
+    @EnvironmentObject var locationManager: LocationManager
     @Environment(\.colorScheme) var colorScheme
     
     let pub = NotificationCenter.default
@@ -28,26 +28,23 @@ struct MainTabView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            HomeScreen(locationManager: locationManager, socket: socket)
+            HomeScreen()
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
-                .environmentObject(authVM)
                 .tag(0)
             
-            ChatListScreen(socket: socket)
+            ChatListScreen()
                 .tabItem {
                     Label("Chats", systemImage: "bubble")
                 }
-                .environmentObject(authVM)
                 .badge(unreadChats ?? 0)
                 .tag(1)
             
-            AccountScreen(locationManager: locationManager, socket: socket)
+            AccountScreen()
                 .tabItem {
                     ProfileTabItemLabel()
                 }
-                .environmentObject(authVM)
                 .tag(2)
         }
         .onAppear {
@@ -75,9 +72,7 @@ struct MainTabView: View {
         }
         .fullScreenCover(isPresented: $notificationManager.isPublicationDisplayed) {
             IndepCommentScreenWrapper(
-                postId: notificationManager.publicationId ?? "",
-                locationManager: locationManager,
-                socket: socket
+                postId: notificationManager.publicationId ?? ""
             )
         }
         .fullScreenCover(isPresented: $notificationManager.isChatDisplayed) {
@@ -86,15 +81,12 @@ struct MainTabView: View {
                 username: notificationManager.username ?? "",
                 otherUserUid: notificationManager.senderUserUid ?? "",
                 chatPic: notificationManager.chatPic,
-                isLocked: notificationManager.isLocked ?? false,
-                socket: socket
+                isLocked: notificationManager.isLocked ?? false
             )
         }
         .fullScreenCover(isPresented: $notificationManager.isCommunityChatDisplayed) {
             CommunityMessageScreenWrapper(
-                communityId: notificationManager.communityId ?? "",
-                locationManager: locationManager,
-                socket: socket
+                communityId: notificationManager.communityId ?? ""
             )
             .environmentObject(authVM)
         }

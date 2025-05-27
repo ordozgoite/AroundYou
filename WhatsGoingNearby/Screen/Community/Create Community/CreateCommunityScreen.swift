@@ -9,11 +9,10 @@ import SwiftUI
 import PhotosUI
 
 struct CreateCommunityScreen: View {
-    
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
     @StateObject private var createCommunityVM = CreateCommunityViewModel()
     @ObservedObject var communityVM: CommunityViewModel
-    @ObservedObject var locationManager: LocationManager
     @FocusState private var isDescriptionTextFieldFocused: Bool
     @Environment(\.dismiss) var dismiss
     
@@ -304,9 +303,6 @@ extension CreateCommunityScreen {
 }
 
 #Preview {
-    CreateCommunityScreen(
-        communityVM: CommunityViewModel(),
-        locationManager: LocationManager()
-    )
+    CreateCommunityScreen(communityVM: CommunityViewModel())
     .environmentObject(AuthenticationViewModel())
 }

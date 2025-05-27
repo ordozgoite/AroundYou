@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct PeopleScreen: View {
-    
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var socket: SocketService
     @ObservedObject var peopleVM: PeopleViewModel
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
     
     var body: some View {
         ZStack {
@@ -20,7 +19,7 @@ struct PeopleScreen: View {
                 NotDiscoveringScreen(peopleVM: peopleVM)
                     .environmentObject(authVM)
             } else {
-                DiscoverView(discoverVM: peopleVM, locationManager: locationManager, socket: socket)
+                DiscoverView(discoverVM: peopleVM)
                     .environmentObject(authVM)
             }
             
@@ -35,7 +34,7 @@ struct PeopleScreen: View {
             }
         }
         .sheet(isPresented: $peopleVM.isPreferencesViewDisplayed) {
-            DiscoverPreferencesView(discoverVM: peopleVM, locationManager: locationManager)
+            DiscoverPreferencesView(discoverVM: peopleVM)
                 .environmentObject(authVM)
         }
     }

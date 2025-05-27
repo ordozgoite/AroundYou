@@ -17,8 +17,8 @@ struct LikeScreen: View {
     let id: String
     let type: LikeScreenType
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var socket: SocketService
     @StateObject private var likeVM = LikeViewModel()
-    @ObservedObject var socket: SocketService
     
     var body: some View {
         ZStack {
@@ -63,5 +63,5 @@ struct LikeScreen: View {
 }
 
 #Preview {
-    LikeScreen(id: "", type: .publication, socket: SocketService())
+    LikeScreen(id: "", type: .publication)
 }

@@ -10,8 +10,8 @@ import SwiftUI
 struct HomeScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var socket: SocketService
     
     /*
      Os ViewModels são instanciados nesta tela parent em vez de dentro de suas respectivas Views. Isso garante a persistência do estado de cada View ao navegar para fora e voltar, utilizando o AYFeatureSelector.
@@ -30,17 +30,13 @@ struct HomeScreen: View {
                 
                 switch selectedSection {
                 case .places:
-                    PlacesScreen(placesVM: placesVM, locationManager: locationManager, socket: socket)
-                        .environmentObject(authVM)
+                    PlacesScreen(placesVM: placesVM)
                 case .discover:
-                    PeopleScreen(peopleVM: discoverVM, locationManager: locationManager, socket: socket)
-                        .environmentObject(authVM)
+                    PeopleScreen(peopleVM: discoverVM)
                 case .business:
-                    BusinessScreen(businessVM: businessVM, locationManager: locationManager)
-                        .environmentObject(authVM)
+                    BusinessScreen(businessVM: businessVM)
                 case .communities:
-                    CommunityListScreen(communityVM: communityVM, locationManager: locationManager, socket: socket)
-                        .environmentObject(authVM)
+                    CommunityListScreen(communityVM: communityVM)
                 }
                 
                 Spacer()
@@ -50,5 +46,5 @@ struct HomeScreen: View {
 }
 
 #Preview {
-    HomeScreen(locationManager: LocationManager(), socket: SocketService())
+    HomeScreen()
 }

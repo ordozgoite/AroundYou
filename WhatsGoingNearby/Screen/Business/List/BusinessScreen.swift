@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct BusinessScreen: View {
-    
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
     @ObservedObject var businessVM: BusinessViewModel
-    @ObservedObject var locationManager: LocationManager
     
     @State private var refreshObserver = NotificationCenter.default
         .publisher(for: .refreshLocationSensitiveData)
@@ -197,5 +196,5 @@ extension BusinessScreen {
 }
 
 #Preview {
-    BusinessScreen(businessVM: BusinessViewModel(), locationManager: LocationManager())
+    BusinessScreen(businessVM: BusinessViewModel())
 }

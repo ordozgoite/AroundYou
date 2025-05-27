@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>75</string>
+					<string>70</string>
 					<key>StartingColumnNumber</key>
-					<string>20</string>
+					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>74</string>
+					<string>69</string>
 					<key>Timestamp</key>
-					<string>769880598.204229</string>
+					<string>770047659.771407</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -34,14 +34,14 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>
+				<string>                    
 </string>
 				<key>leading</key>
 				<string>                        secondaryButton: .cancel()
                     )
-                    </string>
+</string>
 				<key>trailing</key>
-				<string>                case .farAway(let community):
+				<string>                case .farAway(_):
                     return Alert(
                         title: Text("You're too far away!"),
 </string>

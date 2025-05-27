@@ -9,12 +9,11 @@ import SwiftUI
 import CoreLocation
 
 struct EditPostScreen: View {
-    
     let post: FormattedPost
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
     @StateObject private var editPostVM = EditPostViewModel()
-    @Binding var location: CLLocation?
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
@@ -109,7 +108,7 @@ struct EditPostScreen: View {
     }
     
     private func editPublication() async throws {
-        if let location = location {
+        if let location = locationManager.location {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             

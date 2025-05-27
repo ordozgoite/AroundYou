@@ -14,25 +14,18 @@ struct IndepCommentScreen: View {
     private let maxCommentLength = 250
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var socket: SocketService
     @StateObject private var postVM = IndepCommentViewModel()
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var commentIsFocused: Bool
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
     
     var body: some View {
         ZStack {
             VStack {
                 ScrollView {
                     if postVM.isPostFetched {
-                        PostView(post: $postVM.post, socket: socket, locationManager: locationManager, isClickable: false) {
-                            Task {
-                                let token = try await authVM.getFirebaseToken()
-                                await postVM.deletePost(publicationId: postId, token: token) {
-                                    presentationMode.wrappedValue.dismiss()
-                                }
-                            }
-                        } toggleFeedUpdate: { _ in }
+                        PostView(post: postVM.post, isClickable: false, selectedNav: .constant((false, nil)))
                             .padding()
                         
                         Divider()

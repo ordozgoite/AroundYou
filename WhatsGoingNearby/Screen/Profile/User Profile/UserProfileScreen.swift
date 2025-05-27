@@ -40,8 +40,7 @@ struct UserProfileScreen: View {
                     username: userProfileVM.userProfile?.username ?? "",
                     otherUserUid: userProfileVM.userProfile?.userUid ?? "",
                     chatPic: userProfileVM.userProfile?.profilePic,
-                    isLocked: userProfileVM.chatUser?.isLocked ?? false,
-                    socket: self.socket
+                    isLocked: userProfileVM.chatUser?.isLocked ?? false
                 ).environmentObject(authVM)
             }
             

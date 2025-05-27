@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct CommunityListScreen: View {
-    
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var socket: SocketService
     @ObservedObject var communityVM: CommunityViewModel
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
     
     @State private var timer: Timer?
     
@@ -30,11 +29,7 @@ struct CommunityListScreen: View {
                 AYErrorAlert(message: communityVM.overlayError.1 , isErrorAlertPresented: $communityVM.overlayError.0)
             }
             .navigationDestination(isPresented: $communityVM.isCreateCommunityScreenDisplayed) {
-                CreateCommunityScreen(
-                    communityVM: communityVM,
-                    locationManager: locationManager
-                )
-                .environmentObject(authVM)
+                CreateCommunityScreen(communityVM: communityVM)
             }
             .onAppear {
                 Task {
@@ -73,7 +68,7 @@ struct CommunityListScreen: View {
                         secondaryButton: .cancel()
                     )
                     
-                case .farAway(let community):
+                case .farAway(_):
                     return Alert(
                         title: Text("You're too far away!"),
                         message: Text("If you want to leave this community, tap and hold it."),
@@ -81,32 +76,6 @@ struct CommunityListScreen: View {
                     )
                 }
             }
-//            .alert(item: $communityVM.selectedCommunityToDelete) { community in
-//                Alert(
-//                    title: Text("Delete Community"),
-//                    message: Text("Do you really want to delete the community **\(community.name)**?"),
-//                    primaryButton: .destructive(Text("Delete")) {
-//                        Task {
-//                            let token = try await authVM.getFirebaseToken()
-//                            try await communityVM.deleteCommunity(communityId: community.id, token: token)
-//                        }
-//                    },
-//                    secondaryButton: .cancel()
-//                )
-//            }
-//            .alert(item: $communityVM.selectedCommunityToLeave) { community in
-//                Alert(
-//                    title: Text("Leave Community"),
-//                    message: Text("Do you really want to leave the community **\(community.name)**?"),
-//                    primaryButton: .destructive(Text("Leave")) {
-//                        Task {
-//                            let token = try await authVM.getFirebaseToken()
-//                            await communityVM.leaveCommunity(communityId: community.id, token: token)
-//                        }
-//                    },
-//                    secondaryButton: .cancel()
-//                )
-//            }
             .toolbar {
                 CreateCommunityButton()
             }
@@ -160,10 +129,7 @@ struct CommunityListScreen: View {
         .navigationDestination(isPresented: $communityVM.isCommunityChatScreenDisplayed) {
             if let community = communityVM.selectedCommunityToChat {
                 CommunityMessageScreen(
-                    community: community,
-                    isViewDisplayed: $communityVM.isCommunityChatScreenDisplayed,
-                    locationManager: locationManager,
-                    socket: socket
+                    community: community
                 ) {
                     Task {
                         try await getCommunities()
@@ -315,6 +281,6 @@ struct CommunityListScreen: View {
 }
 
 #Preview {
-    CommunityListScreen(communityVM: CommunityViewModel(), locationManager: LocationManager(), socket: SocketService())
+    CommunityListScreen(communityVM: CommunityViewModel())
         .environmentObject(AuthenticationViewModel())
 }
