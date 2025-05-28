@@ -11,74 +11,67 @@ struct CommunityListScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var socket: SocketService
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @ObservedObject var communityVM: CommunityViewModel
-    
     @State private var timer: Timer?
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                if communityVM.isLoading {
-                    LoadingView()
-                } else if communityVM.communities.isEmpty {
-                    EmptyCommunityView()
-                } else {
-                    Communities()
-                }
-                
-                AYErrorAlert(message: communityVM.overlayError.1 , isErrorAlertPresented: $communityVM.overlayError.0)
+        ZStack {
+            if communityVM.isLoading {
+                LoadingView()
+            } else if communityVM.communities.isEmpty {
+                EmptyCommunityView()
+            } else {
+                Communities()
             }
-            .navigationDestination(isPresented: $communityVM.isCreateCommunityScreenDisplayed) {
-                CreateCommunityScreen(communityVM: communityVM)
+            
+            AYErrorAlert(message: communityVM.overlayError.1 , isErrorAlertPresented: $communityVM.overlayError.0)
+        }
+        .onAppear {
+            Task {
+                try await getCommunities()
             }
-            .onAppear {
-                Task {
-                    try await getCommunities()
-                }
-                startExpirationTimer()
+            startExpirationTimer()
+        }
+        .onDisappear {
+            stopExpirationTimer()
+        }
+        .alert(item: $communityVM.activeAlert) { alert in
+            switch alert {
+            case .delete(let community):
+                return Alert(
+                    title: Text("Delete Community"),
+                    message: Text("Do you really want to delete the community **\(community.name)**?"),
+                    primaryButton: .destructive(Text("Delete")) {
+                        Task {
+                            let token = try await authVM.getFirebaseToken()
+                            try await communityVM.deleteCommunity(communityId: community.id, token: token)
+                        }
+                    },
+                    secondaryButton: .cancel()
+                )
+            case .leave(let community):
+                return Alert(
+                    title: Text("Leave Community"),
+                    message: Text("Do you really want to leave the community **\(community.name)**?"),
+                    primaryButton: .destructive(Text("Leave")) {
+                        Task {
+                            let token = try await authVM.getFirebaseToken()
+                            await communityVM.leaveCommunity(communityId: community.id, token: token)
+                        }
+                    },
+                    secondaryButton: .cancel()
+                )
+            case .farAway(_):
+                return Alert(
+                    title: Text("You're too far away!"),
+                    message: Text("If you want to leave this community, tap and hold it."),
+                    dismissButton: .default(Text("OK"))
+                )
             }
-            .onDisappear {
-                stopExpirationTimer()
-            }
-            .alert(item: $communityVM.activeAlert) { alert in
-                switch alert {
-                case .delete(let community):
-                    return Alert(
-                        title: Text("Delete Community"),
-                        message: Text("Do you really want to delete the community **\(community.name)**?"),
-                        primaryButton: .destructive(Text("Delete")) {
-                            Task {
-                                let token = try await authVM.getFirebaseToken()
-                                try await communityVM.deleteCommunity(communityId: community.id, token: token)
-                            }
-                        },
-                        secondaryButton: .cancel()
-                    )
-                    
-                case .leave(let community):
-                    return Alert(
-                        title: Text("Leave Community"),
-                        message: Text("Do you really want to leave the community **\(community.name)**?"),
-                        primaryButton: .destructive(Text("Leave")) {
-                            Task {
-                                let token = try await authVM.getFirebaseToken()
-                                await communityVM.leaveCommunity(communityId: community.id, token: token)
-                            }
-                        },
-                        secondaryButton: .cancel()
-                    )
-                    
-                case .farAway(_):
-                    return Alert(
-                        title: Text("You're too far away!"),
-                        message: Text("If you want to leave this community, tap and hold it."),
-                        dismissButton: .default(Text("OK"))
-                    )
-                }
-            }
-            .toolbar {
-                CreateCommunityButton()
-            }
+        }
+        .toolbar {
+            CreateCommunityButton()
         }
     }
     
@@ -126,18 +119,18 @@ struct CommunityListScreen: View {
             
             JoinCommunity()
         }
-        .navigationDestination(isPresented: $communityVM.isCommunityChatScreenDisplayed) {
-            if let community = communityVM.selectedCommunityToChat {
-                CommunityMessageScreen(
-                    community: community
-                ) {
-                    Task {
-                        try await getCommunities()
-                    }
-                }
-                .environmentObject(authVM)
-            }
-        }
+//        .navigationDestination(isPresented: $communityVM.isCommunityChatScreenDisplayed) {
+//            if let community = communityVM.selectedCommunityToChat {
+//                CommunityMessageScreen(
+//                    community: community
+//                ) {
+//                    Task {
+//                        try await getCommunities()
+//                    }
+//                }
+//                .environmentObject(authVM)
+//            }
+//        }
     }
     
     // MARK: - Community
@@ -202,13 +195,10 @@ struct CommunityListScreen: View {
     @ViewBuilder
     private func CreateCommunityButton() -> some View {
         Button {
-            communityVM.isCreateCommunityScreenDisplayed = true
+            navCoordinator.navigate(to: .createCommunity)
         } label: {
             Image(systemName: "plus")
         }
-//        .alert(item: $communityVM.selectedFarAwayCommunity) { community in
-//            Alert(title: Text(community.name), message: Text("You are too far from this community. Tap and hold to leave it."), dismissButton: nil)
-//        }
     }
     
     // MARK: - Private Methods
@@ -247,13 +237,11 @@ struct CommunityListScreen: View {
     }
     
     private func goToCommunity(_ community: FormattedCommunity) {
-        communityVM.selectedCommunityToChat = community
-        communityVM.isCommunityChatScreenDisplayed = true
+        navCoordinator.navigate(to: .communityMessage(community))
     }
     
     private func displayFarAwayAlert(forCommunity community: FormattedCommunity) {
         print("⚠️ Should display popover!")
-//        communityVM.selectedFarAwayCommunity = community
         communityVM.activeAlert = .farAway(community)
     }
     

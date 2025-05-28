@@ -12,8 +12,8 @@ struct CommunityDetailScreen: View {
     @State var community: FormattedCommunity
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @StateObject private var communityDetailVM = CommunityDetailViewModel()
-    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
@@ -357,8 +357,7 @@ extension CommunityDetailScreen {
     private func performCommunityExit() async throws {
         let token = try await authVM.getFirebaseToken()
         try await communityDetailVM.leaveCommunity(communityId: self.community.id, token: token)
-        dismiss()
-        dismissCommunityMessageScreenAndRefreshCommunities()
+        navCoordinator.goToRoot()
     }
     
     private func dismissCommunityMessageScreenAndRefreshCommunities() {
@@ -376,8 +375,7 @@ extension CommunityDetailScreen {
     private func performCommunityDeletion() async throws {
         let token = try await authVM.getFirebaseToken()
         try await communityDetailVM.deleteCommunity(communityId: self.community.id, token: token)
-        dismiss()
-        dismissCommunityMessageScreenAndRefreshCommunities()
+        navCoordinator.goToRoot()
     }
     
     private func handleCommunityPrivacyUpdate() async throws {

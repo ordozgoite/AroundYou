@@ -7,76 +7,41 @@
 
 import SwiftUI
 
-enum PostNavigation: Hashable {
-    case comment(FormattedPost)
-    case reportDetail(FormattedPost)
-    case lostItemDetail(FormattedPost)
-    case editPost(FormattedPost)
-    case reportIssue(FormattedPost)
-    case map(FormattedPost)
-    case like(FormattedPost)
-}
-
 struct PlacesScreen: View, PostViewActionHandler {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var socket: SocketService
     @ObservedObject var placesVM: PlacesViewModel
-    
     @State private var refreshObserver = NotificationCenter.default
         .publisher(for: .refreshLocationSensitiveData)
     
     var body: some View {
-        NavigationStack(path: $placesVM.navPath) {
-            ZStack {
-                VStack {
-                    if !locationManager.isLocationAuthorized {
-                        EnableLocationView()
-                    } else if !locationManager.isUsingFullAccuracy {
-                        EnableFullAccuracyView()
-                    } else if placesVM.isLoading {
-                        LoadingView()
-                    } else if placesVM.initialPostsFetched {
-                        if placesVM.posts.isEmpty {
-                            EmptyFeed()
-                        } else {
-                            Feed()
-                        }
+        ZStack {
+            VStack {
+                if !locationManager.isLocationAuthorized {
+                    EnableLocationView()
+                } else if !locationManager.isUsingFullAccuracy {
+                    EnableFullAccuracyView()
+                } else if placesVM.isLoading {
+                    LoadingView()
+                } else if placesVM.initialPostsFetched {
+                    if placesVM.posts.isEmpty {
+                        EmptyFeed()
+                    } else {
+                        Feed()
                     }
                 }
-                
-                AYErrorAlert(message: placesVM.overlayError.1 , isErrorAlertPresented: $placesVM.overlayError.0)
             }
-            .toolbar {
-                ToolbarItem {
-                    Urgent()
-                }
-                
-                ToolbarItem {
-                    Notifications()
-                }
-            }
+            
+            AYErrorAlert(message: placesVM.overlayError.1 , isErrorAlertPresented: $placesVM.overlayError.0)
         }
-        .navigationDestination(for: PostNavigation.self) { destination in
-            switch destination {
-            case .comment(let post):
-                CommentScreen(post: post, navPath: $placesVM.navPath)
-            case .reportDetail(let post):
-                ReportDetailScreen(reportId: post.id)
-            case .lostItemDetail(let post):
-                LostItemDetailScreen(lostItemId: post.id)
-            case .editPost(let post):
-                EditPostScreen(post: post)
-            case .reportIssue(let post):
-                ReportIssueScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil, businessId: nil)
-            case .like(let post):
-                LikeScreen(id: post.id, type: .publication)
-            case .map(let post):
-                if #available(iOS 17.0, *) {
-                    NewPostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, username: post.username, profilePic: post.userProfilePic)
-                } else {
-                    PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0)
-                }
+        .toolbar {
+            ToolbarItem {
+                Urgent()
+            }
+            
+            ToolbarItem {
+                Notifications()
             }
         }
         .sheet(isPresented: $placesVM.isHelpViewDisplayed) {
@@ -170,8 +135,8 @@ struct PlacesScreen: View, PostViewActionHandler {
     private func Posts(ofType postType: PostStatus) -> some View {
         ForEach($placesVM.posts) { $post in
             if post.status == postType {
-                PostView(post: post, delegate: self, isClickable: true, navPath: $placesVM.navPath)
-                .padding()
+                PostView(post: post, delegate: self, isClickable: true)
+                    .padding()
                 
                 Divider()
             }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FormattedCommunity: Codable, Identifiable {
+struct FormattedCommunity: Codable, Identifiable, Equatable, Hashable {
     let id: String
     var name: String
     var imageUrl: String?

@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>70</string>
+					<string>64</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>69</string>
+					<string>63</string>
 					<key>Timestamp</key>
-					<string>770047659.771407</string>
+					<string>770131823.511928</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -34,16 +34,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>                    
+				<string>                )
 </string>
 				<key>leading</key>
-				<string>                        secondaryButton: .cancel()
-                    )
+				<string>                    },
+                    secondaryButton: .cancel()
 </string>
 				<key>trailing</key>
-				<string>                case .farAway(_):
-                    return Alert(
-                        title: Text("You're too far away!"),
+				<string>            case .farAway(_):
+                return Alert(
+                    title: Text("You're too far away!"),
 </string>
 			</dict>
 			<key>type</key>

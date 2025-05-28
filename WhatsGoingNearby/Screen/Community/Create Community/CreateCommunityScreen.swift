@@ -11,13 +11,13 @@ import PhotosUI
 struct CreateCommunityScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @StateObject private var createCommunityVM = CreateCommunityViewModel()
     @ObservedObject var communityVM: CommunityViewModel
     @FocusState private var isDescriptionTextFieldFocused: Bool
-    @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        NavigationStack {
+        ScrollView {
             ZStack {
                 VStack(spacing: 16) {
                     EditCommunityImage()
@@ -38,17 +38,17 @@ struct CreateCommunityScreen: View {
                         Disclaimer()
                     }
                 }
+                .padding()
                 
                 AYErrorAlert(message: createCommunityVM.overlayError.1 , isErrorAlertPresented: $createCommunityVM.overlayError.0)
             }
-            .padding()
-            .onChange(of: createCommunityVM.imageFromAlbum ?? UIImage()) { image in
-                dismissPhotoPicker()
-                displayCropView(withImage: image)
-            }
-            .navigationTitle("New Community")
-            .navigationBarTitleDisplayMode(.inline)
         }
+        .onChange(of: createCommunityVM.imageFromAlbum ?? UIImage()) { image in
+            dismissPhotoPicker()
+            displayCropView(withImage: image)
+        }
+        .navigationTitle("New Community")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     // MARK: - Image
@@ -290,7 +290,7 @@ extension CreateCommunityScreen {
             
             let token = try await authVM.getFirebaseToken()
             await createCommunityVM.posNewCommunity(latitude: latitude, longitude: longitude, token: token)
-            dismiss()
+            navCoordinator.goBack()
         } else {
             createCommunityVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
         }
@@ -304,5 +304,5 @@ extension CreateCommunityScreen {
 
 #Preview {
     CreateCommunityScreen(communityVM: CommunityViewModel())
-    .environmentObject(AuthenticationViewModel())
+        .environmentObject(AuthenticationViewModel())
 }

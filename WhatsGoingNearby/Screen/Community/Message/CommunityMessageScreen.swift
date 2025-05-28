@@ -13,15 +13,13 @@ struct CommunityMessageScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var socket: SocketService
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @StateObject private var communityMessageVM = CommunityMessageViewModel()
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
-    @Environment(\.dismiss) var dismiss
     
     let pub = NotificationCenter.default
         .publisher(for: .popCommunity)
-    
-    let refreshCommunities: () -> ()
     
     var body: some View {
         ZStack {
@@ -114,12 +112,7 @@ struct CommunityMessageScreen: View {
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                NavigationLink {
-                    CommunityDetailScreen(community: community)
-                        .environmentObject(authVM)
-                } label: {
-                    CommunityHeader()
-                }
+                CommunityHeader()
             }
             
             ToolbarItem(placement: .topBarTrailing) {
@@ -149,6 +142,9 @@ struct CommunityMessageScreen: View {
             }
         }
         .padding(.bottom, 6)
+        .onTapGesture {
+            navCoordinator.navigate(to: .communityDetail(community))
+        }
     }
     
     //MARK: - Message Menu
@@ -380,8 +376,8 @@ struct CommunityMessageScreen: View {
     }
     
     private func dismissScreenAndRefreshCommunities() {
-        refreshCommunities()
-        dismiss()
+        // refresh communities?
+        navCoordinator.goBack()
     }
 }
 

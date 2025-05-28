@@ -12,20 +12,20 @@ struct CommentScreen: View, PostViewActionHandler {
     var post: FormattedPost
     private let maxCommentLength = 250
     
-    @Binding var navPath: [PostNavigation]
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
+    @EnvironmentObject var socket: SocketService
+    @EnvironmentObject var locationManager: LocationManager
     @StateObject private var commentVM = CommentViewModel()
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var commentIsFocused: Bool
-    @EnvironmentObject var locationManager: LocationManager
-    @EnvironmentObject var socket: SocketService
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
             VStack {
                 ScrollView {
-                    PostView(post: post, delegate: self, isClickable: false, navPath: $navPath)
+                    PostView(post: post, delegate: self, isClickable: false)
                         .padding()
                     
                     Divider()
@@ -50,10 +50,8 @@ struct CommentScreen: View, PostViewActionHandler {
         }
         .navigationTitle("Comments")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(for: PostNavigation.self) { destination in
+        .navigationDestination(for: AppRoute.self) { destination in
             switch destination {
-            case .comment:
-                EmptyView()
             case .reportDetail(let post):
                 ReportDetailScreen(reportId: post.id)
             case .lostItemDetail(let post):
@@ -70,6 +68,8 @@ struct CommentScreen: View, PostViewActionHandler {
                 } else {
                     PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0)
                 }
+            default:
+                EmptyView()
             }
         }
     }

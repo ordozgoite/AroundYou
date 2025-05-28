@@ -25,7 +25,7 @@ struct IndepCommentScreen: View {
             VStack {
                 ScrollView {
                     if postVM.isPostFetched {
-                        PostView(post: postVM.post, isClickable: false, navPath: .constant([]))
+                        PostView(post: postVM.post, isClickable: false)
                             .padding()
                         
                         Divider()

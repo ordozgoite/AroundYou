@@ -307,6 +307,7 @@
 		EDF3252B2DE4EDAA00752A64 /* EditBusinessDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF3252A2DE4EDAA00752A64 /* EditBusinessDTO.swift */; };
 		EDF3252D2DE4EF5C00752A64 /* EditBusinessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF3252C2DE4EF5C00752A64 /* EditBusinessView.swift */; };
 		EDF325302DE4EFFC00752A64 /* EditBusinessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF3252F2DE4EFFC00752A64 /* EditBusinessViewModel.swift */; };
+		EDF325352DE72C2A00752A64 /* NavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF325342DE72C2A00752A64 /* NavigationCoordinator.swift */; };
 		EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF43E922B86E6B60037CC9F /* LocalState.swift */; };
 		EDFADBA02CF11F3D0050E322 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFADB9F2CF11F3D0050E322 /* Gender.swift */; };
 /* End PBXBuildFile section */
@@ -580,6 +581,7 @@
 		EDF3252A2DE4EDAA00752A64 /* EditBusinessDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBusinessDTO.swift; sourceTree = "<group>"; };
 		EDF3252C2DE4EF5C00752A64 /* EditBusinessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBusinessView.swift; sourceTree = "<group>"; };
 		EDF3252F2DE4EFFC00752A64 /* EditBusinessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBusinessViewModel.swift; sourceTree = "<group>"; };
+		EDF325342DE72C2A00752A64 /* NavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCoordinator.swift; sourceTree = "<group>"; };
 		EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhatsGoingNearby.entitlements; sourceTree = "<group>"; };
 		EDF43E912B869F3E0037CC9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EDF43E922B86E6B60037CC9F /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
@@ -999,6 +1001,7 @@
 			children = (
 				EDF43E912B869F3E0037CC9F /* Info.plist */,
 				EDF43E902B865B4D0037CC9F /* WhatsGoingNearby.entitlements */,
+				EDF325332DE72C0D00752A64 /* Navigation */,
 				ED30CE852D6FE9FC001FB213 /* Mocks */,
 				ED5CC51B2B97BF7D009B17E3 /* Test */,
 				ED74E80D2BF43EEC00371334 /* Core Data */,
@@ -1492,6 +1495,14 @@
 			path = Edit;
 			sourceTree = "<group>";
 		};
+		EDF325332DE72C0D00752A64 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				EDF325342DE72C2A00752A64 /* NavigationCoordinator.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1741,6 +1752,7 @@
 				ED50C4552B7E94030001EDF6 /* UserProfile.swift in Sources */,
 				ED74E8102BF43F1400371334 /* CDFormattedChat+helper.swift in Sources */,
 				EDDC9E0C2BDCB0AE00000EA4 /* EmojiMessageView.swift in Sources */,
+				EDF325352DE72C2A00752A64 /* NavigationCoordinator.swift in Sources */,
 				ED6DD4942B8284ED00ADBB64 /* UnblockUserResponse.swift in Sources */,
 				EDE8B3712BC20AFB00DFF750 /* DeleteChatResponse.swift in Sources */,
 				EDDC9E082BD86E6A00000EA4 /* MessageStatus.swift in Sources */,

@@ -39,10 +39,10 @@ struct AccountScreen: View, PostViewActionHandler {
                     try await getAllPosts()
                 }
             }
-            .navigationDestination(for: PostNavigation.self) { destination in
+            .navigationDestination(for: AppRoute.self) { destination in
                 switch destination {
                 case .comment(let post):
-                    CommentScreen(post: post, navPath: $accountVM.navPath)
+                    CommentScreen(post: post)
                 case .reportDetail(let post):
                     ReportDetailScreen(reportId: post.id)
                 case .lostItemDetail(let post):
@@ -59,6 +59,8 @@ struct AccountScreen: View, PostViewActionHandler {
                     } else {
                         PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0)
                     }
+                default:
+                    EmptyView()
                 }
             }
             .toolbar {
@@ -141,7 +143,7 @@ struct AccountScreen: View, PostViewActionHandler {
         ScrollView {
             ForEach($accountVM.posts) { $post in
                 if shouldDisplay(post: post) {
-                    PostView(post: post, delegate: self, isClickable: true, navPath: $accountVM.navPath)
+                    PostView(post: post, delegate: self, isClickable: true)
                         .padding()
                         .opacity(post.status == .expired ? 0.5 : 1)
                     

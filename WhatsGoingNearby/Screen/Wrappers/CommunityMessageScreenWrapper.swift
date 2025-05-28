@@ -26,7 +26,7 @@ struct CommunityMessageScreenWrapper: View {
             } else {
                 if let community = community {
                     NavigationView {
-                        CommunityMessageScreen(community: community, refreshCommunities: {})
+                        CommunityMessageScreen(community: community)
                         .navigationBarItems(leading: Button(action: {
                             presentationMode.wrappedValue.dismiss()
                         }, label: {

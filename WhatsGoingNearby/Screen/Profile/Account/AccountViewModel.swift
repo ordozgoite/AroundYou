@@ -15,7 +15,7 @@ class AccountViewModel: ObservableObject {
     @Published var newBioTextInput: String = ""
     @Published var isEditProfileScreenPresented: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
-    @Published var navPath: [PostNavigation] = []
+    @Published var navPath: [AppRoute] = []
     
     func getUserPosts(location:  Location, token: String) async {
         let response = await AYServices.shared.getAllPublicationsByUser(latitude: location.latitude, longitude: location.longitude, token: token)

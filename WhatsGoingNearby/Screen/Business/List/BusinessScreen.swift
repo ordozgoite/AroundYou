@@ -16,40 +16,38 @@ struct BusinessScreen: View {
         .publisher(for: .refreshLocationSensitiveData)
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                VStack {
-                    if businessVM.isFetchingBusinessesNearBy {
-                        LoadingView()
-                    } else if businessVM.businesses.isEmpty {
-                        EmptyBusinessView()
-                    } else {
-                        BusinessList()
-                    }
-                }
-                
-                AYErrorAlert(message: businessVM.overlayError.1 , isErrorAlertPresented: $businessVM.overlayError.0)
-            }
-            .onAppear {
-                Task {
-                    await withTaskGroup(of: Void.self) { group in
-                        group.addTask { try? await getBusinessesFromLocation() }
-                        group.addTask { try? await getBusinessesFromUser() }
-                    }
-                    startUpdatingBusiness()
+        ZStack {
+            VStack {
+                if businessVM.isFetchingBusinessesNearBy {
+                    LoadingView()
+                } else if businessVM.businesses.isEmpty {
+                    EmptyBusinessView()
+                } else {
+                    BusinessList()
                 }
             }
-            .onReceive(refreshObserver) { _ in
-                Task {
-                    try await getBusinessesFromLocation()
+            
+            AYErrorAlert(message: businessVM.overlayError.1 , isErrorAlertPresented: $businessVM.overlayError.0)
+        }
+        .onAppear {
+            Task {
+                await withTaskGroup(of: Void.self) { group in
+                    group.addTask { try? await getBusinessesFromLocation() }
+                    group.addTask { try? await getBusinessesFromUser() }
                 }
+                startUpdatingBusiness()
             }
-            .onDisappear {
-                stopTimer()
+        }
+        .onReceive(refreshObserver) { _ in
+            Task {
+                try await getBusinessesFromLocation()
             }
-            .toolbar {
-                Ellipsis()
-            }
+        }
+        .onDisappear {
+            stopTimer()
+        }
+        .toolbar {
+            Ellipsis()
         }
     }
     

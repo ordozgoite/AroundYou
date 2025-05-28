@@ -17,23 +17,21 @@ struct DiscoverView: View {
         .publisher(for: .refreshLocationSensitiveData)
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                if discoverVM.isDiscoveringUsers {
-                    LoadingView()
-                } else if discoverVM.usersFound.isEmpty {
-                    EmptyDiscoverView()
-                } else {
-                    Users()
-                }
+        ZStack {
+            if discoverVM.isDiscoveringUsers {
+                LoadingView()
+            } else if discoverVM.usersFound.isEmpty {
+                EmptyDiscoverView()
+            } else {
+                Users()
             }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        discoverVM.isPreferencesViewDisplayed = true
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
-                    }
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    discoverVM.isPreferencesViewDisplayed = true
+                } label: {
+                    Image(systemName: "slider.horizontal.3")
                 }
             }
         }
@@ -108,7 +106,7 @@ struct DiscoverView: View {
             }
         }
     }
-
+    
     
     //MARK: - Private Method
     
