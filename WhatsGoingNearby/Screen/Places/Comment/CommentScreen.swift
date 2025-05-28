@@ -49,28 +49,6 @@ struct CommentScreen: View, PostViewActionHandler {
         }
         .navigationTitle("Comments")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(for: AppRoute.self) { destination in
-            switch destination {
-            case .reportDetail(let post):
-                ReportDetailScreen(reportId: post.id)
-            case .lostItemDetail(let post):
-                LostItemDetailScreen(lostItemId: post.id)
-            case .editPost(let post):
-                EditPostScreen(post: post)
-            case .reportIssue(let post):
-                ReportIssueScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil, businessId: nil)
-            case .like(let post):
-                LikeScreen(id: post.id, type: .publication)
-            case .map(let post):
-                if #available(iOS 17.0, *) {
-                    NewPostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, username: post.username, profilePic: post.userProfilePic)
-                } else {
-                    PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0)
-                }
-            default:
-                EmptyView()
-            }
-        }
     }
     
     //MARK: - Comments

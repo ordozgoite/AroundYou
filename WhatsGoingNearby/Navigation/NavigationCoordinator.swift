@@ -15,7 +15,7 @@ enum AppRoute: Hashable {
     case lostItemDetail(FormattedPost)
     case editPost(FormattedPost)
     case reportIssue(FormattedPost)
-    case map(FormattedPost)
+    case postMap(FormattedPost)
     case like(FormattedPost)
     
     // People
@@ -27,6 +27,9 @@ enum AppRoute: Hashable {
     
     // Businesses
     case createBusiness
+    case editBusiness(FormattedBusinessShowcase)
+    case reportBusiness(FormattedBusinessShowcase)
+    case businessMap(FormattedBusinessShowcase)
     
     // Account
     case editProfile

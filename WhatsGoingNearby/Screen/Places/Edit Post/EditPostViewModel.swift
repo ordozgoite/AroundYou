@@ -19,20 +19,21 @@ class EditPostViewModel: ObservableObject {
     @Published var selectedPostTag: PostTag = .chilling
     @Published var isShareLocationAlertDisplayed: Bool = false
     
-    func editPublication(publicationId: String, latitude: Double, longitude: Double, token: String, dismissScreen: () -> ()) async {
+    func editPublication(publicationId: String, latitude: Double, longitude: Double, token: String) async throws {
         isLoading = true
         let result = await AYServices.shared.editPublication(publicationId: publicationId, text: postText.nonEmptyOrNil(), tag: selectedPostTag.rawValue, isLocationVisible: isLocationVisible, latitude: latitude, longitude: longitude, token: token)
         isLoading = false
         
         switch result {
         case .success:
-            dismissScreen()
+            print("✅ Successfully edited publication!")
         case .failure(let error):
             if error == .forbidden {
                 overlayError = (true, ErrorMessage.editDistanceLimitExceededErrorMessage)
             } else {
                 overlayError = (true, ErrorMessage.editPostErrorMessage)
             }
+            throw error
         }
     }
 }

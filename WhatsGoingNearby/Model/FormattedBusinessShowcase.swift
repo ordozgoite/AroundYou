@@ -7,19 +7,7 @@
 
 import Foundation
 
-//Eat & Drink
-//Party & Event
-//Wellness
-//Health
-//Services
-//Selling
-//Tech & Games
-//Pets
-//Education
-//Adult
-//Home
-
-struct FormattedBusinessShowcase: Codable, Identifiable {
+struct FormattedBusinessShowcase: Codable, Identifiable, Equatable, Hashable {
     let id: String
     let imageUrl: String?
     let title: String
@@ -39,21 +27,4 @@ struct FormattedBusinessShowcase: Codable, Identifiable {
     var isExpired: Bool {
         return self.expirationDate.timeIntervalSince1970InSeconds < getCurrentDateTimestamp()
     }
-    
-//    enum CodingKeys: String, CodingKey, Decodable {
-//        case id = "_id"
-//        case imageUrl
-//        case title
-//        case description
-//        case category
-//        case latitude
-//        case longitude
-//        case isLocationVisible
-//        case phoneNumber
-//        case whatsAppNumber
-//        case instagramUsername
-//        case isOwner
-//        case distance
-//        case ownerUid
-//    }
 }

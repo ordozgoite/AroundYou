@@ -54,7 +54,7 @@ struct AccountScreen: View, PostViewActionHandler {
                     ReportIssueScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil, businessId: nil)
                 case .like(let post):
                     LikeScreen(id: post.id, type: .publication)
-                case .map(let post):
+                case .postMap(let post):
                     if #available(iOS 17.0, *) {
                         NewPostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, username: post.username, profilePic: post.userProfilePic)
                     } else {

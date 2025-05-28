@@ -318,6 +318,7 @@ extension EditBusinessView {
         let token = try await authVM.getFirebaseToken()
         try await editBusinessVM.editBusiness(businessId: business.id, token: token)
         navCoordinator.goBack()
+        print("⚠️ Deveria ter voltado")
     }
 }
 

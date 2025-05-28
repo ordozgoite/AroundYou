@@ -58,7 +58,7 @@ struct HomeScreen: View {
                     ReportIssueScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil, businessId: nil)
                 case .like(let post):
                     LikeScreen(id: post.id, type: .publication)
-                case .map(let post):
+                case .postMap(let post):
                     if #available(iOS 17.0, *) {
                         NewPostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, username: post.username, profilePic: post.userProfilePic)
                     } else {
@@ -72,6 +72,10 @@ struct HomeScreen: View {
                     CommunityDetailScreen(community: community)
                 case .createBusiness:
                     PublishBusinessScreen()
+                case .editBusiness(let business):
+                    EditBusinessView(business: business)
+                case .reportBusiness(let business):
+                    ReportIssueScreen(reportedUserUid: business.ownerUid, publicationId: nil, commentId: nil, businessId: business.id)
                 default:
                     EmptyView()
                 }

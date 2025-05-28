@@ -498,7 +498,7 @@ struct PostView: View {
                     .foregroundColor(.gray)
             }
             .onTapGesture {
-                navCoordinator.navigate(to: .map(post))
+                navCoordinator.navigate(to: .postMap(post))
             }
         }
     }
