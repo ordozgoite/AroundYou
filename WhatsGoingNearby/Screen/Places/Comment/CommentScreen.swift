@@ -9,7 +9,7 @@ import SwiftUI
 import CoreLocation
 
 struct CommentScreen: View, PostViewActionHandler {
-    var post: FormattedPost
+    @State var post: FormattedPost
     private let maxCommentLength = 250
     
     @EnvironmentObject var authVM: AuthenticationViewModel
@@ -19,7 +19,6 @@ struct CommentScreen: View, PostViewActionHandler {
     @StateObject private var commentVM = CommentViewModel()
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var commentIsFocused: Bool
-    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
@@ -196,35 +195,41 @@ struct CommentScreen: View, PostViewActionHandler {
 
 extension CommentScreen {
     func postViewDidLikePublication(_ content: FormattedPost) {
-        
+        if post.likes != nil {
+            post.likes! += 1
+            post.didLike = true
+        }
     }
     
     func postViewDidUnlikePublication(_ content: FormattedPost) {
-        
+        if post.likes != nil {
+            post.likes! -= 1
+            post.didLike = false
+        }
     }
     
     func postViewDidDeletePublication(_ content: FormattedPost) {
-        dismiss()
+        navCoordinator.goBack()
     }
     
     func postViewDidDeleteLostItem(_ content: FormattedPost) {
-        
+        // Nunca vai acontecer aqui
     }
     
     func postViewDidDeleteReport(_ content: FormattedPost) {
-        
+        // Nunca vai acontecer aqui
     }
     
     func postViewDidFollow(_ content: FormattedPost) {
-        // TODO: mark as subscribed
+        post.isSubscribed = true
     }
     
     func postViewDidUnfollow(_ content: FormattedPost) {
-        // TODO: mark as not subscribed
+        post.isSubscribed = false
     }
     
     func postViewDidMarkAsCompleted(_ content: FormattedPost) {
-        // TODO: mark as finished
+        post.isFinished = true
     }
 }
 

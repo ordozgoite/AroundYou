@@ -26,57 +26,55 @@ struct EditProfileScreen: View {
     }
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                VStack {
-                    if editProfileVM.isLoading {
-                        ProgressView()
-                    } else {
-                        Form {
-                            Photo()
-                            
-                            RemovePhotoButton()
-                            
-                            EditPhoto()
-                            
-                            Username()
-                            
-                            FullName()
-                            
-                            Biography()
-                        }
-                    }
-                }
-                
-                AYErrorAlert(message: editProfileVM.overlayError.1, isErrorAlertPresented: $editProfileVM.overlayError.0)
-            }
-            .onAppear {
-                getUserInfo()
-            }
-            .onChange(of: editProfileVM.imageSelection) { newItem in
-                Task {
-                    if let data = try? await newItem?.loadTransferable(type: Data.self), let image = UIImage(data: data) {
-                        displayCropView(withImage: image)
+        ZStack {
+            VStack {
+                if editProfileVM.isLoading {
+                    ProgressView()
+                } else {
+                    Form {
+                        Photo()
+                        
+                        RemovePhotoButton()
+                        
+                        EditPhoto()
+                        
+                        Username()
+                        
+                        FullName()
+                        
+                        Biography()
                     }
                 }
             }
-            .alert(isPresented: $editProfileVM.isSuccessAlertDisplayed) {
-                Alert(
-                    title: Text("Done"),
-                    message: Text("Your profile was successfully updated.")
-                )
+            
+            AYErrorAlert(message: editProfileVM.overlayError.1, isErrorAlertPresented: $editProfileVM.overlayError.0)
+        }
+        .onAppear {
+            getUserInfo()
+        }
+        .onChange(of: editProfileVM.imageSelection) { newItem in
+            Task {
+                if let data = try? await newItem?.loadTransferable(type: Data.self), let image = UIImage(data: data) {
+                    displayCropView(withImage: image)
+                }
             }
-            .navigationTitle("Edit profile")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden()
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Confirm()
-                }
-                
-                ToolbarItem(placement: .topBarLeading) {
-                    Dismiss()
-                }
+        }
+        .alert(isPresented: $editProfileVM.isSuccessAlertDisplayed) {
+            Alert(
+                title: Text("Done"),
+                message: Text("Your profile was successfully updated.")
+            )
+        }
+        .navigationTitle("Edit profile")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Confirm()
+            }
+            
+            ToolbarItem(placement: .topBarLeading) {
+                Dismiss()
             }
         }
     }

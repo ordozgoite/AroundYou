@@ -19,35 +19,33 @@ struct PublishBusinessScreen: View {
     private let maxDescriptionLenght = 150
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @StateObject private var publishBusinessVM = PublishBusinessViewModel()
-    @ObservedObject var locationManager: LocationManager
     @FocusState private var isEditingDescription: Bool
-    @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Form {
-                    EditBusinessImage()
-                    
-                    Name()
-                    
-                    Description()
-                    
-                    Category()
-                    
-                    Contact()
-                    
-                    LocationView()
-                    
-                    Publish()
-                }
+        ZStack {
+            Form {
+                EditBusinessImage()
                 
-                AYErrorAlert(message: publishBusinessVM.overlayError.1 , isErrorAlertPresented: $publishBusinessVM.overlayError.0)
+                Name()
+                
+                Description()
+                
+                Category()
+                
+                Contact()
+                
+                LocationView()
+                
+                Publish()
             }
-            .navigationTitle("Add Business")
-            .navigationBarTitleDisplayMode(.inline)
+            
+            AYErrorAlert(message: publishBusinessVM.overlayError.1 , isErrorAlertPresented: $publishBusinessVM.overlayError.0)
         }
+        .navigationTitle("Add Business")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     // MARK: - Edit Image
@@ -360,7 +358,7 @@ extension PublishBusinessScreen {
     
     private func postBusinessAndDismiss() async throws {
         try await postBusinessWithLocation()
-        dismiss()
+        navCoordinator.goBack()
     }
     
     private func postBusinessWithLocation() async throws {
@@ -382,6 +380,6 @@ extension PublishBusinessScreen {
 }
 
 #Preview {
-    PublishBusinessScreen(locationManager: LocationManager())
+    PublishBusinessScreen()
         .environmentObject(AuthenticationViewModel())
 }

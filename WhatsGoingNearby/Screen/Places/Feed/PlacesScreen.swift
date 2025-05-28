@@ -10,6 +10,7 @@ import SwiftUI
 struct PlacesScreen: View, PostViewActionHandler {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @EnvironmentObject var socket: SocketService
     @ObservedObject var placesVM: PlacesViewModel
     @State private var refreshObserver = NotificationCenter.default
@@ -102,10 +103,7 @@ struct PlacesScreen: View, PostViewActionHandler {
             VStack {
                 NewPostView()
                     .onTapGesture {
-                        placesVM.isCreatePostScreenDisplayed = true
-                    }
-                    .navigationDestination(isPresented: $placesVM.isCreatePostScreenDisplayed) {
-                        CreatePostScreen()
+                        navCoordinator.navigate(to: .createPost)
                     }
                 
                 Posts(ofType: .active)

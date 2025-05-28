@@ -26,18 +26,24 @@ struct MainTabView: View {
     @State private var badgeTimer: Timer?
     @State private var unreadChats: Int?
     
+    @StateObject private var homeNav = NavigationCoordinator()
+    @StateObject private var chatNav = NavigationCoordinator()
+    @StateObject private var accountNav = NavigationCoordinator()
+    
     var body: some View {
         TabView(selection: $selectedTab) {
             HomeScreen()
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
+                .environmentObject(homeNav)
                 .tag(0)
             
             ChatListScreen()
                 .tabItem {
-                    Label("Chats", systemImage: "bubble")
+                    Label("Chats", systemImage: "bubble.left")
                 }
+                .environmentObject(chatNav)
                 .badge(unreadChats ?? 0)
                 .tag(1)
             
@@ -45,6 +51,7 @@ struct MainTabView: View {
                 .tabItem {
                     ProfileTabItemLabel()
                 }
+                .environmentObject(accountNav)
                 .tag(2)
         }
         .onAppear {

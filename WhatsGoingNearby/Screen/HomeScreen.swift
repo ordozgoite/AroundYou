@@ -44,6 +44,8 @@ struct HomeScreen: View {
             }
             .navigationDestination(for: AppRoute.self) { destination in
                 switch destination {
+                case .createPost:
+                    CreatePostScreen()
                 case .comment(let post):
                     CommentScreen(post: post)
                 case .reportDetail(let post):
@@ -68,6 +70,10 @@ struct HomeScreen: View {
                     CommunityMessageScreen(community: community)
                 case .communityDetail(let community):
                     CommunityDetailScreen(community: community)
+                case .createBusiness:
+                    PublishBusinessScreen()
+                default:
+                    EmptyView()
                 }
             }
         }

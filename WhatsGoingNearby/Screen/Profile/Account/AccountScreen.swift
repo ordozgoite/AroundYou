@@ -11,13 +11,14 @@ struct AccountScreen: View, PostViewActionHandler {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var socket: SocketService
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @StateObject private var accountVM = AccountViewModel()
     
     @State private var refreshObserver = NotificationCenter.default
         .publisher(for: .updateUserProfilePosts)
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navCoordinator.path) {
             ZStack {
                 ScrollView {
                     VStack(spacing: 32) {
@@ -59,26 +60,23 @@ struct AccountScreen: View, PostViewActionHandler {
                     } else {
                         PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0)
                     }
+                case .editProfile:
+                    EditProfileScreen()
+                case .settings:
+                    SettingsScreen()
                 default:
                     EmptyView()
                 }
             }
             .toolbar {
                 ToolbarItem {
-                    NavigationLink {
-                        SettingsScreen()
-                            .environmentObject(authVM)
+                    Button {
+                        navCoordinator.navigate(to: .settings)
                     } label: {
                         Image(systemName: "gearshape.fill")
                     }
                 }
             }
-            
-            NavigationLink(
-                destination: EditProfileScreen(),
-                isActive: $accountVM.isEditProfileScreenPresented,
-                label: { EmptyView() }
-            )
         }
     }
     
@@ -121,7 +119,7 @@ struct AccountScreen: View, PostViewActionHandler {
         }
         .padding()
         .onTapGesture {
-            accountVM.isEditProfileScreenPresented = true
+            navCoordinator.navigate(to: .editProfile)
         }
     }
     

@@ -19,36 +19,34 @@ struct EditBusinessView: View {
     private let maxDescriptionLenght = 150
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @StateObject private var editBusinessVM = EditBusinessViewModel()
     @FocusState private var isEditingDescription: Bool
-    @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Form {
-                    BusinessImage()
-                    
-                    Name()
-                    
-                    Description()
-                    
-                    Category()
-                    
-                    Contact()
-                    
-                    LocationView()
-                    
-                    EditButton()
-                }
+        ZStack {
+            Form {
+                BusinessImage()
                 
-                AYErrorAlert(message: editBusinessVM.overlayError.1 , isErrorAlertPresented: $editBusinessVM.overlayError.0)
+                Name()
+                
+                Description()
+                
+                Category()
+                
+                Contact()
+                
+                LocationView()
+                
+                EditButton()
             }
-            .navigationTitle("Edit Business")
-            .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                setCurrentValues()
-            }
+            
+            AYErrorAlert(message: editBusinessVM.overlayError.1 , isErrorAlertPresented: $editBusinessVM.overlayError.0)
+        }
+        .navigationTitle("Edit Business")
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            setCurrentValues()
         }
     }
     
@@ -241,8 +239,8 @@ struct EditBusinessView: View {
                 }
                 
                 MapView(latitude: self.business.latitude, longitude: self.business.longitude)
-                        .frame(height: 256)
-                        .opacity(editBusinessVM.isLocationVisible ? 1 : 0.5)
+                    .frame(height: 256)
+                    .opacity(editBusinessVM.isLocationVisible ? 1 : 0.5)
             }
         } header: {
             Text("Location")
@@ -319,7 +317,7 @@ extension EditBusinessView {
     private func attemptBusinessEdit() async throws {
         let token = try await authVM.getFirebaseToken()
         try await editBusinessVM.editBusiness(businessId: business.id, token: token)
-        dismiss()
+        navCoordinator.goBack()
     }
 }
 

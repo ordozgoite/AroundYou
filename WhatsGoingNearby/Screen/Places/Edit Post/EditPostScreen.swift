@@ -9,7 +9,7 @@ import SwiftUI
 import CoreLocation
 
 struct EditPostScreen: View {
-    let post: FormattedPost
+    var post: FormattedPost
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var locationManager: LocationManager

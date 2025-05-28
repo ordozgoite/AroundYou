@@ -9,6 +9,7 @@ import Foundation
 
 enum AppRoute: Hashable {
     // Posts
+    case createPost
     case comment(FormattedPost)
     case reportDetail(FormattedPost)
     case lostItemDetail(FormattedPost)
@@ -25,6 +26,11 @@ enum AppRoute: Hashable {
     case communityDetail(FormattedCommunity)
     
     // Businesses
+    case createBusiness
+    
+    // Account
+    case editProfile
+    case settings
 }
 
 @MainActor

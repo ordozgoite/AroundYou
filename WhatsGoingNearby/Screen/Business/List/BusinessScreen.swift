@@ -10,6 +10,7 @@ import SwiftUI
 struct BusinessScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @ObservedObject var businessVM: BusinessViewModel
     
     @State private var refreshObserver = NotificationCenter.default
@@ -104,10 +105,10 @@ struct BusinessScreen: View {
                 MyBusinessView(businessVM: businessVM)
                     .environmentObject(authVM)
             }
-            .navigationDestination(isPresented: $businessVM.isPublishBusinessScreenDisplayed) {
-                PublishBusinessScreen(locationManager: locationManager)
-                    .environmentObject(authVM)
-            }
+//            .navigationDestination(isPresented: $businessVM.isPublishBusinessScreenDisplayed) {
+//                PublishBusinessScreen(locationManager: locationManager)
+//                    .environmentObject(authVM)
+//            }
             .popover(isPresented: $businessVM.isBusinessLimitErrorPopoverDisplayed) {
                 Text("You can only have one active Business at a time.")
                     .font(.caption)
@@ -140,7 +141,7 @@ struct BusinessScreen: View {
          */
         Button {
             if businessVM.countActiveUserBusinesses() == 0 {
-                businessVM.isPublishBusinessScreenDisplayed = true
+                navCoordinator.navigate(to: .createBusiness)
             } else {
                 businessVM.isBusinessLimitErrorPopoverDisplayed = true
             }
