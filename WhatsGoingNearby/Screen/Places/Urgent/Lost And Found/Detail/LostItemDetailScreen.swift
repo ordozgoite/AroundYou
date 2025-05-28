@@ -15,34 +15,32 @@ struct LostItemDetailScreen: View {
     @StateObject private var vm = LostItemDetailViewModel()
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                if vm.isGettingLostItem {
-                    ProgressView()
-                } else if let lostItem = vm.lostItem {
-                    Form {
-                        Image(forLostItem: lostItem)
-                        
-                        Info(forLostItem: lostItem)
-                        
-                        Reward(lostItem)
-                        
-                        Location(forLostItem: lostItem)
-                    }
+        ZStack {
+            if vm.isGettingLostItem {
+                ProgressView()
+            } else if let lostItem = vm.lostItem {
+                Form {
+                    Image(forLostItem: lostItem)
+                    
+                    Info(forLostItem: lostItem)
+                    
+                    Reward(lostItem)
+                    
+                    Location(forLostItem: lostItem)
                 }
-                
-                AYErrorAlert(message: vm.overlayError.1 , isErrorAlertPresented: $vm.overlayError.0)
             }
-            .navigationTitle(getNavTitle())
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                FoundButton()
-            }
-            .onAppear {
-                Task {
-                    let token = try await authVM.getFirebaseToken()
-                    await vm.getLostItem(withId: self.lostItemId, token: token)
-                }
+            
+            AYErrorAlert(message: vm.overlayError.1 , isErrorAlertPresented: $vm.overlayError.0)
+        }
+        .navigationTitle(getNavTitle())
+        .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            FoundButton()
+        }
+        .onAppear {
+            Task {
+                let token = try await authVM.getFirebaseToken()
+                await vm.getLostItem(withId: self.lostItemId, token: token)
             }
         }
     }

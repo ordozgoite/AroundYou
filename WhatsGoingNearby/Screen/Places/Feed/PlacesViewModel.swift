@@ -22,7 +22,8 @@ class PlacesViewModel: ObservableObject {
     @Published var isReportScreenDisplayed: Bool = false
     @Published var isHelpViewDisplayed: Bool = false
     @Published var navigationTarget: (postId: FormattedPost?, isActive: Bool) = (nil, false)
-    @Published var selectedNav: (Bool, PostNavigation?) = (false, nil)
+    @Published var navPath: [PostNavigation] = []
+    @Published var isCreatePostScreenDisplayed: Bool = false
     
     func getPosts(latitude: Double, longitude: Double, token: String) async {
         if !initialPostsFetched { isLoading = true }

@@ -39,14 +39,14 @@ struct AccountScreen: View, PostViewActionHandler {
                     try await getAllPosts()
                 }
             }
-            .navigationDestination(isPresented: $accountVM.selectedNav.0) {
-                switch accountVM.selectedNav.1 {
+            .navigationDestination(for: PostNavigation.self) { destination in
+                switch destination {
                 case .comment(let post):
-                    CommentScreen(post: post)
-                case .reportDetail(let reportId):
-                    ReportDetailScreen(reportId: reportId)
-                case .lostItemDetail(let lostItemId):
-                    LostItemDetailScreen(lostItemId: lostItemId)
+                    CommentScreen(post: post, navPath: $accountVM.navPath)
+                case .reportDetail(let post):
+                    ReportDetailScreen(reportId: post.id)
+                case .lostItemDetail(let post):
+                    LostItemDetailScreen(lostItemId: post.id)
                 case .editPost(let post):
                     EditPostScreen(post: post)
                 case .reportIssue(let post):
@@ -59,8 +59,6 @@ struct AccountScreen: View, PostViewActionHandler {
                     } else {
                         PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0)
                     }
-                default:
-                    EmptyView()
                 }
             }
             .toolbar {
@@ -143,7 +141,7 @@ struct AccountScreen: View, PostViewActionHandler {
         ScrollView {
             ForEach($accountVM.posts) { $post in
                 if shouldDisplay(post: post) {
-                    PostView(post: post, delegate: self, isClickable: true, selectedNav: $accountVM.selectedNav)
+                    PostView(post: post, delegate: self, isClickable: true, navPath: $accountVM.navPath)
                         .padding()
                         .opacity(post.status == .expired ? 0.5 : 1)
                     

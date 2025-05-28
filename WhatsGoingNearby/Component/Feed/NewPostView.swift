@@ -10,7 +10,6 @@ import SwiftUI
 struct NewPostView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @State private var isCreatePostScreenDisplayed: Bool = false
     
     var body: some View {
         HStack {
@@ -30,12 +29,6 @@ struct NewPostView: View {
         .background(
             RoundedRectangle(cornerRadius: 8).fill(.thinMaterial)
         )
-        .onTapGesture {
-            isCreatePostScreenDisplayed = true
-        }
-        .navigationDestination(isPresented: $isCreatePostScreenDisplayed) {
-            CreatePostScreen()
-        }
     }
 }
 

@@ -12,6 +12,7 @@ struct CommentScreen: View, PostViewActionHandler {
     var post: FormattedPost
     private let maxCommentLength = 250
     
+    @Binding var navPath: [PostNavigation]
     @EnvironmentObject var authVM: AuthenticationViewModel
     @StateObject private var commentVM = CommentViewModel()
     @Environment(\.presentationMode) var presentationMode
@@ -24,7 +25,7 @@ struct CommentScreen: View, PostViewActionHandler {
         ZStack {
             VStack {
                 ScrollView {
-                    PostView(post: post, delegate: self, isClickable: false, selectedNav: $commentVM.selectedNav)
+                    PostView(post: post, delegate: self, isClickable: false, navPath: $navPath)
                         .padding()
                     
                     Divider()
@@ -49,14 +50,14 @@ struct CommentScreen: View, PostViewActionHandler {
         }
         .navigationTitle("Comments")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(isPresented: $commentVM.selectedNav.0) {
-            switch commentVM.selectedNav.1 {
-            case .comment(let post):
-                CommentScreen(post: post)
-            case .reportDetail(let reportId):
-                ReportDetailScreen(reportId: reportId)
-            case .lostItemDetail(let lostItemId):
-                LostItemDetailScreen(lostItemId: lostItemId)
+        .navigationDestination(for: PostNavigation.self) { destination in
+            switch destination {
+            case .comment:
+                EmptyView()
+            case .reportDetail(let post):
+                ReportDetailScreen(reportId: post.id)
+            case .lostItemDetail(let post):
+                LostItemDetailScreen(lostItemId: post.id)
             case .editPost(let post):
                 EditPostScreen(post: post)
             case .reportIssue(let post):
@@ -69,8 +70,6 @@ struct CommentScreen: View, PostViewActionHandler {
                 } else {
                     PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0)
                 }
-            default:
-                EmptyView()
             }
         }
     }

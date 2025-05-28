@@ -9,8 +9,8 @@ import SwiftUI
 
 enum PostNavigation: Hashable {
     case comment(FormattedPost)
-    case reportDetail(String)
-    case lostItemDetail(String)
+    case reportDetail(FormattedPost)
+    case lostItemDetail(FormattedPost)
     case editPost(FormattedPost)
     case reportIssue(FormattedPost)
     case map(FormattedPost)
@@ -27,7 +27,7 @@ struct PlacesScreen: View, PostViewActionHandler {
         .publisher(for: .refreshLocationSensitiveData)
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $placesVM.navPath) {
             ZStack {
                 VStack {
                     if !locationManager.isLocationAuthorized {
@@ -57,14 +57,14 @@ struct PlacesScreen: View, PostViewActionHandler {
                 }
             }
         }
-        .navigationDestination(isPresented: $placesVM.selectedNav.0) {
-            switch placesVM.selectedNav.1 {
+        .navigationDestination(for: PostNavigation.self) { destination in
+            switch destination {
             case .comment(let post):
-                CommentScreen(post: post)
-            case .reportDetail(let reportId):
-                ReportDetailScreen(reportId: reportId)
-            case .lostItemDetail(let lostItemId):
-                LostItemDetailScreen(lostItemId: lostItemId)
+                CommentScreen(post: post, navPath: $placesVM.navPath)
+            case .reportDetail(let post):
+                ReportDetailScreen(reportId: post.id)
+            case .lostItemDetail(let post):
+                LostItemDetailScreen(lostItemId: post.id)
             case .editPost(let post):
                 EditPostScreen(post: post)
             case .reportIssue(let post):
@@ -77,8 +77,6 @@ struct PlacesScreen: View, PostViewActionHandler {
                 } else {
                     PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0)
                 }
-            default:
-                EmptyView()
             }
         }
         .sheet(isPresented: $placesVM.isHelpViewDisplayed) {
@@ -138,7 +136,12 @@ struct PlacesScreen: View, PostViewActionHandler {
         ScrollView {
             VStack {
                 NewPostView()
-                    .environmentObject(authVM)
+                    .onTapGesture {
+                        placesVM.isCreatePostScreenDisplayed = true
+                    }
+                    .navigationDestination(isPresented: $placesVM.isCreatePostScreenDisplayed) {
+                        CreatePostScreen()
+                    }
                 
                 Posts(ofType: .active)
                 
@@ -167,7 +170,7 @@ struct PlacesScreen: View, PostViewActionHandler {
     private func Posts(ofType postType: PostStatus) -> some View {
         ForEach($placesVM.posts) { $post in
             if post.status == postType {
-                PostView(post: post, delegate: self, isClickable: true, selectedNav: $placesVM.selectedNav)
+                PostView(post: post, delegate: self, isClickable: true, navPath: $placesVM.navPath)
                 .padding()
                 
                 Divider()

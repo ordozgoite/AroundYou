@@ -23,7 +23,7 @@ struct PostView: View {
     var post: FormattedPost
     var delegate: PostViewActionHandler?
     let isClickable: Bool
-    @Binding var selectedNav: (Bool, PostNavigation?)
+    @Binding var navPath: [PostNavigation]
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var socket: SocketService
     @EnvironmentObject var locationManager: LocationManager
@@ -178,7 +178,8 @@ struct PostView: View {
     private func EditPostButton() -> some View {
         Button {
             postVM.isOptionsPopoverDisplayed = false
-            selectedNav = (true, .editPost(post))
+            navPath.append(.editPost(post))
+//            selectedNav = (true, .editPost(post))
         } label: {
             Text("Edit Post")
             Image(systemName: "pencil")
@@ -327,7 +328,8 @@ struct PostView: View {
     private func ReportPostButton() -> some View {
         Button {
             postVM.isOptionsPopoverDisplayed = false
-            selectedNav = (true, .reportIssue(post))
+            navPath.append(.reportIssue(post))
+//            selectedNav = (true, .reportIssue(post))
         } label: {
             Text("Report Post")
                 .foregroundStyle(.gray)
@@ -459,7 +461,8 @@ struct PostView: View {
                 .font(.subheadline)
                 .foregroundColor(.gray)
                 .onTapGesture {
-                    self.selectedNav = (true, .like(self.post))
+//                    self.selectedNav = (true, .like(self.post))
+                    navPath.append(.like(post))
                 }
         }
         .onAppear {
@@ -498,7 +501,8 @@ struct PostView: View {
                     .foregroundColor(.gray)
             }
             .onTapGesture {
-                selectedNav = (true, .map(post))
+//                selectedNav = (true, .map(post))
+                navPath.append(.map(post))
             }
         }
     }
@@ -524,9 +528,11 @@ struct PostView: View {
     private func SeeDetails() -> some View {
         Button {
             if post.postSource == .lostItem {
-                selectedNav = (true, .lostItemDetail(post.id))
+//                selectedNav = (true, .lostItemDetail(post.id))
+                navPath.append(.lostItemDetail(post))
             } else if post.postSource == .report {
-                selectedNav = (true, .reportDetail(post.id))
+                navPath.append(.reportDetail(post))
+//                selectedNav = (true, .reportDetail(post.id))
             }
         } label: {
             HStack {
@@ -564,12 +570,15 @@ struct PostView: View {
         if isClickable {
             switch self.post.postSource {
             case .publication:
-                print("⚠️ Clicou numa publicaçÃo!")
-                selectedNav = (true, .comment(post))
+                print("⚠️ Clicou numa publicação!")
+//                selectedNav = (true, .comment(post))
+                navPath.append(.comment(post))
             case .lostItem:
-                selectedNav = (true, .lostItemDetail(post.id))
+//                selectedNav = (true, .lostItemDetail(post.id))
+                navPath.append(.lostItemDetail(post))
             case .report:
-                selectedNav = (true, .reportDetail(post.id))
+//                selectedNav = (true, .reportDetail(post.id))
+                navPath.append(.reportDetail(post))
             }
         }
     }
