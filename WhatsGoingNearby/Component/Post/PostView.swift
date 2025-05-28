@@ -78,7 +78,6 @@ struct PostView: View {
                 
                 TimeInfo()
                 
-                
                 Spacer()
                 
                 OptionsButton()
@@ -193,15 +192,7 @@ struct PostView: View {
     private func FinishPostButton() -> some View {
         Button {
             postVM.isOptionsPopoverDisplayed = false
-            Task {
-                do {
-                    let token = try await authVM.getFirebaseToken()
-                    try await postVM.finishPublication(postId: post.id, token: token)
-                    delegate?.postViewDidMarkAsCompleted(post)
-                } catch {
-                    print("❌ Error trying to finish publication.")
-                }
-            }
+            finishPost()
         } label: {
             Text("Finish Post")
             Image(systemName: "clock.arrow.circlepath")
@@ -215,15 +206,7 @@ struct PostView: View {
     @ViewBuilder
     private func DeletePostButton() -> some View {
         Button(role: .destructive) {
-            Task {
-                do {
-                    let token = try await authVM.getFirebaseToken()
-                    try await postVM.deletePost(postId: post.id, token: token)
-                    delegate?.postViewDidDeletePublication(post)
-                } catch {
-                    print("❌ Error trying to delete publication.")
-                }
-            }
+            deletePost()
         } label: {
             Text("Delete Post")
             Image(systemName: "trash")
@@ -236,15 +219,7 @@ struct PostView: View {
     @ViewBuilder
     private func DeleteLostItemButton() -> some View {
         Button(role: .destructive) {
-            Task {
-                do {
-                    let token = try await authVM.getFirebaseToken()
-                    try await postVM.deleteLostItem(lostItemId: post.id, token: token)
-                    delegate?.postViewDidDeleteLostItem(post)
-                } catch {
-                    print("❌ Error trying to delete lost item.")
-                }
-            }
+            deleteLostItem()
         } label: {
             Text("Delete Lost Item")
             Image(systemName: "trash")
@@ -257,15 +232,7 @@ struct PostView: View {
     @ViewBuilder
     private func DeleteReportButton() -> some View {
         Button(role: .destructive) {
-            Task {
-                do {
-                    let token = try await authVM.getFirebaseToken()
-                    try await postVM.deleteReport(reportId: post.id,token: token)
-                    delegate?.postViewDidDeleteReport(post)
-                } catch {
-                    print("❌ Error trying to delete report.")
-                }
-            }
+            deleteReport()
         } label: {
             Text("Delete Report")
             Image(systemName: "trash")
@@ -279,15 +246,7 @@ struct PostView: View {
     private func DisableNotificationsButton() -> some View {
         Button {
             postVM.isOptionsPopoverDisplayed = false
-            Task {
-                do {
-                    let token = try await authVM.getFirebaseToken()
-                    try await postVM.unfollowPost(postId: self.post.id, token: token)
-                    delegate?.postViewDidUnfollow(post)
-                } catch {
-                    print("❌ Error trying to unfollow post")
-                }
-            }
+            unsubscribeFromPost()
         } label: {
             Text("Disable notifications")
                 .foregroundStyle(.gray)
@@ -303,15 +262,7 @@ struct PostView: View {
     private func EnableNotificationsButton() -> some View {
         Button {
             postVM.isOptionsPopoverDisplayed = false
-            Task {
-                do {
-                    let token = try await authVM.getFirebaseToken()
-                    try await postVM.followPost(postId: self.post.id, token: token)
-                    delegate?.postViewDidFollow(post)
-                } catch {
-                    print("❌ Error trying to follow post")
-                }
-            }
+            subscribeToPost()
         } label: {
             Text("Enable notifications")
                 .foregroundStyle(.gray)
@@ -433,26 +384,7 @@ struct PostView: View {
     private func Likes() -> some View {
         HStack {
             HeartView(isLiked: $postVM.didLikePost) {
-                Task {
-                    do {
-                        let token = try await authVM.getFirebaseToken()
-                        
-                        if postVM.didLikePost {
-                            postVM.didLikePost = false
-                            postVM.postLikes -= 1
-                            try await postVM.unlikePublication(publicationId: post.id, token: token)
-                            delegate?.postViewDidUnlikePublication(post)
-                        } else {
-                            hapticFeedback()
-                            postVM.didLikePost = true
-                            postVM.postLikes += 1
-                            try await postVM.likePublication(publicationId: post.id, token: token)
-                            delegate?.postViewDidLikePublication(post)
-                        }
-                    } catch {
-                        print("❌ Error trying to like/unlike post.")
-                    }
-                }
+                handleLikeButtonTapGesture()
             }
             
             Text(String(postVM.postLikes))
@@ -523,11 +455,7 @@ struct PostView: View {
     @ViewBuilder
     private func SeeDetails() -> some View {
         Button {
-            if post.postSource == .lostItem {
-                navCoordinator.navigate(to: .lostItemDetail(post))
-            } else if post.postSource == .report {
-                navCoordinator.navigate(to: .reportDetail(post))
-            }
+            displayDetails()
         } label: {
             HStack {
                 Text("See Details")
@@ -557,9 +485,11 @@ struct PostView: View {
         .background(Capsule().fill(Color.green.opacity(0.2)))
 
     }
-    
-    //MARK: - Auxiliary Methods
-    
+}
+
+//MARK: - Auxiliary Methods
+
+extension PostView {
     private func handleOnTapGesture() {
         if isClickable {
             switch self.post.postSource {
@@ -570,6 +500,109 @@ struct PostView: View {
                 navCoordinator.navigate(to: .lostItemDetail(post))
             case .report:
                 navCoordinator.navigate(to: .reportDetail(post))
+            }
+        }
+    }
+    
+    private func finishPost() {
+        Task {
+            do {
+                let token = try await authVM.getFirebaseToken()
+                try await postVM.finishPublication(postId: post.id, token: token)
+                delegate?.postViewDidMarkAsCompleted(post)
+            } catch {
+                print("❌ Error trying to finish publication.")
+            }
+        }
+    }
+    
+    private func deletePost() {
+        Task {
+            do {
+                let token = try await authVM.getFirebaseToken()
+                try await postVM.deletePost(postId: post.id, token: token)
+                delegate?.postViewDidDeletePublication(post)
+            } catch {
+                print("❌ Error trying to delete publication.")
+            }
+        }
+    }
+    
+    private func deleteReport() {
+        Task {
+            do {
+                let token = try await authVM.getFirebaseToken()
+                try await postVM.deleteReport(reportId: post.id,token: token)
+                delegate?.postViewDidDeleteReport(post)
+            } catch {
+                print("❌ Error trying to delete report.")
+            }
+        }
+    }
+    
+    private func deleteLostItem() {
+        Task {
+            do {
+                let token = try await authVM.getFirebaseToken()
+                try await postVM.deleteLostItem(lostItemId: post.id, token: token)
+                delegate?.postViewDidDeleteLostItem(post)
+            } catch {
+                print("❌ Error trying to delete lost item.")
+            }
+        }
+    }
+    
+    private func subscribeToPost() {
+        Task {
+            do {
+                let token = try await authVM.getFirebaseToken()
+                try await postVM.followPost(postId: self.post.id, token: token)
+                delegate?.postViewDidFollow(post)
+            } catch {
+                print("❌ Error trying to follow post")
+            }
+        }
+    }
+    
+    private func unsubscribeFromPost() {
+        Task {
+            do {
+                let token = try await authVM.getFirebaseToken()
+                try await postVM.unfollowPost(postId: self.post.id, token: token)
+                delegate?.postViewDidUnfollow(post)
+            } catch {
+                print("❌ Error trying to unfollow post")
+            }
+        }
+    }
+    
+    private func displayDetails() {
+        if post.postSource == .lostItem {
+            navCoordinator.navigate(to: .lostItemDetail(post))
+        } else if post.postSource == .report {
+            navCoordinator.navigate(to: .reportDetail(post))
+        }
+    }
+    
+    private func handleLikeButtonTapGesture() {
+        Task {
+            do {
+                let token = try await authVM.getFirebaseToken()
+                
+                if postVM.didLikePost {
+                    postVM.didLikePost = false
+                    postVM.postLikes -= 1
+                    try await postVM.unlikePublication(publicationId: post.id, token: token)
+                    delegate?.postViewDidUnlikePublication(post)
+                } else {
+                    hapticFeedback()
+                    postVM.didLikePost = true
+                    postVM.postLikes += 1
+                    try await postVM.likePublication(publicationId: post.id, token: token)
+                    delegate?.postViewDidLikePublication(post)
+                }
+            } catch {
+                print("❌ Error trying to like/unlike post.")
             }
         }
     }
