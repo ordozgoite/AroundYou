@@ -8,25 +8,19 @@
 import SwiftUI
 
 struct PeopleScreen: View {
-    
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var socket: SocketService
     @ObservedObject var peopleVM: PeopleViewModel
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
     
     var body: some View {
         ZStack {
-            if peopleVM.isLoading {
-                ProgressView()
-                    .frame(maxHeight: .infinity, alignment: .center)
-            } else if !authVM.isUserDiscoverable {
-                ActivateDiscoverView(isLoading: $peopleVM.isActivatingDiscover) {
-                    Task {
-                        try await activateDiscover()
-                    }
-                }
+            if peopleVM.isLoading || !authVM.isUserDiscoverable {
+                NotDiscoveringScreen(peopleVM: peopleVM)
+                    .environmentObject(authVM)
             } else {
-                DiscoverView(discoverVM: peopleVM, locationManager: locationManager, socket: socket)
+                DiscoverView(discoverVM: peopleVM)
+                    .environmentObject(authVM)
             }
             
             AYErrorAlert(message: peopleVM.overlayError.1 , isErrorAlertPresented: $peopleVM.overlayError.0)
@@ -40,22 +34,12 @@ struct PeopleScreen: View {
             }
         }
         .sheet(isPresented: $peopleVM.isPreferencesViewDisplayed) {
-            DiscoverPreferencesView(discoverVM: peopleVM, locationManager: locationManager)
+            DiscoverPreferencesView(discoverVM: peopleVM)
                 .environmentObject(authVM)
         }
     }
     
     //MARK: - Private Methods
-    
-    private func activateDiscover() async throws {
-        let token = try await authVM.getFirebaseToken()
-        do {
-            try await peopleVM.activateUserDiscoverability(token: token)
-            authVM.isUserDiscoverable = true
-        } catch {
-            print("❌ Error trying to activate Discover.")
-        }
-    }
     
     private func updateEnv(withPreferences userPreferences: VerifyUserDiscoverabilityResponse) {
         authVM.isUserDiscoverable = userPreferences.isDiscoverEnabled

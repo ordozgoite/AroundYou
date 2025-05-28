@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FormattedCommunity: Codable, Identifiable {
+struct FormattedCommunity: Codable, Identifiable, Equatable, Hashable {
     let id: String
     var name: String
     var imageUrl: String?
@@ -15,11 +15,13 @@ struct FormattedCommunity: Codable, Identifiable {
     let createdAt: Int
     let expirationDate: Int
     var isMember: Bool
+    var askedToJoin: Bool?
     let isOwner: Bool
     var isPrivate: Bool
     let isLocationVisible: Bool
     let latitude: Double?
     let longitude: Double?
+    var isNearBy: Bool
     
     var isActive: Bool {
         return expirationDate.timeIntervalSince1970InSeconds >= getCurrentDateTimestamp()

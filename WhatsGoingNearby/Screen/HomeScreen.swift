@@ -10,45 +10,81 @@ import SwiftUI
 struct HomeScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var socket: SocketService
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     
     /*
      Os ViewModels são instanciados nesta tela parent em vez de dentro de suas respectivas Views. Isso garante a persistência do estado de cada View ao navegar para fora e voltar, utilizando o AYFeatureSelector.
-    */
+     */
     @StateObject private var placesVM = PlacesViewModel()
     @StateObject private var discoverVM = PeopleViewModel()
     @StateObject private var businessVM = BusinessViewModel()
     @StateObject private var communityVM = CommunityViewModel()
     
     @State private var selectedSection: HomeSection = .places
-
+    
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navCoordinator.path) {
             VStack {
                 AYFeatureSelector(selectedSection: $selectedSection)
                 
                 switch selectedSection {
                 case .places:
-                    PlacesScreen(placesVM: placesVM, locationManager: locationManager, socket: socket)
-                        .environmentObject(authVM)
+                    PlacesScreen(placesVM: placesVM)
                 case .discover:
-                    PeopleScreen(peopleVM: discoverVM, locationManager: locationManager, socket: socket)
-                        .environmentObject(authVM)
+                    PeopleScreen(peopleVM: discoverVM)
                 case .business:
-                    BusinessScreen(businessVM: businessVM, locationManager: locationManager)
-                        .environmentObject(authVM)
+                    BusinessScreen(businessVM: businessVM)
                 case .communities:
-                    CommunityListScreen(communityVM: communityVM, locationManager: locationManager, socket: socket)
-                        .environmentObject(authVM)
+                    CommunityListScreen(communityVM: communityVM)
                 }
                 
                 Spacer()
             }
+            .navigationDestination(for: AppRoute.self) { destination in
+                switch destination {
+                case .createPost:
+                    CreatePostScreen()
+                case .comment(let post):
+                    CommentScreen(post: post)
+                case .reportDetail(let post):
+                    ReportDetailScreen(reportId: post.id)
+                case .lostItemDetail(let post):
+                    LostItemDetailScreen(lostItemId: post.id)
+                case .editPost(let post):
+                    EditPostScreen(post: post)
+                case .reportIssue(let post):
+                    ReportIssueScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil, businessId: nil)
+                case .like(let post):
+                    LikeScreen(id: post.id, type: .publication)
+                case .postMap(let post):
+                    if #available(iOS 17.0, *) {
+                        NewPostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, username: post.username, profilePic: post.userProfilePic)
+                    } else {
+                        PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0)
+                    }
+                case .createCommunity:
+                    CreateCommunityScreen(communityVM: communityVM)
+                case .communityMessage(let community):
+                    CommunityMessageScreen(community: community)
+                case .communityDetail(let community):
+                    CommunityDetailScreen(community: community)
+                case .createBusiness:
+                    PublishBusinessScreen()
+                case .editBusiness(let business):
+                    EditBusinessView(business: business)
+                case .reportBusiness(let business):
+                    ReportIssueScreen(reportedUserUid: business.ownerUid, publicationId: nil, commentId: nil, businessId: business.id)
+                default:
+                    EmptyView()
+                }
+            }
         }
+        
     }
 }
 
 #Preview {
-    HomeScreen(locationManager: LocationManager(), socket: SocketService())
+    HomeScreen()
 }

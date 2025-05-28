@@ -11,63 +11,47 @@ import Kingfisher
 struct MainTabView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @StateObject private var socket = SocketService()
-    @StateObject public var notificationManager = NotificationManager()
-    @StateObject private var locationManager = LocationManager()
+    @EnvironmentObject var socket: SocketService
+    @EnvironmentObject var notificationManager: NotificationManager
+    @EnvironmentObject var locationManager: LocationManager
     @Environment(\.colorScheme) var colorScheme
     
     let pub = NotificationCenter.default
         .publisher(for: .updateBadge)
+    @State private var launchAnimationObserver = NotificationCenter.default
+        .publisher(for: .launchAnimationFinished)
     
-    //    @State private var isPeopleTabDisplayed: Bool = false
     @State private var selectedTab: Int = 0
     @State private var profileImage: UIImage?
     @State private var badgeTimer: Timer?
     @State private var unreadChats: Int?
     
+    @StateObject private var homeNav = NavigationCoordinator()
+    @StateObject private var chatNav = NavigationCoordinator()
+    @StateObject private var accountNav = NavigationCoordinator()
+    
     var body: some View {
         TabView(selection: $selectedTab) {
-            HomeScreen(locationManager: locationManager, socket: socket)
+            HomeScreen()
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
-                .environmentObject(authVM)
+                .environmentObject(homeNav)
                 .tag(0)
             
-            ChatListScreen(socket: socket)
+            ChatListScreen()
                 .tabItem {
-                    Label("Chats", systemImage: "bubble.left.and.bubble.right")
+                    Label("Chats", systemImage: "bubble.left")
                 }
-                .environmentObject(authVM)
+                .environmentObject(chatNav)
                 .badge(unreadChats ?? 0)
                 .tag(1)
             
-            //            CommunityListScreen(locationManager: locationManager, socket: socket)
-            //                .tabItem {
-            //                    Label("Communities", systemImage: "person.3.fill")
-            //                }
-            //                .environmentObject(authVM)
-            //                .tag(1)
-            //
-            //            DiscoverScreen(locationManager: locationManager, socket: socket)
-            //                .tabItem {
-            //                    Label("People", systemImage: "heart.fill")
-            //                }
-            //                .environmentObject(authVM)
-            //                .tag(2)
-            //
-            //            BusinessScreen(locationManager: locationManager)
-            //                .tabItem {
-            //                    Label("Business", systemImage: "storefront.fill")
-            //                }
-            //                .environmentObject(authVM)
-            //                .tag(3)
-            
-            AccountScreen(locationManager: locationManager, socket: socket)
+            AccountScreen()
                 .tabItem {
                     ProfileTabItemLabel()
                 }
-                .environmentObject(authVM)
+                .environmentObject(accountNav)
                 .tag(2)
         }
         .onAppear {
@@ -79,6 +63,9 @@ struct MainTabView: View {
         }
         .onReceive(pub) { (output) in
             self.updateBadge()
+        }
+        .onReceive(launchAnimationObserver) { _ in
+            processPendingNotifications()
         }
         .onChange(of: authVM.profilePic) { _ in
             Task {
@@ -92,9 +79,8 @@ struct MainTabView: View {
         }
         .fullScreenCover(isPresented: $notificationManager.isPublicationDisplayed) {
             IndepCommentScreenWrapper(
-                postId: notificationManager.publicationId ?? "",
-                locationManager: locationManager,
-                socket: socket)
+                postId: notificationManager.publicationId ?? ""
+            )
         }
         .fullScreenCover(isPresented: $notificationManager.isChatDisplayed) {
             MessageScreenWrapper(
@@ -102,7 +88,14 @@ struct MainTabView: View {
                 username: notificationManager.username ?? "",
                 otherUserUid: notificationManager.senderUserUid ?? "",
                 chatPic: notificationManager.chatPic,
-                socket: socket)
+                isLocked: notificationManager.isLocked ?? false
+            )
+        }
+        .fullScreenCover(isPresented: $notificationManager.isCommunityChatDisplayed) {
+            CommunityMessageScreenWrapper(
+                communityId: notificationManager.communityId ?? ""
+            )
+            .environmentObject(authVM)
         }
     }
 }
@@ -126,6 +119,12 @@ private extension MainTabView {
 // MARK: - Private Methods
 
 extension MainTabView {
+    private func processPendingNotifications() {
+        notificationManager.isReady = true
+        notificationManager.pendingPayload?()
+        notificationManager.pendingPayload = nil
+    }
+    
     private func updateBadge() {
         Task {
             self.unreadChats = try await getChatBadge()

@@ -44,10 +44,24 @@ struct MyBusinessView: View {
     private func MyBusinesses(_ myBusinesses: [FormattedBusinessShowcase]) -> some View {
         List {
             ForEach(myBusinesses) { business in
-                BusinessShowcaseView(showcase: business, businessVM: businessVM)
-                    .environmentObject(authVM)
+                VStack {
+                    TimeRemaining(forBusiness: business)
+                    
+                    BusinessShowcaseView(showcase: business, businessVM: businessVM)
+                        .environmentObject(authVM)
+                }
             }
         }
+    }
+    
+    // MARK: - Time
+    
+    @ViewBuilder
+    private func TimeRemaining(forBusiness business: FormattedBusinessShowcase) -> some View {
+        Text(business.isExpired ? "Expired" : businessVM.getTimeLeftText(forBusiness: business))
+            .font(.caption)
+            .foregroundStyle(.gray)
+            .frame(maxWidth: .infinity, alignment: .trailing)
     }
 }
 

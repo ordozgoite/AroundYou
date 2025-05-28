@@ -76,7 +76,7 @@ struct CommunitySuggestionView: View {
             .frame(height: 32 )
             .foregroundStyle(.gray.opacity(0.25))
             .onTapGesture {
-                communityVM.isCreateCommunityViewDisplayed = true
+                communityVM.isCreateCommunityScreenDisplayed = true
             }
     }
 }

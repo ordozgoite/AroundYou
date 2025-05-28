@@ -9,10 +9,9 @@ import SwiftUI
 import Sliders
 
 struct DiscoverPreferencesView: View {
-    
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
     @ObservedObject var discoverVM: PeopleViewModel
-    @ObservedObject var locationManager: LocationManager
     
     var body: some View {
         NavigationStack {
@@ -80,7 +79,7 @@ struct DiscoverPreferencesView: View {
     @ViewBuilder
     private func AgeView() -> some View {
         Picker("My Age", selection: $discoverVM.selectedAge) {
-            ForEach(12...99, id: \.self) { age in
+            ForEach(Constants.minDiscoverAge...Constants.maxDiscoverAge, id: \.self) { age in
                 Text("\(age)").tag(age)
             }
         }
@@ -119,10 +118,10 @@ struct DiscoverPreferencesView: View {
             }
             
             HStack {
-                Text("12")
+                Text(String(Constants.minDiscoverAge))
                     .foregroundStyle(.gray)
-                RangeSlider(range: $discoverVM.ageRange, in: 12...99, step: 1)
-                Text("99")
+                RangeSlider(range: $discoverVM.ageRange, in: Double(Constants.minDiscoverAge)...Double(Constants.maxDiscoverAge), step: 1)
+                Text(String(Constants.maxDiscoverAge))
                     .foregroundStyle(.gray)
             }
         }
@@ -232,6 +231,6 @@ struct DiscoverPreferencesView: View {
 }
 
 #Preview {
-    DiscoverPreferencesView(discoverVM: PeopleViewModel(), locationManager: LocationManager())
+    DiscoverPreferencesView(discoverVM: PeopleViewModel())
         .environmentObject(AuthenticationViewModel())
 }

@@ -8,17 +8,25 @@
 import SwiftUI
 import CoreLocation
 
+protocol PostViewActionHandler {
+    func postViewDidLikePublication(_ content: FormattedPost)
+    func postViewDidUnlikePublication(_ content: FormattedPost)
+    func postViewDidDeletePublication(_ content: FormattedPost)
+    func postViewDidDeleteLostItem(_ content: FormattedPost)
+    func postViewDidDeleteReport(_ content: FormattedPost)
+    func postViewDidFollow(_ content: FormattedPost)
+    func postViewDidUnfollow(_ content: FormattedPost)
+    func postViewDidMarkAsCompleted(_ content: FormattedPost)
+}
+
 struct PostView: View {
-    
-    @Binding var post: FormattedPost
-    @ObservedObject var socket: SocketService
-    @ObservedObject var locationManager: LocationManager
+    var post: FormattedPost
+    var delegate: PostViewActionHandler?
     let isClickable: Bool
-    let deletePost: () -> ()
-    let toggleFeedUpdate: (Bool) -> ()
-    
-    
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var socket: SocketService
+    @EnvironmentObject var locationManager: LocationManager
     @StateObject private var postVM = PostViewModel()
     
     var body: some View {
@@ -44,11 +52,6 @@ struct PostView: View {
             .onTapGesture {
                 handleOnTapGesture()
             }
-            .fullScreenCover(isPresented: $postVM.isFullScreenImageDisplayed) {
-                FullScreenUrlImage(url: post.imageUrl ?? "")
-            }
-            
-            Navigation()
         }
         
     }
@@ -75,7 +78,6 @@ struct PostView: View {
                 
                 TimeInfo()
                 
-                
                 Spacer()
                 
                 OptionsButton()
@@ -87,9 +89,12 @@ struct PostView: View {
     
     @ViewBuilder
     private func Username() -> some View {
-        Text(post.username)
-            .fontWeight(.semibold)
-            .lineLimit(1)
+        NavigationLink(destination: UserProfileScreen(userUid: post.userUid, socket: socket).environmentObject(authVM)) {
+            Text(post.username)
+                .fontWeight(.semibold)
+                .lineLimit(1)
+        }
+        .buttonStyle(PlainButtonStyle())
     }
     
     // MARK: - Time Info
@@ -172,7 +177,7 @@ struct PostView: View {
     private func EditPostButton() -> some View {
         Button {
             postVM.isOptionsPopoverDisplayed = false
-            postVM.isEditPostScreenDisplayed = true
+            navCoordinator.navigate(to: .editPost(post))
         } label: {
             Text("Edit Post")
             Image(systemName: "pencil")
@@ -187,11 +192,7 @@ struct PostView: View {
     private func FinishPostButton() -> some View {
         Button {
             postVM.isOptionsPopoverDisplayed = false
-            Task {
-                let token = try await authVM.getFirebaseToken()
-                try await postVM.finishPublication(postId: post.id, token: token)
-                self.post.isFinished = true
-            }
+            finishPost()
         } label: {
             Text("Finish Post")
             Image(systemName: "clock.arrow.circlepath")
@@ -218,10 +219,7 @@ struct PostView: View {
     @ViewBuilder
     private func DeleteLostItemButton() -> some View {
         Button(role: .destructive) {
-            Task {
-                let token = try await authVM.getFirebaseToken()
-                await postVM.deleteLostItem(lostItemId: post.id, token: token)
-            }
+            deleteLostItem()
         } label: {
             Text("Delete Lost Item")
             Image(systemName: "trash")
@@ -234,10 +232,7 @@ struct PostView: View {
     @ViewBuilder
     private func DeleteReportButton() -> some View {
         Button(role: .destructive) {
-            Task {
-                let token = try await authVM.getFirebaseToken()
-                await postVM.deleteReport(reportId: post.id,token: token)
-            }
+            deleteReport()
         } label: {
             Text("Delete Report")
             Image(systemName: "trash")
@@ -251,12 +246,7 @@ struct PostView: View {
     private func DisableNotificationsButton() -> some View {
         Button {
             postVM.isOptionsPopoverDisplayed = false
-            Task {
-                let token = try await authVM.getFirebaseToken()
-                if let isFollowing = await postVM.unfollowPost(postId: self.post.id, token: token) {
-                    self.post.isSubscribed = isFollowing
-                }
-            }
+            unsubscribeFromPost()
         } label: {
             Text("Disable notifications")
                 .foregroundStyle(.gray)
@@ -272,12 +262,7 @@ struct PostView: View {
     private func EnableNotificationsButton() -> some View {
         Button {
             postVM.isOptionsPopoverDisplayed = false
-            Task {
-                let token = try await authVM.getFirebaseToken()
-                if let isFollowing = await postVM.followPost(postId: self.post.id, token: token) {
-                    self.post.isSubscribed = isFollowing
-                }
-            }
+            subscribeToPost()
         } label: {
             Text("Enable notifications")
                 .foregroundStyle(.gray)
@@ -293,7 +278,7 @@ struct PostView: View {
     private func ReportPostButton() -> some View {
         Button {
             postVM.isOptionsPopoverDisplayed = false
-            postVM.isReportScreenPresented = true
+            navCoordinator.navigate(to: .reportIssue(post))
         } label: {
             Text("Report Post")
                 .foregroundStyle(.gray)
@@ -364,9 +349,6 @@ struct PostView: View {
                 .scaledToFit()
                 .frame(width: 128)
                 .cornerRadius(8)
-                .onTapGesture {
-                    postVM.isFullScreenImageDisplayed = true
-                }
         }
     }
     
@@ -401,36 +383,22 @@ struct PostView: View {
     @ViewBuilder
     private func Likes() -> some View {
         HStack {
-            HeartView(isLiked: Binding(
-                get: { post.didLike ?? false },
-                set: { post.didLike = $0 }
-            )) {
-                Task {
-                    let token = try await authVM.getFirebaseToken()
-                    
-                    if post.didLike ?? false {
-                        post.didLike = false
-                        post.likes = (post.likes ?? 1) - 1
-                        await postVM.unlikePublication(publicationId: post.id, token: token) {
-                            toggleFeedUpdate($0)
-                        }
-                    } else {
-                        hapticFeedback()
-                        post.didLike = true
-                        post.likes = (post.likes ?? 0) + 1
-                        await postVM.likePublication(publicationId: post.id, token: token) {
-                            toggleFeedUpdate($0)
-                        }
-                    }
-                }
+            HeartView(isLiked: $postVM.didLikePost) {
+                handleLikeButtonTapGesture()
             }
             
-            Text(String(post.likes ?? 0))
+            Text(String(postVM.postLikes))
                 .font(.subheadline)
                 .foregroundColor(.gray)
                 .onTapGesture {
-                    postVM.isLikeScreenDisplayed = true
+                    navCoordinator.navigate(to: .like(post))
                 }
+        }
+        .onAppear {
+            if let didLike = post.didLike, let likes = post.likes {
+                postVM.didLikePost = didLike
+                postVM.postLikes = likes
+            }
         }
     }
     
@@ -462,7 +430,7 @@ struct PostView: View {
                     .foregroundColor(.gray)
             }
             .onTapGesture {
-                postVM.isMapScreenPresented = true
+                navCoordinator.navigate(to: .postMap(post))
             }
         }
     }
@@ -487,11 +455,7 @@ struct PostView: View {
     @ViewBuilder
     private func SeeDetails() -> some View {
         Button {
-            if post.postSource == .lostItem {
-                postVM.isLostItemDetailScreenPresented = true
-            } else if post.postSource == .report {
-                postVM.isReportDetailScreenPresented = true
-            }
+            displayDetails()
         } label: {
             HStack {
                 Text("See Details")
@@ -521,111 +485,160 @@ struct PostView: View {
         .background(Capsule().fill(Color.green.opacity(0.2)))
 
     }
-    
-    //MARK: - Navigation
-    
-    @ViewBuilder
-    private func Navigation() -> some View {
-        NavigationLink(
-            destination: CommentScreen(postId: post.id, post: $post, locationManager: locationManager, socket: socket).environmentObject(authVM),
-            isActive: $postVM.isCommentScreenPresented,
-            label: { EmptyView() }
-        )
-        
-        NavigationLink(
-            destination: ReportDetailScreen(reportId: post.id).environmentObject(authVM),
-            isActive: $postVM.isReportDetailScreenPresented,
-            label: { EmptyView() }
-        )
-        
-        NavigationLink(
-            destination: LostItemDetailScreen(lostItemId: post.id).environmentObject(authVM),
-            isActive: $postVM.isLostItemDetailScreenPresented,
-            label: { EmptyView() }
-        )
-        
-        NavigationLink(
-            destination: EditPostScreen(post: post, location: $locationManager.location).environmentObject(authVM),
-            isActive: $postVM.isEditPostScreenDisplayed,
-            label: { EmptyView() }
-        )
-        
-        NavigationLink(
-            destination: ReportIssueScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil, businessId: nil).environmentObject(authVM),
-            isActive: $postVM.isReportScreenPresented,
-            label: { EmptyView() }
-        )
-        
-        if #available(iOS 17.0, *) {
-            NavigationLink(
-                destination: NewPostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, username: post.username, profilePic: post.userProfilePic).environmentObject(authVM),
-                isActive: $postVM.isMapScreenPresented,
-                label: { EmptyView() }
-            )
-        } else {
-            NavigationLink(
-                destination: PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0).environmentObject(authVM),
-                isActive: $postVM.isMapScreenPresented,
-                label: { EmptyView() }
-            )
-        }
-        
-        NavigationLink(
-            destination: LikeScreen(id: post.id, type: .publication, socket: socket).environmentObject(authVM),
-            isActive: $postVM.isLikeScreenDisplayed,
-            label: { EmptyView() }
-        )
-    }
-    
-    //MARK: - Auxiliary Methods
-    
+}
+
+//MARK: - Auxiliary Methods
+
+extension PostView {
     private func handleOnTapGesture() {
         if isClickable {
             switch self.post.postSource {
             case .publication:
-                postVM.isCommentScreenPresented = true
+                print("⚠️ Clicou numa publicação!")
+                navCoordinator.navigate(to: .comment(post))
             case .lostItem:
-                postVM.isLostItemDetailScreenPresented = true
+                navCoordinator.navigate(to: .lostItemDetail(post))
             case .report:
-                postVM.isReportDetailScreenPresented = true
+                navCoordinator.navigate(to: .reportDetail(post))
+            }
+        }
+    }
+    
+    private func finishPost() {
+        Task {
+            do {
+                let token = try await authVM.getFirebaseToken()
+                try await postVM.finishPublication(postId: post.id, token: token)
+                delegate?.postViewDidMarkAsCompleted(post)
+            } catch {
+                print("❌ Error trying to finish publication.")
+            }
+        }
+    }
+    
+    private func deletePost() {
+        Task {
+            do {
+                let token = try await authVM.getFirebaseToken()
+                try await postVM.deletePost(postId: post.id, token: token)
+                delegate?.postViewDidDeletePublication(post)
+            } catch {
+                print("❌ Error trying to delete publication.")
+            }
+        }
+    }
+    
+    private func deleteReport() {
+        Task {
+            do {
+                let token = try await authVM.getFirebaseToken()
+                try await postVM.deleteReport(reportId: post.id,token: token)
+                delegate?.postViewDidDeleteReport(post)
+            } catch {
+                print("❌ Error trying to delete report.")
+            }
+        }
+    }
+    
+    private func deleteLostItem() {
+        Task {
+            do {
+                let token = try await authVM.getFirebaseToken()
+                try await postVM.deleteLostItem(lostItemId: post.id, token: token)
+                delegate?.postViewDidDeleteLostItem(post)
+            } catch {
+                print("❌ Error trying to delete lost item.")
+            }
+        }
+    }
+    
+    private func subscribeToPost() {
+        Task {
+            do {
+                let token = try await authVM.getFirebaseToken()
+                try await postVM.followPost(postId: self.post.id, token: token)
+                delegate?.postViewDidFollow(post)
+            } catch {
+                print("❌ Error trying to follow post")
+            }
+        }
+    }
+    
+    private func unsubscribeFromPost() {
+        Task {
+            do {
+                let token = try await authVM.getFirebaseToken()
+                try await postVM.unfollowPost(postId: self.post.id, token: token)
+                delegate?.postViewDidUnfollow(post)
+            } catch {
+                print("❌ Error trying to unfollow post")
+            }
+        }
+    }
+    
+    private func displayDetails() {
+        if post.postSource == .lostItem {
+            navCoordinator.navigate(to: .lostItemDetail(post))
+        } else if post.postSource == .report {
+            navCoordinator.navigate(to: .reportDetail(post))
+        }
+    }
+    
+    private func handleLikeButtonTapGesture() {
+        Task {
+            do {
+                let token = try await authVM.getFirebaseToken()
+                
+                if postVM.didLikePost {
+                    postVM.didLikePost = false
+                    postVM.postLikes -= 1
+                    try await postVM.unlikePublication(publicationId: post.id, token: token)
+                    delegate?.postViewDidUnlikePublication(post)
+                } else {
+                    hapticFeedback()
+                    postVM.didLikePost = true
+                    postVM.postLikes += 1
+                    try await postVM.likePublication(publicationId: post.id, token: token)
+                    delegate?.postViewDidLikePublication(post)
+                }
+            } catch {
+                print("❌ Error trying to like/unlike post.")
             }
         }
     }
 }
 
-#Preview {
-    PostView(
-        post: .constant(FormattedPost(
-            id: "680006cd9c7c5a27d55e6a34",
-            userUid: "ntDPci9E8ZURHYcqFfektUSFWw53",
-            userProfilePic: "https://www.apple.com/leadership/images/bio/tim-cook_image.png.og.png?1736784653666",
-            username: "ordozgoite",
-            timestamp: 1744832205133,
-            expirationDate: 1744918605133,
-            text: "AirPods Pro 2ª geração",
-            likes: nil,
-            didLike: nil,
-            comment: nil,
-            latitude: -60.022406872388324,
-            longitude: -3.1263690427109263,
-            distanceToMe: nil,
-            isFromRecipientUser: false,
-            isLocationVisible: false,
-            tag: nil,
-            imageUrl: "https://m.media-amazon.com/images/I/51OoKCakCfL._AC_UF350,350_QL80_.jpg",
-            isOwnerFarAway: nil,
-            isFinished: nil,
-            duration: nil,
-            isSubscribed: nil,
-            source: "lostItem"
-        )),
-        socket: SocketService(),
-        locationManager: LocationManager(),
-        isClickable: false, deletePost: {},
-        toggleFeedUpdate: { _ in }
-    )
-    .environmentObject(AuthenticationViewModel())
-}
+//#Preview {
+//    PostView(
+//        post: .constant(FormattedPost(
+//            id: "680006cd9c7c5a27d55e6a34",
+//            userUid: "ntDPci9E8ZURHYcqFfektUSFWw53",
+//            userProfilePic: "https://www.apple.com/leadership/images/bio/tim-cook_image.png.og.png?1736784653666",
+//            username: "ordozgoite",
+//            timestamp: 1744832205133,
+//            expirationDate: 1744918605133,
+//            text: "AirPods Pro 2ª geração",
+//            likes: nil,
+//            didLike: nil,
+//            comment: nil,
+//            latitude: -60.022406872388324,
+//            longitude: -3.1263690427109263,
+//            distanceToMe: nil,
+//            isFromRecipientUser: false,
+//            isLocationVisible: false,
+//            tag: nil,
+//            imageUrl: "https://m.media-amazon.com/images/I/51OoKCakCfL._AC_UF350,350_QL80_.jpg",
+//            isOwnerFarAway: nil,
+//            isFinished: nil,
+//            duration: nil,
+//            isSubscribed: nil,
+//            source: "lostItem"
+//        )),
+//        isClickable: false, deletePost: {},
+//        toggleFeedUpdate: { _ in }
+//    )
+//    .environmentObject(AuthenticationViewModel())
+//}
 
 //"https:\/\/firebasestorage.googleapis.com:443\/v0\/b\/aroundyou-b8364.appspot.com\/o\/post-image%2F32A37A97-A770-4103-80BF-4614736B2706.jpg?alt=media&token=d4d6ac06-73a9-4805-8a48-7218f8a334dc"
 

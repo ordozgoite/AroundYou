@@ -22,15 +22,17 @@ struct DiscoverUserView: View {
             Text(userName)
                 .font(.title2)
                 .fontWeight(.bold)
+                .padding(.bottom)
             
             VStack(alignment: .leading) {
                 Text("· \(age) years old")
-                Text("· \(gender.title.stringKey)")
-                Text("· \(lastSeen.convertTimestampToDate().timeAgoDisplay())")
+                Text("· ") + Text(gender.title)
+                Text("· Seen \(lastSeen.convertTimestampToDate().timeAgoDisplay())")
             }
             .foregroundStyle(.gray)
         }
         .frame(maxWidth: .infinity)
+        .frame(height: 256)
         .padding(.vertical)
         .background(
             Color.white.opacity(0.2)
@@ -38,7 +40,7 @@ struct DiscoverUserView: View {
         )
         .cornerRadius(15)
         .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 5)
-        .padding(.horizontal)
+//        .padding(.horizontal)
     }
 }
 

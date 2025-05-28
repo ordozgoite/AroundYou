@@ -27,18 +27,11 @@ struct CommunityMessageView: View {
         
         HStack {
             HStack {
+                ProfilePic()
+                
                 if message.text.isSingleEmoji {
                     Emoji(message.text)
                 } else {
-                    if message.shouldDisplaySenderProfilePic {
-                        ProfilePicView(profilePic: message.senderProfilePic, size: 32)
-                    } else {
-                        // Gambiarra para que as mensagens fiquem todas alinhadas
-                        // Sem isso, a mensagem que acompanha a imagem de perfil ficaria desalinhada com as demais
-                        // Pra resolver isso, eu criei esse espaçamento para as mansagens que não acompanham a imagem
-                        Spacer().frame(width: 40)
-                    }
-                    
                     TextBubble()
                 }
             }
@@ -116,6 +109,20 @@ struct CommunityMessageView: View {
             .onTapGesture {
                 tappedRepliedMessage()
             }
+        }
+    }
+    
+    // MARK: - Profile Pic
+    
+    @ViewBuilder
+    private func ProfilePic() -> some View {
+        if message.shouldDisplaySenderProfilePic {
+            ProfilePicView(profilePic: message.senderProfilePic, size: 32)
+        } else {
+            // Gambiarra para que as mensagens fiquem todas alinhadas
+            // Sem isso, a mensagem que acompanha a imagem de perfil ficaria desalinhada com as demais
+            // Pra resolver isso, eu criei esse espaçamento para as mansagens que não acompanham a imagem
+            Spacer().frame(width: 40)
         }
     }
     

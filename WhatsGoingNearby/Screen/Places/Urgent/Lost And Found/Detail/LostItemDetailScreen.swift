@@ -15,34 +15,32 @@ struct LostItemDetailScreen: View {
     @StateObject private var vm = LostItemDetailViewModel()
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                if vm.isGettingLostItem {
-                    ProgressView()
-                } else if let lostItem = vm.lostItem {
-                    Form {
-                        Image(forLostItem: lostItem)
-                        
-                        Info(forLostItem: lostItem)
-                        
-                        Reward(lostItem)
-                        
-                        Location(forLostItem: lostItem)
-                    }
+        ZStack {
+            if vm.isGettingLostItem {
+                ProgressView()
+            } else if let lostItem = vm.lostItem {
+                Form {
+                    Image(forLostItem: lostItem)
+                    
+                    Info(forLostItem: lostItem)
+                    
+                    Reward(lostItem)
+                    
+                    Location(forLostItem: lostItem)
                 }
-                
-                AYErrorAlert(message: vm.overlayError.1 , isErrorAlertPresented: $vm.overlayError.0)
             }
-            .navigationTitle(getNavTitle())
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                FoundButton()
-            }
-            .onAppear {
-                Task {
-                    let token = try await authVM.getFirebaseToken()
-                    await vm.getLostItem(withId: self.lostItemId, token: token)
-                }
+            
+            AYErrorAlert(message: vm.overlayError.1 , isErrorAlertPresented: $vm.overlayError.0)
+        }
+        .navigationTitle(getNavTitle())
+        .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            FoundButton()
+        }
+        .onAppear {
+            Task {
+                let token = try await authVM.getFirebaseToken()
+                await vm.getLostItem(withId: self.lostItemId, token: token)
             }
         }
     }
@@ -52,7 +50,7 @@ struct LostItemDetailScreen: View {
     @ViewBuilder
     private func Image(forLostItem lostItem: LostItem) -> some View {
         if let url = lostItem.imageUrl {
-            URLImageView(imageURL: url)
+            URLTapableImageView(imageURL: url)
                 .scaledToFit()
                 .frame(height: 256)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -118,7 +116,7 @@ struct LostItemDetailScreen: View {
         }
     }
     
-    private func getNavTitle() -> String {
+    private func getNavTitle() -> LocalizedStringKey {
         return wasItemFound() ? "Item Found ✅" : "Item Lost"
     }
     

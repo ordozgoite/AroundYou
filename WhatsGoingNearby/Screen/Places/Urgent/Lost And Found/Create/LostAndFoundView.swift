@@ -11,8 +11,8 @@ import PhotosUI
 struct LostAndFoundView: View {
     @Binding var isViewDisplayed: Bool
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
     @StateObject private var vm = LostAndFoundViewModel()
-    @ObservedObject var locationManager: LocationManager
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -29,13 +29,6 @@ struct LostAndFoundView: View {
                 }
                 
                 AYErrorAlert(message: vm.overlayError.1 , isErrorAlertPresented: $vm.overlayError.0)
-            }
-            .onChange(of: vm.imageSelection) { newItem in
-                Task {
-                    if let data = try? await newItem?.loadTransferable(type: Data.self), let image = UIImage(data: data) {
-                        vm.selectedImage = image
-                    }
-                }
             }
             .navigationBarTitle("Lost & Found")
             .toolbar {
@@ -68,8 +61,28 @@ struct LostAndFoundView: View {
     private func Picture() -> some View {
         Section(header: Text("Add a Picture (Optional)")) {
             ZStack(alignment: .topTrailing) {
-                PhotosPicker(selection: $vm.imageSelection, matching: .images) {
+                Menu {
+                    Button {
+                        vm.isCameraPickerDisplayed = true
+                    } label: {
+                        Label("Camera", systemImage: "camera")
+                    }
+                    
+                    Button {
+                        vm.isPhotoPickerDisplayed = true
+                    } label: {
+                        Label("Photos", systemImage: "photo")
+                    }
+                } label: {
                     ItemImage()
+                }
+                .fullScreenCover(isPresented: $vm.isCameraPickerDisplayed) {
+                    CameraView { image in
+                        vm.selectedImage = image
+                    }
+                }
+                .sheet(isPresented: $vm.isPhotoPickerDisplayed) {
+                    PhotoPicker(selectedPhoto: $vm.selectedImage)
                 }
                 
                 if vm.selectedImage != nil {
@@ -191,6 +204,7 @@ extension LostAndFoundView {
         let currentLocation = try getCurrentLocation()
         let token = try await authVM.getFirebaseToken()
         try await vm.postLostItem(location: currentLocation, token: token)
+        notifyLocationSensitiveDataRefresh()
         dismiss()
     }
     
@@ -204,8 +218,12 @@ extension LostAndFoundView {
             throw LocationError.unableToGetCurrentLocation
         }
     }
+    
+    private func notifyLocationSensitiveDataRefresh() {
+        NotificationCenter.default.post(name: .refreshLocationSensitiveData, object: nil)
+    }
 }
 
 #Preview {
-    LostAndFoundView(isViewDisplayed: .constant(true), locationManager: LocationManager())
+    LostAndFoundView(isViewDisplayed: .constant(true))
 }

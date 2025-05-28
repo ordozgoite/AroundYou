@@ -11,14 +11,29 @@ import CoreLocation
 extension Notification.Name {
     static let refreshLocationSensitiveData = Notification.Name("refreshFeed")
     static let updateLocation = Notification.Name("updateLocation")
+    static let updateUserProfilePosts = Notification.Name("updateUserProfilePosts")
     static let updateBadge = Notification.Name("updateBadge")
     static let popCommunity = Notification.Name("popCommunity")
     static let goToUsernameScreen = Notification.Name("goToUsernameScreen")
     static let displayRetryGetUserInfoButton = Notification.Name("displayRetryGetUserInfoButton")
+    static let launchAnimationFinished = Notification.Name("launchAnimationFinished")
 }
 
 struct Constants {
     static let API_URL: String = "https://around-you-3acb9615e8a5.herokuapp.com"
+    
+    // MARK: - BG Tasks
+
+    /*
+     Toda vez que for mudar o Id de uma Background Task, é necessário atualizar o valor na Info Plist!
+     */
+    
+    static let updateLocBGTaskId: String = "ordozgoite.WhatsGoingNearby.backgroundTask.updateLoc"
+    
+    // MARK: - Images
+    
+    static let instagramLogoImageName: String = "instagram"
+    static let whatsAppLogoImageName: String = "whatsapp"
     
     // MARK: -  User
     
@@ -35,15 +50,21 @@ struct Constants {
     static let BACKGROUND_TASK_DELAY_HOURS: Int = 1
     static let NOTIFICATION_DELAY_SECONDS: Int = 4 * 60 * 60
     static let SIGNIFICANT_DISTANCE_METERS: CLLocationDistance = 50
-    static let MAX_ELAPSED_TIME_DELETE_MESSAGE_SECONDS: Int = 60
+    static let MAX_ELAPSED_TIME_DELETE_MESSAGE_SECONDS: Int = 10 * 60
     
     //MARK: - Discover Defaults
     
     static let DEFAULT_USER_AGE: Int = 18
     static let DEFAULT_MIN_AGE_PREFERENCE: Int = 25
     static let DEFAULT_MAX_AGE_PREFERENCE: Int = 40
+    static let minDiscoverAge: Int = 18
+    static let maxDiscoverAge: Int = 99
+    
+    // MARK: - Community
+    
+    static let communityDiscaimerMessageId: String = "community_disclaimer_message_id"
     
     // MARK: - Icons
     
-    static let COMMUNITY_IMAGE_PLACEHOLDER = "person.2.circle.fill"
+    static let communityIconImageName: String = "bubble.left.and.bubble.right"
 }

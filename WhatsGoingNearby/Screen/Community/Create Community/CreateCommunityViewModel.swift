@@ -14,42 +14,34 @@ class CreateCommunityViewModel: ObservableObject {
     
     @Published var communityNameInput: String = ""
     @Published var communityDescriptionInput: String = ""
-    @Published var selectedCommunityDuration: CommunityDuration = .oneHour
     @Published var isLocationVisible: Bool = false
     @Published var isCommunityPrivate: Bool = false
     @Published var isCreatingCommunity: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
+    @Published var isDurationInfoPopoverDisplayed: Bool = false
     
     // Community Image
-    @Published var isImageOptionsDisplayed: Bool = false
-    @Published var imageSelection: PhotosPickerItem?
+    @Published var isCameraPickerDisplayed: Bool = false
+    @Published var isPhotoPickerDisplayed: Bool = false
     @Published var isCropViewDisplayed: Bool = false
-    @Published var image: UIImage?
+    @Published var imageFromCamera: UIImage?
+    @Published var imageFromAlbum: UIImage?
     @Published var croppedImage: UIImage?
-    @Published var isPhotoPickerPresented: Bool = false
-    
-    func resetCreateCommunityInputs() {
-        self.imageSelection = nil
-        self.image = nil
-        self.croppedImage = nil
-        self.communityNameInput = ""
-        communityDescriptionInput = ""
-    }
     
     func areInputsValid() -> Bool {
         return !communityNameInput.isEmpty
     }
     
-    func posNewCommunity(latitude: Double, longitude: Double, token: String, dismiss: () -> ()) async {
+    func posNewCommunity(latitude: Double, longitude: Double, token: String) async {
         isCreatingCommunity = true
         let imageUrl = self.croppedImage == nil ? nil : await getImageUrl()
-        let result = await AYServices.shared.postNewCommunity(name: self.communityNameInput, description: self.communityDescriptionInput.isEmpty ? nil : self.communityDescriptionInput, duration: self.selectedCommunityDuration.value, isLocationVisible: self.isLocationVisible, isPrivate: self.isCommunityPrivate, imageUrl: imageUrl, latitude: latitude, longitude: longitude, token: token)
+        let result = await AYServices.shared.postNewCommunity(name: self.communityNameInput, description: self.communityDescriptionInput.isEmpty ? nil : self.communityDescriptionInput, isLocationVisible: self.isLocationVisible, isPrivate: self.isCommunityPrivate, imageUrl: imageUrl, latitude: latitude, longitude: longitude, token: token)
         isCreatingCommunity = false
         
         switch result {
         case .success:
-            dismiss()
-        case .failure(let error):
+            print("✅ New Community successfully posted!")
+        case .failure:
             overlayError = (true, ErrorMessage.postNewCommunity)
         }
     }
@@ -60,23 +52,6 @@ class CreateCommunityViewModel: ObservableObject {
         } catch {
             overlayError = (true, ErrorMessage.postImageErrorMessage)
             return nil
-        }
-    }
-    
-    private func loadTransferable(from imageSelection: PhotosPickerItem) -> Progress {
-        return imageSelection.loadTransferable(type: Image.self) { result in
-            DispatchQueue.main.async {
-                guard imageSelection == self.imageSelection else { return }
-                switch result {
-                case .success(let image?):
-                    print("✅ Success!")
-                case .success(nil):
-                    print("✅ Success!")
-                case .failure(let error):
-                    print("❌ Error: \(error)")
-                    self.overlayError = (true, ErrorMessage.selectPhotoErrorMessage)
-                }
-            }
         }
     }
 }

@@ -63,7 +63,7 @@
         }
       }
     },
-    "· %@" : {
+    "· " : {
 
     },
     "· %lld years old" : {
@@ -72,6 +72,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "· %lld anos de idade"
+          }
+        }
+      }
+    },
+    "· Seen %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· Visto %@"
           }
         }
       }
@@ -85,9 +95,6 @@
           }
         }
       }
-    },
-    "@" : {
-
     },
     "@%@" : {
       "localizations" : {
@@ -183,6 +190,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$lld %2$@%3$@ para expirar"
+          }
+        }
+      }
+    },
+    "%lld day%@ to expire" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld day%2$@ to expire"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld dia%2$@ para expirar"
           }
         }
       }
@@ -338,11 +361,15 @@
         }
       }
     },
-    "12" : {
-
-    },
-    "99" : {
-
+    "24 hours" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24 horas"
+          }
+        }
+      }
     },
     "Account Deletion" : {
       "localizations" : {
@@ -467,6 +494,16 @@
     },
     "admin" : {
 
+    },
+    "Adult" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adulto"
+          }
+        }
+      }
     },
     "Age Range" : {
       "localizations" : {
@@ -626,11 +663,22 @@
       }
     },
     "Ask to join:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pedir para participar:"
+          }
+        }
+      }
+    },
+    "Asked to Join" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pediu para Participar"
           }
         }
       }
@@ -1028,6 +1076,16 @@
         }
       }
     },
+    "Communities are available for 24 hours only." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comunidades ficam disponíveis por apenas 24 horas."
+          }
+        }
+      }
+    },
     "Communities Around You" : {
       "localizations" : {
         "pt-BR" : {
@@ -1123,6 +1181,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Conectando..."
+          }
+        }
+      }
+    },
+    "Connections" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conexões"
           }
         }
       }
@@ -1590,6 +1659,26 @@
         }
       }
     },
+    "Do you really want to delete the community **%@**?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você realmente quer deletar a comunidade **%@**?"
+          }
+        }
+      }
+    },
+    "Do you really want to leave the community **%@**?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você realmente quer deixar a comunidade **%@**?"
+          }
+        }
+      }
+    },
     "Don't Allow" : {
       "localizations" : {
         "pt-BR" : {
@@ -1685,6 +1774,16 @@
         }
       }
     },
+    "Eat & Drink" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comidas e Bebidas"
+          }
+        }
+      }
+    },
     "Edit" : {
       "localizations" : {
         "pt-BR" : {
@@ -1697,6 +1796,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar"
+          }
+        }
+      }
+    },
+    "Edit Business" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar Negócio"
           }
         }
       }
@@ -1781,6 +1890,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Edite essa informação nas suas configurações de perfil."
+          }
+        }
+      }
+    },
+    "Editing..." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editando…"
+          }
+        }
+      }
+    },
+    "Education" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Educação"
           }
         }
       }
@@ -1897,11 +2026,32 @@
       }
     },
     "Error trying to create new post. Try again later." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erro ao tentar criar uma nova publicação. Tente novamente mais tarde."
+          }
+        }
+      }
+    },
+    "Error trying to edit Business. Please try again." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao editar Negócio. Tente novamente."
+          }
+        }
+      }
+    },
+    "Error trying to fetch community info." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao tentar recuperar informações da comunidade."
           }
         }
       }
@@ -1961,6 +2111,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erro ao tentar selecionar uma foto."
+          }
+        }
+      }
+    },
+    "Error trying to update community privacy" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao tentar atualizar privacidade da comunidade."
           }
         }
       }
@@ -2689,6 +2849,7 @@
       }
     },
     "Full name" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -2704,6 +2865,16 @@
         }
       }
     },
+    "Full name (optional)" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome completo (opcional)"
+          }
+        }
+      }
+    },
     "Gravador de Áudio" : {
 
     },
@@ -2713,6 +2884,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dano a uma Pessoa"
+          }
+        }
+      }
+    },
+    "Health" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saúde"
           }
         }
       }
@@ -2826,6 +3007,16 @@
         }
       }
     },
+    "Home " : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Casa"
+          }
+        }
+      }
+    },
     "Hungry" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2900,6 +3091,16 @@
         }
       }
     },
+    "If the community is private, users must request to join it — and you’ll need to approve their request before they can enter." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se a comunidade for privada, os usuários devem solicitar a entrada nela — e você precisará aprovar a solicitação antes que eles possam entrar."
+          }
+        }
+      }
+    },
     "If this option is enabled, we will notify you whenever we find someone matching your interests nearby." : {
       "localizations" : {
         "pt-BR" : {
@@ -2922,6 +3123,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se você sair dessa tela, você vai perder suas mudanças."
+          }
+        }
+      }
+    },
+    "If you want to leave this community, tap and hold it." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se você quiser deixar essa comunidade, aperte e segura no seu ícone."
           }
         }
       }
@@ -3042,6 +3253,7 @@
       }
     },
     "Invalid username format." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -3087,12 +3299,32 @@
         }
       }
     },
+    "Item Found ✅" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Item Encontrado ✅"
+          }
+        }
+      }
+    },
     "Item Info" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Informações do Item"
+          }
+        }
+      }
+    },
+    "Item Lost" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Item Perdido"
           }
         }
       }
@@ -3169,6 +3401,16 @@
     },
     "Latitude: %lf" : {
 
+    },
+    "Leave" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixar"
+          }
+        }
+      }
     },
     "Leave Community" : {
       "localizations" : {
@@ -3637,7 +3879,38 @@
         }
       }
     },
+    "Only people nearby this community can interact with it, including the owner." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Somente pessoas próximas desta comunidade podem interagir com ela, incluindo o proprietário."
+          }
+        }
+      }
+    },
+    "Only people nearby this post can interact with it, including the owner." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Somente pessoas próximas podem interagir com esta publicação — inclusive o dono."
+          }
+        }
+      }
+    },
+    "Only people nearby your community will be able to interact with it, even you." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apenas pessoas próximas da sua comunidade poderão interagir com ela, até mesmo você."
+          }
+        }
+      }
+    },
     "Only people within a 1 km radius of your community will be able to see and interact with it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -3704,6 +3977,16 @@
     "Parar Gravação" : {
 
     },
+    "Party & Event" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Festas e Eventos"
+          }
+        }
+      }
+    },
     "password" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3747,12 +4030,26 @@
         }
       }
     },
+    "Pets" : {
+
+    },
     "Phone number" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Número de telefone"
+          }
+        }
+      }
+    },
+    "Phone Number" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de Telefone"
           }
         }
       }
@@ -3934,6 +4231,16 @@
         }
       }
     },
+    "Posts are shown only to those around you." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As publicações são exibidas apenas para quem está ao seu redor."
+          }
+        }
+      }
+    },
     "Posts on AroundYou remain active for just **8 hours**, ensuring you discover timely and relevant information effortlessly." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3994,6 +4301,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Privacidade"
+          }
+        }
+      }
+    },
+    "Private Community" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comunidade Privada"
+          }
+        }
+      }
+    },
+    "Private Community:" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comunidade Privada:"
           }
         }
       }
@@ -4080,6 +4407,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Publicar"
+          }
+        }
+      }
+    },
+    "Publish New Business" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publicar Novo Negócio"
           }
         }
       }
@@ -4287,7 +4624,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Denunciar"
+            "value" : "Denunciar Incidente"
           }
         }
       }
@@ -4540,6 +4877,16 @@
         }
       }
     },
+    "Selling" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À Venda"
+          }
+        }
+      }
+    },
     "Send Email" : {
       "localizations" : {
         "pt-BR" : {
@@ -4552,6 +4899,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enviar Email"
+          }
+        }
+      }
+    },
+    "Services" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serviços"
           }
         }
       }
@@ -4783,6 +5140,16 @@
         }
       }
     },
+    "Tech & Games" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tecnologia e Jogos"
+          }
+        }
+      }
+    },
     "Temporary posts ⏳" : {
       "localizations" : {
         "pt-BR" : {
@@ -4912,6 +5279,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Estes usuários querem participar da sua comunidade. Aprove a solicitação ou ignore-a."
+          }
+        }
+      }
+    },
+    "This community is private." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Essa comunidade é privada."
           }
         }
       }
@@ -5276,6 +5653,16 @@
         }
       }
     },
+    "Username can only contain letters, numbers, dots (.) and underscores (_), with no spaces or special characters." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O nome de usuário pode conter apenas letras, números, pontos (.) e sublinhados (_), sem espaços ou caracteres especiais.\n"
+          }
+        }
+      }
+    },
     "Version %@" : {
       "localizations" : {
         "pt-BR" : {
@@ -5399,6 +5786,16 @@
         }
       }
     },
+    "Wellness" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bem-estar"
+          }
+        }
+      }
+    },
     "What are you reporting?" : {
       "localizations" : {
         "pt-BR" : {
@@ -5452,6 +5849,17 @@
       }
     },
     "WhatsApp number" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de WhatsApp"
+          }
+        }
+      }
+    },
+    "WhatsApp Number" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -5500,6 +5908,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escreva uma mensagem..."
+          }
+        }
+      }
+    },
+    "You already asked to join this community" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você já pediu para participar desta comunidade."
           }
         }
       }
@@ -5557,12 +5975,43 @@
         }
       }
     },
+    "You are too far from this community. Tap and hold to leave it." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você está muito longe desta comunidade. Toque e segure para sair dela.\n"
+          }
+        }
+      }
+    },
     "You can enable notifications to stay updated when someone matching your interests is nearby." : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você pode ativar notificações para ficar atualizado quando alguém com seus interesses estiver por perto."
+          }
+        }
+      }
+    },
+    "You can not edit your Business location." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você não pode editar a localização do seu Negócio."
+          }
+        }
+      }
+    },
+    "You can not edit your Business photo." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você não pode editar a foto do seu Negócio."
           }
         }
       }
@@ -5583,6 +6032,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você só pode ter um Negócio publicado por vez."
+          }
+        }
+      }
+    },
+    "You can only have one active Incident Report published at a time." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você pode ter apenas uma Denúncia publicada por vez."
+          }
+        }
+      }
+    },
+    "You can only have one active Lost Item published at a time." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você pode ter apenas um Item Perdido publicado por vez."
           }
         }
       }
@@ -5671,6 +6140,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você está muito longe para editar esta postagem."
+          }
+        }
+      }
+    },
+    "You're too far away!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você está longe demais!"
+          }
+        }
+      }
+    },
+    "You're too far from this community to send a message." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você está muito longe dessa comunidade para mandar uma mensagem."
           }
         }
       }
@@ -5777,6 +6266,26 @@
         }
       }
     },
+    "Your biography will be displayed on your profile. Write anything you want to share about yourself." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua biografia será exibida no seu perfil. Escreva algo sobre você que deseja compartilhar."
+          }
+        }
+      }
+    },
+    "Your Business will be available for **15 days**." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu Negócio ficará disponível por **15 dias**."
+          }
+        }
+      }
+    },
     "Your feedback helps us improve the app experience for everyone." : {
       "localizations" : {
         "pt-BR" : {
@@ -5789,6 +6298,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sua opinião nos ajuda a melhorar a experiência do app para todos."
+          }
+        }
+      }
+    },
+    "Your full name will be displayed on your profile." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu completo será exibido no seu perfil."
           }
         }
       }
@@ -5821,6 +6340,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sua localização:"
+          }
+        }
+      }
+    },
+    "Your message couldn’t be sent because the community was deleted by its owner." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua mensagem não pôde ser enviada porque a comunidade foi excluída pelo seu criador.\n"
           }
         }
       }
@@ -5870,6 +6399,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seu perfil foi atualizado com sucesso."
+          }
+        }
+      }
+    },
+    "Your username needs to be unique. This is the main way other users will see you on the app." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu nome de usuário precisa ser único. Essa é a principal forma como outros usuários verão você no app."
           }
         }
       }

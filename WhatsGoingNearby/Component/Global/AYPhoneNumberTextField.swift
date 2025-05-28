@@ -8,6 +8,10 @@
 import SwiftUI
 import PhoneNumberKit
 
+/*
+ Essa view foi depreciada, pois entendemos que não há a necessidade de usar o código do país, tampouco exibir sua bandeira, para atingir o nosso propósito atual (WhatsApp e número de telefone). Resolvemos manter o campo de texto padrão para o usuário digitar o seu número livremente.
+ */
+
 struct PhoneNumberTextFieldView: UIViewRepresentable {
     @Binding var text: String
     var placeholder: String

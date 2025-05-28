@@ -8,17 +8,14 @@
 import SwiftUI
 import PhotosUI
 
-enum PostReportIncidentError: Error {
-    case genericError
-}
-
 @MainActor
 class ReportIncidentViewModel: ObservableObject {
     @Published var selectedReportType: IncidentType?
     @Published var isUserTheVictim: Bool = true
     @Published var humanVictimDetails: String = ""
     @Published var reportDescription: String = ""
-    @Published var imageSelection: PhotosPickerItem? = nil
+    @Published var isCameraPickerDisplayed: Bool = false
+    @Published var isPhotoPickerDisplayed: Bool = false
     @Published var selectedImage: UIImage? = nil
     @Published var isPostingReport: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
@@ -60,9 +57,13 @@ class ReportIncidentViewModel: ObservableObject {
         switch result {
         case .success:
             print("✅ Report successfully posted!")
-        case .failure:
-            overlayError = (true, ErrorMessage.postIncidentReportErrorMessage)
-            throw PostReportIncidentError.genericError
+        case .failure(let error):
+            if error == .locked {
+                overlayError = (true, "You can only have one active Incident Report published at a time.")
+            } else {
+                overlayError = (true, ErrorMessage.postIncidentReportErrorMessage)
+            }
+            throw error
         }
     }
     
@@ -71,7 +72,6 @@ class ReportIncidentViewModel: ObservableObject {
     }
     
     func removePhoto() {
-        self.imageSelection = nil
         self.selectedImage = nil
     }
 }

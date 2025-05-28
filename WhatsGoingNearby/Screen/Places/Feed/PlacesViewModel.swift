@@ -21,7 +21,6 @@ class PlacesViewModel: ObservableObject {
     @Published var isLostAndFoundScreenDisplayed: Bool = false
     @Published var isReportScreenDisplayed: Bool = false
     @Published var isHelpViewDisplayed: Bool = false
-    @Published var navigationTarget: (postId: FormattedPost?, isActive: Bool) = (nil, false)
     
     func getPosts(latitude: Double, longitude: Double, token: String) async {
         if !initialPostsFetched { isLoading = true }
@@ -56,9 +55,49 @@ class PlacesViewModel: ObservableObject {
     private func handlePostDeletionResult(withId postId: String, _ result: Result<DeletePublicationResponse, RequestError>) {
         switch result {
         case .success:
-            posts.removeAll { $0.id == postId }
+            removePost(withId: postId)
         case .failure:
             overlayError = (true, ErrorMessage.deletePostErrorMessage)
+        }
+    }
+    
+    func removePost(withId postId: String) {
+        posts.removeAll { $0.id == postId }
+    }
+    
+    func likePost(withId postId: String) {
+        if let index = posts.firstIndex(where: { $0.id == postId }),
+           posts[index].likes != nil,
+           posts[index].didLike != nil {
+            posts[index].likes! += 1
+            posts[index].didLike = true
+        }
+    }
+    
+    func unlikePost(withId postId: String) {
+        if let index = posts.firstIndex(where: { $0.id == postId }),
+           posts[index].likes != nil,
+           posts[index].didLike != nil {
+            posts[index].likes! -= 1
+            posts[index].didLike = false
+        }
+    }
+    
+    func finishPost(withId postId: String) {
+        if let index = posts.firstIndex(where: { $0.id == postId }) {
+            posts[index].isFinished = true
+        }
+    }
+    
+    func followPost(withId postId: String) {
+        if let index = posts.firstIndex(where: { $0.id == postId }) {
+            posts[index].isSubscribed = true
+        }
+    }
+    
+    func unfollowPost(withId postId: String) {
+        if let index = posts.firstIndex(where: { $0.id == postId }) {
+            posts[index].isSubscribed = false
         }
     }
 }

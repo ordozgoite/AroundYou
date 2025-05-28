@@ -42,7 +42,7 @@ struct CommentView: View {
             )
             
             NavigationLink(
-                destination: LikeScreen(id: comment.id, type: .comment, socket: socket).environmentObject(authVM),
+                destination: LikeScreen(id: comment.id, type: .comment).environmentObject(authVM),
                 isActive: $isLikeScreenDisplayed,
                 label: { EmptyView() }
             )
@@ -175,7 +175,7 @@ struct CommentView: View {
             
             Text(comment.date.timeAgoDisplay())
                 .foregroundStyle(.gray)
-                .font(.subheadline)
+                .font(.footnote)
             
             if comment.userUid != LocalState.currentUserUid {
                 HStack {
@@ -184,7 +184,8 @@ struct CommentView: View {
                     
                     Text("Reply")
                         .foregroundStyle(.gray)
-                        .font(.subheadline)
+                        .font(.footnote)
+                        .lineLimit(1)
                 }
                 .onTapGesture {
                     reply()

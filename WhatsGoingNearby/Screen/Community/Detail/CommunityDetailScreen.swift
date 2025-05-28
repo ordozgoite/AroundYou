@@ -12,8 +12,8 @@ struct CommunityDetailScreen: View {
     @State var community: FormattedCommunity
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @StateObject private var communityDetailVM = CommunityDetailViewModel()
-    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
@@ -21,6 +21,8 @@ struct CommunityDetailScreen: View {
                 Header()
                 
                 Description()
+                
+                Privacy()
                 
                 if communityDetailVM.hasFetchedCommunityInfo {
                     if community.isOwner {
@@ -45,8 +47,10 @@ struct CommunityDetailScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button("Edit") {
-                    communityDetailVM.isEditCommunityViewDisplayed = true
+                if community.isOwner {
+                    Button("Edit") {
+                        communityDetailVM.isEditCommunityViewDisplayed = true
+                    }
                 }
             }
         }
@@ -132,6 +136,32 @@ struct CommunityDetailScreen: View {
             )
             .environmentObject(authVM)
             .interactiveDismissDisabled(true)
+        }
+    }
+    
+    // MARK: - Privacy
+    
+    @ViewBuilder
+    private func Privacy() -> some View {
+        if community.isOwner {
+            Section {
+                Toggle(isOn: $communityDetailVM.isCommunityPrivate) { Text("Private Community") }
+                    .onAppear {
+                        communityDetailVM.isCommunityPrivate = community.isPrivate
+                    }
+                    .onChange(of: communityDetailVM.isCommunityPrivate) { _ in
+                        Task {
+                            try await handleCommunityPrivacyUpdate()
+                        }
+                    }
+            } footer: {
+                Text("If the community is private, users must request to join it — and you’ll need to approve their request before they can enter.")
+            }
+        } else if community.isPrivate {
+            Section {
+                Label("This community is private.", systemImage: "lock")
+                    .foregroundStyle(.gray)
+            }
         }
     }
     
@@ -327,8 +357,7 @@ extension CommunityDetailScreen {
     private func performCommunityExit() async throws {
         let token = try await authVM.getFirebaseToken()
         try await communityDetailVM.leaveCommunity(communityId: self.community.id, token: token)
-        dismiss()
-        dismissCommunityMessageScreenAndRefreshCommunities()
+        navCoordinator.goToRoot()
     }
     
     private func dismissCommunityMessageScreenAndRefreshCommunities() {
@@ -346,8 +375,21 @@ extension CommunityDetailScreen {
     private func performCommunityDeletion() async throws {
         let token = try await authVM.getFirebaseToken()
         try await communityDetailVM.deleteCommunity(communityId: self.community.id, token: token)
-        dismiss()
-        dismissCommunityMessageScreenAndRefreshCommunities()
+        navCoordinator.goToRoot()
+    }
+    
+    private func handleCommunityPrivacyUpdate() async throws {
+        do {
+            try await performCommunityPrivacyUpdate()
+        } catch {
+            print("❌ Error updating community privacy: \(error.localizedDescription)")
+        }
+    }
+    
+    private func performCommunityPrivacyUpdate() async throws {
+        let token = try await authVM.getFirebaseToken()
+        await communityDetailVM.updateCommunityPrivacy(withId: self.community.id, token: token)
+        self.community.isPrivate = communityDetailVM.isCommunityPrivate
     }
     
     private func updateCommunityDescription(_ newDescription: String) {
@@ -369,6 +411,6 @@ extension CommunityDetailScreen {
 }
 
 #Preview {
-    CommunityDetailScreen(community: FormattedCommunity(id: "1", name: "Jogadores de Catan", imageUrl: nil, description: "Comunidade exclusiva para jogadores de Catan dispostos a construir aldeias e cidades diariamente.", createdAt: 0, expirationDate: 0, isMember: true, isOwner: true, isPrivate: false, isLocationVisible: false, latitude: nil, longitude: nil))
+    CommunityDetailScreen(community: FormattedCommunity(id: "1", name: "Jogadores de Catan", imageUrl: nil, description: "Comunidade exclusiva para jogadores de Catan dispostos a construir aldeias e cidades diariamente.", createdAt: 0, expirationDate: 0, isMember: true, isOwner: true, isPrivate: false, isLocationVisible: false, latitude: nil, longitude: nil, isNearBy: true))
         .environmentObject(AuthenticationViewModel())
 }

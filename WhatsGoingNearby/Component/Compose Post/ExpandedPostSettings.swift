@@ -12,7 +12,6 @@ struct ExpandedPostSettings: View {
     let maxPostLength: Int
     @Binding var text: String
     @Binding var selectedPostTag: PostTag
-    @Binding var selectedPostDuration: PostDuration
     @Binding var isExpanded: Bool
     
     var body: some View {
@@ -22,8 +21,6 @@ struct ExpandedPostSettings: View {
                 .font(.subheadline)
             
             Tag()
-            
-            Duration()
         }
     }
     
@@ -58,36 +55,6 @@ struct ExpandedPostSettings: View {
             }
         }
     }
-    
-    //MARK: - Duration
-    
-    @ViewBuilder
-    private func Duration() -> some View {
-        HStack {
-            Label("Post will stay active for", systemImage: "timer")
-            
-            Spacer()
-            
-            Menu {
-                ForEach(PostDuration.allCases, id: \.self) { duration in
-                    Button {
-                        selectedPostDuration = duration
-                    } label: {
-                        Text(duration.title)
-                    }
-                }
-            } label: {
-                HStack(spacing: 0) {
-                    HStack {
-                        Text(selectedPostDuration.title)
-                    }
-                    .frame(width: 60)
-                    Image(systemName: "chevron.up.chevron.down")
-                        .scaleEffect(0.8)
-                }
-            }
-        }
-    }
 }
 
 #Preview {
@@ -95,7 +62,6 @@ struct ExpandedPostSettings: View {
         maxPostLength: 250,
         text: .constant(""),
         selectedPostTag: .constant(.chilling),
-        selectedPostDuration: .constant(.oneHour),
         isExpanded: .constant(true)
     )
 }

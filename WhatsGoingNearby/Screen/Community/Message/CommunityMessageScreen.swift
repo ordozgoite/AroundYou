@@ -8,22 +8,18 @@
 import SwiftUI
 
 struct CommunityMessageScreen: View {
-    
     var community: FormattedCommunity
-    @Binding var isViewDisplayed: Bool
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var socket: SocketService
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @StateObject private var communityMessageVM = CommunityMessageViewModel()
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
-    @Environment(\.dismiss) var dismiss
     
     let pub = NotificationCenter.default
         .publisher(for: .popCommunity)
-    
-    let refreshCommunities: () -> ()
     
     var body: some View {
         ZStack {
@@ -33,22 +29,26 @@ struct CommunityMessageScreen: View {
                         ZStack {
                             VStack(spacing: 0) {
                                 ForEach(communityMessageVM.formattedMessages) { message in
-                                    CommunityMessageView(message: message) {
-                                        communityMessageVM.repliedMessage = message
-                                        isFocused = true
-                                    } tappedRepliedMessage: {
-                                        if let repliedMessageId = message.repliedMessageId {
-                                            scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
-                                            highlightMessage(withId: repliedMessageId)
+                                    if message.id == Constants.communityDiscaimerMessageId {
+                                        Disclaimer()
+                                    } else {
+                                        CommunityMessageView(message: message) {
+                                            communityMessageVM.repliedMessage = message
+                                            isFocused = true
+                                        } tappedRepliedMessage: {
+                                            if let repliedMessageId = message.repliedMessageId {
+                                                scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
+                                                highlightMessage(withId: repliedMessageId)
+                                            }
+                                        } resendMessage: {
+                                            Task {
+                                                try await resendMessage(withId: message.id)
+                                            }
                                         }
-                                    } resendMessage: {
-                                        Task {
-                                            try await resendMessage(withId: message.id)
+                                        .background(communityMessageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
+                                        .contextMenu {
+                                            MessageMenu(forMessage: message)
                                         }
-                                    }
-                                    .background(communityMessageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
-                                    .contextMenu {
-                                        MessageMenu(forMessage: message)
                                     }
                                 }
                                 .onAppear {
@@ -93,7 +93,6 @@ struct CommunityMessageScreen: View {
             Task {
                 try await getMessages(.newest)
             }
-            startLocationTimer()
             listenToMessages()
             updateBadge()
         }
@@ -113,12 +112,7 @@ struct CommunityMessageScreen: View {
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                NavigationLink {
-                    CommunityDetailScreen(community: community)
-                        .environmentObject(authVM)
-                } label: {
-                    CommunityHeader()
-                }
+                CommunityHeader()
             }
             
             ToolbarItem(placement: .topBarTrailing) {
@@ -148,6 +142,9 @@ struct CommunityMessageScreen: View {
             }
         }
         .padding(.bottom, 6)
+        .onTapGesture {
+            navCoordinator.navigate(to: .communityDetail(community))
+        }
     }
     
     //MARK: - Message Menu
@@ -159,6 +156,13 @@ struct CommunityMessageScreen: View {
             pasteboard.string = message.text
         } label: {
             Label("Copy", systemImage: "doc.on.doc")
+        }
+        
+        Button {
+            communityMessageVM.repliedMessage = message
+            isFocused = true
+        } label: {
+            Label("Reply", systemImage: "arrowshape.turn.up.left")
         }
         
         if message.isCurrentUser {
@@ -175,6 +179,38 @@ struct CommunityMessageScreen: View {
                 Image(systemName: "arrow.uturn.backward.circle")
                 Text("Undo Send")
             }
+        }
+    }
+    
+    // MARK: - Disclaimer
+    
+    @ViewBuilder
+    private func Disclaimer() -> some View {
+        HStack(alignment: .bottom) {
+            // info icon
+            Image(systemName: "info.circle")
+                .resizable()
+                .foregroundStyle(.gray)
+                .frame(width: 32, height: 32)
+            
+            // Text bubble
+            Text("Only people nearby this community can interact with it, including the owner.")
+                .italic()
+                .foregroundStyle(.gray)
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+                .background(
+                    Color(uiColor: .secondarySystemBackground),
+                    in: RoundedRectangle(cornerRadius: 20, style: .continuous)
+                )
+                .background(alignment: .bottomLeading) {
+                    Image("incomingTail")
+                        .renderingMode(.template)
+                        .foregroundStyle(Color(uiColor: .secondarySystemBackground))
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .padding(.trailing, 64)
+                .padding(.bottom, 8)
         }
     }
     
@@ -196,8 +232,7 @@ struct CommunityMessageScreen: View {
                 if shouldDisplaySendButton() {
                     Button {
                         Task {
-                            let token = try await authVM.getFirebaseToken()
-                            await communityMessageVM.sendMessage(forCommunityId: self.community.id, text: communityMessageVM.messageText, repliedMessage: communityMessageVM.repliedMessage, token: token)
+                            try await sendMessage()
                         }
                     } label: {
                         Image(systemName: "paperplane.fill")
@@ -242,14 +277,14 @@ struct CommunityMessageScreen: View {
     
     //MARK: - Private Method
     
-    private func startLocationTimer() {
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
-            if let location = locationManager.location {
-                communityMessageVM.latitude = location.coordinate.latitude
-                communityMessageVM.longitude = location.coordinate.longitude
-            }
-        }
-    }
+    //    private func startLocationTimer() {
+    //        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+    //            if let location = locationManager.location {
+    //                communityMessageVM.latitude = location.coordinate.latitude
+    //                communityMessageVM.longitude = location.coordinate.longitude
+    //            }
+    //        }
+    //    }
     
     private func listenToMessages() {
         socket.socket?.on("communityMessage") { data, ack in
@@ -259,6 +294,17 @@ struct CommunityMessageScreen: View {
                     emitReadCommand(forMessage: messageId)
                 }
             }
+        }
+    }
+    
+    private func sendMessage() async throws {
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let token = try await authVM.getFirebaseToken()
+            
+            let currentLocation = Location(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            
+            await communityMessageVM.sendMessage(forCommunityId: self.community.id, text: communityMessageVM.messageText, repliedMessage: communityMessageVM.repliedMessage, location: currentLocation, token: token)
         }
     }
     
@@ -310,8 +356,14 @@ struct CommunityMessageScreen: View {
     }
     
     private func resendMessage(withId messageId: String) async throws {
-        let token = try await authVM.getFirebaseToken()
-        await communityMessageVM.resendMessage(withTempId: messageId, token: token)
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let token = try await authVM.getFirebaseToken()
+            
+            let currentLocation = Location(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            
+            await communityMessageVM.resendMessage(withTempId: messageId, location: currentLocation, token: token)
+        }
     }
     
     private func shouldDisplaySendButton() -> Bool {
@@ -324,8 +376,8 @@ struct CommunityMessageScreen: View {
     }
     
     private func dismissScreenAndRefreshCommunities() {
-        refreshCommunities()
-        dismiss()
+        // refresh communities?
+        navCoordinator.goBack()
     }
 }
 

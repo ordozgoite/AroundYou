@@ -11,4 +11,5 @@ struct GetCommunityInfoResponse: Codable {
     var members: [MongoUser]
     var joinRequests: [MongoUser]?
     let ownerUid: String
+    var isPrivate: Bool
 }

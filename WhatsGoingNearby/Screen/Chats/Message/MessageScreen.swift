@@ -19,8 +19,8 @@ struct MessageScreen: View {
     @State var isLocked: Bool
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var socket: SocketService
     @StateObject private var messageVM = MessageViewModel()
-    @ObservedObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
     
@@ -95,6 +95,7 @@ struct MessageScreen: View {
                 try await getMessages(.newest)
             }
             listenToMessages()
+            listenToDeletedMessages()
             updateBadge()
         }
         .onDisappear {
@@ -128,7 +129,7 @@ struct MessageScreen: View {
             }
         }
         .sheet(isPresented: $messageVM.isPhotosDisplayed) {
-            PhotoPicker(selectedPhotos: $messageVM.images)
+            MultiplePhotosPicker(selectedPhotos: $messageVM.images)
         }
     }
     
@@ -165,6 +166,13 @@ struct MessageScreen: View {
                 pasteboard.string = text
             } label: {
                 Label("Copy", systemImage: "doc.on.doc")
+            }
+            
+            Button {
+                messageVM.repliedMessage = message
+                isFocused = true
+            } label: {
+                Label("Reply", systemImage: "arrowshape.turn.up.left")
             }
         }
         
@@ -337,15 +345,26 @@ struct MessageScreen: View {
     
     private func listenToMessages() {
         socket.socket?.on("message") { data, ack in
-            if let message = data as? [Any] {
-                print("📩 Received message: \(message)")
-                messageVM.processMessage(message, toChat: chatId) { messageId in
-                    emitReadCommand(forMessage: messageId)
-                }
-                updateChatLockedStatus()
+            print("📩 Received message: \(data)")
+            messageVM.processMessage(data, toChat: chatId) { messageId in
+                emitReadCommand(forMessage: messageId)
+            }
+            updateChatLockedStatus()
+        }
+    }
+
+    
+    private func listenToDeletedMessages() {
+        socket.socket?.on("message-delete") { data, ack in
+            if let messageId = data.first as? String {
+                print("📩 Message deleted with id: \(messageId)")
+                messageVM.removeMessage(withId: messageId)
+            } else {
+                print("⚠️ Couldn't parse message ID from delete event")
             }
         }
     }
+
     
     private func emitReadCommand(forMessage messageId: String) {
         socket.socket?.emit("read", messageId)
@@ -405,7 +424,7 @@ struct MessageScreen: View {
     }
     
     private func shouldDisplayMessageComposer() -> Bool {
-        return !(self.isLocked && didISendMessage())
+        return !(self.isLocked && didISendMessage() && !didOtherUserSendMessage())
     }
     
     private func didISendMessage() -> Bool {
@@ -425,6 +444,7 @@ struct MessageScreen: View {
     }
     
     private func updateChatLockedStatus() {
+        print("⚠️ updateChatLockedStatus")
         if isLocked && didISendMessage() && didOtherUserSendMessage() {
             self.isLocked = false
         }

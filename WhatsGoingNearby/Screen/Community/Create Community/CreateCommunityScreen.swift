@@ -9,17 +9,15 @@ import SwiftUI
 import PhotosUI
 
 struct CreateCommunityScreen: View {
-    
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @StateObject private var createCommunityVM = CreateCommunityViewModel()
     @ObservedObject var communityVM: CommunityViewModel
-    @ObservedObject var locationManager: LocationManager
     @FocusState private var isDescriptionTextFieldFocused: Bool
     
-    @Binding var isViewDisplayed: Bool
-    
     var body: some View {
-        NavigationStack {
+        ScrollView {
             ZStack {
                 VStack(spacing: 16) {
                     EditCommunityImage()
@@ -40,30 +38,17 @@ struct CreateCommunityScreen: View {
                         Disclaimer()
                     }
                 }
+                .padding()
                 
                 AYErrorAlert(message: createCommunityVM.overlayError.1 , isErrorAlertPresented: $createCommunityVM.overlayError.0)
             }
-            .padding()
-            .onAppear {
-                createCommunityVM.resetCreateCommunityInputs()
-            }
-            
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Cancel()
-                }
-            }
-            .onChange(of: createCommunityVM.imageSelection) { newItem in
-                Task {
-                    if let data = try? await newItem?.loadTransferable(type: Data.self), let image = UIImage(data: data) {
-                        createCommunityVM.image = image
-                        createCommunityVM.isCropViewDisplayed = true
-                    }
-                }
-            }
-            .navigationTitle("New Community")
-            .navigationBarTitleDisplayMode(.inline)
         }
+        .onChange(of: createCommunityVM.imageFromAlbum ?? UIImage()) { image in
+            dismissPhotoPicker()
+            displayCropView(withImage: image)
+        }
+        .navigationTitle("New Community")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     // MARK: - Image
@@ -71,17 +56,37 @@ struct CreateCommunityScreen: View {
     @ViewBuilder
     private func EditCommunityImage() -> some View {
         ZStack(alignment: .topTrailing) {
-            PhotosPicker(selection: $createCommunityVM.imageSelection, matching: .images, preferredItemEncoding: .automatic) {
+            Menu {
+                Button {
+                    createCommunityVM.isCameraPickerDisplayed = true
+                } label: {
+                    Label("Camera", systemImage: "camera")
+                }
+                
+                Button {
+                    createCommunityVM.isPhotoPickerDisplayed = true
+                } label: {
+                    Label("Photos", systemImage: "photo")
+                }
+            } label: {
                 CommunityImage()
             }
+            .fullScreenCover(isPresented: $createCommunityVM.isCameraPickerDisplayed) {
+                CameraView { image in
+                    displayCropView(withImage: image)
+                }
+            }
             .fullScreenCover(isPresented: $createCommunityVM.isCropViewDisplayed) {
-                createCommunityVM.image = nil
+                createCommunityVM.imageFromCamera = nil
             } content: {
-                CropScreen(size: CGSize(width: 300, height: 300), image: createCommunityVM.image) { croppedImage, status in
+                CropScreen(size: CGSize(width: 300, height: 300), image: createCommunityVM.imageFromCamera) { croppedImage, status in
                     if let croppedImage {
                         createCommunityVM.croppedImage = croppedImage
                     }
                 }
+            }
+            .sheet(isPresented: $createCommunityVM.isPhotoPickerDisplayed) {
+                PhotoPicker(selectedPhoto: $createCommunityVM.imageFromAlbum)
             }
             
             if createCommunityVM.croppedImage != nil {
@@ -99,14 +104,16 @@ struct CreateCommunityScreen: View {
     @ViewBuilder
     private func CommunityImage() -> some View {
         if let selectedImage = createCommunityVM.croppedImage {
-            /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Container@*/VStack/*@END_MENU_TOKEN@*/ {
-                Image(uiImage: selectedImage)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 128, height: 128, alignment: .center)
-            }
+            Image(uiImage: selectedImage)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 128, height: 128, alignment: .center)
         } else {
-            CustomPerson3CircleFill(size: 128)
+            Image(systemName: "camera.circle.fill")
+                .resizable()
+                .foregroundStyle(.gray)
+                .scaledToFit()
+                .frame(width: 128, height: 128, alignment: .center)
         }
     }
     
@@ -178,22 +185,23 @@ struct CreateCommunityScreen: View {
             
             Spacer()
             
-            Menu {
-                ForEach(CommunityDuration.allCases, id: \.self) { duration in
-                    Button {
-                        createCommunityVM.selectedCommunityDuration = duration
-                    } label: {
-                        Text(duration.title)
+            HStack {
+                Text("24 hours")
+                    .bold()
+                    .frame(width: 80, alignment: .trailing) // Mantém o tamanho fixo
+                Image(systemName: "info.circle")
+                    .onTapGesture {
+                        createCommunityVM.isDurationInfoPopoverDisplayed = true
                     }
-                }
-            } label: {
-                HStack {
-                    Text(createCommunityVM.selectedCommunityDuration.title)
-                        .frame(width: 80, alignment: .trailing) // Mantém o tamanho fixo
-                    Image(systemName: "chevron.up.chevron.down")
-                        .scaleEffect(0.8)
-                }
+                    .popover(isPresented: $createCommunityVM.isDurationInfoPopoverDisplayed) {
+                        Text("Communities are available for 24 hours only.")
+                            .font(.caption)
+                            .foregroundStyle(.gray)
+                            .padding()
+                            .presentationCompactAdaptation(.popover)
+                    }
             }
+            
         }
         .frame(height: 32)
         .foregroundStyle(.gray)
@@ -224,7 +232,7 @@ struct CreateCommunityScreen: View {
     @ViewBuilder
     private func Private() -> some View {
         HStack {
-            Text("Ask to join:")
+            Text("Private Community:")
                 .fontWeight(.bold)
                 .frame(minWidth: 120, alignment: .leading)
             
@@ -236,16 +244,6 @@ struct CreateCommunityScreen: View {
         .frame(height: 32)
         .foregroundStyle(.gray)
         .padding(.vertical, 4)
-    }
-    
-    
-    // MARK: - Cancel
-    
-    @ViewBuilder
-    private func Cancel() -> some View {
-        Button("Cancel") {
-            isViewDisplayed = false
-        }
     }
     
     // MARK: - Create
@@ -268,13 +266,21 @@ struct CreateCommunityScreen: View {
     
     @ViewBuilder
     private func Disclaimer() -> some View {
-        Text("Only people within a 1 km radius of your community will be able to see and interact with it.")
-            .multilineTextAlignment(.center)
-            .foregroundStyle(.gray)
-            .font(.caption)
+        AYDisclaimerView(text: "Only people nearby your community will be able to interact with it, even you.")
+    }
+}
+
+// MARK: - Private Methods
+
+extension CreateCommunityScreen {
+    private func displayCropView(withImage image: UIImage) {
+        createCommunityVM.imageFromCamera = image
+        createCommunityVM.isCropViewDisplayed = true
     }
     
-    // MARK: - Private Methods
+    private func dismissPhotoPicker() {
+        createCommunityVM.isPhotoPickerDisplayed = false
+    }
     
     private func createCommunity() async throws {
         locationManager.requestLocation()
@@ -283,27 +289,20 @@ struct CreateCommunityScreen: View {
             let longitude = location.coordinate.longitude
             
             let token = try await authVM.getFirebaseToken()
-            await createCommunityVM.posNewCommunity(latitude: latitude, longitude: longitude, token: token) {
-                Task {
-                    self.isViewDisplayed = false
-                    await communityVM.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
-                }
-            }
+            await createCommunityVM.posNewCommunity(latitude: latitude, longitude: longitude, token: token)
+            navCoordinator.goBack()
         } else {
             createCommunityVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
         }
     }
     
     private func removePhoto() {
-        createCommunityVM.image = nil
+        createCommunityVM.imageFromCamera = nil
         createCommunityVM.croppedImage = nil
     }
 }
 
 #Preview {
-    CreateCommunityScreen(
-        communityVM: CommunityViewModel(),
-        locationManager: LocationManager(),
-        isViewDisplayed: .constant(true)
-    )
+    CreateCommunityScreen(communityVM: CommunityViewModel())
+        .environmentObject(AuthenticationViewModel())
 }

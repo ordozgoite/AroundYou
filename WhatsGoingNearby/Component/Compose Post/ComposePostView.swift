@@ -17,7 +17,6 @@ struct ComposePostView: View {
     @Binding var image: UIImage?
     @Binding var isCameraDisplayed: Bool
     @Binding var tag: PostTag
-    @Binding var duration: PostDuration
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @FocusState private var isFocused: Bool
@@ -57,7 +56,7 @@ struct ComposePostView: View {
     @ViewBuilder
     private func ProfilePic() -> some View {
         if let imageURL = authVM.profilePic {
-            URLImageView(imageURL: imageURL)
+            URLNotTapableImageView(imageURL: imageURL)
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 50, height: 50)
                 .clipShape(Circle())
@@ -107,7 +106,7 @@ struct ComposePostView: View {
     private func PostText() -> some View {
         TextField("What's going on around you?", text: $text, axis: .vertical)
             .focused($isFocused)
-            .lineLimit(3...)
+            .lineLimit(3...4)
             .onChange(of: text) { newValue in
                 if newValue.count > maxLength {
                     text = String(newValue.prefix(maxLength))
@@ -129,12 +128,15 @@ struct ComposePostView: View {
             }
             .padding(.bottom)
             
+            AYDisclaimerView(text: "Posts are shown only to those around you.")
+            
 //            Chevron()
             
 //            if isSettingsExpanded {
-                ExpandedPostSettings(maxPostLength: maxLength, text: $text, selectedPostTag: $tag, selectedPostDuration: $duration, isExpanded: $isSettingsExpanded)
+                ExpandedPostSettings(maxPostLength: maxLength, text: $text, selectedPostTag: $tag, isExpanded: $isSettingsExpanded)
+                .padding(.top)
 //            } else {
-//                CompactedPostSettings(maxPostLength: maxLength, text: $text, selectedPostTag: $tag, selectedPostDuration: $duration, isExpanded: $isSettingsExpanded)
+//                CompactedPostSettings(maxPostLength: maxLength, text: $text, selectedPostTag: $tag, isExpanded: $isSettingsExpanded)
 //            }
         }
         .frame(maxHeight: .infinity, alignment: .bottom)
@@ -210,5 +212,6 @@ struct ComposePostView: View {
 }
 
 //#Preview {
-//    ComposePostView()
+//    ComposePostView(maxLength: 150, isCameraEnabled: true, text: .constant(""), isLocationVisible: .constant(false), isSettingsExpanded: .constant(true), image: .constant(nil), isCameraDisplayed: .constant(false), tag: .constant(.bored))
+//        .environmentObject(AuthenticationViewModel())
 //}

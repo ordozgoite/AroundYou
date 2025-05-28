@@ -16,11 +16,9 @@ struct BusinessShowcaseView: View {
     }
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @ObservedObject var businessVM: BusinessViewModel
     @State private var isOptionsPopoverDisplayed: Bool = false
-    @State private var isReportScreenPresented: Bool = false
-    @State private var isMapDisplayed: Bool = false
-    @State private var isFullScreenImageDisplayed: Bool = false
     
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
@@ -31,30 +29,11 @@ struct BusinessShowcaseView: View {
                 
                 Description()
                 
-                HStack {
-                    Location()
-                    
-                    Spacer()
-                    
-                    Contacts()
-                }
-                .frame(maxHeight: .infinity, alignment: .bottom)
+                Footer()
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(height: imageSize)
-        .fullScreenCover(isPresented: $isFullScreenImageDisplayed) {
-            FullScreenUrlImage(url: self.showcase.imageUrl ?? "")
-        }
-        .navigationDestination(isPresented: $isReportScreenPresented) {
-            ReportIssueScreen(
-                reportedUserUid: showcase.ownerUid,
-                publicationId: nil,
-                commentId: nil,
-                businessId: showcase.id
-            )
-                .environmentObject(authVM)
-        }
     }
     
     // MARK: - Image
@@ -62,14 +41,11 @@ struct BusinessShowcaseView: View {
     @ViewBuilder
     private func ShowcaseImage() -> some View {
         if let imageUrl = showcase.imageUrl {
-            URLImageView(imageURL: imageUrl)
+            URLTapableImageView(imageURL: imageUrl)
                 .scaledToFill()
                 .frame(width: imageSize, height: imageSize)
                 .cornerRadius(8)
                 .clipped()
-                .onTapGesture {
-                    self.isFullScreenImageDisplayed = true
-                }
         } else {
             Image(systemName: "photo")
                 .resizable()
@@ -105,12 +81,32 @@ struct BusinessShowcaseView: View {
     private func Options() -> some View {
         VStack {
             if showcase.isOwner {
+                EditButton()
+                
+                Divider()
+                
                 DeleteButton()
             } else {
                 ReportButton()
             }
         }
         .presentationCompactAdaptation(.popover)
+    }
+    
+    // MARK: - Edit Business
+    
+    @ViewBuilder
+    private func EditButton() -> some View {
+        Button {
+            isOptionsPopoverDisplayed = false
+            navCoordinator.navigate(to: .editBusiness(showcase))
+        } label: {
+            Text("Edit Business")
+                .foregroundStyle(.gray)
+            Image(systemName: "pencil")
+                .foregroundStyle(.gray)
+        }
+        .padding()
     }
     
     // MARK: - Delete Business
@@ -134,7 +130,7 @@ struct BusinessShowcaseView: View {
     private func ReportButton() -> some View {
         Button {
             isOptionsPopoverDisplayed = false
-            isReportScreenPresented = true
+            navCoordinator.navigate(to: .reportBusiness(showcase))
         } label: {
             Text("Report Business")
                 .foregroundStyle(.gray)
@@ -142,6 +138,20 @@ struct BusinessShowcaseView: View {
                 .foregroundStyle(.gray)
         }
         .padding()
+    }
+    
+    // MARK: - Footer
+    
+    @ViewBuilder
+    private func Footer() -> some View {
+        HStack {
+            Location()
+            
+            Spacer()
+            
+            Contacts()
+        }
+        .frame(maxHeight: .infinity, alignment: .bottom)
     }
     
     // MARK: - Description
@@ -163,7 +173,7 @@ struct BusinessShowcaseView: View {
         HStack {
             if showcase.isLocationVisible {
                 Button {
-                    self.isMapDisplayed = true
+                    navCoordinator.navigate(to: .businessMap(showcase))
                 } label: {
                     HStack(spacing: 4) {
                         Image(systemName: "map")
@@ -173,9 +183,6 @@ struct BusinessShowcaseView: View {
                 }
                 .buttonStyle(.plain)
             }
-        }
-        .navigationDestination(isPresented: $isMapDisplayed) {
-            MapView(latitude: showcase.latitude, longitude: showcase.longitude)
         }
     }
     
@@ -220,7 +227,7 @@ struct BusinessShowcaseView: View {
         Button {
             goToWhatsAppChat(withNumber: number)
         } label: {
-            Image("whatsapp")
+            Image(Constants.whatsAppLogoImageName)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 28, height: 28, alignment: .center)
@@ -235,7 +242,7 @@ struct BusinessShowcaseView: View {
         Button {
             goToInstagramProfile(forUsername: username)
         } label: {
-            Image("instagram")
+            Image(Constants.instagramLogoImageName)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 28, height: 28, alignment: .center)
@@ -285,4 +292,5 @@ extension BusinessShowcaseView {
 
 #Preview {
     BusinessShowcaseView(showcase: FormattedBusinessShowcase.mocks[1], businessVM: BusinessViewModel())
+        .environmentObject(AuthenticationViewModel())
 }

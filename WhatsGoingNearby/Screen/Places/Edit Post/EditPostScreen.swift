@@ -9,13 +9,12 @@ import SwiftUI
 import CoreLocation
 
 struct EditPostScreen: View {
-    
-    let post: FormattedPost
+    var post: FormattedPost
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @StateObject private var editPostVM = EditPostViewModel()
-    @Binding var location: CLLocation?
-    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack {
@@ -29,7 +28,7 @@ struct EditPostScreen: View {
                 message: Text("Your precise location will be used to display on the map where you made this post."),
                 primaryButton: .default((Text("Allow Once"))) {
                     Task {
-                        try await editPublication()
+                        try await handlePublicationEdit()
                     }
                 },
                 secondaryButton: .cancel(Text("Don't Allow")) {}
@@ -69,7 +68,6 @@ struct EditPostScreen: View {
             image: .constant(nil),
             isCameraDisplayed: .constant(false),
             tag: $editPostVM.selectedPostTag,
-            duration: $editPostVM.selectedPostDuration
         ).environmentObject(authVM)
     }
     
@@ -78,7 +76,7 @@ struct EditPostScreen: View {
     @ViewBuilder
     private func Cancel() -> some View {
         Button {
-            presentationMode.wrappedValue.dismiss()
+            navCoordinator.goBack()
         } label: {
             Text("Cancel")
         }
@@ -93,7 +91,7 @@ struct EditPostScreen: View {
                 editPostVM.isShareLocationAlertDisplayed = true
             } else {
                 Task {
-                    try await editPublication()
+                    try await handlePublicationEdit()
                 }
             }
         } label: {
@@ -106,22 +104,33 @@ struct EditPostScreen: View {
     private func setupInitialValues() {
         editPostVM.postText = post.text ?? ""
         editPostVM.isLocationVisible = post.isLocationVisible ?? false
-        editPostVM.selectedPostDuration = post.postDuration
         editPostVM.selectedPostTag = post.postTag ?? .chilling
     }
     
-    private func editPublication() async throws {
-        if let location = location {
+    private func handlePublicationEdit() async throws {
+        do {
+            try await attemptPublicationEdit()
+        } catch {
+            editPostVM.overlayError = (true, ErrorMessage.editPostErrorMessage)
+        }
+    }
+    
+    private func attemptPublicationEdit() async throws {
+        let currentLocation = try getCurrentLocation()
+        let token = try await authVM.getFirebaseToken()
+        try await editPostVM.editPublication(publicationId: post.id, latitude: currentLocation.latitude, longitude: currentLocation.longitude, token: token)
+        navCoordinator.goToRoot()
+    }
+    
+    private func getCurrentLocation() throws -> Location {
+        locationManager.requestLocation()
+        if let location = locationManager.location {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
-            
-            let token = try await authVM.getFirebaseToken()
-            await editPostVM.editPublication(publicationId: post.id, latitude: latitude, longitude: longitude, token: token) {
-                presentationMode.wrappedValue.dismiss()
-                refreshFeed()
-            }
+            return Location(latitude: latitude, longitude: longitude)
         } else {
             editPostVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
+            throw LocationError.unableToGetCurrentLocation
         }
     }
     

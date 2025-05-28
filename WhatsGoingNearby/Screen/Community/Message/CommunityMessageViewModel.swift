@@ -30,9 +30,6 @@ class CommunityMessageViewModel: ObservableObject {
     @Published var highlightedMessageId: String?
     @Published var lastMessageAdded: String?
     
-    @Published var latitude: Double = 0
-    @Published var longitude: Double = 0
-    
     //MARK: - Fetch Messages
     
     func getMessages(communityId: String, token: String) async {
@@ -46,12 +43,18 @@ class CommunityMessageViewModel: ObservableObject {
         }
     }
     
+    private func addDisclaimer() {
+        print("⚠️ addDisclaimer")
+        self.formattedMessages.append(FormattedCommunityMessage(id: Constants.communityDiscaimerMessageId, communityId: "", text: "", isCurrentUser: false, isFirst: true, status: .sent, createdAt: 0, senderUsername: "", shouldDispaySenderUsername: false, shouldDisplaySenderProfilePic: false))
+    }
+    
     func getLastMessages(communityId: String, token: String) async {
         let result = await AYServices.shared.getCommunityMessages(communityId: communityId, timestamp: nil, token: token)
         
         switch result {
         case .success(let messages):
             self.intermediaryMessages = convertReceivedMessages(messages)
+            addDisclaimer()
         case .failure:
             overlayError = (true, ErrorMessage.getMessages)
         }
@@ -68,14 +71,14 @@ class CommunityMessageViewModel: ObservableObject {
     
     //MARK: - Send Message
     
-    func sendMessage(forCommunityId communityId: String, text: String, repliedMessage: FormattedCommunityMessage?, token: String) async {
+    func sendMessage(forCommunityId communityId: String, text: String, repliedMessage: FormattedCommunityMessage?, location: Location, token: String) async {
         resetInputs()
         let messagesToBeSent = getMessagesToBeSent(communityId: communityId, text: text, repliedMessage: repliedMessage)
         displayMessages(fromArray: messagesToBeSent)
         await withTaskGroup(of: Void.self) { group in
             for message in messagesToBeSent {
                 group.addTask {
-                    await self.sendMessage(message, token: token)
+                    await self.sendMessage(message, location: location, token: token)
                 }
             }
         }
@@ -105,22 +108,34 @@ class CommunityMessageViewModel: ObservableObject {
         }
     }
     
-    private func sendMessage(_ message: CommunityMessageIntermediary, token: String) async {
-        await postNewMessage(withTemporaryId: message.id, communityId: message.communityId, text: message.text, repliedMessageId: message.repliedMessageId, repliedMessageText: message.repliedMessageText, token: token)
+    private func sendMessage(_ message: CommunityMessageIntermediary, location: Location, token: String) async {
+        await postNewMessage(withTemporaryId: message.id, communityId: message.communityId, text: message.text, repliedMessageId: message.repliedMessageId, repliedMessageText: message.repliedMessageText, location: location, token: token)
     }
     
-    private func postNewMessage(withTemporaryId tempId: String, communityId: String, text: String, repliedMessageId: String?, repliedMessageText: String?, token: String) async {
-        let result = await AYServices.shared.postCommunityMessage(communityId: communityId, latitude: latitude, longitude: longitude, text: text, repliedMessageId: repliedMessageId, token: token)
+    private func postNewMessage(withTemporaryId tempId: String, communityId: String, text: String, repliedMessageId: String?, repliedMessageText: String?, location: Location, token: String) async {
+        let result = await AYServices.shared.postCommunityMessage(communityId: communityId, latitude: location.latitude, longitude: location.longitude, text: text, repliedMessageId: repliedMessageId, token: token)
         
         switch result {
         case .success(let message):
             playSendMessageSound()
             updateMessage(withId: tempId, toStatus: .sent)
             updateMessage(withId: tempId, toPostedMessage: message)
-        case .failure:
+        case .failure(let error):
+            if error == .unprocessableEntity {
+                overlayError = (true, ErrorMessage.sendCommunityMessageDistanceLimitExceeded)
+                removeMessage(withId: tempId)
+            } else if error == .dataNotFound {
+                overlayError = (true, ErrorMessage.sendMessageToDeletedCommunity)
+                dismissCommunityMessageScreenAndRefreshCommunities()
+            } else {
+                overlayError = (true, ErrorMessage.sendMessage)
+            }
             updateMessage(withId: tempId, toStatus: .failed)
-            overlayError = (true, ErrorMessage.sendMessage)
         }
+    }
+    
+    private func dismissCommunityMessageScreenAndRefreshCommunities() {
+        NotificationCenter.default.post(name: .popCommunity, object: nil)
     }
     
     private func updateMessage(withId messageId: String, toStatus newStatus: MessageStatus) {
@@ -144,9 +159,9 @@ class CommunityMessageViewModel: ObservableObject {
         playSound(withName: "sent-message-sound")
     }
     
-    func resendMessage(withTempId tempId: String, token: String) async {
+    func resendMessage(withTempId tempId: String, location: Location, token: String) async {
         if let message = getMessage(withId: tempId) {
-            await postNewMessage(withTemporaryId: tempId, communityId: message.communityId, text: message.text, repliedMessageId: message.repliedMessageId, repliedMessageText: message.repliedMessageText, token: token)
+            await postNewMessage(withTemporaryId: tempId, communityId: message.communityId, text: message.text, repliedMessageId: message.repliedMessageId, repliedMessageText: message.repliedMessageText, location: location, token: token)
         }
     }
     

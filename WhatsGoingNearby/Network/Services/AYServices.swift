@@ -18,8 +18,8 @@ protocol AYServiceable {
     func deleteUser(token: String) async -> Result<DeleteUserResponse, RequestError>
     
     // Publication
-    func postNewPublication(text: String?, tag: String, imageUrl: String?, postDuration: Int, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError>
-    func editPublication(publicationId: String, text: String?, tag: String, postDuration: Int, isLocationVisible: Bool, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError>
+    func postNewPublication(text: String?, tag: String, imageUrl: String?, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError>
+    func editPublication(publicationId: String, text: String?, tag: String, isLocationVisible: Bool, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError>
     func finishPublication(publicationId: String, token: String) async -> Result<Post, RequestError>
     func deletePublication(publicationId: String, token: String) async -> Result<DeletePublicationResponse, RequestError>
     func getAllPublicationsNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedPost], RequestError>
@@ -81,7 +81,7 @@ protocol AYServiceable {
     func discoverUsersByPreferences(latitude: Double, longitude: Double, token: String) async -> Result<[UserDiscoverInfo], RequestError>
     
     // Community
-    func postNewCommunity(name: String, description: String?, duration: Int, isLocationVisible: Bool, isPrivate: Bool, imageUrl: String?, latitude: Double, longitude: Double, token: String) async -> Result<Community, RequestError>
+    func postNewCommunity(name: String, description: String?, isLocationVisible: Bool, isPrivate: Bool, imageUrl: String?, latitude: Double, longitude: Double, token: String) async -> Result<Community, RequestError>
     func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedCommunity], RequestError>
     func joinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError>
     func askToJoinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError>
@@ -92,6 +92,10 @@ protocol AYServiceable {
     func removeUserFromCommunity(communityId: String, userUidToRemove: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
     func editCommunity(communityId: String, communityName: String, communityImageUrl: String?, token: String) async -> Result<SuccessMessageResponse, RequestError>
     func editCommunityDescription(communityId: String, description: String?, token: String) async -> Result<SuccessMessageResponse, RequestError>
+    func getMyCommunities(token: String) async -> Result<[FormattedCommunity], RequestError>
+    func getRelevantCommunities(location: Location, token: String) async -> Result<[FormattedCommunity], RequestError>
+    func getCommunity(communityId: String, location: Location, token: String) async -> Result<FormattedCommunity, RequestError>
+    func updateCommunityPrivacy(communityId: String, isPrivate: Bool, token: String) async -> Result<SuccessMessageResponse, RequestError>
     
     // Community Message
     func postCommunityMessage(communityId: String, latitude: Double, longitude: Double, text: String, repliedMessageId: String?, token: String) async -> Result<CommunityMessage, RequestError>
@@ -103,6 +107,7 @@ protocol AYServiceable {
     func getBusinessesNearBy(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError>
     func deleteBusiness(businessId: String, token: String) async -> Result<SuccessMessageResponse, RequestError>
     func getBusinessByUser(location: Location, token: String) async -> Result<[FormattedBusinessShowcase], RequestError>
+    func editBusiness(business: EditBusinessDTO, token: String) async -> Result<Business, RequestError>
     
     // Lost Item
     func postLostItem(lostItem: LostItem, token: String) async -> Result<SuccessMessageResponse, RequestError>
@@ -148,12 +153,12 @@ struct AYServices: HTTPClient, AYServiceable {
     
     //MARK: - Publication
     
-    func postNewPublication(text: String?, tag: String, imageUrl: String?, postDuration: Int, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.postNewPublication(text: text, tag: tag, imageUrl: imageUrl, postDuration: postDuration, latitude: latitude, longitude: longitude, isLocationVisible: isLocationVisible, token: token), responseModel: Post.self)
+    func postNewPublication(text: String?, tag: String, imageUrl: String?, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewPublication(text: text, tag: tag, imageUrl: imageUrl, latitude: latitude, longitude: longitude, isLocationVisible: isLocationVisible, token: token), responseModel: Post.self)
     }
     
-    func editPublication(publicationId: String, text: String?, tag: String, postDuration: Int, isLocationVisible: Bool, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.editPublication(publicationId: publicationId, text: text, tag: tag, postDuration: postDuration, isLocationVisible: isLocationVisible, latitude: latitude, longitude: longitude, token: token), responseModel: Post.self)
+    func editPublication(publicationId: String, text: String?, tag: String, isLocationVisible: Bool, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.editPublication(publicationId: publicationId, text: text, tag: tag, isLocationVisible: isLocationVisible, latitude: latitude, longitude: longitude, token: token), responseModel: Post.self)
     }
     
     func finishPublication(publicationId: String, token: String) async -> Result<Post, RequestError> {
@@ -338,12 +343,16 @@ struct AYServices: HTTPClient, AYServiceable {
     
     // MARK: - Commmunity
     
-    func postNewCommunity(name: String, description: String?, duration: Int, isLocationVisible: Bool, isPrivate: Bool, imageUrl: String?, latitude: Double, longitude: Double, token: String) async -> Result<Community, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.postNewCommunity(name: name, description: description, duration: duration, isLocationVisible: isLocationVisible, isPrivate: isPrivate, imageUrl: imageUrl, latitude: latitude, longitude: longitude, token: token), responseModel: Community.self)
+    func postNewCommunity(name: String, description: String?, isLocationVisible: Bool, isPrivate: Bool, imageUrl: String?, latitude: Double, longitude: Double, token: String) async -> Result<Community, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewCommunity(name: name, description: description, isLocationVisible: isLocationVisible, isPrivate: isPrivate, imageUrl: imageUrl, latitude: latitude, longitude: longitude, token: token), responseModel: Community.self)
     }
     
     func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async -> Result<[FormattedCommunity], RequestError> {
         return await sendRequest(endpoint: AYEndpoints.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token), responseModel: [FormattedCommunity].self)
+    }
+    
+    func getMyCommunities(token: String) async -> Result<[FormattedCommunity], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getMyCommunities(token: token), responseModel: [FormattedCommunity].self)
     }
     
     func joinCommunity(communityId: String, latitude: Double, longitude: Double, token: String) async -> Result<JoinCommunityResponse, RequestError> {
@@ -380,6 +389,18 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func editCommunityDescription(communityId: String, description: String?, token: String) async -> Result<SuccessMessageResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.editCommunityDescription(communityId: communityId, description: description, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func getRelevantCommunities(location: Location, token: String) async -> Result<[FormattedCommunity], RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getRelevantCommunities(location: location, token: token), responseModel: [FormattedCommunity].self)
+    }
+    
+    func getCommunity(communityId: String, location: Location, token: String) async -> Result<FormattedCommunity, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getCommunity(communityId: communityId, location: location, token: token), responseModel: FormattedCommunity.self)
+    }
+    
+    func updateCommunityPrivacy(communityId: String, isPrivate: Bool, token: String) async -> Result<SuccessMessageResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.updateCommunityPrivacy(communityId: communityId, isPrivate: isPrivate, token: token), responseModel: SuccessMessageResponse.self)
     }
     
     // MARK: - Community Message
@@ -430,6 +451,10 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func setItemAsFound(lostItemId: String, token: String) async -> Result<SuccessMessageResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.setItemAsFound(lostItemId: lostItemId, token: token), responseModel: SuccessMessageResponse.self)
+    }
+    
+    func editBusiness(business: EditBusinessDTO, token: String) async -> Result<Business, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.editBusiness(business: business, token: token), responseModel: Business.self)
     }
     
     // MARK: - Report Incident

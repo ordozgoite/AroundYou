@@ -8,36 +8,32 @@
 import SwiftUI
 
 struct DiscoverView: View {
-    
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var socket: SocketService
     @ObservedObject var discoverVM: PeopleViewModel
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
     
     @State private var refreshObserver = NotificationCenter.default
         .publisher(for: .refreshLocationSensitiveData)
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                if discoverVM.isDiscoveringUsers {
-                    LoadingView()
-                } else if discoverVM.usersFound.isEmpty {
-                    EmptyDiscoverView()
-                } else {
-                    Users()
+        ZStack {
+            if discoverVM.isDiscoveringUsers {
+                LoadingView()
+            } else if discoverVM.usersFound.isEmpty {
+                EmptyDiscoverView()
+            } else {
+                Users()
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    discoverVM.isPreferencesViewDisplayed = true
+                } label: {
+                    Image(systemName: "slider.horizontal.3")
                 }
             }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        discoverVM.isPreferencesViewDisplayed = true
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
-                    }
-                }
-            }
-//            .navigationTitle("Discover")
         }
         .onReceive(refreshObserver) { _ in
             Task {
@@ -71,7 +67,7 @@ struct DiscoverView: View {
     @ViewBuilder
     private func Users() -> some View {
         ScrollView {
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 32) {
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
                 ForEach(discoverVM.usersFound) { user in
                     ZStack {
                         DiscoverUserView(
@@ -93,6 +89,7 @@ struct DiscoverView: View {
         }
         .refreshable {
             hapticFeedback(style: .soft)
+            discoverVM.initialUsersFetched = false
             Task {
                 try await getUsersNearBy()
             }
@@ -104,13 +101,12 @@ struct DiscoverView: View {
                     username: discoverVM.userToChatWith?.username ?? "",
                     otherUserUid: discoverVM.userToChatWith?.userUid ?? "",
                     chatPic: discoverVM.userToChatWith?.profilePic,
-                    isLocked: chatUser.isLocked,
-                    socket: socket
+                    isLocked: chatUser.isLocked
                 )
             }
         }
     }
-
+    
     
     //MARK: - Private Method
     

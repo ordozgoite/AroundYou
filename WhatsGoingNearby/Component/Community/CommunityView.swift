@@ -18,7 +18,7 @@ struct CommunityView: View {
     let expirationDate: Int
     
     var body: some View {
-        VStack(alignment: .center) {
+        VStack {
             ZStack(alignment: .center) {
                 CircleTimerView(postDate: creationDate, expirationDate: expirationDate, size: imageSize + 8)
                 

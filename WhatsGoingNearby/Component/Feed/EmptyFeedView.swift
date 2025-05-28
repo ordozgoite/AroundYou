@@ -10,8 +10,7 @@ import SwiftUI
 struct EmptyFeedView: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
-    @ObservedObject var communityVM: CommunityViewModel
-    @ObservedObject var locationManager: LocationManager
+    @EnvironmentObject var locationManager: LocationManager
     
     var body: some View {
         GeometryReader { geometry in
@@ -56,6 +55,6 @@ struct EmptyFeedView: View {
 }
 
 #Preview {
-    EmptyFeedView(communityVM: CommunityViewModel(), locationManager: LocationManager())
+    EmptyFeedView()
         .environmentObject(AuthenticationViewModel())
 }

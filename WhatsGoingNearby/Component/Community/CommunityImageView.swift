@@ -19,12 +19,12 @@ struct CommunityImageView: View {
     
     var body: some View {
         if let url = imageUrl {
-            URLImageView(imageURL: url)
+            URLNotTapableImageView(imageURL: url)
                 .scaledToFill()
                 .frame(width: size, height: size)
                 .clipShape(Circle())
         } else {
-            CustomPerson3CircleFill(size: size)
+            CommunityIconCircleFill(size: size)
         }
     }
 }

@@ -9,10 +9,9 @@ import SwiftUI
 import CoreData
 
 struct ChatListScreen: View {
-    
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var socket: SocketService
     @StateObject private var chatListVM = ChatListViewModel()
-    @ObservedObject var socket: SocketService
     
     var body: some View {
         NavigationStack {
@@ -49,8 +48,7 @@ struct ChatListScreen: View {
                         username: chat.chatName,
                         otherUserUid: chat.otherUserUid,
                         chatPic: chat.chatPic,
-                        isLocked: chat.isLocked,
-                        socket: socket
+                        isLocked: chat.isLocked
                     ).environmentObject(authVM)
                     ) {
                         ChatView(chat: chat)
@@ -63,8 +61,7 @@ struct ChatListScreen: View {
                         username: chat.chatName,
                         otherUserUid: chat.otherUserUid,
                         chatPic: chat.chatPic, isLocked:
-                            chat.isLocked,
-                        socket: socket
+                            chat.isLocked
                     )
                         .environmentObject(authVM)
                     ) {
@@ -118,5 +115,5 @@ struct ChatListScreen: View {
 }
 
 #Preview {
-    ChatListScreen(socket: SocketService())
+    ChatListScreen()
 }

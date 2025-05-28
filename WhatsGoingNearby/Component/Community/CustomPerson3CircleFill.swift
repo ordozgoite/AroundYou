@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CustomPerson3CircleFill: View {
-    
     let size: CGFloat
     
     var body: some View {

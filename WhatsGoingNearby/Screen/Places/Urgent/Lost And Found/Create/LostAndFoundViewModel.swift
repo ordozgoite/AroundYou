@@ -22,7 +22,9 @@ class LostAndFoundViewModel: ObservableObject {
     @Published var rewardOffer: Bool = false
     @Published var isPostingItem: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
-    @Published var imageSelection: PhotosPickerItem? = nil
+    
+    @Published var isCameraPickerDisplayed: Bool = false
+    @Published var isPhotoPickerDisplayed: Bool = false
     @Published var selectedImage: UIImage? = nil
     
     func postLostItem(location: Location, token: String) async throws {
@@ -66,8 +68,12 @@ class LostAndFoundViewModel: ObservableObject {
         switch result {
         case .success:
             print("✅ Lost Item successfully posted!")
-        case .failure:
-            overlayError = (true, ErrorMessage.postLostItemErrorMessage)
+        case .failure(let error):
+            if error == .locked {
+                overlayError = (true, "You can only have one active Lost Item published at a time.")
+            } else {
+                overlayError = (true, ErrorMessage.postLostItemErrorMessage)
+            }
             throw PostLostItemError.genericError
         }
     }
@@ -77,7 +83,6 @@ class LostAndFoundViewModel: ObservableObject {
     }
     
     func removePhoto() {
-        self.imageSelection = nil
         self.selectedImage = nil
     }
 }

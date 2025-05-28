@@ -5,7 +5,7 @@
 //  Created by Victor Ordozgoite on 02/03/25.
 //
 
-import Foundation
+import SwiftUI
 
 enum BusinessCategory: String, Codable, CaseIterable {
     case eatAndDrink
@@ -20,7 +20,7 @@ enum BusinessCategory: String, Codable, CaseIterable {
     case adult
     case home
     
-    var title: String {
+    var title: LocalizedStringKey {
         return switch self {
         case .eatAndDrink: "Eat & Drink"
         case .partyAndEvent: "Party & Event"
@@ -32,7 +32,7 @@ enum BusinessCategory: String, Codable, CaseIterable {
         case .pets: "Pets"
         case .education: "Education"
         case .adult: "Adult"
-        case .home: "Home"
+        case .home: "Home " // espaço colocado propositalmente para criar um novo contexto, diferenciando a tradução do "Home" da TabBar
         }
     }
     

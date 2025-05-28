@@ -8,52 +8,47 @@
 import SwiftUI
 
 struct BusinessScreen: View {
-    
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @ObservedObject var businessVM: BusinessViewModel
-    @ObservedObject var locationManager: LocationManager
     
     @State private var refreshObserver = NotificationCenter.default
         .publisher(for: .refreshLocationSensitiveData)
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                VStack {
-                    if businessVM.isFetchingBusinessesNearBy {
-                        LoadingView()
-                    } else if businessVM.businesses.isEmpty {
-                        EmptyBusinessView()
-                    } else {
-                        BusinessList()
-                    }
-                }
-                
-                AYErrorAlert(message: businessVM.overlayError.1 , isErrorAlertPresented: $businessVM.overlayError.0)
-            }
-            .onAppear {
-                Task {
-                    await withTaskGroup(of: Void.self) { group in
-                        group.addTask { try? await getBusinessesFromLocation() }
-                        group.addTask { try? await getBusinessesFromUser() }
-                    }
-                    startUpdatingBusiness()
+        ZStack {
+            VStack {
+                if businessVM.isFetchingBusinessesNearBy {
+                    LoadingView()
+                } else if businessVM.businesses.isEmpty {
+                    EmptyBusinessView()
+                } else {
+                    BusinessList()
                 }
             }
-            .onReceive(refreshObserver) { _ in
-                Task {
-                    try await getBusinessesFromLocation()
+            
+            AYErrorAlert(message: businessVM.overlayError.1 , isErrorAlertPresented: $businessVM.overlayError.0)
+        }
+        .onAppear {
+            Task {
+                await withTaskGroup(of: Void.self) { group in
+                    group.addTask { try? await getBusinessesFromLocation() }
+                    group.addTask { try? await getBusinessesFromUser() }
                 }
+                startUpdatingBusiness()
             }
-            .onDisappear {
-                stopTimer()
+        }
+        .onReceive(refreshObserver) { _ in
+            Task {
+                try await getBusinessesFromLocation()
             }
-//            .navigationTitle("Business")
-            .toolbar {
-                MyBusiness()
-                
-                CreateBusinessButton()
-            }
+        }
+        .onDisappear {
+            stopTimer()
+        }
+        .toolbar {
+            Ellipsis()
         }
     }
     
@@ -83,8 +78,43 @@ struct BusinessScreen: View {
         }
         .refreshable {
             hapticFeedback(style: .soft)
+            businessVM.initialBusinessesFetched = false
             Task {
                 try await getBusinessesFromLocation()
+            }
+        }
+    }
+    
+    // MARK: - Ellipsis
+    
+    @ViewBuilder
+    private func Ellipsis() -> some View {
+        if businessVM.isFetchingUserBusinesses {
+            ProgressView()
+        } else {
+            Menu {
+                PublishBusiness()
+                
+                Divider()
+                
+                MyBusiness()
+            } label: {
+                Image(systemName: "ellipsis.circle")
+            }
+            .sheet(isPresented: $businessVM.isMyBusinessViewDisplayed) {
+                MyBusinessView(businessVM: businessVM)
+                    .environmentObject(authVM)
+            }
+//            .navigationDestination(isPresented: $businessVM.isPublishBusinessScreenDisplayed) {
+//                PublishBusinessScreen(locationManager: locationManager)
+//                    .environmentObject(authVM)
+//            }
+            .popover(isPresented: $businessVM.isBusinessLimitErrorPopoverDisplayed) {
+                Text("You can only have one active Business at a time.")
+                    .font(.caption)
+                    .foregroundStyle(.gray)
+                    .padding()
+                    .presentationCompactAdaptation(.popover)
             }
         }
     }
@@ -96,58 +126,27 @@ struct BusinessScreen: View {
         Button {
             businessVM.isMyBusinessViewDisplayed = true
         } label: {
-            Image(systemName: "person.circle.fill")
+            Label("My Businesses", systemImage: "list.bullet")
         }
-        .sheet(isPresented: $businessVM.isMyBusinessViewDisplayed) {
-            MyBusinessView(businessVM: businessVM)
-                .environmentObject(authVM)
-        }
+        
     }
     
-    // MARK: - Create Business
+    // MARK: - Publish Business
     
     @ViewBuilder
-    private func CreateBusinessButton() -> some View {
-        if businessVM.isFetchingUserBusinesses {
-            ProgressView()
-        } else if businessVM.userBusinesses?.count != 0 {
-            DisabledAddButton()
-        } else if businessVM.userBusinesses?.count == 0 {
-            AddButton()
-        }
-    }
-    
-    // MARK: - Disabled Add Button
-    
-    @ViewBuilder
-    private func DisabledAddButton() -> some View {
+    private func PublishBusiness() -> some View {
+        /*
+         A lógica abaixo deve ser mudada quando a quantidade de Business permitido por usuário mudar.
+         (22/05/25: 1 Business ativo por usuário)
+         */
         Button {
-            businessVM.isBusinessLimitErrorPopoverDisplayed = true
+            if businessVM.countActiveUserBusinesses() == 0 {
+                navCoordinator.navigate(to: .createBusiness)
+            } else {
+                businessVM.isBusinessLimitErrorPopoverDisplayed = true
+            }
         } label: {
-            Image(systemName: "plus")
-                .foregroundStyle(.gray)
-        }
-        .popover(isPresented: $businessVM.isBusinessLimitErrorPopoverDisplayed) {
-            Text("You can only have one active Business at a time.")
-                .font(.caption)
-                .foregroundStyle(.gray)
-                .padding()
-                .presentationCompactAdaptation(.popover)
-        }
-    }
-    
-    // MARK: - Add Button
-    
-    @ViewBuilder
-    private func AddButton() -> some View {
-        Button {
-            businessVM.isPublishBusinessScreenDisplayed = true
-        } label: {
-            Image(systemName: "plus")
-        }
-        .navigationDestination(isPresented: $businessVM.isPublishBusinessScreenDisplayed) {
-            PublishBusinessScreen(locationManager: locationManager)
-                .environmentObject(authVM)
+            Label("Publish New Business", systemImage: "plus")
         }
     }
 }
@@ -196,5 +195,5 @@ extension BusinessScreen {
 }
 
 #Preview {
-    BusinessScreen(businessVM: BusinessViewModel(), locationManager: LocationManager())
+    BusinessScreen(businessVM: BusinessViewModel())
 }

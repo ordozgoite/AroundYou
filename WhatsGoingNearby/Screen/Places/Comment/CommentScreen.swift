@@ -8,31 +8,23 @@
 import SwiftUI
 import CoreLocation
 
-struct CommentScreen: View {
-    
-    let postId: String
+struct CommentScreen: View, PostViewActionHandler {
+    @State var post: FormattedPost
     private let maxCommentLength = 250
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
+    @EnvironmentObject var socket: SocketService
+    @EnvironmentObject var locationManager: LocationManager
     @StateObject private var commentVM = CommentViewModel()
-    @Binding var post: FormattedPost
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var commentIsFocused: Bool
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
     
     var body: some View {
         ZStack {
             VStack {
                 ScrollView {
-                    PostView(post: $post, socket: socket, locationManager: locationManager, isClickable: false) {
-                        Task {
-                            let token = try await authVM.getFirebaseToken()
-                            await commentVM.deletePost(publicationId: postId, token: token) {
-                                presentationMode.wrappedValue.dismiss()
-                            }
-                        }
-                    } toggleFeedUpdate: { _ in }
+                    PostView(post: post, delegate: self, isClickable: false)
                         .padding()
                     
                     Divider()
@@ -64,6 +56,9 @@ struct CommentScreen: View {
     @ViewBuilder
     private func Comments() -> some View {
         VStack {
+            Disclaimer()
+            Divider()
+            
             ForEach($commentVM.comments) { $comment in
                 CommentView(isPostFromRecipientUser: post.isFromRecipientUser, postType: post.status, socket: socket, comment: $comment, deleteComment: {
                     Task {
@@ -78,6 +73,14 @@ struct CommentScreen: View {
                 Divider()
             }
         }
+    }
+    
+    // MARK: - Disclaimer
+    
+    @ViewBuilder
+    private func Disclaimer() -> some View {
+        AYDisclaimerView(text: "Only people nearby this post can interact with it, including the owner.")
+            .padding()
     }
     
     //MARK: - Comment Text Field
@@ -147,7 +150,7 @@ struct CommentScreen: View {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             
-            await commentVM.postNewComment(publicationId: postId, text: commentVM.newCommentText, latitude: latitude, longitude: longitude, token: token)
+            await commentVM.postNewComment(publicationId: post.id, text: commentVM.newCommentText, latitude: latitude, longitude: longitude, token: token)
         }
     }
     
@@ -155,7 +158,7 @@ struct CommentScreen: View {
         commentVM.timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
             Task {
                 let token = try await authVM.getFirebaseToken()
-                await commentVM.getAllComments(publicationId: postId, token: token)
+                await commentVM.getAllComments(publicationId: post.id, token: token)
             }
         }
         commentVM.timer?.fire()
@@ -163,6 +166,48 @@ struct CommentScreen: View {
     
     private func stopTimer() {
         commentVM.timer?.invalidate()
+    }
+}
+
+// MARK: - Post View Protocol
+
+extension CommentScreen {
+    func postViewDidLikePublication(_ content: FormattedPost) {
+        if post.likes != nil {
+            post.likes! += 1
+            post.didLike = true
+        }
+    }
+    
+    func postViewDidUnlikePublication(_ content: FormattedPost) {
+        if post.likes != nil {
+            post.likes! -= 1
+            post.didLike = false
+        }
+    }
+    
+    func postViewDidDeletePublication(_ content: FormattedPost) {
+        navCoordinator.goBack()
+    }
+    
+    func postViewDidDeleteLostItem(_ content: FormattedPost) {
+        // Nunca vai acontecer aqui
+    }
+    
+    func postViewDidDeleteReport(_ content: FormattedPost) {
+        // Nunca vai acontecer aqui
+    }
+    
+    func postViewDidFollow(_ content: FormattedPost) {
+        post.isSubscribed = true
+    }
+    
+    func postViewDidUnfollow(_ content: FormattedPost) {
+        post.isSubscribed = false
+    }
+    
+    func postViewDidMarkAsCompleted(_ content: FormattedPost) {
+        post.isFinished = true
     }
 }
 

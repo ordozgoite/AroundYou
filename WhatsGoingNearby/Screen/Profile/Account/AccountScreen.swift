@@ -7,16 +7,18 @@
 
 import SwiftUI
 
-@MainActor
-struct AccountScreen: View {
-    
+struct AccountScreen: View, PostViewActionHandler {
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var socket: SocketService
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @StateObject private var accountVM = AccountViewModel()
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var socket: SocketService
+    
+    @State private var refreshObserver = NotificationCenter.default
+        .publisher(for: .updateUserProfilePosts)
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navCoordinator.path) {
             ZStack {
                 ScrollView {
                     VStack(spacing: 32) {
@@ -33,22 +35,48 @@ struct AccountScreen: View {
                     try await getAllPosts()
                 }
             }
+            .onReceive(refreshObserver) { _ in
+                Task {
+                    try await getAllPosts()
+                }
+            }
+            .navigationDestination(for: AppRoute.self) { destination in
+                switch destination {
+                case .comment(let post):
+                    CommentScreen(post: post)
+                case .reportDetail(let post):
+                    ReportDetailScreen(reportId: post.id)
+                case .lostItemDetail(let post):
+                    LostItemDetailScreen(lostItemId: post.id)
+                case .editPost(let post):
+                    EditPostScreen(post: post)
+                case .reportIssue(let post):
+                    ReportIssueScreen(reportedUserUid: post.userUid, publicationId: post.id, commentId: nil, businessId: nil)
+                case .like(let post):
+                    LikeScreen(id: post.id, type: .publication)
+                case .postMap(let post):
+                    if #available(iOS 17.0, *) {
+                        NewPostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0, username: post.username, profilePic: post.userProfilePic)
+                    } else {
+                        PostLocationScreen(latitude: post.latitude ?? 0, longitude: post.longitude ?? 0)
+                    }
+                case .editProfile:
+                    EditProfileScreen()
+                case .settings:
+                    SettingsScreen()
+                default:
+                    EmptyView()
+                }
+            }
             .toolbar {
                 ToolbarItem {
-                    NavigationLink {
-                        SettingsScreen()
-                            .environmentObject(authVM)
+                    Button {
+                        navCoordinator.navigate(to: .settings)
                     } label: {
                         Image(systemName: "gearshape.fill")
                     }
                 }
             }
-            
-            NavigationLink(
-                destination: EditProfileScreen(),
-                isActive: $accountVM.isEditProfileScreenPresented,
-                label: { EmptyView() }
-            )
         }
     }
     
@@ -58,7 +86,7 @@ struct AccountScreen: View {
     private func ProfileHeader() -> some View {
         VStack(spacing: 16) {
             if let imageURL = authVM.profilePic {
-                URLImageView(imageURL: imageURL)
+                URLNotTapableImageView(imageURL: imageURL)
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 128, height: 128)
                     .clipShape(Circle())
@@ -91,7 +119,7 @@ struct AccountScreen: View {
         }
         .padding()
         .onTapGesture {
-            accountVM.isEditProfileScreenPresented = true
+            navCoordinator.navigate(to: .editProfile)
         }
     }
     
@@ -113,17 +141,9 @@ struct AccountScreen: View {
         ScrollView {
             ForEach($accountVM.posts) { $post in
                 if shouldDisplay(post: post) {
-                    NavigationLink(destination: IndepCommentScreen(postId: post.id, locationManager: locationManager, socket: socket)) {
-                        PostView(post: $post, socket: socket, locationManager: locationManager, isClickable: true) {
-                            Task {
-                                let token = try await authVM.getFirebaseToken()
-                                await accountVM.deletePublication(publicationId: post.id, token: token)
-                            }
-                        } toggleFeedUpdate: { _ in }
-                            .padding()
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    .opacity(post.status == .expired ? 0.5 : 1)
+                    PostView(post: post, delegate: self, isClickable: true)
+                        .padding()
+                        .opacity(post.status == .expired ? 0.5 : 1)
                     
                     Divider()
                 }
@@ -154,7 +174,41 @@ struct AccountScreen: View {
     }
 }
 
+extension AccountScreen {
+    func postViewDidLikePublication(_ content: FormattedPost) {
+        accountVM.likePost(withId: content.id)
+    }
+    
+    func postViewDidUnlikePublication(_ content: FormattedPost) {
+        accountVM.unlikePost(withId: content.id)
+    }
+    
+    func postViewDidDeletePublication(_ content: FormattedPost) {
+        accountVM.removePost(withId: content.id)
+    }
+    
+    func postViewDidDeleteLostItem(_ content: FormattedPost) {
+        accountVM.removePost(withId: content.id)
+    }
+    
+    func postViewDidDeleteReport(_ content: FormattedPost) {
+        accountVM.removePost(withId: content.id)
+    }
+    
+    func postViewDidFollow(_ content: FormattedPost) {
+        accountVM.followPost(withId: content.id)
+    }
+    
+    func postViewDidUnfollow(_ content: FormattedPost) {
+        accountVM.unfollowPost(withId: content.id)
+    }
+    
+    func postViewDidMarkAsCompleted(_ content: FormattedPost) {
+        accountVM.finishPost(withId: content.id)
+    }
+}
+
 #Preview {
-    AccountScreen(locationManager: LocationManager(), socket: SocketService())
+    AccountScreen()
         .environmentObject(AuthenticationViewModel())
 }

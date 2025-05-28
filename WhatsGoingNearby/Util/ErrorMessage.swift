@@ -71,6 +71,7 @@ struct ErrorMessage {
     static let getCommunitiesNearBy: LocalizedStringKey = "Failed to load nearby communities. Please try again."
     static let joinCommunity: LocalizedStringKey = "Failed to join community. Please try again."
     static let askToJoinCommunity: LocalizedStringKey = "Failed to request to join community. Please try again."
+    static let askToJoinCommunityRepeatedAction: LocalizedStringKey = "You already asked to join this community"
     static let postNewCommunity: LocalizedStringKey = "Failed to create community. Please try again."
     static let getCommunityInfo: LocalizedStringKey = "Failed to load community information. Please try again."
     static let approveUserToCommunity: LocalizedStringKey = "Failed to approve user. Please try again."
@@ -78,6 +79,8 @@ struct ErrorMessage {
     static let deleteCommunity: LocalizedStringKey = "Failed to delete community. Please try again."
     static let editCommunityDescription: LocalizedStringKey = "Failed to edit community description. Please try again."
     static let editCommunity: LocalizedStringKey = "Failed to update community. Please try again."
+    static let sendCommunityMessageDistanceLimitExceeded: LocalizedStringKey = "You're too far from this community to send a message."
+    static let sendMessageToDeletedCommunity: LocalizedStringKey = "Your message couldn’t be sent because the community was deleted by its owner."
 
     static let getBusinesses: LocalizedStringKey = "Failed to load nearby businesses. Please try again."
     static let getBusinessByUser: LocalizedStringKey = "Failed to load your businesses. Please try again."

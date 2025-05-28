@@ -18,11 +18,15 @@ enum HomeSection: String, CaseIterable {
         case .places:
             "building.2"
         case .discover:
-            "heart"
-        case .business:
-            "storefront"
-        case .communities:
             "person.3"
+        case .business:
+            if #available(iOS 17.0, *) {
+                "storefront"
+            } else {
+                "cart"
+            }
+        case .communities:
+            Constants.communityIconImageName
         }
     }
     
