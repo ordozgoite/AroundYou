@@ -10,9 +10,9 @@ import SwiftUI
 struct CreatePostScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
+    @EnvironmentObject var locationManager: LocationManager
     @StateObject private var createPostVM = CreatePostViewModel()
-    @ObservedObject var locationManager = LocationManager()
-    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack {
@@ -29,7 +29,7 @@ struct CreatePostScreen: View {
                 message: Text("Your precise location will be used to display on the map where you made this post."),
                 primaryButton: .default((Text("Allow Once"))) {
                     Task {
-                        try await createNewPost()
+                        try await handlePostCreation()
                     }
                 },
                 secondaryButton: .cancel(Text("Don't Allow")) {}
@@ -74,7 +74,7 @@ struct CreatePostScreen: View {
     @ViewBuilder
     private func Cancel() -> some View {
         Button {
-            presentationMode.wrappedValue.dismiss()
+            navCoordinator.goBack()
         } label: {
             Text("Cancel")
         }
@@ -89,7 +89,7 @@ struct CreatePostScreen: View {
                 createPostVM.isShareLocationAlertDisplayed = true
             } else {
                 Task {
-                    await createNewPost()
+                    try await handlePostCreation()
                 }
             }
         } label: {
@@ -99,32 +99,33 @@ struct CreatePostScreen: View {
     }
     
     //MARK: - Private Methods
-    
-    private func createNewPost() async {
-        locationManager.requestLocation()
-        guard let location = locationManager.location else {
-            createPostVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
-            return
-        }
 
-        let currentLocation = Location(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        await attemptPostCreation(withLocation: currentLocation)
-    }
-
-    private func attemptPostCreation(withLocation location: Location) async {
+    private func handlePostCreation() async throws {
         do {
-            try await performPostCreation(withLocation: location)
-            presentationMode.wrappedValue.dismiss()
-            refreshFeed()
+            try await attemptPostCreation()
         } catch {
             print("❌ Error trying to create new post: \(error)")
-            createPostVM.overlayError = (true, "Error trying to create new post. Try again later.")
         }
     }
-
-    private func performPostCreation(withLocation location: Location) async throws {
+    
+    private func attemptPostCreation() async throws {
+        let currentLocation = try getCurrentLocation()
         let token = try await authVM.getFirebaseToken()
-        try await createPostVM.createNewPost(latitude: location.latitude, longitude: location.longitude, token: token)
+        try await createPostVM.createNewPost(latitude: currentLocation.latitude, longitude: currentLocation.longitude, token: token)
+        navCoordinator.goBack()
+//            refreshFeed()
+    }
+    
+    private func getCurrentLocation() throws -> Location {
+        locationManager.requestLocation()
+        if let location = locationManager.location {
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            return Location(latitude: latitude, longitude: longitude)
+        } else {
+            createPostVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
+            throw LocationError.unableToGetCurrentLocation
+        }
     }
 
     
