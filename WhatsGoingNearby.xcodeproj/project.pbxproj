@@ -200,6 +200,7 @@
 		ED82CD162D8DA15B0075EFB8 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED82CD152D8DA15B0075EFB8 /* HelpView.swift */; };
 		ED842C502BCF5A29006B8DBB /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED842C4F2BCF5A29006B8DBB /* Color.swift */; };
 		ED842C522BD0A9DB006B8DBB /* ComposePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED842C512BD0A9DB006B8DBB /* ComposePostView.swift */; };
+		ED8471AD2DE8BC41007BF502 /* NotificationBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8471AC2DE8BC41007BF502 /* NotificationBannerView.swift */; };
 		ED8618692BB9E48400A26121 /* CameraRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8618682BB9E48400A26121 /* CameraRepresentable.swift */; };
 		ED884BEB2B8CF3D80071E1C4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = ED884BEA2B8CF3D80071E1C4 /* Localizable.xcstrings */; };
 		ED8B8E832D5850E900A895C5 /* FormattedCommunity.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8B8E822D5850E900A895C5 /* FormattedCommunity.swift */; };
@@ -477,6 +478,7 @@
 		ED82CD152D8DA15B0075EFB8 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		ED842C4F2BCF5A29006B8DBB /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		ED842C512BD0A9DB006B8DBB /* ComposePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposePostView.swift; sourceTree = "<group>"; };
+		ED8471AC2DE8BC41007BF502 /* NotificationBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBannerView.swift; sourceTree = "<group>"; };
 		ED8618682BB9E48400A26121 /* CameraRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraRepresentable.swift; sourceTree = "<group>"; };
 		ED884BEA2B8CF3D80071E1C4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		ED8B8E822D5850E900A895C5 /* FormattedCommunity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedCommunity.swift; sourceTree = "<group>"; };
@@ -957,6 +959,7 @@
 				EDEF4E7E2D930131009CA424 /* MapPickerView.swift */,
 				EDAECA4A2DDA913300D1A938 /* AYDisabledButton.swift */,
 				EDF324EC2DDF79D400752A64 /* AYDisclaimerView.swift */,
+				ED8471AC2DE8BC41007BF502 /* NotificationBannerView.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -1846,6 +1849,7 @@
 				EDA3223D2B7CCF64009905B5 /* PreparingSessionScreen.swift in Sources */,
 				ED2F1A772B9142D3001F4300 /* NotificationView.swift in Sources */,
 				ED598C072B7C441500B6C23D /* AuthFlowSegmentedControl.swift in Sources */,
+				ED8471AD2DE8BC41007BF502 /* NotificationBannerView.swift in Sources */,
 				ED3775A72B9ABD1000BEF3D8 /* PreparingSessionAnimationView.swift in Sources */,
 				EDE8B36F2BC1D9A800DFF750 /* AudioRecorder.swift in Sources */,
 				EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */,

@@ -26,6 +26,8 @@ struct MainTabView: View {
     @State private var badgeTimer: Timer?
     @State private var unreadChats: Int?
     
+    @State private var isChatScreenDisplayed: Bool = false
+    
     @StateObject private var homeNav = NavigationCoordinator()
     @StateObject private var chatNav = NavigationCoordinator()
     @StateObject private var accountNav = NavigationCoordinator()
@@ -72,17 +74,18 @@ struct MainTabView: View {
                 await loadProfileImage()
             }
         }
-        .onChange(of: notificationManager.isPeopleTabDisplayed) { newValue in
-            if newValue {
-                goToTabPeople()
-            }
-        }
         .fullScreenCover(isPresented: $notificationManager.isPublicationDisplayed) {
             IndepCommentScreenWrapper(
                 postId: notificationManager.publicationId ?? ""
             )
         }
-        .fullScreenCover(isPresented: $notificationManager.isChatDisplayed) {
+        .onChange(of: notificationManager.isChatDisplayed) { newValue in
+            if newValue {
+                chatNav.goToRoot()
+                isChatScreenDisplayed = true
+            }
+        }
+        .fullScreenCover(isPresented: $isChatScreenDisplayed) {
             MessageScreenWrapper(
                 chatId: notificationManager.chatId ?? "",
                 username: notificationManager.username ?? "",
@@ -91,11 +94,30 @@ struct MainTabView: View {
                 isLocked: notificationManager.isLocked ?? false
             )
         }
+        .onChange(of: notificationManager.isCommunityChatDisplayed) { newValue in
+            if newValue {
+                homeNav.goToRoot()
+            }
+        }
         .fullScreenCover(isPresented: $notificationManager.isCommunityChatDisplayed) {
             CommunityMessageScreenWrapper(
                 communityId: notificationManager.communityId ?? ""
             )
-            .environmentObject(authVM)
+        }
+        .overlay(alignment: .top) {
+            Group {
+                if let notification = socket.currentNotification {
+                    NotificationBannerView(notification: notification) {
+                        if let route = notification.route {
+                            socket.pendingFullScreenRoute = route
+                        }
+                        socket.dismissCurrentNotification()
+                    }
+                    .padding(.top, 44)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                }
+            }
+            .animation(.easeInOut(duration: 0.3), value: socket.currentNotification)
         }
     }
 }
@@ -150,15 +172,8 @@ extension MainTabView {
         return nil
     }
     
-    private func goToTabPeople() {
-        withAnimation {
-            selectedTab = 2
-        }
-    }
-    
     private func loadProfileImage() async {
         guard let urlString = authVM.profilePic else { return }
-        
         self.profileImage = await KingfisherService.shared.loadImage(from: urlString)
     }
     

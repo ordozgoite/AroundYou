@@ -31,6 +31,9 @@ enum AppRoute: Hashable {
     case reportBusiness(FormattedBusinessShowcase)
     case businessMap(FormattedBusinessShowcase)
     
+    // Chats
+    case messages(FormattedChat)
+    
     // Account
     case editProfile
     case settings
