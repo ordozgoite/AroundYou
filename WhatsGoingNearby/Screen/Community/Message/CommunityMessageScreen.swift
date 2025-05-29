@@ -116,7 +116,7 @@ struct CommunityMessageScreen: View {
             }
             
             ToolbarItem(placement: .topBarTrailing) {
-                SocketStatusView(socket: socket)
+                SocketStatusView()
             }
         }
     }

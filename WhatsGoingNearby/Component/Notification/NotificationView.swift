@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct NotificationView: View {
-    
     let notification: FormattedNotification
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var socket: SocketService
     @State private var isUserProfileDisplayed: Bool = false
-    @ObservedObject var socket: SocketService
     
     var body: some View {
         ZStack {
@@ -33,7 +32,7 @@ struct NotificationView: View {
             }
             
             NavigationLink(
-                destination: UserProfileScreen(userUid: notification.sendingUserUid, socket: socket).environmentObject(authVM),
+                destination: UserProfileScreen(userUid: notification.sendingUserUid),
                 isActive: $isUserProfileDisplayed,
                 label: { EmptyView() }
             ).hidden()
@@ -59,5 +58,5 @@ struct NotificationView: View {
 }
 
 #Preview {
-    NotificationView(notification: FormattedNotification(id: "", sendingUserUid: "", sendingUsername: "ordozgoite", sendingUserProfilePic: "https://firebasestorage.googleapis.com:443/v0/b/aroundyou-b8364.appspot.com/o/profile-pic%2FvlzpJ0ir0RXJ6XUO8xLeU54vkGy2.jpg?alt=media&token=18581c9c-4eb8-4f0c-9acd-413fe4f7f01a", action: .like, target: .publication, publicationId: "", notificationDateTime: 1709253250), socket: SocketService())
+    NotificationView(notification: FormattedNotification(id: "", sendingUserUid: "", sendingUsername: "ordozgoite", sendingUserProfilePic: "https://firebasestorage.googleapis.com:443/v0/b/aroundyou-b8364.appspot.com/o/profile-pic%2FvlzpJ0ir0RXJ6XUO8xLeU54vkGy2.jpg?alt=media&token=18581c9c-4eb8-4f0c-9acd-413fe4f7f01a", action: .like, target: .publication, publicationId: "", notificationDateTime: 1709253250))
 }

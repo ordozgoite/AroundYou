@@ -12,9 +12,9 @@ struct NotificationScreen: View {
     
     @StateObject private var notificationVM = NotificationViewModel()
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var socket: SocketService
+    @EnvironmentObject var locationManager: LocationManager
     @Binding var location: CLLocation?
-    @ObservedObject var socket: SocketService
-    @ObservedObject var locationManager: LocationManager
     
     var body: some View {
         ZStack {
@@ -59,7 +59,7 @@ struct NotificationScreen: View {
         List {
             ForEach(notificationVM.notifications) { notification in
                 NavigationLink(destination: IndepCommentScreen(postId: notification.publicationId)) {
-                    NotificationView(notification: notification, socket: socket)
+                    NotificationView(notification: notification)
                         .swipeActions(edge: .trailing) {
                             Button(role: .destructive) {
                                 Task {

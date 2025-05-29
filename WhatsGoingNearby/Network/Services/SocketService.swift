@@ -7,6 +7,7 @@
 
 import Foundation
 import SocketIO
+import UIKit
 
 enum SocketStatus: String {
     case connected
@@ -14,22 +15,24 @@ enum SocketStatus: String {
     case disconnected
 }
 
-//"http://localhost:3000"
-
 @MainActor
 final class SocketService: ObservableObject {
+    let manager = SocketManager(socketURL: URL(string: Constants.API_URL)!, config: [.log(true), .compress, .reconnects(true), .reconnectAttempts(-1), .reconnectWait(5)])
     
     @Published var socket: SocketIOClient?
-    let manager = SocketManager(socketURL: URL(string: Constants.API_URL)!, config: [.log(true), .compress, .reconnects(true), .reconnectAttempts(-1), .reconnectWait(5)])
     @Published var status: SocketStatus = .disconnected
     
     init() {
         socket = manager.defaultSocket
         connect()
+        observeAppLifecycle()
+        startConnectionCheck()
     }
     
     private func connect() {
         print("🛜 Trying to connect...")
+
+        socket?.removeAllHandlers()
 
         socket?.on(clientEvent: .connect) { data, ack in
             print("✅ Socket connected with userUid: \(LocalState.currentUserUid)")
@@ -52,6 +55,41 @@ final class SocketService: ObservableObject {
             self.status = .connecting
         }
 
-        socket?.connect()
+        socket?.on(clientEvent: .error) { data, ack in
+            print("❌ Socket error: \(data)")
+        }
+
+        if socket?.status != .connected && socket?.status != .connecting {
+            socket?.connect()
+        }
     }
+
+    private func observeAppLifecycle() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
+    }
+
+    @objc private func appDidBecomeActive() {
+        if status != .connected {
+            print("🔄 App voltou ao primeiro plano. Tentando reconectar.")
+            socket?.connect()
+        }
+    }
+
+    private func startConnectionCheck() {
+        Timer.scheduledTimer(withTimeInterval: 15, repeats: true) { _ in
+            Task { @MainActor in
+                if self.status == .disconnected || self.socket?.status != .connected {
+                    print("🔁 Forçando reconexão por segurança.")
+                    self.socket?.connect()
+                }
+            }
+        }
+    }
+
 }
+

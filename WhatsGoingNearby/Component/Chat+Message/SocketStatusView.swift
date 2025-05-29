@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SocketStatusView: View {
     
-    @ObservedObject var socket: SocketService
+    @EnvironmentObject var socket: SocketService
     @State private var isPopoverDisplayed: Bool = false
     
     var body: some View {
@@ -51,5 +51,5 @@ struct SocketStatusView: View {
 }
 
 #Preview {
-    SocketStatusView(socket: SocketService())
+    SocketStatusView()
 }

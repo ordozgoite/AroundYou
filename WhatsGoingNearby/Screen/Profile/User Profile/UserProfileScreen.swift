@@ -12,9 +12,9 @@ struct UserProfileScreen: View {
     let userUid: String
     
     @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var socket: SocketService
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @StateObject private var userProfileVM = UserProfileViewModel()
-    @ObservedObject var socket: SocketService
-    @Environment(\.presentationMode) var presentationMode
     @Namespace private var profileAnimation
     
     var body: some View {
@@ -62,7 +62,7 @@ struct UserProfileScreen: View {
                     Task {
                         let token = try await authVM.getFirebaseToken()
                         await userProfileVM.blockUser(blockedUserUid: userUid, token: token) {
-                            presentationMode.wrappedValue.dismiss()
+                            navCoordinator.goBack()
                         }
                     }
                 },

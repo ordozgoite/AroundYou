@@ -16,9 +16,14 @@ struct ExpandedPostSettings: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("\(text.count)/\(maxPostLength)")
-                .foregroundStyle(.gray)
-                .font(.subheadline)
+            HStack {
+                Text("\(text.count)/\(maxPostLength)")
+                    .foregroundStyle(.gray)
+                    .font(.subheadline)
+                
+                AYDisclaimerView(text: "Posts are shown only to those around you.")
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
             
             Tag()
         }

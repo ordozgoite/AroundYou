@@ -128,7 +128,7 @@ struct ComposePostView: View {
             }
             .padding(.bottom)
             
-            AYDisclaimerView(text: "Posts are shown only to those around you.")
+//            AYDisclaimerView(text: "Posts are shown only to those around you.")
             
 //            Chevron()
             

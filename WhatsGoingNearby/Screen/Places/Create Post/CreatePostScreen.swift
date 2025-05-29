@@ -137,4 +137,6 @@ struct CreatePostScreen: View {
 #Preview {
     CreatePostScreen()
         .environmentObject(AuthenticationViewModel())
+        .environmentObject(LocationManager())
+        .environmentObject(NavigationCoordinator())
 }

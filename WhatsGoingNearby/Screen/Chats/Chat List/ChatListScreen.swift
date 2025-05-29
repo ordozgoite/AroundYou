@@ -30,7 +30,7 @@ struct ChatListScreen: View {
             .navigationTitle("Chats")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    SocketStatusView(socket: socket)
+                    SocketStatusView()
                 }
             }
         }

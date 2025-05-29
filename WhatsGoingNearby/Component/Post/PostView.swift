@@ -61,7 +61,7 @@ struct PostView: View {
     @ViewBuilder
     private func ProfilePic() -> some View {
         VStack {
-            NavigationLink(destination: UserProfileScreen(userUid: post.userUid, socket: socket).environmentObject(authVM)) {
+            NavigationLink(destination: UserProfileScreen(userUid: post.userUid)) {
                 ProfilePicView(profilePic: post.userProfilePic)
             }
             .buttonStyle(PlainButtonStyle())
@@ -89,7 +89,7 @@ struct PostView: View {
     
     @ViewBuilder
     private func Username() -> some View {
-        NavigationLink(destination: UserProfileScreen(userUid: post.userUid, socket: socket).environmentObject(authVM)) {
+        NavigationLink(destination: UserProfileScreen(userUid: post.userUid)) {
             Text(post.username)
                 .fontWeight(.semibold)
                 .lineLimit(1)

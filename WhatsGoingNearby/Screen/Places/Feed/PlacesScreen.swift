@@ -64,9 +64,7 @@ struct PlacesScreen: View, PostViewActionHandler {
             startUpdatingFeed()
         }
         .onReceive(refreshObserver) { _ in
-            Task {
-                try await getNearByPosts()
-            }
+            getNearByPosts()
         }
         .onDisappear {
             stopTimer()
@@ -123,7 +121,7 @@ struct PlacesScreen: View, PostViewActionHandler {
         .refreshable {
             hapticFeedback(style: .soft)
             placesVM.initialPostsFetched = false
-            updateLocation()
+            getNearByPosts()
         }
     }
     
@@ -145,7 +143,7 @@ struct PlacesScreen: View, PostViewActionHandler {
     
     @ViewBuilder
     private func Notifications() -> some View {
-        NavigationLink(destination: NotificationScreen(location: $locationManager.location, socket: socket, locationManager: locationManager).environmentObject(authVM)) {
+        NavigationLink(destination: NotificationScreen(location: $locationManager.location)) {
             Image(systemName: "bell")
         }
     }
@@ -182,22 +180,37 @@ struct PlacesScreen: View, PostViewActionHandler {
     
     private func startUpdatingFeed() {
         placesVM.feedTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
-            Task {
-                try await getNearByPosts()
-            }
+            getNearByPosts()
         }
         placesVM.feedTimer?.fire()
     }
     
-    private func getNearByPosts() async throws {
+    private func getNearByPosts() {
+        Task {
+            do {
+                try await attemptToGetPosts()
+            } catch {
+                print("❌ Error trying to get posts nearby.")
+            }
+            
+        }
+    }
+    
+    private func attemptToGetPosts() async throws {
+        let currentLocation = try getCurrentLocation()
+        let token = try await authVM.getFirebaseToken()
+        await placesVM.getPosts(latitude: currentLocation.latitude, longitude: currentLocation.longitude, token: token)
+    }
+    
+    private func getCurrentLocation() throws -> Location {
         locationManager.requestLocation()
         if let location = locationManager.location {
-            let token = try await authVM.getFirebaseToken()
-            
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
-            
-            await placesVM.getPosts(latitude: latitude, longitude: longitude, token: token)
+            return Location(latitude: latitude, longitude: longitude)
+        } else {
+            placesVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
+            throw LocationError.unableToGetCurrentLocation
         }
     }
     

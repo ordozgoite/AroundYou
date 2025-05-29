@@ -111,13 +111,13 @@ struct MessageScreen: View {
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                NavigationLink(destination: UserProfileScreen(userUid: otherUserUid, socket: socket)) {
+                NavigationLink(destination: UserProfileScreen(userUid: otherUserUid)) {
                     UserHeader()
                 }
             }
             
             ToolbarItem(placement: .topBarTrailing) {
-                SocketStatusView(socket: socket)
+                SocketStatusView()
             }
         }
         .fullScreenCover(isPresented: $messageVM.isCameraDisplayed) {

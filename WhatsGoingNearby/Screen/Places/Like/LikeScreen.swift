@@ -31,7 +31,7 @@ struct LikeScreen: View {
                 } else {
                     VStack {
                         List(likeVM.users) { user in
-                            NavigationLink(destination: UserProfileScreen(userUid: user.userUid, socket: socket).environmentObject(authVM)) {
+                            NavigationLink(destination: UserProfileScreen(userUid: user.userUid)) {
                                 ProfilePicView(profilePic: user.profilePic)
                                 
                                 Text(user.username)
