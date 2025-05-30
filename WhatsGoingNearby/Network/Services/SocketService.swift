@@ -75,36 +75,39 @@ final class SocketService: ObservableObject {
 extension SocketService {
     private func setupCustomEvents() {
         guard let socket = socket else { return }
-        
-        socket.on("message") { data, ack in
-            print("📩 Liked post: \(data)")
-            
-            // Test
-            let mockNotification = AppBannerNotification(title: "fulano", subtitle: "mensagem teste", imageUrl: nil, route: .createCommunity)
-            self.enqueueNotification(mockNotification)
-            
-            /*
-            // Aqui você vai fazer o parsing dos dados recebidos
-            guard let dict = data.first as? [String: Any],
-                  let postId = dict["postId"] as? String,
-                  let postTitle = dict["postTitle"] as? String else {
-                return
+
+        socket.on("message-notification") { data, ack in
+            do {
+                try self.attemptToDiplayChatMessageNotification(withData: data)
+            } catch {
+                print("Erro ao decodificar notificação de mensagem: \(error)")
             }
-            
-            // Suponha que você tenha uma forma de construir um `FormattedPost`
-            let post = FormattedPost(id: postId, title: postTitle)
-            
-            let notification = AppBannerNotification(
-                title: "Alguém curtiu sua publicação!",
-                subtitle: postTitle,
-                route: .like(post)
-            )
-            
-            self.enqueueNotification(notification)
-             */
         }
         
         // ...
+    }
+    
+    private func attemptToDiplayChatMessageNotification(withData data: [Any]) throws {
+        let notificationData = try self.decodeChatMessageNotification(data)
+
+        let notification = AppBannerNotification(
+            title: notificationData.senderUsername,
+            subtitle: notificationData.messageText,
+            imageUrl: notificationData.senderProfilePicUrl,
+            route: .messages(notificationData.chat)
+        )
+
+        self.enqueueNotification(notification)
+    }
+
+    
+    private func decodeChatMessageNotification(_ message: [Any]) throws -> ChatMessageNotification {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: message[0], options: [])
+            return try JSONDecoder().decode(ChatMessageNotification.self, from: jsonData)
+        } catch {
+            throw error
+        }
     }
 }
 

@@ -201,6 +201,8 @@
 		ED842C502BCF5A29006B8DBB /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED842C4F2BCF5A29006B8DBB /* Color.swift */; };
 		ED842C522BD0A9DB006B8DBB /* ComposePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED842C512BD0A9DB006B8DBB /* ComposePostView.swift */; };
 		ED8471AD2DE8BC41007BF502 /* NotificationBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8471AC2DE8BC41007BF502 /* NotificationBannerView.swift */; };
+		ED8471AF2DE8EBB9007BF502 /* ChatMessageNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8471AE2DE8EBB9007BF502 /* ChatMessageNotification.swift */; };
+		ED8471B12DE9D7B9007BF502 /* ChatMessageFromNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8471B02DE9D7B9007BF502 /* ChatMessageFromNotificationView.swift */; };
 		ED8618692BB9E48400A26121 /* CameraRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8618682BB9E48400A26121 /* CameraRepresentable.swift */; };
 		ED884BEB2B8CF3D80071E1C4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = ED884BEA2B8CF3D80071E1C4 /* Localizable.xcstrings */; };
 		ED8B8E832D5850E900A895C5 /* FormattedCommunity.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8B8E822D5850E900A895C5 /* FormattedCommunity.swift */; };
@@ -479,6 +481,8 @@
 		ED842C4F2BCF5A29006B8DBB /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		ED842C512BD0A9DB006B8DBB /* ComposePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposePostView.swift; sourceTree = "<group>"; };
 		ED8471AC2DE8BC41007BF502 /* NotificationBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBannerView.swift; sourceTree = "<group>"; };
+		ED8471AE2DE8EBB9007BF502 /* ChatMessageNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageNotification.swift; sourceTree = "<group>"; };
+		ED8471B02DE9D7B9007BF502 /* ChatMessageFromNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageFromNotificationView.swift; sourceTree = "<group>"; };
 		ED8618682BB9E48400A26121 /* CameraRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraRepresentable.swift; sourceTree = "<group>"; };
 		ED884BEA2B8CF3D80071E1C4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		ED8B8E822D5850E900A895C5 /* FormattedCommunity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedCommunity.swift; sourceTree = "<group>"; };
@@ -893,6 +897,7 @@
 				ED7AF5D42DA7401100966B5C /* IncidentType.swift */,
 				ED7AF5D62DB0354E00966B5C /* PostSource.swift */,
 				EDF3252A2DE4EDAA00752A64 /* EditBusinessDTO.swift */,
+				ED8471AE2DE8EBB9007BF502 /* ChatMessageNotification.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -923,6 +928,7 @@
 				ED8E6AF52BACD36D002D633D /* HeartView.swift */,
 				EDA30DF52B7FE816003EB22D /* PostTypeSegmentedControl.swift */,
 				EDE8B36C2BC1D11500DFF750 /* PostSettingsView.swift */,
+				ED8471B02DE9D7B9007BF502 /* ChatMessageFromNotificationView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -1687,6 +1693,7 @@
 				EDE8B36D2BC1D11500DFF750 /* PostSettingsView.swift in Sources */,
 				ED74E8152BF4682200371334 /* CDFormattedMessage+helper.swift in Sources */,
 				ED3B54E02CCEA0E3007AA1D0 /* DiscoverPreferencesView.swift in Sources */,
+				ED8471AF2DE8EBB9007BF502 /* ChatMessageNotification.swift in Sources */,
 				ED0652572B813832005B6413 /* BugScreen.swift in Sources */,
 				ED2F1A732B914288001F4300 /* NotificationScreen.swift in Sources */,
 				ED6DD4902B8272DD00ADBB64 /* BlockedUserScreen.swift in Sources */,
@@ -1746,6 +1753,7 @@
 				EDE8B37B2BC3530600DFF750 /* CompactedPostSettings.swift in Sources */,
 				EDEF4E7F2D930131009CA424 /* MapPickerView.swift in Sources */,
 				ED6D82BF2B938E4E00C57937 /* DeleteNotificationResponse.swift in Sources */,
+				ED8471B12DE9D7B9007BF502 /* ChatMessageFromNotificationView.swift in Sources */,
 				EDCF2C312BB60B450066950F /* FormattedChat.swift in Sources */,
 				EDA30DEE2B7FBAF8003EB22D /* LaunchScreen.swift in Sources */,
 				EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */,

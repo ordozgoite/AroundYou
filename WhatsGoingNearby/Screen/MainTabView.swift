@@ -25,8 +25,7 @@ struct MainTabView: View {
     @State private var profileImage: UIImage?
     @State private var badgeTimer: Timer?
     @State private var unreadChats: Int?
-    
-    @State private var isChatScreenDisplayed: Bool = false
+    @State private var presentedChat: FormattedChat? = nil
     
     @StateObject private var homeNav = NavigationCoordinator()
     @StateObject private var chatNav = NavigationCoordinator()
@@ -79,13 +78,13 @@ struct MainTabView: View {
                 postId: notificationManager.publicationId ?? ""
             )
         }
-        .onChange(of: notificationManager.isChatDisplayed) { newValue in
-            if newValue {
-                chatNav.goToRoot()
-                isChatScreenDisplayed = true
+        .onChange(of: socket.pendingFullScreenRoute) { newValue in
+            if case let .messages(chat) = newValue {
+                print("✉️ Chat: \(chat)")
+                presentedChat = chat
             }
         }
-        .fullScreenCover(isPresented: $isChatScreenDisplayed) {
+        .fullScreenCover(isPresented: $notificationManager.isChatDisplayed) {
             MessageScreenWrapper(
                 chatId: notificationManager.chatId ?? "",
                 username: notificationManager.username ?? "",
@@ -104,9 +103,13 @@ struct MainTabView: View {
                 communityId: notificationManager.communityId ?? ""
             )
         }
+        .fullScreenCover(item: $presentedChat) { chat in
+            ChatMessageFromNotificationView(chat: chat)
+        }
         .overlay(alignment: .top) {
             Group {
-                if let notification = socket.currentNotification {
+                if let notification = socket.currentNotification,
+                   shouldShowBanner(for: notification) {
                     NotificationBannerView(notification: notification) {
                         if let route = notification.route {
                             socket.pendingFullScreenRoute = route
@@ -119,6 +122,30 @@ struct MainTabView: View {
             }
             .animation(.easeInOut(duration: 0.3), value: socket.currentNotification)
         }
+    }
+}
+
+// MARK: - Notification Banner
+
+extension MainTabView {
+    private func shouldShowBanner(for notification: AppBannerNotification) -> Bool {
+        guard let route = notification.route else { return true }
+
+        switch route {
+        case .messages(let chat):
+            return !isCurrentlyInChat(chatId: chat.id)
+        default:
+            return true
+        }
+    }
+    
+    private func isCurrentlyInChat(chatId: String) -> Bool {
+        guard selectedTab == 1 else { return false }
+        guard let last = chatNav.path.last else { return false }
+        if case let .messages(chat) = last {
+            return chat.id == chatId
+        }
+        return false
     }
 }
 

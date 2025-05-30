@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AppRoute: Hashable {
+enum AppRoute: Hashable { // Type 'AppRoute' does not conform to protocol 'Identifiable'
     // Posts
     case createPost
     case comment(FormattedPost)

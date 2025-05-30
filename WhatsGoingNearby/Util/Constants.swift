@@ -21,6 +21,7 @@ extension Notification.Name {
 
 struct Constants {
     static let API_URL: String = "https://around-you-3acb9615e8a5.herokuapp.com"
+//    static let API_URL: String = "http://localhost:3000"
     
     // MARK: - BG Tasks
 
