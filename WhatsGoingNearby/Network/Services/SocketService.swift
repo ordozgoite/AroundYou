@@ -61,13 +61,35 @@ final class SocketService: ObservableObject {
     private func startConnectionCheck() {
         Timer.scheduledTimer(withTimeInterval: 15, repeats: true) { _ in
             Task { @MainActor in
-                if self.status == .disconnected || self.socket?.status != .connected {
-                    print("🛠 Reconexão forçada por segurança")
+                let isConnected = await self.isSocketActuallyConnected()
+                if !isConnected {
+                    print("🔌 Ping falhou. Forçando reconexão.")
+                    self.status = .disconnected
                     self.connectIfNeeded()
+                } else {
+                    print("✅ Ping ok. Socket está realmente conectado.")
+                    self.status = .connected
                 }
             }
         }
     }
+
+    
+    func isSocketActuallyConnected(timeout: TimeInterval = 5.0) async -> Bool {
+        guard let socket = socket else { return false }
+        if socket.status != .connected { return false }
+
+        return await withCheckedContinuation { continuation in
+            socket.emitWithAck("ping-check").timingOut(after: timeout) { data in
+                if let response = data.first as? String, response == "pong" {
+                    continuation.resume(returning: true)
+                } else {
+                    continuation.resume(returning: false)
+                }
+            }
+        }
+    }
+
 }
 
 // MARK: - Custom Events
