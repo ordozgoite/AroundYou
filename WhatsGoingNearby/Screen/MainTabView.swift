@@ -110,12 +110,18 @@ struct MainTabView: View {
             Group {
                 if let notification = socket.currentNotification,
                    shouldShowBanner(for: notification) {
-                    NotificationBannerView(notification: notification) {
-                        if let route = notification.route {
-                            socket.pendingFullScreenRoute = route
+                    NotificationBannerView(
+                        notification: notification,
+                        onTap: {
+                            if let route = notification.route {
+                                socket.pendingFullScreenRoute = route
+                            }
+                            socket.dismissCurrentNotification()
+                        },
+                        onDismiss: {
+                            socket.dismissCurrentNotification()
                         }
-                        socket.dismissCurrentNotification()
-                    }
+                    )
                     .padding(.top, 44)
                     .transition(.move(edge: .top).combined(with: .opacity))
                 }

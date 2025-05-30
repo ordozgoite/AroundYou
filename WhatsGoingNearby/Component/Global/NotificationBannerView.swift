@@ -23,6 +23,9 @@ struct AppBannerNotification: Identifiable, Equatable {
 struct NotificationBannerView: View {
     let notification: AppBannerNotification
     let onTap: () -> Void
+    let onDismiss: () -> Void
+    
+    @State private var dragOffset: CGSize = .zero
     
     var body: some View {
         VStack {
@@ -30,23 +33,12 @@ struct NotificationBannerView: View {
                 ProfilePicView(profilePic: notification.imageUrl, size: 32)
                 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(notification.title)
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                    if let subtitle = notification.subtitle {
-                        Text(subtitle)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
+                    TitleView()
+                    BodyView()
                 }
-                Spacer()
                 
-                if notification.route != nil {
-                    Image(systemName: "chevron.right")
-                        .foregroundColor(.gray)
-                        .imageScale(.small)
-                        .padding(.leading, 4)
-                }
+                Spacer()
+                Chevron()
             }
             .padding()
             .background(.ultraThinMaterial)
@@ -57,9 +49,55 @@ struct NotificationBannerView: View {
             }
         }
         .padding(.horizontal)
+        .offset(y: dragOffset.height)
+        .gesture(
+            DragGesture()
+                .onChanged { value in
+                    dragOffset = value.translation
+                }
+                .onEnded { value in
+                    if value.translation.height < -50 {
+                        onDismiss()
+                    }
+                    dragOffset = .zero
+                }
+        )
+        .animation(.easeInOut, value: dragOffset)
+    }
+    
+    // MARK: - Title
+    
+    @ViewBuilder
+    private func TitleView() -> some View {
+        Text(notification.title)
+            .font(.headline)
+            .foregroundColor(.primary)
+    }
+    
+    // MARK: - Body
+    
+    @ViewBuilder
+    private func BodyView() -> some View {
+        if let subtitle = notification.subtitle {
+            Text(subtitle)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+        }
+    }
+    
+    // MARK: - Chevron
+    
+    @ViewBuilder
+    private func Chevron() -> some View {
+        if notification.route != nil {
+            Image(systemName: "chevron.right")
+                .foregroundColor(.gray)
+                .imageScale(.small)
+                .padding(.leading, 4)
+        }
     }
 }
 
 #Preview {
-    NotificationBannerView(notification: AppBannerNotification(title: "amanda", subtitle: "Ooi, meu amor!", imageUrl: nil, route: .createBusiness), onTap: {})
+    NotificationBannerView(notification: AppBannerNotification(title: "amanda", subtitle: "Ooi, meu amor!", imageUrl: nil, route: .createBusiness), onTap: {}, onDismiss: {})
 }
