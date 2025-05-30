@@ -59,6 +59,7 @@ struct ChatListScreen: View {
             if !chatListVM.chats.isEmpty {
                 ForEach($chatListVM.chats) { $chat in
                     ChatView(chat: chat).environmentObject(authVM)
+                        .contentShape(Rectangle())
                         .onTapGesture {
                             print("⚠️ Tocou no chat!")
                             navCoordinator.navigate(to: .messages(chat))
