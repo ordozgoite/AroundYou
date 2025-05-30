@@ -209,7 +209,6 @@ struct PlacesScreen: View, PostViewActionHandler {
             let longitude = location.coordinate.longitude
             return Location(latitude: latitude, longitude: longitude)
         } else {
-            placesVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
             throw LocationError.unableToGetCurrentLocation
         }
     }

@@ -34,42 +34,23 @@ class CommunityViewModel: ObservableObject {
     @Published var isCommunityChatScreenDisplayed: Bool = false
     @Published var selectedCommunityToChat: FormattedCommunity?
     @Published var activeAlert: CommunityAlertType?
-
-//    @Published var selectedCommunityToDelete: FormattedCommunity? = nil
-//    @Published var selectedFarAwayCommunity: FormattedCommunity? = nil
-//    @Published var selectedCommunityToLeave: FormattedCommunity? = nil
     
     // Join Community
     @Published var isJoinCommunityViewDisplayed: Bool = false
     @Published var selectedCommunityToJoin: FormattedCommunity?
     @Published var isJoiningCommunity: Bool = false
     
-    //    func getCommunitiesNearBy(latitude: Double, longitude: Double, token: String) async {
-    //        if !initialCommunitiesFetched { isLoading = true }
-    //        let result = await AYServices.shared.getCommunitiesNearBy(latitude: latitude, longitude: longitude, token: token)
-    //        if !initialCommunitiesFetched { isLoading = false }
-    //
-    //        switch result {
-    //        case .success(let communities):
-    //            self.communitiesNearBy = communities
-    //            initialCommunitiesFetched = true
-    //        case .failure:
-    //            overlayError = (true, ErrorMessage.getCommunitiesNearBy)
-    //        }
-    //    }
-    
     func getCommunities(location: Location, token: String) async {
         if !initialCommunitiesFetched { isLoading = true }
+        defer { isLoading = false }
         let result = await AYServices.shared.getRelevantCommunities(location: location, token: token)
-        if !initialCommunitiesFetched { isLoading = false }
-        
         switch result {
         case .success(let communities):
             self.communities = communities
-            initialCommunitiesFetched = true
         case .failure:
-            overlayError = (true, ErrorMessage.getCommunitiesNearBy)
+            if !initialCommunitiesFetched { overlayError = (true, ErrorMessage.getCommunitiesNearBy) }
         }
+        initialCommunitiesFetched = true
     }
     
     func joinCommunity(withId communityId: String, latitude: Double, longitude: Double, token: String) async {

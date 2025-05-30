@@ -26,17 +26,15 @@ class PlacesViewModel: ObservableObject {
         if !initialPostsFetched { isLoading = true }
         defer { isLoading = false }
         let result = await AYServices.shared.getAllPublicationsNearBy(latitude: latitude, longitude: longitude, token: token)
-        handleGetPostsResult(result)
-    }
-    
-    private func handleGetPostsResult(_ result: Result<[FormattedPost], RequestError>) {
         switch result {
         case .success(let posts):
             updatePosts(with: posts)
-            initialPostsFetched = true
         case .failure:
-            overlayError = (true, ErrorMessage.getPostsErrorMessage)
+            if !initialPostsFetched {
+                overlayError = (true, ErrorMessage.getPostsErrorMessage)
+            }
         }
+        initialPostsFetched = true
     }
     
     private func updatePosts(with posts: [FormattedPost]) {

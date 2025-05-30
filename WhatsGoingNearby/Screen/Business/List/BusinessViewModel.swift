@@ -29,16 +29,14 @@ class BusinessViewModel: ObservableObject {
     func getBusinesses(fromLocation location: Location, token: String) async {
         if !initialBusinessesFetched { isFetchingBusinessesNearBy = true }
         defer { isFetchingBusinessesNearBy = false }
-        
         let result = await AYServices.shared.getBusinessesNearBy(location: location, token: token)
-        
         switch result {
         case .success(let businesses):
-            initialBusinessesFetched = true
             self.businesses = businesses
         case .failure:
-            overlayError = (true, ErrorMessage.getBusinesses)
+            if !initialBusinessesFetched { overlayError = (true, ErrorMessage.getBusinesses) }
         }
+        initialBusinessesFetched = true
     }
     
     func getBusinessByUser(withLocation location: Location, token: String) async {
