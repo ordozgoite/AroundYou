@@ -22,10 +22,10 @@ class PlacesViewModel: ObservableObject {
     @Published var isReportScreenDisplayed: Bool = false
     @Published var isHelpViewDisplayed: Bool = false
     
-    func getPosts(latitude: Double, longitude: Double, token: String) async {
+    func getPosts(location: Location, token: String) async {
         if !initialPostsFetched { isLoading = true }
         defer { isLoading = false }
-        let result = await AYServices.shared.getAllPublicationsNearBy(latitude: latitude, longitude: longitude, token: token)
+        let result = await AYServices.shared.getAllPublicationsNearBy(latitude: location.latitude, longitude: location.longitude, token: token)
         switch result {
         case .success(let posts):
             updatePosts(with: posts)

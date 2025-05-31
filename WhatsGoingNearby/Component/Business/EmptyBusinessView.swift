@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct EmptyBusinessView: View {
+    var retry: () -> ()
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -29,6 +31,10 @@ struct EmptyBusinessView: View {
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
                     }
+                    
+                    Button("Retry") {
+                        retry()
+                    }
                 }
             }
         }
@@ -36,5 +42,5 @@ struct EmptyBusinessView: View {
 }
 
 #Preview {
-    EmptyBusinessView()
+    EmptyBusinessView(retry: {})
 }

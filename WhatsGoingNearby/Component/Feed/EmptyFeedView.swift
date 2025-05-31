@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct EmptyFeedView: View {
-    
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var locationManager: LocationManager
+    
+    var retry: () -> ()
     
     var body: some View {
         GeometryReader { geometry in
@@ -39,6 +40,10 @@ struct EmptyFeedView: View {
                             .fontWeight(.regular)
                             .multilineTextAlignment(.center)
                             .frame(width: screenWidth - 32)
+                        
+                        Button("Retry") {
+                            retry()
+                        }
                     }
                 }
                 
@@ -55,6 +60,6 @@ struct EmptyFeedView: View {
 }
 
 #Preview {
-    EmptyFeedView()
+    EmptyFeedView(retry: {})
         .environmentObject(AuthenticationViewModel())
 }

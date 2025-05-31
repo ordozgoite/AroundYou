@@ -25,7 +25,7 @@ struct PlacesScreen: View, PostViewActionHandler {
                     EnableFullAccuracyView()
                 } else if placesVM.isLoading {
                     LoadingView()
-                } else if placesVM.initialPostsFetched {
+                } else {
                     if placesVM.posts.isEmpty {
                         EmptyFeed()
                     } else {
@@ -61,10 +61,15 @@ struct PlacesScreen: View, PostViewActionHandler {
         }
         
         .onAppear {
-            startUpdatingFeed()
+            Task {
+                try await getNearByPosts()
+                startUpdatingFeed()
+            }
         }
         .onReceive(refreshObserver) { _ in
-            getNearByPosts()
+            Task {
+                try await getNearByPosts()
+            }
         }
         .onDisappear {
             stopTimer()
@@ -89,8 +94,12 @@ struct PlacesScreen: View, PostViewActionHandler {
     
     @ViewBuilder
     private func EmptyFeed() -> some View {
-        EmptyFeedView()
-            .environmentObject(authVM)
+        EmptyFeedView {
+            Task {
+                placesVM.initialPostsFetched = false
+                try await getNearByPosts()
+            }
+        }
     }
     
     //MARK: - Feed
@@ -119,9 +128,11 @@ struct PlacesScreen: View, PostViewActionHandler {
             }
         }
         .refreshable {
-            hapticFeedback(style: .soft)
-            placesVM.initialPostsFetched = false
-            getNearByPosts()
+            do {
+                try await getNearByPosts()
+            } catch {
+                print("❌ Error trying to refresh posts.")
+            }
         }
     }
     
@@ -180,26 +191,25 @@ struct PlacesScreen: View, PostViewActionHandler {
     
     private func startUpdatingFeed() {
         placesVM.feedTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
-            getNearByPosts()
+            Task {
+                try await getNearByPosts()
+            }
         }
         placesVM.feedTimer?.fire()
     }
     
-    private func getNearByPosts() {
-        Task {
-            do {
-                try await attemptToGetPosts()
-            } catch {
-                print("❌ Error trying to get posts nearby.")
-            }
-            
+    private func getNearByPosts() async throws {
+        do {
+            try await attemptToGetPosts()
+        } catch {
+            print("❌ Error trying to get posts nearby.")
         }
     }
     
     private func attemptToGetPosts() async throws {
         let currentLocation = try getCurrentLocation()
         let token = try await authVM.getFirebaseToken()
-        await placesVM.getPosts(latitude: currentLocation.latitude, longitude: currentLocation.longitude, token: token)
+        await placesVM.getPosts(location: currentLocation, token: token)
     }
     
     private func getCurrentLocation() throws -> Location {

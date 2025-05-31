@@ -17,10 +17,8 @@ struct PeopleScreen: View {
         ZStack {
             if peopleVM.isLoading || !authVM.isUserDiscoverable {
                 NotDiscoveringScreen(peopleVM: peopleVM)
-                    .environmentObject(authVM)
             } else {
                 DiscoverView(discoverVM: peopleVM)
-                    .environmentObject(authVM)
             }
             
             AYErrorAlert(message: peopleVM.overlayError.1 , isErrorAlertPresented: $peopleVM.overlayError.0)

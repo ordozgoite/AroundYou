@@ -103,18 +103,19 @@ class PeopleViewModel: ObservableObject {
         return !selectedInterestGenders.isEmpty
     }
     
-    func getUsersNearBy(latitude: Double, longitude: Double, token: String) async {
+    func getUsersNearBy(location: Location, token: String) async {
         if !initialUsersFetched { isDiscoveringUsers = true }
-        let result = await AYServices.shared.discoverUsersByPreferences(latitude: latitude, longitude: longitude, token: token)
-        if !initialUsersFetched { isDiscoveringUsers = false }
+        defer { isDiscoveringUsers = false }
+        let result = await AYServices.shared.discoverUsersByPreferences(latitude: location.latitude, longitude: location.longitude, token: token)
         
         switch result {
         case .success(let users):
             self.usersFound = users
             self.initialUsersFetched = true
         case .failure:
-            overlayError = (true, ErrorMessage.getUsersNearBy)
+            if !initialUsersFetched { overlayError = (true, ErrorMessage.getUsersNearBy) }
         }
+        initialUsersFetched = true
     }
     
     func postNewChat(otherUserUid: String, token: String) async {

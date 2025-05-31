@@ -20,7 +20,7 @@ struct CommunityListScreen: View {
             if communityVM.isLoading {
                 LoadingView()
             } else if communityVM.communities.isEmpty {
-                EmptyCommunityView()
+                EmptyView()
             } else {
                 Communities()
             }
@@ -89,6 +89,18 @@ struct CommunityListScreen: View {
         .frame(maxHeight: .infinity, alignment: .center)
     }
     
+    // MARK: - Empty View
+    
+    @ViewBuilder
+    private func EmptyView() -> some View {
+        EmptyCommunityView() {
+            Task {
+                communityVM.initialCommunitiesFetched = false
+                try await getCommunities()
+            }
+        }
+    }
+    
     // MARK: - Communities
     
     @ViewBuilder
@@ -111,26 +123,16 @@ struct CommunityListScreen: View {
             }
             .refreshable {
                 hapticFeedback(style: .soft)
-                communityVM.initialCommunitiesFetched = false
-                Task {
+//                communityVM.initialCommunitiesFetched = false
+                do {
                     try await getCommunities()
+                } catch {
+                    print("❌ Error trying to refresh communities.")
                 }
             }
             
             JoinCommunity()
         }
-//        .navigationDestination(isPresented: $communityVM.isCommunityChatScreenDisplayed) {
-//            if let community = communityVM.selectedCommunityToChat {
-//                CommunityMessageScreen(
-//                    community: community
-//                ) {
-//                    Task {
-//                        try await getCommunities()
-//                    }
-//                }
-//                .environmentObject(authVM)
-//            }
-//        }
     }
     
     // MARK: - Community

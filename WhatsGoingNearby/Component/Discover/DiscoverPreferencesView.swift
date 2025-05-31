@@ -221,11 +221,8 @@ struct DiscoverPreferencesView: View {
         locationManager.requestLocation()
         if let location = locationManager.location {
             let token = try await authVM.getFirebaseToken()
-            
-            let latitude = location.coordinate.latitude
-            let longitude = location.coordinate.longitude
-            
-            await discoverVM.getUsersNearBy(latitude: latitude, longitude: longitude, token: token)
+            let currentLocation = Location(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            await discoverVM.getUsersNearBy(location: currentLocation, token: token)
         }
     }
 }

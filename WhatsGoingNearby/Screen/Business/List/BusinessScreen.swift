@@ -22,7 +22,7 @@ struct BusinessScreen: View {
                 if businessVM.isFetchingBusinessesNearBy {
                     LoadingView()
                 } else if businessVM.businesses.isEmpty {
-                    EmptyBusinessView()
+                    EmptyView()
                 } else {
                     BusinessList()
                 }
@@ -66,6 +66,21 @@ struct BusinessScreen: View {
         .frame(maxHeight: .infinity, alignment: .center)
     }
     
+    // MARK: - Empty View
+    
+    @ViewBuilder
+    private func EmptyView() -> some View {
+        EmptyBusinessView {
+            Task {
+                businessVM.initialBusinessesFetched = false
+                await withTaskGroup(of: Void.self) { group in
+                    group.addTask { try? await getBusinessesFromLocation() }
+                    group.addTask { try? await getBusinessesFromUser() }
+                }
+            }
+        }
+    }
+    
     // MARK: - Business List
     
     @ViewBuilder
@@ -78,9 +93,10 @@ struct BusinessScreen: View {
         }
         .refreshable {
             hapticFeedback(style: .soft)
-            businessVM.initialBusinessesFetched = false
-            Task {
+            do {
                 try await getBusinessesFromLocation()
+            } catch {
+                print("❌ Error trying to refresh Businesses.")
             }
         }
     }
@@ -105,10 +121,6 @@ struct BusinessScreen: View {
                 MyBusinessView(businessVM: businessVM)
                     .environmentObject(authVM)
             }
-//            .navigationDestination(isPresented: $businessVM.isPublishBusinessScreenDisplayed) {
-//                PublishBusinessScreen(locationManager: locationManager)
-//                    .environmentObject(authVM)
-//            }
             .popover(isPresented: $businessVM.isBusinessLimitErrorPopoverDisplayed) {
                 Text("You can only have one active Business at a time.")
                     .font(.caption)

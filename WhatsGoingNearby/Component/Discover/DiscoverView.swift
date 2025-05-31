@@ -21,7 +21,7 @@ struct DiscoverView: View {
             if discoverVM.isDiscoveringUsers {
                 LoadingView()
             } else if discoverVM.usersFound.isEmpty {
-                EmptyDiscoverView()
+                EmptyView()
             } else {
                 Users()
             }
@@ -41,7 +41,10 @@ struct DiscoverView: View {
             }
         }
         .onAppear {
-            startUpdatingUsers()
+            Task {
+                try await getUsersNearBy()
+                startUpdatingUsers()
+            }
         }
         .onDisappear {
             stopTimer()
@@ -60,6 +63,18 @@ struct DiscoverView: View {
                 .fontWeight(.semibold)
         }
         .frame(maxHeight: .infinity, alignment: .center)
+    }
+    
+    // MARK: - Empty View
+    
+    @ViewBuilder
+    private func EmptyView() -> some View {
+        EmptyDiscoverView() {
+            Task {
+                discoverVM.initialUsersFetched = false
+                try await getUsersNearBy()
+            }
+        }
     }
     
     // MARK: - Users
@@ -88,10 +103,10 @@ struct DiscoverView: View {
             .padding()
         }
         .refreshable {
-            hapticFeedback(style: .soft)
-            discoverVM.initialUsersFetched = false
-            Task {
+            do {
                 try await getUsersNearBy()
+            } catch {
+                print("❌ Error trying to refresh users")
             }
         }
         .navigationDestination(isPresented: $discoverVM.isMessageScreenDisplayed) {
@@ -123,11 +138,8 @@ struct DiscoverView: View {
         locationManager.requestLocation()
         if let location = locationManager.location {
             let token = try await authVM.getFirebaseToken()
-            
-            let latitude = location.coordinate.latitude
-            let longitude = location.coordinate.longitude
-            
-            await discoverVM.getUsersNearBy(latitude: latitude, longitude: longitude, token: token)
+            let currentLocation = Location(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            await discoverVM.getUsersNearBy(location: currentLocation, token: token)
         }
     }
     
