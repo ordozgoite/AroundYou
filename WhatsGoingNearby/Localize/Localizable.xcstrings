@@ -4447,6 +4447,16 @@
         }
       }
     },
+    "Refresh" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atualizar"
+          }
+        }
+      }
+    },
     "Register" : {
       "localizations" : {
         "pt-BR" : {

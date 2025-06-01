@@ -32,7 +32,7 @@ struct EmptyBusinessView: View {
                             .multilineTextAlignment(.center)
                     }
                     
-                    Button("Retry") {
+                    Button("Refresh") {
                         retry()
                     }
                 }

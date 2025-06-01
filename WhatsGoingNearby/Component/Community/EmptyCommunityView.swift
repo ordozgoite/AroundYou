@@ -38,7 +38,7 @@ struct EmptyCommunityView: View {
                         .multilineTextAlignment(.center)
                         .frame(width: screenWidth - 32)
                         
-                        Button("Retry") {
+                        Button("Refresh") {
                             retry()
                         }
                     }

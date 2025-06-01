@@ -10,6 +10,7 @@ import SwiftUI
 struct EmptyFeedView: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     
     var retry: () -> ()
     
@@ -41,7 +42,7 @@ struct EmptyFeedView: View {
                             .multilineTextAlignment(.center)
                             .frame(width: screenWidth - 32)
                         
-                        Button("Retry") {
+                        Button("Refresh") {
                             retry()
                         }
                     }
@@ -49,8 +50,10 @@ struct EmptyFeedView: View {
                 
                 VStack {
                     NewPostView()
-                        .environmentObject(authVM)
                         .padding(.bottom, geometry.safeAreaInsets.bottom)
+                        .onTapGesture {
+                            navCoordinator.navigate(to: .createPost)
+                        }
                     
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
