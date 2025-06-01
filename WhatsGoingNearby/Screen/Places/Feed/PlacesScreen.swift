@@ -25,7 +25,7 @@ struct PlacesScreen: View, PostViewActionHandler {
                     EnableFullAccuracyView()
                 } else if placesVM.isLoading {
                     LoadingView()
-                } else {
+                } else if placesVM.initialPostsFetched {
                     if placesVM.posts.isEmpty {
                         EmptyFeed()
                     } else {

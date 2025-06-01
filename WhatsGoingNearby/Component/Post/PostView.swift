@@ -20,7 +20,7 @@ protocol PostViewActionHandler {
 }
 
 struct PostView: View {
-    var post: FormattedPost
+    @State var post: FormattedPost
     var delegate: PostViewActionHandler?
     let isClickable: Bool
     @EnvironmentObject var navCoordinator: NavigationCoordinator
@@ -383,22 +383,19 @@ struct PostView: View {
     @ViewBuilder
     private func Likes() -> some View {
         HStack {
-            HeartView(isLiked: $postVM.didLikePost) {
+            HeartView(isLiked:  Binding(
+                get: { post.didLike ?? false },
+                set: { post.didLike = $0 }
+            )) {
                 handleLikeButtonTapGesture()
             }
             
-            Text(String(postVM.postLikes))
+            Text(String(post.likes ?? 0))
                 .font(.subheadline)
                 .foregroundColor(.gray)
                 .onTapGesture {
                     navCoordinator.navigate(to: .like(post))
                 }
-        }
-        .onAppear {
-            if let didLike = post.didLike, let likes = post.likes {
-                postVM.didLikePost = didLike
-                postVM.postLikes = likes
-            }
         }
     }
     
@@ -445,7 +442,7 @@ struct PostView: View {
             } else {
                 SeeDetails()
             }
-
+            
             Spacer()
         }
     }
@@ -474,7 +471,7 @@ struct PostView: View {
         HStack(spacing: 6) {
             Image(systemName: "checkmark.seal.fill")
                 .foregroundColor(.green)
-
+            
             Text("Item Found")
                 .font(.subheadline)
                 .foregroundColor(.green)
@@ -483,7 +480,7 @@ struct PostView: View {
         .padding(.horizontal, 12)
         .padding(.vertical, 6)
         .background(Capsule().fill(Color.green.opacity(0.2)))
-
+        
     }
 }
 
@@ -586,25 +583,45 @@ extension PostView {
     
     private func handleLikeButtonTapGesture() {
         Task {
-            do {
-                let token = try await authVM.getFirebaseToken()
-                
-                if postVM.didLikePost {
-                    postVM.didLikePost = false
-                    postVM.postLikes -= 1
-                    try await postVM.unlikePublication(publicationId: post.id, token: token)
-                    delegate?.postViewDidUnlikePublication(post)
-                } else {
-                    hapticFeedback()
-                    postVM.didLikePost = true
-                    postVM.postLikes += 1
-                    try await postVM.likePublication(publicationId: post.id, token: token)
-                    delegate?.postViewDidLikePublication(post)
-                }
-            } catch {
-                print("❌ Error trying to like/unlike post.")
+            if post.didLike ?? false {
+                try await handleUnlikePost()
+            } else {
+                try await handleLikePost()
             }
         }
+    }
+    
+    private func handleLikePost() async throws {
+        do {
+            try await attemptLikePost()
+        } catch {
+            print("❌ Error trying to like post.")
+        }
+    }
+    
+    private func attemptLikePost() async throws {
+        let token = try await authVM.getFirebaseToken()
+        hapticFeedback()
+        post.didLike = true
+        post.likes = (post.likes ?? 0) + 1
+        try await postVM.likePublication(publicationId: post.id, token: token)
+        delegate?.postViewDidLikePublication(post)
+    }
+    
+    private func handleUnlikePost() async throws {
+        do {
+            try await attemptUnlikePost()
+        } catch {
+            print("❌ Error trying to unlike post.")
+        }
+    }
+    
+    private func attemptUnlikePost() async throws {
+        let token = try await authVM.getFirebaseToken()
+        post.didLike = false
+        post.likes = (post.likes ?? 1) - 1
+        try await postVM.unlikePublication(publicationId: post.id, token: token)
+        delegate?.postViewDidUnlikePublication(post)
     }
 }
 

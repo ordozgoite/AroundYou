@@ -21,8 +21,8 @@ class PostViewModel: ObservableObject {
     @Published var isTimeLeftPopoverDisplayed: Bool = false
     @Published var isOptionsPopoverDisplayed: Bool = false
     @Published var isFullScreenImageDisplayed: Bool = false
-    @Published var didLikePost: Bool = false
-    @Published var postLikes: Int = 0
+//    @Published var didLikePost: Bool = false
+//    @Published var postLikes: Int = 0
     
     func deletePost(postId: String, token: String) async throws {
         let result = await AYServices.shared.deletePublication(publicationId: postId, token: token)
