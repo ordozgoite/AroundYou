@@ -20,8 +20,8 @@ struct MessageScreen: View {
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var socket: SocketService
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @StateObject private var messageVM = MessageViewModel()
-    @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
     
     var body: some View {
@@ -111,9 +111,7 @@ struct MessageScreen: View {
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                NavigationLink(destination: UserProfileScreen(userUid: otherUserUid)) {
-                    UserHeader()
-                }
+                UserHeader()
             }
             
             ToolbarItem(placement: .topBarTrailing) {
@@ -154,6 +152,9 @@ struct MessageScreen: View {
             }
         }
         .padding(.bottom, 6)
+        .onTapGesture {
+            navCoordinator.navigate(to: .userProfile(self.otherUserUid))
+        }
     }
     
     //MARK: - Message Menu
@@ -352,7 +353,7 @@ struct MessageScreen: View {
             updateChatLockedStatus()
         }
     }
-
+    
     
     private func listenToDeletedMessages() {
         socket.socket?.on("message-delete") { data, ack in
@@ -364,7 +365,7 @@ struct MessageScreen: View {
             }
         }
     }
-
+    
     
     private func emitReadCommand(forMessage messageId: String) {
         socket.socket?.emit("read", messageId)

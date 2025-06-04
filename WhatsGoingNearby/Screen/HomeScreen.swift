@@ -76,6 +76,16 @@ struct HomeScreen: View {
                     EditBusinessView(business: business)
                 case .reportBusiness(let business):
                     ReportIssueScreen(reportedUserUid: business.ownerUid, publicationId: nil, commentId: nil, businessId: business.id)
+                case .userProfile(let userUid):
+                    UserProfileScreen(userUid: userUid)
+                case .messages(let chat):
+                    MessageScreen(
+                        chatId: chat.id,
+                        username: chat.chatName,
+                        otherUserUid: chat.otherUserUid,
+                        chatPic: chat.chatPic,
+                        isLocked: chat.isLocked
+                    )
                 default:
                     EmptyView()
                 }

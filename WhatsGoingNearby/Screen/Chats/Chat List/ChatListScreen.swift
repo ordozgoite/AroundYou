@@ -44,6 +44,8 @@ struct ChatListScreen: View {
                         chatPic: chat.chatPic,
                         isLocked: chat.isLocked
                     )
+                case .userProfile(let userUid):
+                    UserProfileScreen(userUid: userUid)
                 default:
                     EmptyView()
                 }

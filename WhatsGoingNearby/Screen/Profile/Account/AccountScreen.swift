@@ -64,6 +64,8 @@ struct AccountScreen: View, PostViewActionHandler {
                     EditProfileScreen()
                 case .settings:
                     SettingsScreen()
+                case .userProfile(let userUid):
+                    UserProfileScreen(userUid: userUid)
                 default:
                     EmptyView()
                 }

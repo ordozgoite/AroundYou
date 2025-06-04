@@ -61,10 +61,10 @@ struct PostView: View {
     @ViewBuilder
     private func ProfilePic() -> some View {
         VStack {
-            NavigationLink(destination: UserProfileScreen(userUid: post.userUid)) {
-                ProfilePicView(profilePic: post.userProfilePic)
-            }
-            .buttonStyle(PlainButtonStyle())
+            ProfilePicView(profilePic: post.userProfilePic)
+                .onTapGesture {
+                    navCoordinator.navigate(to: .userProfile(post.userUid))
+                }
         }
     }
     
@@ -102,17 +102,20 @@ struct PostView: View {
     @ViewBuilder
     private func TimeInfo() -> some View {
         if postVM.isActivePublication(post) {
-            CircleTimerView(postDate: post.timestamp.timeIntervalSince1970InSeconds, expirationDate: post.expirationDate.timeIntervalSince1970InSeconds)
-                .popover(isPresented: $postVM.isTimeLeftPopoverDisplayed) {
-                    Text(postVM.getTimeLeftText(forPost: post))
-                        .font(.subheadline)
-                        .foregroundStyle(.gray)
-                        .padding([.leading, .trailing], 10)
-                        .presentationCompactAdaptation(.popover)
-                }
-                .onTapGesture {
-                    postVM.isTimeLeftPopoverDisplayed = true
-                }
+            CircleTimerView(
+                postDate: post.timestamp.timeIntervalSince1970InSeconds,
+                expirationDate: post.expirationDate.timeIntervalSince1970InSeconds
+            )
+            .popover(isPresented: $postVM.isTimeLeftPopoverDisplayed) {
+                Text(postVM.getTimeLeftText(forPost: post))
+                    .font(.subheadline)
+                    .foregroundStyle(.gray)
+                    .padding([.leading, .trailing], 10)
+                    .presentationCompactAdaptation(.popover)
+            }
+            .onTapGesture {
+                postVM.isTimeLeftPopoverDisplayed = true
+            }
         } else {
             Text(post.timestamp.convertTimestampToDate().formatDatetoPost())
                 .foregroundStyle(.gray)
@@ -505,7 +508,8 @@ extension PostView {
         Task {
             do {
                 let token = try await authVM.getFirebaseToken()
-                try await postVM.finishPublication(postId: post.id, token: token)
+                try await postVM
+                    .finishPublication(postId: post.id, token: token)
                 delegate?.postViewDidMarkAsCompleted(post)
             } catch {
                 print("❌ Error trying to finish publication.")
@@ -541,7 +545,8 @@ extension PostView {
         Task {
             do {
                 let token = try await authVM.getFirebaseToken()
-                try await postVM.deleteLostItem(lostItemId: post.id, token: token)
+                try await postVM
+                    .deleteLostItem(lostItemId: post.id, token: token)
                 delegate?.postViewDidDeleteLostItem(post)
             } catch {
                 print("❌ Error trying to delete lost item.")
@@ -565,7 +570,8 @@ extension PostView {
         Task {
             do {
                 let token = try await authVM.getFirebaseToken()
-                try await postVM.unfollowPost(postId: self.post.id, token: token)
+                try await postVM
+                    .unfollowPost(postId: self.post.id, token: token)
                 delegate?.postViewDidUnfollow(post)
             } catch {
                 print("❌ Error trying to unfollow post")

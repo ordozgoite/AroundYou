@@ -34,15 +34,6 @@ struct UserProfileScreen: View {
                     }
                 }
             }
-            .navigationDestination(isPresented: $userProfileVM.isMessageScreenPresented) {
-                MessageScreen(
-                    chatId: userProfileVM.chatUser?._id ?? "",
-                    username: userProfileVM.userProfile?.username ?? "",
-                    otherUserUid: userProfileVM.userProfile?.userUid ?? "",
-                    chatPic: userProfileVM.userProfile?.profilePic,
-                    isLocked: userProfileVM.chatUser?.isLocked ?? false
-                ).environmentObject(authVM)
-            }
             
             FullScreenPicture()
             
@@ -50,8 +41,10 @@ struct UserProfileScreen: View {
         }
         .onAppear {
             Task {
-                try await getUserInfo()
-                await loadProfileImage()
+                if userProfileVM.userProfile == nil {
+                    try await getUserInfo()
+                    await loadProfileImage()
+                }
             }
         }
         .alert(isPresented: $userProfileVM.isBlockAlertPresented) {
@@ -116,19 +109,16 @@ struct UserProfileScreen: View {
     
     @ViewBuilder
     private func MessageButton() -> some View {
-        if let myId = authVM.user?.uid {
-            if userUid != myId {
-                Button {
-                    Task {
-                        let token = try await authVM.getFirebaseToken()
-                        await userProfileVM.postNewChat(otherUserUid: self.userUid, token: token)
-                    }
-                } label: {
-                    Image(systemName: "bubble.left")
-                    Text("Message")
+        if userUid != LocalState.currentUserUid {
+            Button {
+                Task {
+                    try await handleChatCreation()
                 }
-                .buttonStyle(.borderedProminent)
+            } label: {
+                Image(systemName: "bubble.left")
+                Text("Message")
             }
+            .buttonStyle(.borderedProminent)
         }
     }
     
@@ -233,5 +223,35 @@ struct UserProfileScreen: View {
         if let imageUrl = userProfileVM.userProfile?.profilePic {
             userProfileVM.image = await KingfisherService.shared.loadImage(from: imageUrl)
         }
+    }
+    
+    private func handleChatCreation() async throws {
+        do {
+            try await attemptChatCreation()
+        } catch {
+            print("❌ Error trying to create chat.")
+        }
+    }
+    
+    private func attemptChatCreation() async throws {
+        let token = try await authVM.getFirebaseToken()
+        let chat = try await userProfileVM.postNewChat(otherUserUid: self.userUid, token: token)
+        let formattedChat = formatChat(chat)
+        print("⚠️ chat: \(formattedChat)")
+        navCoordinator.navigate(to: .messages(formattedChat))
+    }
+    
+    private func formatChat(_ chat: Chat) -> FormattedChat {
+        return FormattedChat(
+            id: chat._id,
+            chatName: userProfileVM.userProfile?.username ?? "",
+            otherUserUid: userProfileVM.userProfile?.userUid ?? "",
+            chatPic: userProfileVM.userProfile?.profilePic,
+            lastMessageAt: nil,
+            hasUnreadMessages: false,
+            lastMessage: nil,
+            isMuted: false,
+            isLocked: chat.isLocked
+        )
     }
 }
