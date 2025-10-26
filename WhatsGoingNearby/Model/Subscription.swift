@@ -17,6 +17,6 @@ struct Subscription: Codable {
     let _id: String
     let userUid: String
     let publicationId: String
-    let subsctiptionState: SubsctiptionState
-    let subsctiptionDateTime: String
+    let subscriptionState: SubsctiptionState
+    let subscriptionDateTime: String
 }

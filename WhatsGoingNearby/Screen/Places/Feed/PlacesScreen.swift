@@ -37,13 +37,13 @@ struct PlacesScreen: View, PostViewActionHandler {
             AYErrorAlert(message: placesVM.overlayError.1 , isErrorAlertPresented: $placesVM.overlayError.0)
         }
         .toolbar {
-            ToolbarItem {
-                Urgent()
+            ToolbarItem { Urgent() }
+            
+            if #available(iOS 26.0, *) {
+                ToolbarSpacer(.fixed)
             }
             
-            ToolbarItem {
-                Notifications()
-            }
+            ToolbarItem { Notifications() }
         }
         .sheet(isPresented: $placesVM.isHelpViewDisplayed) {
             HelpView()

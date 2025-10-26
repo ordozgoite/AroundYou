@@ -23,6 +23,8 @@ extension Endpoint {
     var baseUrl: URL {
         return URL(string: Constants.API_URL)!
 //        return URL(string: "http://localhost:3000")!
+//        return URL(string: "http://10.0.0.69")! // Raspberry (local)
+//        return URL(string: "https://18.229.46.120")! // AWS
     }
 }
 

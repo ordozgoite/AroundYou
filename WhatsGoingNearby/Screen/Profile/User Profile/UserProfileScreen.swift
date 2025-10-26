@@ -115,7 +115,11 @@ struct UserProfileScreen: View {
                     try await handleChatCreation()
                 }
             } label: {
-                Image(systemName: "bubble.left")
+                if userProfileVM.isPostingChat {
+                    ProgressView()
+                } else {
+                    Image(systemName: "bubble.left")
+                }
                 Text("Message")
             }
             .buttonStyle(.borderedProminent)

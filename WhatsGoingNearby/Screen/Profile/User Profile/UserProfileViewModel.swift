@@ -13,6 +13,7 @@ class UserProfileViewModel: ObservableObject {
     
     @Published var userProfile: UserProfile? = nil
     @Published var isLoading: Bool = false
+    @Published var isPostingChat: Bool = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     @Published var isReportScreenPresented: Bool = false
     @Published var isBlockAlertPresented: Bool = false
@@ -46,7 +47,9 @@ class UserProfileViewModel: ObservableObject {
     }
     
     func postNewChat(otherUserUid: String, token: String) async throws -> Chat {
+        isPostingChat = true
         let result = await AYServices.shared.postNewChat(otherUserUid: otherUserUid, token: token)
+        isPostingChat = false
         
         switch result {
         case .success(let chat):
