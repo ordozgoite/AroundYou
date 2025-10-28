@@ -29,23 +29,24 @@ struct NotificationBannerView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                ProfilePicView(profilePic: notification.imageUrl, size: 32)
-                
-                VStack(alignment: .leading, spacing: 2) {
-                    TitleView()
-                    BodyView()
+            if #available(iOS 26.0, *) {
+                HStack {
+                    BannerContent()
                 }
-                
-                Spacer()
-                Chevron()
-            }
-            .padding()
-            .background(.ultraThinMaterial)
-            .cornerRadius(12)
-            .shadow(radius: 4)
-            .onTapGesture {
-                onTap()
+                .padding()
+                .cornerRadius(12)
+                .glassEffect()
+                .contentShape(Rectangle())
+                .onTapGesture { onTap() }
+            } else {
+                HStack {
+                    BannerContent()
+                }
+                .padding()
+                .background(.ultraThinMaterial)
+                .cornerRadius(12)
+                .shadow(radius: 4)
+                .onTapGesture { onTap() }
             }
         }
         .padding(.horizontal)
@@ -63,6 +64,21 @@ struct NotificationBannerView: View {
                 }
         )
         .animation(.easeInOut, value: dragOffset)
+    }
+    
+    // MARK: - Content
+    
+    @ViewBuilder
+    private func BannerContent() -> some View {
+        ProfilePicView(profilePic: notification.imageUrl, size: 32)
+        
+        VStack(alignment: .leading, spacing: 2) {
+            TitleView()
+            BodyView()
+        }
+        
+        Spacer()
+        Chevron()
     }
     
     // MARK: - Title
