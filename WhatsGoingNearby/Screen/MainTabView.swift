@@ -30,6 +30,7 @@ struct MainTabView: View {
     @StateObject private var homeNav = NavigationCoordinator()
     @StateObject private var chatNav = NavigationCoordinator()
     @StateObject private var accountNav = NavigationCoordinator()
+    @StateObject private var sheetNav = NavigationCoordinator()
     
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -92,6 +93,7 @@ struct MainTabView: View {
                 chatPic: notificationManager.chatPic,
                 isLocked: notificationManager.isLocked ?? false
             )
+            .environmentObject(sheetNav)
         }
         .onChange(of: notificationManager.isCommunityChatDisplayed) { newValue in
             if newValue {
@@ -105,6 +107,7 @@ struct MainTabView: View {
         }
         .fullScreenCover(item: $presentedChat) { chat in
             ChatMessageFromNotificationView(chat: chat)
+                .environmentObject(sheetNav)
         }
         .overlay(alignment: .top) {
             Group {

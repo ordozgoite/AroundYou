@@ -13,11 +13,12 @@ struct MessageScreenWrapper: View {
     let otherUserUid: String
     let chatPic: String?
     let isLocked: Bool
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @EnvironmentObject var socket: SocketService
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $navCoordinator.path) {
             MessageScreen(
                 chatId: chatId,
                 username: username,
@@ -30,6 +31,22 @@ struct MessageScreenWrapper: View {
             }, label: {
                 Image(systemName: "xmark")
             }))
+            .navigationDestination(for: AppRoute.self) { destination in
+                switch destination {
+                case .userProfile(otherUserUid):
+                    UserProfileScreen(userUid: otherUserUid)
+                case .messages(let chat):
+                    MessageScreen(
+                        chatId: chat.id,
+                        username: chat.chatName,
+                        otherUserUid: chat.otherUserUid,
+                        chatPic: chat.chatPic,
+                        isLocked: chat.isLocked
+                    )
+                default:
+                    EmptyView()
+                }
+            }
         }
     }
 }

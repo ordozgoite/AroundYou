@@ -9,10 +9,11 @@ import SwiftUI
 
 struct ChatMessageFromNotificationView: View {
     let chat: FormattedChat
+    @EnvironmentObject var navCoordinator: NavigationCoordinator
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $navCoordinator.path) {
             MessageScreen(
                 chatId: chat.id,
                 username: chat.chatName,
@@ -25,7 +26,24 @@ struct ChatMessageFromNotificationView: View {
             }, label: {
                 Image(systemName: "xmark")
             }))
+            .navigationDestination(for: AppRoute.self) { destination in
+                switch destination {
+                case .userProfile(chat.otherUserUid):
+                    UserProfileScreen(userUid: chat.otherUserUid)
+                case .messages(let chat):
+                    MessageScreen(
+                        chatId: chat.id,
+                        username: chat.chatName,
+                        otherUserUid: chat.otherUserUid,
+                        chatPic: chat.chatPic,
+                        isLocked: chat.isLocked
+                    )
+                default:
+                    EmptyView()
+                }
+            }
         }
+        
     }
 }
 
