@@ -17,6 +17,8 @@ enum SocketStatus: String {
 
 @MainActor
 final class SocketService: ObservableObject {
+    static let shared = SocketService()
+    
     let manager = SocketManager(
         socketURL: URL(string: Constants.API_URL)!,
         config: [
@@ -38,7 +40,7 @@ final class SocketService: ObservableObject {
     private var notificationTimer: Timer?
     private let notificationDuration = 5.0
     
-    init() {
+    private init() {
         socket = manager.defaultSocket
         setupSocketEvents()
         observeAppLifecycle()
@@ -111,6 +113,7 @@ extension SocketService {
     
     private func attemptToDiplayChatMessageNotification(withData data: [Any]) throws {
         let notificationData = try self.decodeChatMessageNotification(data)
+        
 
         let notification = AppBannerNotification(
             title: notificationData.senderUsername,
@@ -196,6 +199,7 @@ extension SocketService {
         
         socket.on(clientEvent: .reconnect) { [weak self] _, _ in
             print("🔁 Socket reconectado")
+            socket.emit("register", LocalState.currentUserUid)
             self?.status = .connected
         }
         

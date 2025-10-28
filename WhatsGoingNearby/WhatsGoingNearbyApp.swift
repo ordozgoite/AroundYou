@@ -137,7 +137,7 @@ struct WhatsGoingNearbyApp: App {
     
     @StateObject var notificationManager = NotificationManager()
     @StateObject var authVM = AuthenticationViewModel()
-    @StateObject private var socket = SocketService()
+    @StateObject private var socket = SocketService.shared
     @StateObject private var locationManager = LocationManager()
     
     var body: some Scene {
