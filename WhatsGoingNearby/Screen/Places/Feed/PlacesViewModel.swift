@@ -21,6 +21,9 @@ class PlacesViewModel: ObservableObject {
     @Published var isLostAndFoundScreenDisplayed: Bool = false
     @Published var isReportScreenDisplayed: Bool = false
     @Published var isHelpViewDisplayed: Bool = false
+    @Published var didTriggerCreateForPending = false
+    
+    @Published var postToBePublished: PendingPost? = nil
     
     func getPosts(location: Location, token: String) async {
         if !initialPostsFetched { isLoading = true }
@@ -35,6 +38,60 @@ class PlacesViewModel: ObservableObject {
             }
         }
         initialPostsFetched = true
+    }
+    
+    func createNewPost(latitude: Double, longitude: Double, token: String) async throws {
+        postToBePublished?.progress = 0.05
+        postToBePublished?.status = .queued
+        if let post = postToBePublished {
+            var imageUrl: String? = nil
+            if let img = post.image {
+                postToBePublished?.progress = 0.2
+                postToBePublished?.status = .uploadingImage
+                imageUrl = await storeImage(image: img)
+            }
+            postToBePublished?.progress = 0.7
+            postToBePublished?.status = .creatingPost
+            let result = await AYServices.shared.postNewPublication(
+                text: post.text.nonEmptyOrNil(),
+                tag: post.tag.rawValue,
+                imageUrl: imageUrl,
+                latitude: latitude,
+                longitude: longitude,
+                isLocationVisible: post.isLocationVisible,
+                token: token
+            )
+            didTriggerCreateForPending = false
+            try handleCreateNewPostResult(result)
+        }
+    }
+    
+    private func handleCreateNewPostResult(_ result: Result<Post, RequestError>) throws {
+        switch result {
+        case .success:
+            print("✅ Post successfully created.")
+            postToBePublished?.progress = 1
+            postToBePublished?.status = .completed
+            refreshFeed()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self.postToBePublished = nil
+            }
+        case .failure(let error):
+            if error == .forbidden {
+                overlayError = (true, ErrorMessage.publicationLimitExceededErrorMessage)
+                postToBePublished?.progress = 0
+                postToBePublished?.status = .failed(message: "Limite de publicação")
+            } else {
+                overlayError = (true, ErrorMessage.createPostErrorMessage)
+                postToBePublished?.progress = 0
+                postToBePublished?.status = .failed(message: "Erro ao publicar")
+            }
+            throw error
+        }
+    }
+    
+    private func refreshFeed() {
+        NotificationCenter.default.post(name: .refreshLocationSensitiveData, object: nil)
     }
     
     private func updatePosts(with posts: [FormattedPost]) {
@@ -96,6 +153,16 @@ class PlacesViewModel: ObservableObject {
     func unfollowPost(withId postId: String) {
         if let index = posts.firstIndex(where: { $0.id == postId }) {
             posts[index].isSubscribed = false
+        }
+    }
+    
+    private func storeImage(image: UIImage) async -> String? {
+        do {
+            return try await FirebaseService.shared.storeImageAndGetUrl(image)
+        } catch {
+            overlayError = (true, ErrorMessage.postImageErrorMessage)
+            isLoading = false
+            return nil
         }
     }
 }

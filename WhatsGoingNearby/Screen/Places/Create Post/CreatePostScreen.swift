@@ -12,6 +12,7 @@ struct CreatePostScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var navCoordinator: NavigationCoordinator
     @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var placesVM: PlacesViewModel
     @StateObject private var createPostVM = CreatePostViewModel()
     
     var body: some View {
@@ -29,7 +30,7 @@ struct CreatePostScreen: View {
                 message: Text("Your precise location will be used to display on the map where you made this post."),
                 primaryButton: .default((Text("Allow Once"))) {
                     Task {
-                        try await handlePostCreation()
+                        queuePost()
                     }
                 },
                 secondaryButton: .cancel(Text("Don't Allow")) {}
@@ -89,7 +90,7 @@ struct CreatePostScreen: View {
                 createPostVM.isShareLocationAlertDisplayed = true
             } else {
                 Task {
-                    try await handlePostCreation()
+                    queuePost()
                 }
             }
         } label: {
@@ -99,38 +100,16 @@ struct CreatePostScreen: View {
     }
     
     //MARK: - Private Methods
-
-    private func handlePostCreation() async throws {
-        do {
-            try await attemptPostCreation()
-        } catch {
-            print("❌ Error trying to create new post: \(error)")
-        }
-    }
     
-    private func attemptPostCreation() async throws {
-        let currentLocation = try getCurrentLocation()
-        let token = try await authVM.getFirebaseToken()
-        try await createPostVM.createNewPost(latitude: currentLocation.latitude, longitude: currentLocation.longitude, token: token)
+    private func queuePost() {
+        let postToBePublished = PendingPost(
+            text: createPostVM.postText,
+            tag: createPostVM.selectedPostTag,
+            image: createPostVM.image,
+            isLocationVisible: createPostVM.isLocationVisible
+        )
+        placesVM.postToBePublished = postToBePublished
         navCoordinator.goBack()
-//            refreshFeed()
-    }
-    
-    private func getCurrentLocation() throws -> Location {
-        locationManager.requestLocation()
-        if let location = locationManager.location {
-            let latitude = location.coordinate.latitude
-            let longitude = location.coordinate.longitude
-            return Location(latitude: latitude, longitude: longitude)
-        } else {
-            createPostVM.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
-            throw LocationError.unableToGetCurrentLocation
-        }
-    }
-
-    
-    private func refreshFeed() {
-        NotificationCenter.default.post(name: .refreshLocationSensitiveData, object: nil)
     }
 }
 

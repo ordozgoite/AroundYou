@@ -12,7 +12,7 @@ struct PlacesScreen: View, PostViewActionHandler {
     @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var navCoordinator: NavigationCoordinator
     @EnvironmentObject var socket: SocketService
-    @ObservedObject var placesVM: PlacesViewModel
+    @EnvironmentObject var placesVM: PlacesViewModel
     @State private var refreshObserver = NotificationCenter.default
         .publisher(for: .refreshLocationSensitiveData)
     
@@ -112,6 +112,32 @@ struct PlacesScreen: View, PostViewActionHandler {
                     .onTapGesture {
                         navCoordinator.navigate(to: .createPost)
                     }
+                
+                if let _ = placesVM.postToBePublished {
+                      PendingPostUploadView(
+                          post: Binding(
+                              get: { placesVM.postToBePublished! },
+                              set: { placesVM.postToBePublished = $0 }
+                          ),
+                          onRetry: {
+                              
+                          },
+                          onCancel: {}
+                      )
+                    .onAppear {
+                        guard !placesVM.didTriggerCreateForPending else { return }
+                        placesVM.didTriggerCreateForPending = true
+                        Task {
+                            let currentLocation = try getCurrentLocation()
+                            let token = try await authVM.getFirebaseToken()
+                            try await placesVM.createNewPost(
+                                latitude: currentLocation.latitude,
+                                longitude: currentLocation.longitude,
+                                token: token
+                            )
+                        }
+                    }
+                }
                 
                 Posts(ofType: .active)
                 
@@ -278,6 +304,8 @@ extension PlacesScreen {
 }
 
 //#Preview {
-//    FeedScreen()
+//    PlacesScreen(placesVM: PlacesViewModel())
 //        .environmentObject(AuthenticationViewModel())
+//        .environmentObject(LocationManager())
+//        .environmentObject(NavigationCoordinator())
 //}

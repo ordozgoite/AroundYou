@@ -37,7 +37,12 @@ class CommentViewModel: ObservableObject {
         repliedComment = nil
         
         isPostingComment = true
-        let response = await AYServices.shared.postNewComment(comment: comment, latitude: latitude, longitude: longitude, token: token)
+        let response = await AYServices.shared.postNewComment(
+            comment: comment,
+            latitude: latitude,
+            longitude: longitude,
+            token: token
+        )
         isPostingComment = false
         
         switch response {

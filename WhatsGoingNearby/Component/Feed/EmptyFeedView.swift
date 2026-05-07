@@ -48,15 +48,15 @@ struct EmptyFeedView: View {
                     }
                 }
                 
-                VStack {
-                    NewPostView()
-                        .padding(.bottom, geometry.safeAreaInsets.bottom)
-                        .onTapGesture {
-                            navCoordinator.navigate(to: .createPost)
-                        }
-                    
-                }
-                .frame(maxHeight: .infinity, alignment: .top)
+//                VStack {
+//                    NewPostView()
+//                        .padding(.bottom, geometry.safeAreaInsets.bottom)
+//                        .onTapGesture {
+//                            navCoordinator.navigate(to: .createPost)
+//                        }
+//                    
+//                }
+//                .frame(maxHeight: .infinity, alignment: .top)
             }
         }
     }

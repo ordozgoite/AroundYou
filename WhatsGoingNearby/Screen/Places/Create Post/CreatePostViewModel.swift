@@ -27,7 +27,15 @@ class CreatePostViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         let imageURL = image == nil ? nil : await storeImage()
-        let result = await AYServices.shared.postNewPublication(text: postText.nonEmptyOrNil(), tag: selectedPostTag.rawValue, imageUrl: imageURL, latitude: latitude, longitude: longitude, isLocationVisible: isLocationVisible, token: token)
+        let result = await AYServices.shared.postNewPublication(
+            text: postText.nonEmptyOrNil(),
+            tag: selectedPostTag.rawValue,
+            imageUrl: imageURL,
+            latitude: latitude,
+            longitude: longitude,
+            isLocationVisible: isLocationVisible,
+            token: token
+        )
         try handleCreateNewPostResult(result)
     }
     

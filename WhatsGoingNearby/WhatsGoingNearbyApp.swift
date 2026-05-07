@@ -139,6 +139,7 @@ struct WhatsGoingNearbyApp: App {
     @StateObject var authVM = AuthenticationViewModel()
     @StateObject private var socket = SocketService.shared
     @StateObject private var locationManager = LocationManager()
+    @StateObject private var placesVM = PlacesViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -147,6 +148,7 @@ struct WhatsGoingNearbyApp: App {
                 .environmentObject(authVM)
                 .environmentObject(socket)
                 .environmentObject(locationManager)
+                .environmentObject(placesVM)
         }
 //        .backgroundTask(.appRefresh(Constants.updateLocBGTaskId)) {
 //            scheduleAppRefresh()
