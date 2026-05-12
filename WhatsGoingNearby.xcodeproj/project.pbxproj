@@ -7,7 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		624CDB1A2FAFA5F1007D2560 /* PremiumMapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB192FAFA5F1007D2560 /* PremiumMapButton.swift */; };
+		624CDB1C2FAFA7EC007D2560 /* ExploreMapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB1B2FAFA7EC007D2560 /* ExploreMapScreen.swift */; };
+		624CDB1E2FAFA895007D2560 /* ExploreMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB1D2FAFA895007D2560 /* ExploreMapViewModel.swift */; };
+		624CDB202FAFAB0F007D2560 /* FormattedPost+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB1F2FAFAB0F007D2560 /* FormattedPost+Mock.swift */; };
+		624CDB222FB04393007D2560 /* MapMarkedPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB212FB04393007D2560 /* MapMarkedPost.swift */; };
+		624CDB242FB11228007D2560 /* PostMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB232FB11228007D2560 /* PostMapMarker.swift */; };
+		624CDB262FB113C0007D2560 /* ExpandedPostMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB252FB113C0007D2560 /* ExpandedPostMapMarker.swift */; };
+		624CDB282FB11C20007D2560 /* MapPostProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB272FB11C20007D2560 /* MapPostProfileImageView.swift */; };
+		624CDB2A2FB27068007D2560 /* ExploreMapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB292FB27068007D2560 /* ExploreMapItem.swift */; };
+		624CDB2E2FB27285007D2560 /* ClusterMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB2D2FB27285007D2560 /* ClusterMapMarker.swift */; };
 		62CDC6482FAC3AD000E9368A /* PendingPostUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CDC6472FAC3AD000E9368A /* PendingPostUploadView.swift */; };
+		62F5BD6B2FADA547002CA7B1 /* FullScreenLottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F5BD6A2FADA52B002CA7B1 /* FullScreenLottieView.swift */; };
 		ED0314372D37FD2C001B917A /* UserDiscoverInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0314362D37FD2C001B917A /* UserDiscoverInfo.swift */; };
 		ED0652572B813832005B6413 /* BugScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0652562B813832005B6413 /* BugScreen.swift */; };
 		ED0652592B813859005B6413 /* BugViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0652582B813859005B6413 /* BugViewModel.swift */; };
@@ -318,7 +329,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		624CDB192FAFA5F1007D2560 /* PremiumMapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumMapButton.swift; sourceTree = "<group>"; };
+		624CDB1B2FAFA7EC007D2560 /* ExploreMapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapScreen.swift; sourceTree = "<group>"; };
+		624CDB1D2FAFA895007D2560 /* ExploreMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapViewModel.swift; sourceTree = "<group>"; };
+		624CDB1F2FAFAB0F007D2560 /* FormattedPost+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FormattedPost+Mock.swift"; sourceTree = "<group>"; };
+		624CDB212FB04393007D2560 /* MapMarkedPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkedPost.swift; sourceTree = "<group>"; };
+		624CDB232FB11228007D2560 /* PostMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMapMarker.swift; sourceTree = "<group>"; };
+		624CDB252FB113C0007D2560 /* ExpandedPostMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedPostMapMarker.swift; sourceTree = "<group>"; };
+		624CDB272FB11C20007D2560 /* MapPostProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPostProfileImageView.swift; sourceTree = "<group>"; };
+		624CDB292FB27068007D2560 /* ExploreMapItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapItem.swift; sourceTree = "<group>"; };
+		624CDB2D2FB27285007D2560 /* ClusterMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterMapMarker.swift; sourceTree = "<group>"; };
 		62CDC6472FAC3AD000E9368A /* PendingPostUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingPostUploadView.swift; sourceTree = "<group>"; };
+		62F5BD6A2FADA52B002CA7B1 /* FullScreenLottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenLottieView.swift; sourceTree = "<group>"; };
 		ED0314362D37FD2C001B917A /* UserDiscoverInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDiscoverInfo.swift; sourceTree = "<group>"; };
 		ED0652562B813832005B6413 /* BugScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugScreen.swift; sourceTree = "<group>"; };
 		ED0652582B813859005B6413 /* BugViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugViewModel.swift; sourceTree = "<group>"; };
@@ -642,6 +664,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		624CDB182FAFA5CB007D2560 /* Premium */ = {
+			isa = PBXGroup;
+			children = (
+				624CDB192FAFA5F1007D2560 /* PremiumMapButton.swift */,
+				624CDB1B2FAFA7EC007D2560 /* ExploreMapScreen.swift */,
+				624CDB1D2FAFA895007D2560 /* ExploreMapViewModel.swift */,
+				624CDB232FB11228007D2560 /* PostMapMarker.swift */,
+				624CDB252FB113C0007D2560 /* ExpandedPostMapMarker.swift */,
+				624CDB272FB11C20007D2560 /* MapPostProfileImageView.swift */,
+				624CDB292FB27068007D2560 /* ExploreMapItem.swift */,
+				624CDB2D2FB27285007D2560 /* ClusterMapMarker.swift */,
+			);
+			path = Premium;
+			sourceTree = "<group>";
+		};
 		ED0652552B813823005B6413 /* Bug */ = {
 			isa = PBXGroup;
 			children = (
@@ -775,6 +812,7 @@
 			children = (
 				ED30CE862D6FEA1E001FB213 /* FormattedBusinessShowcase+Mock.swift */,
 				ED52D8D22DC327C20098D450 /* ReportIncident+Mock.swift */,
+				624CDB1F2FAFAB0F007D2560 /* FormattedPost+Mock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -903,6 +941,7 @@
 				ED7AF5D62DB0354E00966B5C /* PostSource.swift */,
 				EDF3252A2DE4EDAA00752A64 /* EditBusinessDTO.swift */,
 				ED8471AE2DE8EBB9007BF502 /* ChatMessageNotification.swift */,
+				624CDB212FB04393007D2560 /* MapMarkedPost.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -910,6 +949,7 @@
 		ED598BF32B7C16DA00B6C23D /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				624CDB182FAFA5CB007D2560 /* Premium */,
 				ED1612BA2DB41F080037413C /* Post */,
 				EDEF4E7B2D92F34F009CA424 /* Urgent */,
 				ED82CD0F2D8CAB540075EFB8 /* Home */,
@@ -956,6 +996,7 @@
 		ED598C0A2B7C47E300B6C23D /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				62F5BD6A2FADA52B002CA7B1 /* FullScreenLottieView.swift */,
 				EDA30DEB2B7FABA9003EB22D /* LottieView.swift */,
 				EDE8B3802BC6DA9000DFF750 /* ZoomableImageViewRepresentable.swift */,
 				EDA322332B7CB861009905B5 /* URLTapableImageView.swift */,
@@ -1673,6 +1714,7 @@
 				ED06525B2B814722005B6413 /* BugReport.swift in Sources */,
 				ED30CE1B2D674E79001FB213 /* SuccessMessageResponse.swift in Sources */,
 				ED8E6AF62BACD36D002D633D /* HeartView.swift in Sources */,
+				624CDB2A2FB27068007D2560 /* ExploreMapItem.swift in Sources */,
 				ED5CC5262B982121009B17E3 /* EnableLocationView.swift in Sources */,
 				ED30CE6D2D6D5F4B001FB213 /* CommunityMessageView.swift in Sources */,
 				ED598C052B7C43A000B6C23D /* AuthenticationViewModel.swift in Sources */,
@@ -1730,6 +1772,7 @@
 				ED30CE562D696BD2001FB213 /* ImageDisplaySource.swift in Sources */,
 				EDAECA4D2DDC9DF500D1A938 /* MyCommunitiesView.swift in Sources */,
 				ED2F1A6B2B9048DC001F4300 /* IndepCommentScreen.swift in Sources */,
+				624CDB1A2FAFA5F1007D2560 /* PremiumMapButton.swift in Sources */,
 				ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */,
 				ED755F132BB4D625004BC6C3 /* ChatListScreen.swift in Sources */,
 				ED74E8132BF446C600371334 /* NSPredicate+helper.swift in Sources */,
@@ -1741,6 +1784,7 @@
 				EDA30DF62B7FE816003EB22D /* PostTypeSegmentedControl.swift in Sources */,
 				ED5CC5282B983982009B17E3 /* EnableFullAccuracyView.swift in Sources */,
 				EDA322452B7DB07D009905B5 /* CommentScreen.swift in Sources */,
+				624CDB202FAFAB0F007D2560 /* FormattedPost+Mock.swift in Sources */,
 				ED74E80A2BF436F200371334 /* WhatsGoingNearby.xcdatamodeld in Sources */,
 				EDAECA4B2DDA913300D1A938 /* AYDisabledButton.swift in Sources */,
 				EDE8B37F2BC3B67200DFF750 /* ImageBubbleView.swift in Sources */,
@@ -1750,6 +1794,7 @@
 				ED4140A22B7E1D26002690A5 /* CircleTimerView.swift in Sources */,
 				ED7AF5CF2DA6EDD200966B5C /* LostAndFoundViewModel.swift in Sources */,
 				ED6D82C52B93D7BE00C57937 /* MapViewModel.swift in Sources */,
+				624CDB1E2FAFA895007D2560 /* ExploreMapViewModel.swift in Sources */,
 				ED5CB16B2B7C11C000C336EC /* ContentView.swift in Sources */,
 				EDF3252D2DE4EF5C00752A64 /* EditBusinessView.swift in Sources */,
 				EDEF7A7A2D5257470030B7A6 /* CommunitySuggestionView.swift in Sources */,
@@ -1794,6 +1839,7 @@
 				ED0B4AF02D5CE773000A21F6 /* Constants.swift in Sources */,
 				ED755F212BB52C35004BC6C3 /* FormattedMessage.swift in Sources */,
 				EDE8B3762BC3301900DFF750 /* NewPostView.swift in Sources */,
+				624CDB1C2FAFA7EC007D2560 /* ExploreMapScreen.swift in Sources */,
 				ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */,
 				EDA30DFC2B804BE6003EB22D /* Report.swift in Sources */,
 				ED1613372DC2F06B0037413C /* ReportDetailScreen.swift in Sources */,
@@ -1819,6 +1865,7 @@
 				ED57D24A2B95880800FC7351 /* SheetView.swift in Sources */,
 				EDD40C5D2D74BA5700E33663 /* PublishBusinessScreen.swift in Sources */,
 				EDDC9E062BD86D9D00000EA4 /* MessageIntermediary.swift in Sources */,
+				624CDB242FB11228007D2560 /* PostMapMarker.swift in Sources */,
 				ED5329172D82498800AEED74 /* AYPhoneNumberTextField.swift in Sources */,
 				ED4D7C3A2D4D32AD007FC1FF /* BlurView.swift in Sources */,
 				ED598BF82B7C1B9400B6C23D /* Date.swift in Sources */,
@@ -1832,6 +1879,7 @@
 				ED82CD0C2D8B09390075EFB8 /* MyBusinessView.swift in Sources */,
 				ED52D8D72DC475050098D450 /* LostItemDetailScreen.swift in Sources */,
 				ED4D7C362D418710007FC1FF /* EmptyDiscoverView.swift in Sources */,
+				624CDB222FB04393007D2560 /* MapMarkedPost.swift in Sources */,
 				EDCF2C382BB66E400066950F /* Message.swift in Sources */,
 				ED30CE7A2D6F549A001FB213 /* BusinessScreen.swift in Sources */,
 				ED30CE732D6D629D001FB213 /* CommunityMessageIntermediary.swift in Sources */,
@@ -1848,6 +1896,7 @@
 				ED5023FC2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift in Sources */,
 				EDA3222E2B7CA490009905B5 /* AYEndpoints.swift in Sources */,
 				EDCBEBF42BB7C3E000087325 /* MessageView.swift in Sources */,
+				624CDB282FB11C20007D2560 /* MapPostProfileImageView.swift in Sources */,
 				ED598C532B7C81CA00B6C23D /* LocationManager.swift in Sources */,
 				EDE8B3792BC3502200DFF750 /* ExpandedPostSettings.swift in Sources */,
 				ED24FAF82B9E6535002F7A11 /* ReportDTO.swift in Sources */,
@@ -1864,6 +1913,7 @@
 				EDA3223D2B7CCF64009905B5 /* PreparingSessionScreen.swift in Sources */,
 				ED2F1A772B9142D3001F4300 /* NotificationView.swift in Sources */,
 				ED598C072B7C441500B6C23D /* AuthFlowSegmentedControl.swift in Sources */,
+				62F5BD6B2FADA547002CA7B1 /* FullScreenLottieView.swift in Sources */,
 				ED8471AD2DE8BC41007BF502 /* NotificationBannerView.swift in Sources */,
 				ED3775A72B9ABD1000BEF3D8 /* PreparingSessionAnimationView.swift in Sources */,
 				EDE8B36F2BC1D9A800DFF750 /* AudioRecorder.swift in Sources */,
@@ -1880,9 +1930,11 @@
 				ED842C502BCF5A29006B8DBB /* Color.swift in Sources */,
 				ED30CE1D2D67ABCE001FB213 /* EditCommunityDescriptionView.swift in Sources */,
 				EDEECA212B8A6DA100BD517D /* OnBoardingScreen.swift in Sources */,
+				624CDB262FB113C0007D2560 /* ExpandedPostMapMarker.swift in Sources */,
 				ED50C44A2B7E2CBC0001EDF6 /* Int.swift in Sources */,
 				EDE199282CCC60A20065206C /* ActivateDiscoverView.swift in Sources */,
 				ED2F1A7C2B91440E001F4300 /* FormattedNotification.swift in Sources */,
+				624CDB2E2FB27285007D2560 /* ClusterMapMarker.swift in Sources */,
 				62CDC6482FAC3AD000E9368A /* PendingPostUploadView.swift in Sources */,
 				EDF325282DE4912800752A64 /* PhotoPicker.swift in Sources */,
 				ED842C522BD0A9DB006B8DBB /* ComposePostView.swift in Sources */,
@@ -2060,7 +2112,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 3.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2103,7 +2155,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 3.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -24,19 +24,19 @@ public func nearByNotification() -> UNNotificationRequest {
     return request
 }
 
-//public func scheduleAppRefresh() {
-//    let now = Date()
-//    let oneHourFromNow = Calendar.current.date(byAdding: .hour, value: Constants.BACKGROUND_TASK_DELAY_HOURS, to: now)!
-//    
-//    do {
-//        let request = BGAppRefreshTaskRequest(identifier: Constants.updateLocBGTaskId)
-//        request.earliestBeginDate = oneHourFromNow
-//        try BGTaskScheduler.shared.submit(request) //Thread 1: "No launch handler registered for task with identifier ordozgoite.WhatsGoingNearby.backgroundTask"
-//        print("✅ Task scheduled!")
-//    } catch {
-//        print("❌ Failed to schedule: \(error)")
-//    }
-//}
+public func scheduleAppRefresh() {
+    let now = Date()
+    let oneHourFromNow = Calendar.current.date(byAdding: .hour, value: Constants.BACKGROUND_TASK_DELAY_HOURS, to: now)!
+    
+    do {
+        let request = BGAppRefreshTaskRequest(identifier: Constants.updateLocBGTaskId)
+        request.earliestBeginDate = oneHourFromNow
+        try BGTaskScheduler.shared.submit(request) //Thread 1: "No launch handler registered for task with identifier ordozgoite.WhatsGoingNearby.backgroundTask"
+        print("✅ Task scheduled!")
+    } catch {
+        print("❌ Failed to schedule: \(error)")
+    }
+}
 
 public func notifyNearByPost() async {
     if isNotificationInDelay { return }

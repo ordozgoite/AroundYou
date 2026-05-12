@@ -29,6 +29,7 @@ protocol AYServiceable {
     func unlikePublication(publicationId: String, token: String) async -> Result<UnlikePublicationResponse, RequestError>
     func getPublicationLikes(publicationId: String, token: String) async -> Result<[UserProfile], RequestError>
     func checkNearByPublications(userUid: String, latitude: Double, longitude: Double) async -> Result<CheckNearByPublicationsResponse, RequestError>
+    func getMapPosts(minLat: Double, maxLat: Double, minLong: Double, maxLong: Double, token: String) async -> Result<ExploreMapResponse, RequestError>
     
     // Comment
     func postNewComment(comment: CommentDTO, latitude: Double, longitude: Double, token: String) async -> Result<PostNewCommentResponse, RequestError>
@@ -199,6 +200,10 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func checkNearByPublications(userUid: String, latitude: Double, longitude: Double) async -> Result<CheckNearByPublicationsResponse, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.checkNearByPublications(userUid: userUid, latitude: latitude, longitude: longitude), responseModel: CheckNearByPublicationsResponse.self)
+    }
+    
+    func getMapPosts(minLat: Double, maxLat: Double, minLong: Double, maxLong: Double, token: String) async -> Result<ExploreMapResponse, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getMapPosts(minLat: minLat, maxLat: maxLat, minLong: minLong, maxLong: maxLong, token: token), responseModel: ExploreMapResponse.self)
     }
     
     //MARK: - Comment

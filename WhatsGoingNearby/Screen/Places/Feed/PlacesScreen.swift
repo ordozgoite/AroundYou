@@ -18,21 +18,29 @@ struct PlacesScreen: View, PostViewActionHandler {
     
     var body: some View {
         ZStack {
+            if placesVM.initialPostsFetched && placesVM.posts.isEmpty {
+                EmptyFeedBackground()
+            }
+            
             VStack {
                 if !locationManager.isLocationAuthorized {
                     EnableLocationView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if !locationManager.isUsingFullAccuracy {
                     EnableFullAccuracyView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if placesVM.isLoading {
                     LoadingView()
                 } else if placesVM.initialPostsFetched {
-                    if placesVM.posts.isEmpty {
-                        EmptyFeed()
-                    } else {
-                        Feed()
-                    }
+                    Feed()
                 }
             }
+            
+            PremiumMapButton {
+                navCoordinator.navigate(to: .exploreMap)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+            .padding()
             
             AYErrorAlert(message: placesVM.overlayError.1 , isErrorAlertPresented: $placesVM.overlayError.0)
         }
@@ -92,74 +100,102 @@ struct PlacesScreen: View, PostViewActionHandler {
     
     //MARK: - Empty Feed
     
-    @ViewBuilder
-    private func EmptyFeed() -> some View {
-        EmptyFeedView {
-            Task {
-                placesVM.initialPostsFetched = false
-                try await getNearByPosts()
-            }
-        }
-    }
+    //    @ViewBuilder
+    //    private func EmptyFeed() -> some View {
+    //        EmptyFeedView {
+    //            Task {
+    //                placesVM.initialPostsFetched = false
+    //                try await getNearByPosts()
+    //            }
+    //        }
+    //    }
     
     //MARK: - Feed
     
     @ViewBuilder
     private func Feed() -> some View {
-        ScrollView {
-            VStack {
-                NewPostView()
-                    .onTapGesture {
-                        navCoordinator.navigate(to: .createPost)
-                    }
-                
-                if let _ = placesVM.postToBePublished {
-                      PendingPostUploadView(
-                          post: Binding(
-                              get: { placesVM.postToBePublished! },
-                              set: { placesVM.postToBePublished = $0 }
-                          ),
-                          onRetry: {
-                              
-                          },
-                          onCancel: {}
-                      )
-                    .onAppear {
-                        guard !placesVM.didTriggerCreateForPending else { return }
-                        placesVM.didTriggerCreateForPending = true
-                        Task {
-                            let currentLocation = try getCurrentLocation()
-                            let token = try await authVM.getFirebaseToken()
-                            try await placesVM.createNewPost(
-                                latitude: currentLocation.latitude,
-                                longitude: currentLocation.longitude,
-                                token: token
-                            )
+        ZStack {
+            ScrollView {
+                VStack(spacing: 0) {
+                    NewPostView()
+                        .onTapGesture {
+                            navCoordinator.navigate(to: .createPost)
                         }
+                    
+                    PendingPostSection()
+                    
+                    if !placesVM.posts.isEmpty {
+                        PostsContent()
                     }
                 }
-                
-                Posts(ofType: .active)
-                
-                if hasInactivePublication() {
-                    Text("Expired")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                        .padding()
+            }
+            .background(Color.clear)
+            .refreshable {
+                do {
+                    try await getNearByPosts()
+                } catch {
+                    print("❌ Error trying to refresh posts.")
                 }
-                
-                Posts(ofType: .expired)
-                    .opacity(0.5)
+            }
+            
+            if placesVM.posts.isEmpty {
+                EmptyFeedMessage {
+                    Task {
+                        placesVM.initialPostsFetched = false
+                        try await getNearByPosts()
+                    }
+                }
             }
         }
-        .refreshable {
-            do {
-                try await getNearByPosts()
-            } catch {
-                print("❌ Error trying to refresh posts.")
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    
+    //MARK: - Pending Post
+    
+    @ViewBuilder
+    private func PendingPostSection() -> some View {
+        if let _ = placesVM.postToBePublished {
+            PendingPostUploadView(
+                post: Binding(
+                    get: { placesVM.postToBePublished! },
+                    set: { placesVM.postToBePublished = $0 }
+                ),
+                onRetry: {
+                    Task {
+                        placesVM.postToBePublished?.progress = 0
+                        placesVM.postToBePublished?.status = .queued
+                        await startCreatingPendingPost()
+                    }
+                },
+                onCancel: {
+                    placesVM.cancelCreatingPendingPost()
+                }
+            )
+            .padding()
+            .onAppear {
+                Task {
+                    await startCreatingPendingPost()
+                }
             }
         }
+    }
+    
+    //MARK: - Posts Content
+    
+    @ViewBuilder
+    private func PostsContent() -> some View {
+        Posts(ofType: .active)
+        
+        if hasInactivePublication() {
+            Text("Expired")
+                .font(.title3)
+                .fontWeight(.bold)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+        }
+        
+        Posts(ofType: .expired)
+            .opacity(0.5)
     }
     
     //MARK: - Posts
@@ -229,6 +265,21 @@ struct PlacesScreen: View, PostViewActionHandler {
             try await attemptToGetPosts()
         } catch {
             print("❌ Error trying to get posts nearby.")
+        }
+    }
+    
+    private func startCreatingPendingPost() async {
+        do {
+            let currentLocation = try getCurrentLocation()
+            let token = try await authVM.getFirebaseToken()
+            
+            placesVM.startCreatingPendingPost(
+                latitude: currentLocation.latitude,
+                longitude: currentLocation.longitude,
+                token: token
+            )
+        } catch {
+            placesVM.postToBePublished?.status = .failed(message: "Erro ao preparar publicação")
         }
     }
     

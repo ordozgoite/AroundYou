@@ -86,6 +86,8 @@ struct HomeScreen: View {
                         chatPic: chat.chatPic,
                         isLocked: chat.isLocked
                     )
+                case .exploreMap:
+                    ExploreMapScreen()
                 default:
                     EmptyView()
                 }

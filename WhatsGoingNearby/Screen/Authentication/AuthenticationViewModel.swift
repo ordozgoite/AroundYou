@@ -24,9 +24,9 @@ enum AuthenticationFlow: Int, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .login:
-            return "Enter"
+            return "Log In"
         case .signUp:
-            return "Register"
+            return "Sign Up"
         }
     }
 }

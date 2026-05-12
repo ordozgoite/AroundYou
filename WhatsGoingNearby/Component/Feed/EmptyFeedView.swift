@@ -7,62 +7,71 @@
 
 import SwiftUI
 
-struct EmptyFeedView: View {
-    @EnvironmentObject var authVM: AuthenticationViewModel
-    @EnvironmentObject var locationManager: LocationManager
-    @EnvironmentObject var navCoordinator: NavigationCoordinator
-    
-    var retry: () -> ()
-    
+struct EmptyFeedBackground: View {
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                LottieView(name: "radar", loopMode: .loop)
-                    .frame(width: geometry.size.width, height: geometry.size.height)
-                    .opacity(0.25)
-                
-                VStack(spacing: 16) {
-                    Image(systemName: "location.magnifyingglass")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 50)
-                        .foregroundStyle(.gray)
-                    
-                    VStack {
-                        Text("No posts found.")
-                            .font(.subheadline)
-                            .foregroundStyle(.gray)
-                            .fontWeight(.bold)
-                            .multilineTextAlignment(.center)
-                        
-                        Text("Be the first to make a post in your region...")
-                            .font(.subheadline)
-                            .foregroundStyle(.gray)
-                            .fontWeight(.regular)
-                            .multilineTextAlignment(.center)
-                            .frame(width: screenWidth - 32)
-                        
-                        Button("Refresh") {
-                            retry()
-                        }
-                    }
-                }
-                
-//                VStack {
-//                    NewPostView()
-//                        .padding(.bottom, geometry.safeAreaInsets.bottom)
-//                        .onTapGesture {
-//                            navCoordinator.navigate(to: .createPost)
-//                        }
-//                    
-//                }
-//                .frame(maxHeight: .infinity, alignment: .top)
-            }
+            LottieView(name: "radar", loopMode: .loop)
+                .frame(
+                    width: geometry.size.width,
+                    height: geometry.size.height
+                )
+                .opacity(0.22)
+                .scaleEffect(2)
+                .allowsHitTesting(false)
         }
+        .ignoresSafeArea()
     }
 }
 
-#Preview {
-    EmptyFeedView(retry: {})
-        .environmentObject(AuthenticationViewModel())
+struct EmptyFeedMessage: View {
+    var retry: () -> Void
+
+    var body: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "location.magnifyingglass")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 50, height: 50)
+                .foregroundStyle(.gray)
+
+            VStack(spacing: 6) {
+                Text("No posts nearby.")
+                    .font(.subheadline)
+                    .foregroundStyle(.gray)
+                    .fontWeight(.bold)
+                    .multilineTextAlignment(.center)
+
+                Text("There are no posts in your region right now.")
+                    .font(.subheadline)
+                    .foregroundStyle(.gray)
+                    .fontWeight(.regular)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 24)
+            }
+
+            Button("Try Again") {
+                retry()
+            }
+        }
+        .padding(.horizontal)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .allowsHitTesting(true)
+    }
 }
+
+//struct EmptyFeedView: View {
+//    var retry: () -> Void
+//
+//    var body: some View {
+//        ZStack {
+////            EmptyFeedBackground()
+//
+//            EmptyFeedMessage(retry: retry)
+//        }
+//        .frame(maxWidth: .infinity, maxHeight: .infinity)
+//    }
+//}
+//
+//#Preview {
+//    EmptyFeedView(retry: {})
+//}

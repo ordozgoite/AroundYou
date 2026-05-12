@@ -21,9 +21,9 @@ class PlacesViewModel: ObservableObject {
     @Published var isLostAndFoundScreenDisplayed: Bool = false
     @Published var isReportScreenDisplayed: Bool = false
     @Published var isHelpViewDisplayed: Bool = false
-    @Published var didTriggerCreateForPending = false
-    
     @Published var postToBePublished: PendingPost? = nil
+    
+    private var createPostTask: Task<Void, Never>?
     
     func getPosts(location: Location, token: String) async {
         if !initialPostsFetched { isLoading = true }
@@ -40,30 +40,79 @@ class PlacesViewModel: ObservableObject {
         initialPostsFetched = true
     }
     
-    func createNewPost(latitude: Double, longitude: Double, token: String) async throws {
+    func startCreatingPendingPost(
+        latitude: Double,
+        longitude: Double,
+        token: String
+    ) {
+        guard createPostTask == nil else { return }
+        guard postToBePublished != nil else { return }
+
+        createPostTask = Task {
+            do {
+                try await createNewPost(
+                    latitude: latitude,
+                    longitude: longitude,
+                    token: token
+                )
+            } catch is CancellationError {
+                print("🚫 Pending post creation cancelled.")
+            } catch {
+                postToBePublished?.status = .failed(message: "Erro ao publicar")
+            }
+
+            createPostTask = nil
+        }
+    }
+
+    func cancelCreatingPendingPost() {
+        createPostTask?.cancel()
+        createPostTask = nil
+
+        postToBePublished = nil
+
+        refreshFeed()
+    }
+    
+    private func createNewPost(latitude: Double, longitude: Double, token: String) async throws {
+        try Task.checkCancellation()
+
         postToBePublished?.progress = 0.05
         postToBePublished?.status = .queued
-        if let post = postToBePublished {
-            var imageUrl: String? = nil
-            if let img = post.image {
-                postToBePublished?.progress = 0.2
-                postToBePublished?.status = .uploadingImage
-                imageUrl = await storeImage(image: img)
-            }
-            postToBePublished?.progress = 0.7
-            postToBePublished?.status = .creatingPost
-            let result = await AYServices.shared.postNewPublication(
-                text: post.text.nonEmptyOrNil(),
-                tag: post.tag.rawValue,
-                imageUrl: imageUrl,
-                latitude: latitude,
-                longitude: longitude,
-                isLocationVisible: post.isLocationVisible,
-                token: token
-            )
-            didTriggerCreateForPending = false
-            try handleCreateNewPostResult(result)
+
+        guard let post = postToBePublished else { return }
+
+        var imageUrl: String? = nil
+
+        if let img = post.image {
+            try Task.checkCancellation()
+
+            postToBePublished?.progress = 0.2
+            postToBePublished?.status = .uploadingImage
+
+            imageUrl = await storeImage(image: img)
+
+            try Task.checkCancellation()
         }
+
+        postToBePublished?.progress = 0.7
+        postToBePublished?.status = .creatingPost
+
+        try Task.checkCancellation()
+
+        let result = await AYServices.shared.postNewPublication(
+            text: post.text.nonEmptyOrNil(),
+            tag: post.tag.rawValue,
+            imageUrl: imageUrl,
+            latitude: latitude,
+            longitude: longitude,
+            isLocationVisible: post.isLocationVisible,
+            token: token
+        )
+
+        try Task.checkCancellation()
+
+        try handleCreateNewPostResult(result)
     }
     
     private func handleCreateNewPostResult(_ result: Result<Post, RequestError>) throws {
@@ -73,16 +122,14 @@ class PlacesViewModel: ObservableObject {
             postToBePublished?.progress = 1
             postToBePublished?.status = .completed
             refreshFeed()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.postToBePublished = nil
             }
         case .failure(let error):
             if error == .forbidden {
-                overlayError = (true, ErrorMessage.publicationLimitExceededErrorMessage)
                 postToBePublished?.progress = 0
                 postToBePublished?.status = .failed(message: "Limite de publicação")
             } else {
-                overlayError = (true, ErrorMessage.createPostErrorMessage)
                 postToBePublished?.progress = 0
                 postToBePublished?.status = .failed(message: "Erro ao publicar")
             }
@@ -160,8 +207,7 @@ class PlacesViewModel: ObservableObject {
         do {
             return try await FirebaseService.shared.storeImageAndGetUrl(image)
         } catch {
-            overlayError = (true, ErrorMessage.postImageErrorMessage)
-            isLoading = false
+            
             return nil
         }
     }

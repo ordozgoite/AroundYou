@@ -12,6 +12,7 @@ public class LocalState {
     private enum Keys: String {
         case userRegistrationToken
         case lastNotificationTime
+        case bgTaskRunCount
         case isPostLocationVisible
         case hasCompletedOnboarding
         case preferredLanguage
@@ -41,6 +42,15 @@ public class LocalState {
         }
         set(newValue) {
             UserDefaults.standard.set(newValue, forKey: Keys.lastNotificationTime.rawValue)
+        }
+    }
+    
+    public static var bgTaskRunCount: Int {
+        get {
+            return UserDefaults.standard.integer(forKey: Keys.bgTaskRunCount.rawValue)
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.bgTaskRunCount.rawValue)
         }
     }
     
