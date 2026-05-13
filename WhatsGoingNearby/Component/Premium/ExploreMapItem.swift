@@ -73,22 +73,40 @@ struct MapPostCluster: Identifiable, Decodable {
     let latitude: Double
     let longitude: Double
     let bounds: MapClusterBounds
+    let isPlaceCluster: Bool
+    let previewUserProfilePics: [String?]
+    
+    private enum CodingKeys: String, CodingKey {
+        case type
+        case id
+        case count
+        case latitude
+        case longitude
+        case bounds
+        case isPlaceCluster
+        case previewUserProfilePics
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        type = try container.decode(String.self, forKey: .type)
+        id = try container.decode(String.self, forKey: .id)
+        count = try container.decode(Int.self, forKey: .count)
+        latitude = try container.decode(Double.self, forKey: .latitude)
+        longitude = try container.decode(Double.self, forKey: .longitude)
+        bounds = try container.decode(MapClusterBounds.self, forKey: .bounds)
+        
+        isPlaceCluster = try container.decodeIfPresent(Bool.self, forKey: .isPlaceCluster) ?? false
+        previewUserProfilePics = try container.decodeIfPresent([String?].self, forKey: .previewUserProfilePics) ?? []
+    }
 }
 
-struct MapClusterBounds: Decodable {
+struct MapClusterBounds: Decodable, Equatable, Hashable {
     let minLat: Double
     let maxLat: Double
     let minLng: Double
     let maxLng: Double
-}
-
-extension MapClusterBounds {
-    func contains(_ coordinate: CLLocationCoordinate2D) -> Bool {
-        coordinate.latitude >= minLat &&
-        coordinate.latitude <= maxLat &&
-        coordinate.longitude >= minLng &&
-        coordinate.longitude <= maxLng
-    }
 }
 
 extension MapPostCluster {
@@ -100,5 +118,14 @@ extension MapPostCluster {
         }
         
         return Int(components[2])
+    }
+}
+
+extension MapClusterBounds {
+    func contains(_ coordinate: CLLocationCoordinate2D) -> Bool {
+        coordinate.latitude >= minLat &&
+        coordinate.latitude <= maxLat &&
+        coordinate.longitude >= minLng &&
+        coordinate.longitude <= maxLng
     }
 }

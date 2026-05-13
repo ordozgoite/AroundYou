@@ -126,17 +126,15 @@ private extension ExpandedPostMapMarker {
     @ViewBuilder
     func FooterView() -> some View {
         HStack(spacing: 14) {
-            if post.isOwnerFarAway == true {
-                Label("Far away", systemImage: "location.slash")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
+//            if post.isOwnerFarAway == true {
+//                Label("Far away", systemImage: "location.slash")
+//                    .font(.caption)
+//                    .foregroundStyle(.secondary)
+//            }
             
-            if let duration = post.duration {
-                Label("\(duration)h", systemImage: "clock")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
+            Text(post.timestamp.convertTimestampToDate().formatDatetoPost())
+                .foregroundStyle(.gray)
+                .font(.caption)
             
             Spacer()
             

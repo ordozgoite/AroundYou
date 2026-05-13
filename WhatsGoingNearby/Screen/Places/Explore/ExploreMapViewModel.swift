@@ -45,39 +45,45 @@ final class ExploreMapViewModel: ObservableObject {
 
     private var lastFetchedRegion: MKCoordinateRegion?
     private var lastRequestDate: Date?
-    
-    private var cachedItemsById: [String: ExploreMapItem] = [:]
 
     private let debounceNanoseconds: UInt64 = 700_000_000
     private let minimumSecondsBetweenRequests: TimeInterval = 1.0
     
+    private var requestGeneration = 0
+    
     var firebaseUserToken: String? = nil
 
     func regionDidChange(_ region: MKCoordinateRegion) {
-        refreshDisplayedItemsFromCache(for: region)
+        Task { [weak self] in
+            await self?.fetchPostsIfNeeded(for: region)
+        }
         
         debounceTask?.cancel()
-
+        
         debounceTask = Task { [weak self] in
             do {
                 try await Task.sleep(nanoseconds: debounceNanoseconds)
-
                 guard !Task.isCancelled else { return }
-
-                await self?.fetchPostsIfNeeded(for: region)
+                
+                await self?.fetchPostsIfNeeded(for: region, force: true)
             } catch {
                 return
             }
         }
     }
 
-    func fetchPostsIfNeeded(for region: MKCoordinateRegion) async {
-        if let lastFetchedRegion,
+    func fetchPostsIfNeeded(
+        for region: MKCoordinateRegion,
+        force: Bool = false
+    ) async {
+        if !force,
+           let lastFetchedRegion,
            !hasRegionChangedEnough(from: lastFetchedRegion, to: region) {
             return
         }
 
-        if let lastRequestDate {
+        if !force,
+           let lastRequestDate {
             let elapsed = Date().timeIntervalSince(lastRequestDate)
 
             if elapsed < minimumSecondsBetweenRequests {
@@ -90,12 +96,15 @@ final class ExploreMapViewModel: ObservableObject {
 
         currentFetchTask?.cancel()
 
+        requestGeneration += 1
+        let generation = requestGeneration
+
         currentFetchTask = Task { [weak self] in
-            await self?.fetchPosts(for: region)
+            await self?.fetchPosts(for: region, generation: generation)
         }
     }
 
-    private func fetchPosts(for region: MKCoordinateRegion) async {
+    private func fetchPosts(for region: MKCoordinateRegion, generation: Int) async {
         guard let token = firebaseUserToken else { return }
         
         isLoading = true
@@ -111,102 +120,14 @@ final class ExploreMapViewModel: ObservableObject {
         
         switch result {
         case .success(let mapResponse):
-            mergeItemsIntoCache(mapResponse.items)
-            refreshDisplayedItemsFromCache(for: region)
+            guard generation == requestGeneration else { return }
+            self.items = mapResponse.items
             
         case .failure(let error):
+            guard generation == requestGeneration else { return }
             print("❌ Error trying to fetch items in region.")
             print(error)
         }
-    }
-    
-    private func mergeItemsIntoCache(_ newItems: [ExploreMapItem]) {
-        for item in newItems {
-            cachedItemsById[item.id] = item
-        }
-    }
-    
-    private func refreshDisplayedItemsFromCache(for region: MKCoordinateRegion) {
-        let cachedItems = Array(cachedItemsById.values)
-        let visibleItems = cachedItems.filter { item in
-            region.contains(item.coordinate)
-        }
-        
-        guard !visibleItems.isEmpty else {
-            return
-        }
-        
-        items = filteredItemsForCurrentZoom(
-            visibleItems,
-            region: region
-        )
-    }
-    
-    private func filteredItemsForCurrentZoom(
-        _ cachedItems: [ExploreMapItem],
-        region: MKCoordinateRegion
-    ) -> [ExploreMapItem] {
-        if shouldShowOnlyIndividualPosts(region) {
-            return cachedItems.filter { item in
-                if case .post = item {
-                    return true
-                }
-                
-                return false
-            }
-        }
-        
-        let currentResolution = h3Resolution(for: region)
-        
-        let clusters = cachedItems.filter { item in
-            guard case .cluster(let cluster) = item else {
-                return false
-            }
-            
-            return cluster.h3Resolution == currentResolution
-        }
-        
-        let posts = cachedItems.filter { item in
-            guard case .post(let post) = item else {
-                return false
-            }
-            
-            let postCoordinate = CLLocationCoordinate2D(
-                latitude: post.latitude,
-                longitude: post.longitude
-            )
-            
-            let isCoveredByCluster = clusters.contains { clusterItem in
-                guard case .cluster(let cluster) = clusterItem else {
-                    return false
-                }
-                
-                return cluster.bounds.contains(postCoordinate)
-            }
-            
-            return !isCoveredByCluster
-        }
-        
-        return clusters + posts
-    }
-    
-    private func h3Resolution(for region: MKCoordinateRegion) -> Int {
-        let largestDelta = largestDelta(for: region)
-        
-        if largestDelta > 0.08 { return 7 }
-        if largestDelta > 0.04 { return 8 }
-        if largestDelta > 0.02 { return 9 }
-        if largestDelta > 0.008 { return 10 }
-        
-        return 11
-    }
-    
-    private func shouldShowOnlyIndividualPosts(_ region: MKCoordinateRegion) -> Bool {
-        largestDelta(for: region) <= 0.004
-    }
-    
-    private func largestDelta(for region: MKCoordinateRegion) -> Double {
-        max(region.span.latitudeDelta, region.span.longitudeDelta)
     }
 
     private func hasRegionChangedEnough(

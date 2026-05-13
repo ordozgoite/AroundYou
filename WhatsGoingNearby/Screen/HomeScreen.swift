@@ -88,6 +88,8 @@ struct HomeScreen: View {
                     )
                 case .exploreMap:
                     ExploreMapScreen()
+                case .clusterPosts(let bounds):
+                    ClusterPostsScreen(bounds: bounds)
                 default:
                     EmptyView()
                 }
