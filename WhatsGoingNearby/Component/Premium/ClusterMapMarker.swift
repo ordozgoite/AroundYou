@@ -16,6 +16,16 @@ struct ClusterMapMarker: View {
     private let avatarSize: CGFloat = 24
     
     var body: some View {
+        Group {
+            if cluster.shouldShowPrivateSinglePostMarker {
+                privateSinglePostMarker
+            } else {
+                regularClusterMarker
+            }
+        }
+    }
+    
+    private var regularClusterMarker: some View {
         ZStack(alignment: .bottomTrailing) {
             Circle()
                 .fill(.ultraThinMaterial)
@@ -29,6 +39,27 @@ struct ClusterMapMarker: View {
             avatarComposition
                 .frame(width: markerSize, height: markerSize)
                 .clipShape(Circle())
+            
+            countBadge
+                .offset(x: 5, y: 4)
+        }
+    }
+    
+    private var privateSinglePostMarker: some View {
+        ZStack(alignment: .bottomTrailing) {
+            Circle()
+                .fill(.ultraThinMaterial)
+                .frame(width: markerSize, height: markerSize)
+                .shadow(color: .black.opacity(0.16), radius: 8, x: 0, y: 4)
+                .overlay {
+                    Circle()
+                        .stroke(.white.opacity(0.95), lineWidth: 2)
+                }
+                .overlay {
+                    Image(systemName: "mappin.slash")
+                        .font(.system(size: 22, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                }
             
             countBadge
                 .offset(x: 5, y: 4)
@@ -146,7 +177,3 @@ private extension MapPostCluster {
         return "\(count)"
     }
 }
-
-//#Preview {
-//    ClusterMapMarker()
-//}

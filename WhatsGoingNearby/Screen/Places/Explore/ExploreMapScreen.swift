@@ -226,7 +226,7 @@ struct ExploreMapScreen: View {
         Button {
             recenterMapOnCurrentLocation()
         } label: {
-            Image(systemName: "location.fill")
+            Image(systemName: "location.viewfinder")
                 .font(.system(size: 18, weight: .semibold))
                 .foregroundStyle(.primary)
                 .frame(width: 48, height: 48)

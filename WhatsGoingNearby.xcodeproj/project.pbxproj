@@ -699,6 +699,13 @@
 			path = Explore;
 			sourceTree = "<group>";
 		};
+		625DC64F2FB5181B00412EF4 /* Post Detail */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Post Detail";
+			sourceTree = "<group>";
+		};
 		ED0652552B813823005B6413 /* Bug */ = {
 			isa = PBXGroup;
 			children = (
@@ -1142,6 +1149,7 @@
 				ED6E84CC2B882DD800B94F5C /* Like */,
 				625DC64E2FB39D5400412EF4 /* Explore */,
 				625DC6472FB3993500412EF4 /* ClusterPosts */,
+				625DC64F2FB5181B00412EF4 /* Post Detail */,
 			);
 			path = Places;
 			sourceTree = "<group>";

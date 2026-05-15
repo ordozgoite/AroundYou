@@ -73,6 +73,7 @@ struct ClusterPostsScreen: View {
 
 extension ClusterPostsScreen {
     private func loadScreen() {
+        if viewModel.hasFetched { return }
         Task {
             do {
                 viewModel.isLoading = true

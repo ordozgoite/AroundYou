@@ -74,7 +74,10 @@ struct MapPostCluster: Identifiable, Decodable {
     let longitude: Double
     let bounds: MapClusterBounds
     let isPlaceCluster: Bool
+    let containsPrivatePosts: Bool
+    let isPrivateSinglePostCluster: Bool
     let previewUserProfilePics: [String?]
+    let postIds: [String]
     
     private enum CodingKeys: String, CodingKey {
         case type
@@ -84,7 +87,10 @@ struct MapPostCluster: Identifiable, Decodable {
         case longitude
         case bounds
         case isPlaceCluster
+        case containsPrivatePosts
+        case isPrivateSinglePostCluster
         case previewUserProfilePics
+        case postIds
     }
     
     init(from decoder: Decoder) throws {
@@ -98,7 +104,14 @@ struct MapPostCluster: Identifiable, Decodable {
         bounds = try container.decode(MapClusterBounds.self, forKey: .bounds)
         
         isPlaceCluster = try container.decodeIfPresent(Bool.self, forKey: .isPlaceCluster) ?? false
+        containsPrivatePosts = try container.decodeIfPresent(Bool.self, forKey: .containsPrivatePosts) ?? false
+        isPrivateSinglePostCluster = try container.decodeIfPresent(Bool.self, forKey: .isPrivateSinglePostCluster) ?? false
         previewUserProfilePics = try container.decodeIfPresent([String?].self, forKey: .previewUserProfilePics) ?? []
+        postIds = try container.decodeIfPresent([String].self, forKey: .postIds) ?? []
+    }
+    
+    var shouldShowPrivateSinglePostMarker: Bool {
+        isPrivateSinglePostCluster
     }
 }
 
@@ -107,18 +120,6 @@ struct MapClusterBounds: Decodable, Equatable, Hashable {
     let maxLat: Double
     let minLng: Double
     let maxLng: Double
-}
-
-extension MapPostCluster {
-    var h3Resolution: Int? {
-        let components = id.split(separator: ":")
-        
-        guard components.count >= 4 else {
-            return nil
-        }
-        
-        return Int(components[2])
-    }
 }
 
 extension MapClusterBounds {
