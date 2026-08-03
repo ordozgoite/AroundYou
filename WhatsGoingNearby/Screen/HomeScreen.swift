@@ -86,6 +86,12 @@ struct HomeScreen: View {
                         chatPic: chat.chatPic,
                         isLocked: chat.isLocked
                     )
+                case .exploreMap:
+                    ExploreMapScreen()
+                case .clusterPosts(let bounds):
+                    ClusterPostsScreen(bounds: bounds)
+                case .postDetail(let postId):
+                    PostDetailScreen(postId: postId)
                 default:
                     EmptyView()
                 }

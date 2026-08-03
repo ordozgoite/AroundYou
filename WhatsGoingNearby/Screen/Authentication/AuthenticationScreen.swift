@@ -13,65 +13,48 @@ struct AuthenticationScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @Environment(\.colorScheme) var colorScheme
     @FocusState private var authInputIsFocused: Bool
+    @StateObject private var navCoordinator = NavigationCoordinator()
+    
+    @State private var isEmailOptionSelected: Bool = false
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navCoordinator.path) {
             ZStack {
                 VStack {
-                    VStack {
-                        LogoView()
-                        
-                        AuthFlowSegmentedControl(selectedFilter: $authVM.flow)
-                            .padding([.top, .bottom], 16)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                    Header()
                     
-                    VStack {
-                        if authVM.flow == .signUp {
-                            AYTextField(imageName: "person.fill", title: "Username", error: $authVM.errorMessage.0, inputText: $authVM.usernameInput)
-                                .focused($authInputIsFocused)
-                        }
-                        
-                        AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.1, inputText: $authVM.emailInput)
-                            .keyboardType(.emailAddress)
-                            .focused($authInputIsFocused)
-                        
-                        AYSecureTextField(imageName: "lock", title: "Password", error: $authVM.errorMessage.2, inputText: $authVM.passwordInput)
-                            .focused($authInputIsFocused)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    EmailFieldsView()
                     
-                    VStack {
-                        ButtonView()
-                        
-                        Or()
-                        
-                        SiwA()
-                        
-                        if authVM.flow == .login  {
-                            Button("Forgot your password?") {
-                                authVM.isForgotPasswordScreenDisplayed = true
-                            }
-                        } else {
-                            Text("By signing up, you agree to our [Terms of Use](https://aroundyou3.wordpress.com/terms-of-use) and [Privacy Policy](https://aroundyou3.wordpress.com/policy-privacy).")
-                                .multilineTextAlignment(.center)
-                                .foregroundStyle(.gray)
-                                .font(.caption)
-                        }
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                    ActionView()
+                    
+                    Footer()
                 }
                 .padding()
                 
                 AYErrorAlert(message: authVM.overlayError.1 , isErrorAlertPresented: $authVM.overlayError.0)
-                
-                NavigationLink(
-                    destination: ForgotPasswordScreen().environmentObject(authVM),
-                    isActive: $authVM.isForgotPasswordScreenDisplayed,
-                    label: { EmptyView() }
-                )
+            }
+            .navigationDestination(for: AppRoute.self) { destination in
+                switch destination {
+                case .forgotPassword:
+                    ForgotPasswordScreen()
+                default:
+                    EmptyView()
+                }
             }
         }
+    }
+    
+    // MARK: - Header
+    
+    @ViewBuilder
+    private func Header() -> some View {
+        VStack {
+            LogoView()
+            
+            AuthFlowSegmentedControl(selectedFilter: $authVM.flow)
+                .padding([.top, .bottom], 16)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
     
     //MARK: - Logo View
@@ -93,10 +76,55 @@ struct AuthenticationScreen: View {
         .padding()
     }
     
+    // MARK: - Email Fields
+    
+    @ViewBuilder
+    private func EmailFieldsView() -> some View {
+        if isEmailOptionSelected {
+            VStack {
+                if authVM.flow == .signUp {
+                    AYTextField(imageName: "person.fill", title: "Username", error: $authVM.errorMessage.0, inputText: $authVM.usernameInput)
+                        .focused($authInputIsFocused)
+                }
+                
+                AYTextField(imageName: "envelope", title: "E-mail", error: $authVM.errorMessage.1, inputText: $authVM.emailInput)
+                    .keyboardType(.emailAddress)
+                    .focused($authInputIsFocused)
+                
+                AYSecureTextField(imageName: "lock", title: "Password", error: $authVM.errorMessage.2, inputText: $authVM.passwordInput)
+                    .focused($authInputIsFocused)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        }
+    }
+    
+    // MARK: - Action View
+    
+    @ViewBuilder
+    private func ActionView() -> some View {
+        VStack {
+            if isEmailOptionSelected {
+                EmailAuthButton()
+            } else {
+                AYButton(
+                    title: "Continue with Email",
+                    systemNameImage: "envelope.fill"
+                ) {
+                    isEmailOptionSelected = true
+                }
+            }
+            
+            Or()
+            
+            SiwA()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+    }
+    
     //MARK: - Button View
     
     @ViewBuilder
-    private func ButtonView() -> some View {
+    private func EmailAuthButton() -> some View {
         if authVM.authenticationState == .authenticating {
             AYProgressButton(title: "Authenticating...")
         } else {
@@ -160,9 +188,29 @@ struct AuthenticationScreen: View {
             authVM.handleSignInWithAppleCompletion(result)
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 58, maxHeight: 58)
-        .cornerRadius(10)
+        .cornerRadius(29)
     }
     
+    // MARK: - Footer
+    
+    @ViewBuilder
+    private func Footer() -> some View {
+        ZStack {
+            if authVM.flow == .login  {
+                if isEmailOptionSelected {
+                    Button("Forgot your password?") {
+                        navCoordinator.navigate(to: .forgotPassword)
+                    }
+                }
+            } else {
+                Text("By signing up, you agree to our [Terms of Use](https://aroundyou3.wordpress.com/terms-of-use) and [Privacy Policy](https://aroundyou3.wordpress.com/policy-privacy).")
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.gray)
+                    .font(.caption)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+    }
 }
 
 #Preview {

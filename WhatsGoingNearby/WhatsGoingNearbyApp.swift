@@ -16,7 +16,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     @StateObject private var locationManager = LocationManager()
     
     func application( _ application: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        FirebaseApp.configure()
+        // FirebaseApp.configure()
         
         Messaging.messaging().isAutoInitEnabled = true
         
@@ -39,7 +39,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         Função scheduleAppRefresh começou a lançar uma exceção após a atualização do iOS 18.4.
          TODO: Corrigir erro!
         */
-//        scheduleAppRefresh()
         
         BGTaskScheduler.shared.register(forTaskWithIdentifier: Constants.updateLocBGTaskId, using: nil) { task in
             guard let task = task as? BGAppRefreshTask else { return }
@@ -50,13 +49,14 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         
         
         print("💾 Last notification: \(LocalState.lastNotificationTime)")
+        print("🏃 BG Task Run Count: \(LocalState.bgTaskRunCount)")
         
         return true
     }
     
     private func handleTask(task: BGAppRefreshTask) {
-        let count = LocalState.lastNotificationTime
-        LocalState.lastNotificationTime = count + 1
+        let count = LocalState.bgTaskRunCount
+        LocalState.bgTaskRunCount = count + 1
         
         schedule()
         Task {
@@ -133,6 +133,11 @@ extension AppDelegate: MessagingDelegate {
 
 @main
 struct WhatsGoingNearbyApp: App {
+    init() {
+        FirebaseApp.configure()
+        print("✅ Firebase configured in App init")
+    }
+    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     @StateObject var notificationManager = NotificationManager()
@@ -150,11 +155,5 @@ struct WhatsGoingNearbyApp: App {
                 .environmentObject(locationManager)
                 .environmentObject(placesVM)
         }
-//        .backgroundTask(.appRefresh(Constants.updateLocBGTaskId)) {
-//            scheduleAppRefresh()
-//            if await isPostNearBy() {
-//                await notifyNearByPost()
-//            }
-//        }
     }
 }

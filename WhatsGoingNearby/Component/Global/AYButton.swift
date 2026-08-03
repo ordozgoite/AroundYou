@@ -23,19 +23,27 @@ struct AYButton: View {
         Button {
             action()
         } label: {
-            if let sysImage = systemNameImage {
-                Label(title, systemImage: sysImage)
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44, maxHeight: 44)
-            } else {
-                Text(title)
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44, maxHeight: 44)
-            }
+            content
+                .font(.title3)
+                .fontWeight(.semibold)
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
+                .frame(height: 44)
+                .background(Color.accentColor)
+                .clipShape(Capsule())
         }
         .buttonStyle(.borderedProminent)
+    }
+    
+    // MARK: - Content
+    
+    @ViewBuilder
+    private var content: some View {
+        if let sysImage = systemNameImage {
+            Label(title, systemImage: sysImage)
+        } else {
+            Text(title)
+        }
     }
 }
 

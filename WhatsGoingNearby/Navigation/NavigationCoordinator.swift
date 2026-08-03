@@ -8,6 +8,9 @@
 import Foundation
 
 enum AppRoute: Hashable { // Type 'AppRoute' does not conform to protocol 'Identifiable'
+    // Auth
+    case forgotPassword
+    
     // Posts
     case createPost
     case comment(FormattedPost)
@@ -18,6 +21,11 @@ enum AppRoute: Hashable { // Type 'AppRoute' does not conform to protocol 'Ident
     case postMap(FormattedPost)
     case like(FormattedPost)
     case userProfile(String)
+    case postDetail(String)
+    
+    // Explore
+    case exploreMap
+    case clusterPosts(MapClusterBounds)
     
     // People
     
