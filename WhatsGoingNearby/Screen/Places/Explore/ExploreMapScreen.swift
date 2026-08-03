@@ -11,6 +11,7 @@ import MapKit
 struct ExploreMapScreen: View {
     
     @StateObject private var viewModel = ExploreMapViewModel()
+    
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var navCoordinator: NavigationCoordinator
     @EnvironmentObject var locationManager: LocationManager
@@ -45,7 +46,7 @@ struct ExploreMapScreen: View {
             return viewModel.items
         }
         
-        return viewModel.items.sorted(by: { (first: ExploreMapItem, second: ExploreMapItem) in
+        return viewModel.items.sorted { first, second in
             if first.isPost(id: selectedPostId) {
                 return false
             }
@@ -55,58 +56,12 @@ struct ExploreMapScreen: View {
             }
             
             return first.zIndex < second.zIndex
-        })
+        }
     }
     
     var body: some View {
         ZStack {
-            if region != nil {
-                Map(
-                    coordinateRegion: regionBinding,
-                    interactionModes: [.pan, .zoom],
-                    showsUserLocation: true,
-                    annotationItems: orderedMapItems
-                ) { item in
-                    MapAnnotation(coordinate: item.coordinate) {
-                        switch item {
-                        case .post(let post):
-                            MapPostAnnotationView(
-                                post: post,
-                                isSelected: viewModel.selectedPostId == post.id,
-                                namespace: mapPostMarkerAnimation,
-                                onSelect: {
-                                    withAnimation(.spring(response: 0.38, dampingFraction: 0.86)) {
-                                        viewModel.selectedPostId = post.id
-                                    }
-                                }
-                            )
-                            .zIndex(viewModel.selectedPostId == post.id ? 999 : 0)
-                            
-                        case .cluster(let cluster):
-                            ClusterMapMarker(cluster: cluster)
-                                .onTapGesture {
-                                    openClusterPosts(cluster)
-                                }
-                                .zIndex(100)
-                        }
-                    }
-                }
-                .ignoresSafeArea()
-                .onChange(of: region?.center.latitude) { _ in
-                    handleRegionChange()
-                }
-                .onChange(of: region?.center.longitude) { _ in
-                    handleRegionChange()
-                }
-                .onChange(of: region?.span.latitudeDelta) { _ in
-                    handleRegionChange()
-                }
-                .onChange(of: region?.span.longitudeDelta) { _ in
-                    handleRegionChange()
-                }
-            } else {
-                waitingForLocationView
-            }
+            mapContent
             
             VStack {
                 topBar
@@ -128,53 +83,24 @@ struct ExploreMapScreen: View {
             .zIndex(250)
             
             if let errorMessage = viewModel.errorMessage {
-                VStack {
-                    Spacer()
-                    
-                    Text(errorMessage)
-                        .font(.subheadline)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-                        .background(.ultraThinMaterial)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
-                        .padding(.bottom, 32)
-                }
-                .zIndex(300)
+                errorView(errorMessage)
+                    .zIndex(300)
             }
             
             if selectedPost != nil {
-                Color.black
-                    .opacity(0.08)
-                    .ignoresSafeArea()
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
-                            viewModel.selectedPostId = nil
-                        }
-                    }
-                    .transition(.opacity)
+                selectedPostDismissOverlay
                     .zIndex(500)
             }
             
             if let selectedPost {
-                VStack {
-                    Spacer()
-                    
-                    ExpandedPostMapMarker(
-                        post: selectedPost,
-                        namespace: mapPostMarkerAnimation,
-                        onTap: {
-                            openPostDetails(selectedPost)
-                        }
-                    )
-                    .padding(.bottom, 32)
-                }
-                .padding(.horizontal, 16)
-                .transition(.move(edge: .bottom).combined(with: .opacity))
-                .zIndex(1000)
+                expandedPostView(selectedPost)
+                    .zIndex(1000)
             }
         }
-        .animation(.easeInOut(duration: 0.2), value: viewModel.selectedPostId)
+        .animation(
+            .easeInOut(duration: 0.2),
+            value: viewModel.selectedPostId
+        )
         .onReceive(locationManager.$location) { location in
             centerMapOnUserLocationIfNeeded(location)
         }
@@ -183,6 +109,66 @@ struct ExploreMapScreen: View {
                 viewModel.firebaseUserToken = try await authVM.getFirebaseToken()
                 requestCurrentLocation()
             }
+        }
+    }
+    
+    @ViewBuilder
+    private var mapContent: some View {
+        if region != nil {
+            Map(
+                coordinateRegion: regionBinding,
+                interactionModes: [.pan, .zoom],
+                showsUserLocation: true,
+                annotationItems: orderedMapItems
+            ) { item in
+                MapAnnotation(coordinate: item.coordinate) {
+                    switch item {
+                    case .post(let post):
+                        MapPostAnnotationView(
+                            post: post,
+                            isSelected: viewModel.selectedPostId == post.id,
+                            namespace: mapPostMarkerAnimation,
+                            onSelect: {
+                                withAnimation(
+                                    .spring(
+                                        response: 0.38,
+                                        dampingFraction: 0.86
+                                    )
+                                ) {
+                                    viewModel.selectedPostId = post.id
+                                }
+                            }
+                        )
+                        .zIndex(
+                            viewModel.selectedPostId == post.id
+                                ? 999
+                                : 0
+                        )
+                        
+                    case .cluster(let cluster):
+                        ClusterMapMarker(cluster: cluster)
+                            .onTapGesture {
+                                openClusterPosts(cluster)
+                            }
+                            .zIndex(100)
+                    }
+                }
+            }
+            .ignoresSafeArea()
+            .onChange(of: region?.center.latitude) { _ in
+                handleRegionChange()
+            }
+            .onChange(of: region?.center.longitude) { _ in
+                handleRegionChange()
+            }
+            .onChange(of: region?.span.latitudeDelta) { _ in
+                handleRegionChange()
+            }
+            .onChange(of: region?.span.longitudeDelta) { _ in
+                handleRegionChange()
+            }
+        } else {
+            waitingForLocationView
         }
     }
     
@@ -202,24 +188,83 @@ struct ExploreMapScreen: View {
     private var topBar: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Explore")
-                    .font(.title2)
-                    .fontWeight(.bold)
+                HStack(spacing: 8) {
+                    Text("Explore")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    
+                    if viewModel.isLoading && region != nil {
+                        ProgressView()
+                            .controlSize(.mini)
+                            .transition(.opacity)
+                    }
+                }
                 
-                Text("Move the map to discover posts nearby")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            }
-            
-            Spacer()
-            
-            if viewModel.isLoading || region == nil {
-                ProgressView()
-                    .controlSize(.small)
+                HStack {
+                    Text("Explore posts from across the city")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                    
+                    Spacer()
+                    
+                    locationInfoButton
+                }
             }
         }
         .padding()
         .background(.ultraThinMaterial)
+        .animation(
+            .easeInOut(duration: 0.2),
+            value: viewModel.isLoading
+        )
+    }
+    
+    private var locationInfoButton: some View {
+        Button {
+            viewModel.isLocationInfoPresented.toggle()
+        } label: {
+            Image(systemName: "info.circle")
+                .font(.system(size: 20, weight: .medium))
+                .foregroundStyle(.secondary)
+                .frame(width: 32, height: 32)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text("About post locations"))
+        .popover(
+            isPresented: $viewModel.isLocationInfoPresented,
+            attachmentAnchor: .rect(.bounds),
+            arrowEdge: .top
+        ) {
+            locationInfoPopover
+                .presentationCompactAdaptation(.popover)
+        }
+    }
+    
+    private var locationInfoPopover: some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: "location.slash")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(.secondary)
+            
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Approximate locations")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                
+                Text(
+                    "Some posts appear at an approximate location to preserve privacy."
+                )
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .padding(16)
+        .frame(
+            idealWidth: 290,
+            alignment: .leading
+        )
     }
     
     private var recenterButton: some View {
@@ -232,8 +277,14 @@ struct ExploreMapScreen: View {
                 .frame(width: 48, height: 48)
                 .background(.ultraThinMaterial)
                 .clipShape(Circle())
-                .shadow(color: .black.opacity(0.18), radius: 8, x: 0, y: 4)
+                .shadow(
+                    color: .black.opacity(0.18),
+                    radius: 8,
+                    x: 0,
+                    y: 4
+                )
         }
+        .accessibilityLabel(Text("Recenter map"))
     }
     
     private var waitingForLocationView: some View {
@@ -246,6 +297,62 @@ struct ExploreMapScreen: View {
         }
     }
     
+    private func errorView(_ errorMessage: String) -> some View {
+        VStack {
+            Spacer()
+            
+            Text(errorMessage)
+                .font(.subheadline)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+                .background(.ultraThinMaterial)
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 16)
+                )
+                .padding(.bottom, 32)
+        }
+    }
+    
+    private var selectedPostDismissOverlay: some View {
+        Color.black
+            .opacity(0.08)
+            .ignoresSafeArea()
+            .contentShape(Rectangle())
+            .onTapGesture {
+                withAnimation(
+                    .spring(
+                        response: 0.35,
+                        dampingFraction: 0.85
+                    )
+                ) {
+                    viewModel.selectedPostId = nil
+                }
+            }
+            .transition(.opacity)
+    }
+    
+    private func expandedPostView(
+        _ selectedPost: MapMarkedPost
+    ) -> some View {
+        VStack {
+            Spacer()
+            
+            ExpandedPostMapMarker(
+                post: selectedPost,
+                namespace: mapPostMarkerAnimation,
+                onTap: {
+                    openPostDetails(selectedPost)
+                }
+            )
+            .padding(.bottom, 32)
+        }
+        .padding(.horizontal, 16)
+        .transition(
+            .move(edge: .bottom)
+                .combined(with: .opacity)
+        )
+    }
+    
     private func requestCurrentLocation() {
         if let location = locationManager.location {
             centerMapOnUserLocationIfNeeded(location)
@@ -255,23 +362,39 @@ struct ExploreMapScreen: View {
         locationManager.requestLocation()
     }
     
-    private func centerMapOnUserLocationIfNeeded(_ location: CLLocation?) {
-        guard !didCenterOnUserLocation else { return }
-        guard let location else { return }
+    private func centerMapOnUserLocationIfNeeded(
+        _ location: CLLocation?
+    ) {
+        guard !didCenterOnUserLocation else {
+            return
+        }
+        
+        guard let location else {
+            return
+        }
         
         didCenterOnUserLocation = true
-        centerMap(on: location, animated: false)
+        centerMap(
+            on: location,
+            animated: false
+        )
     }
     
     private func recenterMapOnCurrentLocation() {
         if let location = locationManager.location {
-            centerMap(on: location, animated: true)
+            centerMap(
+                on: location,
+                animated: true
+            )
         } else {
             locationManager.requestLocation()
         }
     }
     
-    private func centerMap(on location: CLLocation, animated: Bool) {
+    private func centerMap(
+        on location: CLLocation,
+        animated: Bool
+    ) {
         let updatedRegion = MKCoordinateRegion(
             center: CLLocationCoordinate2D(
                 latitude: location.coordinate.latitude,
@@ -297,12 +420,17 @@ struct ExploreMapScreen: View {
     private func handleRegionChange() {
         limitZoomOutIfNeeded()
         
-        guard let region else { return }
+        guard let region else {
+            return
+        }
+        
         viewModel.regionDidChange(region)
     }
     
     private func limitZoomOutIfNeeded() {
-        guard let currentRegion = region else { return }
+        guard let currentRegion = region else {
+            return
+        }
         
         var updatedRegion = currentRegion
         var shouldUpdate = false
@@ -324,12 +452,20 @@ struct ExploreMapScreen: View {
         }
     }
     
-    private func openPostDetails(_ post: MapMarkedPost) {
-        navCoordinator.navigate(to: .postDetail(post.id))
+    private func openPostDetails(
+        _ post: MapMarkedPost
+    ) {
+        navCoordinator.navigate(
+            to: .postDetail(post.id)
+        )
     }
     
-    private func openClusterPosts(_ cluster: MapPostCluster) {
-        navCoordinator.navigate(to: .clusterPosts(cluster.bounds))
+    private func openClusterPosts(
+        _ cluster: MapPostCluster
+    ) {
+        navCoordinator.navigate(
+            to: .clusterPosts(cluster.bounds)
+        )
     }
 }
 
@@ -349,7 +485,13 @@ struct MapPostAnnotationView: View {
         .onTapGesture {
             onSelect()
         }
-        .animation(.spring(response: 0.38, dampingFraction: 0.86), value: isSelected)
+        .animation(
+            .spring(
+                response: 0.38,
+                dampingFraction: 0.86
+            ),
+            value: isSelected
+        )
     }
 }
 
@@ -359,6 +501,7 @@ private extension ExploreMapItem {
         switch self {
         case .post:
             return 0
+            
         case .cluster:
             return 100
         }
@@ -368,6 +511,7 @@ private extension ExploreMapItem {
         switch self {
         case .post(let post):
             return post.id == postId
+            
         case .cluster:
             return false
         }

@@ -39,6 +39,7 @@ final class ExploreMapViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var selectedPostId: String?
+    @Published var isLocationInfoPresented = false
 
     private var debounceTask: Task<Void, Never>?
     private var currentFetchTask: Task<Void, Never>?
