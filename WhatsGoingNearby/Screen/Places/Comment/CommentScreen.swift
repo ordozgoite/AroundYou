@@ -10,26 +10,35 @@ import CoreLocation
 
 struct CommentScreen: View, PostViewActionHandler {
     @State var post: FormattedPost
+    
+    @State private var isLoadingComments = true
+    @State private var hasLoadedComments = false
+    
     private let maxCommentLength = 250
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var navCoordinator: NavigationCoordinator
     @EnvironmentObject var socket: SocketService
     @EnvironmentObject var locationManager: LocationManager
+    
     @StateObject private var commentVM = CommentViewModel()
+    
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var commentIsFocused: Bool
     
     var body: some View {
         ZStack {
-            VStack {
+            VStack(spacing: 0) {
                 ScrollView {
-                    PostView(post: post, delegate: self, isClickable: false)
-                        .padding()
-                    
-                    Divider()
+                    PostView(
+                        post: post,
+                        delegate: self,
+                        isClickable: false
+                    )
+                    .padding()
                     
                     if post.postSource == .publication {
+                        Divider()
                         Comments()
                     }
                 }
@@ -39,10 +48,13 @@ struct CommentScreen: View, PostViewActionHandler {
                 }
             }
             
-            AYErrorAlert(message: commentVM.overlayError.1 , isErrorAlertPresented: $commentVM.overlayError.0)
+            AYErrorAlert(
+                message: commentVM.overlayError.1,
+                isErrorAlertPresented: $commentVM.overlayError.0
+            )
         }
-        .onAppear {
-            startUpdatingComments()
+        .task {
+            await loadInitialComments()
         }
         .onDisappear {
             stopTimer()
@@ -51,83 +63,162 @@ struct CommentScreen: View, PostViewActionHandler {
         .navigationBarTitleDisplayMode(.inline)
     }
     
-    //MARK: - Comments
+    // MARK: - Comments
     
     @ViewBuilder
     private func Comments() -> some View {
-        VStack {
+        VStack(spacing: 0) {
             Disclaimer()
+            
             Divider()
             
-            ForEach($commentVM.comments) { $comment in
-                CommentView(isPostFromRecipientUser: post.isFromRecipientUser, postType: post.status, comment: $comment, deleteComment: {
-                    Task {
-                        let token = try await authVM.getFirebaseToken()
-                        await commentVM.deleteComment(commentId: comment.id, token: token)
-                    }
-                }, reply: {
-                    commentIsFocused = true
-                    commentVM.repliedComment = comment
-                }, location: $locationManager.location)
-                .padding()
-                Divider()
+            if isLoadingComments {
+                CommentsLoadingView()
+            } else if hasLoadedComments && commentVM.comments.isEmpty {
+                EmptyCommentsView()
+            } else {
+                CommentsList()
             }
         }
+    }
+    
+    @ViewBuilder
+    private func CommentsList() -> some View {
+        ForEach($commentVM.comments) { $comment in
+            CommentView(
+                isPostFromRecipientUser: post.isFromRecipientUser,
+                postType: post.status,
+                comment: $comment,
+                deleteComment: {
+                    Task {
+                        await deleteComment(
+                            commentId: comment.id
+                        )
+                    }
+                },
+                reply: {
+                    commentVM.repliedComment = comment
+                    commentIsFocused = true
+                },
+                location: $locationManager.location
+            )
+            .padding()
+            
+            Divider()
+        }
+    }
+    
+    // MARK: - Comments Loading
+    
+    @ViewBuilder
+    private func CommentsLoadingView() -> some View {
+        VStack(spacing: 12) {
+            ProgressView()
+            
+            Text("Loading comments...")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 40)
+    }
+    
+    // MARK: - Empty Comments
+    
+    @ViewBuilder
+    private func EmptyCommentsView() -> some View {
+        VStack(spacing: 10) {
+            Image(systemName: "bubble.left")
+                .font(.system(size: 30))
+                .foregroundColor(.secondary)
+            
+            Text("No comments yet")
+                .font(.headline)
+            
+            Text("Be the first person to comment.")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+        }
+        .multilineTextAlignment(.center)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 40)
+        .padding(.horizontal)
     }
     
     // MARK: - Disclaimer
     
     @ViewBuilder
     private func Disclaimer() -> some View {
-        AYDisclaimerView(text: "Only people nearby this post can interact with it, including the owner.")
-            .padding()
+        AYDisclaimerView(
+            text: "Only people nearby this post can interact with it, including the owner."
+        )
+        .padding()
     }
     
-    //MARK: - Comment Text Field
+    // MARK: - Comment Text Field
     
     @ViewBuilder
     private func CommentTextField() -> some View {
-        VStack {
+        VStack(spacing: 0) {
             if let comment = commentVM.repliedComment {
                 HStack {
-                    HStack {
-                        Text("Replying to \(comment.username)")
-                            .font(.subheadline)
-                            .foregroundStyle(.blue)
-                        
-                        Image(systemName: "xmark")
-                            .scaleEffect(0.8)
-                            .foregroundStyle(.blue)
-                    }
-                    .onTapGesture {
+                    Button {
                         commentVM.repliedComment = nil
+                    } label: {
+                        HStack {
+                            Text("Replying to \(comment.username)")
+                                .font(.subheadline)
+                            
+                            Image(systemName: "xmark")
+                                .font(.caption)
+                        }
+                        .foregroundColor(.blue)
                     }
                     
                     Spacer()
                 }
-                .padding(10)
+                .padding(.horizontal)
+                .padding(.top, 10)
             }
             
             HStack {
-                TextField(commentVM.repliedComment == nil ? "Add a comment... " : "Add a reply...", text: $commentVM.newCommentText, axis: .vertical)
-                    .padding(10)
-                    .background(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                    .cornerRadius(20)
-                    .shadow(color: .gray, radius: 10)
-                    .focused($commentIsFocused)
-                    .onChange(of: commentVM.newCommentText) { newValue in
-                        if newValue.count > maxCommentLength {
-                            commentVM.newCommentText = String(newValue.prefix(maxCommentLength))
-                        }
-                    }
+                TextField(
+                    commentVM.repliedComment == nil
+                        ? "Add a comment..."
+                        : "Add a reply...",
+                    text: $commentVM.newCommentText,
+                    axis: .vertical
+                )
+                .padding(10)
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(
+                            colors: [
+                                Color.gray.opacity(0.1)
+                            ]
+                        ),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .cornerRadius(20)
+                .shadow(
+                    color: .gray,
+                    radius: 10
+                )
+                .focused($commentIsFocused)
+                .onChange(of: commentVM.newCommentText) { newValue in
+                    limitCommentLength(newValue)
+                }
                 
                 if !commentVM.newCommentText.isEmpty {
-                    Button(action: {
+                    Button {
                         commentIsFocused = false
+                        
                         Task {
-                            try await postNewComment()
+                            await postNewComment()
                         }
-                    }) {
+                    } label: {
                         Image(systemName: "paperplane.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -140,82 +231,187 @@ struct CommentScreen: View, PostViewActionHandler {
         }
     }
     
+    // MARK: - Initial Loading
     
-    //MARK: - Auxiliary methods
-    
-    private func postNewComment() async throws {
-        if let location = locationManager.location {
+    private func loadInitialComments() async {
+        isLoadingComments = true
+        
+        do {
             let token = try await authVM.getFirebaseToken()
             
-            let latitude = location.coordinate.latitude
-            let longitude = location.coordinate.longitude
+            await commentVM.getAllComments(
+                publicationId: post.id,
+                token: token
+            )
             
-            await commentVM.postNewComment(publicationId: post.id, text: commentVM.newCommentText, latitude: latitude, longitude: longitude, token: token)
+            /*
+             O ViewModel apresenta o erro pelo overlayError.
+             Só consideramos o primeiro carregamento concluído com
+             sucesso caso nenhum erro tenha sido apresentado.
+             */
+            if !commentVM.overlayError.0 {
+                hasLoadedComments = true
+                startUpdatingComments()
+            }
+        } catch {
+            commentVM.overlayError = (
+                true,
+                LocalizedStringKey(error.localizedDescription)
+            )
+        }
+        
+        isLoadingComments = false
+    }
+    
+    // MARK: - Comment Actions
+    
+    private func postNewComment() async {
+        guard let location = locationManager.location else {
+            return
+        }
+        
+        do {
+            let token = try await authVM.getFirebaseToken()
+            
+            await commentVM.postNewComment(
+                publicationId: post.id,
+                text: commentVM.newCommentText,
+                latitude: location.coordinate.latitude,
+                longitude: location.coordinate.longitude,
+                token: token
+            )
+            
+            /*
+             Após publicar o primeiro comentário, a lista deixa
+             naturalmente de estar vazia.
+             */
+            hasLoadedComments = true
+        } catch {
+            commentVM.overlayError = (
+                true,
+                LocalizedStringKey(error.localizedDescription)
+            )
         }
     }
     
+    private func deleteComment(commentId: String) async {
+        do {
+            let token = try await authVM.getFirebaseToken()
+            
+            await commentVM.deleteComment(
+                commentId: commentId,
+                token: token
+            )
+        } catch {
+            commentVM.overlayError = (
+                true,
+                LocalizedStringKey(error.localizedDescription)
+            )
+        }
+    }
+    
+    private func limitCommentLength(_ text: String) {
+        guard text.count > maxCommentLength else {
+            return
+        }
+        
+        commentVM.newCommentText = String(
+            text.prefix(maxCommentLength)
+        )
+    }
+    
+    // MARK: - Comments Timer
+    
     private func startUpdatingComments() {
-        commentVM.timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+        guard commentVM.timer == nil else {
+            return
+        }
+        
+        commentVM.timer = Timer.scheduledTimer(
+            withTimeInterval: 5,
+            repeats: true
+        ) { _ in
             Task {
-                let token = try await authVM.getFirebaseToken()
-                await commentVM.getAllComments(publicationId: post.id, token: token)
+                do {
+                    let token = try await authVM.getFirebaseToken()
+                    
+                    await commentVM.getAllComments(
+                        publicationId: post.id,
+                        token: token
+                    )
+                } catch {
+                    // Não apresenta alertas de autenticação
+                    // durante atualizações automáticas.
+                }
             }
         }
-        commentVM.timer?.fire()
     }
     
     private func stopTimer() {
         commentVM.timer?.invalidate()
+        commentVM.timer = nil
     }
 }
 
 // MARK: - Post View Protocol
 
 extension CommentScreen {
-    func postViewDidLikePublication(_ content: FormattedPost) {
-        if post.likes != nil {
-            post.likes! += 1
-            post.didLike = true
+    
+    func postViewDidLikePublication(
+        _ content: FormattedPost
+    ) {
+        guard let likes = post.likes else {
+            return
         }
+        
+        post.likes = likes + 1
+        post.didLike = true
     }
     
-    func postViewDidUnlikePublication(_ content: FormattedPost) {
-        if post.likes != nil {
-            post.likes! -= 1
-            post.didLike = false
+    func postViewDidUnlikePublication(
+        _ content: FormattedPost
+    ) {
+        guard let likes = post.likes else {
+            return
         }
+        
+        post.likes = max(0, likes - 1)
+        post.didLike = false
     }
     
-    func postViewDidDeletePublication(_ content: FormattedPost) {
+    func postViewDidDeletePublication(
+        _ content: FormattedPost
+    ) {
         navCoordinator.goBack()
     }
     
-    func postViewDidDeleteLostItem(_ content: FormattedPost) {
-        // Nunca vai acontecer aqui
+    func postViewDidDeleteLostItem(
+        _ content: FormattedPost
+    ) {
+        // Nunca vai acontecer aqui.
     }
     
-    func postViewDidDeleteReport(_ content: FormattedPost) {
-        // Nunca vai acontecer aqui
+    func postViewDidDeleteReport(
+        _ content: FormattedPost
+    ) {
+        // Nunca vai acontecer aqui.
     }
     
-    func postViewDidFollow(_ content: FormattedPost) {
+    func postViewDidFollow(
+        _ content: FormattedPost
+    ) {
         post.isSubscribed = true
     }
     
-    func postViewDidUnfollow(_ content: FormattedPost) {
+    func postViewDidUnfollow(
+        _ content: FormattedPost
+    ) {
         post.isSubscribed = false
     }
     
-    func postViewDidMarkAsCompleted(_ content: FormattedPost) {
+    func postViewDidMarkAsCompleted(
+        _ content: FormattedPost
+    ) {
         post.isFinished = true
     }
 }
-
-//#Preview {
-//    CommentScreen(postId: "", post: .constant(FormattedPost(
-//        id: "", userUid: "", userProfilePic: "https://www.bloomberglinea.com/resizer/PLUNbQCzVan6SFJ1RQ3CcBj6js8=/600x0/filters:format(webp):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/bloomberglinea/S5ZMXTXZINE2JBQAV7MECJA7KM.jpg",
-//        username: "TimCook",
-//        timestamp: Int(Date().timeIntervalSince1970), expirationDate: Int(Date().timeIntervalSince1970),
-//        text: "Alguém sabe quando lança o Apple Vision Pro?", likes: 2, didLike: true, comment: 2, latitude: -3.125847431319091, longitude: -60.022035207661695, distanceToMe: 50.0,  isFromRecipientUser: true, isLocationVisible: false, isSubscribed: false)), location: <#Binding<CLLocation?>#>)
-//    .environmentObject(AuthenticationViewModel())
-//}

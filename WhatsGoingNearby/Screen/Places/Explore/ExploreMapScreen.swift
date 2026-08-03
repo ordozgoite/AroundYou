@@ -325,12 +325,10 @@ struct ExploreMapScreen: View {
     }
     
     private func openPostDetails(_ post: MapMarkedPost) {
-        // navCoordinator.navigate(to: .comment)
-        print("Open post details:", post.id)
+        navCoordinator.navigate(to: .postDetail(post.id))
     }
     
     private func openClusterPosts(_ cluster: MapPostCluster) {
-        print("🚨 openClusterPosts")
         navCoordinator.navigate(to: .clusterPosts(cluster.bounds))
     }
 }

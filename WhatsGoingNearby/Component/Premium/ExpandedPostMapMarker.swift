@@ -137,10 +137,6 @@ private extension ExpandedPostMapMarker {
                 .font(.caption)
             
             Spacer()
-            
-            Text("Tap to open")
-                .font(.caption)
-                .foregroundStyle(.secondary)
         }
     }
 }

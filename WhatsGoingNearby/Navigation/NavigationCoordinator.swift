@@ -21,6 +21,7 @@ enum AppRoute: Hashable { // Type 'AppRoute' does not conform to protocol 'Ident
     case postMap(FormattedPost)
     case like(FormattedPost)
     case userProfile(String)
+    case postDetail(String)
     
     // Explore
     case exploreMap

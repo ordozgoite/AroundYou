@@ -19,6 +19,8 @@
 		624CDB2E2FB27285007D2560 /* ClusterMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB2D2FB27285007D2560 /* ClusterMapMarker.swift */; };
 		625DC64B2FB399FC00412EF4 /* ClusterPostsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625DC64A2FB399FC00412EF4 /* ClusterPostsViewModel.swift */; };
 		625DC64D2FB39A8900412EF4 /* ClusterPostsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625DC64C2FB39A8900412EF4 /* ClusterPostsScreen.swift */; };
+		629912053020EC43004EF383 /* PostDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629912043020EC43004EF383 /* PostDetailScreen.swift */; };
+		629912073020EDEF004EF383 /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629912063020EDEF004EF383 /* PostDetailViewModel.swift */; };
 		62CDC6482FAC3AD000E9368A /* PendingPostUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CDC6472FAC3AD000E9368A /* PendingPostUploadView.swift */; };
 		62F5BD6B2FADA547002CA7B1 /* FullScreenLottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F5BD6A2FADA52B002CA7B1 /* FullScreenLottieView.swift */; };
 		ED0314372D37FD2C001B917A /* UserDiscoverInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0314362D37FD2C001B917A /* UserDiscoverInfo.swift */; };
@@ -343,6 +345,8 @@
 		624CDB2D2FB27285007D2560 /* ClusterMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterMapMarker.swift; sourceTree = "<group>"; };
 		625DC64A2FB399FC00412EF4 /* ClusterPostsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterPostsViewModel.swift; sourceTree = "<group>"; };
 		625DC64C2FB39A8900412EF4 /* ClusterPostsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterPostsScreen.swift; sourceTree = "<group>"; };
+		629912043020EC43004EF383 /* PostDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailScreen.swift; sourceTree = "<group>"; };
+		629912063020EDEF004EF383 /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
 		62CDC6472FAC3AD000E9368A /* PendingPostUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingPostUploadView.swift; sourceTree = "<group>"; };
 		62F5BD6A2FADA52B002CA7B1 /* FullScreenLottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenLottieView.swift; sourceTree = "<group>"; };
 		ED0314362D37FD2C001B917A /* UserDiscoverInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDiscoverInfo.swift; sourceTree = "<group>"; };
@@ -702,6 +706,8 @@
 		625DC64F2FB5181B00412EF4 /* Post Detail */ = {
 			isa = PBXGroup;
 			children = (
+				629912043020EC43004EF383 /* PostDetailScreen.swift */,
+				629912063020EDEF004EF383 /* PostDetailViewModel.swift */,
 			);
 			path = "Post Detail";
 			sourceTree = "<group>";
@@ -1736,6 +1742,7 @@
 				EDE1991F2CCB67E80065206C /* PeopleScreen.swift in Sources */,
 				EDAECA472DD8304F00D1A938 /* DisclaimerTestView.swift in Sources */,
 				EDA322272B7CA342009905B5 /* HTTPClient.swift in Sources */,
+				629912073020EDEF004EF383 /* PostDetailViewModel.swift in Sources */,
 				ED6DD4992B82E5E900ADBB64 /* NewPostLocationScreen.swift in Sources */,
 				ED30CE712D6D61FD001FB213 /* CommunityMessage.swift in Sources */,
 				EDEF4E7A2D91E723009CA424 /* LostAndFoundView.swift in Sources */,
@@ -1911,6 +1918,7 @@
 				ED52D8D72DC475050098D450 /* LostItemDetailScreen.swift in Sources */,
 				ED4D7C362D418710007FC1FF /* EmptyDiscoverView.swift in Sources */,
 				624CDB222FB04393007D2560 /* MapMarkedPost.swift in Sources */,
+				629912053020EC43004EF383 /* PostDetailScreen.swift in Sources */,
 				EDCF2C382BB66E400066950F /* Message.swift in Sources */,
 				ED30CE7A2D6F549A001FB213 /* BusinessScreen.swift in Sources */,
 				ED30CE732D6D629D001FB213 /* CommunityMessageIntermediary.swift in Sources */,
