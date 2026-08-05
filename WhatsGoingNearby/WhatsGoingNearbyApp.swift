@@ -12,9 +12,9 @@ import UserNotifications
 import BackgroundTasks
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
-    
-    @StateObject private var locationManager = LocationManager()
-    
+
+    private let locationManager = LocationManager.shared
+
     func application( _ application: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         // FirebaseApp.configure()
         
@@ -35,73 +35,96 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
             }
         }
         
-        /*
-        Função scheduleAppRefresh começou a lançar uma exceção após a atualização do iOS 18.4.
-         TODO: Corrigir erro!
-        */
-        
         BGTaskScheduler.shared.register(forTaskWithIdentifier: Constants.updateLocBGTaskId, using: nil) { task in
             guard let task = task as? BGAppRefreshTask else { return }
             self.handleTask(task: task)
         }
         
         schedule()
-        
-        
-        print("💾 Last notification: \(LocalState.lastNotificationTime)")
-        print("🏃 BG Task Run Count: \(LocalState.bgTaskRunCount)")
-        
+
+        printBGTaskStats()
+
         return true
     }
-    
-    private func handleTask(task: BGAppRefreshTask) {
-        let count = LocalState.bgTaskRunCount
-        LocalState.bgTaskRunCount = count + 1
-        
-        schedule()
-        Task {
-            if await isPostNearBy() {
-                await notifyNearByPost()
-            }
-        }
-        
-        task.setTaskCompleted(success: true)
+
+    private func printBGTaskStats() {
+        print("📊 [BGTask] Agendamentos: \(LocalState.bgTaskScheduledCount)")
+        print("📊 [BGTask] Execuções: \(LocalState.bgTaskRunCount)")
+        print("📊 [BGTask] Erros: \(LocalState.bgTaskErrorCount)")
+        print("📊 [BGTask] Notificações de engajamento enviadas: \(LocalState.engagementNotificationCount)")
+        print("💾 [BGTask] Última notificação: \(LocalState.lastNotificationTime)")
     }
-    
+
+    private func handleTask(task: BGAppRefreshTask) {
+        LocalState.bgTaskRunCount += 1
+
+        schedule()
+
+        let work = Task {
+            switch await checkNearByPost() {
+            case .postFound:
+                if await notifyNearByPost() {
+                    LocalState.engagementNotificationCount += 1
+                }
+            case .noPostFound:
+                break
+            case .error:
+                LocalState.bgTaskErrorCount += 1
+            }
+            task.setTaskCompleted(success: true)
+        }
+
+        task.expirationHandler = {
+            work.cancel()
+            LocalState.bgTaskErrorCount += 1
+            task.setTaskCompleted(success: false)
+        }
+    }
+
     private func schedule() {
+        let now = Date()
+        let nextBGTaskTime = Calendar.current.date(byAdding: .hour, value: Constants.BACKGROUND_TASK_DELAY_HOURS, to: now)!
+
         BGTaskScheduler.shared.getPendingTaskRequests { requests in
             print("\(requests.count) BGTasks pending...")
             guard requests.isEmpty else { return }
-        }
-        
-        let now = Date()
-        let nextBGTaskTime = Calendar.current.date(byAdding: .hour, value: Constants.BACKGROUND_TASK_DELAY_HOURS, to: now)!
-        
-        do {
-            let newTask = BGAppRefreshTaskRequest(identifier: Constants.updateLocBGTaskId)
-            newTask.earliestBeginDate = nextBGTaskTime
-            try BGTaskScheduler.shared.submit(newTask)
-            print("✅ Task scheduled!")
-        } catch {
-            print("❌ Failed to schedule: \(error)")
-        }
-    }
-    
-    func isPostNearBy() async -> Bool {
-        if let location = locationManager.location {
-            let latitude = location.coordinate.latitude
-            let longitude = location.coordinate.longitude
-            
-            let result = await AYServices.shared.checkNearByPublications(userUid: LocalState.currentUserUid, latitude: latitude, longitude: longitude)
-            
-            switch result {
-            case .success:
-                return true
-            case .failure:
-                return false
+
+            do {
+                let newTask = BGAppRefreshTaskRequest(identifier: Constants.updateLocBGTaskId)
+                newTask.earliestBeginDate = nextBGTaskTime
+                try BGTaskScheduler.shared.submit(newTask)
+                LocalState.bgTaskScheduledCount += 1
+                print("✅ Task scheduled!")
+            } catch {
+                LocalState.bgTaskErrorCount += 1
+                print("❌ Failed to schedule: \(error)")
             }
         }
-        return false
+    }
+
+    private enum NearByCheckResult {
+        case postFound
+        case noPostFound
+        case error
+    }
+
+    private func checkNearByPost() async -> NearByCheckResult {
+        guard let location = await locationManager.getCurrentLocation() else { return .error }
+
+        let result = await AYServices.shared.checkNearByPublications(
+            userUid: LocalState.currentUserUid,
+            latitude: location.coordinate.latitude,
+            longitude: location.coordinate.longitude
+        )
+
+        switch result {
+        case .success:
+            return .postFound
+        case .failure(.dataNotFound):
+            return .noPostFound
+        case .failure:
+            return .error
+        }
     }
     
     func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -143,7 +166,7 @@ struct WhatsGoingNearbyApp: App {
     @StateObject var notificationManager = NotificationManager()
     @StateObject var authVM = AuthenticationViewModel()
     @StateObject private var socket = SocketService.shared
-    @StateObject private var locationManager = LocationManager()
+    @StateObject private var locationManager = LocationManager.shared
     @StateObject private var placesVM = PlacesViewModel()
     
     var body: some Scene {

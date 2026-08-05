@@ -12,7 +12,10 @@ public class LocalState {
     private enum Keys: String {
         case userRegistrationToken
         case lastNotificationTime
+        case bgTaskScheduledCount
         case bgTaskRunCount
+        case bgTaskErrorCount
+        case engagementNotificationCount
         case isPostLocationVisible
         case hasCompletedOnboarding
         case preferredLanguage
@@ -45,12 +48,39 @@ public class LocalState {
         }
     }
     
+    public static var bgTaskScheduledCount: Int {
+        get {
+            return UserDefaults.standard.integer(forKey: Keys.bgTaskScheduledCount.rawValue)
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.bgTaskScheduledCount.rawValue)
+        }
+    }
+
     public static var bgTaskRunCount: Int {
         get {
             return UserDefaults.standard.integer(forKey: Keys.bgTaskRunCount.rawValue)
         }
         set(newValue) {
             UserDefaults.standard.set(newValue, forKey: Keys.bgTaskRunCount.rawValue)
+        }
+    }
+
+    public static var bgTaskErrorCount: Int {
+        get {
+            return UserDefaults.standard.integer(forKey: Keys.bgTaskErrorCount.rawValue)
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.bgTaskErrorCount.rawValue)
+        }
+    }
+
+    public static var engagementNotificationCount: Int {
+        get {
+            return UserDefaults.standard.integer(forKey: Keys.engagementNotificationCount.rawValue)
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.engagementNotificationCount.rawValue)
         }
     }
     
