@@ -17,6 +17,8 @@ struct MapMarkedPost: Identifiable, Decodable {
     let text: String?
     let tag: String?
     let imageUrl: String?
+    var videoUrl: String? = nil
+    var videoThumbnailUrl: String? = nil
     let isOwnerFarAway: Bool?
     let duration: Int?
     let isFinished: Bool

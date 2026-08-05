@@ -58,7 +58,12 @@ class PlacesViewModel: ObservableObject {
             } catch is CancellationError {
                 print("🚫 Pending post creation cancelled.")
             } catch {
-                postToBePublished?.status = .failed(message: "Erro ao publicar")
+                switch postToBePublished?.status {
+                case .failed:
+                    break
+                default:
+                    postToBePublished?.status = .failed(message: "Erro ao publicar")
+                }
             }
 
             createPostTask = nil
@@ -66,10 +71,12 @@ class PlacesViewModel: ObservableObject {
     }
 
     func cancelCreatingPendingPost() {
+        let temporaryVideoURL = postToBePublished?.video?.url
         createPostTask?.cancel()
         createPostTask = nil
 
         postToBePublished = nil
+        removeTemporaryVideo(at: temporaryVideoURL)
 
         refreshFeed()
     }
@@ -83,14 +90,40 @@ class PlacesViewModel: ObservableObject {
         guard let post = postToBePublished else { return }
 
         var imageUrl: String? = nil
+        var videoUrl: String? = nil
+        var videoThumbnailUrl: String? = nil
 
-        if let img = post.image {
+        if let video = post.video {
+            try Task.checkCancellation()
+
+            postToBePublished?.progress = 0.2
+            postToBePublished?.status = .uploadingVideo
+
+            do {
+                let urls = try await FirebaseService.shared.storeVideoAndThumbnail(
+                    videoURL: video.url,
+                    thumbnail: video.thumbnail
+                )
+                videoUrl = urls.videoUrl
+                videoThumbnailUrl = urls.thumbnailUrl
+            } catch {
+                postToBePublished?.status = .failed(message: "Erro ao enviar vídeo")
+                throw error
+            }
+
+            try Task.checkCancellation()
+        } else if let img = post.image {
             try Task.checkCancellation()
 
             postToBePublished?.progress = 0.2
             postToBePublished?.status = .uploadingImage
 
-            imageUrl = await storeImage(image: img)
+            do {
+                imageUrl = try await FirebaseService.shared.storeImageAndGetUrl(img)
+            } catch {
+                postToBePublished?.status = .failed(message: "Erro ao enviar imagem")
+                throw error
+            }
 
             try Task.checkCancellation()
         }
@@ -104,6 +137,8 @@ class PlacesViewModel: ObservableObject {
             text: post.text.nonEmptyOrNil(),
             tag: post.tag.rawValue,
             imageUrl: imageUrl,
+            videoUrl: videoUrl,
+            videoThumbnailUrl: videoThumbnailUrl,
             latitude: latitude,
             longitude: longitude,
             isLocationVisible: post.isLocationVisible,
@@ -119,6 +154,7 @@ class PlacesViewModel: ObservableObject {
         switch result {
         case .success:
             print("✅ Post successfully created.")
+            removeTemporaryVideo(at: postToBePublished?.video?.url)
             postToBePublished?.progress = 1
             postToBePublished?.status = .completed
             refreshFeed()
@@ -203,12 +239,8 @@ class PlacesViewModel: ObservableObject {
         }
     }
     
-    private func storeImage(image: UIImage) async -> String? {
-        do {
-            return try await FirebaseService.shared.storeImageAndGetUrl(image)
-        } catch {
-            
-            return nil
-        }
+    private func removeTemporaryVideo(at url: URL?) {
+        guard let url else { return }
+        try? FileManager.default.removeItem(at: url)
     }
 }

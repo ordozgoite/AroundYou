@@ -17,6 +17,10 @@ struct ComposePostView: View {
     @Binding var image: UIImage?
     @Binding var isCameraDisplayed: Bool
     @Binding var tag: PostTag
+    @Binding var selectedVideo: SelectedPostVideo?
+    let isProcessingVideo: Bool
+    let onSelectMedia: (MediaPickerView.MediaKind, UIImagePickerController.SourceType) -> Void
+    let onRemoveVideo: () -> Void
     
     @EnvironmentObject var authVM: AuthenticationViewModel
     @FocusState private var isFocused: Bool
@@ -124,7 +128,7 @@ struct ComposePostView: View {
                 
                 Spacer()
                 
-                Camera()
+                MediaButton()
             }
             .padding(.bottom)
             
@@ -163,14 +167,54 @@ struct ComposePostView: View {
                 }
                 .padding([.top, .trailing], 2)
             }
+        } else if let video = selectedVideo {
+            ZStack(alignment: .topTrailing) {
+                ZStack {
+                    Image(uiImage: video.thumbnail)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 160, height: 100)
+                        .clipped()
+                    Image(systemName: "play.circle.fill")
+                        .font(.largeTitle)
+                        .foregroundStyle(.white)
+                        .shadow(radius: 3)
+                }
+                .cornerRadius(8)
+
+                Button {
+                    onRemoveVideo()
+                } label: {
+                    Image(systemName: "x.circle.fill")
+                        .foregroundStyle(.white, .gray)
+                }
+                .padding(2)
+            }
+        } else if isProcessingVideo {
+            ProgressView("Preparing video...")
+                .font(.caption)
         }
     }
     
     //MARK: - Camera
     
     @ViewBuilder
-    private func Camera() -> some View {
-        Image(systemName: "camera.circle.fill")
+    private func MediaButton() -> some View {
+        Menu {
+            Button("Choose Photo", systemImage: "photo") {
+                onSelectMedia(.image, .photoLibrary)
+            }
+            Button("Take Photo", systemImage: "camera") {
+                onSelectMedia(.image, .camera)
+            }
+            Button("Choose Video", systemImage: "video") {
+                onSelectMedia(.video, .photoLibrary)
+            }
+            Button("Record Video", systemImage: "video.badge.plus") {
+                onSelectMedia(.video, .camera)
+            }
+        } label: {
+            Image(systemName: "plus.circle.fill")
             .resizable()
             .scaledToFit()
             .frame(width: 44, height: 44, alignment: .center)
@@ -182,15 +226,9 @@ struct ComposePostView: View {
                     .shadow(color: Color.black.opacity(0.5), radius: 5, x: 1, y: 1)
                     .opacity(isCameraEnabled ? 1 : 0.5)
             )
-            .disabled(isCameraEnabled)
             .opacity(isCameraEnabled ? 1 : 0.5)
-            .onTapGesture {
-                if isCameraEnabled {
-                    isCameraDisplayed = true
-                } else {
-                    hapticFeedback(style: .soft)
-                }
-            }
+        }
+        .disabled(!isCameraEnabled)
     }
     
     //MARK: - Chevron

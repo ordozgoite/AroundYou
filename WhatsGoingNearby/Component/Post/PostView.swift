@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreLocation
+import AVKit
 
 protocol PostViewActionHandler {
     func postViewDidLikePublication(_ content: FormattedPost)
@@ -43,14 +44,16 @@ struct PostView: View {
                     
                     TextView()
                     
-                    ImagePreview()
+                    MediaPreview()
                     
                     Footer()
                 }
             }
             .contentShape(Rectangle())
             .onTapGesture {
-                handleOnTapGesture()
+                if post.videoUrl == nil {
+                    handleOnTapGesture()
+                }
             }
         }
         
@@ -346,8 +349,16 @@ struct PostView: View {
     //MARK: - Image Preview
     
     @ViewBuilder
-    private func ImagePreview() -> some View {
-        if let url = post.imageUrl {
+    private func MediaPreview() -> some View {
+        if let url = post.videoUrl {
+            PostVideoView(
+                postId: post.id,
+                videoURL: url,
+                thumbnailURL: post.videoThumbnailUrl
+            )
+            .frame(maxWidth: 320)
+            .cornerRadius(8)
+        } else if let url = post.imageUrl {
             PostImageView(imageURL: url)
                 .scaledToFit()
                 .frame(width: 128)
@@ -484,6 +495,216 @@ struct PostView: View {
         .padding(.vertical, 6)
         .background(Capsule().fill(Color.green.opacity(0.2)))
         
+    }
+}
+
+@MainActor
+private final class FeedVideoPlaybackCoordinator: ObservableObject {
+    static let shared = FeedVideoPlaybackCoordinator()
+    @Published var activePostId: String?
+}
+
+private struct PostVideoView: View {
+    let postId: String
+    let videoURL: String
+    let thumbnailURL: String?
+
+    @StateObject private var playback = FeedVideoPlaybackCoordinator.shared
+    @State private var player: AVPlayer?
+    @State private var isMuted = true
+    @State private var isReady = false
+    @State private var didFail = false
+    @State private var isFullScreen = false
+    @State private var mediaAspectRatio: CGFloat = 16 / 9
+    @State private var statusObservation: NSKeyValueObservation?
+    @State private var endObserver: NSObjectProtocol?
+
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            thumbnail
+
+            if let player, isReady, !didFail {
+                NativeVideoPlayer(player: player) { isFullScreen = $0 }
+            }
+
+            if !isReady && !didFail {
+                ProgressView()
+                    .tint(.white)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+
+            if didFail {
+                Label("Video unavailable", systemImage: "exclamationmark.triangle")
+                    .font(.caption)
+                    .padding(8)
+                    .background(.regularMaterial, in: Capsule())
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+
+            if isReady && !didFail {
+                Button {
+                    isMuted.toggle()
+                    player?.isMuted = isMuted
+                } label: {
+                    Image(systemName: isMuted ? "speaker.slash.fill" : "speaker.wave.2.fill")
+                        .foregroundStyle(.white)
+                        .padding(10)
+                        .background(.black.opacity(0.55), in: Circle())
+                }
+                .padding(8)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .aspectRatio(displayAspectRatio, contentMode: .fit)
+        .background {
+            GeometryReader { geometry in
+                Color.clear
+                    .onChange(of: geometry.frame(in: .global)) { frame in
+                        updatePlayback(for: frame)
+                    }
+                    .onAppear {
+                        updatePlayback(for: geometry.frame(in: .global))
+                    }
+            }
+        }
+        .background(.black)
+        .task(id: thumbnailURL) {
+            await loadThumbnailAspectRatio()
+        }
+        .onAppear {
+            configurePlayer()
+        }
+        .onChange(of: playback.activePostId) { activeId in
+            if activeId == postId {
+                player?.play()
+            } else {
+                player?.pause()
+            }
+        }
+        .onDisappear {
+            guard !isFullScreen else { return }
+            player?.pause()
+            if playback.activePostId == postId { playback.activePostId = nil }
+            statusObservation = nil
+            if let endObserver { NotificationCenter.default.removeObserver(endObserver) }
+            endObserver = nil
+        }
+    }
+
+    @ViewBuilder
+    private var thumbnail: some View {
+        if let thumbnailURL, let url = URL(string: thumbnailURL) {
+            AsyncImage(url: url) { image in
+                image.resizable().scaledToFit()
+            } placeholder: {
+                Color.gray.opacity(0.25)
+            }
+        } else {
+            Color.gray.opacity(0.25)
+        }
+    }
+
+    private func configurePlayer() {
+        guard player == nil else { return }
+        guard let url = URL(string: videoURL) else {
+            didFail = true
+            return
+        }
+        let item = AVPlayerItem(url: url)
+        let newPlayer = AVPlayer(playerItem: item)
+        newPlayer.isMuted = true
+        player = newPlayer
+        statusObservation = item.observe(\.status, options: [.initial, .new]) { item, _ in
+            DispatchQueue.main.async {
+                isReady = item.status == .readyToPlay
+                didFail = item.status == .failed
+                if item.presentationSize.height > 0 {
+                    mediaAspectRatio = item.presentationSize.width / item.presentationSize.height
+                }
+                if isReady && playback.activePostId == postId { newPlayer.play() }
+            }
+        }
+        endObserver = NotificationCenter.default.addObserver(
+            forName: .AVPlayerItemDidPlayToEndTime,
+            object: item,
+            queue: .main
+        ) { _ in
+            newPlayer.seek(to: .zero)
+            Task { @MainActor in
+                if playback.activePostId == postId { newPlayer.play() }
+            }
+        }
+    }
+
+    private func updatePlayback(for frame: CGRect) {
+        let visibleHeight = frame.intersection(UIScreen.main.bounds).height
+        let isVisible = frame.height > 0 && visibleHeight / frame.height >= 0.6
+        if isVisible {
+            playback.activePostId = postId
+        } else if playback.activePostId == postId {
+            playback.activePostId = nil
+        }
+    }
+
+    private var displayAspectRatio: CGFloat {
+        min(max(mediaAspectRatio, 2 / 3), 16 / 9)
+    }
+
+    private func loadThumbnailAspectRatio() async {
+        guard let thumbnailURL, let url = URL(string: thumbnailURL) else { return }
+        guard let (data, _) = try? await URLSession.shared.data(from: url),
+              let image = UIImage(data: data),
+              image.size.height > 0 else { return }
+        mediaAspectRatio = image.size.width / image.size.height
+    }
+}
+
+private struct NativeVideoPlayer: UIViewControllerRepresentable {
+    let player: AVPlayer
+    let onFullScreenChanged: (Bool) -> Void
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(onFullScreenChanged: onFullScreenChanged)
+    }
+
+    func makeUIViewController(context: Context) -> AVPlayerViewController {
+        let controller = AVPlayerViewController()
+        controller.player = player
+        controller.delegate = context.coordinator
+        controller.showsPlaybackControls = true
+        controller.videoGravity = .resizeAspect
+        return controller
+    }
+
+    func updateUIViewController(_ controller: AVPlayerViewController, context: Context) {
+        context.coordinator.onFullScreenChanged = onFullScreenChanged
+        if controller.player !== player {
+            controller.player = player
+        }
+    }
+
+    final class Coordinator: NSObject, AVPlayerViewControllerDelegate {
+        var onFullScreenChanged: (Bool) -> Void
+
+        init(onFullScreenChanged: @escaping (Bool) -> Void) {
+            self.onFullScreenChanged = onFullScreenChanged
+        }
+
+        func playerViewController(
+            _ playerViewController: AVPlayerViewController,
+            willBeginFullScreenPresentationWithAnimationCoordinator coordinator: UIViewControllerTransitionCoordinator
+        ) {
+            onFullScreenChanged(true)
+        }
+
+        func playerViewController(
+            _ playerViewController: AVPlayerViewController,
+            willEndFullScreenPresentationWithAnimationCoordinator coordinator: UIViewControllerTransitionCoordinator
+        ) {
+            coordinator.animate(alongsideTransition: nil) { [weak self] _ in
+                self?.onFullScreenChanged(false)
+            }
+        }
     }
 }
 

@@ -22,7 +22,16 @@ struct CreatePostScreen: View {
             AYErrorAlert(message: createPostVM.overlayError.1 , isErrorAlertPresented: $createPostVM.overlayError.0)
         }
         .fullScreenCover(isPresented: $createPostVM.isCameraDisplayed) {
-            CameraView { createPostVM.image = $0 }
+            CameraView { createPostVM.selectImage($0) }
+        }
+        .fullScreenCover(isPresented: $createPostVM.isMediaPickerDisplayed) {
+            MediaPickerView(
+                sourceType: createPostVM.mediaPickerSource,
+                mediaKind: createPostVM.mediaPickerKind,
+                onImageSelected: createPostVM.selectImage,
+                onVideoSelected: createPostVM.selectVideo,
+                onDismiss: { createPostVM.isMediaPickerDisplayed = false }
+            )
         }
         .alert(isPresented: $createPostVM.isShareLocationAlertDisplayed) {
             Alert(
@@ -66,7 +75,11 @@ struct CreatePostScreen: View {
             isSettingsExpanded: $createPostVM.isSettingsExpanded,
             image: $createPostVM.image,
             isCameraDisplayed: $createPostVM.isCameraDisplayed,
-            tag: $createPostVM.selectedPostTag
+            tag: $createPostVM.selectedPostTag,
+            selectedVideo: $createPostVM.selectedVideo,
+            isProcessingVideo: createPostVM.isProcessingVideo,
+            onSelectMedia: createPostVM.presentPicker,
+            onRemoveVideo: createPostVM.removeSelectedVideo
         ).environmentObject(authVM)
     }
     
@@ -96,7 +109,7 @@ struct CreatePostScreen: View {
         } label: {
             Text("Post", comment: "Action")
         }
-        .disabled(createPostVM.postText.isEmpty && createPostVM.image == nil)
+        .disabled((createPostVM.postText.isEmpty && createPostVM.image == nil && createPostVM.selectedVideo == nil) || createPostVM.isProcessingVideo)
     }
     
     //MARK: - Private Methods
@@ -106,6 +119,7 @@ struct CreatePostScreen: View {
             text: createPostVM.postText,
             tag: createPostVM.selectedPostTag,
             image: createPostVM.image,
+            video: createPostVM.selectedVideo,
             isLocationVisible: createPostVM.isLocationVisible
         )
         placesVM.postToBePublished = postToBePublished

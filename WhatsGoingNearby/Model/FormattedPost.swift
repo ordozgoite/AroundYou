@@ -25,6 +25,8 @@ struct FormattedPost: Identifiable, Codable, Equatable, Hashable {
     let isLocationVisible: Bool?
     let tag: String?
     let imageUrl: String?
+    var videoUrl: String? = nil
+    var videoThumbnailUrl: String? = nil
     let isOwnerFarAway: Bool?
     var isFinished: Bool?
     let duration: Int?

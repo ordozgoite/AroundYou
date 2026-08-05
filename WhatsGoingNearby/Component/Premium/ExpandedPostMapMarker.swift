@@ -29,7 +29,7 @@ struct ExpandedPostMapMarker: View {
                         .transition(.opacity)
                 }
                 
-                if let imageUrl = post.imageUrl,
+                if let imageUrl = post.videoUrl == nil ? post.imageUrl : post.videoThumbnailUrl,
                    let url = URL(string: imageUrl) {
                     AsyncImage(url: url) { phase in
                         switch phase {

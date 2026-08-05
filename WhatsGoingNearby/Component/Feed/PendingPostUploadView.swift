@@ -10,6 +10,7 @@ import SwiftUI
 enum PendingPostStatus: Equatable {
     case queued
     case uploadingImage
+    case uploadingVideo
     case creatingPost
     case completed
     case failed(message: String)
@@ -20,6 +21,7 @@ struct PendingPost {
     let text: String
     let tag: PostTag
     let image: UIImage?
+    let video: SelectedPostVideo?
     let isLocationVisible: Bool
     var status: PendingPostStatus = .queued
     var progress: Double = 0
@@ -37,7 +39,7 @@ struct PendingPostUploadView: View {
         switch status {
         case .queued:
             return (0.0, 0.1)
-        case .uploadingImage:
+        case .uploadingImage, .uploadingVideo:
             return (0.1, 0.6)
         case .creatingPost:
             return (0.6, 0.95)
@@ -164,7 +166,7 @@ struct PendingPostUploadView: View {
 
     private var thumbnail: some View {
         Group {
-            if let image = post.image {
+            if let image = post.image ?? post.video?.thumbnail {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
@@ -186,6 +188,9 @@ struct PendingPostUploadView: View {
 
         case .uploadingImage:
             return "Storing image..."
+
+        case .uploadingVideo:
+            return "Storing video..."
 
         case .creatingPost:
             return "Creating post..."
@@ -222,4 +227,3 @@ struct PendingPostUploadView: View {
 //        onCancel: {}
 //    )
 //}
-

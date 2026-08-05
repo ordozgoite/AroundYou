@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct accessCameraView: UIViewControllerRepresentable {
     
@@ -45,5 +46,60 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
 //        self.picker.selectedImage = selectedImage
         self.picker.isPresented.wrappedValue.dismiss()
         self.picker.sendImage(selectedImage)
+    }
+}
+
+struct MediaPickerView: UIViewControllerRepresentable {
+    enum MediaKind {
+        case image
+        case video
+    }
+
+    let sourceType: UIImagePickerController.SourceType
+    let mediaKind: MediaKind
+    let onImageSelected: (UIImage) -> Void
+    let onVideoSelected: (URL) -> Void
+    let onDismiss: () -> Void
+
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        picker.sourceType = UIImagePickerController.isSourceTypeAvailable(sourceType) ? sourceType : .photoLibrary
+        picker.mediaTypes = [mediaKind == .image ? UTType.image.identifier : UTType.movie.identifier]
+        picker.videoMaximumDuration = 30
+        picker.videoQuality = .typeHigh
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+
+    func makeCoordinator() -> MediaPickerCoordinator {
+        MediaPickerCoordinator(parent: self)
+    }
+}
+
+final class MediaPickerCoordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    private let parent: MediaPickerView
+
+    init(parent: MediaPickerView) {
+        self.parent = parent
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+        parent.onDismiss()
+    }
+
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+        if let image = info[.originalImage] as? UIImage {
+            parent.onImageSelected(image)
+        } else if let url = info[.mediaURL] as? URL {
+            parent.onVideoSelected(url)
+        }
+        picker.dismiss(animated: true)
+        parent.onDismiss()
     }
 }
