@@ -521,7 +521,9 @@ private struct PostVideoView: View {
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            thumbnail
+            if !isReady || didFail {
+                thumbnail
+            }
 
             if let player, isReady, !didFail {
                 NativeVideoPlayer(player: player) { isFullScreen = $0 }
