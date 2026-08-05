@@ -66,11 +66,10 @@ struct EditPostScreen: View {
             isLocationVisible: $editPostVM.isLocationVisible,
             isSettingsExpanded: $editPostVM.isSettingsExpanded,
             image: .constant(nil),
-            isCameraDisplayed: .constant(false),
             tag: $editPostVM.selectedPostTag,
             selectedVideo: .constant(nil),
             isProcessingVideo: false,
-            onSelectMedia: { _, _ in },
+            onCaptureMedia: { _ in },
             onRemoveVideo: {}
         ).environmentObject(authVM)
     }

@@ -33,10 +33,8 @@ class CreatePostViewModel: ObservableObject {
     @Published var isSettingsExpanded: Bool = false
     
     @Published var image: UIImage?
-    @Published var isCameraDisplayed = false
     @Published var selectedVideo: SelectedPostVideo?
     @Published var isMediaPickerDisplayed = false
-    @Published var mediaPickerSource: UIImagePickerController.SourceType = .photoLibrary
     @Published var mediaPickerKind: MediaPickerView.MediaKind = .image
     @Published var isProcessingVideo = false
 
@@ -55,7 +53,7 @@ class CreatePostViewModel: ObservableObject {
                 removeSelectedVideo()
                 selectedVideo = processedVideo
             } catch PostVideoProcessingError.durationExceeded {
-                overlayError = (true, "Videos can be up to 30 seconds long.")
+                overlayError = (true, "Videos can be up to 15 seconds long.")
             } catch {
                 overlayError = (true, "The video could not be prepared. Please try another video.")
             }
@@ -69,16 +67,41 @@ class CreatePostViewModel: ObservableObject {
         selectedVideo = nil
     }
 
-    func presentPicker(kind: MediaPickerView.MediaKind, source: UIImagePickerController.SourceType) {
+    func presentCamera(kind: MediaPickerView.MediaKind) async {
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            overlayError = (true, "Camera is not available on this device.")
+            return
+        }
+
+        guard await requestAccess(for: .video) else {
+            overlayError = (true, "Camera access is required to capture media.")
+            return
+        }
+
+        if kind == .video, !(await requestAccess(for: .audio)) {
+            overlayError = (true, "Microphone access is required to record video.")
+            return
+        }
+
         mediaPickerKind = kind
-        mediaPickerSource = source
         isMediaPickerDisplayed = true
+    }
+
+    private func requestAccess(for mediaType: AVMediaType) async -> Bool {
+        switch AVCaptureDevice.authorizationStatus(for: mediaType) {
+        case .authorized:
+            return true
+        case .notDetermined:
+            return await AVCaptureDevice.requestAccess(for: mediaType)
+        default:
+            return false
+        }
     }
 
     private func processVideo(at sourceURL: URL) async throws -> SelectedPostVideo {
         let asset = AVURLAsset(url: sourceURL)
         let duration = try await asset.load(.duration).seconds
-        guard duration <= 30.1 else { throw PostVideoProcessingError.durationExceeded }
+        guard duration <= 15.25 else { throw PostVideoProcessingError.durationExceeded }
 
         let outputURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("post-video-\(UUID().uuidString)")
@@ -89,6 +112,10 @@ class CreatePostViewModel: ObservableObject {
         exporter.outputURL = outputURL
         exporter.outputFileType = .mp4
         exporter.shouldOptimizeForNetworkUse = true
+        exporter.timeRange = CMTimeRange(
+            start: .zero,
+            duration: CMTime(seconds: min(duration, 15), preferredTimescale: 600)
+        )
         await exporter.export()
         guard exporter.status == .completed else { throw PostVideoProcessingError.exportFailed }
 

@@ -21,12 +21,8 @@ struct CreatePostScreen: View {
             
             AYErrorAlert(message: createPostVM.overlayError.1 , isErrorAlertPresented: $createPostVM.overlayError.0)
         }
-        .fullScreenCover(isPresented: $createPostVM.isCameraDisplayed) {
-            CameraView { createPostVM.selectImage($0) }
-        }
         .fullScreenCover(isPresented: $createPostVM.isMediaPickerDisplayed) {
             MediaPickerView(
-                sourceType: createPostVM.mediaPickerSource,
                 mediaKind: createPostVM.mediaPickerKind,
                 onImageSelected: createPostVM.selectImage,
                 onVideoSelected: createPostVM.selectVideo,
@@ -74,11 +70,12 @@ struct CreatePostScreen: View {
             isLocationVisible: $createPostVM.isLocationVisible,
             isSettingsExpanded: $createPostVM.isSettingsExpanded,
             image: $createPostVM.image,
-            isCameraDisplayed: $createPostVM.isCameraDisplayed,
             tag: $createPostVM.selectedPostTag,
             selectedVideo: $createPostVM.selectedVideo,
             isProcessingVideo: createPostVM.isProcessingVideo,
-            onSelectMedia: createPostVM.presentPicker,
+            onCaptureMedia: { kind in
+                Task { await createPostVM.presentCamera(kind: kind) }
+            },
             onRemoveVideo: createPostVM.removeSelectedVideo
         ).environmentObject(authVM)
     }

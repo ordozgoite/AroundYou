@@ -15,11 +15,10 @@ struct ComposePostView: View {
     @Binding var isLocationVisible: Bool
     @Binding var isSettingsExpanded: Bool
     @Binding var image: UIImage?
-    @Binding var isCameraDisplayed: Bool
     @Binding var tag: PostTag
     @Binding var selectedVideo: SelectedPostVideo?
     let isProcessingVideo: Bool
-    let onSelectMedia: (MediaPickerView.MediaKind, UIImagePickerController.SourceType) -> Void
+    let onCaptureMedia: (MediaPickerView.MediaKind) -> Void
     let onRemoveVideo: () -> Void
     
     @EnvironmentObject var authVM: AuthenticationViewModel
@@ -201,17 +200,11 @@ struct ComposePostView: View {
     @ViewBuilder
     private func MediaButton() -> some View {
         Menu {
-            Button("Choose Photo", systemImage: "photo") {
-                onSelectMedia(.image, .photoLibrary)
-            }
             Button("Take Photo", systemImage: "camera") {
-                onSelectMedia(.image, .camera)
-            }
-            Button("Choose Video", systemImage: "video") {
-                onSelectMedia(.video, .photoLibrary)
+                onCaptureMedia(.image)
             }
             Button("Record Video", systemImage: "video.badge.plus") {
-                onSelectMedia(.video, .camera)
+                onCaptureMedia(.video)
             }
         } label: {
             Image(systemName: "plus.circle.fill")
@@ -250,6 +243,6 @@ struct ComposePostView: View {
 }
 
 //#Preview {
-//    ComposePostView(maxLength: 150, isCameraEnabled: true, text: .constant(""), isLocationVisible: .constant(false), isSettingsExpanded: .constant(true), image: .constant(nil), isCameraDisplayed: .constant(false), tag: .constant(.bored))
+//    ComposePostView(maxLength: 150, isCameraEnabled: true, text: .constant(""), isLocationVisible: .constant(false), isSettingsExpanded: .constant(true), image: .constant(nil), tag: .constant(.bored))
 //        .environmentObject(AuthenticationViewModel())
 //}
