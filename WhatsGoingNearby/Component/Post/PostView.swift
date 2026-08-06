@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreLocation
 import AVKit
+import FirebaseAuth
 
 protocol PostViewActionHandler {
     func postViewDidLikePublication(_ content: FormattedPost)
@@ -20,6 +21,227 @@ protocol PostViewActionHandler {
     func postViewDidMarkAsCompleted(_ content: FormattedPost)
 }
 
+@MainActor
+final class PublicationViewTracker {
+    static let shared = PublicationViewTracker()
+
+    private var visibleSince: [String: Date] = [:]
+    private var pending = Set<String>()
+    private var registeredThisSession = Set<String>()
+    private var flushTask: Task<Void, Never>?
+    private var samplingTask: Task<Void, Never>?
+    private var isForeground = true
+    private var failedAttempts = 0
+    private var observers: [NSObjectProtocol] = []
+
+    private init() {
+        observers.append(NotificationCenter.default.addObserver(
+            forName: UIApplication.didEnterBackgroundNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor in
+                self?.isForeground = false
+                self?.visibleSince.removeAll()
+                await self?.flush()
+            }
+        })
+        observers.append(NotificationCenter.default.addObserver(
+            forName: UIApplication.didBecomeActiveNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor in self?.isForeground = true }
+        })
+        samplingTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .milliseconds(200))
+                self?.collectQualifiedViews()
+            }
+        }
+    }
+
+    func updateVisibility(publicationId: String, isAuthor: Bool, visibleFraction: CGFloat) {
+        guard isForeground, !isAuthor, !registeredThisSession.contains(publicationId), visibleFraction >= 0.5 else {
+            visibleSince.removeValue(forKey: publicationId)
+            return
+        }
+        if visibleSince[publicationId] == nil { visibleSince[publicationId] = Date() }
+    }
+
+    func updateVisiblePublications(_ publications: [PublicationVisibilityCandidate]) {
+        let visibleIds = Set(publications.filter(\.isSufficientlyVisible).map(\.publicationId))
+        visibleSince.keys.filter { !visibleIds.contains($0) }.forEach {
+            visibleSince.removeValue(forKey: $0)
+        }
+        publications.forEach {
+            updateVisibility(
+                publicationId: $0.publicationId,
+                isAuthor: $0.isAuthor,
+                visibleFraction: $0.isSufficientlyVisible ? 1 : 0
+            )
+        }
+    }
+
+    func flushWhenLeavingFeed() {
+        visibleSince.removeAll()
+        Task { await flush() }
+    }
+
+    func clearSession() {
+        visibleSince.removeAll()
+        pending.removeAll()
+        registeredThisSession.removeAll()
+        flushTask?.cancel()
+        failedAttempts = 0
+    }
+
+    private func collectQualifiedViews() {
+        guard isForeground else { return }
+        let now = Date()
+        let qualified = visibleSince.compactMap { now.timeIntervalSince($0.value) >= 1 ? $0.key : nil }
+        guard !qualified.isEmpty else { return }
+        qualified.forEach {
+            visibleSince.removeValue(forKey: $0)
+            pending.insert($0)
+            registeredThisSession.insert($0)
+        }
+        failedAttempts = 0
+        if pending.count >= 5 {
+            Task { await flush() }
+        } else {
+            scheduleFlush()
+        }
+    }
+
+    private func scheduleFlush() {
+        guard flushTask == nil else { return }
+        flushTask = Task { [weak self] in
+            try? await Task.sleep(for: .seconds(3))
+            guard !Task.isCancelled else { return }
+            await self?.flush()
+        }
+    }
+
+    private func flush() async {
+        flushTask?.cancel()
+        flushTask = nil
+        guard !pending.isEmpty, failedAttempts < 2,
+              let token = try? await Auth.auth().currentUser?.getIDToken() else { return }
+        let batch = Array(pending.prefix(50))
+        switch await AYServices.shared.registerPublicationViews(batch, token: token) {
+        case .success(let response):
+            response.processedPublicationIds.forEach { pending.remove($0) }
+            failedAttempts = 0
+            if !pending.isEmpty { scheduleFlush() }
+        case .failure:
+            failedAttempts += 1
+            if failedAttempts < 2 { scheduleFlush() }
+        }
+    }
+}
+
+struct PublicationVisibilityCandidate: Equatable {
+    let publicationId: String
+    let isAuthor: Bool
+    let isSufficientlyVisible: Bool
+}
+
+@MainActor
+private final class PublicationViewersViewModel: ObservableObject {
+    @Published var viewers: [PublicationViewer] = []
+    @Published var isLoading = false
+    @Published var errorMessage: String?
+    @Published var hasHiddenViewers = false
+    private var page = 0
+    private var totalPages = 1
+    private let publicationId: String
+
+    init(publicationId: String) { self.publicationId = publicationId }
+
+    func load(reset: Bool = false) async {
+        guard !isLoading, reset || page < totalPages else { return }
+        isLoading = true
+        errorMessage = nil
+        defer { isLoading = false }
+        let requestedPage = reset ? 1 : page + 1
+        guard let token = try? await Auth.auth().currentUser?.getIDToken() else {
+            errorMessage = "Unable to restore your session."
+            return
+        }
+        switch await AYServices.shared.getPublicationViewers(publicationId: publicationId, page: requestedPage, token: token) {
+        case .success(let response):
+            viewers = reset ? response.viewers : viewers + response.viewers
+            hasHiddenViewers = response.hasHiddenViewers
+            page = response.pagination.page
+            totalPages = response.pagination.totalPages
+        case .failure:
+            errorMessage = "Unable to load viewers."
+        }
+    }
+}
+
+private struct PublicationViewersSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @StateObject private var viewModel: PublicationViewersViewModel
+
+    init(publicationId: String) {
+        _viewModel = StateObject(wrappedValue: PublicationViewersViewModel(publicationId: publicationId))
+    }
+
+    var body: some View {
+        NavigationStack {
+            Group {
+                if viewModel.isLoading && viewModel.viewers.isEmpty {
+                    ProgressView()
+                } else if let error = viewModel.errorMessage, viewModel.viewers.isEmpty {
+                    VStack(spacing: 12) {
+                        Image(systemName: "exclamationmark.triangle")
+                        Text(error)
+                        Button("Try again") { Task { await viewModel.load(reset: true) } }
+                    }
+                } else if viewModel.viewers.isEmpty {
+                    VStack(spacing: 12) {
+                        Image(systemName: "eye.slash")
+                        Text("No viewers yet")
+                    }
+                } else {
+                    List {
+                        ForEach(viewModel.viewers) { viewer in
+                            HStack(spacing: 12) {
+                                ProfilePicView(profilePic: viewer.profileImageUrl)
+                                    .frame(width: 44, height: 44)
+                                VStack(alignment: .leading) {
+                                    Text("\(viewer.username)").fontWeight(.semibold)
+                                }
+                            }
+                            .onAppear {
+                                if viewer.id == viewModel.viewers.last?.id {
+                                    Task { await viewModel.load() }
+                                }
+                            }
+                        }
+                        if viewModel.hasHiddenViewers {
+                            Text("The total may include people who chose to keep their view private.")
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .refreshable { await viewModel.load(reset: true) }
+                }
+            }
+            .navigationTitle("Views")
+            .toolbar { Button("Done") { dismiss() } }
+        }
+        .task { await viewModel.load(reset: true) }
+    }
+
+    private func formattedViewDate(_ value: String) -> String {
+        guard let date = ISO8601DateFormatter().date(from: value) else { return value }
+        return date.formatted(date: .abbreviated, time: .shortened)
+    }
+}
+
 struct PostView: View {
     @State var post: FormattedPost
     var delegate: PostViewActionHandler?
@@ -29,6 +251,7 @@ struct PostView: View {
     @EnvironmentObject var socket: SocketService
     @EnvironmentObject var locationManager: LocationManager
     @StateObject private var postVM = PostViewModel()
+    @State private var isViewersPresented = false
     
     var body: some View {
         VStack {
@@ -51,12 +274,12 @@ struct PostView: View {
             }
             .contentShape(Rectangle())
             .onTapGesture {
-                if post.videoUrl == nil {
-                    handleOnTapGesture()
-                }
+                handleOnTapGesture()
             }
         }
-        
+        .sheet(isPresented: $isViewersPresented) {
+            PublicationViewersSheet(publicationId: post.id)
+        }
     }
     
     //MARK: - ProfilePic
@@ -361,12 +584,11 @@ struct PostView: View {
                 videoURL: url,
                 thumbnailURL: post.videoThumbnailUrl
             )
-            .frame(maxWidth: 320)
+            .frame(maxWidth: .infinity)
             .cornerRadius(8)
         } else if let url = post.imageUrl {
-            PostImageView(imageURL: url)
-                .scaledToFit()
-                .frame(width: 128)
+            PostImageView(imageURL: url, usesFeedLayout: true)
+                .frame(maxWidth: .infinity)
                 .cornerRadius(8)
         }
     }
@@ -386,14 +608,33 @@ struct PostView: View {
     
     @ViewBuilder
     private func RealPostFooter() -> some View {
-        HStack(spacing: 32) {
+        HStack(spacing: 24) {
             Likes()
             
             Comments()
+
+            Views()
             
             Map()
             
             Spacer()
+        }
+    }
+
+    @ViewBuilder
+    private func Views() -> some View {
+        let label = HStack(spacing: 5) {
+            Image(systemName: "eye")
+            Text(String(post.resolvedUniqueViewCount))
+                .font(.subheadline)
+        }
+        .foregroundStyle(.gray)
+
+        if post.isFromRecipientUser {
+            Button { isViewersPresented = true } label: { label }
+                .buttonStyle(.plain)
+        } else {
+            label
         }
     }
     
@@ -530,6 +771,9 @@ private struct PostVideoView: View {
     @State private var statusObservation: NSKeyValueObservation?
     @State private var muteObservation: NSKeyValueObservation?
     @State private var endObserver: NSObjectProtocol?
+    @State private var foregroundRetryAvailable = false
+    @State private var shouldResumeWhenReady = false
+    @State private var preservedTime: CMTime = .zero
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -540,7 +784,8 @@ private struct PostVideoView: View {
             if let player, isReady, !didFail {
                 NativeVideoPlayer(
                     player: isFullScreen ? nil : player,
-                    showsPlaybackControls: false
+                    showsPlaybackControls: false,
+                    videoGravity: usesConstrainedAspectRatio ? .resizeAspectFill : .resizeAspect
                 )
             }
 
@@ -559,11 +804,19 @@ private struct PostVideoView: View {
             }
 
             if didFail {
-                Label("Video unavailable", systemImage: "exclamationmark.triangle")
-                    .font(.caption)
-                    .padding(8)
-                    .background(.regularMaterial, in: Capsule())
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                VStack(spacing: 8) {
+                    Label("Video unavailable", systemImage: "exclamationmark.triangle")
+                    Button("Try again") {
+                        foregroundRetryAvailable = false
+                        shouldResumeWhenReady = playback.activePostId == postId
+                        rebuildPlayer(preservingPlayback: true)
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .font(.caption)
+                .padding(10)
+                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
 
             if isReady && !didFail && !isFullScreen {
@@ -603,9 +856,14 @@ private struct PostVideoView: View {
         .onChange(of: playback.activePostId) { activeId in
             guard !isFullScreen else { return }
             if activeId == postId {
-                player?.play()
+                if isReady {
+                    player?.play()
+                } else {
+                    shouldResumeWhenReady = true
+                }
             } else {
                 player?.pause()
+                shouldResumeWhenReady = false
             }
         }
         .onChange(of: playback.isMuted) { muted in
@@ -633,6 +891,14 @@ private struct PostVideoView: View {
                 }
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
+            shouldResumeWhenReady = player?.rate ?? 0 > 0
+            player?.pause()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            foregroundRetryAvailable = true
+            validatePlayerAfterForeground()
+        }
         .onDisappear {
             guard !isFullScreen else { return }
             player?.pause()
@@ -648,7 +914,7 @@ private struct PostVideoView: View {
     private var thumbnail: some View {
         if let thumbnailURL, let url = URL(string: thumbnailURL) {
             AsyncImage(url: url) { image in
-                image.resizable().scaledToFit()
+                image.resizable().scaledToFill()
             } placeholder: {
                 Color.gray.opacity(0.25)
             }
@@ -658,15 +924,49 @@ private struct PostVideoView: View {
     }
 
     private func configurePlayer() {
-        guard player == nil else { return }
+        if let player, let item = player.currentItem {
+            if statusObservation == nil {
+                observe(item, on: player)
+            }
+            return
+        }
         guard let url = URL(string: videoURL) else {
             didFail = true
             return
         }
-        let item = AVPlayerItem(url: url)
-        let newPlayer = AVPlayer(playerItem: item)
+        let newPlayer = AVPlayer()
         newPlayer.isMuted = playback.isMuted
         player = newPlayer
+        installItem(AVPlayerItem(url: url), on: newPlayer)
+    }
+
+    private func rebuildPlayer(preservingPlayback: Bool) {
+        guard let url = URL(string: videoURL) else {
+            didFail = true
+            return
+        }
+        let currentPlayer = player ?? AVPlayer()
+        if player == nil { player = currentPlayer }
+        currentPlayer.isMuted = isFullScreen ? false : playback.isMuted
+        preservedTime = preservingPlayback ? currentPlayer.currentTime() : .zero
+        shouldResumeWhenReady = preservingPlayback
+            && playback.activePostId == postId
+            && (currentPlayer.rate > 0 || shouldResumeWhenReady)
+        isReady = false
+        didFail = false
+        installItem(AVPlayerItem(url: url), on: currentPlayer)
+    }
+
+    private func installItem(_ item: AVPlayerItem, on currentPlayer: AVPlayer) {
+        statusObservation = nil
+        muteObservation = nil
+        if let endObserver { NotificationCenter.default.removeObserver(endObserver) }
+        endObserver = nil
+        currentPlayer.replaceCurrentItem(with: item)
+        observe(item, on: currentPlayer)
+    }
+
+    private func observe(_ item: AVPlayerItem, on currentPlayer: AVPlayer) {
         statusObservation = item.observe(\.status, options: [.initial, .new]) { item, _ in
             DispatchQueue.main.async {
                 isReady = item.status == .readyToPlay
@@ -674,10 +974,23 @@ private struct PostVideoView: View {
                 if item.presentationSize.height > 0 {
                     mediaAspectRatio = item.presentationSize.width / item.presentationSize.height
                 }
-                if isReady && playback.activePostId == postId { newPlayer.play() }
+                if item.status == .readyToPlay {
+                    foregroundRetryAvailable = false
+                    if preservedTime.isValid && preservedTime.seconds.isFinite && preservedTime.seconds > 0 {
+                        currentPlayer.seek(to: preservedTime)
+                        preservedTime = .zero
+                    }
+                    if playback.activePostId == postId && shouldResumeWhenReady {
+                        currentPlayer.play()
+                    }
+                    shouldResumeWhenReady = false
+                } else if item.status == .failed && foregroundRetryAvailable {
+                    foregroundRetryAvailable = false
+                    rebuildPlayer(preservingPlayback: true)
+                }
             }
         }
-        muteObservation = newPlayer.observe(\.isMuted, options: [.new]) { player, _ in
+        muteObservation = currentPlayer.observe(\.isMuted, options: [.new]) { player, _ in
             DispatchQueue.main.async {
                 let coordinator = FeedVideoPlaybackCoordinator.shared
                 guard !coordinator.ignoresPlayerMuteUpdates else { return }
@@ -692,28 +1005,51 @@ private struct PostVideoView: View {
             object: item,
             queue: .main
         ) { _ in
-            newPlayer.seek(to: .zero)
+            currentPlayer.seek(to: .zero)
             Task { @MainActor in
-                if playback.activePostId == postId {
-                    newPlayer.play()
-                }
+                if playback.activePostId == postId { currentPlayer.play() }
             }
+        }
+    }
+
+    private func validatePlayerAfterForeground() {
+        guard let item = player?.currentItem else {
+            guard foregroundRetryAvailable else { return }
+            foregroundRetryAvailable = false
+            rebuildPlayer(preservingPlayback: true)
+            return
+        }
+
+        if item.status == .failed || item.error != nil {
+            guard foregroundRetryAvailable else { return }
+            foregroundRetryAvailable = false
+            rebuildPlayer(preservingPlayback: true)
+        } else if item.status == .readyToPlay,
+                  shouldResumeWhenReady,
+                  playback.activePostId == postId {
+            player?.play()
+            shouldResumeWhenReady = false
         }
     }
 
     private func updatePlayback(for frame: CGRect) {
         guard !isFullScreen else { return }
         let visibleHeight = frame.intersection(UIScreen.main.bounds).height
-        let isVisible = frame.height > 0 && visibleHeight / frame.height >= 0.6
+        let requiredHeight = min(frame.height * 0.6, UIScreen.main.bounds.height * 0.35)
+        let isVisible = frame.height > 0 && visibleHeight >= requiredHeight
         if isVisible {
-            playback.activePostId = postId
+            if playback.activePostId != postId { playback.activePostId = postId }
         } else if playback.activePostId == postId {
             playback.activePostId = nil
         }
     }
 
     private var displayAspectRatio: CGFloat {
-        min(max(mediaAspectRatio, 2 / 3), 16 / 9)
+        PostMediaLayout.constrainedAspectRatio(mediaAspectRatio)
+    }
+
+    private var usesConstrainedAspectRatio: Bool {
+        abs(displayAspectRatio - mediaAspectRatio) > 0.001
     }
 
     private func loadThumbnailAspectRatio() async {
@@ -731,8 +1067,12 @@ private struct FeedFullScreenVideoPlayer: View {
 
     var body: some View {
         DragToDismissContainer(onDismiss: { dismiss() }) {
-            NativeVideoPlayer(player: player, showsPlaybackControls: true)
-                .ignoresSafeArea()
+            NativeVideoPlayer(
+                player: player,
+                showsPlaybackControls: true,
+                videoGravity: .resizeAspect
+            )
+            .ignoresSafeArea()
         }
     }
 }
@@ -740,17 +1080,19 @@ private struct FeedFullScreenVideoPlayer: View {
 private struct NativeVideoPlayer: UIViewControllerRepresentable {
     let player: AVPlayer?
     let showsPlaybackControls: Bool
+    let videoGravity: AVLayerVideoGravity
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         let controller = AVPlayerViewController()
         controller.player = player
         controller.showsPlaybackControls = showsPlaybackControls
-        controller.videoGravity = .resizeAspect
+        controller.videoGravity = videoGravity
         return controller
     }
 
     func updateUIViewController(_ controller: AVPlayerViewController, context: Context) {
         controller.showsPlaybackControls = showsPlaybackControls
+        controller.videoGravity = videoGravity
         if controller.player !== player {
             controller.player = player
         }

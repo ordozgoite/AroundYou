@@ -21,8 +21,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private var locationManager = CLLocationManager()
     @Published var location: CLLocation?
 
-    private var oneShotContinuation: CheckedContinuation<CLLocation?, Never>?
-
     var isLocationAuthorized: Bool {
         return locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways
     }
@@ -46,40 +44,29 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         self.locationManager.startUpdatingLocation()
     }
 
-    /// Busca a localização atual de forma assíncrona (single-shot), sem depender de uma
-    /// sessão de `startUpdatingLocation()` já ativa. Usado pela background task, onde o app
-    /// pode ser relançado do zero e nenhuma View ainda chamou `requestLocation()`.
-    /// Retorna `nil` se não houver autorização ou se nenhuma localização chegar no `timeout`.
-    func getCurrentLocation(timeout: TimeInterval = 15) async -> CLLocation? {
-        guard isLocationAuthorized else { return nil }
-
-        return await withTaskGroup(of: CLLocation?.self) { group in
-            group.addTask {
-                await withCheckedContinuation { continuation in
-                    self.oneShotContinuation = continuation
-                    self.locationManager.requestLocation()
-                }
-            }
-            group.addTask {
-                try? await Task.sleep(nanoseconds: UInt64(timeout * 1_000_000_000))
-                return nil
-            }
-            let result = await group.next() ?? nil
-            group.cancelAll()
-            return result
+    func locationForBackgroundRefresh() -> CLLocation? {
+        if let location, isValidBackgroundLocation(location) {
+            return location
         }
+
+        return LocalState.lastKnownLocation(
+            maxAge: Constants.MAX_BACKGROUND_LOCATION_AGE_SECONDS,
+            maximumAccuracy: Constants.MAX_BACKGROUND_LOCATION_ACCURACY_METERS
+        )
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let newLocation = locations.first else { return }
+        guard let newLocation = locations.last else { return }
+
+        if isValidBackgroundLocation(newLocation) {
+            LocalState.saveLastKnownLocation(newLocation)
+        }
 
         if location == nil || newLocation.distance(from: location!) >= Constants.SIGNIFICANT_DISTANCE_METERS {
             self.location = newLocation
             notifyLocationSensitiveDataRefresh()
         }
 
-        oneShotContinuation?.resume(returning: newLocation)
-        oneShotContinuation = nil
     }
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -90,16 +77,22 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location manager failed with error: \(error.localizedDescription)")
-        oneShotContinuation?.resume(returning: nil)
-        oneShotContinuation = nil
     }
 
     private func notifyLocationSensitiveDataRefresh() {
         NotificationCenter.default.post(name: .refreshLocationSensitiveData, object: nil)
     }
 
+    private func isValidBackgroundLocation(_ location: CLLocation) -> Bool {
+        let age = Date().timeIntervalSince(location.timestamp)
+        return CLLocationCoordinate2DIsValid(location.coordinate)
+            && age >= -60
+            && age <= Constants.MAX_BACKGROUND_LOCATION_AGE_SECONDS
+            && location.horizontalAccuracy >= 0
+            && location.horizontalAccuracy <= Constants.MAX_BACKGROUND_LOCATION_ACCURACY_METERS
+    }
+
     @objc private func updateLocation() {
         self.location = nil
     }
 }
-

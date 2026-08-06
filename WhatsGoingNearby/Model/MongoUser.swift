@@ -13,4 +13,5 @@ struct MongoUser: Codable, Hashable {
     let name: String?
     let profilePic: String?
     let biography: String?
+    var showProfileInPublicationViews: Bool? = nil
 }

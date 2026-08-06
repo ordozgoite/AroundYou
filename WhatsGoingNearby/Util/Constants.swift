@@ -51,6 +51,8 @@ struct Constants {
     // MARK: - Time and Distance
     
     static let BACKGROUND_TASK_DELAY_HOURS: Int = 1
+    static let MAX_BACKGROUND_LOCATION_AGE_SECONDS: TimeInterval = 24 * 60 * 60
+    static let MAX_BACKGROUND_LOCATION_ACCURACY_METERS: CLLocationAccuracy = 1_000
     static let NOTIFICATION_DELAY_SECONDS: Int = 4 * 60 * 60
     static let SIGNIFICANT_DISTANCE_METERS: CLLocationDistance = 50
     static let MAX_ELAPSED_TIME_DELETE_MESSAGE_SECONDS: Int = 10 * 60

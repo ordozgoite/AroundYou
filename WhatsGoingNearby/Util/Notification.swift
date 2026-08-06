@@ -7,6 +7,19 @@
 
 import Foundation
 import UserNotifications
+import OSLog
+
+private let engagementNotificationLogger = Logger(
+    subsystem: Bundle.main.bundleIdentifier ?? "AroundYou",
+    category: "EngagementNotification"
+)
+
+enum EngagementNotificationResult {
+    case scheduled
+    case delayed
+    case unauthorized
+    case failed
+}
 
 public let enNotificationBody: String = "There are posts around you!"
 public let ptNotificationBody: String = "Há publicações ao seu redor!"
@@ -17,22 +30,39 @@ public func nearByNotification() -> UNNotificationRequest {
     content.body = LocalState.preferredLanguage.prefix(2) == "pt" ? ptNotificationBody : enNotificationBody
     content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "notification-sound.wav"))
     
-    let request = UNNotificationRequest(identifier: "nearby_publications", content: content, trigger: nil)
+    let request = UNNotificationRequest(
+        identifier: "nearby_publications_\(UUID().uuidString)",
+        content: content,
+        trigger: nil
+    )
     return request
 }
 
-@discardableResult
-public func notifyNearByPost() async -> Bool {
-    if isNotificationInDelay { return false }
+func notifyNearByPost() async -> EngagementNotificationResult {
+    let center = UNUserNotificationCenter.current()
+    let settings = await center.notificationSettings()
+    guard settings.authorizationStatus == .authorized
+            || settings.authorizationStatus == .provisional
+            || settings.authorizationStatus == .ephemeral
+    else {
+        engagementNotificationLogger.notice("Local notification not scheduled: authorization unavailable")
+        return .unauthorized
+    }
+
+    guard !isNotificationInDelay else {
+        engagementNotificationLogger.info("Local notification skipped by engagement delay")
+        return .delayed
+    }
 
     let notificationRequest = nearByNotification()
     do {
-        try await UNUserNotificationCenter.current().add(notificationRequest)
+        try await center.add(notificationRequest)
         LocalState.lastNotificationTime = Int(Date().timeIntervalSince1970)
-        return true
+        engagementNotificationLogger.info("Local engagement notification scheduled")
+        return .scheduled
     } catch {
-        print("Notification failed with error: \(String(describing: error))")
-        return false
+        engagementNotificationLogger.error("Local notification scheduling failed: \(error.localizedDescription, privacy: .public)")
+        return .failed
     }
 }
 

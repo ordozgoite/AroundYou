@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 public class LocalState {
     
@@ -16,6 +17,10 @@ public class LocalState {
         case bgTaskRunCount
         case bgTaskErrorCount
         case engagementNotificationCount
+        case lastLocationLatitude
+        case lastLocationLongitude
+        case lastLocationTimestamp
+        case lastLocationAccuracy
         case isPostLocationVisible
         case hasCompletedOnboarding
         case preferredLanguage
@@ -82,6 +87,48 @@ public class LocalState {
         set(newValue) {
             UserDefaults.standard.set(newValue, forKey: Keys.engagementNotificationCount.rawValue)
         }
+    }
+
+    public static func saveLastKnownLocation(_ location: CLLocation) {
+        UserDefaults.standard.set(location.coordinate.latitude, forKey: Keys.lastLocationLatitude.rawValue)
+        UserDefaults.standard.set(location.coordinate.longitude, forKey: Keys.lastLocationLongitude.rawValue)
+        UserDefaults.standard.set(location.timestamp.timeIntervalSince1970, forKey: Keys.lastLocationTimestamp.rawValue)
+        UserDefaults.standard.set(location.horizontalAccuracy, forKey: Keys.lastLocationAccuracy.rawValue)
+    }
+
+    public static func lastKnownLocation(
+        maxAge: TimeInterval,
+        maximumAccuracy: CLLocationAccuracy
+    ) -> CLLocation? {
+        let defaults = UserDefaults.standard
+        guard
+            defaults.object(forKey: Keys.lastLocationLatitude.rawValue) != nil,
+            defaults.object(forKey: Keys.lastLocationLongitude.rawValue) != nil,
+            defaults.object(forKey: Keys.lastLocationTimestamp.rawValue) != nil
+        else { return nil }
+
+        let latitude = defaults.double(forKey: Keys.lastLocationLatitude.rawValue)
+        let longitude = defaults.double(forKey: Keys.lastLocationLongitude.rawValue)
+        let timestamp = Date(timeIntervalSince1970: defaults.double(forKey: Keys.lastLocationTimestamp.rawValue))
+        let accuracy = defaults.double(forKey: Keys.lastLocationAccuracy.rawValue)
+        let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let age = Date().timeIntervalSince(timestamp)
+
+        guard
+            CLLocationCoordinate2DIsValid(coordinate),
+            age >= -60,
+            age <= maxAge,
+            accuracy >= 0,
+            accuracy <= maximumAccuracy
+        else { return nil }
+
+        return CLLocation(
+            coordinate: coordinate,
+            altitude: 0,
+            horizontalAccuracy: accuracy,
+            verticalAccuracy: -1,
+            timestamp: timestamp
+        )
     }
     
     public static var isPostLocationVisible: Bool {
