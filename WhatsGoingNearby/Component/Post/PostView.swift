@@ -508,6 +508,8 @@ final class FeedVideoPlaybackCoordinator: ObservableObject {
     static let shared = FeedVideoPlaybackCoordinator()
     @Published var activePostId: String?
     @Published var isMuted = true
+    /// Prevents fullscreen mute/unmute from overwriting the feed mute preference.
+    var ignoresPlayerMuteUpdates = false
 
     func resetMutePreference() {
         isMuted = true
@@ -607,6 +609,7 @@ private struct PostVideoView: View {
             }
         }
         .onChange(of: playback.isMuted) { muted in
+            guard !isFullScreen else { return }
             if player?.isMuted != muted {
                 player?.isMuted = muted
             }
@@ -619,9 +622,15 @@ private struct PostVideoView: View {
         .onChange(of: isFullScreen) { fullScreen in
             if fullScreen {
                 playback.activePostId = postId
+                playback.ignoresPlayerMuteUpdates = true
+                player?.isMuted = false
                 player?.play()
-            } else if playback.activePostId == postId {
-                player?.play()
+            } else {
+                player?.isMuted = playback.isMuted
+                playback.ignoresPlayerMuteUpdates = false
+                if playback.activePostId == postId {
+                    player?.play()
+                }
             }
         }
         .onDisappear {
@@ -670,9 +679,11 @@ private struct PostVideoView: View {
         }
         muteObservation = newPlayer.observe(\.isMuted, options: [.new]) { player, _ in
             DispatchQueue.main.async {
+                let coordinator = FeedVideoPlaybackCoordinator.shared
+                guard !coordinator.ignoresPlayerMuteUpdates else { return }
                 let muted = player.isMuted
-                if FeedVideoPlaybackCoordinator.shared.isMuted != muted {
-                    FeedVideoPlaybackCoordinator.shared.isMuted = muted
+                if coordinator.isMuted != muted {
+                    coordinator.isMuted = muted
                 }
             }
         }
@@ -722,19 +733,6 @@ private struct FeedFullScreenVideoPlayer: View {
         DragToDismissContainer(onDismiss: { dismiss() }) {
             NativeVideoPlayer(player: player, showsPlaybackControls: true)
                 .ignoresSafeArea()
-        } chrome: {
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "xmark")
-                    .font(.body.weight(.semibold))
-                    .foregroundStyle(.white)
-                    .padding(10)
-                    .background(.black.opacity(0.55), in: Circle())
-            }
-            .buttonStyle(.plain)
-            .padding()
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
         }
     }
 }
