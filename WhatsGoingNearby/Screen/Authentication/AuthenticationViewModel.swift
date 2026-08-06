@@ -53,6 +53,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var name: String?
     @Published var profilePic: String?
     @Published var biography: String?
+    @Published var showProfileInPublicationViews: Bool = true
     @Published var isGettingUserInfo: Bool = false
     
     // User Discover Preferences
@@ -223,6 +224,7 @@ extension AuthenticationViewModel {
     func signOut() {
         do {
             try Auth.auth().signOut()
+            PublicationViewTracker.shared.clearSession()
             authenticationState = .unauthenticated
             resetUserInfo()
             resetInputs()
@@ -345,6 +347,7 @@ extension AuthenticationViewModel {
         self.name = user.name ?? ""
         self.profilePic = user.profilePic
         self.biography = user.biography
+        self.showProfileInPublicationViews = user.showProfileInPublicationViews ?? true
         self.isUserInfoFetched = true
         
         persistNewProfile(forUser: user)
