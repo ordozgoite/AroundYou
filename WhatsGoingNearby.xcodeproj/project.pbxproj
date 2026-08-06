@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		49552898B81341FDB9A372D3 /* DragToDismissContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF6D6CEC95348F0B84AE0EC /* DragToDismissContainer.swift */; };
 		624CDB1A2FAFA5F1007D2560 /* PremiumMapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB192FAFA5F1007D2560 /* PremiumMapButton.swift */; };
+		624CDB412FB40002007D2560 /* ExploreMapHintBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB402FB40001007D2560 /* ExploreMapHintBubble.swift */; };
 		624CDB1C2FAFA7EC007D2560 /* ExploreMapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB1B2FAFA7EC007D2560 /* ExploreMapScreen.swift */; };
 		624CDB1E2FAFA895007D2560 /* ExploreMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB1D2FAFA895007D2560 /* ExploreMapViewModel.swift */; };
 		624CDB202FAFAB0F007D2560 /* FormattedPost+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB1F2FAFAB0F007D2560 /* FormattedPost+Mock.swift */; };
@@ -336,6 +337,7 @@
 /* Begin PBXFileReference section */
 		0BF6D6CEC95348F0B84AE0EC /* DragToDismissContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragToDismissContainer.swift; sourceTree = "<group>"; };
 		624CDB192FAFA5F1007D2560 /* PremiumMapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumMapButton.swift; sourceTree = "<group>"; };
+		624CDB402FB40001007D2560 /* ExploreMapHintBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapHintBubble.swift; sourceTree = "<group>"; };
 		624CDB1B2FAFA7EC007D2560 /* ExploreMapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapScreen.swift; sourceTree = "<group>"; };
 		624CDB1D2FAFA895007D2560 /* ExploreMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapViewModel.swift; sourceTree = "<group>"; };
 		624CDB1F2FAFAB0F007D2560 /* FormattedPost+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FormattedPost+Mock.swift"; sourceTree = "<group>"; };
@@ -678,6 +680,7 @@
 			isa = PBXGroup;
 			children = (
 				624CDB192FAFA5F1007D2560 /* PremiumMapButton.swift */,
+				624CDB402FB40001007D2560 /* ExploreMapHintBubble.swift */,
 				624CDB232FB11228007D2560 /* PostMapMarker.swift */,
 				624CDB252FB113C0007D2560 /* ExpandedPostMapMarker.swift */,
 				624CDB272FB11C20007D2560 /* MapPostProfileImageView.swift */,
@@ -1814,6 +1817,7 @@
 				EDAECA4D2DDC9DF500D1A938 /* MyCommunitiesView.swift in Sources */,
 				ED2F1A6B2B9048DC001F4300 /* IndepCommentScreen.swift in Sources */,
 				624CDB1A2FAFA5F1007D2560 /* PremiumMapButton.swift in Sources */,
+				624CDB412FB40002007D2560 /* ExploreMapHintBubble.swift in Sources */,
 				ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */,
 				ED755F132BB4D625004BC6C3 /* ChatListScreen.swift in Sources */,
 				ED74E8132BF446C600371334 /* NSPredicate+helper.swift in Sources */,

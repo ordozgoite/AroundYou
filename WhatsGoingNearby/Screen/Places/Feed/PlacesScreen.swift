@@ -52,11 +52,19 @@ struct PlacesScreen: View, PostViewActionHandler {
                 }
             }
             
-            PremiumMapButton {
-                navCoordinator.navigate(to: .exploreMap)
+            HStack(spacing: 4) {
+                if shouldHighlightExploreMap {
+                    ExploreMapHintBubble()
+                        .transition(.asymmetric(insertion: .identity, removal: .opacity))
+                }
+
+                PremiumMapButton(isHighlighted: shouldHighlightExploreMap) {
+                    navCoordinator.navigate(to: .exploreMap)
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             .padding()
+            .animation(.easeOut(duration: 0.3), value: shouldHighlightExploreMap)
             
             AYErrorAlert(message: placesVM.overlayError.1 , isErrorAlertPresented: $placesVM.overlayError.0)
         }
@@ -301,8 +309,20 @@ struct PlacesScreen: View, PostViewActionHandler {
         
     }
     
+    //MARK: - Explore Map Highlight
+
+    /// The map hint is only suggested once the fetch is done and the feed came
+    /// back with no publication at all.
+    private var shouldHighlightExploreMap: Bool {
+        locationManager.isLocationAuthorized
+        && locationManager.isUsingFullAccuracy
+        && !placesVM.isLoading
+        && placesVM.initialPostsFetched
+        && placesVM.posts.isEmpty
+    }
+
     //MARK: - Private Method
-    
+
     private func startUpdatingFeed() {
         placesVM.feedTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
             Task {
