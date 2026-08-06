@@ -56,6 +56,13 @@ struct Constants {
     static let NOTIFICATION_DELAY_SECONDS: Int = 4 * 60 * 60
     static let SIGNIFICANT_DISTANCE_METERS: CLLocationDistance = 50
     static let MAX_ELAPSED_TIME_DELETE_MESSAGE_SECONDS: Int = 10 * 60
+
+    // MARK: - Chat Realtime
+
+    /// Janela usada para casar uma mensagem local ainda em envio com a versão confirmada pelo servidor.
+    static let MESSAGE_RECONCILIATION_WINDOW_SECONDS: Int = 2 * 60
+    /// Limite de páginas buscadas ao fechar uma lacuna de mensagens perdidas durante uma desconexão.
+    static let MAX_MESSAGE_RECONCILIATION_PAGES: Int = 5
     
     //MARK: - Discover Defaults
     

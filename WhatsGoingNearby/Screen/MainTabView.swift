@@ -9,7 +9,9 @@ import SwiftUI
 import Kingfisher
 
 struct MainTabView: View {
-    
+
+    private static let listenerOwner = "main-tab"
+
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var socket: SocketService
     @EnvironmentObject var notificationManager: NotificationManager
@@ -190,7 +192,7 @@ extension MainTabView {
     }
     
     private func listenToMessages() {
-        socket.socket?.on("badge") { data, ack in
+        socket.addListener(for: "badge", owner: Self.listenerOwner) { data, ack in
             updateBadge()
         }
     }

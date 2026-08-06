@@ -24,10 +24,13 @@ struct MessageView: View {
         Reply()
         
         HStack {
-            if message.imageUrl != nil {
-                ImageBubble(fromSource: .url)
-            } else if message.image != nil {
+            // O preview local tem precedência: quando a mensagem enviada agora recebe a URL
+            // do servidor, seguir mostrando a imagem que já está em memória evita a piscada
+            // de recarregar a mesma imagem pela rede.
+            if message.image != nil {
                 ImageBubble(fromSource: .uiImage)
+            } else if message.imageUrl != nil {
+                ImageBubble(fromSource: .url)
             } else if let text = message.message {
                 if text.isSingleEmoji {
                     Emoji(text)

@@ -14,7 +14,11 @@ class CommunityMessageViewModel: ObservableObject {
     
     private var audioPlayer: AVAudioPlayer?
     private var receivedMessageIds: [String] = []
-    
+
+    /// Identificador desta tela junto ao `SocketService`, para registrar e remover
+    /// apenas os listeners que pertencem a ela.
+    let listenerOwner = "community-\(UUID().uuidString)"
+
     @Published var formattedMessages: [FormattedCommunityMessage] = []
     @Published var intermediaryMessages: [CommunityMessageIntermediary] = [] {
         didSet {

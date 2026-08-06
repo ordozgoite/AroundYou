@@ -368,6 +368,11 @@ extension AuthenticationViewModel {
         if let profilePic = user.profilePic { LocalState.profilePic = profilePic }
         if let biography = user.biography { LocalState.biography = biography }
         LocalState.isUserInfoFetched = true
+
+        // O socket conecta no lançamento do app, possivelmente antes de existir um uid.
+        // Sem avisá-lo aqui, o `register` continuaria valendo para o usuário anterior (ou
+        // para nenhum) e o recém-logado não receberia nenhum evento até reiniciar o app.
+        SocketService.shared.handleUserSessionChanged()
     }
     
     private func getUserBanExpirationDate(token: String) async {
@@ -427,6 +432,9 @@ extension AuthenticationViewModel {
         LocalState.profilePic = ""
         LocalState.biography = ""
         LocalState.isUserInfoFetched = false
+
+        // Derruba a conexão para que a sessão anterior deixe de receber eventos.
+        SocketService.shared.handleUserSessionChanged()
     }
     
     private func resetInputs() {

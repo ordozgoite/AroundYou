@@ -91,22 +91,24 @@ struct MessageScreen: View {
             }
         }
         .onAppear {
+            // Os listeners entram antes da requisição: se uma mensagem chegar enquanto o
+            // histórico carrega, ela é mesclada em vez de se perder na janela entre as duas.
+            listenToMessages()
+            listenToDeletedMessages()
             Task {
                 try await getMessages(.newest)
             }
-            listenToMessages()
-            listenToDeletedMessages()
             updateBadge()
         }
         .onDisappear {
             stopListeningMessages()
             updateBadge()
         }
-        .onChange(of: socket.status) { status in
-            if status == .connected {
-                Task {
-                    try await getMessages(.newest)
-                }
+        .onChange(of: socket.resyncSignal) { _ in
+            // Conexão nova, novo registro do usuário ou volta do background: reconcilia a
+            // conversa aberta com a API para recuperar o que possa ter passado batido.
+            Task {
+                try await getMessages(.resync)
             }
         }
         .toolbar {
@@ -345,36 +347,41 @@ struct MessageScreen: View {
     //MARK: - Private Method
     
     private func listenToMessages() {
-        socket.socket?.on("message") { data, ack in
-            print("📩 Received message: \(data)")
+        socket.addListener(for: "message", owner: messageVM.listenerOwner) { data, ack in
             messageVM.processMessage(data, toChat: chatId) { messageId in
                 emitReadCommand(forMessage: messageId)
             }
             updateChatLockedStatus()
         }
     }
-    
-    
+
+
     private func listenToDeletedMessages() {
-        socket.socket?.on("message-delete") { data, ack in
+        socket.addListener(for: "message-delete", owner: messageVM.listenerOwner) { data, ack in
             if let messageId = data.first as? String {
-                print("📩 Message deleted with id: \(messageId)")
+                RealtimeLog.eventReceived("message-delete", chatId: chatId)
                 messageVM.removeMessage(withId: messageId)
             } else {
-                print("⚠️ Couldn't parse message ID from delete event")
+                RealtimeLog.eventIgnored("message-delete", reason: "id ausente no payload")
             }
         }
     }
-    
-    
+
+
     private func emitReadCommand(forMessage messageId: String) {
         socket.socket?.emit("read", messageId)
     }
-    
+
+    /// Remove só os listeners desta tela.
+    ///
+    /// Antes era um `socket.off("message")` global, que derrubava também o listener de uma
+    /// outra conversa ainda aberta — por exemplo ao fechar um chat aberto por notificação
+    /// sobre a conversa que estava na pilha. A conversa de baixo ficava viva na tela, mas
+    /// muda: só voltava a receber mensagens se o usuário saísse e entrasse de novo.
     private func stopListeningMessages() {
-        socket.socket?.off("message")
+        socket.removeListeners(owner: messageVM.listenerOwner)
     }
-    
+
     private func updateBadge() {
         NotificationCenter.default.post(name: .updateBadge, object: nil)
     }
@@ -382,8 +389,9 @@ struct MessageScreen: View {
     enum FetchMessageType {
         case newest
         case oldest
+        case resync
     }
-    
+
     private func getMessages(_ type: FetchMessageType) async throws {
         let token = try await authVM.getFirebaseToken()
         switch type {
@@ -391,6 +399,8 @@ struct MessageScreen: View {
             await messageVM.getLastMessages(chatId: chatId, token: token)
         case .oldest:
             await messageVM.getMessages(chatId: chatId, token: token)
+        case .resync:
+            await messageVM.getLastMessages(chatId: chatId, token: token, source: "resync")
         }
     }
     

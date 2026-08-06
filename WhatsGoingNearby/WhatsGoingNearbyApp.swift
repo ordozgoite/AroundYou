@@ -224,7 +224,9 @@ struct WhatsGoingNearbyApp: App {
     }
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
+
+    @Environment(\.scenePhase) private var scenePhase
+
     @StateObject var notificationManager = NotificationManager()
     @StateObject var authVM = AuthenticationViewModel()
     @StateObject private var socket = SocketService.shared
@@ -239,6 +241,11 @@ struct WhatsGoingNearbyApp: App {
                 .environmentObject(socket)
                 .environmentObject(locationManager)
                 .environmentObject(placesVM)
+                .onChange(of: scenePhase) { phase in
+                    if phase == .active {
+                        socket.handleAppDidBecomeActive()
+                    }
+                }
         }
     }
 }

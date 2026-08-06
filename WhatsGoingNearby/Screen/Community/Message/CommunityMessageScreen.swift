@@ -287,9 +287,9 @@ struct CommunityMessageScreen: View {
     //    }
     
     private func listenToMessages() {
-        socket.socket?.on("communityMessage") { data, ack in
+        socket.addListener(for: "communityMessage", owner: communityMessageVM.listenerOwner) { data, ack in
             if let message = data as? [Any] {
-                print("📩 Received message: \(message)")
+                RealtimeLog.eventReceived("communityMessage", chatId: community.id)
                 communityMessageVM.processSocketMessage(message, toChat: community.id) { messageId in
                     emitReadCommand(forMessage: messageId)
                 }
@@ -312,8 +312,13 @@ struct CommunityMessageScreen: View {
         socket.socket?.emit("read", messageId)
     }
     
+    /// Remove só os listeners desta tela.
+    ///
+    /// Antes era um `socket.off("message")`: além de nunca remover o listener de
+    /// `communityMessage` (que ia se acumulando a cada comunidade aberta), derrubava o
+    /// listener das conversas diretas, que usam justamente o evento `message`.
     private func stopListeningMessages() {
-        socket.socket?.off("message")
+        socket.removeListeners(owner: communityMessageVM.listenerOwner)
     }
     
     private func updateBadge() {

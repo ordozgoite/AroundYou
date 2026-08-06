@@ -9,6 +9,8 @@ import SwiftUI
 import CoreData
 
 struct ChatListScreen: View {
+    private static let listenerOwner = "chat-list"
+
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var socket: SocketService
     @EnvironmentObject var navCoordinator: NavigationCoordinator
@@ -20,13 +22,11 @@ struct ChatListScreen: View {
                 Chats()
             }
             .onAppear {
-                updateChats()
                 listenToMessages()
+                updateChats()
             }
-            .onChange(of: socket.status) { status in
-                if status == .connected {
-                    updateChats()
-                }
+            .onChange(of: socket.resyncSignal) { _ in
+                updateChats()
             }
             .navigationTitle("Chats")
             .toolbar {
@@ -104,10 +104,17 @@ struct ChatListScreen: View {
         }
     }
     
+    /// A lista tem uma instância só, então o dono é fixo; registrar de novo substitui o
+    /// handler anterior em vez de empilhar mais uma atualização por evento recebido.
     private func listenToMessages() {
-        print("⚠️ listenToMessages")
-        socket.socket?.on("chat") { data, ack in
-            print("⚠️ updateChats")
+        socket.addListener(for: "chat", owner: Self.listenerOwner) { data, ack in
+            RealtimeLog.eventReceived("chat", chatId: nil)
+            updateChats()
+        }
+
+        // Uma mensagem em qualquer conversa também atualiza a lista, inclusive quando ela
+        // chega para uma conversa que não está aberta.
+        socket.addListener(for: "message", owner: Self.listenerOwner) { data, ack in
             updateChats()
         }
     }
