@@ -59,6 +59,38 @@ struct EmptyFeedMessage: View {
     }
 }
 
+struct NoActivePostsView: View {
+    var body: some View {
+        VStack(spacing: 24) {
+            Image("map-icon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: 220)
+                .accessibilityHidden(true)
+
+            VStack(spacing: 8) {
+                Text("Nothing new around here...")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .multilineTextAlignment(.center)
+
+                Text("There are no active posts around you right now.")
+                    .font(.subheadline)
+                    .foregroundStyle(.gray)
+                    .multilineTextAlignment(.center)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 32)
+        .padding(.top, 32)
+        .padding(.bottom, 40)
+    }
+}
+
+#Preview {
+    NoActivePostsView()
+}
+
 //struct EmptyFeedView: View {
 //    var retry: () -> Void
 //

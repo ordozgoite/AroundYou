@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49552898B81341FDB9A372D3 /* DragToDismissContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF6D6CEC95348F0B84AE0EC /* DragToDismissContainer.swift */; };
 		624CDB1A2FAFA5F1007D2560 /* PremiumMapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB192FAFA5F1007D2560 /* PremiumMapButton.swift */; };
 		624CDB1C2FAFA7EC007D2560 /* ExploreMapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB1B2FAFA7EC007D2560 /* ExploreMapScreen.swift */; };
 		624CDB1E2FAFA895007D2560 /* ExploreMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB1D2FAFA895007D2560 /* ExploreMapViewModel.swift */; };
@@ -269,7 +270,6 @@
 		EDAECA4F2DDD499E00D1A938 /* LeaveCommunityButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA4E2DDD499E00D1A938 /* LeaveCommunityButton.swift */; };
 		EDAECA512DDD82BF00D1A938 /* DeleteCommunityButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA502DDD82BF00D1A938 /* DeleteCommunityButton.swift */; };
 		EDB3F63E2BEC9086004F05B1 /* FullScreenUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */; };
-		49552898B81341FDB9A372D3 /* DragToDismissContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF6D6CEC95348F0B84AE0EC /* DragToDismissContainer.swift */; };
 		EDC54BDE2D02AFC9006A5697 /* DiscoverDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */; };
 		EDCBEBF22BB75E5800087325 /* DeleteMessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */; };
 		EDCBEBF42BB7C3E000087325 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCBEBF32BB7C3E000087325 /* MessageView.swift */; };
@@ -334,6 +334,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0BF6D6CEC95348F0B84AE0EC /* DragToDismissContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragToDismissContainer.swift; sourceTree = "<group>"; };
 		624CDB192FAFA5F1007D2560 /* PremiumMapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumMapButton.swift; sourceTree = "<group>"; };
 		624CDB1B2FAFA7EC007D2560 /* ExploreMapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapScreen.swift; sourceTree = "<group>"; };
 		624CDB1D2FAFA895007D2560 /* ExploreMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapViewModel.swift; sourceTree = "<group>"; };
@@ -565,7 +566,6 @@
 		EDAECA4E2DDD499E00D1A938 /* LeaveCommunityButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveCommunityButton.swift; sourceTree = "<group>"; };
 		EDAECA502DDD82BF00D1A938 /* DeleteCommunityButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommunityButton.swift; sourceTree = "<group>"; };
 		EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenUIImage.swift; sourceTree = "<group>"; };
-		0BF6D6CEC95348F0B84AE0EC /* DragToDismissContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragToDismissContainer.swift; sourceTree = "<group>"; };
 		EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverDisclaimerView.swift; sourceTree = "<group>"; };
 		EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageResponse.swift; sourceTree = "<group>"; };
 		EDCBEBF32BB7C3E000087325 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
@@ -2156,7 +2156,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2199,7 +2199,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

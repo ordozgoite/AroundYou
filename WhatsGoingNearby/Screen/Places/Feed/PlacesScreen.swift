@@ -141,7 +141,11 @@ struct PlacesScreen: View, PostViewActionHandler {
                         }
                     
                     PendingPostSection()
-                    
+
+                    if !placesVM.posts.isEmpty && !hasActivePublication() {
+                        NoActivePostsView()
+                    }
+
                     if !placesVM.posts.isEmpty {
                         PostsContent()
                     }
@@ -178,7 +182,7 @@ struct PlacesScreen: View, PostViewActionHandler {
                     print("❌ Error trying to refresh posts.")
                 }
             }
-            
+
             if placesVM.posts.isEmpty {
                 EmptyFeedMessage {
                     Task {
@@ -228,11 +232,15 @@ struct PlacesScreen: View, PostViewActionHandler {
         Posts(ofType: .active)
         
         if hasInactivePublication() {
-            Text("Expired")
-                .font(.title3)
-                .fontWeight(.bold)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
+            HStack(spacing: 6) {
+                Image(systemName: "clock")
+
+                Text("Expired Posts")
+            }
+            .font(.title3)
+            .fontWeight(.bold)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
         }
         
         Posts(ofType: .expired)
@@ -348,6 +356,15 @@ struct PlacesScreen: View, PostViewActionHandler {
         placesVM.feedTimer?.invalidate()
     }
     
+    private func hasActivePublication() -> Bool {
+        for publication in placesVM.posts {
+            if publication.status == .active {
+                return true
+            }
+        }
+        return false
+    }
+
     private func hasInactivePublication() -> Bool {
         for publication in placesVM.posts {
             if publication.status == .expired {
