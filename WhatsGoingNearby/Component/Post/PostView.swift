@@ -344,6 +344,11 @@ struct PostView: View {
                     .textSelection(.enabled)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            handleOnTapGesture()
+        }
     }
     
     //MARK: - Image Preview
@@ -499,9 +504,14 @@ struct PostView: View {
 }
 
 @MainActor
-private final class FeedVideoPlaybackCoordinator: ObservableObject {
+final class FeedVideoPlaybackCoordinator: ObservableObject {
     static let shared = FeedVideoPlaybackCoordinator()
     @Published var activePostId: String?
+    @Published var isMuted = true
+
+    func resetMutePreference() {
+        isMuted = true
+    }
 }
 
 private struct PostVideoView: View {
@@ -511,12 +521,12 @@ private struct PostVideoView: View {
 
     @StateObject private var playback = FeedVideoPlaybackCoordinator.shared
     @State private var player: AVPlayer?
-    @State private var isMuted = true
     @State private var isReady = false
     @State private var didFail = false
     @State private var isFullScreen = false
     @State private var mediaAspectRatio: CGFloat = 16 / 9
     @State private var statusObservation: NSKeyValueObservation?
+    @State private var muteObservation: NSKeyValueObservation?
     @State private var endObserver: NSObjectProtocol?
 
     var body: some View {
@@ -526,7 +536,18 @@ private struct PostVideoView: View {
             }
 
             if let player, isReady, !didFail {
-                NativeVideoPlayer(player: player) { isFullScreen = $0 }
+                NativeVideoPlayer(
+                    player: isFullScreen ? nil : player,
+                    showsPlaybackControls: false
+                )
+            }
+
+            if isReady && !didFail && !isFullScreen {
+                Color.clear
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        isFullScreen = true
+                    }
             }
 
             if !isReady && !didFail {
@@ -543,16 +564,17 @@ private struct PostVideoView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
 
-            if isReady && !didFail {
+            if isReady && !didFail && !isFullScreen {
                 Button {
-                    isMuted.toggle()
-                    player?.isMuted = isMuted
+                    playback.isMuted.toggle()
+                    player?.isMuted = playback.isMuted
                 } label: {
-                    Image(systemName: isMuted ? "speaker.slash.fill" : "speaker.wave.2.fill")
+                    Image(systemName: playback.isMuted ? "speaker.slash.fill" : "speaker.wave.2.fill")
                         .foregroundStyle(.white)
                         .padding(10)
                         .background(.black.opacity(0.55), in: Circle())
                 }
+                .buttonStyle(.plain)
                 .padding(8)
             }
         }
@@ -577,10 +599,29 @@ private struct PostVideoView: View {
             configurePlayer()
         }
         .onChange(of: playback.activePostId) { activeId in
+            guard !isFullScreen else { return }
             if activeId == postId {
                 player?.play()
             } else {
                 player?.pause()
+            }
+        }
+        .onChange(of: playback.isMuted) { muted in
+            if player?.isMuted != muted {
+                player?.isMuted = muted
+            }
+        }
+        .fullScreenCover(isPresented: $isFullScreen) {
+            if let player {
+                FeedFullScreenVideoPlayer(player: player)
+            }
+        }
+        .onChange(of: isFullScreen) { fullScreen in
+            if fullScreen {
+                playback.activePostId = postId
+                player?.play()
+            } else if playback.activePostId == postId {
+                player?.play()
             }
         }
         .onDisappear {
@@ -588,6 +629,7 @@ private struct PostVideoView: View {
             player?.pause()
             if playback.activePostId == postId { playback.activePostId = nil }
             statusObservation = nil
+            muteObservation = nil
             if let endObserver { NotificationCenter.default.removeObserver(endObserver) }
             endObserver = nil
         }
@@ -614,7 +656,7 @@ private struct PostVideoView: View {
         }
         let item = AVPlayerItem(url: url)
         let newPlayer = AVPlayer(playerItem: item)
-        newPlayer.isMuted = true
+        newPlayer.isMuted = playback.isMuted
         player = newPlayer
         statusObservation = item.observe(\.status, options: [.initial, .new]) { item, _ in
             DispatchQueue.main.async {
@@ -626,6 +668,14 @@ private struct PostVideoView: View {
                 if isReady && playback.activePostId == postId { newPlayer.play() }
             }
         }
+        muteObservation = newPlayer.observe(\.isMuted, options: [.new]) { player, _ in
+            DispatchQueue.main.async {
+                let muted = player.isMuted
+                if FeedVideoPlaybackCoordinator.shared.isMuted != muted {
+                    FeedVideoPlaybackCoordinator.shared.isMuted = muted
+                }
+            }
+        }
         endObserver = NotificationCenter.default.addObserver(
             forName: .AVPlayerItemDidPlayToEndTime,
             object: item,
@@ -633,12 +683,15 @@ private struct PostVideoView: View {
         ) { _ in
             newPlayer.seek(to: .zero)
             Task { @MainActor in
-                if playback.activePostId == postId { newPlayer.play() }
+                if playback.activePostId == postId {
+                    newPlayer.play()
+                }
             }
         }
     }
 
     private func updatePlayback(for frame: CGRect) {
+        guard !isFullScreen else { return }
         let visibleHeight = frame.intersection(UIScreen.main.bounds).height
         let isVisible = frame.height > 0 && visibleHeight / frame.height >= 0.6
         if isVisible {
@@ -661,51 +714,47 @@ private struct PostVideoView: View {
     }
 }
 
-private struct NativeVideoPlayer: UIViewControllerRepresentable {
+private struct FeedFullScreenVideoPlayer: View {
     let player: AVPlayer
-    let onFullScreenChanged: (Bool) -> Void
+    @Environment(\.dismiss) private var dismiss
 
-    func makeCoordinator() -> Coordinator {
-        Coordinator(onFullScreenChanged: onFullScreenChanged)
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            NativeVideoPlayer(player: player, showsPlaybackControls: true)
+                .ignoresSafeArea()
+
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.body.weight(.semibold))
+                    .foregroundStyle(.white)
+                    .padding(10)
+                    .background(.black.opacity(0.55), in: Circle())
+            }
+            .buttonStyle(.plain)
+            .padding()
+        }
+        .background(Color.black.ignoresSafeArea())
     }
+}
+
+private struct NativeVideoPlayer: UIViewControllerRepresentable {
+    let player: AVPlayer?
+    let showsPlaybackControls: Bool
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         let controller = AVPlayerViewController()
         controller.player = player
-        controller.delegate = context.coordinator
-        controller.showsPlaybackControls = true
+        controller.showsPlaybackControls = showsPlaybackControls
         controller.videoGravity = .resizeAspect
         return controller
     }
 
     func updateUIViewController(_ controller: AVPlayerViewController, context: Context) {
-        context.coordinator.onFullScreenChanged = onFullScreenChanged
+        controller.showsPlaybackControls = showsPlaybackControls
         if controller.player !== player {
             controller.player = player
-        }
-    }
-
-    final class Coordinator: NSObject, AVPlayerViewControllerDelegate {
-        var onFullScreenChanged: (Bool) -> Void
-
-        init(onFullScreenChanged: @escaping (Bool) -> Void) {
-            self.onFullScreenChanged = onFullScreenChanged
-        }
-
-        func playerViewController(
-            _ playerViewController: AVPlayerViewController,
-            willBeginFullScreenPresentationWithAnimationCoordinator coordinator: UIViewControllerTransitionCoordinator
-        ) {
-            onFullScreenChanged(true)
-        }
-
-        func playerViewController(
-            _ playerViewController: AVPlayerViewController,
-            willEndFullScreenPresentationWithAnimationCoordinator coordinator: UIViewControllerTransitionCoordinator
-        ) {
-            coordinator.animate(alongsideTransition: nil) { [weak self] _ in
-                self?.onFullScreenChanged(false)
-            }
         }
     }
 }

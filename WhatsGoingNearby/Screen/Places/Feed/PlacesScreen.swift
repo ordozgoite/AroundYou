@@ -81,6 +81,7 @@ struct PlacesScreen: View, PostViewActionHandler {
         }
         .onDisappear {
             stopTimer()
+            FeedVideoPlaybackCoordinator.shared.resetMutePreference()
         }
     }
     
