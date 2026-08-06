@@ -10,10 +10,15 @@ import FirebaseCore
 import FirebaseMessaging
 import UserNotifications
 import BackgroundTasks
+import OSLog
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
 
     private let locationManager = LocationManager.shared
+    private let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier ?? "AroundYou",
+        category: "EngagementRefresh"
+    )
 
     func application( _ application: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         // FirebaseApp.configure()
@@ -35,69 +40,87 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
             }
         }
         
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: Constants.updateLocBGTaskId, using: nil) { task in
-            guard let task = task as? BGAppRefreshTask else { return }
+        let didRegisterTask = BGTaskScheduler.shared.register(
+            forTaskWithIdentifier: Constants.updateLocBGTaskId,
+            using: nil
+        ) { task in
+            guard let task = task as? BGAppRefreshTask else {
+                task.setTaskCompleted(success: false)
+                return
+            }
             self.handleTask(task: task)
         }
+        logger.info("Background refresh handler registered: \(didRegisterTask, privacy: .public)")
         
         schedule()
 
         printBGTaskStats()
 
+#if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-RunEngagementRefreshDiagnostic") {
+            Task {
+                let success = await performEngagementRefresh()
+                logger.info("Manual engagement diagnostic completed: \(success, privacy: .public)")
+            }
+        }
+#endif
+
         return true
     }
 
     private func printBGTaskStats() {
-        print("📊 [BGTask] Agendamentos: \(LocalState.bgTaskScheduledCount)")
-        print("📊 [BGTask] Execuções: \(LocalState.bgTaskRunCount)")
-        print("📊 [BGTask] Erros: \(LocalState.bgTaskErrorCount)")
-        print("📊 [BGTask] Notificações de engajamento enviadas: \(LocalState.engagementNotificationCount)")
-        print("💾 [BGTask] Última notificação: \(LocalState.lastNotificationTime)")
+        logger.info("Scheduled count: \(LocalState.bgTaskScheduledCount, privacy: .public)")
+        logger.info("Execution count: \(LocalState.bgTaskRunCount, privacy: .public)")
+        logger.info("Error count: \(LocalState.bgTaskErrorCount, privacy: .public)")
+        logger.info("Engagement notification count: \(LocalState.engagementNotificationCount, privacy: .public)")
+        logger.info("Last notification timestamp: \(LocalState.lastNotificationTime, privacy: .public)")
     }
 
     private func handleTask(task: BGAppRefreshTask) {
         LocalState.bgTaskRunCount += 1
+        logger.info("Background engagement refresh started")
 
         schedule()
 
         let work = Task {
-            switch await checkNearByPost() {
-            case .postFound:
-                if await notifyNearByPost() {
-                    LocalState.engagementNotificationCount += 1
-                }
-            case .noPostFound:
-                break
-            case .error:
-                LocalState.bgTaskErrorCount += 1
-            }
-            task.setTaskCompleted(success: true)
+            let success = await performEngagementRefresh()
+            let completedBeforeExpiration = success && !Task.isCancelled
+            task.setTaskCompleted(success: completedBeforeExpiration)
+            logger.info("Background engagement refresh completed: \(completedBeforeExpiration, privacy: .public)")
         }
 
         task.expirationHandler = {
+            self.logger.error("Background engagement refresh expired")
             work.cancel()
             LocalState.bgTaskErrorCount += 1
-            task.setTaskCompleted(success: false)
         }
     }
 
     private func schedule() {
-        let now = Date()
-        let nextBGTaskTime = Calendar.current.date(byAdding: .hour, value: Constants.BACKGROUND_TASK_DELAY_HOURS, to: now)!
+        guard let nextBGTaskTime = Calendar.current.date(
+            byAdding: .hour,
+            value: Constants.BACKGROUND_TASK_DELAY_HOURS,
+            to: Date()
+        ) else {
+            LocalState.bgTaskErrorCount += 1
+            logger.error("Unable to calculate the next background refresh date")
+            return
+        }
 
         BGTaskScheduler.shared.getPendingTaskRequests { requests in
-            print("\(requests.count) BGTasks pending...")
-            guard requests.isEmpty else { return }
+            let matchingRequests = requests.filter { $0.identifier == Constants.updateLocBGTaskId }
+            self.logger.info("Pending engagement refresh requests: \(matchingRequests.count, privacy: .public)")
+            guard matchingRequests.isEmpty else { return }
 
             do {
                 let newTask = BGAppRefreshTaskRequest(identifier: Constants.updateLocBGTaskId)
                 newTask.earliestBeginDate = nextBGTaskTime
                 try BGTaskScheduler.shared.submit(newTask)
                 LocalState.bgTaskScheduledCount += 1
-                print("✅ Task scheduled!")
+                self.logger.info("Background engagement refresh submitted")
             } catch {
                 LocalState.bgTaskErrorCount += 1
-                print("❌ Failed to schedule: \(error)")
+                self.logger.error("Background refresh submission failed: \(error.localizedDescription, privacy: .public)")
             }
         }
     }
@@ -108,21 +131,60 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         case error
     }
 
+    private func performEngagementRefresh() async -> Bool {
+        switch await checkNearByPost() {
+        case .postFound:
+            guard !Task.isCancelled else { return false }
+            switch await notifyNearByPost() {
+            case .scheduled:
+                LocalState.engagementNotificationCount += 1
+                return true
+            case .delayed:
+                return true
+            case .unauthorized:
+                logger.notice("Nearby publication found, but notification permission is unavailable")
+                return true
+            case .failed:
+                LocalState.bgTaskErrorCount += 1
+                return false
+            }
+        case .noPostFound:
+            logger.info("Nearby publication check completed with no result")
+            return true
+        case .error:
+            LocalState.bgTaskErrorCount += 1
+            return false
+        }
+    }
+
     private func checkNearByPost() async -> NearByCheckResult {
-        guard let location = await locationManager.getCurrentLocation() else { return .error }
+        let userUid = LocalState.currentUserUid
+        guard !userUid.isEmpty else {
+            logger.notice("Nearby publication request skipped: authenticated user unavailable")
+            return .error
+        }
+
+        guard let location = locationManager.locationForBackgroundRefresh() else {
+            logger.notice("Nearby publication request skipped: recent valid location unavailable")
+            return .error
+        }
+
+        logger.info("Checking for a nearby publication using cached location")
 
         let result = await AYServices.shared.checkNearByPublications(
-            userUid: LocalState.currentUserUid,
+            userUid: userUid,
             latitude: location.coordinate.latitude,
             longitude: location.coordinate.longitude
         )
 
         switch result {
         case .success:
+            logger.info("Nearby publication found")
             return .postFound
         case .failure(.dataNotFound):
             return .noPostFound
-        case .failure:
+        case .failure(let error):
+            logger.error("Nearby publication request failed: \(error.customMessage, privacy: .public)")
             return .error
         }
     }

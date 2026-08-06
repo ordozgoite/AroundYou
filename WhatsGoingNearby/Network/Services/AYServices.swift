@@ -481,3 +481,77 @@ struct AYServices: HTTPClient, AYServiceable {
         return await sendRequest(endpoint: AYEndpoints.getReport(reportId: reportId, token: token), responseModel: ReportIncident.self)
     }
 }
+
+struct PublicationViewer: Codable, Identifiable, Hashable {
+    let id: String
+    let username: String
+    let profileImageUrl: String?
+    let viewedAt: String
+}
+
+struct PublicationViewPagination: Codable, Hashable {
+    let page: Int
+    let limit: Int
+    let totalPages: Int
+}
+
+struct PublicationViewersResponse: Codable, Hashable {
+    let totalViews: Int
+    let visibleViewersCount: Int
+    let hasHiddenViewers: Bool
+    let viewers: [PublicationViewer]
+    let pagination: PublicationViewPagination
+}
+
+struct RegisterPublicationViewsResponse: Codable {
+    let registeredCount: Int
+    let processedPublicationIds: [String]
+}
+
+struct PublicationViewPrivacyResponse: Codable {
+    let showProfileInPublicationViews: Bool
+}
+
+private struct PublicationViewEndpoint: Endpoint {
+    let path: String
+    let method: RequestMethod
+    let token: String
+    var query: [String: Any]?
+    var body: [String: Any]?
+    var header: [String: String]? {
+        ["Authorization": "Bearer \(token)", "Content-Type": "application/json"]
+    }
+}
+
+extension AYServices {
+    func registerPublicationViews(_ publicationIds: [String], token: String) async -> Result<RegisterPublicationViewsResponse, RequestError> {
+        await sendRequest(
+            endpoint: PublicationViewEndpoint(path: "/api/PublicationView/RegisterBatch", method: .post, token: token, body: ["publicationIds": publicationIds]),
+            responseModel: RegisterPublicationViewsResponse.self
+        )
+    }
+
+    func getPublicationViewers(publicationId: String, page: Int, limit: Int = 20, token: String) async -> Result<PublicationViewersResponse, RequestError> {
+        await sendRequest(
+            endpoint: PublicationViewEndpoint(
+                path: "/api/PublicationView/GetViewers/\(publicationId)",
+                method: .get,
+                token: token,
+                query: ["page": page, "limit": limit]
+            ),
+            responseModel: PublicationViewersResponse.self
+        )
+    }
+
+    func updatePublicationViewPrivacy(_ isVisible: Bool, token: String) async -> Result<PublicationViewPrivacyResponse, RequestError> {
+        await sendRequest(
+            endpoint: PublicationViewEndpoint(
+                path: "/api/PublicationView/Privacy",
+                method: .patch,
+                token: token,
+                body: ["showProfileInPublicationViews": isVisible]
+            ),
+            responseModel: PublicationViewPrivacyResponse.self
+        )
+    }
+}

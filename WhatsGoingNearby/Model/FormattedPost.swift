@@ -35,6 +35,9 @@ struct FormattedPost: Identifiable, Codable, Equatable, Hashable {
     var description: String?
     var name: String?
     var wasFound: Bool?
+    var uniqueViewCount: Int? = nil
+
+    var resolvedUniqueViewCount: Int { uniqueViewCount ?? 0 }
     
     var postDuration: PostDuration {
         switch duration {

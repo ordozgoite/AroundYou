@@ -14,6 +14,7 @@ struct SettingsScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @Environment(\.colorScheme) var colorScheme
     @State private var isDeleteAccountAlertDisplayed: Bool = false
+    @State private var isUpdatingViewPrivacy = false
     
     var body: some View {
         ZStack {
@@ -23,6 +24,23 @@ struct SettingsScreen: View {
                     //MARK: - Privacy
                     
                     Section {
+                        Toggle(isOn: Binding(
+                            get: { authVM.showProfileInPublicationViews },
+                            set: { updateViewPrivacy($0) }
+                        )) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Show my profile in views")
+                                Text("Allows authors to see your profile when you view a publication.")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        .disabled(isUpdatingViewPrivacy)
+
+                        if isUpdatingViewPrivacy {
+                            ProgressView().controlSize(.small)
+                        }
+
                         NavigationLink {
                             BlockedUserScreen()
                                 .environmentObject(authVM)
@@ -115,6 +133,28 @@ struct SettingsScreen: View {
         }
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.large)
+    }
+
+    private func updateViewPrivacy(_ newValue: Bool) {
+        guard !isUpdatingViewPrivacy else { return }
+        let previousValue = authVM.showProfileInPublicationViews
+        authVM.showProfileInPublicationViews = newValue
+        isUpdatingViewPrivacy = true
+        Task {
+            defer { isUpdatingViewPrivacy = false }
+            guard let token = try? await authVM.getFirebaseToken() else {
+                authVM.showProfileInPublicationViews = previousValue
+                authVM.overlayError = (true, "Unable to update privacy settings.")
+                return
+            }
+            switch await AYServices.shared.updatePublicationViewPrivacy(newValue, token: token) {
+            case .success(let response):
+                authVM.showProfileInPublicationViews = response.showProfileInPublicationViews
+            case .failure:
+                authVM.showProfileInPublicationViews = previousValue
+                authVM.overlayError = (true, "Unable to update privacy settings.")
+            }
+        }
     }
 }
 

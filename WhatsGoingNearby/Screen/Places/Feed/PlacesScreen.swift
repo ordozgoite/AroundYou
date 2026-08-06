@@ -81,6 +81,7 @@ struct PlacesScreen: View, PostViewActionHandler {
         }
         .onDisappear {
             stopTimer()
+            PublicationViewTracker.shared.flushWhenLeavingFeed()
         }
     }
     
