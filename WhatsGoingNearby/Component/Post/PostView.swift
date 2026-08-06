@@ -69,6 +69,20 @@ final class PublicationViewTracker {
         if visibleSince[publicationId] == nil { visibleSince[publicationId] = Date() }
     }
 
+    func updateVisiblePublications(_ publications: [PublicationVisibilityCandidate]) {
+        let visibleIds = Set(publications.filter(\.isSufficientlyVisible).map(\.publicationId))
+        visibleSince.keys.filter { !visibleIds.contains($0) }.forEach {
+            visibleSince.removeValue(forKey: $0)
+        }
+        publications.forEach {
+            updateVisibility(
+                publicationId: $0.publicationId,
+                isAuthor: $0.isAuthor,
+                visibleFraction: $0.isSufficientlyVisible ? 1 : 0
+            )
+        }
+    }
+
     func flushWhenLeavingFeed() {
         visibleSince.removeAll()
         Task { await flush() }
@@ -125,6 +139,12 @@ final class PublicationViewTracker {
             if failedAttempts < 2 { scheduleFlush() }
         }
     }
+}
+
+struct PublicationVisibilityCandidate: Equatable {
+    let publicationId: String
+    let isAuthor: Bool
+    let isSufficientlyVisible: Bool
 }
 
 @MainActor
@@ -260,32 +280,9 @@ struct PostView: View {
                 handleOnTapGesture()
             }
         }
-        .background(visibilityReader)
-        .onDisappear {
-            PublicationViewTracker.shared.updateVisibility(publicationId: post.id, isAuthor: post.isFromRecipientUser, visibleFraction: 0)
-        }
         .sheet(isPresented: $isViewersPresented) {
             PublicationViewersSheet(publicationId: post.id)
         }
-    }
-
-    private var visibilityReader: some View {
-        GeometryReader { proxy in
-            let frame = proxy.frame(in: .global)
-            Color.clear
-                .onAppear { reportVisibility(frame) }
-                .onChange(of: frame) { reportVisibility($0) }
-        }
-    }
-
-    private func reportVisibility(_ frame: CGRect) {
-        let visibleHeight = max(0, min(frame.maxY, UIScreen.main.bounds.maxY) - max(frame.minY, UIScreen.main.bounds.minY))
-        let fraction = frame.height > 0 ? visibleHeight / frame.height : 0
-        PublicationViewTracker.shared.updateVisibility(
-            publicationId: post.id,
-            isAuthor: post.isFromRecipientUser,
-            visibleFraction: fraction
-        )
     }
     
     //MARK: - ProfilePic
@@ -980,9 +977,10 @@ private struct PostVideoView: View {
 
     private func updatePlayback(for frame: CGRect) {
         let visibleHeight = frame.intersection(UIScreen.main.bounds).height
-        let isVisible = frame.height > 0 && visibleHeight / frame.height >= 0.6
+        let requiredHeight = min(frame.height * 0.6, UIScreen.main.bounds.height * 0.35)
+        let isVisible = frame.height > 0 && visibleHeight >= requiredHeight
         if isVisible {
-            playback.activePostId = postId
+            if playback.activePostId != postId { playback.activePostId = postId }
         } else if playback.activePostId == postId {
             playback.activePostId = nil
         }

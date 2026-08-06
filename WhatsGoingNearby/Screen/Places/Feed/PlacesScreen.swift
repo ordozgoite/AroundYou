@@ -7,6 +7,22 @@
 
 import SwiftUI
 
+private struct PublicationBoundsPreferenceValue {
+    let bounds: Anchor<CGRect>
+    let isAuthor: Bool
+}
+
+private struct PublicationBoundsPreferenceKey: PreferenceKey {
+    static var defaultValue: [String: PublicationBoundsPreferenceValue] = [:]
+
+    static func reduce(
+        value: inout [String: PublicationBoundsPreferenceValue],
+        nextValue: () -> [String: PublicationBoundsPreferenceValue]
+    ) {
+        value.merge(nextValue(), uniquingKeysWith: { _, new in new })
+    }
+}
+
 struct PlacesScreen: View, PostViewActionHandler {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var locationManager: LocationManager
@@ -117,7 +133,7 @@ struct PlacesScreen: View, PostViewActionHandler {
     private func Feed() -> some View {
         ZStack {
             ScrollView {
-                VStack(spacing: 0) {
+                LazyVStack(spacing: 0) {
                     NewPostView()
                         .onTapGesture {
                             navCoordinator.navigate(to: .createPost)
@@ -128,6 +144,29 @@ struct PlacesScreen: View, PostViewActionHandler {
                     if !placesVM.posts.isEmpty {
                         PostsContent()
                     }
+                }
+            }
+            .backgroundPreferenceValue(PublicationBoundsPreferenceKey.self) { publications in
+                GeometryReader { proxy in
+                    let viewport = CGRect(origin: .zero, size: proxy.size)
+                    let candidates = publications.map { publicationId, value in
+                        let frame = proxy[value.bounds]
+                        let visibleHeight = frame.intersection(viewport).height
+                        let requiredHeight = min(frame.height * 0.5, viewport.height * 0.35)
+                        return PublicationVisibilityCandidate(
+                            publicationId: publicationId,
+                            isAuthor: value.isAuthor,
+                            isSufficientlyVisible: frame.height > 0 && visibleHeight >= requiredHeight
+                        )
+                    }.sorted { $0.publicationId < $1.publicationId }
+                    Color.clear
+                        .allowsHitTesting(false)
+                        .onAppear {
+                            PublicationViewTracker.shared.updateVisiblePublications(candidates)
+                        }
+                        .onChange(of: candidates) {
+                            PublicationViewTracker.shared.updateVisiblePublications($0)
+                        }
                 }
             }
             .background(Color.clear)
@@ -207,6 +246,9 @@ struct PlacesScreen: View, PostViewActionHandler {
             if post.status == postType {
                 PostView(post: post, delegate: self, isClickable: true)
                     .padding()
+                    .anchorPreference(key: PublicationBoundsPreferenceKey.self, value: .bounds) {
+                        [post.id: PublicationBoundsPreferenceValue(bounds: $0, isAuthor: post.isFromRecipientUser)]
+                    }
                 
                 Divider()
             }
