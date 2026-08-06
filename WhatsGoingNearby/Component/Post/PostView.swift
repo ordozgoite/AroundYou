@@ -212,10 +212,7 @@ private struct PublicationViewersSheet: View {
                                 ProfilePicView(profilePic: viewer.profileImageUrl)
                                     .frame(width: 44, height: 44)
                                 VStack(alignment: .leading) {
-                                    Text("@\(viewer.username)").fontWeight(.semibold)
-                                    Text(formattedViewDate(viewer.viewedAt))
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
+                                    Text("\(viewer.username)").fontWeight(.semibold)
                                 }
                             }
                             .onAppear {
