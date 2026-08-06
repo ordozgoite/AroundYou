@@ -269,6 +269,7 @@
 		EDAECA4F2DDD499E00D1A938 /* LeaveCommunityButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA4E2DDD499E00D1A938 /* LeaveCommunityButton.swift */; };
 		EDAECA512DDD82BF00D1A938 /* DeleteCommunityButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA502DDD82BF00D1A938 /* DeleteCommunityButton.swift */; };
 		EDB3F63E2BEC9086004F05B1 /* FullScreenUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */; };
+		49552898B81341FDB9A372D3 /* DragToDismissContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF6D6CEC95348F0B84AE0EC /* DragToDismissContainer.swift */; };
 		EDC54BDE2D02AFC9006A5697 /* DiscoverDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */; };
 		EDCBEBF22BB75E5800087325 /* DeleteMessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */; };
 		EDCBEBF42BB7C3E000087325 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCBEBF32BB7C3E000087325 /* MessageView.swift */; };
@@ -564,6 +565,7 @@
 		EDAECA4E2DDD499E00D1A938 /* LeaveCommunityButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveCommunityButton.swift; sourceTree = "<group>"; };
 		EDAECA502DDD82BF00D1A938 /* DeleteCommunityButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommunityButton.swift; sourceTree = "<group>"; };
 		EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenUIImage.swift; sourceTree = "<group>"; };
+		0BF6D6CEC95348F0B84AE0EC /* DragToDismissContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragToDismissContainer.swift; sourceTree = "<group>"; };
 		EDC54BDD2D02AFC9006A5697 /* DiscoverDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverDisclaimerView.swift; sourceTree = "<group>"; };
 		EDCBEBF12BB75E5800087325 /* DeleteMessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageResponse.swift; sourceTree = "<group>"; };
 		EDCBEBF32BB7C3E000087325 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
@@ -1039,6 +1041,7 @@
 				ED598BF92B7C217400B6C23D /* AYProgressView.swift */,
 				ED50C44F2B7E4AB70001EDF6 /* AYErrorAlert.swift */,
 				EDB3F63D2BEC9086004F05B1 /* FullScreenUIImage.swift */,
+				0BF6D6CEC95348F0B84AE0EC /* DragToDismissContainer.swift */,
 				ED0B4B282D5FDCF6000A21F6 /* CustomBadge.swift */,
 				ED30CE572D699C2A001FB213 /* RemoveMediaButton.swift */,
 				ED5329162D82498800AEED74 /* AYPhoneNumberTextField.swift */,
@@ -1959,6 +1962,7 @@
 				EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */,
 				EDA322492B7DB2BA009905B5 /* Comment.swift in Sources */,
 				EDB3F63E2BEC9086004F05B1 /* FullScreenUIImage.swift in Sources */,
+				49552898B81341FDB9A372D3 /* DragToDismissContainer.swift in Sources */,
 				ED9A33392D80C2A2007EB6FC /* BusinessViewModel.swift in Sources */,
 				ED6D82C72B941F8000C57937 /* UsernameScreen.swift in Sources */,
 				ED30CE872D6FEA1E001FB213 /* FormattedBusinessShowcase+Mock.swift in Sources */,

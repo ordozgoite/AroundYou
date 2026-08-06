@@ -719,10 +719,10 @@ private struct FeedFullScreenVideoPlayer: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
+        DragToDismissContainer(onDismiss: { dismiss() }) {
             NativeVideoPlayer(player: player, showsPlaybackControls: true)
                 .ignoresSafeArea()
-
+        } chrome: {
             Button {
                 dismiss()
             } label: {
@@ -734,8 +734,8 @@ private struct FeedFullScreenVideoPlayer: View {
             }
             .buttonStyle(.plain)
             .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
         }
-        .background(Color.black.ignoresSafeArea())
     }
 }
 

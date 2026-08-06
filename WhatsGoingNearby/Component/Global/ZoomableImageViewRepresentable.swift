@@ -13,6 +13,7 @@ import SwiftUI
 // Reference: https://tinyurl.com/y2aamlqd and https://tinyurl.com/y62jzxsv
 struct ZoomableImageViewRepresentable: UIViewRepresentable {
   var image: UIImage
+  var onZoomScaleChanged: ((CGFloat) -> Void)?
  
   func makeUIView(context: Context) -> UIScrollView {
     // set up the UIScrollView
@@ -25,6 +26,8 @@ struct ZoomableImageViewRepresentable: UIViewRepresentable {
     scrollView.showsVerticalScrollIndicator = false
     scrollView.showsHorizontalScrollIndicator = false
     scrollView.contentInsetAdjustmentBehavior = .never
+    scrollView.isScrollEnabled = false
+    scrollView.backgroundColor = .clear
  
     let imageView = context.coordinator.imageView
     imageView.frame = scrollView.bounds
@@ -37,23 +40,23 @@ struct ZoomableImageViewRepresentable: UIViewRepresentable {
     imageView.contentMode = .scaleAspectFit // by Victor Ordozgoite
     imageView.translatesAutoresizingMaskIntoConstraints = true
     imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    return Coordinator(imageView: imageView)
+    imageView.backgroundColor = .clear
+    return Coordinator(imageView: imageView, onZoomScaleChanged: onZoomScaleChanged)
   }
  
   func updateUIView(_ uiView: UIScrollView, context: Context) {
-    // update the hosting controller\'s SwiftUI content
-    // TODO: Reset the zoom, so you need to get the scrollView as well
+    context.coordinator.onZoomScaleChanged = onZoomScaleChanged
     context.coordinator.imageView.image = self.image
-    let scrollView = context.coordinator.imageView.superview as! UIScrollView
-    scrollView.zoomScale = 1.0
   }
  
   // MARK: - Coordinator
   class Coordinator: NSObject, UIScrollViewDelegate {
     var imageView: UIImageView
+    var onZoomScaleChanged: ((CGFloat) -> Void)?
    
-    init(imageView: UIImageView) {
+    init(imageView: UIImageView, onZoomScaleChanged: ((CGFloat) -> Void)?) {
         self.imageView = imageView
+        self.onZoomScaleChanged = onZoomScaleChanged
     }
  
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -61,6 +64,8 @@ struct ZoomableImageViewRepresentable: UIViewRepresentable {
     }
    
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        scrollView.isScrollEnabled = scrollView.zoomScale > 1.01
+        onZoomScaleChanged?(scrollView.zoomScale)
         centerImage()
     }
    
