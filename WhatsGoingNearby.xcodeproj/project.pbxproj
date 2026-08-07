@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EDFE0000000000000000B001 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE0000000000000000A001 /* NotificationService.swift */; };
+		EDFE0000000000000000B002 /* AroundYouNotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = EDFE0000000000000000A004 /* AroundYouNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		49552898B81341FDB9A372D3 /* DragToDismissContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF6D6CEC95348F0B84AE0EC /* DragToDismissContainer.swift */; };
 		624CDB1A2FAFA5F1007D2560 /* PremiumMapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB192FAFA5F1007D2560 /* PremiumMapButton.swift */; };
 		624CDB412FB40002007D2560 /* ExploreMapHintBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB402FB40001007D2560 /* ExploreMapHintBubble.swift */; };
@@ -334,7 +336,34 @@
 		EDFADBA02CF11F3D0050E322 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFADB9F2CF11F3D0050E322 /* Gender.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		EDFE0000000000000000E003 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ED5CB15D2B7C11C000C336EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EDFE0000000000000000E001;
+			remoteInfo = AroundYouNotificationService;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EDFE0000000000000000D004 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				EDFE0000000000000000B002 /* AroundYouNotificationService.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		EDFE0000000000000000A001 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		EDFE0000000000000000A002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDFE0000000000000000A004 /* AroundYouNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AroundYouNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF6D6CEC95348F0B84AE0EC /* DragToDismissContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragToDismissContainer.swift; sourceTree = "<group>"; };
 		624CDB192FAFA5F1007D2560 /* PremiumMapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumMapButton.swift; sourceTree = "<group>"; };
 		624CDB402FB40001007D2560 /* ExploreMapHintBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapHintBubble.swift; sourceTree = "<group>"; };
@@ -633,6 +662,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		EDFE0000000000000000D002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ED5CB1622B7C11C000C336EC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -676,6 +712,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EDFE0000000000000000C001 /* AroundYouNotificationService */ = {
+			isa = PBXGroup;
+			children = (
+				EDFE0000000000000000A001 /* NotificationService.swift */,
+				EDFE0000000000000000A002 /* Info.plist */,
+			);
+			path = AroundYouNotificationService;
+			sourceTree = "<group>";
+		};
 		624CDB182FAFA5CB007D2560 /* Premium */ = {
 			isa = PBXGroup;
 			children = (
@@ -1079,6 +1124,7 @@
 			isa = PBXGroup;
 			children = (
 				ED5CB1672B7C11C000C336EC /* WhatsGoingNearby */,
+				EDFE0000000000000000C001 /* AroundYouNotificationService */,
 				ED5CB1662B7C11C000C336EC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -1087,6 +1133,7 @@
 			isa = PBXGroup;
 			children = (
 				ED5CB1652B7C11C000C336EC /* WhatsGoingNearby.app */,
+				EDFE0000000000000000A004 /* AroundYouNotificationService.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1604,6 +1651,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		EDFE0000000000000000E001 /* AroundYouNotificationService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EDFE0000000000000000F003 /* Build configuration list for PBXNativeTarget "AroundYouNotificationService" */;
+			buildPhases = (
+				EDFE0000000000000000D001 /* Sources */,
+				EDFE0000000000000000D002 /* Frameworks */,
+				EDFE0000000000000000D003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AroundYouNotificationService;
+			productName = AroundYouNotificationService;
+			productReference = EDFE0000000000000000A004 /* AroundYouNotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		ED5CB1642B7C11C000C336EC /* WhatsGoingNearby */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ED5CB1732B7C11C500C336EC /* Build configuration list for PBXNativeTarget "WhatsGoingNearby" */;
@@ -1611,10 +1675,12 @@
 				ED5CB1612B7C11C000C336EC /* Sources */,
 				ED5CB1622B7C11C000C336EC /* Frameworks */,
 				ED5CB1632B7C11C000C336EC /* Resources */,
+				EDFE0000000000000000D004 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				EDFE0000000000000000E002 /* PBXTargetDependency */,
 			);
 			name = WhatsGoingNearby;
 			packageProductDependencies = (
@@ -1669,6 +1735,9 @@
 					ED5CB1642B7C11C000C336EC = {
 						CreatedOnToolsVersion = 15.2;
 					};
+					EDFE0000000000000000E001 = {
+						CreatedOnToolsVersion = 15.2;
+					};
 				};
 			};
 			buildConfigurationList = ED5CB1602B7C11C000C336EC /* Build configuration list for PBXProject "WhatsGoingNearby" */;
@@ -1695,11 +1764,19 @@
 			projectRoot = "";
 			targets = (
 				ED5CB1642B7C11C000C336EC /* WhatsGoingNearby */,
+				EDFE0000000000000000E001 /* AroundYouNotificationService */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		EDFE0000000000000000D003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ED5CB1632B7C11C000C336EC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1721,6 +1798,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		EDFE0000000000000000D001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDFE0000000000000000B001 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ED5CB1612B7C11C000C336EC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2011,7 +2096,67 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		EDFE0000000000000000E002 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EDFE0000000000000000E001 /* AroundYouNotificationService */;
+			targetProxy = EDFE0000000000000000E003 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		EDFE0000000000000000F001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3945C3P68V;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AroundYouNotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Around You Notification Service";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EDFE0000000000000000F002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3945C3P68V;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AroundYouNotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Around You Notification Service";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		ED5CB1712B7C11C500C336EC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2220,6 +2365,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		EDFE0000000000000000F003 /* Build configuration list for PBXNativeTarget "AroundYouNotificationService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDFE0000000000000000F001 /* Debug */,
+				EDFE0000000000000000F002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		ED5CB1602B7C11C000C336EC /* Build configuration list for PBXProject "WhatsGoingNearby" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -151,3 +151,20 @@ extension NotificationManager {
         }
     }
 }
+
+// MARK: - Delivered Notifications
+
+extension NotificationManager {
+    /// Limpa as notificações já entregues da conversa aberta. O filtro usa o mesmo
+    /// `thread-id` que a API envia no payload APNs, então cada conversa limpa só as suas.
+    static func removeDeliveredNotifications(forChatId chatId: String) {
+        let center = UNUserNotificationCenter.current()
+        center.getDeliveredNotifications { notifications in
+            let identifiers = notifications
+                .filter { $0.request.content.threadIdentifier == chatId }
+                .map { $0.request.identifier }
+            guard !identifiers.isEmpty else { return }
+            center.removeDeliveredNotifications(withIdentifiers: identifiers)
+        }
+    }
+}
