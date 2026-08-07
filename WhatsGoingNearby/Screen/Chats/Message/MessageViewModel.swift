@@ -306,7 +306,7 @@ class MessageViewModel: ObservableObject {
 
         guard !message.isCurrentUser else { return }
 
-        playReceivedMessageSound(forMessageId: message.id)
+        notifyReceivedMessage(withId: message.id)
         emitReadCommand(message.id)
     }
 
@@ -327,10 +327,12 @@ class MessageViewModel: ObservableObject {
         return nil
     }
 
-    private func playReceivedMessageSound(forMessageId messageId: String) {
-        if receivedMessageIds.insert(messageId).inserted {
-            playSound(withName: "received-message-sound")
-        }
+    /// Som e vibração da mensagem recebida, uma única vez por mensagem —
+    /// uma reentrega do mesmo id pelo socket não avisa o usuário de novo.
+    private func notifyReceivedMessage(withId messageId: String) {
+        guard receivedMessageIds.insert(messageId).inserted else { return }
+        playSound(withName: "received-message-sound")
+        triggerHapticFeedback(style: .light)
     }
 
     //MARK: - Merge

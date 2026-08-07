@@ -64,6 +64,12 @@ struct NotificationBannerView: View {
                 }
         )
         .animation(.easeInOut, value: dragOffset)
+        .onAppear {
+            // A vibração acompanha o banner visível. Ficando aqui, e não na fila de
+            // notificações, a conversa que já está aberta não vibra duas vezes: nesse caso
+            // o banner é suprimido e o aviso vem da própria tela de mensagens.
+            hapticFeedback(style: .light)
+        }
     }
     
     // MARK: - Content

@@ -99,6 +99,7 @@ struct MessageScreen: View {
                 try await getMessages(.newest)
             }
             updateBadge()
+            NotificationManager.removeDeliveredNotifications(forChatId: chatId)
         }
         .onDisappear {
             stopListeningMessages()
