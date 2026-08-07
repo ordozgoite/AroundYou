@@ -147,18 +147,8 @@ class MessageViewModel: ObservableObject {
         resetInputs()
         let messagesToBeSent = getMessagesToBeSent(chatId: chatId, text: text, images: images, repliedMessage: repliedMessage)
         displayMessages(fromArray: messagesToBeSent)
-        await withTaskGroup(of: Void.self) { group in
-            for message in messagesToBeSent {
-                group.addTask {
-                    do {
-                        try await self.sendMessage(message, token: token)
-                    } catch {
-                        DispatchQueue.main.async {
-                            self.overlayError = (true, ErrorMessage.sendMessage)
-                        }
-                    }
-                }
-            }
+        for message in messagesToBeSent {
+            enqueueSend(message, token: token)
         }
     }
     
@@ -172,7 +162,7 @@ class MessageViewModel: ObservableObject {
         let messagesToBeSent = getMessagesToBeSent(chatId: chatId, text: nil, images: [image], repliedMessage: nil)
         displayMessages(fromArray: messagesToBeSent)
         if let message = messagesToBeSent.first {
-            try await sendMessage(message, token: token)
+            enqueueSend(message, token: token)
         }
     }
     
@@ -205,11 +195,54 @@ class MessageViewModel: ObservableObject {
         self.lastMessageAdded = messages.last?.id
     }
 
-    private func sendMessage(_ message: MessageIntermediary, token: String) async throws {
-        let imageUrl = try await getUrl(forImage: message.image)
-        await postNewMessage(withTemporaryId: message.id, chatId: message.chatId, text: message.text, imageUrl: imageUrl, repliedMessageId: message.repliedMessageId, repliedMessageText: message.repliedMessageText, token: token)
+    /// Corrente de envio da conversa: cada mensagem espera a anterior terminar antes de sair.
+    ///
+    /// Antes, cada toque no botão de enviar abria uma task independente (e imagem e texto do
+    /// mesmo toque iam num `TaskGroup`), então tudo corria em paralelo. Como o upload da imagem
+    /// demora mais que um POST de texto, o texto chegava primeiro ao servidor e a conversa
+    /// aparecia fora de ordem. Enfileirar aqui vale para qualquer tipo de mensagem, porque o
+    /// upload da mídia acontece dentro do elo da corrente, não antes dele.
+    private var sendPipeline: Task<Void, Never>?
+
+    /// Mensagens que falharam e estão segurando a corrente até serem reenviadas ou removidas.
+    private var blockedSends: [String: CheckedContinuation<Void, Never>] = [:]
+
+    private func enqueueSend(_ message: MessageIntermediary, token: String) {
+        let previous = sendPipeline
+        sendPipeline = Task { [weak self] in
+            await previous?.value
+            await self?.send(message, token: token)
+        }
     }
-    
+
+    private func send(_ message: MessageIntermediary, token: String) async {
+        do {
+            let imageUrl = try await getUrl(forImage: message.image)
+            await postNewMessage(withTemporaryId: message.id, chatId: message.chatId, text: message.text, imageUrl: imageUrl, repliedMessageId: message.repliedMessageId, repliedMessageText: message.repliedMessageText, token: token)
+        } catch {
+            updateMessage(withId: message.id, toStatus: .failed)
+            overlayError = (true, ErrorMessage.sendMessage)
+        }
+
+        await holdPipeline(ifFailed: message.id)
+    }
+
+    /// Segura a corrente enquanto a mensagem estiver falha, para que as seguintes não
+    /// ultrapassem uma mensagem que o usuário ainda pode reenviar. O retry continua sendo o
+    /// mesmo de sempre (`resendMessage`): quando ele confirma a mensagem — ou quando ela é
+    /// removida — a corrente é liberada e as próximas saem na ordem original.
+    private func holdPipeline(ifFailed messageId: String) async {
+        guard intermediaryMessages.contains(where: { $0.id == messageId && $0.status == .failed }) else { return }
+
+        await withCheckedContinuation { continuation in
+            blockedSends[messageId] = continuation
+        }
+    }
+
+    private func releasePipeline(holdingMessageId messageId: String) {
+        blockedSends.removeValue(forKey: messageId)?.resume()
+    }
+
     private func getUrl(forImage image: UIImage?) async throws -> String? {
         if let img = image {
             do {
@@ -252,6 +285,8 @@ class MessageViewModel: ObservableObject {
         var confirmed = message.convertMessageToIntermediary(forCurrentUserUid: LocalState.currentUserUid)
         confirmed.status = .sent
         merge([confirmed], source: .local, replacingTemporaryId: tempId)
+        // Um reenvio bem-sucedido é o que libera a corrente de envio parada nesta mensagem.
+        releasePipeline(holdingMessageId: tempId)
     }
 
     private func updateMessage(withId messageId: String, toStatus newStatus: MessageStatus) {
@@ -392,6 +427,7 @@ class MessageViewModel: ObservableObject {
                 indexById[pendingId] = nil
                 indexById[message.id] = twinIndex
                 result.reconciled += 1
+                releasePipeline(holdingMessageId: pendingId)
                 continue
             }
 
@@ -487,6 +523,7 @@ class MessageViewModel: ObservableObject {
     
     func removeMessage(withId messageId: String) {
         intermediaryMessages.removeAll { $0.id == messageId }
+        releasePipeline(holdingMessageId: messageId)
     }
     
     //MARK: - Format Messages
