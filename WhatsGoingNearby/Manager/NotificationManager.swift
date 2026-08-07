@@ -54,6 +54,8 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
     }
     
     func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        // O payload é lido antes da limpeza para que a navegação não dependa
+        // da notificação continuar entregue na Central de Notificações.
         let userInfo = response.notification.request.content.userInfo
         processNotificationPayload(userInfo: userInfo)
         NotificationCenter.default.post(
@@ -61,6 +63,7 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
             object: nil,
             userInfo: userInfo
         )
+        Self.clearDeliveredNotificationsAndBadge()
         completionHandler()
     }
     
@@ -155,6 +158,18 @@ extension NotificationManager {
 // MARK: - Delivered Notifications
 
 extension NotificationManager {
+    /// Limpa todas as notificações já entregues pelo app e zera o badge do ícone.
+    /// Não afeta notificações locais pendentes/agendadas, apenas as já entregues.
+    static func clearDeliveredNotificationsAndBadge() {
+        let center = UNUserNotificationCenter.current()
+        center.removeAllDeliveredNotifications()
+        center.setBadgeCount(0) { error in
+            if let error {
+                print("❌ Unable to reset badge count: \(error.localizedDescription)")
+            }
+        }
+    }
+
     /// Limpa as notificações já entregues da conversa aberta. O filtro usa o mesmo
     /// `thread-id` que a API envia no payload APNs, então cada conversa limpa só as suas.
     static func removeDeliveredNotifications(forChatId chatId: String) {
