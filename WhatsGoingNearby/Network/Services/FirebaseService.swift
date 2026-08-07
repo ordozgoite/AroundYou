@@ -16,20 +16,28 @@ enum FirebaseServiceError: Error {
 }
 
 final class FirebaseService {
-    
+
     static let shared = FirebaseService()
     private init() {}
-    
+
+    /// Sem isto o Storage entrega o arquivo como `application/octet-stream`, e quem consome
+    /// a imagem fora do app — a extensão de notificação, caches, CDNs — não a reconhece.
+    private static let jpegMetadata: StorageMetadata = {
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        return metadata
+    }()
+
     func storeImageAndGetUrl(_ image: UIImage) async throws -> String {
         let storageRef = Storage.storage().reference()
         let fileRef = storageRef.child("post-image/\(UUID().uuidString).jpg")
-        
+
         guard let imageData = image.jpegData(compressionQuality: 0.8) else {
             throw FirebaseServiceError.imageConversionFailed
         }
-        
+
         do {
-            _ = try await fileRef.putDataAsync(imageData)
+            _ = try await fileRef.putDataAsync(imageData, metadata: Self.jpegMetadata)
             let imageUrl = try await fileRef.downloadURL()
             return imageUrl.absoluteString
         } catch {
@@ -49,7 +57,7 @@ final class FirebaseService {
         do {
             _ = try await videoRef.putFileAsync(from: videoURL)
             do {
-                _ = try await thumbnailRef.putDataAsync(thumbnailData)
+                _ = try await thumbnailRef.putDataAsync(thumbnailData, metadata: Self.jpegMetadata)
             } catch {
                 try? await videoRef.delete()
                 throw error

@@ -8,6 +8,7 @@
 import UserNotifications
 import Intents
 import UIKit
+import ImageIO
 import OSLog
 
 final class NotificationService: UNNotificationServiceExtension {
@@ -218,12 +219,14 @@ private enum AvatarImage {
     /// e a imagem é reduzida ao tamanho realmente exibido pelo sistema.
     static let requestTimeout: TimeInterval = 5
     static let resourceTimeout: TimeInterval = 8
-    static let maximumBytes = 2 * 1024 * 1024
+    static let maximumBytes = 5 * 1024 * 1024
     static let renderedSide: CGFloat = 128
 
-    static let supportedMimeTypes: Set<String> = [
-        "image/jpeg", "image/jpg", "image/png", "image/heic", "image/heif", "image/webp"
-    ]
+    /// As fotos enviadas ao Firebase Storage sem `contentType` voltam como
+    /// `application/octet-stream`, mesmo sendo JPEG. Por isso o header só barra resposta
+    /// claramente errada — uma página de erro, um JSON — e quem decide se o formato é
+    /// suportado é o decoder, logo abaixo em `downsampled(_:)`.
+    static let rejectedMimePrefixes = ["text/", "application/json", "application/xml"]
 
     static func download(from url: URL) async -> Data? {
         let configuration = URLSessionConfiguration.ephemeral
@@ -238,8 +241,7 @@ private enum AvatarImage {
             guard
                 let httpResponse = response as? HTTPURLResponse,
                 httpResponse.statusCode == 200,
-                let mimeType = httpResponse.mimeType?.lowercased(),
-                supportedMimeTypes.contains(mimeType),
+                isPossiblyImage(httpResponse.mimeType),
                 data.count <= maximumBytes
             else { return nil }
             return data
@@ -248,8 +250,13 @@ private enum AvatarImage {
         }
     }
 
+    private static func isPossiblyImage(_ mimeType: String?) -> Bool {
+        guard let mimeType = mimeType?.lowercased() else { return true }
+        return !rejectedMimePrefixes.contains { mimeType.hasPrefix($0) }
+    }
+
     static func resized(_ data: Data) -> Data? {
-        guard let image = UIImage(data: data) else { return nil }
+        guard let image = downsampled(data) else { return nil }
 
         let side = renderedSide
         let scale = max(side / max(image.size.width, 1), side / max(image.size.height, 1))
@@ -270,6 +277,22 @@ private enum AvatarImage {
             image.draw(in: CGRect(origin: origin, size: scaledSize))
         }
         return rendered.pngData()
+    }
+
+    /// Decodifica já reduzido: o bitmap completo nunca chega a existir, o que importa no
+    /// limite de memória da extensão. Também serve de validação real do formato — o que
+    /// o ImageIO não abrir, não é imagem que o sistema saiba exibir.
+    private static func downsampled(_ data: Data) -> UIImage? {
+        let options: [CFString: Any] = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: Int(renderedSide)
+        ]
+        guard
+            let source = CGImageSourceCreateWithData(data as CFData, nil),
+            let thumbnail = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary)
+        else { return nil }
+        return UIImage(cgImage: thumbnail)
     }
 
     /// Avatar genérico desenhado a partir de um símbolo nativo, com cores fixas para
