@@ -24,6 +24,13 @@ enum ChatBubbleLayout {
     static let groupedCornerRadius: CGFloat = 7
     /// Gutter usado enquanto a largura real do container não é conhecida.
     static let fallbackGutter: CGFloat = 64
+    /// Foto do remetente, ao lado da última mensagem de um grupo recebido.
+    static let senderAvatarSize: CGFloat = 32
+    /// Quanto as mensagens recebidas recuam para abrir espaço para essa foto.
+    ///
+    /// É esse recuo que também mantém o balão recebido longe da borda esquerda, onde mora o
+    /// gesto de voltar da navegação — antes ele encostava lá e roubava o gesto.
+    static let incomingContentInset: CGFloat = senderAvatarSize + 8
     static let timeFont: Font = .system(size: 10.5)
 
     /// Espaço reservado do lado oposto à bolha. É ele que limita a largura máxima:
@@ -173,6 +180,8 @@ struct BubbleView: View {
     /// Mensagem citada, exibida no topo da bolha. `nil` quando não é uma resposta.
     var quoted: QuotedMessage? = nil
     var onQuotedTap: (() -> Void)? = nil
+    /// Recebe o retângulo real da bolha, usado para decidir onde o swipe-to-reply pega.
+    var bubbleFrame: BubbleFrameBox? = nil
 
     @Environment(\.chatAvailableWidth) private var availableWidth
 
@@ -200,6 +209,7 @@ struct BubbleView: View {
             :
             nil
         }
+        .reportsBubbleFrame(to: bubbleFrame)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: isCurrentUser ? .trailing : .leading)
         .padding(isCurrentUser ? .leading : .trailing, ChatBubbleLayout.gutter(forAvailableWidth: availableWidth))
         .padding(.bottom, ChatBubbleLayout.bottomSpacing(isLastInGroup: isFirst))

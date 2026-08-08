@@ -73,9 +73,27 @@ final class ChatSwipeDriver: NSObject, ObservableObject {
 
     @Published private(set) var drag: Drag?
 
-    private var didReachThreshold = false
     private weak var installedOn: UIScrollView?
     private weak var popGesture: UIGestureRecognizer?
+
+    /// Áreas em que o arrasto tem dono, publicadas pelas próprias linhas.
+    ///
+    /// Sem isso o recognizer engatava em qualquer ponto da conversa e — por declarar
+    /// precedência sobre o "voltar" — bloqueava a navegação em todo o espaço vazio, deixando
+    /// só a faixa junto à borda funcionando.
+    private var grabAreaSources: [ObjectIdentifier: BubbleFrameBox] = [:]
+
+    func register(_ box: BubbleFrameBox) {
+        grabAreaSources[ObjectIdentifier(box)] = box
+    }
+
+    func unregister(_ box: BubbleFrameBox) {
+        grabAreaSources.removeValue(forKey: ObjectIdentifier(box))
+    }
+
+    private func hasMessage(at point: CGPoint) -> Bool {
+        grabAreaSources.values.contains { $0.grabArea.contains(point) }
+    }
 
     /// Sobe a hierarquia a partir de uma view dentro da lista até achar o `UIScrollView`.
     /// Precisa ser um ancestral das bolhas — um recognizer por linha nunca chega a receber
@@ -116,18 +134,12 @@ final class ChatSwipeDriver: NSObject, ObservableObject {
             current.phase = .changed
             drag = current
 
-            if !didReachThreshold && current.offset >= Self.replyThreshold {
-                didReachThreshold = true
-                triggerHapticFeedback(style: .medium)
-            }
-
         case .ended, .cancelled, .failed:
             guard var current = drag else { return }
             current.phase = .finished
             // Gesto interrompido não confirma resposta.
             if pan.state != .ended { current.offset = 0 }
             drag = current
-            didReachThreshold = false
 
         default:
             break
@@ -137,11 +149,18 @@ final class ChatSwipeDriver: NSObject, ObservableObject {
 
 extension ChatSwipeDriver: UIGestureRecognizerDelegate {
 
-    /// Só para a direita, só quando o horizontal domina, e só longe da borda esquerda:
-    /// lá o movimento pertence ao "voltar" da navegação, que é exatamente o mesmo gesto.
+    /// Só para a direita, só quando o horizontal domina, só longe da borda esquerda — lá o
+    /// movimento pertence ao "voltar" da navegação, que é exatamente o mesmo gesto — e só
+    /// quando o toque cai em cima de uma mensagem.
+    ///
+    /// A checagem da área é o que devolve o "voltar" em todo o espaço vazio da conversa: se
+    /// o arrasto não tem dono, o recognizer nem entra em cena e a navegação recebe o gesto.
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         guard let pan = gestureRecognizer as? UIPanGestureRecognizer else { return false }
-        guard pan.location(in: nil).x > Self.navigationEdgeInset else { return false }
+
+        let location = pan.location(in: nil)
+        guard location.x > Self.navigationEdgeInset else { return false }
+        guard hasMessage(at: location) else { return false }
 
         let velocity = pan.velocity(in: pan.view)
         return velocity.x > 0 && abs(velocity.x) > abs(velocity.y) * Self.horizontalDominance
@@ -222,14 +241,63 @@ extension EnvironmentValues {
     }
 }
 
+/// Retângulo desenhado da bolha e a área em que o arrasto conta como resposta a ela.
+///
+/// É uma classe de propósito: `frame` é reescrito a cada quadro de rolagem, e como estado
+/// de View isso invalidaria a linha inteira sem parar.
+final class BubbleFrameBox {
+
+    /// Alvo mínimo confortável para começar o arrasto numa mensagem própria. Uma bolha
+    /// curta é pequena demais para acertar, então a diferença vira folga à esquerda dela.
+    private static let minimumGrabWidth: CGFloat = 160
+    /// Teto dessa folga, para ela ficar logo à esquerda da bolha e não varrer a tela.
+    private static let maximumGrabMargin: CGFloat = 96
+
+    /// Define se há folga à esquerda da bolha.
+    var isCurrentUser = false
+    /// Retângulo desenhado da bolha, em coordenadas globais.
+    var frame: CGRect = .zero
+
+    /// Onde o dedo precisa começar para o arrasto ser desta mensagem.
+    ///
+    /// Recebida: só em cima da bolha. Passar o dedo ao lado dela não é responder ninguém.
+    ///
+    /// Própria: a bolha mais uma folga imediatamente à esquerda, proporcional ao quanto ela
+    /// é estreita. Uma mensagem de poucas letras encosta na borda direita e vira um alvo
+    /// pequeno demais; a folga dá onde pegar sem nunca chegar perto da borda esquerda.
+    var grabArea: CGRect {
+        guard frame != .zero else { return .zero }
+        guard isCurrentUser else { return frame }
+
+        let margin = min(Self.maximumGrabMargin, max(0, Self.minimumGrabWidth - frame.width))
+        return CGRect(x: frame.minX - margin, y: frame.minY, width: frame.width + margin, height: frame.height)
+    }
+}
+
+extension View {
+    /// Mede a bolha onde ela ainda tem o próprio tamanho, antes de ser esticada para a
+    /// largura toda pelo `frame(maxWidth: .infinity)` que a alinha na conversa.
+    func reportsBubbleFrame(to box: BubbleFrameBox?) -> some View {
+        background(
+            GeometryReader { geometry in
+                let _ = (box?.frame = geometry.frame(in: .global))
+                Color.clear
+            }
+        )
+    }
+}
+
 struct SwipeToReplyModifier: ViewModifier {
 
+    let isCurrentUser: Bool
+    let bubbleFrame: BubbleFrameBox?
     let action: () -> Void
 
     @Environment(\.chatSwipeDriver) private var driver
     @State private var offset: CGFloat = 0
     @State private var isActive = false
     @State private var decidedDragId: UUID?
+    @State private var didReachThreshold = false
 
     func body(content: Content) -> some View {
         content
@@ -241,11 +309,26 @@ struct SwipeToReplyModifier: ViewModifier {
                     }
                 }
             )
+            .onAppear {
+                // O driver precisa saber onde há mensagem para não engatar no vazio e
+                // atropelar o gesto de voltar.
+                bubbleFrame?.isCurrentUser = isCurrentUser
+                if let bubbleFrame { driver?.register(bubbleFrame) }
+            }
+            .onDisappear {
+                if let bubbleFrame { driver?.unregister(bubbleFrame) }
+            }
     }
 
     private var dragPublisher: AnyPublisher<ChatSwipeDriver.Drag, Never> {
         guard let driver else { return Empty().eraseToAnyPublisher() }
         return driver.$drag.compactMap { $0 }.eraseToAnyPublisher()
+    }
+
+    /// Sem medição — telas que não reportam a bolha — vale a linha inteira, como antes.
+    private func grabArea(fallingBackTo rowFrame: CGRect) -> CGRect {
+        guard let area = bubbleFrame?.grabArea, area != .zero else { return rowFrame }
+        return area
     }
 
     private func handle(_ drag: ChatSwipeDriver.Drag, rowFrame: CGRect) {
@@ -260,13 +343,21 @@ struct SwipeToReplyModifier: ViewModifier {
         // reavalia corpo o tempo todo enquanto rola.
         if decidedDragId != drag.id {
             decidedDragId = drag.id
-            isActive = drag.phase == .began && rowFrame.contains(drag.start)
+            isActive = drag.phase == .began && grabArea(fallingBackTo: rowFrame).contains(drag.start)
+            didReachThreshold = false
         }
 
         guard isActive else { return }
 
         guard drag.phase == .finished else {
             offset = drag.offset
+            // O aviso tátil é da linha, não do gesto. Ele morava no driver, que só olhava o
+            // deslocamento: numa conversa curta o arrasto no vazio vibrava sem nenhuma
+            // bolha ter se mexido.
+            if !didReachThreshold && offset >= ChatSwipeDriver.replyThreshold {
+                didReachThreshold = true
+                triggerHapticFeedback(style: .medium)
+            }
             return
         }
 
@@ -277,14 +368,22 @@ struct SwipeToReplyModifier: ViewModifier {
             offset = 0
         }
         isActive = false
+        didReachThreshold = false
     }
 }
 
 extension View {
     /// Responder arrastando a mensagem para a direita, sem disputar o scroll vertical.
     /// Exige um `ChatSwipeDriver` no ambiente; sem ele o modificador fica inerte.
-    func swipeToReply(perform action: @escaping () -> Void) -> some View {
-        modifier(SwipeToReplyModifier(action: action))
+    ///
+    /// Passe `bubbleFrame` — alimentado por `reportsBubbleFrame(to:)` — para o arrasto valer
+    /// só em cima da bolha. Sem ele, vale a linha inteira.
+    func swipeToReply(
+        isCurrentUser: Bool = false,
+        bubbleFrame: BubbleFrameBox? = nil,
+        perform action: @escaping () -> Void
+    ) -> some View {
+        modifier(SwipeToReplyModifier(isCurrentUser: isCurrentUser, bubbleFrame: bubbleFrame, action: action))
     }
 }
 

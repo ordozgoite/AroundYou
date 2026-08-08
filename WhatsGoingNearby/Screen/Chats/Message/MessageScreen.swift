@@ -51,7 +51,7 @@ struct MessageScreen: View {
                                 OlderMessagesLoader()
 
                                 ForEach(messageVM.formattedMessages) { message in
-                                    MessageView(message: message, otherUsername: username) {
+                                    MessageView(message: message, otherUsername: username, chatPic: chatPic) {
                                         startReply(to: message)
                                     } tappedRepliedMessage: {
                                         if let repliedMessageId = message.repliedMessageId {

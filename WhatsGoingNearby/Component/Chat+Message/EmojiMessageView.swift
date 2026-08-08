@@ -12,12 +12,14 @@ struct EmojiMessageView: View {
     var emoji: Character
     var isCurrentUser: Bool
     var isFirst: Bool
+    var bubbleFrame: BubbleFrameBox? = nil
 
     @Environment(\.chatAvailableWidth) private var availableWidth
 
     var body: some View {
         Text(String(emoji))
             .font(.system(size: 50))
+            .reportsBubbleFrame(to: bubbleFrame)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: isCurrentUser ? .trailing : .leading)
             .padding(isCurrentUser ? .leading : .trailing, ChatBubbleLayout.gutter(forAvailableWidth: availableWidth))
             .padding(.bottom, ChatBubbleLayout.bottomSpacing(isLastInGroup: isFirst))
