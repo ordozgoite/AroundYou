@@ -89,6 +89,77 @@ struct BubbleShape: Shape {
     }
 }
 
+/// Conteúdo da mensagem original exibida acima de uma resposta.
+struct QuotedMessage: Equatable {
+    /// `nil` quando não sabemos quem escreveu a original — ela pode não estar mais
+    /// carregada em memória.
+    var author: String?
+    var text: String
+}
+
+/// Prévia da mensagem citada.
+///
+/// Um filete vertical e texto secundário, sem moldura nem fundo, para a citação ler como
+/// parte da mensagem em vez de uma segunda bolha ou um botão. É o mesmo componente dentro
+/// da bolha, acima de mídias e no composer, para a resposta ter sempre a mesma cara.
+struct QuotedMessageView: View {
+
+    /// `onAccent` = dentro da bolha azul; `onNeutral` = bolha recebida, mídia e composer.
+    enum Tone {
+        case onAccent
+        case onNeutral
+    }
+
+    var quoted: QuotedMessage
+    var tone: Tone
+    var lineLimit: Int = 2
+
+    var body: some View {
+        HStack(spacing: 7) {
+            RoundedRectangle(cornerRadius: 1.5, style: .continuous)
+                .fill(barColor)
+                .frame(width: 3)
+
+            VStack(alignment: .leading, spacing: 1) {
+                if let author = quoted.author {
+                    Text(author)
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(authorColor)
+                }
+
+                Text(quoted.text)
+                    .font(.caption)
+                    .foregroundStyle(textColor)
+                    .lineLimit(lineLimit)
+            }
+            .multilineTextAlignment(.leading)
+        }
+        .fixedSize(horizontal: false, vertical: true)
+    }
+
+    private var barColor: Color {
+        switch tone {
+        case .onAccent: return .white.opacity(0.8)
+        case .onNeutral: return .blue
+        }
+    }
+
+    private var authorColor: Color {
+        switch tone {
+        case .onAccent: return .white.opacity(0.95)
+        case .onNeutral: return .blue
+        }
+    }
+
+    private var textColor: Color {
+        switch tone {
+        case .onAccent: return .white.opacity(0.75)
+        case .onNeutral: return .secondary
+        }
+    }
+}
+
 struct BubbleView: View {
 
     var message: String
@@ -99,29 +170,39 @@ struct BubbleView: View {
     var isGroupStart: Bool = true
     /// Horário exibido dentro da bolha. `nil` esconde o horário.
     var time: String? = nil
+    /// Mensagem citada, exibida no topo da bolha. `nil` quando não é uma resposta.
+    var quoted: QuotedMessage? = nil
+    var onQuotedTap: (() -> Void)? = nil
 
     @Environment(\.chatAvailableWidth) private var availableWidth
 
     var body: some View {
-        Content()
-            .padding(.horizontal, ChatBubbleLayout.horizontalPadding)
-            .padding(.vertical, ChatBubbleLayout.verticalPadding)
-            .background(
-                isCurrentUser ? .blue : Color(uiColor: .secondarySystemBackground),
-                in: bubbleShape
-            )
-            .background(alignment: isCurrentUser ? .bottomTrailing : .bottomLeading) {
-                isFirst
-                ?
-                Image(isCurrentUser ? "outgoingTail" : "incomingTail")
-                    .renderingMode(.template)
-                    .foregroundStyle(isCurrentUser ? .blue : Color(uiColor: .secondarySystemBackground))
-                :
-                nil
+        VStack(alignment: .leading, spacing: 5) {
+            if let quoted {
+                QuotedMessageView(quoted: quoted, tone: isCurrentUser ? .onAccent : .onNeutral)
+                    .onTapGesture { onQuotedTap?() }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: isCurrentUser ? .trailing : .leading)
-            .padding(isCurrentUser ? .leading : .trailing, ChatBubbleLayout.gutter(forAvailableWidth: availableWidth))
-            .padding(.bottom, ChatBubbleLayout.bottomSpacing(isLastInGroup: isFirst))
+
+            Content()
+        }
+        .padding(.horizontal, ChatBubbleLayout.horizontalPadding)
+        .padding(.vertical, ChatBubbleLayout.verticalPadding)
+        .background(
+            isCurrentUser ? .blue : Color(uiColor: .secondarySystemBackground),
+            in: bubbleShape
+        )
+        .background(alignment: isCurrentUser ? .bottomTrailing : .bottomLeading) {
+            isFirst
+            ?
+            Image(isCurrentUser ? "outgoingTail" : "incomingTail")
+                .renderingMode(.template)
+                .foregroundStyle(isCurrentUser ? .blue : Color(uiColor: .secondarySystemBackground))
+            :
+            nil
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: isCurrentUser ? .trailing : .leading)
+        .padding(isCurrentUser ? .leading : .trailing, ChatBubbleLayout.gutter(forAvailableWidth: availableWidth))
+        .padding(.bottom, ChatBubbleLayout.bottomSpacing(isLastInGroup: isFirst))
     }
 
     //MARK: - Content
@@ -173,6 +254,13 @@ struct BubbleView: View {
         BubbleView(message: "Tudo bem por aí?", isCurrentUser: false, isFirst: true, isGroupStart: false, time: "23:07")
         BubbleView(message: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉", isCurrentUser: true, isFirst: false, isGroupStart: true, time: "23:09")
         BubbleView(message: "👍", isCurrentUser: true, isFirst: true, isGroupStart: false, time: "23:09")
+        BubbleView(
+            message: "Boa! Já pode testar então.",
+            isCurrentUser: false,
+            isFirst: true,
+            time: "23:11",
+            quoted: QuotedMessage(author: "You", text: "Já estou trabalhando na funcionalidade de mensagens, mano. Fique tranquilo 😉")
+        )
     }
     .padding(.horizontal, ChatBubbleLayout.screenMargin)
     .environment(\.chatAvailableWidth, 390 - ChatBubbleLayout.screenMargin * 2)

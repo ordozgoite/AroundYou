@@ -10,15 +10,15 @@ import SwiftUI
 struct MessageView: View {
     
     var message: FormattedMessage
-    
-    @State private var translation: CGSize = .zero
+    /// Nome do outro participante, usado para identificar o autor da mensagem citada.
+    var otherUsername: String
+
     @State private var showingAlert = false
     @Environment(\.chatAvailableWidth) private var availableWidth
-    let maxTranslation: CGFloat = 64
     var replyMessage: () -> ()
     var tappedRepliedMessage: () -> ()
     var resendMessage: () -> ()
-    
+
     var body: some View {
         Time()
         
@@ -49,8 +49,11 @@ struct MessageView: View {
                 Failed()
             }
         }
+        .swipeToReply {
+            replyMessage()
+        }
     }
-    
+
     //MARK: - Time
     
     @ViewBuilder
@@ -64,45 +67,40 @@ struct MessageView: View {
     }
     
     //MARK: - Reply
-    
+
+    /// Mensagens de texto trazem a citação dentro da própria bolha. Aqui ficam só os casos
+    /// em que não há bolha para acomodá-la: mídia e emoji avulso.
     @ViewBuilder
     private func Reply() -> some View {
-        if message.repliedMessageId != nil {
-            HStack {
-                if !message.isCurrentUser {
-                    Image(systemName: "arrowshape.turn.up.right")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 20)
-                        .foregroundStyle(.gray)
+        if let quoted, textBubbleContent == nil {
+            QuotedMessageView(quoted: quoted, tone: .onNeutral)
+                .frame(maxWidth: .infinity, alignment: message.isCurrentUser ? .trailing : .leading)
+                .padding(message.isCurrentUser ? .leading : .trailing, ChatBubbleLayout.gutter(forAvailableWidth: availableWidth))
+                .padding(.bottom, 4)
+                .onTapGesture {
+                    tappedRepliedMessage()
                 }
-                
-                Text(message.repliedMessageText ?? "📷 Photo")
-                    .foregroundStyle(.gray)
-                    .padding(.horizontal)
-                    .padding(.vertical, 8)
-                    .background(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.gray, lineWidth: 2)
-                    )
-                
-                if message.isCurrentUser {
-                    Image(systemName: "arrowshape.turn.up.left")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 20)
-                        .foregroundStyle(.gray)
-                }
-            }
-            .scaleEffect(0.8)
-            .frame(maxWidth: .infinity, alignment: message.isCurrentUser ? .trailing : .leading)
-            .padding(message.isCurrentUser ? .leading : .trailing, ChatBubbleLayout.gutter(forAvailableWidth: availableWidth))
-            .onTapGesture {
-                tappedRepliedMessage()
-            }
         }
     }
-    
+
+    //MARK: - Quoted Message
+
+    private var quoted: QuotedMessage? {
+        guard message.repliedMessageId != nil else { return nil }
+        return QuotedMessage(
+            author: message.repliedMessageIsCurrentUser.map { $0 ? "You" : otherUsername },
+            text: message.repliedMessageText ?? "📷 Photo"
+        )
+    }
+
+    /// Texto que será renderizado como bolha — `nil` para mídia e emoji avulso.
+    private var textBubbleContent: String? {
+        guard message.image == nil, message.imageUrl == nil,
+              let text = message.message, !text.isSingleEmoji
+        else { return nil }
+        return text
+    }
+
     //MARK: - Text Bubble
     
     @ViewBuilder
@@ -112,79 +110,28 @@ struct MessageView: View {
             isCurrentUser: message.isCurrentUser,
             isFirst: message.isFirst,
             isGroupStart: message.isGroupStart,
-            time: message.createdAt.convertTimestampToDate().formatTimeToMessageBubble()
-        )
-        .offset(x: translation.width, y: 0)
-        .gesture(
-            DragGesture()
-                .onChanged { gesture in
-                    if gesture.translation.width > 0 {
-                        translation.width = min(maxTranslation, gesture.translation.width)
-                    }
-                }
-                .onEnded { gesture in
-                    if gesture.translation.width > maxTranslation {
-                        hapticFeedback(style: .heavy)
-                        replyMessage()
-                    }
-                    withAnimation {
-                        translation = .zero
-                    }
-                }
+            time: message.createdAt.convertTimestampToDate().formatTimeToMessageBubble(),
+            quoted: quoted,
+            onQuotedTap: tappedRepliedMessage
         )
     }
 
     //MARK: - Emoji
-    
+
     @ViewBuilder
     private func Emoji(_ text: String) -> some View {
         if let emoji  = text.first {
             EmojiMessageView(emoji: emoji, isCurrentUser: message.isCurrentUser, isFirst: message.isFirst)
-                .gesture(
-                    DragGesture()
-                        .onChanged { gesture in
-                            if gesture.translation.width > 0 {
-                                translation.width = min(maxTranslation, gesture.translation.width)
-                            }
-                        }
-                        .onEnded { gesture in
-                            if gesture.translation.width > maxTranslation {
-                                hapticFeedback(style: .heavy)
-                                replyMessage()
-                            }
-                            withAnimation {
-                                translation = .zero
-                            }
-                        }
-                )
         }
     }
-    
+
     //MARK: - Image Bubble
-    
+
     @ViewBuilder
     private func ImageBubble(fromSource imageSource: ImageSource) -> some View {
         ImageBubbleView(source: imageSource, imageUrl: message.imageUrl, uiImage: message.image, isCurrentUser: message.isCurrentUser, isFirst: message.isFirst)
-            .offset(x: translation.width, y: 0)
-            .gesture(
-                DragGesture()
-                    .onChanged { gesture in
-                        if gesture.translation.width > 0 {
-                            translation.width = min(maxTranslation, gesture.translation.width)
-                        }
-                    }
-                    .onEnded { gesture in
-                        if gesture.translation.width > maxTranslation {
-                            hapticFeedback(style: .heavy)
-                            replyMessage()
-                        }
-                        withAnimation {
-                            translation = .zero
-                        }
-                    }
-            )
     }
-    
+
     //MARK: - Sending
     
     @ViewBuilder
@@ -215,17 +162,20 @@ struct MessageView: View {
         message: FormattedMessage(
             id: "1",
             chatId: "1",
-            message: "😉",
+            message: "Estou terminando o layout das mensagens 😉",
             imageUrl: nil,
 //            imageUrl: "https://firebasestorage.googleapis.com:443/v0/b/aroundyou-b8364.appspot.com/o/post-image%2F8019D1A7-097F-45FA-B0FF-41959EC98789.jpg?alt=media&token=3c621a0c-46e2-405a-b5f5-3bff8f888e07",
             isCurrentUser: false,
             isFirst: true,
             isGroupStart: true,
             repliedMessageText: "Tio, o que você está fazendo?",
+            repliedMessageId: "0",
+            repliedMessageIsCurrentUser: true,
             timeDivider: 1711774061000,
-            status: .sent, 
-            createdAt: 0
+            status: .sent,
+            createdAt: 1711774061000
         ),
+        otherUsername: "ordozgoite",
         replyMessage: {},
         tappedRepliedMessage: {},
         resendMessage: {}

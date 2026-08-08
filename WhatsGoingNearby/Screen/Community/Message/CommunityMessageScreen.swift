@@ -21,6 +21,8 @@ struct CommunityMessageScreen: View {
     let pub = NotificationCenter.default
         .publisher(for: .popCommunity)
     
+    @StateObject private var swipeDriver = ChatSwipeDriver()
+
     var body: some View {
         ZStack {
             VStack {
@@ -73,9 +75,13 @@ struct CommunityMessageScreen: View {
                                 }
                             }
                             .padding(.horizontal, 10)
+                            // Precisa estar dentro do ScrollView: é daqui que o driver
+                            // sobe a hierarquia até o UIScrollView da conversa.
+                            .background(ChatSwipeInstaller(driver: swipeDriver))
                         }
                     }
                 }
+                .environment(\.chatSwipeDriver, swipeDriver)
                 .scrollDismissesKeyboard(.interactively)
                 .refreshable {
                     hapticFeedback(style: .soft)

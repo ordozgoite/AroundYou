@@ -22,6 +22,7 @@ struct MessageScreen: View {
     @EnvironmentObject var socket: SocketService
     @EnvironmentObject var navCoordinator: NavigationCoordinator
     @StateObject private var messageVM = MessageViewModel()
+    @StateObject private var swipeDriver = ChatSwipeDriver()
     @FocusState private var isFocused: Bool
     
     var body: some View {
@@ -30,6 +31,7 @@ struct MessageScreen: View {
         GeometryReader { geometry in
             Conversation()
                 .environment(\.chatAvailableWidth, geometry.size.width - ChatBubbleLayout.screenMargin * 2)
+                .environment(\.chatSwipeDriver, swipeDriver)
         }
     }
 
@@ -43,7 +45,7 @@ struct MessageScreen: View {
                         ZStack {
                             VStack(spacing: 0) {
                                 ForEach(messageVM.formattedMessages) { message in
-                                    MessageView(message: message) {
+                                    MessageView(message: message, otherUsername: username) {
                                         messageVM.repliedMessage = message
                                         isFocused = true
                                     } tappedRepliedMessage: {
@@ -83,6 +85,9 @@ struct MessageScreen: View {
                                 }
                             }
                             .padding(.horizontal, ChatBubbleLayout.screenMargin)
+                            // Precisa estar dentro do ScrollView: é daqui que o driver
+                            // sobe a hierarquia até o UIScrollView da conversa.
+                            .background(ChatSwipeInstaller(driver: swipeDriver))
                         }
                     }
                 }
@@ -243,15 +248,28 @@ struct MessageScreen: View {
                     
                     if shouldDisplaySendButton() {
                         Button {
+                            // Se o usuário estava ditando, o trecho reconhecido ainda é
+                            // provisório: confirmar a composição aqui é o que faz o campo
+                            // — e não o `@Published`, que pode estar atrás — devolver a
+                            // mensagem final.
+                            let composedText = isFocused ? TextInputComposition.finishComposition() : nil
+                            let text = (composedText ?? messageVM.messageText).nonEmptyOrNil()
+                            let images = messageVM.images
+                            let repliedMessage = messageVM.repliedMessage
+
                             Task {
                                 let token = try await authVM.getFirebaseToken()
                                 try await messageVM.sendMessage(
                                     forChat: chatId,
-                                    text: messageVM.messageText.nonEmptyOrNil(),
-                                    images: messageVM.images,
-                                    repliedMessage: messageVM.repliedMessage,
+                                    text: text,
+                                    images: images,
+                                    repliedMessage: repliedMessage,
                                     token: token
                                 )
+                                // `sendMessage` zera o estado; isto garante que o conteúdo
+                                // real do campo também sumiu, sem depender de o UIKit
+                                // aceitar a escrita vinda do binding.
+                                TextInputComposition.clearActiveInput()
                                 updateChatLockedStatus()
                             }
                         } label: {
@@ -271,33 +289,30 @@ struct MessageScreen: View {
     
     //MARK: - Reply
     
+    /// Mesma prévia usada dentro da bolha, para que preparar a resposta e lê-la depois na
+    /// conversa tenham a mesma linguagem visual.
     @ViewBuilder
     private func Reply() -> some View {
         if let repliedMessage = messageVM.repliedMessage {
-            HStack {
-                VStack(alignment: .leading) {
-                    Text(repliedMessage.isCurrentUser ? "You" : username)
-                        .font(.subheadline)
-                    
-                    if let repliedMessageText = repliedMessage.message {
-                        Text(repliedMessageText)
-                            .foregroundStyle(.gray)
-                            .lineLimit(2)
-                    } else if repliedMessage.imageUrl != nil {
-                        Label("Image", systemImage: "photo")
-                            .foregroundStyle(.gray)
-                    }
+            HStack(spacing: 12) {
+                QuotedMessageView(
+                    quoted: QuotedMessage(
+                        author: repliedMessage.isCurrentUser ? "You" : username,
+                        text: repliedMessage.message ?? "📷 Photo"
+                    ),
+                    tone: .onNeutral
+                )
+
+                Spacer(minLength: 0)
+
+                Button {
+                    messageVM.repliedMessage = nil
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.gray)
                 }
-                
-                Spacer()
-                
-                Image(systemName: "xmark.circle")
-                    .foregroundStyle(.blue)
-                    .onTapGesture {
-                        messageVM.repliedMessage = nil
-                    }
             }
-            .padding(10)
+            .padding(.vertical, 6)
         }
     }
     

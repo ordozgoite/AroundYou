@@ -529,11 +529,19 @@ class MessageViewModel: ObservableObject {
     //MARK: - Format Messages
     
     private func formatMessages() {
+        // Índice montado uma vez só: a prévia da resposta precisa saber quem escreveu a
+        // mensagem citada, e varrer a lista por mensagem sairia quadrático.
+        let authorByMessageId = Dictionary(
+            intermediaryMessages.map { ($0.id, $0.isCurrentUser) },
+            uniquingKeysWith: { first, _ in first }
+        )
+
         var messages: [FormattedMessage] = []
         for (index, message) in intermediaryMessages.enumerated() {
             let formattedMessage = message.formatMessage(
                 isFirst: getTail(forMessage: message, withIndex: index),
                 isGroupStart: isGroupStart(forMessage: message, withIndex: index),
+                repliedMessageIsCurrentUser: message.repliedMessageId.flatMap { authorByMessageId[$0] },
                 timeDivider: getTimeDivider(forMessage: message, withIndex: index)
             )
             messages.append(formattedMessage)

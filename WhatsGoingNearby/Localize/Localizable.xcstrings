@@ -3366,6 +3366,7 @@
       }
     },
     "Image" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {

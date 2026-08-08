@@ -20,6 +20,9 @@ struct FormattedMessage: Identifiable, Equatable, Hashable {
     var isGroupStart: Bool = true
     var repliedMessageText: String?
     var repliedMessageId: String?
+    /// Autor da mensagem citada. `nil` quando a original não está mais carregada em
+    /// memória — nesse caso a prévia é exibida sem o nome.
+    var repliedMessageIsCurrentUser: Bool?
     var timeDivider: Int?
     var image: UIImage?
     var status: MessageStatus

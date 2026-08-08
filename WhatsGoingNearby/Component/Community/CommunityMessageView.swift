@@ -11,9 +11,7 @@ struct CommunityMessageView: View {
     
     var message: FormattedCommunityMessage
     
-    @State private var translation: CGSize = .zero
     @State private var showingAlert = false
-    let maxTranslation: CGFloat = 64
     var replyMessage: () -> ()
     var tappedRepliedMessage: () -> ()
     var resendMessage: () -> ()
@@ -44,6 +42,9 @@ struct CommunityMessageView: View {
             case .failed:
                 Failed()
             }
+        }
+        .swipeToReply {
+            replyMessage()
         }
     }
     
@@ -131,49 +132,14 @@ struct CommunityMessageView: View {
     @ViewBuilder
     private func TextBubble() -> some View {
         BubbleView(message: message.text, isCurrentUser: message.isCurrentUser, isFirst: message.isFirst)
-            .offset(x: translation.width, y: 0)
-            .gesture(
-                DragGesture()
-                    .onChanged { gesture in
-                        if gesture.translation.width > 0 {
-                            translation.width = min(maxTranslation, gesture.translation.width)
-                        }
-                    }
-                    .onEnded { gesture in
-                        if gesture.translation.width > maxTranslation {
-                            hapticFeedback(style: .heavy)
-                            replyMessage()
-                        }
-                        withAnimation {
-                            translation = .zero
-                        }
-                    }
-            )
     }
-    
+
     //MARK: - Emoji
-    
+
     @ViewBuilder
     private func Emoji(_ text: String) -> some View {
         if let emoji  = text.first {
             EmojiMessageView(emoji: emoji, isCurrentUser: message.isCurrentUser, isFirst: message.isFirst)
-                .gesture(
-                    DragGesture()
-                        .onChanged { gesture in
-                            if gesture.translation.width > 0 {
-                                translation.width = min(maxTranslation, gesture.translation.width)
-                            }
-                        }
-                        .onEnded { gesture in
-                            if gesture.translation.width > maxTranslation {
-                                hapticFeedback(style: .heavy)
-                                replyMessage()
-                            }
-                            withAnimation {
-                                translation = .zero
-                            }
-                        }
-                )
         }
     }
     
