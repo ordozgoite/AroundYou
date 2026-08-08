@@ -288,6 +288,103 @@ extension View {
     }
 }
 
+//MARK: - Chat History Scroll Anchor
+
+/// Mantém parado o que está na tela quando mensagens antigas entram acima.
+///
+/// Inserir conteúdo acima do visível não mexe no `contentOffset`, então tudo o que o
+/// usuário está lendo desce de uma vez pela altura inserida. A correção é empurrar o offset
+/// pela mesma altura.
+///
+/// O momento certo é quando o `contentSize` cresce — antes disso o layout ainda não
+/// aconteceu e a altura nova não existe —, e é por isso que a observação é em KVO e não em
+/// um `DispatchQueue.main.async` depois da inserção.
+final class ChatHistoryScrollAnchor: NSObject, ObservableObject {
+
+    /// Distância do topo a partir da qual a página anterior já é buscada — aproximadamente
+    /// meia dúzia de mensagens, para o histórico chegar antes do usuário.
+    private static let prefetchDistance: CGFloat = 400
+
+    /// Verdadeiro enquanto a rolagem estiver perto do começo do que já está carregado.
+    /// Publica só na virada, não a cada quadro.
+    @Published private(set) var isApproachingTop = false
+
+    /// Só passa a valer depois de posicionar a conversa no fim. Até lá o `contentOffset`
+    /// é zero e pediria histórico sem o usuário ter rolado nada.
+    var isPrefetchEnabled = false
+
+    private weak var scrollView: UIScrollView?
+    private var contentSizeObservation: NSKeyValueObservation?
+    private var contentOffsetObservation: NSKeyValueObservation?
+    private var heightBeforePrepend: CGFloat?
+
+    /// Sobe a hierarquia a partir de uma view dentro da lista até achar o `UIScrollView`.
+    func attach(startingFrom view: UIView) {
+        guard scrollView == nil else { return }
+
+        var candidate: UIView? = view
+        while let current = candidate, !(current is UIScrollView) {
+            candidate = current.superview
+        }
+        guard let scroll = candidate as? UIScrollView else { return }
+
+        scrollView = scroll
+        contentSizeObservation = scroll.observe(\.contentSize) { [weak self] scroll, _ in
+            self?.compensateForPrependedContent(in: scroll)
+        }
+        contentOffsetObservation = scroll.observe(\.contentOffset) { [weak self] scroll, _ in
+            self?.updateProximityToTop(in: scroll)
+        }
+    }
+
+    /// A posição da rolagem é lida direto do `UIScrollView`, e não por `PreferenceKey` com
+    /// `GeometryReader`: nesta hierarquia — `ScrollView` > `ScrollViewReader` > `ZStack` —
+    /// o `GeometryReader` até é reavaliado, mas a preferência não chega ao
+    /// `onPreferenceChange`, que só recebe o valor padrão uma única vez.
+    private func updateProximityToTop(in scrollView: UIScrollView) {
+        guard isPrefetchEnabled else { return }
+        // Conteúdo que cabe na tela ainda não rolou: buscar aqui seria buscar na abertura.
+        guard scrollView.contentSize.height > scrollView.bounds.height else { return }
+
+        let isNearTop = scrollView.contentOffset.y < Self.prefetchDistance
+        guard isNearTop != isApproachingTop else { return }
+        isApproachingTop = isNearTop
+    }
+
+    /// Fotografa a altura atual, imediatamente antes da inserção e no mesmo ciclo dela.
+    func captureBeforePrepend() {
+        heightBeforePrepend = scrollView?.contentSize.height
+    }
+
+    private func compensateForPrependedContent(in scrollView: UIScrollView) {
+        // Sem foto pendente, este crescimento é de outra coisa — mensagem nova, teclado —
+        // e não deve mexer na posição.
+        guard let previousHeight = heightBeforePrepend else { return }
+        heightBeforePrepend = nil
+
+        let insertedHeight = scrollView.contentSize.height - previousHeight
+        guard insertedHeight > 0 else { return }
+        scrollView.contentOffset.y += insertedHeight
+    }
+}
+
+/// Ponte para achar o `UIScrollView`. Precisa ficar dentro dele.
+struct ChatHistoryAnchorInstaller: UIViewRepresentable {
+
+    let anchor: ChatHistoryScrollAnchor
+
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        view.isUserInteractionEnabled = false
+        DispatchQueue.main.async { anchor.attach(startingFrom: view) }
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {
+        anchor.attach(startingFrom: uiView)
+    }
+}
+
 //MARK: - Text Input
 
 @MainActor

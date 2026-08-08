@@ -24,7 +24,15 @@ class MessageViewModel: ObservableObject {
 
     private var audioPlayer: AVAudioPlayer?
     private var receivedMessageIds: Set<String> = []
-    private var isLoadingOlderMessages = false
+
+    /// Uma busca de histórico por vez.
+    @Published private(set) var isLoadingOlderMessages = false
+    /// Falso assim que uma página volta vazia: daí em diante não há o que buscar.
+    @Published private(set) var hasMoreOlderMessages = true
+
+    /// Avisado imediatamente antes de inserir uma página antiga, ainda no mesmo ciclo, para
+    /// quem precisa fotografar a posição da rolagem antes do conteúdo crescer.
+    var willPrependOlderMessages: (() -> Void)?
 
     /// Identificador desta tela junto ao `SocketService`, para registrar e remover
     /// apenas os listeners que pertencem a ela.
@@ -57,16 +65,39 @@ class MessageViewModel: ObservableObject {
     
     //MARK: - Fetch Messages
 
-    /// Carrega a página anterior à mensagem mais antiga já conhecida.
-    func getMessages(chatId: String, token: String) async {
-        guard !isLoadingOlderMessages else { return }
+    /// Reserva a paginação de forma síncrona.
+    ///
+    /// O gatilho do scroll infinito vem da posição da rolagem, que é avaliada a cada quadro.
+    /// Reservar antes de qualquer suspensão é o que impede que meia dúzia de quadros
+    /// seguidos abram a mesma requisição.
+    func beginLoadingOlderMessages() -> Bool {
+        guard !isLoadingOlderMessages, hasMoreOlderMessages, !intermediaryMessages.isEmpty else {
+            return false
+        }
         isLoadingOlderMessages = true
+        return true
+    }
+
+    /// Devolve a reserva quando a busca nem chega a sair (falha ao obter o token, por ex.).
+    func cancelLoadingOlderMessages() {
+        isLoadingOlderMessages = false
+    }
+
+    /// Carrega a página anterior à mensagem mais antiga já conhecida.
+    /// Exige uma reserva prévia via `beginLoadingOlderMessages()`.
+    func loadOlderMessages(chatId: String, token: String) async {
         defer { isLoadingOlderMessages = false }
 
         let result = await AYServices.shared.getMessages(chatId: chatId, timestamp: oldestKnownTimestamp(), token: token)
 
         switch result {
         case .success(let messages):
+            // O fim do histórico é uma página vazia. O tamanho da página não serve de
+            // critério: o limite é do servidor e o cliente não o conhece.
+            hasMoreOlderMessages = !messages.isEmpty
+            guard !messages.isEmpty else { return }
+
+            willPrependOlderMessages?()
             merge(convertReceivedMessages(messages), source: .pagination)
             RealtimeLog.apiSync(source: MessageMergeSource.pagination.rawValue, pages: 1, fetched: messages.count)
         case .failure:

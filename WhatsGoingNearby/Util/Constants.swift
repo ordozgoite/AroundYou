@@ -63,6 +63,10 @@ struct Constants {
     static let MESSAGE_RECONCILIATION_WINDOW_SECONDS: Int = 2 * 60
     /// Limite de páginas buscadas ao fechar uma lacuna de mensagens perdidas durante uma desconexão.
     static let MAX_MESSAGE_RECONCILIATION_PAGES: Int = 5
+
+    /// Mensagens por página, tanto na abertura da conversa quanto no scroll infinito.
+    /// Servidores anteriores à opção `limit` ignoram o parâmetro e devolvem 20.
+    static let MESSAGES_PAGE_SIZE: Int = 30
     
     //MARK: - Discover Defaults
     

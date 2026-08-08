@@ -23,9 +23,11 @@ struct MessageScreen: View {
     @EnvironmentObject var navCoordinator: NavigationCoordinator
     @StateObject private var messageVM = MessageViewModel()
     @StateObject private var swipeDriver = ChatSwipeDriver()
+    @StateObject private var historyAnchor = ChatHistoryScrollAnchor()
     @FocusState private var isFocused: Bool
     /// Distingue o teclado aberto por uma resposta do teclado aberto por um toque no campo.
     @State private var suppressesScrollOnNextFocus = false
+    @State private var didPerformInitialScroll = false
     
     var body: some View {
         // A largura máxima das bolhas é derivada da largura real do container, e não de
@@ -46,6 +48,8 @@ struct MessageScreen: View {
                     ScrollViewReader { proxy in
                         ZStack {
                             VStack(spacing: 0) {
+                                OlderMessagesLoader()
+
                                 ForEach(messageVM.formattedMessages) { message in
                                     MessageView(message: message, otherUsername: username) {
                                         startReply(to: message)
@@ -64,51 +68,53 @@ struct MessageScreen: View {
                                         MessageMenu(forMessage: message)
                                     }
                                 }
-                                .onAppear {
-                                    if let lastMessageId = messageVM.formattedMessages.last?.id {
-                                        scrollToMessage(withId: lastMessageId, usingProxy: proxy, animated: false)
-                                    }
+                            }
+                            .padding(.horizontal, ChatBubbleLayout.screenMargin)
+                            // Estes observadores ficam no VStack, e não no ForEach: ali eles
+                            // eram registrados uma vez por linha, e o `onAppear` que levava a
+                            // conversa para o fim voltaria a disparar a cada linha antiga
+                            // inserida, desfazendo a paginação.
+                            .onChange(of: messageVM.formattedMessages.count) { _ in
+                                positionAtLatestMessageOnce(usingProxy: proxy)
+                            }
+                            .onChange(of: messageVM.lastMessageAdded) { _ in
+                                if let id = messageVM.lastMessageAdded {
+                                    scrollToMessage(withId: id, usingProxy: proxy)
                                 }
-                                .onChange(of: messageVM.lastMessageAdded) { _ in
-                                    if let id = messageVM.lastMessageAdded {
-                                        scrollToMessage(withId: id, usingProxy: proxy)
-                                    }
+                            }
+                            .onChange(of: isFocused) { _ in
+                                guard isFocused else {
+                                    suppressesScrollOnNextFocus = false
+                                    return
                                 }
-                                .onChange(of: isFocused) { _ in
-                                    guard isFocused else {
-                                        suppressesScrollOnNextFocus = false
-                                        return
-                                    }
-                                    // Responder também abre o teclado, mas ali o usuário
-                                    // está olhando justamente a mensagem que citou: levar
-                                    // a conversa para o fim tiraria ela da tela.
-                                    guard !suppressesScrollOnNextFocus else {
-                                        suppressesScrollOnNextFocus = false
-                                        return
-                                    }
-                                    if let lastMessageId = messageVM.formattedMessages.last?.id {
+                                // Responder também abre o teclado, mas ali o usuário está
+                                // olhando justamente a mensagem que citou: levar a conversa
+                                // para o fim tiraria ela da tela.
+                                guard !suppressesScrollOnNextFocus else {
+                                    suppressesScrollOnNextFocus = false
+                                    return
+                                }
+                                if let lastMessageId = messageVM.formattedMessages.last?.id {
+                                    scrollToMessage(withId: lastMessageId, usingProxy: proxy)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                         scrollToMessage(withId: lastMessageId, usingProxy: proxy)
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                            scrollToMessage(withId: lastMessageId, usingProxy: proxy)
-                                        }
                                     }
                                 }
                             }
-                            .padding(.horizontal, ChatBubbleLayout.screenMargin)
-                            // Precisa estar dentro do ScrollView: é daqui que o driver
-                            // sobe a hierarquia até o UIScrollView da conversa.
+                            // Precisam estar dentro do ScrollView: é daqui que ambos sobem
+                            // a hierarquia até o UIScrollView da conversa.
                             .background(ChatSwipeInstaller(driver: swipeDriver))
+                            .background(ChatHistoryAnchorInstaller(anchor: historyAnchor))
                         }
                     }
                 }
                 .scrollDismissesKeyboard(.interactively)
-                .refreshable {
-                    hapticFeedback(style: .soft)
-                    Task {
-                        try await getMessages(.oldest)
-                    }
+                .onChange(of: historyAnchor.isApproachingTop) { isApproachingTop in
+                    guard isApproachingTop else { return }
+                    loadOlderMessagesIfNeeded()
                 }
-                
+
+
                 VStack {
                     LockedView()
                     
@@ -117,6 +123,13 @@ struct MessageScreen: View {
             }
         }
         .onAppear {
+            // A âncora precisa fotografar a rolagem no mesmo ciclo da inserção, então ela é
+            // avisada de dentro do view model e não daqui.
+            // Captura fraca e sem `self`: o view model guarda este closure, e capturar a
+            // View traria o próprio view model de volta num ciclo.
+            messageVM.willPrependOlderMessages = { [weak historyAnchor] in
+                historyAnchor?.captureBeforePrepend()
+            }
             // Os listeners entram antes da requisição: se uma mensagem chegar enquanto o
             // histórico carrega, ela é mesclada em vez de se perder na janela entre as duas.
             listenToMessages()
@@ -160,6 +173,23 @@ struct MessageScreen: View {
         }
     }
     
+    //MARK: - Older Messages Loader
+
+    /// Indicador discreto do histórico chegando, e sentinela da posição da rolagem.
+    ///
+    /// A altura é fixa mesmo parado: se o indicador entrasse e saísse do layout, o conteúdo
+    /// mudaria de altura no meio da paginação e brigaria com a âncora que segura a posição.
+    @ViewBuilder
+    private func OlderMessagesLoader() -> some View {
+        ZStack {
+            if messageVM.isLoadingOlderMessages {
+                ProgressView()
+                    .scaleEffect(0.7)
+            }
+        }
+        .frame(height: 28)
+    }
+
     //MARK: - User Header
     
     @ViewBuilder
@@ -382,6 +412,34 @@ struct MessageScreen: View {
     
     //MARK: - Private Method
 
+    /// Busca a página anterior quando a rolagem se aproxima do começo do que já está
+    /// carregado, sem esperar o usuário encostar no topo.
+    private func loadOlderMessagesIfNeeded() {
+        // A reserva é síncrona de propósito: a proximidade do topo é reavaliada a cada
+        // quadro da rolagem.
+        guard messageVM.beginLoadingOlderMessages() else { return }
+
+        Task {
+            do {
+                let token = try await authVM.getFirebaseToken()
+                await messageVM.loadOlderMessages(chatId: chatId, token: token)
+            } catch {
+                messageVM.cancelLoadingOlderMessages()
+            }
+        }
+    }
+
+    /// Leva a conversa para o fim quando a primeira leva de mensagens chega, uma única vez.
+    private func positionAtLatestMessageOnce(usingProxy proxy: ScrollViewProxy) {
+        guard !didPerformInitialScroll, let lastMessageId = messageVM.formattedMessages.last?.id else { return }
+        didPerformInitialScroll = true
+        scrollToMessage(withId: lastMessageId, usingProxy: proxy, animated: false)
+
+        // A prefetch só vale depois de posicionar no fim: até lá o topo do conteúdo está
+        // dentro da viewport e dispararia uma busca sem o usuário ter rolado nada.
+        DispatchQueue.main.async { historyAnchor.isPrefetchEnabled = true }
+    }
+
     /// Abre o composer citando uma mensagem, sem levar a conversa para o fim.
     ///
     /// O sinalizador só vale para o próximo evento de foco. Com o teclado já aberto não há
@@ -435,7 +493,6 @@ struct MessageScreen: View {
     
     enum FetchMessageType {
         case newest
-        case oldest
         case resync
     }
 
@@ -444,8 +501,6 @@ struct MessageScreen: View {
         switch type {
         case .newest:
             await messageVM.getLastMessages(chatId: chatId, token: token)
-        case .oldest:
-            await messageVM.getMessages(chatId: chatId, token: token)
         case .resync:
             await messageVM.getLastMessages(chatId: chatId, token: token, source: "resync")
         }
