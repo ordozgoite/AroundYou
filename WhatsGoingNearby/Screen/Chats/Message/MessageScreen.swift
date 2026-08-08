@@ -24,6 +24,8 @@ struct MessageScreen: View {
     @StateObject private var messageVM = MessageViewModel()
     @StateObject private var swipeDriver = ChatSwipeDriver()
     @FocusState private var isFocused: Bool
+    /// Distingue o teclado aberto por uma resposta do teclado aberto por um toque no campo.
+    @State private var suppressesScrollOnNextFocus = false
     
     var body: some View {
         // A largura máxima das bolhas é derivada da largura real do container, e não de
@@ -46,8 +48,7 @@ struct MessageScreen: View {
                             VStack(spacing: 0) {
                                 ForEach(messageVM.formattedMessages) { message in
                                     MessageView(message: message, otherUsername: username) {
-                                        messageVM.repliedMessage = message
-                                        isFocused = true
+                                        startReply(to: message)
                                     } tappedRepliedMessage: {
                                         if let repliedMessageId = message.repliedMessageId {
                                             scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
@@ -74,12 +75,21 @@ struct MessageScreen: View {
                                     }
                                 }
                                 .onChange(of: isFocused) { _ in
-                                    if isFocused {
-                                        if let lastMessageId = messageVM.formattedMessages.last?.id {
+                                    guard isFocused else {
+                                        suppressesScrollOnNextFocus = false
+                                        return
+                                    }
+                                    // Responder também abre o teclado, mas ali o usuário
+                                    // está olhando justamente a mensagem que citou: levar
+                                    // a conversa para o fim tiraria ela da tela.
+                                    guard !suppressesScrollOnNextFocus else {
+                                        suppressesScrollOnNextFocus = false
+                                        return
+                                    }
+                                    if let lastMessageId = messageVM.formattedMessages.last?.id {
+                                        scrollToMessage(withId: lastMessageId, usingProxy: proxy)
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                             scrollToMessage(withId: lastMessageId, usingProxy: proxy)
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                                scrollToMessage(withId: lastMessageId, usingProxy: proxy)
-                                            }
                                         }
                                     }
                                 }
@@ -189,8 +199,7 @@ struct MessageScreen: View {
             }
             
             Button {
-                messageVM.repliedMessage = message
-                isFocused = true
+                startReply(to: message)
             } label: {
                 Label("Reply", systemImage: "arrowshape.turn.up.left")
             }
@@ -372,7 +381,18 @@ struct MessageScreen: View {
     }
     
     //MARK: - Private Method
-    
+
+    /// Abre o composer citando uma mensagem, sem levar a conversa para o fim.
+    ///
+    /// O sinalizador só vale para o próximo evento de foco. Com o teclado já aberto não há
+    /// evento nenhum, e marcá-lo ali deixaria o próximo toque no campo sem rolagem.
+    private func startReply(to message: FormattedMessage) {
+        suppressesScrollOnNextFocus = !isFocused
+        messageVM.repliedMessage = message
+        isFocused = true
+    }
+
+
     private func listenToMessages() {
         socket.addListener(for: "message", owner: messageVM.listenerOwner) { data, ack in
             messageVM.processMessage(data, toChat: chatId) { messageId in

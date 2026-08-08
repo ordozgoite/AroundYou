@@ -17,7 +17,9 @@ struct CommunityMessageScreen: View {
     @StateObject private var communityMessageVM = CommunityMessageViewModel()
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
-    
+    /// Distingue o teclado aberto por uma resposta do teclado aberto por um toque no campo.
+    @State private var suppressesScrollOnNextFocus = false
+
     let pub = NotificationCenter.default
         .publisher(for: .popCommunity)
     
@@ -35,8 +37,7 @@ struct CommunityMessageScreen: View {
                                         Disclaimer()
                                     } else {
                                         CommunityMessageView(message: message) {
-                                            communityMessageVM.repliedMessage = message
-                                            isFocused = true
+                                            startReply(to: message)
                                         } tappedRepliedMessage: {
                                             if let repliedMessageId = message.repliedMessageId {
                                                 scrollToMessage(withId: repliedMessageId, usingProxy: proxy)
@@ -64,12 +65,21 @@ struct CommunityMessageScreen: View {
                                     }
                                 }
                                 .onChange(of: isFocused) { _ in
-                                    if isFocused {
-                                        if let lastMessageId = communityMessageVM.formattedMessages.last?.id {
+                                    guard isFocused else {
+                                        suppressesScrollOnNextFocus = false
+                                        return
+                                    }
+                                    // Responder também abre o teclado, mas ali o usuário
+                                    // está olhando justamente a mensagem que citou: levar
+                                    // a conversa para o fim tiraria ela da tela.
+                                    guard !suppressesScrollOnNextFocus else {
+                                        suppressesScrollOnNextFocus = false
+                                        return
+                                    }
+                                    if let lastMessageId = communityMessageVM.formattedMessages.last?.id {
+                                        scrollToMessage(withId: lastMessageId, usingProxy: proxy)
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                             scrollToMessage(withId: lastMessageId, usingProxy: proxy)
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                                scrollToMessage(withId: lastMessageId, usingProxy: proxy)
-                                            }
                                         }
                                     }
                                 }
@@ -165,8 +175,7 @@ struct CommunityMessageScreen: View {
         }
         
         Button {
-            communityMessageVM.repliedMessage = message
-            isFocused = true
+            startReply(to: message)
         } label: {
             Label("Reply", systemImage: "arrowshape.turn.up.left")
         }
@@ -346,6 +355,16 @@ struct CommunityMessageScreen: View {
         }
     }
     
+    /// Abre o composer citando uma mensagem, sem levar a conversa para o fim.
+    ///
+    /// O sinalizador só vale para o próximo evento de foco. Com o teclado já aberto não há
+    /// evento nenhum, e marcá-lo ali deixaria o próximo toque no campo sem rolagem.
+    private func startReply(to message: FormattedCommunityMessage) {
+        suppressesScrollOnNextFocus = !isFocused
+        communityMessageVM.repliedMessage = message
+        isFocused = true
+    }
+
     private func scrollToMessage(withId messageId: String, usingProxy proxy: ScrollViewProxy, animated: Bool = true) {
         if animated {
             withAnimation {
