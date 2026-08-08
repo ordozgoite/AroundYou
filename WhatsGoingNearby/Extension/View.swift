@@ -56,11 +56,19 @@ final class ChatSwipeDriver: NSObject, ObservableObject {
     /// Faixa junto à borda esquerda reservada ao gesto de voltar da navegação.
     private static let navigationEdgeInset: CGFloat = 24
 
+    enum Phase {
+        case began
+        case changed
+        case finished
+    }
+
     struct Drag: Equatable {
+        /// Novo a cada gesto. É por ele que a linha sabe se já decidiu se o arrasto é dela.
+        let id: UUID
         /// Em coordenadas globais: é por ele que cada linha descobre se o arrasto é dela.
-        var start: CGPoint
+        let start: CGPoint
         var offset: CGFloat
-        var isFinished: Bool
+        var phase: Phase
     }
 
     @Published private(set) var drag: Drag?
@@ -100,11 +108,12 @@ final class ChatSwipeDriver: NSObject, ObservableObject {
 
         switch pan.state {
         case .began:
-            drag = Drag(start: pan.location(in: nil), offset: 0, isFinished: false)
+            drag = Drag(id: UUID(), start: pan.location(in: nil), offset: 0, phase: .began)
 
         case .changed:
             guard var current = drag else { return }
             current.offset = min(Self.maxOffset, max(0, pan.translation(in: view).x))
+            current.phase = .changed
             drag = current
 
             if !didReachThreshold && current.offset >= Self.replyThreshold {
@@ -114,7 +123,7 @@ final class ChatSwipeDriver: NSObject, ObservableObject {
 
         case .ended, .cancelled, .failed:
             guard var current = drag else { return }
-            current.isFinished = true
+            current.phase = .finished
             // Gesto interrompido não confirma resposta.
             if pan.state != .ended { current.offset = 0 }
             drag = current
@@ -220,6 +229,7 @@ struct SwipeToReplyModifier: ViewModifier {
     @Environment(\.chatSwipeDriver) private var driver
     @State private var offset: CGFloat = 0
     @State private var isActive = false
+    @State private var decidedDragId: UUID?
 
     func body(content: Content) -> some View {
         content
@@ -239,13 +249,23 @@ struct SwipeToReplyModifier: ViewModifier {
     }
 
     private func handle(_ drag: ChatSwipeDriver.Drag, rowFrame: CGRect) {
-        if !isActive {
-            // A linha entra no arrasto uma vez só, no começo, e pelo ponto de origem.
-            guard !drag.isFinished, rowFrame.contains(drag.start) else { return }
-            isActive = true
+        // A dona do arrasto é decidida uma única vez, no primeiro evento dele. Reavaliar a
+        // cada quadro deixava uma segunda mensagem entrar no gesto: o pan da rolagem roda
+        // simultaneamente, então um swipe com qualquer componente vertical desliza a lista,
+        // as linhas escorregam e o ponto de origem — que é fixo — acaba caindo dentro da
+        // linha vizinha.
+        //
+        // Exigir a fase `.began` também mantém de fora quem só se inscreveu no meio do
+        // gesto: `@Published` entrega o valor corrente a cada novo assinante, e a lista
+        // reavalia corpo o tempo todo enquanto rola.
+        if decidedDragId != drag.id {
+            decidedDragId = drag.id
+            isActive = drag.phase == .began && rowFrame.contains(drag.start)
         }
 
-        guard drag.isFinished else {
+        guard isActive else { return }
+
+        guard drag.phase == .finished else {
             offset = drag.offset
             return
         }
