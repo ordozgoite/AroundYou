@@ -13,6 +13,7 @@ struct MessageView: View {
     
     @State private var translation: CGSize = .zero
     @State private var showingAlert = false
+    @Environment(\.chatAvailableWidth) private var availableWidth
     let maxTranslation: CGFloat = 64
     var replyMessage: () -> ()
     var tappedRepliedMessage: () -> ()
@@ -95,6 +96,7 @@ struct MessageView: View {
             }
             .scaleEffect(0.8)
             .frame(maxWidth: .infinity, alignment: message.isCurrentUser ? .trailing : .leading)
+            .padding(message.isCurrentUser ? .leading : .trailing, ChatBubbleLayout.gutter(forAvailableWidth: availableWidth))
             .onTapGesture {
                 tappedRepliedMessage()
             }
@@ -105,27 +107,33 @@ struct MessageView: View {
     
     @ViewBuilder
     private func TextBubble(_ text: String) -> some View {
-        BubbleView(message: text, isCurrentUser: message.isCurrentUser, isFirst: message.isFirst)
-            .offset(x: translation.width, y: 0)
-            .gesture(
-                DragGesture()
-                    .onChanged { gesture in
-                        if gesture.translation.width > 0 {
-                            translation.width = min(maxTranslation, gesture.translation.width)
-                        }
+        BubbleView(
+            message: text,
+            isCurrentUser: message.isCurrentUser,
+            isFirst: message.isFirst,
+            isGroupStart: message.isGroupStart,
+            time: message.createdAt.convertTimestampToDate().formatTimeToMessageBubble()
+        )
+        .offset(x: translation.width, y: 0)
+        .gesture(
+            DragGesture()
+                .onChanged { gesture in
+                    if gesture.translation.width > 0 {
+                        translation.width = min(maxTranslation, gesture.translation.width)
                     }
-                    .onEnded { gesture in
-                        if gesture.translation.width > maxTranslation {
-                            hapticFeedback(style: .heavy)
-                            replyMessage()
-                        }
-                        withAnimation {
-                            translation = .zero
-                        }
+                }
+                .onEnded { gesture in
+                    if gesture.translation.width > maxTranslation {
+                        hapticFeedback(style: .heavy)
+                        replyMessage()
                     }
-            )
+                    withAnimation {
+                        translation = .zero
+                    }
+                }
+        )
     }
-    
+
     //MARK: - Emoji
     
     @ViewBuilder
@@ -156,7 +164,7 @@ struct MessageView: View {
     
     @ViewBuilder
     private func ImageBubble(fromSource imageSource: ImageSource) -> some View {
-        ImageBubbleView(source: imageSource, imageUrl: message.imageUrl, uiImage: message.image, isCurrentUser: message.isCurrentUser)
+        ImageBubbleView(source: imageSource, imageUrl: message.imageUrl, uiImage: message.image, isCurrentUser: message.isCurrentUser, isFirst: message.isFirst)
             .offset(x: translation.width, y: 0)
             .gesture(
                 DragGesture()
@@ -212,6 +220,7 @@ struct MessageView: View {
 //            imageUrl: "https://firebasestorage.googleapis.com:443/v0/b/aroundyou-b8364.appspot.com/o/post-image%2F8019D1A7-097F-45FA-B0FF-41959EC98789.jpg?alt=media&token=3c621a0c-46e2-405a-b5f5-3bff8f888e07",
             isCurrentUser: false,
             isFirst: true,
+            isGroupStart: true,
             repliedMessageText: "Tio, o que você está fazendo?",
             timeDivider: 1711774061000,
             status: .sent, 

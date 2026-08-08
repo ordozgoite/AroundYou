@@ -25,6 +25,17 @@ struct MessageScreen: View {
     @FocusState private var isFocused: Bool
     
     var body: some View {
+        // A largura máxima das bolhas é derivada da largura real do container, e não de
+        // um valor fixo, para acompanhar os diferentes tamanhos de iPhone.
+        GeometryReader { geometry in
+            Conversation()
+                .environment(\.chatAvailableWidth, geometry.size.width - ChatBubbleLayout.screenMargin * 2)
+        }
+    }
+
+    //MARK: - Conversation
+
+    private func Conversation() -> some View {
         ZStack {
             VStack {
                 ScrollView {
@@ -71,7 +82,7 @@ struct MessageScreen: View {
                                     }
                                 }
                             }
-                            .padding(.horizontal, 10)
+                            .padding(.horizontal, ChatBubbleLayout.screenMargin)
                         }
                     }
                 }

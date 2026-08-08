@@ -21,7 +21,7 @@ struct MessageIntermediary {
     var image: UIImage?
     var isCurrentUser: Bool
     
-    func formatMessage(isFirst: Bool, timeDivider: Int?) -> FormattedMessage {
+    func formatMessage(isFirst: Bool, isGroupStart: Bool, timeDivider: Int?) -> FormattedMessage {
         return FormattedMessage(
             id: self.id,
             chatId: self.chatId,
@@ -29,6 +29,7 @@ struct MessageIntermediary {
             imageUrl: self.imageUrl,
             isCurrentUser: self.isCurrentUser,
             isFirst: isFirst,
+            isGroupStart: isGroupStart,
             repliedMessageText: self.repliedMessageText,
             repliedMessageId: self.repliedMessageId,
             timeDivider: timeDivider,

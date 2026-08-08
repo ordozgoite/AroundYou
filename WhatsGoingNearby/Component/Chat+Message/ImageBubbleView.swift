@@ -18,7 +18,9 @@ struct ImageBubbleView: View {
     let imageUrl: String?
     let uiImage: UIImage?
     var isCurrentUser: Bool
-    
+    /// Última mensagem do grupo: recebe o espaçamento maior.
+    var isFirst: Bool = true
+
     @State private var isUrlImageFullScreen = false
     @State private var isUIImageFullScreen = false
     
@@ -43,7 +45,7 @@ struct ImageBubbleView: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 200, height: 256)
                 .frame(maxWidth: .infinity, alignment: isCurrentUser ? .trailing : .leading)
-                .padding(.bottom, 2)
+                .padding(.bottom, ChatBubbleLayout.bottomSpacing(isLastInGroup: isFirst))
                 .onTapGesture {
                     isUrlImageFullScreen = true
                 }
@@ -66,7 +68,7 @@ struct ImageBubbleView: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 200, height: 256)
                 .frame(maxWidth: .infinity, alignment: isCurrentUser ? .trailing : .leading)
-                .padding(.bottom, 2)
+                .padding(.bottom, ChatBubbleLayout.bottomSpacing(isLastInGroup: isFirst))
                 .onTapGesture {
                     isUIImageFullScreen = true
                 }

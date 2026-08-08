@@ -7,7 +7,22 @@
 
 import Foundation
 
+/// Reaproveitado entre todas as bolhas: criar um `DateFormatter` por mensagem sai caro
+/// numa lista de conversa.
+private let messageBubbleTimeFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.locale = Locale.current
+    formatter.setLocalizedDateFormatFromTemplate("jmm")
+    return formatter
+}()
+
 extension Date {
+    /// Horário curto exibido dentro da bolha (ex.: "23:07"), no formato de 12h ou 24h
+    /// conforme a preferência do sistema.
+    func formatTimeToMessageBubble() -> String {
+        return messageBubbleTimeFormatter.string(from: self)
+    }
+
     func timeAgoDisplay() -> String {
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .abbreviated

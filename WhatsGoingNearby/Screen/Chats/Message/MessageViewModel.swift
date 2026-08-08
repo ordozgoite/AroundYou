@@ -531,7 +531,11 @@ class MessageViewModel: ObservableObject {
     private func formatMessages() {
         var messages: [FormattedMessage] = []
         for (index, message) in intermediaryMessages.enumerated() {
-            let formattedMessage = message.formatMessage(isFirst: getTail(forMessage: message, withIndex: index), timeDivider: getTimeDivider(forMessage: message, withIndex: index))
+            let formattedMessage = message.formatMessage(
+                isFirst: getTail(forMessage: message, withIndex: index),
+                isGroupStart: isGroupStart(forMessage: message, withIndex: index),
+                timeDivider: getTimeDivider(forMessage: message, withIndex: index)
+            )
             messages.append(formattedMessage)
         }
         self.formattedMessages = messages
@@ -539,16 +543,38 @@ class MessageViewModel: ObservableObject {
 //        print("⚠️ messagesToBePersisted: \(messagesToBePersisted)")
     }
     
+    /// A mensagem fecha o grupo quando é a última da lista, quando o remetente muda,
+    /// quando a próxima é uma resposta (que ganha cabeçalho próprio) ou quando passou
+    /// tempo demais entre as duas.
     private func getTail(forMessage message: MessageIntermediary, withIndex index: Int) -> Bool {
         guard index < intermediaryMessages.count - 1 else {
             return true
         }
-        
+
         let nextMessage = intermediaryMessages[index + 1]
+        guard nextMessage.isCurrentUser == message.isCurrentUser, nextMessage.repliedMessageId == nil else {
+            return true
+        }
+
         let timeDifferenceSec = nextMessage.createdAt.timeIntervalSince1970InSeconds - message.createdAt.timeIntervalSince1970InSeconds
         return timeDifferenceSec >= 60
     }
-    
+
+    /// Espelho de `getTail` olhando para trás: define se a mensagem abre um grupo.
+    private func isGroupStart(forMessage message: MessageIntermediary, withIndex index: Int) -> Bool {
+        guard index > 0, message.repliedMessageId == nil else {
+            return true
+        }
+
+        let previousMessage = intermediaryMessages[index - 1]
+        guard previousMessage.isCurrentUser == message.isCurrentUser else {
+            return true
+        }
+
+        let timeDifferenceSec = message.createdAt.timeIntervalSince1970InSeconds - previousMessage.createdAt.timeIntervalSince1970InSeconds
+        return timeDifferenceSec >= 60
+    }
+
     private func getTimeDivider(forMessage message: MessageIntermediary, withIndex index: Int) -> Int? {
         guard index > 0 else {
             return message.createdAt
