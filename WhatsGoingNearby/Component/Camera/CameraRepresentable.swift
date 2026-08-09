@@ -211,8 +211,7 @@ private final class VideoCameraViewController: UIViewController, AVCaptureFileOu
     private func installControls() {
         let overlay = VideoCaptureOverlay(
             state: recordingState,
-            onPressBegan: { [weak self] in self?.beginPress() },
-            onPressEnded: { [weak self] in self?.endPress() },
+            onToggleRecording: { [weak self] in self?.toggleRecording() },
             onCancel: { [weak self] in self?.cancel() }
         )
         let controller = UIHostingController(rootView: overlay)
@@ -313,20 +312,28 @@ private final class VideoCameraViewController: UIViewController, AVCaptureFileOu
         isConfigured = true
     }
 
-    private func beginPress() {
+    private func toggleRecording() {
+        if recordingState.isRecording || recordingState.isStarting {
+            stopRecording()
+        } else {
+            startRecording()
+        }
+    }
+
+    private func startRecording() {
         guard recordingState.isReady,
-              !recordingState.isPressing,
+              !recordingState.isStarting,
               !recordingState.isRecording,
               !recordingState.isFinishing,
               !isClosing else { return }
-        recordingState.isPressing = true
+        recordingState.isStarting = true
         sessionQueue.async { [weak self] in
             guard let self,
                   self.session.isRunning,
                   !self.movieOutput.isRecording,
                   !self.isClosing else {
                 DispatchQueue.main.async {
-                    self?.recordingState.isPressing = false
+                    self?.recordingState.isStarting = false
                 }
                 return
             }
@@ -342,8 +349,8 @@ private final class VideoCameraViewController: UIViewController, AVCaptureFileOu
         }
     }
 
-    private func endPress() {
-        recordingState.isPressing = false
+    private func stopRecording() {
+        guard !recordingState.isFinishing, !isClosing else { return }
         requestStopRecording()
     }
 
@@ -371,6 +378,7 @@ private final class VideoCameraViewController: UIViewController, AVCaptureFileOu
                 return
             }
             DispatchQueue.main.async {
+                self.recordingState.isStarting = false
                 self.recordingState.isRecording = true
                 self.startRecordingTimer()
             }
@@ -388,7 +396,7 @@ private final class VideoCameraViewController: UIViewController, AVCaptureFileOu
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             self.cancelRecordingTimer()
-            self.recordingState.isPressing = false
+            self.recordingState.isStarting = false
             self.recordingState.isRecording = false
             self.recordingState.isFinishing = false
             self.shouldStopAfterStarting = false
@@ -423,7 +431,7 @@ private final class VideoCameraViewController: UIViewController, AVCaptureFileOu
 
     private func cancel() {
         isClosing = true
-        recordingState.isPressing = false
+        recordingState.isStarting = false
         shutDown()
         onDismiss()
     }
@@ -533,7 +541,7 @@ private enum CameraCaptureError: LocalizedError {
 
 private final class VideoRecordingState: ObservableObject {
     @Published var isReady = false
-    @Published var isPressing = false
+    @Published var isStarting = false
     @Published var isRecording = false
     @Published var isFinishing = false
     @Published var progress = 0.0
@@ -542,8 +550,7 @@ private final class VideoRecordingState: ObservableObject {
 
 private struct VideoCaptureOverlay: View {
     @ObservedObject var state: VideoRecordingState
-    let onPressBegan: () -> Void
-    let onPressEnded: () -> Void
+    let onToggleRecording: () -> Void
     let onCancel: () -> Void
 
     var body: some View {
@@ -640,7 +647,7 @@ private struct VideoCaptureOverlay: View {
         if state.isFinishing {
             return "Preparing video..."
         }
-        return state.isRecording ? "Release to stop" : "Hold to record"
+        return state.isRecording ? "Tap to stop" : "Tap to record"
     }
 
     private var captureButton: some View {
@@ -648,24 +655,19 @@ private struct VideoCaptureOverlay: View {
             Circle()
                 .stroke(.white, lineWidth: 5)
                 .frame(width: 76, height: 76)
-            Circle()
+            RoundedRectangle(cornerRadius: state.isRecording ? 8 : 31, style: .continuous)
                 .fill(state.isRecording ? .red : .white.opacity(0.3))
-                .frame(width: state.isRecording ? 54 : 62, height: state.isRecording ? 54 : 62)
+                .frame(width: state.isRecording ? 32 : 62, height: state.isRecording ? 32 : 62)
         }
         .frame(width: 88, height: 88)
-        .scaleEffect(state.isPressing ? 0.9 : 1)
-        .animation(.easeOut(duration: 0.12), value: state.isPressing)
+        .animation(.easeOut(duration: 0.18), value: state.isRecording)
         .contentShape(Circle())
-        .gesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in onPressBegan() }
-                .onEnded { _ in onPressEnded() }
-        )
+        .onTapGesture(perform: onToggleRecording)
         .opacity(state.isReady ? 1 : 0.55)
         .allowsHitTesting(state.isReady && !state.isFinishing)
         .accessibilityElement()
-        .accessibilityLabel("Record video")
-        .accessibilityHint("Press and hold to record. Release to stop.")
+        .accessibilityLabel(state.isRecording ? Text("Stop recording") : Text("Record video"))
+        .accessibilityHint("Tap to start recording. Tap again to stop.")
         .accessibilityAddTraits(.isButton)
     }
 }

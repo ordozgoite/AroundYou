@@ -28,6 +28,7 @@ struct CreatePostScreen: View {
                 onVideoSelected: createPostVM.selectVideo,
                 onDismiss: { createPostVM.isMediaPickerDisplayed = false }
             )
+            .ignoresSafeArea()
         }
         .alert(isPresented: $createPostVM.isShareLocationAlertDisplayed) {
             Alert(
