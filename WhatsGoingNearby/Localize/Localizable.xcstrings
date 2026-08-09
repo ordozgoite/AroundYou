@@ -11,6 +11,12 @@
             "state" : "translated",
             "value" : " a "
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " a "
+          }
         }
       }
     },
@@ -73,12 +79,24 @@
             "state" : "translated",
             "value" : "· %lld anos de idade"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· %lld anos"
+          }
         }
       }
     },
     "· Seen %@" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· Visto %@"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "· Visto %@"
@@ -93,12 +111,24 @@
             "state" : "translated",
             "value" : "[Veja Mais](https://aroundyou3.wordpress.com/policy-privacy)"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[Saiba Mais](https://aroundyou3.wordpress.com/policy-privacy)"
+          }
         }
       }
     },
     "@%@" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "@%@"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "@%@"
@@ -119,12 +149,24 @@
             "state" : "translated",
             "value" : "%@ membro(s)"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ membro(s)"
+          }
         }
       }
     },
     "%@ request(s)" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ pedido(s)"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ pedido(s)"
@@ -203,6 +245,12 @@
           }
         },
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld dia%2$@ para expirar"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$lld dia%2$@ para expirar"
@@ -294,6 +342,12 @@
             "state" : "translated",
             "value" : "%lld/250"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld/250"
+          }
         }
       }
     },
@@ -368,6 +422,12 @@
             "state" : "translated",
             "value" : "24 horas"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24 horas"
+          }
         }
       }
     },
@@ -379,6 +439,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sobre a localização de posts"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobre a localização das publicações"
           }
         }
       }
@@ -441,6 +507,12 @@
             "state" : "translated",
             "value" : "Adicione um comentário"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione um comentário"
+          }
         }
       }
     },
@@ -466,6 +538,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Adicionar uma Image (Opcional)"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar uma Imagem (Opcional)"
           }
         }
       }
@@ -493,6 +571,12 @@
             "state" : "translated",
             "value" : "Adicionar Negócio"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar Negócio"
+          }
         }
       }
     },
@@ -503,6 +587,12 @@
             "state" : "translated",
             "value" : "Adicionar Descrição de Comunidade"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar Descrição da Comunidade"
+          }
         }
       }
     },
@@ -512,6 +602,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Adicionar Foto"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar Fotografia"
           }
         }
       }
@@ -526,12 +622,24 @@
             "state" : "translated",
             "value" : "Adulto"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adulto"
+          }
         }
       }
     },
     "Age Range" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faixa Etária"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Faixa Etária"
@@ -545,6 +653,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alertar Polícia"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alertar a Polícia"
           }
         }
       }
@@ -606,6 +720,12 @@
             "state" : "translated",
             "value" : "Permitir que autores vejam seu perfil quando você ver uma publicação."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite que os autores vejam o seu perfil quando visualiza uma publicação."
+          }
         }
       }
     },
@@ -615,6 +735,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Abuso de Animal"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maus-tratos a Animais"
           }
         }
       }
@@ -627,12 +753,24 @@
             "state" : "translated",
             "value" : "Respondendo %@"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A responder a %@"
+          }
         }
       }
     },
     "Approve" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aprovar"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aprovar"
@@ -649,6 +787,12 @@
             "state" : "translated",
             "value" : "Localização aproximada"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Localizações aproximadas"
+          }
         }
       }
     },
@@ -658,6 +802,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você é a vítima?"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É a vítima?"
           }
         }
       }
@@ -686,6 +836,12 @@
             "state" : "translated",
             "value" : "AroundYou usa sua localização para mostrar publicações apenas para aqueles que estão por perto, para que você se conecte com pessoas e eventos na sua vizinhança."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O AroundYou usa a sua localização para mostrar publicações apenas a quem está por perto, para que se ligue a pessoas e eventos na sua vizinhança."
+          }
         }
       }
     },
@@ -697,12 +853,24 @@
             "state" : "translated",
             "value" : "ArondYou usa a sua localização para exibir apenas publicações que estão em um **raio de 1km**. Dessa forma você se conecta apenas com pessoas e eventos próximos de você."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O AroundYou usa a sua localização e mostra publicações exclusivamente a quem está num **raio de 1 km**. Assim, liga-se apenas a pessoas e eventos perto de si."
+          }
         }
       }
     },
     "Ask To Join" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pedir Para Participar"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pedir Para Participar"
@@ -718,12 +886,24 @@
             "state" : "translated",
             "value" : "Pedir para participar:"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pedir para participar:"
+          }
         }
       }
     },
     "Asked to Join" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pediu para Participar"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pediu para Participar"
@@ -755,12 +935,24 @@
             "state" : "translated",
             "value" : "Pedindo…"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A pedir…"
+          }
         }
       }
     },
     "Audio %lld" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Áudio %lld"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Áudio %lld"
@@ -810,12 +1002,24 @@
             "state" : "translated",
             "value" : "Seja o primeiro a comentar."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seja a primeira pessoa a comentar."
+          }
         }
       }
     },
     "Be the first to create a community in your region..." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seja o primeiro a criar uma comunidade na sua região…"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seja o primeiro a criar uma comunidade na sua região…"
@@ -911,12 +1115,24 @@
             "state" : "translated",
             "value" : "Descreva brevemente a sua Comunidade…"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descreva brevemente a sua Comunidade…"
+          }
         }
       }
     },
     "Businesses" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Negócios"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Negócios"
@@ -981,6 +1197,12 @@
             "state" : "translated",
             "value" : "O acesso à câmera é necessário para capturar uma mídia."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É necessário o acesso à câmara para capturar multimédia."
+          }
         }
       }
     },
@@ -993,6 +1215,12 @@
             "state" : "translated",
             "value" : "A câmera não está disponível neste dispositivo."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A câmara não está disponível neste dispositivo."
+          }
         }
       }
     },
@@ -1004,6 +1232,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Câmera indisponível"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Câmara indisponível"
           }
         }
       }
@@ -1027,6 +1261,12 @@
     "Category" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categoria"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Categoria"
@@ -1074,6 +1314,12 @@
             "state" : "translated",
             "value" : "Escolha uma Categoria"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha uma Categoria"
+          }
         }
       }
     },
@@ -1084,6 +1330,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escolha um nome de usuário"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha um nome de utilizador"
           }
         }
       }
@@ -1110,6 +1362,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escolha localização"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolher localização"
           }
         }
       }
@@ -1170,6 +1428,12 @@
             "state" : "translated",
             "value" : "Comunidades"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comunidades"
+          }
         }
       }
     },
@@ -1179,6 +1443,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Comunidades ficam disponíveis por apenas 24 horas."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As comunidades ficam disponíveis apenas durante 24 horas."
           }
         }
       }
@@ -1190,12 +1460,24 @@
             "state" : "translated",
             "value" : "Comunidade ao seu redor"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comunidades à sua volta"
+          }
         }
       }
     },
     "Community Description" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descrição da Comunidade"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Descrição da Comunidade"
@@ -1210,12 +1492,24 @@
             "state" : "translated",
             "value" : "Informações da Comunidade"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informações da Comunidade"
+          }
         }
       }
     },
     "Community's Location" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Localização da Comunidade"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Localização da Comunidade"
@@ -1228,6 +1522,12 @@
       "isCommentAutoGenerated" : true,
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Concluído"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Concluído"
@@ -1275,6 +1575,12 @@
             "state" : "translated",
             "value" : "Conecte-se com pessoas próximas. Uma combinação pode dar início a uma nova amizade, uma aventura inesperada ou até mesmo algo inesquecível."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligue-se a quem está por perto. Uma correspondência pode dar início a uma nova amizade, a uma aventura inesperada ou até a algo inesquecível."
+          }
         }
       }
     },
@@ -1302,6 +1608,12 @@
             "state" : "translated",
             "value" : "Conexões"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligações"
+          }
         }
       }
     },
@@ -1312,12 +1624,24 @@
             "state" : "translated",
             "value" : "Contatar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contactar"
+          }
         }
       }
     },
     "Continue" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuar"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continuar"
@@ -1333,6 +1657,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continue com e-mail"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuar com e-mail"
           }
         }
       }
@@ -1356,6 +1686,12 @@
     "Create Community" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Criar Comunidade"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Criar Comunidade"
@@ -1388,6 +1724,12 @@
             "state" : "translated",
             "value" : "Postando…"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A publicar…"
+          }
         }
       }
     },
@@ -1398,12 +1740,24 @@
             "state" : "translated",
             "value" : "Criando..."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A criar..."
+          }
         }
       }
     },
     "Data & Privacy" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dados e Privacidade"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dados e Privacidade"
@@ -1417,6 +1771,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Data e horário"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data e hora"
           }
         }
       }
@@ -1460,6 +1820,12 @@
             "state" : "translated",
             "value" : "Deletar Negócio"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar Negócio"
+          }
         }
       }
     },
@@ -1486,6 +1852,12 @@
             "state" : "translated",
             "value" : "Deletar Comunidade"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar Comunidade"
+          }
         }
       }
     },
@@ -1495,6 +1867,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deletar Item Perdido"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar Item Perdido"
           }
         }
       }
@@ -1539,6 +1917,12 @@
             "state" : "translated",
             "value" : "Deletar Denúncia"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar Denúncia"
+          }
         }
       }
     },
@@ -1549,6 +1933,12 @@
             "state" : "translated",
             "value" : "Deletando Comunidade…"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A eliminar Comunidade…"
+          }
         }
       }
     },
@@ -1558,6 +1948,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deletar esta comunidade a removerá permanentemente para todos os membros, sem aviso prévio. Esta ação não pode ser desfeita."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar esta comunidade irá removê-la permanentemente para todos os membros, sem aviso prévio. Esta ação não pode ser anulada."
           }
         }
       }
@@ -1601,6 +1997,12 @@
             "state" : "translated",
             "value" : "Descreva o incidente"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descreva o incidente"
+          }
         }
       }
     },
@@ -1611,12 +2013,24 @@
             "state" : "translated",
             "value" : "Descreva a localização (opcional)"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descreva o local (opcional)"
+          }
         }
       }
     },
     "Describe the victim (optional)" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descreva a vítima (opcional)"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Descreva a vítima (opcional)"
@@ -1647,6 +2061,12 @@
             "state" : "translated",
             "value" : "Descreva seu negócio"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descreva o seu negócio"
+          }
         }
       }
     },
@@ -1657,12 +2077,24 @@
             "state" : "translated",
             "value" : "Descrição"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descrição"
+          }
         }
       }
     },
     "Description:" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descrição:"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Descrição:"
@@ -1742,6 +2174,12 @@
             "state" : "translated",
             "value" : "Descubra incontáveis possibilidades com AroundYou! Conheça novas pessoas, peça informação, e explore eventos próximos de você. Tudo na palma da sua mão."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descubra infinitas possibilidades com o AroundYou! Conheça novas pessoas, procure informação local e explore eventos por perto — tudo à distância de um toque."
+          }
         }
       }
     },
@@ -1753,6 +2191,12 @@
             "state" : "translated",
             "value" : "Exibir localização no mapa"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar localização no mapa"
+          }
         }
       }
     },
@@ -1763,6 +2207,12 @@
             "state" : "translated",
             "value" : "Exibir Localização:"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar Localização:"
+          }
         }
       }
     },
@@ -1772,6 +2222,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Exibir Localização Precisa"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar Localização Precisa"
           }
         }
       }
@@ -1799,6 +2255,12 @@
             "state" : "translated",
             "value" : "Você realmente quer deletar a comunidade **%@**?"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tem a certeza de que quer eliminar a comunidade **%@**?"
+          }
         }
       }
     },
@@ -1808,6 +2270,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você realmente quer deixar a comunidade **%@**?"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tem a certeza de que quer sair da comunidade **%@**?"
           }
         }
       }
@@ -1867,6 +2335,12 @@
             "state" : "translated",
             "value" : "Duração:"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duração:"
+          }
         }
       }
     },
@@ -1878,12 +2352,24 @@
             "state" : "translated",
             "value" : "e"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e"
+          }
         }
       }
     },
     "E-mail" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-mail"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "E-mail"
@@ -1914,6 +2400,12 @@
             "state" : "translated",
             "value" : "Comidas e Bebidas"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comer e Beber"
+          }
         }
       }
     },
@@ -1940,12 +2432,24 @@
             "state" : "translated",
             "value" : "Editar Negócio"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar Negócio"
+          }
         }
       }
     },
     "Edit Community" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar Comunidade"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar Comunidade"
@@ -2024,6 +2528,12 @@
             "state" : "translated",
             "value" : "Edite essa informação nas suas configurações de perfil."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edite esta informação nas definições do seu perfil."
+          }
         }
       }
     },
@@ -2034,12 +2544,24 @@
             "state" : "translated",
             "value" : "Editando…"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A editar…"
+          }
         }
       }
     },
     "Education" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Educação"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Educação"
@@ -2071,6 +2593,12 @@
             "state" : "translated",
             "value" : "Ativar Acesso à Localização"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativar Serviços de Localização"
+          }
         }
       }
     },
@@ -2096,6 +2624,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Habilitar Notificações"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativar Notificações"
           }
         }
       }
@@ -2140,6 +2674,12 @@
             "state" : "translated",
             "value" : "Inserir um Nome de Comunidade"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Introduzir um Nome de Comunidade"
+          }
         }
       }
     },
@@ -2167,6 +2707,12 @@
             "state" : "translated",
             "value" : "Erro ao tentar criar uma nova publicação. Tente novamente mais tarde."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao tentar criar uma nova publicação. Tente novamente mais tarde."
+          }
         }
       }
     },
@@ -2177,6 +2723,12 @@
             "state" : "translated",
             "value" : "Erro ao editar Negócio. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao editar o Negócio. Tente novamente."
+          }
         }
       }
     },
@@ -2186,6 +2738,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erro ao tentar recuperar informações da comunidade."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao tentar obter as informações da comunidade."
           }
         }
       }
@@ -2198,6 +2756,12 @@
             "state" : "translated",
             "value" : "Erro ao tentar recuperar data de expiração de banimento."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao tentar obter a data de expiração do banimento."
+          }
         }
       }
     },
@@ -2207,6 +2771,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erro ao tentar recuperar informações de usuário."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao tentar obter as informações do utilizador."
           }
         }
       }
@@ -2218,6 +2788,12 @@
             "state" : "translated",
             "value" : "Erro ao tentar publicar Negócio."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao tentar publicar o Negócio."
+          }
         }
       }
     },
@@ -2228,6 +2804,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erro ao tentar publicar novo usuário."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao tentar criar um novo utilizador."
           }
         }
       }
@@ -2255,6 +2837,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erro ao tentar atualizar privacidade da comunidade."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao tentar atualizar a privacidade da comunidade."
           }
         }
       }
@@ -2301,6 +2889,12 @@
             "state" : "translated",
             "value" : "Explorar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explorar"
+          }
         }
       }
     },
@@ -2330,6 +2924,12 @@
             "state" : "translated",
             "value" : "Explorar outros lugares"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explorar outros locais"
+          }
         }
       }
     },
@@ -2342,6 +2942,12 @@
             "state" : "translated",
             "value" : "Explore posts por toda a cidade"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explore publicações por toda a cidade"
+          }
         }
       }
     },
@@ -2350,6 +2956,12 @@
       "isCommentAutoGenerated" : true,
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha"
@@ -2364,6 +2976,12 @@
             "state" : "translated",
             "value" : "Falha ao ativar a descoberta. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao ativar a descoberta. Tente novamente."
+          }
         }
       }
     },
@@ -2373,6 +2991,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao aprovar o usuário. Tente novamente."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao aprovar o utilizador. Tente novamente."
           }
         }
       }
@@ -2384,6 +3008,12 @@
             "state" : "translated",
             "value" : "Falha ao bloquear o usuário. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao bloquear o utilizador. Tente novamente."
+          }
         }
       }
     },
@@ -2394,12 +3024,24 @@
             "state" : "translated",
             "value" : "Falha ao criar comunidade. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao criar a comunidade. Tente novamente."
+          }
         }
       }
     },
     "Failed to create post. Please try again later." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao criar a publicação. Tente novamente mais tarde."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao criar a publicação. Tente novamente mais tarde."
@@ -2414,12 +3056,24 @@
             "state" : "translated",
             "value" : "Falha ao criar usuário. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao criar o utilizador. Tente novamente."
+          }
         }
       }
     },
     "Failed to deactivate discoverability. Please try again." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao desativar a descoberta. Tente novamente."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao desativar a descoberta. Tente novamente."
@@ -2434,6 +3088,12 @@
             "state" : "translated",
             "value" : "Falha ao deletar o negócio. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao eliminar o negócio. Tente novamente."
+          }
         }
       }
     },
@@ -2443,6 +3103,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao deletar a conversa. Tente novamente."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao eliminar a conversa. Tente novamente."
           }
         }
       }
@@ -2454,6 +3120,12 @@
             "state" : "translated",
             "value" : "Falha ao deletar o comentário. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao eliminar o comentário. Tente novamente."
+          }
         }
       }
     },
@@ -2463,6 +3135,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao deletar a comunidade. Tente novamente."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao eliminar a comunidade. Tente novamente."
           }
         }
       }
@@ -2474,6 +3152,12 @@
             "state" : "translated",
             "value" : "Falha ao deletar a mensagem. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao eliminar a mensagem. Tente novamente."
+          }
         }
       }
     },
@@ -2483,6 +3167,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao deletar notificação. Tente novamente."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao eliminar a notificação. Tente novamente."
           }
         }
       }
@@ -2495,6 +3185,12 @@
             "state" : "translated",
             "value" : "Falha ao deletar as notificações. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao eliminar as notificações. Tente novamente."
+          }
         }
       }
     },
@@ -2505,12 +3201,24 @@
             "state" : "translated",
             "value" : "Falha ao deletar a publicação. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao eliminar a publicação. Tente novamente."
+          }
         }
       }
     },
     "Failed to edit community description. Please try again." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao editar a descrição da comunidade. Tente novamente."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao editar a descrição da comunidade. Tente novamente."
@@ -2525,12 +3233,24 @@
             "state" : "translated",
             "value" : "Falha ao editar a publicação. Tente novamente mais tarde."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao editar a publicação. Tente novamente mais tarde."
+          }
         }
       }
     },
     "Failed to join community. Please try again." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao entrar na comunidade. Tente novamente."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao entrar na comunidade. Tente novamente."
@@ -2545,6 +3265,12 @@
             "state" : "translated",
             "value" : "Falha ao sair da comunidade. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao sair da comunidade. Tente novamente."
+          }
         }
       }
     },
@@ -2554,6 +3280,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao carregar usuários bloqueados. Tente novamente."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar os utilizadores bloqueados. Tente novamente."
           }
         }
       }
@@ -2565,6 +3297,12 @@
             "state" : "translated",
             "value" : "Falha ao carregar conversas. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar as conversas. Tente novamente."
+          }
         }
       }
     },
@@ -2575,12 +3313,24 @@
             "state" : "translated",
             "value" : "Falha ao carregar curtidas. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar os gostos. Tente novamente."
+          }
         }
       }
     },
     "Failed to load comments. Please try again." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar os comentários. Tente novamente."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao carregar os comentários. Tente novamente."
@@ -2595,12 +3345,24 @@
             "state" : "translated",
             "value" : "Falha ao carregar as informações da comunidade. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar as informações da comunidade. Tente novamente."
+          }
         }
       }
     },
     "Failed to load lost item details. Please try again." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar os detalhes do item perdido. Tente novamente."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao carregar os detalhes do item perdido. Tente novamente."
@@ -2615,6 +3377,12 @@
             "state" : "translated",
             "value" : "Falha ao carregar as mensagens. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar as mensagens. Tente novamente."
+          }
         }
       }
     },
@@ -2624,6 +3392,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao carregar negócios próximos. Tente novamente."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar os negócios próximos. Tente novamente."
           }
         }
       }
@@ -2635,6 +3409,12 @@
             "state" : "translated",
             "value" : "Falha ao carregar comunidades próximas. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar as comunidades próximas. Tente novamente."
+          }
         }
       }
     },
@@ -2644,6 +3424,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao carregar publicações próximas. Tente novamente."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar as publicações próximas. Tente novamente."
           }
         }
       }
@@ -2655,12 +3441,24 @@
             "state" : "translated",
             "value" : "Falha ao carregar usuários próximos. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar os utilizadores próximos. Tente novamente."
+          }
         }
       }
     },
     "Failed to load notifications. Please try again." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar as notificações. Tente novamente."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao carregar as notificações. Tente novamente."
@@ -2675,12 +3473,24 @@
             "state" : "translated",
             "value" : "Falha ao carregar as curtidas da publicação. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar os gostos da publicação. Tente novamente."
+          }
         }
       }
     },
     "Failed to load report details. Please try again." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar os detalhes da denúncia. Tente novamente."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao carregar os detalhes da denúncia. Tente novamente."
@@ -2695,6 +3505,12 @@
             "state" : "translated",
             "value" : "Falha ao carregar as informações do usuário. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar as informações do utilizador. Tente novamente."
+          }
         }
       }
     },
@@ -2704,6 +3520,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao carregar o perfil do usuário. Tente novamente."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar o perfil do utilizador. Tente novamente."
           }
         }
       }
@@ -2715,6 +3537,12 @@
             "state" : "translated",
             "value" : "Falha ao carregar seus negócios. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar os seus negócios. Tente novamente."
+          }
         }
       }
     },
@@ -2725,12 +3553,24 @@
             "state" : "translated",
             "value" : "Falha ao carregar suas publicações. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar as suas publicações. Tente novamente."
+          }
         }
       }
     },
     "Failed to mark item as found. Please try again." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao marcar o item como encontrado. Tente novamente."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao marcar o item como encontrado. Tente novamente."
@@ -2745,6 +3585,12 @@
             "state" : "translated",
             "value" : "Falha ao silenciar a conversa. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao silenciar a conversa. Tente novamente."
+          }
         }
       }
     },
@@ -2754,6 +3600,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao postar o comentário. Tente novamente."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao publicar o comentário. Tente novamente."
           }
         }
       }
@@ -2765,12 +3617,24 @@
             "state" : "translated",
             "value" : "Falha ao postar o item perdido. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao publicar o item perdido. Tente novamente."
+          }
         }
       }
     },
     "Failed to publish business. Please try again." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao publicar o negócio. Tente novamente."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao publicar o negócio. Tente novamente."
@@ -2785,6 +3649,12 @@
             "state" : "translated",
             "value" : "Falha ao remover a foto do perfil. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao remover a fotografia de perfil. Tente novamente."
+          }
         }
       }
     },
@@ -2794,6 +3664,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao solicitar entrada na comunidade. Tente novamente."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao pedir para participar na comunidade. Tente novamente."
           }
         }
       }
@@ -2805,6 +3681,12 @@
             "state" : "translated",
             "value" : "Falha ao recuperar a data de expiração do banimento."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao obter a data de expiração do banimento."
+          }
         }
       }
     },
@@ -2814,6 +3696,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao recuperar informações do usuário."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao obter as informações do utilizador."
           }
         }
       }
@@ -2825,12 +3713,24 @@
             "state" : "translated",
             "value" : "Não foi possível selecionar uma foto. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível selecionar uma fotografia. Tente novamente."
+          }
         }
       }
     },
     "Failed to send message. Please try again." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao enviar a mensagem. Tente novamente."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao enviar a mensagem. Tente novamente."
@@ -2845,12 +3745,24 @@
             "state" : "translated",
             "value" : "Falha ao iniciar nova conversa. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao iniciar uma nova conversa. Tente novamente."
+          }
         }
       }
     },
     "Failed to submit report. Please try again." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao enviar a denúncia. Tente novamente."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao enviar a denúncia. Tente novamente."
@@ -2865,6 +3777,12 @@
             "state" : "translated",
             "value" : "Falha ao desbloquear o usuário. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao desbloquear o utilizador. Tente novamente."
+          }
         }
       }
     },
@@ -2875,12 +3793,24 @@
             "state" : "translated",
             "value" : "Falha ao ativar o som do chat. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao reativar o som da conversa. Tente novamente."
+          }
         }
       }
     },
     "Failed to update community. Please try again." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao atualizar a comunidade. Tente novamente."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao atualizar a comunidade. Tente novamente."
@@ -2895,12 +3825,24 @@
             "state" : "translated",
             "value" : "Falha ao atualizar as preferências. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao atualizar as preferências. Tente novamente."
+          }
         }
       }
     },
     "Failed to update profile. Please try again." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao atualizar o perfil. Tente novamente."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao atualizar o perfil. Tente novamente."
@@ -2915,12 +3857,24 @@
             "state" : "translated",
             "value" : "Falha ao carregar a imagem. Tente novamente."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao carregar a imagem. Tente novamente."
+          }
         }
       }
     },
     "Failed to verify discoverability. Please try again." : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao verificar se a descoberta está ativa. Tente novamente."
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao verificar se a descoberta está ativa. Tente novamente."
@@ -2935,12 +3889,24 @@
             "state" : "translated",
             "value" : "Mulher"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulher"
+          }
         }
       }
     },
     "Filters" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtros"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Filtros"
@@ -2954,6 +3920,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Encontrar Conexões"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encontrar Ligações"
           }
         }
       }
@@ -2998,6 +3970,12 @@
             "state" : "translated",
             "value" : "Seguir publicação"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seguir publicação"
+          }
         }
       }
     },
@@ -3008,6 +3986,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seguindo publicação"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A seguir publicação"
           }
         }
       }
@@ -3051,12 +4035,24 @@
             "state" : "translated",
             "value" : "Encontrei"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encontrei"
+          }
         }
       }
     },
     "From " : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De "
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "De "
@@ -3088,6 +4084,12 @@
             "state" : "translated",
             "value" : "Nome completo (opcional)"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome completo (opcional)"
+          }
         }
       }
     },
@@ -3101,12 +4103,24 @@
             "state" : "translated",
             "value" : "Dano a uma Pessoa"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dano a uma Pessoa"
+          }
         }
       }
     },
     "Health" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saúde"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Saúde"
@@ -3137,6 +4151,12 @@
             "state" : "translated",
             "value" : "Me ajude a encontrar meu(minha)…"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajude-me a encontrar o meu(a minha)… "
+          }
         }
       }
     },
@@ -3163,6 +4183,12 @@
             "state" : "translated",
             "value" : "Ajuda!"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuda!"
+          }
         }
       }
     },
@@ -3172,6 +4198,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Esconder Conta"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar Conta"
           }
         }
       }
@@ -3200,6 +4232,12 @@
             "state" : "translated",
             "value" : "Esconder minha localização"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar a minha localização"
+          }
         }
       }
     },
@@ -3209,6 +4247,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escondendo Conta"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A ocultar Conta"
           }
         }
       }
@@ -3222,6 +4266,12 @@
             "state" : "translated",
             "value" : "Segure para gravar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manter premido para gravar"
+          }
         }
       }
     },
@@ -3232,12 +4282,24 @@
             "state" : "translated",
             "value" : "Início"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Início"
+          }
         }
       }
     },
     "Home " : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Casa"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Casa"
@@ -3286,12 +4348,24 @@
             "state" : "translated",
             "value" : "Eu Perdi Algo"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perdi Alguma Coisa"
+          }
         }
       }
     },
     "I want" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eu quero"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eu quero"
@@ -3306,6 +4380,12 @@
             "state" : "translated",
             "value" : "Eu sou…"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eu sou…"
+          }
         }
       }
     },
@@ -3315,6 +4395,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eu estou interessado em..."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tenho interesse em..."
           }
         }
       }
@@ -3326,6 +4412,12 @@
             "state" : "translated",
             "value" : "Se a comunidade for privada, os usuários devem solicitar a entrada nela — e você precisará aprovar a solicitação antes que eles possam entrar."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se a comunidade for privada, os utilizadores têm de pedir para participar — e terá de aprovar o pedido antes de poderem entrar."
+          }
         }
       }
     },
@@ -3335,6 +4427,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se esta opção estiver habilitada, nós o notificaremos sempre que encontrarmos alguém que corresponda aos seus interesses nas proximidades."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se esta opção estiver ativa, iremos notificá-lo sempre que encontrarmos por perto alguém que corresponda aos seus interesses."
           }
         }
       }
@@ -3361,6 +4459,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se você quiser deixar essa comunidade, aperte e segura no seu ícone."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se quiser sair desta comunidade, toque e mantenha premido o seu ícone."
           }
         }
       }
@@ -3422,12 +4526,24 @@
             "state" : "translated",
             "value" : "Descrição de Incidente"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descrição do Incidente"
+          }
         }
       }
     },
     "Incident Report" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denúncia"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Denúncia"
@@ -3444,6 +4560,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Username do Instagram"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome de utilizador do Instagram"
           }
         }
       }
@@ -3505,12 +4627,24 @@
             "state" : "translated",
             "value" : "Convidar %@ para conversar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convidar %@ para conversar"
+          }
         }
       }
     },
     "Item description (optional)" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descrição do item (opcional)"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Descrição do item (opcional)"
@@ -3525,12 +4659,24 @@
             "state" : "translated",
             "value" : "Item Encontrado"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Item Encontrado"
+          }
         }
       }
     },
     "Item Found ✅" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Item Encontrado ✅"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Item Encontrado ✅"
@@ -3545,12 +4691,24 @@
             "state" : "translated",
             "value" : "Informações do Item"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informações do Item"
+          }
         }
       }
     },
     "Item Lost" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Item Perdido"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Item Perdido"
@@ -3565,6 +4723,12 @@
             "state" : "translated",
             "value" : "Entrar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entrar"
+          }
         }
       }
     },
@@ -3574,6 +4738,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entrando..."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A entrar..."
           }
         }
       }
@@ -3625,6 +4795,12 @@
             "state" : "translated",
             "value" : "Latitude"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latitude"
+          }
         }
       }
     },
@@ -3638,6 +4814,12 @@
             "state" : "translated",
             "value" : "Deixar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sair"
+          }
         }
       }
     },
@@ -3647,6 +4829,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deixar Comunidade"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sair da Comunidade"
           }
         }
       }
@@ -3658,6 +4846,12 @@
             "state" : "translated",
             "value" : "Deixando Comunidade…"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A sair da Comunidade…"
+          }
         }
       }
     },
@@ -3667,6 +4861,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deixe que clientes em potencial saibam como entrar em contato com você facilmente."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permita que potenciais clientes saibam como contactá-lo facilmente."
           }
         }
       }
@@ -3712,6 +4912,12 @@
             "state" : "translated",
             "value" : "Carregando comentários..."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A carregar comentários..."
+          }
         }
       }
     },
@@ -3724,6 +4930,12 @@
             "state" : "translated",
             "value" : "Carregando post..."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A carregar publicação..."
+          }
         }
       }
     },
@@ -3734,12 +4946,24 @@
             "state" : "translated",
             "value" : "Carregando..."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A carregar..."
+          }
         }
       }
     },
     "Location" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Localização"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Localização"
@@ -3770,6 +4994,12 @@
             "state" : "translated",
             "value" : "Localização e Data"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Localização e Data"
+          }
         }
       }
     },
@@ -3782,12 +5012,24 @@
             "state" : "translated",
             "value" : "Entrar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciar sessão"
+          }
         }
       }
     },
     "Longitude" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Longitude"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Longitude"
@@ -3838,12 +5080,24 @@
             "state" : "translated",
             "value" : "Achados e Perdidos"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perdidos e Achados"
+          }
         }
       }
     },
     "Lost at " : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perdido em"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Perdido em"
@@ -3858,6 +5112,12 @@
             "state" : "translated",
             "value" : "Informações de Item Perdido"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informações do Item Perdido"
+          }
         }
       }
     },
@@ -3868,12 +5128,24 @@
             "state" : "translated",
             "value" : "Perdeu Algo"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perdeu Alguma Coisa"
+          }
         }
       }
     },
     "Male" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homem"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homem"
@@ -3901,6 +5173,12 @@
       "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marcar como Antigo"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Marcar como Antigo"
@@ -3950,6 +5228,12 @@
             "state" : "translated",
             "value" : "Acesso ao microfone é necessário para gravar um vídeo."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É necessário o acesso ao microfone para gravar vídeo."
+          }
         }
       }
     },
@@ -3962,6 +5246,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mova o mapa para descobrir posts próximos"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mova o mapa para descobrir publicações por perto"
           }
         }
       }
@@ -3990,6 +5280,12 @@
             "state" : "translated",
             "value" : "Minha Idade"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A Minha Idade"
+          }
         }
       }
     },
@@ -3999,6 +5295,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Meus Negócios"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os Meus Negócios"
           }
         }
       }
@@ -4010,12 +5312,24 @@
             "state" : "translated",
             "value" : "Meu Perfil"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Meu Perfil"
+          }
         }
       }
     },
     "Name" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nome"
@@ -4030,6 +5344,12 @@
             "state" : "translated",
             "value" : "Nova Comunidade"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nova Comunidade"
+          }
         }
       }
     },
@@ -4040,6 +5360,12 @@
             "state" : "translated",
             "value" : "Nenhum negócio encontrado nas proximidades."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foram encontrados negócios por perto."
+          }
         }
       }
     },
@@ -4048,6 +5374,12 @@
       "isCommentAutoGenerated" : true,
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainda não há comentários"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ainda não há comentários"
@@ -4062,6 +5394,12 @@
             "state" : "translated",
             "value" : "Nenhuma comunidade encontrada nas proximidades."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foram encontradas comunidades por perto."
+          }
         }
       }
     },
@@ -4071,6 +5409,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nenhuma correspondência encontrada nas proximidades."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foram encontradas correspondências por perto."
           }
         }
       }
@@ -4117,6 +5461,12 @@
             "state" : "translated",
             "value" : "Sem posts próximos"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não há publicações por perto."
+          }
         }
       }
     },
@@ -4125,6 +5475,12 @@
       "isCommentAutoGenerated" : true,
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainda não há visualizações"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ainda não há visualizações"
@@ -4189,6 +5545,12 @@
             "state" : "translated",
             "value" : "Oferece recompensa?"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oferece recompensa?"
+          }
         }
       }
     },
@@ -4199,12 +5561,24 @@
             "state" : "translated",
             "value" : "Oferece Recompensa."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oferece Recompensa."
+          }
         }
       }
     },
     "OK" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
@@ -4220,6 +5594,12 @@
             "state" : "translated",
             "value" : "Antigo"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Antigo"
+          }
         }
       }
     },
@@ -4229,6 +5609,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Somente pessoas próximas desta comunidade podem interagir com ela, incluindo o proprietário."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apenas as pessoas próximas desta comunidade podem interagir com ela, incluindo o proprietário."
           }
         }
       }
@@ -4240,6 +5626,12 @@
             "state" : "translated",
             "value" : "Somente pessoas próximas podem interagir com esta publicação — inclusive o dono."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apenas as pessoas próximas podem interagir com esta publicação — incluindo o autor."
+          }
         }
       }
     },
@@ -4249,6 +5641,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apenas pessoas próximas da sua comunidade poderão interagir com ela, até mesmo você."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apenas as pessoas próximas da sua comunidade poderão interagir com ela, incluindo si próprio."
           }
         }
       }
@@ -4261,6 +5659,12 @@
             "state" : "translated",
             "value" : "Somente pessoas em um raio de 1 km da sua comunidade poderão vê-la e interagir com ela."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apenas as pessoas num raio de 1 km da sua comunidade poderão vê-la e interagir com ela."
+          }
         }
       }
     },
@@ -4271,6 +5675,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Oops! Parece que algo fugiu do controle."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ups! Parece que algo correu mal."
           }
         }
       }
@@ -4299,6 +5709,12 @@
             "state" : "translated",
             "value" : "Ops! Algo deu errado. Tente novamente mais tarde."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ups! Algo correu mal. Tente novamente mais tarde."
+          }
         }
       }
     },
@@ -4324,6 +5740,12 @@
     "Party & Event" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Festas e Eventos"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Festas e Eventos"
@@ -4371,6 +5793,12 @@
             "state" : "translated",
             "value" : "Pessoas"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pessoas"
+          }
         }
       }
     },
@@ -4385,12 +5813,24 @@
             "state" : "translated",
             "value" : "Número de telefone"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de telefone"
+          }
         }
       }
     },
     "Phone Number" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de Telefone"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Número de Telefone"
@@ -4421,6 +5861,12 @@
             "state" : "translated",
             "value" : "Lugares"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locais"
+          }
         }
       }
     },
@@ -4448,6 +5894,12 @@
             "state" : "translated",
             "value" : "Por favor confirme sua senha."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirme a sua palavra-passe."
+          }
         }
       }
     },
@@ -4474,6 +5926,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Por favor insira seu nome."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Introduza o seu nome."
           }
         }
       }
@@ -4535,6 +5993,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Post cancelado"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publicação cancelada"
           }
         }
       }
@@ -4598,6 +6062,12 @@
             "state" : "translated",
             "value" : "As publicações são exibidas apenas para quem está ao seu redor."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As publicações são mostradas apenas a quem está à sua volta."
+          }
         }
       }
     },
@@ -4608,6 +6078,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Publicações no AroundYou ficam disponíveis por apenas **8 horas**, portanto mostramos apenas o que é relevante no momento."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As publicações no AroundYou permanecem ativas apenas **8 horas**, para que descubra sem esforço informação atual e relevante."
           }
         }
       }
@@ -4620,12 +6096,24 @@
             "state" : "translated",
             "value" : "Publicações no AroundYou ficam visíveis por um curto período de tempo, deixando fácil descobrir informações relevantes no momento."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As publicações no AroundYou ficam visíveis durante um curto período de tempo, tornando mais fácil descobrir informação atual e relevante."
+          }
         }
       }
     },
     "Preferences" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferências"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Preferências"
@@ -4642,6 +6130,12 @@
             "state" : "translated",
             "value" : "Preparando câmera…"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A preparar câmara…"
+          }
         }
       }
     },
@@ -4653,6 +6147,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Preparando post..."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A preparar publicação..."
           }
         }
       }
@@ -4666,6 +6166,12 @@
             "state" : "translated",
             "value" : "Preparando vídeo…"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A preparar vídeo…"
+          }
         }
       }
     },
@@ -4677,6 +6183,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aperte e segure para gravar. Solte para parar."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prima e mantenha premido para gravar. Largue para parar."
           }
         }
       }
@@ -4720,12 +6232,24 @@
             "state" : "translated",
             "value" : "Comunidade Privada"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comunidade Privada"
+          }
         }
       }
     },
     "Private Community:" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comunidade Privada:"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Comunidade Privada:"
@@ -4756,6 +6280,12 @@
             "state" : "translated",
             "value" : "Dano à Propriedade"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dano à Propriedade"
+          }
         }
       }
     },
@@ -4765,6 +6295,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Forneça o local e a hora aproximados em que você perdeu o item para ajudar na busca."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indique o local e a hora aproximados em que perdeu o item para ajudar na procura."
           }
         }
       }
@@ -4816,12 +6352,24 @@
             "state" : "translated",
             "value" : "Publicar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publicar"
+          }
         }
       }
     },
     "Publish New Business" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publicar Novo Negócio"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Publicar Novo Negócio"
@@ -4836,6 +6384,12 @@
             "state" : "translated",
             "value" : "Publicando…"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A publicar…"
+          }
         }
       }
     },
@@ -4848,6 +6402,12 @@
             "state" : "translated",
             "value" : "Recentralizar mapa"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recentrar mapa"
+          }
         }
       }
     },
@@ -4856,6 +6416,12 @@
       "isCommentAutoGenerated" : true,
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gravar vídeo"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gravar vídeo"
@@ -4872,6 +6438,12 @@
             "state" : "translated",
             "value" : "Gravar Vídeo"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gravar Vídeo"
+          }
         }
       }
     },
@@ -4883,6 +6455,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gravando"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A gravar"
           }
         }
       }
@@ -4906,6 +6484,12 @@
     "Refresh" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atualizar"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atualizar"
@@ -4939,12 +6523,24 @@
             "state" : "translated",
             "value" : "Solte para parar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Largue para parar"
+          }
         }
       }
     },
     "Remove" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Remover"
@@ -5105,6 +6701,12 @@
             "state" : "translated",
             "value" : "Denunciar Incidente"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denunciar Incidente"
+          }
         }
       }
     },
@@ -5127,6 +6729,12 @@
     "Report Business" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denunciar Negócio"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Denunciar Negócio"
@@ -5173,6 +6781,12 @@
             "state" : "translated",
             "value" : "Tipo de Denúncia"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipo de Denúncia"
+          }
         }
       }
     },
@@ -5183,6 +6797,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Denunciando"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A denunciar"
           }
         }
       }
@@ -5210,12 +6830,24 @@
             "state" : "translated",
             "value" : "Tentar novamente"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tentar novamente"
+          }
         }
       }
     },
     "Reward" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recompensa"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recompensa"
@@ -5230,6 +6862,12 @@
             "state" : "translated",
             "value" : "Salvar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar"
+          }
         }
       }
     },
@@ -5239,6 +6877,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Salvar Preferências"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar Preferências"
           }
         }
       }
@@ -5250,6 +6894,12 @@
             "state" : "translated",
             "value" : "Salvando..."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A guardar..."
+          }
         }
       }
     },
@@ -5259,6 +6909,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pesquisar ao seu redor."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pesquisar à sua volta."
           }
         }
       }
@@ -5282,6 +6938,12 @@
     "See Details" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver Detalhes"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ver Detalhes"
@@ -5363,6 +7025,12 @@
             "state" : "translated",
             "value" : "À Venda"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À Venda"
+          }
         }
       }
     },
@@ -5391,12 +7059,24 @@
             "state" : "translated",
             "value" : "Enviando..."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A enviar..."
+          }
         }
       }
     },
     "Services" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serviços"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Serviços"
@@ -5427,6 +7107,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Compartilhar Localização 🌐"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partilhar Localização 🌐"
           }
         }
       }
@@ -5488,6 +7174,12 @@
             "state" : "translated",
             "value" : "Mostrar minha localização"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar a minha localização"
+          }
         }
       }
     },
@@ -5498,6 +7190,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar minha localização no mapa"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar a minha localização no mapa"
           }
         }
       }
@@ -5510,6 +7208,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Exibir meu perfil em visualizações"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar o meu perfil nas visualizações"
           }
         }
       }
@@ -5539,6 +7243,12 @@
             "state" : "translated",
             "value" : "Criar conta"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Criar conta"
+          }
         }
       }
     },
@@ -5550,12 +7260,24 @@
             "state" : "translated",
             "value" : "companhia"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "companhia"
+          }
         }
       }
     },
     "Some Company" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Companhia"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Companhia"
@@ -5571,12 +7293,24 @@
             "state" : "translated",
             "value" : "ajuda"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ajuda"
+          }
         }
       }
     },
     "Some Help" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuda"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajuda"
@@ -5592,6 +7326,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alguns posts aparecem em uma posição aproximada para preservar a privacidade."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algumas publicações aparecem numa localização aproximada para preservar a privacidade."
           }
         }
       }
@@ -5656,6 +7396,12 @@
             "state" : "translated",
             "value" : "Armazenando imagem..."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A guardar imagem..."
+          }
         }
       }
     },
@@ -5668,12 +7414,24 @@
             "state" : "translated",
             "value" : "Armazenando vídeo…"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A guardar vídeo…"
+          }
         }
       }
     },
     "Submit" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Submeter"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Submeter"
@@ -5690,6 +7448,12 @@
             "state" : "translated",
             "value" : "Tirar Foto"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tirar Fotografia"
+          }
         }
       }
     },
@@ -5700,12 +7464,24 @@
             "state" : "translated",
             "value" : "Toque na localização aproximada."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque na localização aproximada."
+          }
         }
       }
     },
     "Tech & Games" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tecnologia e Jogos"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tecnologia e Jogos"
@@ -5769,6 +7545,12 @@
             "state" : "translated",
             "value" : "O **acesso à localização** está desativado. Por favor, ative-o para desbloquear todas as funcionalidades de AroundYou."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os **serviços de localização** estão desativados. Ative-os para desbloquear todas as funcionalidades do AroundYou."
+          }
         }
       }
     },
@@ -5795,6 +7577,12 @@
             "state" : "translated",
             "value" : "A descrição da comunidade é visível para todos que podem ver esta comunidade."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A descrição da comunidade é visível para todos os que podem ver esta comunidade."
+          }
         }
       }
     },
@@ -5806,6 +7594,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O total pode incluir pessoas que decidiram manter sua visualização privada."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O total pode incluir pessoas que optaram por manter a sua visualização privada."
           }
         }
       }
@@ -5836,6 +7630,12 @@
             "state" : "translated",
             "value" : "O vídeo não pode ser preparado. Por favor, tente outro vídeo."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível preparar o vídeo. Experimente outro vídeo."
+          }
         }
       }
     },
@@ -5846,6 +7646,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Não há publicações ao seu redor."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Há novas publicações à sua volta!"
           }
         }
       }
@@ -5874,7 +7680,13 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Não há posts na rua região agora."
+            "value" : "Ainda não há posts na sua região."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De momento não há publicações na sua região."
           }
         }
       }
@@ -5886,6 +7698,12 @@
             "state" : "translated",
             "value" : "Elas nos ajudam a mostrar pessoas que correspondem às suas preferências."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajudam-nos a mostrar-lhe pessoas que correspondem às suas preferências."
+          }
         }
       }
     },
@@ -5895,6 +7713,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Estes usuários querem participar da sua comunidade. Aprove a solicitação ou ignore-a."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estes utilizadores querem participar na sua comunidade. Aprove o pedido ou ignore-o."
           }
         }
       }
@@ -5906,6 +7730,12 @@
             "state" : "translated",
             "value" : "Essa comunidade é privada."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta comunidade é privada."
+          }
         }
       }
     },
@@ -5916,6 +7746,12 @@
             "state" : "translated",
             "value" : "Este recurso ainda não está disponível."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta funcionalidade ainda não está disponível."
+          }
         }
       }
     },
@@ -5925,6 +7761,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Esta funcionalidade só deve ser usada em caso de emergência real. Sua localização será compartilhada automaticamente com a **polícia**."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta funcionalidade só deve ser usada em caso de emergência real. A sua localização será partilhada automaticamente com a **polícia**."
           }
         }
       }
@@ -5984,6 +7826,12 @@
             "state" : "translated",
             "value" : "Este nome de usuário contém caracteres inválidos. Escolha outro."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este nome de utilizador contém caracteres inválidos. Escolha outro."
+          }
         }
       }
     },
@@ -5993,6 +7841,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Este nome de usuário já foi usado. Tente outro."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este nome de utilizador já está a ser usado. Experimente outro."
           }
         }
       }
@@ -6022,12 +7876,24 @@
             "state" : "translated",
             "value" : "relaxar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "relaxar"
+          }
         }
       }
     },
     "To Chill" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relaxar"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Relaxar"
@@ -6043,12 +7909,24 @@
             "state" : "translated",
             "value" : "matar o tempo"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "matar o tempo"
+          }
         }
       }
     },
     "To Kill Time" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Matar o Tempo"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Matar o Tempo"
@@ -6064,12 +7942,24 @@
             "state" : "translated",
             "value" : "festejar"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "festejar"
+          }
         }
       }
     },
     "To Party" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Festejar"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Festejar"
@@ -6085,6 +7975,12 @@
             "state" : "translated",
             "value" : "compartilhar algo"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "partilhar algo"
+          }
         }
       }
     },
@@ -6094,6 +7990,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Compartilhar Algo"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partilhar Algo"
           }
         }
       }
@@ -6105,12 +8007,24 @@
             "state" : "translated",
             "value" : "Mulher Trans"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulher Trans"
+          }
         }
       }
     },
     "Trans Male" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homem Trans"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homem Trans"
@@ -6143,6 +8057,12 @@
             "state" : "translated",
             "value" : "Tentar Novamente"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tentar Novamente"
+          }
         }
       }
     },
@@ -6152,6 +8072,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Insira o nome do seu negócio"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Introduza o nome do seu negócio"
           }
         }
       }
@@ -6164,6 +8090,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Não foi possível atualizar configurações de privacidade."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível atualizar as definições de privacidade."
           }
         }
       }
@@ -6206,6 +8138,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desfazer Envio"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anular Envio"
           }
         }
       }
@@ -6300,6 +8238,12 @@
             "state" : "translated",
             "value" : "O nome de usuário pode conter apenas letras, números, pontos (.) e sublinhados (_), sem espaços ou caracteres especiais.\n"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O nome de utilizador só pode conter letras, números, pontos (.) e sublinhados (_), sem espaços nem caracteres especiais."
+          }
         }
       }
     },
@@ -6326,6 +8270,12 @@
             "state" : "translated",
             "value" : "Detalhes da Vítima"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detalhes da Vítima"
+          }
         }
       }
     },
@@ -6334,6 +8284,12 @@
       "isCommentAutoGenerated" : true,
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vídeo indisponível"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vídeo indisponível"
@@ -6350,12 +8306,24 @@
             "state" : "translated",
             "value" : "Vídeos podem ter até 15 segundos."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os vídeos podem ter até 15 segundos."
+          }
         }
       }
     },
     "View All" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver Tudo"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ver Tudo"
@@ -6368,6 +8336,12 @@
       "isCommentAutoGenerated" : true,
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visualizações"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Visualizações"
@@ -6416,6 +8390,12 @@
             "state" : "translated",
             "value" : "Não foi possível acessar sua localização. Ative as permissões de localização nas configurações do seu dispositivo."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível aceder à sua localização. Ative as permissões de localização nas definições do dispositivo."
+          }
         }
       }
     },
@@ -6459,12 +8439,24 @@
             "state" : "translated",
             "value" : "Nós combinaremos você com pessoas interessadas em seu gênero e idade."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vamos ligá-lo a pessoas interessadas no seu género e idade."
+          }
         }
       }
     },
     "Wellness" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bem-estar"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bem-estar"
@@ -6479,6 +8471,12 @@
             "state" : "translated",
             "value" : "O que você está denunciando?"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que está a denunciar?"
+          }
         }
       }
     },
@@ -6488,6 +8486,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O que você perdeu?"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que perdeu?"
           }
         }
       }
@@ -6532,12 +8536,24 @@
             "state" : "translated",
             "value" : "Número de WhatsApp"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de WhatsApp"
+          }
         }
       }
     },
     "WhatsApp Number" : {
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de WhatsApp"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Número de WhatsApp"
@@ -6551,6 +8567,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Onde você perdeu?"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onde o perdeu?"
           }
         }
       }
@@ -6595,6 +8617,12 @@
             "state" : "translated",
             "value" : "Você já pediu para participar desta comunidade."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Já pediu para participar nesta comunidade."
+          }
         }
       }
     },
@@ -6605,6 +8633,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você está prestes a compartilhar sua atual localização. Isso significa que qualquer um por perto poderá ver o local onde você fez a publicação. Tem certeza que deseja prosseguir?"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está prestes a partilhar a sua localização atual na publicação. Isto significa que qualquer pessoa por perto poderá ver o local onde a publicou. Tem a certeza de que quer continuar?"
           }
         }
       }
@@ -6648,6 +8682,12 @@
             "state" : "translated",
             "value" : "Você é o administrador dessa comunidade e não pode deixá-la."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É o administrador desta comunidade e não pode sair dela."
+          }
         }
       }
     },
@@ -6659,6 +8699,12 @@
             "state" : "translated",
             "value" : "Você está muito longe desta comunidade. Toque e segure para sair dela.\n"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está demasiado longe desta comunidade. Toque e mantenha premido para sair."
+          }
         }
       }
     },
@@ -6668,6 +8714,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você pode ativar notificações para ficar atualizado quando alguém com seus interesses estiver por perto."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pode ativar as notificações para se manter a par quando alguém com os seus interesses estiver por perto."
           }
         }
       }
@@ -6679,6 +8731,12 @@
             "state" : "translated",
             "value" : "Você não pode editar a localização do seu Negócio."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não pode editar a localização do seu Negócio."
+          }
         }
       }
     },
@@ -6688,6 +8746,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você não pode editar a foto do seu Negócio."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não pode editar a fotografia do seu Negócio."
           }
         }
       }
@@ -6699,6 +8763,12 @@
             "state" : "translated",
             "value" : "Você pode oferecer uma recompensa para incentivar as pessoas a devolverem seu item."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pode oferecer uma recompensa para incentivar as pessoas a devolverem o seu item."
+          }
         }
       }
     },
@@ -6708,6 +8778,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você só pode ter um Negócio publicado por vez."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só pode ter um Negócio ativo de cada vez."
           }
         }
       }
@@ -6719,6 +8795,12 @@
             "state" : "translated",
             "value" : "Você pode ter apenas uma Denúncia publicada por vez."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só pode ter uma Denúncia publicada de cada vez."
+          }
         }
       }
     },
@@ -6729,6 +8811,12 @@
             "state" : "translated",
             "value" : "Você pode ter apenas um Item Perdido publicado por vez."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só pode ter um Item Perdido publicado de cada vez."
+          }
         }
       }
     },
@@ -6738,6 +8826,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você pode enviar apenas uma mensagem com este convite. O chat será desbloqueado assim que a pessoa responder."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só pode enviar uma mensagem com este convite. A conversa será desbloqueada assim que a pessoa responder."
           }
         }
       }
@@ -6764,6 +8858,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você não tem nenhum negócio publicado."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não tem nenhum negócio publicado."
           }
         }
       }
@@ -6807,6 +8907,12 @@
             "state" : "translated",
             "value" : "Você está muito longe para comentar esta postagem."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está demasiado longe para comentar esta publicação."
+          }
         }
       }
     },
@@ -6816,6 +8922,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você está muito longe para editar esta postagem."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está demasiado longe para editar esta publicação."
           }
         }
       }
@@ -6827,6 +8939,12 @@
             "state" : "translated",
             "value" : "Você está longe demais!"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está demasiado longe!"
+          }
         }
       }
     },
@@ -6836,6 +8954,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você está muito longe dessa comunidade para mandar uma mensagem."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está demasiado longe desta comunidade para enviar uma mensagem."
           }
         }
       }
@@ -6847,6 +8971,12 @@
             "state" : "translated",
             "value" : "Você atingiu o número máximo de publicações ativas permitidas."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atingiu o número máximo de publicações ativas permitidas."
+          }
         }
       }
     },
@@ -6857,6 +8987,12 @@
             "state" : "translated",
             "value" : "Você atingiu o número máximo de negócios que pode publicar."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atingiu o número máximo de negócios que pode publicar."
+          }
         }
       }
     },
@@ -6864,6 +9000,12 @@
       "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "seu(sua)"
+          }
+        },
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "seu(sua)"
@@ -6928,6 +9070,12 @@
             "state" : "translated",
             "value" : "Sua conta foi temporariamente banida até %@."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A sua conta foi temporariamente banida até %@."
+          }
         }
       }
     },
@@ -6939,6 +9087,12 @@
             "state" : "translated",
             "value" : "Sua conta foi temporariamente banida."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A sua conta foi temporariamente banida."
+          }
         }
       }
     },
@@ -6949,6 +9103,12 @@
             "state" : "translated",
             "value" : "Sua biografia será exibida no seu perfil. Escreva algo sobre você que deseja compartilhar."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A sua biografia será apresentada no seu perfil. Escreva o que quiser partilhar sobre si."
+          }
         }
       }
     },
@@ -6958,6 +9118,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seu Negócio ficará disponível por **15 dias**."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O seu Negócio ficará disponível durante **15 dias**."
           }
         }
       }
@@ -6985,6 +9151,12 @@
             "state" : "translated",
             "value" : "Seu completo será exibido no seu perfil."
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O seu nome completo será apresentado no seu perfil."
+          }
         }
       }
     },
@@ -6994,6 +9166,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Sua localização será usada para exibir seu negócio às pessoas próximas."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A sua localização será usada para mostrar o seu negócio às pessoas próximas."
           }
         }
       }
@@ -7020,6 +9198,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sua mensagem não pôde ser enviada porque a comunidade foi excluída pelo seu criador.\n"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A sua mensagem não pôde ser enviada porque a comunidade foi eliminada pelo seu criador."
           }
         }
       }
@@ -7079,6 +9263,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seu nome de usuário precisa ser único. Essa é a principal forma como outros usuários verão você no app."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O seu nome de utilizador tem de ser único. É a principal forma como os outros utilizadores o verão na aplicação."
           }
         }
       }

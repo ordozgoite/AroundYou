@@ -33,8 +33,8 @@ struct ExploreMapHintBubble: View {
                 .fontWeight(.semibold)
                 .foregroundStyle(.primary)
 
-            Text(verbatim: "✨")
-                .font(.subheadline)
+//            Text(verbatim: "✨")
+//                .font(.subheadline)
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
