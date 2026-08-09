@@ -44,16 +44,27 @@ struct ChatListScreen: View {
                         chatPic: chat.chatPic,
                         isLocked: chat.isLocked
                     )
-                    // A conversa é empurrada por cima da estrutura de abas, como no iMessage:
-                    // a tab bar sai do layout (sem reservar altura) e volta sozinha no pop,
-                    // deixando o composer encostado apenas na safe area inferior.
-                    .toolbar(.hidden, for: .tabBar)
                 case .userProfile(let userUid):
                     UserProfileScreen(userUid: userUid)
                 default:
                     EmptyView()
                 }
             }
+        }
+        // A visibilidade é derivada do próprio `path`, e não anunciada pela tela empilhada:
+        // assim ela muda no mesmo ciclo em que o push/pop começa, e a tab bar acompanha a
+        // transição. Declarada no destino, a mudança só chegava depois que a animação
+        // terminava — os ~300ms de atraso ao voltar para a lista.
+        .toolbar(isConversationOpen ? .hidden : .visible, for: .tabBar)
+    }
+
+    /// A conversa cobre a região da tab bar, e o que for empilhado sobre ela (o perfil do
+    /// outro usuário) continua cobrindo — por isso a checagem é pela presença na pilha, e
+    /// não só pelo topo dela.
+    private var isConversationOpen: Bool {
+        navCoordinator.path.contains { route in
+            if case .messages = route { return true }
+            return false
         }
     }
     
