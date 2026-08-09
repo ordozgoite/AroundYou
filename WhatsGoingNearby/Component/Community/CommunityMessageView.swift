@@ -138,7 +138,7 @@ struct CommunityMessageView: View {
 
     @ViewBuilder
     private func Emoji(_ text: String) -> some View {
-        if let emoji  = text.first {
+        if let emoji = text.singleEmoji {
             EmojiMessageView(emoji: emoji, isCurrentUser: message.isCurrentUser, isFirst: message.isFirst)
         }
     }

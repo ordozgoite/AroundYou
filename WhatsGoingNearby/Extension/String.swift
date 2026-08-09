@@ -22,8 +22,19 @@ extension String {
         return self.isEmpty ? nil : self
     }
     
-    var isSingleEmoji: Bool { count == 1 && containsEmoji }
-    
+    /// O emoji desta mensagem quando ela é só isso — um emoji e mais nada.
+    ///
+    /// O envio não apara a mensagem, então o espaço acidental antes ou depois do emoji não
+    /// pode custar o layout grande. Quem desenha usa este mesmo `Character` em vez do
+    /// `first` da string crua, senão " 😀" renderizaria o espaço.
+    var singleEmoji: Character? {
+        let trimmed = trimmingCharacters(in: .whitespacesAndNewlines)
+        guard trimmed.count == 1, let character = trimmed.first, character.isEmoji else { return nil }
+        return character
+    }
+
+    var isSingleEmoji: Bool { singleEmoji != nil }
+
     var containsEmoji: Bool { contains { $0.isEmoji } }
     
     func normalizePhoneNumber() -> String {
