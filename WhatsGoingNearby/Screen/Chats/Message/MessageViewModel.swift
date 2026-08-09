@@ -648,7 +648,7 @@ class MessageViewModel: ObservableObject {
         }
 
         let nextMessage = intermediaryMessages[index + 1]
-        guard nextMessage.isCurrentUser == message.isCurrentUser, nextMessage.repliedMessageId == nil else {
+        guard nextMessage.isCurrentUser == message.isCurrentUser, !hasQuoteAboveBubble(nextMessage) else {
             return true
         }
 
@@ -656,9 +656,28 @@ class MessageViewModel: ObservableObject {
         return timeDifferenceSec >= 60
     }
 
+    /// Se a citação desta mensagem é desenhada fora da bolha.
+    ///
+    /// Só nesse caso ela quebra o grupo, porque a prévia precisa de uma faixa própria acima
+    /// do balão — o que acontece em mídia e emoji avulso, que não têm bolha para acomodá-la.
+    /// Em mensagem de texto a citação vive dentro da própria bolha, então responder no meio
+    /// de uma sequência não deve separar nada: antes disso, qualquer resposta dava tail na
+    /// mensagem anterior e abria espaçamento de troca de remetente.
+    private func hasQuoteAboveBubble(_ message: MessageIntermediary) -> Bool {
+        guard message.repliedMessageId != nil else { return false }
+        return !isTextBubble(message)
+    }
+
+    private func isTextBubble(_ message: MessageIntermediary) -> Bool {
+        guard message.image == nil, message.imageUrl == nil,
+              let text = message.text, !text.isSingleEmoji
+        else { return false }
+        return true
+    }
+
     /// Espelho de `getTail` olhando para trás: define se a mensagem abre um grupo.
     private func isGroupStart(forMessage message: MessageIntermediary, withIndex index: Int) -> Bool {
-        guard index > 0, message.repliedMessageId == nil else {
+        guard index > 0, !hasQuoteAboveBubble(message) else {
             return true
         }
 
