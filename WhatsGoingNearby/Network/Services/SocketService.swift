@@ -152,7 +152,6 @@ final class SocketService: ObservableObject {
     // In-app Notifications
     @Published var notificationQueue: [AppBannerNotification] = []
     @Published var currentNotification: AppBannerNotification? = nil
-    @Published var pendingFullScreenRoute: AppRoute? = nil
     private var notificationTimer: Timer?
     private let notificationDuration = 5.0
 

@@ -63,4 +63,22 @@ class NavigationCoordinator: ObservableObject {
     func goToRoot() {
         path.removeAll()
     }
+
+    /// Substitui a pilha inteira, para quando o destino precisa ficar logo acima da raiz.
+    ///
+    /// A comparação evita reemitir o `path` quando ele já é o pedido: sem ela, um destino
+    /// repetido reconstruiria a tela que já está na frente do usuário.
+    func setStack(_ routes: [AppRoute]) {
+        guard path != routes else { return }
+        path = routes
+    }
+
+    /// `chatId` da conversa no topo da pilha, quando há uma.
+    ///
+    /// A conversa é identificada pelo id, e não pela instância de `FormattedChat`: o mesmo
+    /// chat chega com campos diferentes conforme a origem (lista, perfil ou notificação).
+    var topChatId: String? {
+        guard let last = path.last, case let .messages(chat) = last else { return nil }
+        return chat.id
+    }
 }

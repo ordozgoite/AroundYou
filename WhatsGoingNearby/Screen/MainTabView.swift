@@ -16,47 +16,43 @@ struct MainTabView: View {
     @EnvironmentObject var socket: SocketService
     @EnvironmentObject var notificationManager: NotificationManager
     @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var router: AppRouter
     @Environment(\.colorScheme) var colorScheme
-    
+
     let pub = NotificationCenter.default
         .publisher(for: .updateBadge)
     @State private var launchAnimationObserver = NotificationCenter.default
         .publisher(for: .launchAnimationFinished)
-    
-    @State private var selectedTab: Int = 0
+
     @State private var profileImage: UIImage?
     @State private var badgeTimer: Timer?
     @State private var unreadChats: Int?
-    @State private var presentedChat: FormattedChat? = nil
-    
-    @StateObject private var homeNav = NavigationCoordinator()
-    @StateObject private var chatNav = NavigationCoordinator()
-    @StateObject private var accountNav = NavigationCoordinator()
-    @StateObject private var sheetNav = NavigationCoordinator()
-    
+
     var body: some View {
-        TabView(selection: $selectedTab) {
+        // A aba selecionada e as pilhas de cada aba moram no router: é o que permite que uma
+        // notificação ajuste a navegação sem precisar de uma tela apresentada por cima.
+        TabView(selection: $router.selectedTab) {
             HomeScreen()
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
-                .environmentObject(homeNav)
-                .tag(0)
-            
+                .environmentObject(router.homeNav)
+                .tag(AppRouter.Tab.home)
+
             ChatListScreen()
                 .tabItem {
                     Label("Chats", systemImage: "bubble.left")
                 }
-                .environmentObject(chatNav)
+                .environmentObject(router.chatNav)
                 .badge(unreadChats ?? 0)
-                .tag(1)
-            
+                .tag(AppRouter.Tab.chats)
+
             AccountScreen()
                 .tabItem {
                     ProfileTabItemLabel()
                 }
-                .environmentObject(accountNav)
-                .tag(2)
+                .environmentObject(router.accountNav)
+                .tag(AppRouter.Tab.account)
         }
         .onAppear {
             Task {
@@ -81,35 +77,15 @@ struct MainTabView: View {
                 postId: notificationManager.publicationId ?? ""
             )
         }
-        .onChange(of: socket.pendingFullScreenRoute) { newValue in
-            if case let .messages(chat) = newValue {
-                print("✉️ Chat: \(chat)")
-                presentedChat = chat
-            }
-        }
-        .fullScreenCover(isPresented: $notificationManager.isChatDisplayed) {
-            MessageScreenWrapper(
-                chatId: notificationManager.chatId ?? "",
-                username: notificationManager.username ?? "",
-                otherUserUid: notificationManager.senderUserUid ?? "",
-                chatPic: notificationManager.chatPic,
-                isLocked: notificationManager.isLocked ?? false
-            )
-            .environmentObject(sheetNav)
-        }
         .onChange(of: notificationManager.isCommunityChatDisplayed) { newValue in
             if newValue {
-                homeNav.goToRoot()
+                router.homeNav.goToRoot()
             }
         }
         .fullScreenCover(isPresented: $notificationManager.isCommunityChatDisplayed) {
             CommunityMessageScreenWrapper(
                 communityId: notificationManager.communityId ?? ""
             )
-        }
-        .fullScreenCover(item: $presentedChat) { chat in
-            ChatMessageFromNotificationView(chat: chat)
-                .environmentObject(sheetNav)
         }
         .overlay(alignment: .top) {
             Group {
@@ -119,7 +95,7 @@ struct MainTabView: View {
                         notification: notification,
                         onTap: {
                             if let route = notification.route {
-                                socket.pendingFullScreenRoute = route
+                                router.handleNotificationRoute(route)
                             }
                             socket.dismissCurrentNotification()
                         },
@@ -144,19 +120,11 @@ extension MainTabView {
 
         switch route {
         case .messages(let chat):
-            return !isCurrentlyInChat(chatId: chat.id)
+            // Quem já está na conversa não precisa ser avisado dela.
+            return router.currentChatId != chat.id
         default:
             return true
         }
-    }
-    
-    private func isCurrentlyInChat(chatId: String) -> Bool {
-        guard selectedTab == 1 else { return false }
-        guard let last = chatNav.path.last else { return false }
-        if case let .messages(chat) = last {
-            return chat.id == chatId
-        }
-        return false
     }
 }
 
@@ -166,7 +134,9 @@ private extension MainTabView {
     @ViewBuilder
     private func ProfileTabItemLabel() -> some View {
         ZStack {
-            if let profilePicture = profileImage?.createTabItemLabelFromImage(selectedTab == 4) {
+            // O contorno de seleção nunca chegou a ser desenhado (a comparação era com uma
+            // aba que não existe), e continua desligado para não mudar a aparência da tab bar.
+            if let profilePicture = profileImage?.createTabItemLabelFromImage(false) {
                 Image(uiImage: profilePicture)
             } else {
                 Label("Profile", systemImage: "person.circle.fill")

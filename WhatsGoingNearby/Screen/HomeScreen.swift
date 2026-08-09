@@ -86,6 +86,7 @@ struct HomeScreen: View {
                         chatPic: chat.chatPic,
                         isLocked: chat.isLocked
                     )
+                    .id(chat.id)
                 case .exploreMap:
                     ExploreMapScreen()
                 case .clusterPosts(let bounds):

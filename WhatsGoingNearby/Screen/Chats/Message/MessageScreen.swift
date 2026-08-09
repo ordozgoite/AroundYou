@@ -21,6 +21,7 @@ struct MessageScreen: View {
     @EnvironmentObject var authVM: AuthenticationViewModel
     @EnvironmentObject var socket: SocketService
     @EnvironmentObject var navCoordinator: NavigationCoordinator
+    @EnvironmentObject var router: AppRouter
     @StateObject private var messageVM = MessageViewModel()
     @StateObject private var swipeDriver = ChatSwipeDriver()
     @StateObject private var historyAnchor = ChatHistoryScrollAnchor()
@@ -28,6 +29,9 @@ struct MessageScreen: View {
     /// Distingue o teclado aberto por uma resposta do teclado aberto por um toque no campo.
     @State private var suppressesScrollOnNextFocus = false
     @State private var didPerformInitialScroll = false
+    /// Um pedido vindo de notificação leva a conversa ao fim mesmo com o usuário lendo o
+    /// histórico: ali ele pediu para ver a mensagem nova.
+    @State private var isFocusRequestPending = false
     
     var body: some View {
         // A largura máxima das bolhas é derivada da largura real do container, e não de
@@ -79,8 +83,15 @@ struct MessageScreen: View {
                             }
                             .onChange(of: messageVM.lastMessageAdded) { _ in
                                 if let id = messageVM.lastMessageAdded {
-                                    scrollToMessage(withId: id, usingProxy: proxy)
+                                    followNewMessage(withId: id, usingProxy: proxy)
                                 }
+                            }
+                            .onChange(of: messageVM.repositioningSyncCount) { _ in
+                                positionAtLatestMessageAfterSync(usingProxy: proxy)
+                            }
+                            .onChange(of: router.chatFocusRequest) { request in
+                                guard let request, request.chatId == chatId else { return }
+                                focusLatestMessage(usingProxy: proxy)
                             }
                             .onChange(of: isFocused) { _ in
                                 guard isFocused else {
@@ -441,6 +452,56 @@ struct MessageScreen: View {
         // A prefetch só vale depois de posicionar no fim: até lá o topo do conteúdo está
         // dentro da viewport e dispararia uma busca sem o usuário ter rolado nada.
         DispatchQueue.main.async { historyAnchor.isPrefetchEnabled = true }
+    }
+
+    /// Reposiciona no fim quando uma leva do servidor que deve fazê-lo entra na tela.
+    ///
+    /// O posicionamento inicial acontece sobre o que estava em cache, que não conhece a
+    /// mensagem recém-chegada. Quem abre a conversa pela notificação dessa mensagem parava
+    /// no fim do cache, com a mensagem que o trouxe até aqui logo abaixo, fora da tela.
+    ///
+    /// Na abertura, quem subiu para o histórico enquanto a busca corria fica onde está. Um
+    /// pedido de notificação vai ao fim de qualquer forma: foi o usuário quem pediu.
+    private func positionAtLatestMessageAfterSync(usingProxy proxy: ScrollViewProxy) {
+        let wasFocusRequested = isFocusRequestPending
+        isFocusRequestPending = false
+
+        guard wasFocusRequested || historyAnchor.isAtBottom else { return }
+        guard let lastMessageId = messageVM.formattedMessages.last?.id else { return }
+        didPerformInitialScroll = true
+        scrollToMessage(withId: lastMessageId, usingProxy: proxy, animated: false)
+    }
+
+    /// Atende ao toque numa notificação da conversa que já está aberta.
+    ///
+    /// Sem navegação nova, nada reposicionaria a rolagem. E a mensagem que motivou a
+    /// notificação chegou com o app fora do ar: ela entra pela reconciliação com a API, um
+    /// caminho que — ao contrário do socket — não anuncia mensagem nova para a tela.
+    private func focusLatestMessage(usingProxy proxy: ScrollViewProxy) {
+        // A busca abaixo é quem leva à mensagem nova; esta primeira rolagem serve para o
+        // caso de ela já estar na lista, sem deixar o usuário esperando a rede.
+        if let lastMessageId = messageVM.formattedMessages.last?.id {
+            scrollToMessage(withId: lastMessageId, usingProxy: proxy)
+        }
+
+        isFocusRequestPending = true
+        Task {
+            try await getMessages(.newest)
+        }
+    }
+
+    /// Acompanha uma mensagem recém-inserida na conversa.
+    ///
+    /// Só leva a conversa até ela quem já estava no fim — quem subiu para ler o histórico
+    /// continua onde parou, mesmo que a outra pessoa siga mandando mensagem. O que o usuário
+    /// mesmo envia é exceção: enviar é um pedido explícito para ir ao fim.
+    ///
+    /// A posição é lida antes da inserção ser desenhada, então ela responde "o usuário estava
+    /// no fim quando esta mensagem chegou?", que é a pergunta certa.
+    private func followNewMessage(withId messageId: String, usingProxy proxy: ScrollViewProxy) {
+        let isOwnMessage = messageVM.formattedMessages.first { $0.id == messageId }?.isCurrentUser ?? false
+        guard isOwnMessage || historyAnchor.isAtBottom else { return }
+        scrollToMessage(withId: messageId, usingProxy: proxy)
     }
 
     /// Abre o composer citando uma mensagem, sem levar a conversa para o fim.

@@ -404,9 +404,31 @@ final class ChatHistoryScrollAnchor: NSObject, ObservableObject {
     /// meia dúzia de mensagens, para o histórico chegar antes do usuário.
     private static let prefetchDistance: CGFloat = 400
 
+    /// Folga dentro da qual a conversa ainda conta como "no fim": quem parou a poucos pontos
+    /// da última mensagem continua acompanhando a conversa, não lendo o histórico.
+    private static let bottomProximity: CGFloat = 120
+
     /// Verdadeiro enquanto a rolagem estiver perto do começo do que já está carregado.
     /// Publica só na virada, não a cada quadro.
     @Published private(set) var isApproachingTop = false
+
+    /// Verdadeiro quando a conversa está no fim, ou bem perto dele.
+    ///
+    /// É uma pergunta pontual — feita no instante em que uma mensagem chega — e por isso não
+    /// é `@Published`: publicá-la reavaliaria a conversa inteira a cada quadro de rolagem.
+    ///
+    /// Sem `UIScrollView` ainda encontrado, responde que sim: é o estado da conversa recém
+    /// aberta, e é também o comportamento que existia antes desta distinção.
+    var isAtBottom: Bool {
+        guard let scrollView else { return true }
+
+        let insets = scrollView.adjustedContentInset
+        // Conteúdo que cabe na tela não rolou: está tudo visível, o fim inclusive.
+        guard scrollView.contentSize.height + insets.top + insets.bottom > scrollView.bounds.height else { return true }
+
+        let offsetAtBottom = scrollView.contentSize.height + insets.bottom - scrollView.bounds.height
+        return offsetAtBottom - scrollView.contentOffset.y <= Self.bottomProximity
+    }
 
     /// Só passa a valer depois de posicionar a conversa no fim. Até lá o `contentOffset`
     /// é zero e pediria histórico sem o usuário ter rolado nada.

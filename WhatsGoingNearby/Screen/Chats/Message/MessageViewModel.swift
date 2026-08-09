@@ -30,6 +30,18 @@ class MessageViewModel: ObservableObject {
     /// Falso assim que uma página volta vazia: daí em diante não há o que buscar.
     @Published private(set) var hasMoreOlderMessages = true
 
+    /// Incrementado a cada leva do servidor que deve reposicionar a conversa no fim: a
+    /// abertura da conversa e o toque numa notificação dela.
+    ///
+    /// A conversa nasce posicionada no fim do que estava em cache. Quando essa leva traz
+    /// mensagens mais novas — o caso de quem chegou por uma notificação, com o cache parado
+    /// no que havia antes dela — o fim da conversa mudou de lugar depois do posicionamento
+    /// inicial, e a rolagem precisa acompanhar.
+    ///
+    /// É um contador, e não um sinalizador: a segunda notificação da mesma conversa é um
+    /// pedido tão legítimo quanto a primeira.
+    @Published private(set) var repositioningSyncCount = 0
+
     /// Avisado imediatamente antes de inserir uma página antiga, ainda no mesmo ciclo, para
     /// quem precisa fotografar a posição da rolagem antes do conteúdo crescer.
     var willPrependOlderMessages: (() -> Void)?
@@ -167,6 +179,13 @@ class MessageViewModel: ObservableObject {
         }
 
         RealtimeLog.apiSync(source: source, pages: pages, fetched: fetched)
+
+        // Só a abertura da conversa e o toque numa notificação dela reposicionam a rolagem.
+        // Um resync no meio da leitura usa esta mesma busca, e ali arrastar o usuário para o
+        // fim seria tirá-lo de onde ele está lendo.
+        if source == MessageMergeSource.history.rawValue {
+            repositioningSyncCount += 1
+        }
     }
 
     private func convertReceivedMessages(_ messages: [Message]) -> [MessageIntermediary] {

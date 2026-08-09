@@ -44,6 +44,10 @@ struct ChatListScreen: View {
                         chatPic: chat.chatPic,
                         isLocked: chat.isLocked
                     )
+                    // Trocar a conversa do topo da pilha por outra reaproveitaria a tela — e
+                    // com ela o view model da conversa anterior. O id amarra a identidade da
+                    // View ao chat, forçando uma tela nova para cada conversa.
+                    .id(chat.id)
                 case .userProfile(let userUid):
                     UserProfileScreen(userUid: userUid)
                 default:

@@ -21,14 +21,6 @@ class NotificationManager: NSObject, ObservableObject {
     @Published var publicationId: String?
     @Published var isPublicationDisplayed: Bool = false
     
-    // Message
-    @Published var chatId: String?
-    @Published var username: String?
-    @Published var senderUserUid: String?
-    @Published var chatPic: String?
-    @Published var isLocked: Bool?
-    @Published var isChatDisplayed: Bool = false
-    
     // Community Message
     @Published var communityId: String?
     @Published var communityName: String?
@@ -73,7 +65,7 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
             case "comment":
                 displayCommentScreen(with: userInfo)
             case "message":
-                displayMessageScreen(with: userInfo)
+                routeToChat(with: userInfo)
             case "communityMessage":
                 displayCommunityMessageScreen(with: userInfo)
             case "discover":
@@ -101,29 +93,41 @@ extension NotificationManager {
         enqueueIfNotReady(displayBlock)
     }
     
-    private func displayMessageScreen(with userInfo: [AnyHashable: Any]) {
+    /// A conversa é aberta pela navegação normal do app, e não por uma tela apresentada por
+    /// cima: quem decide como ajustar a pilha é o `AppRouter`, que sabe o que já está aberto.
+    private func routeToChat(with userInfo: [AnyHashable: Any]) {
         let displayBlock = {
-            if
+            guard
                 let chatId = userInfo["chatId"] as? String,
                 let username = userInfo["username"] as? String,
                 let senderUserUid = userInfo["senderUserUid"] as? String,
                 let isLocked = userInfo["isLocked"] as? Bool
-            {
-                self.chatId = chatId
-                self.username = username
-                self.senderUserUid = senderUserUid
-                self.isLocked = isLocked
-                if let chatPic = userInfo["chatPic"] as? String { self.chatPic = chatPic }
-                self.isChatDisplayed = true
-            } else {
+            else {
                 print("❌ Incorrect userInfo to display Message screen.")
+                return
             }
+
+            // O payload traz só o necessário para montar a rota; o resto da conversa é
+            // carregado pela própria MessageScreen a partir do chatId.
+            let chat = FormattedChat(
+                id: chatId,
+                chatName: username,
+                otherUserUid: senderUserUid,
+                chatPic: userInfo["chatPic"] as? String,
+                lastMessageAt: nil,
+                hasUnreadMessages: false,
+                lastMessage: nil,
+                isMuted: false,
+                isLocked: isLocked
+            )
+
+            AppRouter.shared.openChat(chat)
         }
 
         enqueueIfNotReady(displayBlock)
     }
 
-    
+
     private func displayCommunityMessageScreen(with userInfo: [AnyHashable: Any]) {
         let displayBlock = {
             if

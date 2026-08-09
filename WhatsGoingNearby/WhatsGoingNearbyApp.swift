@@ -228,6 +228,7 @@ struct WhatsGoingNearbyApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
     @StateObject var notificationManager = NotificationManager()
+    @StateObject private var router = AppRouter.shared
     @StateObject var authVM = AuthenticationViewModel()
     @StateObject private var socket = SocketService.shared
     @StateObject private var locationManager = LocationManager.shared
@@ -237,6 +238,7 @@ struct WhatsGoingNearbyApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(notificationManager)
+                .environmentObject(router)
                 .environmentObject(authVM)
                 .environmentObject(socket)
                 .environmentObject(locationManager)
