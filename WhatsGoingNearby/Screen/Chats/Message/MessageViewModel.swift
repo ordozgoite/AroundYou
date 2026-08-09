@@ -38,6 +38,26 @@ class MessageViewModel: ObservableObject {
     /// apenas os listeners que pertencem a ela.
     let listenerOwner = "chat-\(UUID().uuidString)"
 
+    private let messageStore: MessageStore
+
+    init(messageStore: MessageStore = .shared) {
+        self.messageStore = messageStore
+    }
+
+    /// Coloca na tela o que já está em cache, antes de qualquer requisição.
+    ///
+    /// Não é um merge: roda com a lista vazia, na abertura da conversa. Se não houver nada
+    /// guardado, a tela segue exatamente como antes, esperando a rede.
+    func loadCachedMessages(chatId: String) {
+        guard intermediaryMessages.isEmpty else { return }
+
+        let cached = messageStore.loadMessages(chatId: chatId)
+        guard !cached.isEmpty else { return }
+
+        intermediaryMessages = cached
+        RealtimeLog.apiSync(source: "cache", pages: 0, fetched: cached.count)
+    }
+
     @Published var formattedMessages: [FormattedMessage] = []
     @Published var intermediaryMessages: [MessageIntermediary] = [] {
         didSet {
@@ -98,7 +118,9 @@ class MessageViewModel: ObservableObject {
             guard !messages.isEmpty else { return }
 
             willPrependOlderMessages?()
-            merge(convertReceivedMessages(messages), source: .pagination)
+            let converted = convertReceivedMessages(messages)
+            merge(converted, source: .pagination)
+            applyServerDeletions(within: converted, chatId: chatId)
             RealtimeLog.apiSync(source: MessageMergeSource.pagination.rawValue, pages: 1, fetched: messages.count)
         case .failure:
             RealtimeLog.apiSyncFailure(source: MessageMergeSource.pagination.rawValue)
@@ -133,6 +155,7 @@ class MessageViewModel: ObservableObject {
 
             let converted = convertReceivedMessages(messages)
             merge(converted, source: cursor == nil ? .history : .pagination)
+            applyServerDeletions(within: converted, chatId: chatId)
 
             guard let newestKnown,
                   let oldestFetched = converted.map({ $0.createdAt }).min(),
@@ -473,6 +496,10 @@ class MessageViewModel: ObservableObject {
         }
 
         intermediaryMessages = sortedChronologically(messages)
+        // O `merge` é por onde passam histórico, paginação, socket e confirmação de envio.
+        // Persistir aqui é o que impede o cache e a memória de divergirem — não existe um
+        // segundo caminho para a mensagem entrar na conversa.
+        persist(incoming, replacingTemporaryId: temporaryId)
         RealtimeLog.merged(
             source: source.rawValue,
             inserted: result.inserted,
@@ -481,6 +508,35 @@ class MessageViewModel: ObservableObject {
             duplicated: result.duplicated
         )
         return result
+    }
+
+    /// Remove do cache e da tela o que o servidor não devolveu dentro da janela da página.
+    ///
+    /// É como uma exclusão feita enquanto o app estava fora chega até aqui: o evento
+    /// `message-delete` do socket só alcança quem está conectado na hora.
+    private func applyServerDeletions(within page: [MessageIntermediary], chatId: String) {
+        let removedIds = messageStore.reconcileDeletions(within: page, chatId: chatId)
+        guard !removedIds.isEmpty else { return }
+
+        let removed = Set(removedIds)
+        intermediaryMessages.removeAll { removed.contains($0.id) }
+    }
+
+    /// Espelha no cache o que acabou de entrar na conversa.
+    ///
+    /// Usa o estado já mesclado, e não o payload cru: é ele que carrega a promoção de
+    /// `sending` para `sent` e o `isRead` consolidado.
+    private func persist(_ incoming: [MessageIntermediary], replacingTemporaryId temporaryId: String?) {
+        guard let chatId = incoming.first?.chatId ?? intermediaryMessages.first?.chatId else { return }
+
+        // O id temporário do envio local nunca chegou ao cache; some junto com a confirmação.
+        if let temporaryId {
+            messageStore.delete(messageId: temporaryId)
+        }
+
+        let incomingIds = Set(incoming.map { $0.id })
+        let merged = intermediaryMessages.filter { incomingIds.contains($0.id) }
+        messageStore.upsert(merged, chatId: chatId)
     }
 
     private func merging(existing: MessageIntermediary, incoming: MessageIntermediary) -> MessageIntermediary {
@@ -554,6 +610,7 @@ class MessageViewModel: ObservableObject {
     
     func removeMessage(withId messageId: String) {
         intermediaryMessages.removeAll { $0.id == messageId }
+        messageStore.delete(messageId: messageId)
         releasePipeline(holdingMessageId: messageId)
     }
     

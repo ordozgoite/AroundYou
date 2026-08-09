@@ -193,6 +193,8 @@
 		ED74E8072BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E8062BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift */; };
 		ED74E80A2BF436F200371334 /* WhatsGoingNearby.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ED74E8082BF436F200371334 /* WhatsGoingNearby.xcdatamodeld */; };
 		ED74E80C2BF43CE900371334 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E80B2BF43CE900371334 /* PersistenceController.swift */; };
+		EDAA00212BF4470000371334 /* MessageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAA00112BF4470000371334 /* MessageStore.swift */; };
+		EDAA00202BF4470000371334 /* ChatStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAA00102BF4470000371334 /* ChatStore.swift */; };
 		ED74E8102BF43F1400371334 /* CDFormattedChat+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E80F2BF43F1400371334 /* CDFormattedChat+helper.swift */; };
 		ED74E8132BF446C600371334 /* NSPredicate+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E8122BF446C600371334 /* NSPredicate+helper.swift */; };
 		ED74E8152BF4682200371334 /* CDFormattedMessage+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E8142BF4682200371334 /* CDFormattedMessage+helper.swift */; };
@@ -519,6 +521,8 @@
 		ED74E8062BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUnreadChatsNumberResponse.swift; sourceTree = "<group>"; };
 		ED74E8092BF436F200371334 /* WhatsGoingNearby.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WhatsGoingNearby.xcdatamodel; sourceTree = "<group>"; };
 		ED74E80B2BF43CE900371334 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		EDAA00112BF4470000371334 /* MessageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStore.swift; sourceTree = "<group>"; };
+		EDAA00102BF4470000371334 /* ChatStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStore.swift; sourceTree = "<group>"; };
 		ED74E80F2BF43F1400371334 /* CDFormattedChat+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDFormattedChat+helper.swift"; sourceTree = "<group>"; };
 		ED74E8122BF446C600371334 /* NSPredicate+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPredicate+helper.swift"; sourceTree = "<group>"; };
 		ED74E8142BF4682200371334 /* CDFormattedMessage+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDFormattedMessage+helper.swift"; sourceTree = "<group>"; };
@@ -1318,6 +1322,8 @@
 			isa = PBXGroup;
 			children = (
 				ED74E80B2BF43CE900371334 /* PersistenceController.swift */,
+				EDAA00112BF4470000371334 /* MessageStore.swift */,
+				EDAA00102BF4470000371334 /* ChatStore.swift */,
 				ED74E80F2BF43F1400371334 /* CDFormattedChat+helper.swift */,
 				ED74E8142BF4682200371334 /* CDFormattedMessage+helper.swift */,
 				ED74E8122BF446C600371334 /* NSPredicate+helper.swift */,
@@ -2023,6 +2029,8 @@
 				EDF324EF2DE0907900752A64 /* NotDiscoveringScreen.swift in Sources */,
 				EDD40C612D74E9A100E33663 /* PublishBusinessViewModel.swift in Sources */,
 				ED74E80C2BF43CE900371334 /* PersistenceController.swift in Sources */,
+				EDAA00212BF4470000371334 /* MessageStore.swift in Sources */,
+				EDAA00202BF4470000371334 /* ChatStore.swift in Sources */,
 				ED50C44C2B7E396C0001EDF6 /* View.swift in Sources */,
 				ED5023FC2BA4D123003F4439 /* GetUserBanExpireDateResponse.swift in Sources */,
 				EDA3222E2B7CA490009905B5 /* AYEndpoints.swift in Sources */,

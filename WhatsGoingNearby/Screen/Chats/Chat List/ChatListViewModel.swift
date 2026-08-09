@@ -24,6 +24,16 @@ class ChatListViewModel: ObservableObject {
     private var isFetchingChats = false
     private var hasPendingChatsFetch = false
 
+    private let chatStore: ChatStore
+
+    init(chatStore: ChatStore = .shared) {
+        self.chatStore = chatStore
+        // O cache entra antes de qualquer requisição: a lista nasce preenchida em vez de
+        // esperar a rede para ter o que desenhar.
+        self.chats = chatStore.loadChats()
+        self.isInitialChatsFetched = !self.chats.isEmpty
+    }
+
     /// Atualiza a lista coalescendo os gatilhos.
     ///
     /// Vários eventos podem pedir a atualização quase ao mesmo tempo (mensagem nova,
@@ -48,13 +58,22 @@ class ChatListViewModel: ObservableObject {
     }
 
     private func fetchChats(token: String) async {
+        // Com dados em cache o spinner não aparece: a lista já está na tela e a atualização
+        // acontece por baixo, sem piscar.
         if !isInitialChatsFetched { isLoading = true }
         let result = await AYServices.shared.getChatsByUser(token: token)
         if !isInitialChatsFetched { isLoading = false }
 
         switch result {
         case .success(let chats):
-            self.chats = chats
+            // Reconcilia por id — insere, atualiza e remove o que sumiu do servidor. Não é
+            // apagar tudo e reinserir, que descartaria as mensagens já persistidas.
+            chatStore.reconcile(with: chats)
+            // Só reatribui se algo mudou de fato: substituir por uma lista igual faria a
+            // List refazer as linhas à toa a cada evento de socket.
+            if self.chats != chats {
+                self.chats = chats
+            }
             isInitialChatsFetched = true
         case .failure:
             overlayError = (true, ErrorMessage.getChats)
@@ -66,6 +85,7 @@ class ChatListViewModel: ObservableObject {
         
         switch result {
         case .success:
+            chatStore.delete(chatId: chatId)
             await getChats(token: token)
         case .failure:
             overlayError = (true, ErrorMessage.deleteChat)
@@ -95,8 +115,10 @@ class ChatListViewModel: ObservableObject {
     }
     
     private func updateChat(withId chatId: String, to newStatus: ChatMuteStatus) {
+        let isMuted = newStatus == .mute
         if let index = chats.firstIndex(where: { $0.id == chatId }) {
-            chats[index].isMuted = newStatus == .mute
+            chats[index].isMuted = isMuted
         }
+        chatStore.update(chatId: chatId, isMuted: isMuted)
     }
 }

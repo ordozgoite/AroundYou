@@ -130,6 +130,9 @@ struct MessageScreen: View {
             messageVM.willPrependOlderMessages = { [weak historyAnchor] in
                 historyAnchor?.captureBeforePrepend()
             }
+            // O que já está em cache aparece antes de tudo; a requisição abaixo só
+            // reconcilia o que mudou.
+            messageVM.loadCachedMessages(chatId: chatId)
             // Os listeners entram antes da requisição: se uma mensagem chegar enquanto o
             // histórico carrega, ela é mesclada em vez de se perder na janela entre as duas.
             listenToMessages()
