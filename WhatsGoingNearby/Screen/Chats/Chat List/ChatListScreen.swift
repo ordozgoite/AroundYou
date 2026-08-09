@@ -44,6 +44,10 @@ struct ChatListScreen: View {
                         chatPic: chat.chatPic,
                         isLocked: chat.isLocked
                     )
+                    // A conversa é empurrada por cima da estrutura de abas, como no iMessage:
+                    // a tab bar sai do layout (sem reservar altura) e volta sozinha no pop,
+                    // deixando o composer encostado apenas na safe area inferior.
+                    .toolbar(.hidden, for: .tabBar)
                 case .userProfile(let userUid):
                     UserProfileScreen(userUid: userUid)
                 default:
