@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseCore
 import FirebaseMessaging
+import GoogleSignIn
 import UserNotifications
 import BackgroundTasks
 import OSLog
@@ -247,6 +248,11 @@ struct WhatsGoingNearbyApp: App {
                     if phase == .active {
                         socket.handleAppDidBecomeActive()
                     }
+                }
+                // O app desliga o proxy de AppDelegate do Firebase, então o retorno do fluxo do
+                // Google precisa ser entregue ao SDK explicitamente.
+                .onOpenURL { url in
+                    _ = GIDSignIn.sharedInstance.handle(url)
                 }
         }
     }

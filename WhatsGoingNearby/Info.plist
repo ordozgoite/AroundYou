@@ -2,15 +2,20 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-	<string>Allow Around You to take photos and record videos for your posts.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Allow Around You to record audio with videos for your posts.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow Around You to select photos and videos for your posts.</string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>ordozgoite.WhatsGoingNearby.backgroundTask.updateLoc</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.522240718834-lae68p6257g245g2lp9e97p4dm9podpl</string>
+			</array>
+		</dict>
 	</array>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>

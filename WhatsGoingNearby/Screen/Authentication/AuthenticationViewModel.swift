@@ -7,6 +7,8 @@
 
 import Foundation
 import FirebaseAuth
+import FirebaseCore
+import GoogleSignIn
 import AuthenticationServices
 import CryptoKit
 import SwiftUI
@@ -186,6 +188,85 @@ extension AuthenticationViewModel {
     }
 }
 
+//MARK: - Sign in with Google
+
+extension AuthenticationViewModel {
+    func signInWithGoogle() async {
+        // O `clientID` vem do GoogleService-Info.plist. Sem ele o provedor Google ainda não foi
+        // habilitado no projeto do Firebase, e não há credencial a pedir.
+        guard let clientID = FirebaseApp.app()?.options.clientID else {
+            overlayError = (true, ErrorMessage.googleSignInUnavailableErrorMessage)
+            return
+        }
+        guard let presentingViewController = Self.presentingViewController() else {
+            overlayError = (true, ErrorMessage.googleSignInErrorMessage)
+            return
+        }
+
+        authenticationState = .authenticating
+        GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
+
+        do {
+            let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController)
+
+            guard let idToken = result.user.idToken?.tokenString else {
+                authenticationState = .unauthenticated
+                overlayError = (true, ErrorMessage.googleSignInErrorMessage)
+                return
+            }
+
+            let credential = GoogleAuthProvider.credential(
+                withIDToken: idToken,
+                accessToken: result.user.accessToken.tokenString
+            )
+
+            // Daqui em diante é o mesmo caminho do e-mail e da Apple: o listener de estado leva à
+            // PreparingSessionScreen, que busca o usuário da API e abre a UsernameScreen quando
+            // aquele UID ainda não tem um.
+            _ = try await Auth.auth().signIn(with: credential)
+        }
+        catch {
+            authenticationState = .unauthenticated
+            handleGoogleSignInFailure(error)
+        }
+    }
+
+    private func handleGoogleSignInFailure(_ error: Error) {
+        let nsError = error as NSError
+
+        // Fechar o seletor de contas é decisão do usuário, não erro para exibir.
+        if nsError.domain == kGIDSignInErrorDomain,
+           nsError.code == GIDSignInError.canceled.rawValue {
+            return
+        }
+
+        // Já existe conta com este e-mail em outro provedor. Enquanto o account linking não
+        // existir, parar aqui é o que impede uma segunda identidade no Firebase — e, por
+        // consequência, um segundo usuário da API para a mesma pessoa.
+        if nsError.domain == AuthErrorDomain,
+           nsError.code == AuthErrorCode.accountExistsWithDifferentCredential.rawValue {
+            overlayError = (true, ErrorMessage.providerConflictErrorMessage)
+            return
+        }
+
+        overlayError = (true, ErrorMessage.googleSignInErrorMessage)
+    }
+
+    /// O SDK do Google apresenta o seletor de contas a partir de um `UIViewController`.
+    private static func presentingViewController() -> UIViewController? {
+        let keyWindow = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }
+
+        var controller = keyWindow?.rootViewController
+        while let presented = controller?.presentedViewController {
+            controller = presented
+        }
+        return controller
+    }
+}
+
 //MARK: - Email and Password Authentication
 
 extension AuthenticationViewModel {
@@ -224,6 +305,9 @@ extension AuthenticationViewModel {
     func signOut() {
         do {
             try Auth.auth().signOut()
+            // O Firebase encerra a sessão, mas o SDK do Google mantém o próprio estado: sem isto,
+            // um logout explícito ainda deixaria a conta Google pronta para reautenticar sozinha.
+            GIDSignIn.sharedInstance.signOut()
             PublicationViewTracker.shared.clearSession()
             authenticationState = .unauthenticated
             resetUserInfo()
@@ -240,6 +324,7 @@ extension AuthenticationViewModel {
             if !isUserDeleted { return false }
             
             try await user?.delete()
+            GIDSignIn.sharedInstance.signOut()
             authenticationState = .unauthenticated
             resetUserInfo()
             resetInputs()

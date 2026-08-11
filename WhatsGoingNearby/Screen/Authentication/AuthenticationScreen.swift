@@ -115,8 +115,10 @@ struct AuthenticationScreen: View {
             }
             
             Or()
-            
+
             SiwA()
+
+            SiwG()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
     }
@@ -191,6 +193,40 @@ struct AuthenticationScreen: View {
         .cornerRadius(29)
     }
     
+    //MARK: - SiwG
+
+    /// Mesma cápsula e mesma tipografia dos botões de e-mail e Apple. As cores e o logo seguem as
+    /// diretrizes de marca do Google, que só admitem o botão claro, escuro ou azul — daí o fundo
+    /// branco com traço, em vez de acompanhar a cor de destaque do app.
+    @ViewBuilder
+    private func SiwG() -> some View {
+        Button {
+            Task {
+                await authVM.signInWithGoogle()
+            }
+        } label: {
+            HStack(spacing: 8) {
+                Image("google-logo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 22, height: 22)
+
+                Text("Continue with Google")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(Color(red: 0.12, green: 0.12, blue: 0.12))
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 58)
+            .background(.white)
+            .clipShape(Capsule())
+            .overlay {
+                Capsule()
+                    .stroke(Color(red: 0.45, green: 0.47, blue: 0.46), lineWidth: 1)
+            }
+        }
+    }
+
     // MARK: - Footer
     
     @ViewBuilder

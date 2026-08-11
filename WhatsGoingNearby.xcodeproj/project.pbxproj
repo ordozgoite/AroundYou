@@ -7,11 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EDFE0000000000000000B001 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE0000000000000000A001 /* NotificationService.swift */; };
-		EDFE0000000000000000B002 /* AroundYouNotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = EDFE0000000000000000A004 /* AroundYouNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		49552898B81341FDB9A372D3 /* DragToDismissContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF6D6CEC95348F0B84AE0EC /* DragToDismissContainer.swift */; };
 		624CDB1A2FAFA5F1007D2560 /* PremiumMapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB192FAFA5F1007D2560 /* PremiumMapButton.swift */; };
-		624CDB412FB40002007D2560 /* ExploreMapHintBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB402FB40001007D2560 /* ExploreMapHintBubble.swift */; };
 		624CDB1C2FAFA7EC007D2560 /* ExploreMapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB1B2FAFA7EC007D2560 /* ExploreMapScreen.swift */; };
 		624CDB1E2FAFA895007D2560 /* ExploreMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB1D2FAFA895007D2560 /* ExploreMapViewModel.swift */; };
 		624CDB202FAFAB0F007D2560 /* FormattedPost+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB1F2FAFAB0F007D2560 /* FormattedPost+Mock.swift */; };
@@ -21,6 +18,7 @@
 		624CDB282FB11C20007D2560 /* MapPostProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB272FB11C20007D2560 /* MapPostProfileImageView.swift */; };
 		624CDB2A2FB27068007D2560 /* ExploreMapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB292FB27068007D2560 /* ExploreMapItem.swift */; };
 		624CDB2E2FB27285007D2560 /* ClusterMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB2D2FB27285007D2560 /* ClusterMapMarker.swift */; };
+		624CDB412FB40002007D2560 /* ExploreMapHintBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB402FB40001007D2560 /* ExploreMapHintBubble.swift */; };
 		625DC64B2FB399FC00412EF4 /* ClusterPostsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625DC64A2FB399FC00412EF4 /* ClusterPostsViewModel.swift */; };
 		625DC64D2FB39A8900412EF4 /* ClusterPostsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625DC64C2FB39A8900412EF4 /* ClusterPostsScreen.swift */; };
 		629912053020EC43004EF383 /* PostDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629912043020EC43004EF383 /* PostDetailScreen.swift */; };
@@ -192,8 +190,6 @@
 		ED74E8072BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E8062BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift */; };
 		ED74E80A2BF436F200371334 /* WhatsGoingNearby.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ED74E8082BF436F200371334 /* WhatsGoingNearby.xcdatamodeld */; };
 		ED74E80C2BF43CE900371334 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E80B2BF43CE900371334 /* PersistenceController.swift */; };
-		EDAA00212BF4470000371334 /* MessageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAA00112BF4470000371334 /* MessageStore.swift */; };
-		EDAA00202BF4470000371334 /* ChatStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAA00102BF4470000371334 /* ChatStore.swift */; };
 		ED74E8102BF43F1400371334 /* CDFormattedChat+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E80F2BF43F1400371334 /* CDFormattedChat+helper.swift */; };
 		ED74E8132BF446C600371334 /* NSPredicate+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E8122BF446C600371334 /* NSPredicate+helper.swift */; };
 		ED74E8152BF4682200371334 /* CDFormattedMessage+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74E8142BF4682200371334 /* CDFormattedMessage+helper.swift */; };
@@ -264,6 +260,8 @@
 		EDA322472B7DB221009905B5 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322462B7DB221009905B5 /* CommentView.swift */; };
 		EDA322492B7DB2BA009905B5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA322482B7DB2BA009905B5 /* Comment.swift */; };
 		EDA3224B2B7DB345009905B5 /* FormattedComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA3224A2B7DB345009905B5 /* FormattedComment.swift */; };
+		EDAA00202BF4470000371334 /* ChatStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAA00102BF4470000371334 /* ChatStore.swift */; };
+		EDAA00212BF4470000371334 /* MessageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAA00112BF4470000371334 /* MessageStore.swift */; };
 		EDABC4562D626A650014C15E /* JoinCommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDABC4552D626A650014C15E /* JoinCommunityView.swift */; };
 		EDAECA452DD7D4A100D1A938 /* URLNotTapableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA442DD7D4A000D1A938 /* URLNotTapableImageView.swift */; };
 		EDAECA472DD8304F00D1A938 /* DisclaimerTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAECA462DD8304F00D1A938 /* DisclaimerTestView.swift */; };
@@ -335,6 +333,9 @@
 		EDF43E932B86E6B60037CC9F /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF43E922B86E6B60037CC9F /* LocalState.swift */; };
 		EDF892C92DECB34300856511 /* RadarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF892C82DECB34300856511 /* RadarView.swift */; };
 		EDFADBA02CF11F3D0050E322 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFADB9F2CF11F3D0050E322 /* Gender.swift */; };
+		EDFE0000000000000000B001 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE0000000000000000A001 /* NotificationService.swift */; };
+		EDFE0000000000000000B002 /* AroundYouNotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = EDFE0000000000000000A004 /* AroundYouNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EDFE0000000000000001A004 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = EDFE0000000000000001A002 /* GoogleSignIn */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -362,12 +363,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		EDFE0000000000000000A001 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
-		EDFE0000000000000000A002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EDFE0000000000000000A004 /* AroundYouNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AroundYouNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF6D6CEC95348F0B84AE0EC /* DragToDismissContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragToDismissContainer.swift; sourceTree = "<group>"; };
 		624CDB192FAFA5F1007D2560 /* PremiumMapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumMapButton.swift; sourceTree = "<group>"; };
-		624CDB402FB40001007D2560 /* ExploreMapHintBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapHintBubble.swift; sourceTree = "<group>"; };
 		624CDB1B2FAFA7EC007D2560 /* ExploreMapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapScreen.swift; sourceTree = "<group>"; };
 		624CDB1D2FAFA895007D2560 /* ExploreMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapViewModel.swift; sourceTree = "<group>"; };
 		624CDB1F2FAFAB0F007D2560 /* FormattedPost+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FormattedPost+Mock.swift"; sourceTree = "<group>"; };
@@ -377,6 +374,7 @@
 		624CDB272FB11C20007D2560 /* MapPostProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPostProfileImageView.swift; sourceTree = "<group>"; };
 		624CDB292FB27068007D2560 /* ExploreMapItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapItem.swift; sourceTree = "<group>"; };
 		624CDB2D2FB27285007D2560 /* ClusterMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterMapMarker.swift; sourceTree = "<group>"; };
+		624CDB402FB40001007D2560 /* ExploreMapHintBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapHintBubble.swift; sourceTree = "<group>"; };
 		625DC64A2FB399FC00412EF4 /* ClusterPostsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterPostsViewModel.swift; sourceTree = "<group>"; };
 		625DC64C2FB39A8900412EF4 /* ClusterPostsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterPostsScreen.swift; sourceTree = "<group>"; };
 		629912043020EC43004EF383 /* PostDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailScreen.swift; sourceTree = "<group>"; };
@@ -519,8 +517,6 @@
 		ED74E8062BF2B5CF00371334 /* GetUnreadChatsNumberResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUnreadChatsNumberResponse.swift; sourceTree = "<group>"; };
 		ED74E8092BF436F200371334 /* WhatsGoingNearby.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WhatsGoingNearby.xcdatamodel; sourceTree = "<group>"; };
 		ED74E80B2BF43CE900371334 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
-		EDAA00112BF4470000371334 /* MessageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStore.swift; sourceTree = "<group>"; };
-		EDAA00102BF4470000371334 /* ChatStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStore.swift; sourceTree = "<group>"; };
 		ED74E80F2BF43F1400371334 /* CDFormattedChat+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDFormattedChat+helper.swift"; sourceTree = "<group>"; };
 		ED74E8122BF446C600371334 /* NSPredicate+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPredicate+helper.swift"; sourceTree = "<group>"; };
 		ED74E8142BF4682200371334 /* CDFormattedMessage+helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDFormattedMessage+helper.swift"; sourceTree = "<group>"; };
@@ -589,6 +585,8 @@
 		EDA322462B7DB221009905B5 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		EDA322482B7DB2BA009905B5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		EDA3224A2B7DB345009905B5 /* FormattedComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedComment.swift; sourceTree = "<group>"; };
+		EDAA00102BF4470000371334 /* ChatStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStore.swift; sourceTree = "<group>"; };
+		EDAA00112BF4470000371334 /* MessageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStore.swift; sourceTree = "<group>"; };
 		EDABC4552D626A650014C15E /* JoinCommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinCommunityView.swift; sourceTree = "<group>"; };
 		EDAECA442DD7D4A000D1A938 /* URLNotTapableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLNotTapableImageView.swift; sourceTree = "<group>"; };
 		EDAECA462DD8304F00D1A938 /* DisclaimerTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerTestView.swift; sourceTree = "<group>"; };
@@ -661,16 +659,12 @@
 		EDF43E922B86E6B60037CC9F /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
 		EDF892C82DECB34300856511 /* RadarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarView.swift; sourceTree = "<group>"; };
 		EDFADB9F2CF11F3D0050E322 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
+		EDFE0000000000000000A001 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		EDFE0000000000000000A002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDFE0000000000000000A004 /* AroundYouNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AroundYouNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		EDFE0000000000000000D002 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		ED5CB1622B7C11C000C336EC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -687,6 +681,7 @@
 				ED598C1C2B7C550400B6C23D /* FirebaseAppCheck in Frameworks */,
 				ED598C1A2B7C550400B6C23D /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				ED598C202B7C550400B6C23D /* FirebaseAuth in Frameworks */,
+				EDFE0000000000000001A004 /* GoogleSignIn in Frameworks */,
 				ED598C242B7C550400B6C23D /* FirebaseCrashlytics in Frameworks */,
 				ED5329152D80FF0D00AEED74 /* PhoneNumberKit-Static in Frameworks */,
 				ED598C442B7C550400B6C23D /* FirebaseRemoteConfigSwift in Frameworks */,
@@ -711,18 +706,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EDFE0000000000000000D002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		EDFE0000000000000000C001 /* AroundYouNotificationService */ = {
-			isa = PBXGroup;
-			children = (
-				EDFE0000000000000000A001 /* NotificationService.swift */,
-				EDFE0000000000000000A002 /* Info.plist */,
-			);
-			path = AroundYouNotificationService;
-			sourceTree = "<group>";
-		};
 		624CDB182FAFA5CB007D2560 /* Premium */ = {
 			isa = PBXGroup;
 			children = (
@@ -1651,26 +1644,18 @@
 			path = Navigation;
 			sourceTree = "<group>";
 		};
+		EDFE0000000000000000C001 /* AroundYouNotificationService */ = {
+			isa = PBXGroup;
+			children = (
+				EDFE0000000000000000A001 /* NotificationService.swift */,
+				EDFE0000000000000000A002 /* Info.plist */,
+			);
+			path = AroundYouNotificationService;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EDFE0000000000000000E001 /* AroundYouNotificationService */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EDFE0000000000000000F003 /* Build configuration list for PBXNativeTarget "AroundYouNotificationService" */;
-			buildPhases = (
-				EDFE0000000000000000D001 /* Sources */,
-				EDFE0000000000000000D002 /* Frameworks */,
-				EDFE0000000000000000D003 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = AroundYouNotificationService;
-			productName = AroundYouNotificationService;
-			productReference = EDFE0000000000000000A004 /* AroundYouNotificationService.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		ED5CB1642B7C11C000C336EC /* WhatsGoingNearby */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ED5CB1732B7C11C500C336EC /* Build configuration list for PBXNativeTarget "WhatsGoingNearby" */;
@@ -1694,6 +1679,7 @@
 				ED598C1B2B7C550400B6C23D /* FirebaseAppCheck */,
 				ED598C1D2B7C550400B6C23D /* FirebaseAppDistribution-Beta */,
 				ED598C1F2B7C550400B6C23D /* FirebaseAuth */,
+				EDFE0000000000000001A002 /* GoogleSignIn */,
 				ED598C212B7C550400B6C23D /* FirebaseAuthCombine-Community */,
 				ED598C232B7C550400B6C23D /* FirebaseCrashlytics */,
 				ED598C252B7C550400B6C23D /* FirebaseDatabase */,
@@ -1724,6 +1710,23 @@
 			productName = WhatsGoingNearby;
 			productReference = ED5CB1652B7C11C000C336EC /* WhatsGoingNearby.app */;
 			productType = "com.apple.product-type.application";
+		};
+		EDFE0000000000000000E001 /* AroundYouNotificationService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EDFE0000000000000000F003 /* Build configuration list for PBXNativeTarget "AroundYouNotificationService" */;
+			buildPhases = (
+				EDFE0000000000000000D001 /* Sources */,
+				EDFE0000000000000000D002 /* Frameworks */,
+				EDFE0000000000000000D003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AroundYouNotificationService;
+			productName = AroundYouNotificationService;
+			productReference = EDFE0000000000000000A004 /* AroundYouNotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -1756,6 +1759,7 @@
 			mainGroup = ED5CB15C2B7C11C000C336EC;
 			packageReferences = (
 				ED598C122B7C550400B6C23D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				EDFE0000000000000001A001 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				EDA30DE32B7FAB20003EB22D /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				EDCBEBF52BB8A52F00087325 /* XCRemoteSwiftPackageReference "socket" */,
 				ED3B54E12CCEAAE1007AA1D0 /* XCRemoteSwiftPackageReference "swiftui-sliders" */,
@@ -1773,13 +1777,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		EDFE0000000000000000D003 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		ED5CB1632B7C11C000C336EC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1798,17 +1795,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		EDFE0000000000000000D001 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
+		EDFE0000000000000000D003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EDFE0000000000000000B001 /* NotificationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
 		ED5CB1612B7C11C000C336EC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2098,6 +2094,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EDFE0000000000000000D001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDFE0000000000000000B001 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2109,58 +2113,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		EDFE0000000000000000F001 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3945C3P68V;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = AroundYouNotificationService/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Around You Notification Service";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 3.2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby.NotificationService;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		EDFE0000000000000000F002 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3945C3P68V;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = AroundYouNotificationService/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Around You Notification Service";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 3.2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby.NotificationService;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		ED5CB1712B7C11C500C336EC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2296,9 +2248,10 @@
 				INFOPLIST_FILE = WhatsGoingNearby/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Around You";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
-				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow Around You to take photos and record videos for your posts.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will be used to search for posts around you.";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to your microphone.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Allow Around You to record audio with videos for your posts.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow Around You to select photos and videos for your posts.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -2311,7 +2264,8 @@
 				);
 				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_MODULE_NAME = WhatsGoingNearby;
+				PRODUCT_NAME = "Around You";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -2339,9 +2293,10 @@
 				INFOPLIST_FILE = WhatsGoingNearby/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Around You";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
-				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow Around You to take photos and record videos for your posts.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will be used to search for posts around you.";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to your microphone.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Allow Around You to record audio with videos for your posts.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow Around You to select photos and videos for your posts.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -2354,7 +2309,8 @@
 				);
 				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_MODULE_NAME = WhatsGoingNearby;
+				PRODUCT_NAME = "Around You";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -2366,18 +2322,61 @@
 			};
 			name = Release;
 		};
+		EDFE0000000000000000F001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3945C3P68V;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AroundYouNotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Around You Notification Service";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EDFE0000000000000000F002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3945C3P68V;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AroundYouNotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Around You Notification Service";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EDFE0000000000000000F003 /* Build configuration list for PBXNativeTarget "AroundYouNotificationService" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EDFE0000000000000000F001 /* Debug */,
-				EDFE0000000000000000F002 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		ED5CB1602B7C11C000C336EC /* Build configuration list for PBXProject "WhatsGoingNearby" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2392,6 +2391,15 @@
 			buildConfigurations = (
 				ED5CB1742B7C11C500C336EC /* Debug */,
 				ED5CB1752B7C11C500C336EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EDFE0000000000000000F003 /* Build configuration list for PBXNativeTarget "AroundYouNotificationService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDFE0000000000000000F001 /* Debug */,
+				EDFE0000000000000000F002 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2445,6 +2453,14 @@
 			requirement = {
 				branch = master;
 				kind = branch;
+			};
+		};
+		EDFE0000000000000001A001 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -2614,6 +2630,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EDCBEBF52BB8A52F00087325 /* XCRemoteSwiftPackageReference "socket" */;
 			productName = SocketIO;
+		};
+		EDFE0000000000000001A002 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EDFE0000000000000001A001 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
 		};
 /* End XCSwiftPackageProductDependency section */
 

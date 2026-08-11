@@ -21,6 +21,10 @@ struct ErrorMessage {
     static let editDistanceLimitExceededErrorMessage: LocalizedStringKey = "You're too far away to edit this post."
     static let postImageErrorMessage: LocalizedStringKey = "Failed to upload image. Please try again."
 
+    static let googleSignInErrorMessage: LocalizedStringKey = "Couldn't sign in with Google. Please try again."
+    static let googleSignInUnavailableErrorMessage: LocalizedStringKey = "Google sign-in is not available right now."
+    static let providerConflictErrorMessage: LocalizedStringKey = "This email is already registered with another sign-in method. Please sign in with the method you used originally."
+
     static func getTempBannedErrorMessage(expirationDate: Int) -> LocalizedStringKey {
         return "Your account has been temporarily banned until \(expirationDate.convertTimestampToDate().convertDateToString())."
     }
