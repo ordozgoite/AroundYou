@@ -21,7 +21,7 @@ struct ExpandedPostSettings: View {
                     .foregroundStyle(.gray)
                     .font(.subheadline)
                 
-                AYDisclaimerView(text: "Posts are shown only to those around you.")
+                AYDisclaimerView(text: "Your post will be linked to your current location.")
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             

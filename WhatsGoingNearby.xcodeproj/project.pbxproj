@@ -488,7 +488,7 @@
 		ED598C4E2B7C59D700B6C23D /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
 		ED598C502B7C80EC00B6C23D /* LocationTestScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTestScreen.swift; sourceTree = "<group>"; };
 		ED598C522B7C81CA00B6C23D /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		ED5CB1652B7C11C000C336EC /* WhatsGoingNearby.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhatsGoingNearby.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ED5CB1652B7C11C000C336EC /* Around You.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Around You.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED5CB1682B7C11C000C336EC /* WhatsGoingNearbyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsGoingNearbyApp.swift; sourceTree = "<group>"; };
 		ED5CB16A2B7C11C000C336EC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ED5CB16C2B7C11C500C336EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1125,7 +1125,7 @@
 		ED5CB1662B7C11C000C336EC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ED5CB1652B7C11C000C336EC /* WhatsGoingNearby.app */,
+				ED5CB1652B7C11C000C336EC /* Around You.app */,
 				EDFE0000000000000000A004 /* AroundYouNotificationService.appex */,
 			);
 			name = Products;
@@ -1708,7 +1708,7 @@
 				ED5329142D80FF0D00AEED74 /* PhoneNumberKit-Static */,
 			);
 			productName = WhatsGoingNearby;
-			productReference = ED5CB1652B7C11C000C336EC /* WhatsGoingNearby.app */;
+			productReference = ED5CB1652B7C11C000C336EC /* Around You.app */;
 			productType = "com.apple.product-type.application";
 		};
 		EDFE0000000000000000E001 /* AroundYouNotificationService */ = {
@@ -2248,6 +2248,7 @@
 				INFOPLIST_FILE = WhatsGoingNearby/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Around You";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Allow Around You to take photos and record videos for your posts.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will be used to search for posts around you.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Allow Around You to record audio with videos for your posts.";
@@ -2262,7 +2263,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2.0;
+				MARKETING_VERSION = 3.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby;
 				PRODUCT_MODULE_NAME = WhatsGoingNearby;
 				PRODUCT_NAME = "Around You";
@@ -2293,6 +2294,7 @@
 				INFOPLIST_FILE = WhatsGoingNearby/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Around You";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Allow Around You to take photos and record videos for your posts.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location will be used to search for posts around you.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Allow Around You to record audio with videos for your posts.";
@@ -2307,7 +2309,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2.0;
+				MARKETING_VERSION = 3.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby;
 				PRODUCT_MODULE_NAME = WhatsGoingNearby;
 				PRODUCT_NAME = "Around You";
@@ -2338,7 +2340,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.0;
+				MARKETING_VERSION = 3.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2364,7 +2366,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.0;
+				MARKETING_VERSION = 3.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

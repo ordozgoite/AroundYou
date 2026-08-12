@@ -19,9 +19,9 @@ class IndepCommentViewModel: ObservableObject {
     @Published var isPostingComment: Bool = false
     @Published var isLoadingPost: Bool = false
     @Published var isPostFetched: Bool = false
+    @Published private(set) var hasLoadedComments = false
     
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
-    @Published var timer: Timer?
     
     func getPublication(publicationId: String, latitude: Double, longitude: Double, token: String) async {
         isLoadingPost = true
@@ -43,8 +43,11 @@ class IndepCommentViewModel: ObservableObject {
         switch response {
         case .success(let comments):
             self.comments = comments
+            hasLoadedComments = true
         case .failure:
-            overlayError = (true, ErrorMessage.getAllComments)
+            if !hasLoadedComments {
+                overlayError = (true, ErrorMessage.getAllComments)
+            }
         }
     }
     

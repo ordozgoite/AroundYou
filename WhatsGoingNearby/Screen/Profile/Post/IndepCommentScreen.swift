@@ -44,11 +44,8 @@ struct IndepCommentScreen: View {
         .onAppear {
             Task {
                 try await getPublication()
+                await loadInitialComments()
             }
-            startUpdatingComments()
-        }
-        .onDisappear {
-            stopTimer()
         }
         .navigationTitle(Text("Publication", comment: "noun"))
         .navigationBarTitleDisplayMode(.inline)
@@ -159,17 +156,15 @@ struct IndepCommentScreen: View {
         }
     }
     
-    private func startUpdatingComments() {
-        postVM.timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
-            Task {
-                let token = try await authVM.getFirebaseToken()
-                await postVM.getAllComments(publicationId: postId, token: token)
-            }
+    private func loadInitialComments() async {
+        do {
+            let token = try await authVM.getFirebaseToken()
+            await postVM.getAllComments(publicationId: postId, token: token)
+        } catch {
+            postVM.overlayError = (
+                true,
+                LocalizedStringKey(error.localizedDescription)
+            )
         }
-        postVM.timer?.fire()
-    }
-    
-    private func stopTimer() {
-        postVM.timer?.invalidate()
     }
 }

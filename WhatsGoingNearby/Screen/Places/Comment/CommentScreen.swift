@@ -12,8 +12,6 @@ struct CommentScreen: View, PostViewActionHandler {
     @State var post: FormattedPost
     
     @State private var isLoadingComments = true
-    @State private var hasLoadedComments = false
-    
     private let maxCommentLength = 250
     
     @EnvironmentObject var authVM: AuthenticationViewModel
@@ -56,9 +54,6 @@ struct CommentScreen: View, PostViewActionHandler {
         .task {
             await loadInitialComments()
         }
-        .onDisappear {
-            stopTimer()
-        }
         .navigationTitle("Comments")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -74,7 +69,7 @@ struct CommentScreen: View, PostViewActionHandler {
             
             if isLoadingComments {
                 CommentsLoadingView()
-            } else if hasLoadedComments && commentVM.comments.isEmpty {
+            } else if commentVM.hasLoadedComments && commentVM.comments.isEmpty {
                 EmptyCommentsView()
             } else {
                 CommentsList()
@@ -244,15 +239,6 @@ struct CommentScreen: View, PostViewActionHandler {
                 token: token
             )
             
-            /*
-             O ViewModel apresenta o erro pelo overlayError.
-             Só consideramos o primeiro carregamento concluído com
-             sucesso caso nenhum erro tenha sido apresentado.
-             */
-            if !commentVM.overlayError.0 {
-                hasLoadedComments = true
-                startUpdatingComments()
-            }
         } catch {
             commentVM.overlayError = (
                 true,
@@ -281,11 +267,6 @@ struct CommentScreen: View, PostViewActionHandler {
                 token: token
             )
             
-            /*
-             Após publicar o primeiro comentário, a lista deixa
-             naturalmente de estar vazia.
-             */
-            hasLoadedComments = true
         } catch {
             commentVM.overlayError = (
                 true,
@@ -320,37 +301,6 @@ struct CommentScreen: View, PostViewActionHandler {
         )
     }
     
-    // MARK: - Comments Timer
-    
-    private func startUpdatingComments() {
-        guard commentVM.timer == nil else {
-            return
-        }
-        
-        commentVM.timer = Timer.scheduledTimer(
-            withTimeInterval: 5,
-            repeats: true
-        ) { _ in
-            Task {
-                do {
-                    let token = try await authVM.getFirebaseToken()
-                    
-                    await commentVM.getAllComments(
-                        publicationId: post.id,
-                        token: token
-                    )
-                } catch {
-                    // Não apresenta alertas de autenticação
-                    // durante atualizações automáticas.
-                }
-            }
-        }
-    }
-    
-    private func stopTimer() {
-        commentVM.timer?.invalidate()
-        commentVM.timer = nil
-    }
 }
 
 // MARK: - Post View Protocol

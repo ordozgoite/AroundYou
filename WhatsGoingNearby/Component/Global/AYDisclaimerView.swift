@@ -23,5 +23,5 @@ struct AYDisclaimerView: View {
 }
 
 #Preview {
-    AYDisclaimerView(text: "Posts are shown only to those around you.")
+    AYDisclaimerView(text: "Your post will be linked to your current location.")
 }

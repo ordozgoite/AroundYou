@@ -24,8 +24,6 @@ final class PostDetailViewModel: ObservableObject {
     
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
     
-    var timer: Timer?
-    
     // MARK: - Post
     
     func getPost(
@@ -88,10 +86,12 @@ final class PostDetailViewModel: ObservableObject {
             hasLoadedComments = true
             
         case .failure:
-            overlayError = (
-                true,
-                ErrorMessage.getAllComments
-            )
+            if !hasLoadedComments {
+                overlayError = (
+                    true,
+                    ErrorMessage.getAllComments
+                )
+            }
         }
     }
     
@@ -195,10 +195,4 @@ final class PostDetailViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Timer
-    
-    func stopCommentsTimer() {
-        timer?.invalidate()
-        timer = nil
-    }
 }

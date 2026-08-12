@@ -34,9 +34,6 @@ struct PostDetailScreen: View, PostViewActionHandler {
         .task {
             await loadInitialContent()
         }
-        .onDisappear {
-            stopCommentsTimer()
-        }
         .navigationTitle("Comments")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -285,11 +282,6 @@ struct PostDetailScreen: View, PostViewActionHandler {
             await postRequest
             await commentsRequest
             
-            guard postDetailVM.post != nil else {
-                return
-            }
-            
-            startUpdatingComments(publicationId: postId)
         } catch {
             postDetailVM.overlayError = (
                 true,
@@ -347,40 +339,6 @@ struct PostDetailScreen: View, PostViewActionHandler {
         postDetailVM.newCommentText = String(
             text.prefix(maxCommentLength)
         )
-    }
-    
-    // MARK: - Comments Timer
-    
-    private func startUpdatingComments(
-        publicationId: String
-    ) {
-        guard postDetailVM.timer == nil else {
-            return
-        }
-        
-        postDetailVM.timer = Timer.scheduledTimer(
-            withTimeInterval: 5,
-            repeats: true
-        ) { _ in
-            Task { @MainActor in
-                do {
-                    let token = try await authVM
-                        .getFirebaseToken()
-                    
-                    await postDetailVM.getAllComments(
-                        publicationId: publicationId,
-                        token: token
-                    )
-                } catch {
-                    // Não exibe alertas durante atualizações automáticas.
-                }
-            }
-        }
-    }
-    
-    private func stopCommentsTimer() {
-        postDetailVM.timer?.invalidate()
-        postDetailVM.timer = nil
     }
     
     // MARK: - Location

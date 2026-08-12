@@ -15,8 +15,8 @@ class CommentViewModel: ObservableObject {
     @Published var newCommentText: String = ""
     @Published var repliedComment: FormattedComment?
     @Published var isPostingComment: Bool = false
+    @Published private(set) var hasLoadedComments = false
     @Published var overlayError: (Bool, LocalizedStringKey) = (false, "")
-    @Published var timer: Timer?
 //    @Published var navPath: [PostNavigation] = []
     
     func getAllComments(publicationId: String, token: String) async {
@@ -25,8 +25,11 @@ class CommentViewModel: ObservableObject {
         switch response {
         case .success(let comments):
             self.comments = comments
-        case .failure(let error):
-            overlayError = (true, ErrorMessage.getAllComments)
+            hasLoadedComments = true
+        case .failure:
+            if !hasLoadedComments {
+                overlayError = (true, ErrorMessage.getAllComments)
+            }
         }
     }
     
