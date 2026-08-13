@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseCore
+import FirebaseAuth
 import FirebaseMessaging
 import GoogleSignIn
 import UserNotifications
@@ -159,8 +160,9 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     }
 
     private func checkNearByPost() async -> NearByCheckResult {
-        let userUid = LocalState.currentUserUid
-        guard !userUid.isEmpty else {
+        // A identidade da chamada é o token, não um uid enviado pelo app: a API deduz o usuário
+        // do Firebase ID Token. Sem sessão não há o que pedir, e a task termina sem tocar na rede.
+        guard let user = Auth.auth().currentUser else {
             logger.notice("Nearby publication request skipped: authenticated user unavailable")
             return .error
         }
@@ -170,12 +172,22 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
             return .error
         }
 
+        // Token obtido na hora da execução, nunca guardado pelo app: o SDK devolve do cache e só
+        // vai à rede quando está perto de expirar — o que é o caso comum aqui, já que a task roda
+        // de horas em horas.
+        guard let token = try? await user.getIDToken() else {
+            logger.error("Nearby publication request skipped: unable to obtain a Firebase ID token")
+            return .error
+        }
+
+        guard !Task.isCancelled else { return .error }
+
         logger.info("Checking for a nearby publication using cached location")
 
         let result = await AYServices.shared.checkNearByPublications(
-            userUid: userUid,
             latitude: location.coordinate.latitude,
-            longitude: location.coordinate.longitude
+            longitude: location.coordinate.longitude,
+            token: token
         )
 
         switch result {
