@@ -9,6 +9,7 @@ import Foundation
 import SocketIO
 import UIKit
 import OSLog
+import FirebaseAuth
 
 enum SocketStatus: String {
     case connected
@@ -118,14 +119,19 @@ enum RealtimeLog {
 final class SocketService: ObservableObject {
     static let shared = SocketService()
 
+    /// A reconexão automática da biblioteca fica desligada de propósito.
+    ///
+    /// O token do handshake é guardado internamente em `SocketIOClient.connectPayload` no primeiro
+    /// `connect`, e é esse valor que o `SocketManager` reenvia a cada tentativa automática. Como a
+    /// propriedade não é acessível de fora, a biblioteca reconectaria para sempre com um token já
+    /// expirado — justamente o que a API passou a recusar. Quem reconecta é o `scheduleReconnect`
+    /// abaixo, que obtém um token novo antes de cada tentativa.
     let manager = SocketManager(
         socketURL: URL(string: Constants.API_URL)!,
         config: [
             .log(true),
             .compress,
-            .reconnects(true),
-            .reconnectAttempts(-1),
-            .reconnectWait(5)
+            .reconnects(false)
         ]
     )
 
@@ -133,14 +139,36 @@ final class SocketService: ObservableObject {
     @Published var status: SocketStatus = .disconnected
 
     /// Incrementado sempre que o app (re)estabelece ou revalida o canal de tempo real:
-    /// conexão nova, novo `register` e retorno ao primeiro plano.
+    /// conexão nova e retorno ao primeiro plano.
     ///
     /// As telas abertas observam este valor para reconciliar com a API. Usar um sinal
     /// próprio em vez de `status` evita recarregar a tela a cada piscada do indicador.
     @Published private(set) var resyncSignal: Int = 0
 
-    /// uid efetivamente registrado no socket atual. `nil` significa "conexão ainda não registrada".
-    private var registeredUserUid: String?
+    /// uid que autenticou a conexão atual. `nil` significa "sem conexão autenticada".
+    ///
+    /// Serve só para detectar troca de conta: a identidade de verdade é a do token que o servidor
+    /// validou no handshake, e o app não tem como (nem precisa) afirmá-la.
+    private var connectedUserUid: String?
+
+    /// Impede que duas tentativas de conexão corram juntas — a obtenção do token é assíncrona e
+    /// abre uma janela em que `socket.status` ainda não mudou.
+    private var isConnecting = false
+
+    /// Conexões derrubadas por nós (logout, troca de conta) não devem disparar reconexão.
+    private var isIntentionallyDisconnected = false
+
+    /// Tentativas de reconexão que forçaram a renovação do token, para o handshake recusado não
+    /// virar laço apertado. Zera a cada conexão bem-sucedida e a cada mudança de sessão.
+    private var authRetryCount = 0
+    private let maxAuthRetries = 3
+    private let reconnectDelay: Double = 5
+
+    /// Marca que a próxima tentativa precisa renovar o token à força, sobrevivendo aos
+    /// reagendamentos que acontecem entre o handshake recusado e a conexão nova.
+    private var pendingTokenRefresh = false
+
+    private var reconnectTask: Task<Void, Never>?
 
     private var listeners: [ListenerKey: UUID] = [:]
 
@@ -164,17 +192,110 @@ final class SocketService: ObservableObject {
         connectIfNeeded()
     }
 
+    /// Conecta se ainda não houver conexão viva.
+    ///
+    /// Continua síncrona porque é chamada de contextos que não são async (timer de validação,
+    /// mudança de sessão, ciclo de vida do app). O trabalho assíncrono — obter o ID Token — roda
+    /// numa `Task` própria.
     func connectIfNeeded() {
+        Task { await self.connect(forcingTokenRefresh: false) }
+    }
+
+    /// Abre a conexão autenticando o handshake com o Firebase ID Token.
+    ///
+    /// O token vai no payload do pacote CONNECT (`connect(withPayload:)`), que é o que o servidor
+    /// lê como `socket.handshake.auth`. É obtido a cada tentativa e nunca guardado por nós: o
+    /// cache e a renovação são do SDK do Firebase, que só vai à rede quando o token está perto de
+    /// expirar (ou quando `forcingTokenRefresh` pede).
+    private func connect(forcingTokenRefresh: Bool) async {
         guard let socket = socket else { return }
 
-        switch socket.status {
-        case .connected, .connecting:
+        // Sem sessão Firebase não há o que autenticar. É o estado normal da tela de login, e o
+        // timer de validação passa por aqui a cada 15s — por isso não vira log de falha.
+        guard let user = Auth.auth().currentUser else { return }
+
+        guard socket.status != .connected, socket.status != .connecting else {
             print("🔄 Já conectado ou conectando. Ignorando nova tentativa.")
-        default:
-            print("🛜 Iniciando conexão...")
-            RealtimeLog.connecting()
-            socket.connect()
+            return
         }
+
+        guard !isConnecting else { return }
+        isConnecting = true
+        defer { isConnecting = false }
+
+        isIntentionallyDisconnected = false
+        status = .connecting
+        print("🛜 Iniciando conexão...")
+        RealtimeLog.connecting()
+
+        do {
+            let token = try await user.getIDTokenResult(forcingRefresh: forcingTokenRefresh).token
+
+            // A sessão pode ter mudado enquanto o token era obtido: conectar aqui abriria uma
+            // conexão para o usuário anterior.
+            guard Auth.auth().currentUser?.uid == user.uid else {
+                RealtimeLog.authFailure("sessão mudou durante a obtenção do token")
+                status = .disconnected
+                return
+            }
+            guard socket.status != .connected else { return }
+
+            socket.connect(withPayload: ["token": token])
+        } catch {
+            RealtimeLog.authFailure("falha ao obter o ID Token")
+            status = .disconnected
+            scheduleReconnect()
+        }
+    }
+
+    /// Agenda uma nova tentativa de conexão.
+    ///
+    /// Substitui a reconexão automática da biblioteca. A diferença que importa é que cada
+    /// tentativa passa de novo por `connect(forcingTokenRefresh:)`, então o handshake sempre leva
+    /// um token atual em vez de repetir o que foi capturado na primeira conexão.
+    private func scheduleReconnect(forcingTokenRefresh: Bool = false) {
+        // A renovação forçada é pegajosa de propósito. Um handshake recusado dispara `.error` e,
+        // logo em seguida, o `.disconnect` do fechamento da conexão — que agendaria uma tentativa
+        // comum e reenviaria o mesmo token recusado, apagando a decisão tomada no `.error`.
+        pendingTokenRefresh = pendingTokenRefresh || forcingTokenRefresh
+
+        reconnectTask?.cancel()
+        RealtimeLog.reconnectAttempt()
+
+        reconnectTask = Task { [weak self] in
+            guard let self = self else { return }
+            try? await Task.sleep(nanoseconds: UInt64(self.reconnectDelay * 1_000_000_000))
+            guard !Task.isCancelled else { return }
+
+            let shouldForceRefresh = self.pendingTokenRefresh
+            self.pendingTokenRefresh = false
+            await self.connect(forcingTokenRefresh: shouldForceRefresh)
+        }
+    }
+
+    /// Handshake recusado pela API.
+    ///
+    /// O caso esperado é o token ter expirado com o socket aberto — a API encerra a conexão nesse
+    /// momento. Renovar à força resolve; o teto existe para um token que o servidor recusa por
+    /// outro motivo não virar tentativa infinita. Esgotado o teto, resta o retry lento do
+    /// `startConnectionCheck`, a cada 15s.
+    private func handleUnauthorizedHandshake() {
+        guard authRetryCount < maxAuthRetries else {
+            RealtimeLog.authFailure("limite de reautenticações atingido, aguardando próxima validação")
+            status = .disconnected
+            return
+        }
+
+        authRetryCount += 1
+        RealtimeLog.authFailure("handshake recusado, renovando o ID Token (tentativa \(authRetryCount)/\(maxAuthRetries))")
+
+        connectedUserUid = nil
+        socket?.disconnect()
+        scheduleReconnect(forcingTokenRefresh: true)
+    }
+
+    private static func isUnauthorized(_ description: String) -> Bool {
+        description.lowercased().contains("unauthorized")
     }
 
     private func startConnectionCheck() {
@@ -206,7 +327,6 @@ final class SocketService: ObservableObject {
             print("✅ Ping ok. Socket está realmente conectado.")
             RealtimeLog.pingSucceeded()
             self.status = .connected
-            syncUserRegistration()
             return true
         }
 
@@ -219,7 +339,7 @@ final class SocketService: ObservableObject {
 
         if socket.status == .connected {
             RealtimeLog.zombieConnection()
-            registeredUserUid = nil
+            connectedUserUid = nil
             socket.disconnect()
         }
 
@@ -247,49 +367,35 @@ final class SocketService: ObservableObject {
     }
 }
 
-// MARK: - User Registration
+// MARK: - User Session
 
 extension SocketService {
 
-    /// Garante que a conexão atual está registrada para o usuário logado.
-    ///
-    /// Antes, o `register` só acontecia dentro do evento de conexão. Como o socket conecta
-    /// no lançamento do app — possivelmente antes de existir um uid —, quem logasse depois
-    /// (primeiro login ou troca de conta) ficava sem receber nenhum evento até reiniciar o app.
-    func syncUserRegistration(force: Bool = false) {
-        guard let socket = socket, socket.status == .connected else { return }
-
-        let userUid = LocalState.currentUserUid
-        guard !userUid.isEmpty else {
-            if registeredUserUid != nil {
-                RealtimeLog.authFailure("registro ignorado: nenhum usuário autenticado")
-            }
-            return
-        }
-
-        guard force || registeredUserUid != userUid else { return }
-
-        socket.emit("register", userUid)
-        registeredUserUid = userUid
-        RealtimeLog.registered(userUid: userUid)
-        bumpResyncSignal()
-    }
-
     /// Deve ser chamado quando a sessão do usuário muda: login, troca de conta ou logout.
+    ///
+    /// A identidade do socket é fixada pelo servidor no handshake e não muda enquanto a conexão
+    /// viver. Por isso trocar de usuário não é mais "reavisar quem sou": é derrubar a conexão da
+    /// sessão anterior e abrir uma nova, com o token do usuário atual.
     func handleUserSessionChanged() {
-        let userUid = LocalState.currentUserUid
+        reconnectTask?.cancel()
+        authRetryCount = 0
+        pendingTokenRefresh = false
 
-        guard !userUid.isEmpty else {
-            registeredUserUid = nil
+        guard let currentUserUid = Auth.auth().currentUser?.uid else {
+            isIntentionallyDisconnected = true
+            connectedUserUid = nil
             socket?.disconnect()
             RealtimeLog.disconnected(reason: "logout")
             status = .disconnected
             return
         }
 
-        let isNewUser = registeredUserUid != userUid
+        if let socket = socket, socket.status != .disconnected, connectedUserUid != currentUserUid {
+            connectedUserUid = nil
+            socket.disconnect()
+        }
+
         connectIfNeeded()
-        syncUserRegistration(force: isNewUser)
     }
 }
 
@@ -422,41 +528,46 @@ extension SocketService {
     private func setupClientEvents() {
         guard let socket = socket else { return }
 
-        socket.on(clientEvent: .connect) { [weak self] data, ack in
+        socket.on(clientEvent: .connect) { [weak self] _, _ in
             guard let self = self else { return }
-            print("✅ Socket conectado com userUid: \(LocalState.currentUserUid)")
+            // Chegar aqui já significa handshake aceito: a API só emite `connect` depois de
+            // validar o ID Token. Não há mais nada a enviar para provar identidade.
+            print("✅ Socket conectado e autenticado")
             RealtimeLog.connected()
             self.status = .connected
-            // Conexão nova: o registro anterior não vale mais, mesmo que o uid seja o mesmo.
-            self.registeredUserUid = nil
-            self.syncUserRegistration(force: true)
+            self.authRetryCount = 0
+            self.connectedUserUid = Auth.auth().currentUser?.uid
+            if let userUid = self.connectedUserUid {
+                RealtimeLog.registered(userUid: userUid)
+            }
+            self.bumpResyncSignal()
         }
 
         socket.on(clientEvent: .disconnect) { [weak self] data, _ in
+            guard let self = self else { return }
             print("📡❌ Socket desconectado")
             RealtimeLog.disconnected(reason: (data.first as? String) ?? "desconhecido")
-            self?.registeredUserUid = nil
-            self?.status = .disconnected
+            self.connectedUserUid = nil
+            self.status = .disconnected
+
+            // A API encerra a conexão quando o token expira, e a biblioteca não reconecta sozinha
+            // (`.reconnects(false)`): a reconexão é nossa, para levar um token novo.
+            guard !self.isIntentionallyDisconnected else { return }
+            self.scheduleReconnect()
         }
 
-        socket.on(clientEvent: .reconnect) { [weak self] _, _ in
-            // `.reconnect` marca o início da tentativa; o `register` acontece no `.connect`,
-            // que o SocketIO reemite quando a reconexão conclui.
-            print("🔁 Socket reconectando")
-            RealtimeLog.reconnectAttempt()
-            self?.registeredUserUid = nil
-            self?.status = .connecting
-        }
+        // O pacote CONNECT_ERROR do servidor chega como `clientEvent: .error`. É por ele que o
+        // `unauthorized` do middleware da API se manifesta.
+        //
+        // Os parâmetros do callback são `(data, ack)` — antes o primeiro vinha descartado e o log
+        // registrava o emissor de ack, não o erro.
+        socket.on(clientEvent: .error) { [weak self] data, _ in
+            let description = String(describing: data)
+            print("❌ Erro no socket: \(description)")
+            RealtimeLog.socketError(description)
 
-        socket.on(clientEvent: .reconnectAttempt) { [weak self] _, _ in
-            print("🛜 Tentando reconectar...")
-            RealtimeLog.reconnectAttempt()
-            self?.status = .connecting
-        }
-
-        socket.on(clientEvent: .error) { _, data in
-            print("❌ Erro no socket: \(data)")
-            RealtimeLog.socketError(String(describing: data))
+            guard let self = self, Self.isUnauthorized(description) else { return }
+            self.handleUnauthorizedHandshake()
         }
     }
 }

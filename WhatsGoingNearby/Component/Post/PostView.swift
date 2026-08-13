@@ -316,9 +316,18 @@ struct PostView: View {
     @ViewBuilder
     private func Username() -> some View {
         NavigationLink(destination: UserProfileScreen(userUid: post.userUid)) {
-            Text(post.username)
-                .fontWeight(.semibold)
-                .lineLimit(1)
+            HStack(spacing: 0) {
+                Text(post.username)
+                    .fontWeight(.semibold)
+                    .lineLimit(1)
+
+                Image("pioneer-icon")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 24, height: 24)
+                    .clipped()
+                    .accessibilityHidden(true)
+            }
         }
         .buttonStyle(PlainButtonStyle())
     }
