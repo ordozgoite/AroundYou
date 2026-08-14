@@ -43,6 +43,7 @@ struct CreatePostScreen: View {
             )
         }
         .navigationBarBackButtonHidden()
+        .swipeToGoBack()
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Cancel()

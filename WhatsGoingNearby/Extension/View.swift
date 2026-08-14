@@ -24,6 +24,92 @@ extension View {
     }
 }
 
+//MARK: - Swipe To Go Back
+
+/// Devolve o gesto nativo de voltar a uma tela que esconde o botão de voltar.
+///
+/// `navigationBarBackButtonHidden()` não desliga só o botão: o delegate que o SwiftUI instala
+/// no `interactivePopGestureRecognizer` condiciona o gesto à existência dele, então a tela
+/// fica sem swipe nenhum. Trocar esse delegate é o que reativa o gesto.
+///
+/// A troca preserva o gesto real da navegação — transição interativa, acompanhando o dedo,
+/// com cancelamento e rubber band —, em vez de imitá-lo com um `DragGesture`. Quem desempilha
+/// continua sendo o `UINavigationController`, e o `NavigationStack` atualiza o `path` a partir
+/// disso, exatamente como já faz pelo botão de voltar padrão das demais telas.
+///
+/// O recognizer pertence ao `UINavigationController`, compartilhado por toda a pilha: por isso
+/// o delegate original volta ao lugar assim que a tela sai.
+private final class SwipeBackGestureController: NSObject, UIGestureRecognizerDelegate {
+
+    private weak var navigationController: UINavigationController?
+    private weak var replacedDelegate: UIGestureRecognizerDelegate?
+
+    func enable(startingFrom view: UIView) {
+        guard navigationController == nil,
+              let controller = view.owningNavigationController,
+              let gesture = controller.interactivePopGestureRecognizer
+        else { return }
+
+        navigationController = controller
+        replacedDelegate = gesture.delegate
+        gesture.delegate = self
+    }
+
+    func restore() {
+        guard let gesture = navigationController?.interactivePopGestureRecognizer,
+              gesture.delegate === self
+        else { return }
+
+        gesture.delegate = replacedDelegate
+        navigationController = nil
+    }
+
+    /// Só há o que desempilhar acima da raiz. Sem essa guarda, um arrasto na primeira tela
+    /// deixa a navegação travada.
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        (navigationController?.viewControllers.count ?? 0) > 1
+    }
+
+    /// Mesma exclusividade do gesto nativo: enquanto ele estiver em jogo, nenhum outro
+    /// recognizer da tela entra junto no arrasto.
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith other: UIGestureRecognizer) -> Bool {
+        false
+    }
+}
+
+/// Ponte para alcançar o `UINavigationController` pela responder chain.
+private struct SwipeBackGestureInstaller: UIViewRepresentable {
+
+    func makeCoordinator() -> SwipeBackGestureController {
+        SwipeBackGestureController()
+    }
+
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        view.isUserInteractionEnabled = false
+        // Na criação a view ainda não está na hierarquia; um ciclo depois já está.
+        DispatchQueue.main.async { context.coordinator.enable(startingFrom: view) }
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {
+        context.coordinator.enable(startingFrom: uiView)
+    }
+
+    static func dismantleUIView(_ uiView: UIView, coordinator: SwipeBackGestureController) {
+        coordinator.restore()
+    }
+}
+
+extension View {
+    /// Reativa o gesto nativo de voltar numa tela que usa `navigationBarBackButtonHidden()`.
+    /// Sem esse modificador ela só sai pelo botão da toolbar.
+    func swipeToGoBack() -> some View {
+        background(SwipeBackGestureInstaller())
+    }
+}
+
 //MARK: - Swipe To Reply
 
 /// Arrasto horizontal da mensagem para respondê-la, dirigido por um único
