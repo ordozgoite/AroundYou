@@ -14,10 +14,10 @@ struct EnableLocationView: View {
                 .resizable()
                 .frame(width: 64, height: 64, alignment: .center)
                 .aspectRatio(contentMode: .fit)
-                .foregroundStyle(.gray)
+                .foregroundStyle(.secondary)
             
             Text("The **location service** is disabled. Please enable it to unlock the full functionality of AroundYou.")
-                .foregroundStyle(.gray)
+                .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .padding()
             

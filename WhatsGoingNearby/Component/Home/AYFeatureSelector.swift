@@ -33,7 +33,9 @@ struct AYFeatureSelector: View {
         .frame(maxWidth: selectedSection == section ? .infinity : nil)
         .background(
             RoundedRectangle(cornerRadius: 20)
-                .fill(selectedSection == section ? section.color : .gray.opacity(0.2))
+                // Unselected chips follow the system: near white in light mode,
+                // very dark gray in dark mode.
+                .fill(selectedSection == section ? section.color : Color(.systemGray6))
                 .animation(.easeInOut, value: selectedSection)
         )
         .onTapGesture {
@@ -51,7 +53,7 @@ struct AYFeatureSelector: View {
             .resizable()
             .scaledToFit()
             .frame(height: 24)
-            .foregroundColor(selectedSection == section ? .white : .gray)
+            .foregroundStyle(selectedSection == section ? AnyShapeStyle(.white) : AnyShapeStyle(.secondary))
             .transition(.opacity)
     }
     

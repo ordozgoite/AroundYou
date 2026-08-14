@@ -52,20 +52,15 @@ struct PlacesScreen: View, PostViewActionHandler {
                 }
             }
             
-            HStack(spacing: 4) {
-                if shouldHighlightExploreMap {
-                    ExploreMapHintBubble()
-                        .transition(.asymmetric(insertion: .identity, removal: .opacity))
+            if isFeedDisplayed {
+                CreatePostFloatingButton {
+                    navCoordinator.navigate(to: .createPost)
                 }
-
-                PremiumMapButton(isHighlighted: shouldHighlightExploreMap) {
-                    navCoordinator.navigate(to: .exploreMap)
-                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                .padding(.trailing, 20)
+                .padding(.bottom, 16)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-            .padding()
-            .animation(.easeOut(duration: 0.3), value: shouldHighlightExploreMap)
-            
+
             AYErrorAlert(message: placesVM.overlayError.1 , isErrorAlertPresented: $placesVM.overlayError.0)
         }
         .toolbar {
@@ -118,7 +113,7 @@ struct PlacesScreen: View, PostViewActionHandler {
             AYProgressView()
             
             Text("Looking around you...")
-                .foregroundStyle(.gray)
+                .foregroundStyle(.secondary)
                 .fontWeight(.semibold)
         }
         .frame(maxHeight: .infinity, alignment: .center)
@@ -143,11 +138,12 @@ struct PlacesScreen: View, PostViewActionHandler {
         ZStack {
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    NewPostView()
-                        .onTapGesture {
-                            navCoordinator.navigate(to: .createPost)
-                        }
-                    
+                    ExploreMapCard {
+                        navCoordinator.navigate(to: .exploreMap)
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, 8)
+
                     PendingPostSection()
 
                     if !placesVM.posts.isEmpty && !hasActivePublication() {
@@ -158,6 +154,8 @@ struct PlacesScreen: View, PostViewActionHandler {
                         PostsContent()
                     }
                 }
+                // Keeps the last publication reachable above the floating button.
+                .padding(.bottom, 80)
             }
             .backgroundPreferenceValue(PublicationBoundsPreferenceKey.self) { publications in
                 GeometryReader { proxy in
@@ -309,16 +307,15 @@ struct PlacesScreen: View, PostViewActionHandler {
         
     }
     
-    //MARK: - Explore Map Highlight
+    //MARK: - Feed Availability
 
-    /// The map hint is only suggested once the fetch is done and the feed came
-    /// back with no publication at all.
-    private var shouldHighlightExploreMap: Bool {
+    /// The floating button follows the same conditions as the feed itself, so it
+    /// only shows up when creating a publication is actually possible.
+    private var isFeedDisplayed: Bool {
         locationManager.isLocationAuthorized
         && locationManager.isUsingFullAccuracy
         && !placesVM.isLoading
         && placesVM.initialPostsFetched
-        && placesVM.posts.isEmpty
     }
 
     //MARK: - Private Method

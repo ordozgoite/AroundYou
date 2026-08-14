@@ -32,18 +32,18 @@ struct EmptyFeedMessage: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 50, height: 50)
-                .foregroundStyle(.gray)
+                .foregroundStyle(.secondary)
 
             VStack(spacing: 6) {
                 Text("No posts nearby.")
                     .font(.subheadline)
-                    .foregroundStyle(.gray)
+                    .foregroundStyle(.secondary)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
 
                 Text("There are no posts in your region right now.")
                     .font(.subheadline)
-                    .foregroundStyle(.gray)
+                    .foregroundStyle(.secondary)
                     .fontWeight(.regular)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 24)
@@ -76,7 +76,7 @@ struct NoActivePostsView: View {
 
                 Text("There are no active posts around you right now.")
                     .font(.subheadline)
-                    .foregroundStyle(.gray)
+                    .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
         }

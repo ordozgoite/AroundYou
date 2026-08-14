@@ -8,17 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		49552898B81341FDB9A372D3 /* DragToDismissContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF6D6CEC95348F0B84AE0EC /* DragToDismissContainer.swift */; };
-		624CDB1A2FAFA5F1007D2560 /* PremiumMapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB192FAFA5F1007D2560 /* PremiumMapButton.swift */; };
 		624CDB1C2FAFA7EC007D2560 /* ExploreMapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB1B2FAFA7EC007D2560 /* ExploreMapScreen.swift */; };
 		624CDB1E2FAFA895007D2560 /* ExploreMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB1D2FAFA895007D2560 /* ExploreMapViewModel.swift */; };
 		624CDB202FAFAB0F007D2560 /* FormattedPost+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB1F2FAFAB0F007D2560 /* FormattedPost+Mock.swift */; };
 		624CDB222FB04393007D2560 /* MapMarkedPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB212FB04393007D2560 /* MapMarkedPost.swift */; };
+		624CDB512FC1A00A007D2560 /* ExploreMapCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB502FC1A00A007D2560 /* ExploreMapCard.swift */; };
+		624CDB532FC1A00A007D2560 /* CreatePostFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB522FC1A00A007D2560 /* CreatePostFloatingButton.swift */; };
 		624CDB242FB11228007D2560 /* PostMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB232FB11228007D2560 /* PostMapMarker.swift */; };
 		624CDB262FB113C0007D2560 /* ExpandedPostMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB252FB113C0007D2560 /* ExpandedPostMapMarker.swift */; };
 		624CDB282FB11C20007D2560 /* MapPostProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB272FB11C20007D2560 /* MapPostProfileImageView.swift */; };
 		624CDB2A2FB27068007D2560 /* ExploreMapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB292FB27068007D2560 /* ExploreMapItem.swift */; };
 		624CDB2E2FB27285007D2560 /* ClusterMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB2D2FB27285007D2560 /* ClusterMapMarker.swift */; };
-		624CDB412FB40002007D2560 /* ExploreMapHintBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CDB402FB40001007D2560 /* ExploreMapHintBubble.swift */; };
 		625DC64B2FB399FC00412EF4 /* ClusterPostsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625DC64A2FB399FC00412EF4 /* ClusterPostsViewModel.swift */; };
 		625DC64D2FB39A8900412EF4 /* ClusterPostsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625DC64C2FB39A8900412EF4 /* ClusterPostsScreen.swift */; };
 		629912053020EC43004EF383 /* PostDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629912043020EC43004EF383 /* PostDetailScreen.swift */; };
@@ -300,7 +300,6 @@
 		EDE8B36D2BC1D11500DFF750 /* PostSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B36C2BC1D11500DFF750 /* PostSettingsView.swift */; };
 		EDE8B36F2BC1D9A800DFF750 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B36E2BC1D9A800DFF750 /* AudioRecorder.swift */; };
 		EDE8B3712BC20AFB00DFF750 /* DeleteChatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B3702BC20AFB00DFF750 /* DeleteChatResponse.swift */; };
-		EDE8B3762BC3301900DFF750 /* NewPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B3752BC3301900DFF750 /* NewPostView.swift */; };
 		EDE8B3792BC3502200DFF750 /* ExpandedPostSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B3782BC3502200DFF750 /* ExpandedPostSettings.swift */; };
 		EDE8B37B2BC3530600DFF750 /* CompactedPostSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B37A2BC3530600DFF750 /* CompactedPostSettings.swift */; };
 		EDE8B37D2BC39D2200DFF750 /* MultiplePhotosPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8B37C2BC39D2200DFF750 /* MultiplePhotosPicker.swift */; };
@@ -364,17 +363,17 @@
 
 /* Begin PBXFileReference section */
 		0BF6D6CEC95348F0B84AE0EC /* DragToDismissContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragToDismissContainer.swift; sourceTree = "<group>"; };
-		624CDB192FAFA5F1007D2560 /* PremiumMapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumMapButton.swift; sourceTree = "<group>"; };
 		624CDB1B2FAFA7EC007D2560 /* ExploreMapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapScreen.swift; sourceTree = "<group>"; };
 		624CDB1D2FAFA895007D2560 /* ExploreMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapViewModel.swift; sourceTree = "<group>"; };
 		624CDB1F2FAFAB0F007D2560 /* FormattedPost+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FormattedPost+Mock.swift"; sourceTree = "<group>"; };
 		624CDB212FB04393007D2560 /* MapMarkedPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkedPost.swift; sourceTree = "<group>"; };
+		624CDB502FC1A00A007D2560 /* ExploreMapCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapCard.swift; sourceTree = "<group>"; };
+		624CDB522FC1A00A007D2560 /* CreatePostFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostFloatingButton.swift; sourceTree = "<group>"; };
 		624CDB232FB11228007D2560 /* PostMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMapMarker.swift; sourceTree = "<group>"; };
 		624CDB252FB113C0007D2560 /* ExpandedPostMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedPostMapMarker.swift; sourceTree = "<group>"; };
 		624CDB272FB11C20007D2560 /* MapPostProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPostProfileImageView.swift; sourceTree = "<group>"; };
 		624CDB292FB27068007D2560 /* ExploreMapItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapItem.swift; sourceTree = "<group>"; };
 		624CDB2D2FB27285007D2560 /* ClusterMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterMapMarker.swift; sourceTree = "<group>"; };
-		624CDB402FB40001007D2560 /* ExploreMapHintBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMapHintBubble.swift; sourceTree = "<group>"; };
 		625DC64A2FB399FC00412EF4 /* ClusterPostsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterPostsViewModel.swift; sourceTree = "<group>"; };
 		625DC64C2FB39A8900412EF4 /* ClusterPostsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterPostsScreen.swift; sourceTree = "<group>"; };
 		629912043020EC43004EF383 /* PostDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailScreen.swift; sourceTree = "<group>"; };
@@ -624,7 +623,6 @@
 		EDE8B36C2BC1D11500DFF750 /* PostSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSettingsView.swift; sourceTree = "<group>"; };
 		EDE8B36E2BC1D9A800DFF750 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		EDE8B3702BC20AFB00DFF750 /* DeleteChatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteChatResponse.swift; sourceTree = "<group>"; };
-		EDE8B3752BC3301900DFF750 /* NewPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostView.swift; sourceTree = "<group>"; };
 		EDE8B3782BC3502200DFF750 /* ExpandedPostSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedPostSettings.swift; sourceTree = "<group>"; };
 		EDE8B37A2BC3530600DFF750 /* CompactedPostSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactedPostSettings.swift; sourceTree = "<group>"; };
 		EDE8B37C2BC39D2200DFF750 /* MultiplePhotosPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplePhotosPicker.swift; sourceTree = "<group>"; };
@@ -719,8 +717,7 @@
 		624CDB182FAFA5CB007D2560 /* Premium */ = {
 			isa = PBXGroup;
 			children = (
-				624CDB192FAFA5F1007D2560 /* PremiumMapButton.swift */,
-				624CDB402FB40001007D2560 /* ExploreMapHintBubble.swift */,
+				624CDB502FC1A00A007D2560 /* ExploreMapCard.swift */,
 				624CDB232FB11228007D2560 /* PostMapMarker.swift */,
 				624CDB252FB113C0007D2560 /* ExpandedPostMapMarker.swift */,
 				624CDB272FB11C20007D2560 /* MapPostProfileImageView.swift */,
@@ -913,7 +910,7 @@
 				ED50C4632B7FA2B80001EDF6 /* EmptyFeedView.swift */,
 				ED5CC5252B982121009B17E3 /* EnableLocationView.swift */,
 				ED5CC5272B983982009B17E3 /* EnableFullAccuracyView.swift */,
-				EDE8B3752BC3301900DFF750 /* NewPostView.swift */,
+				624CDB522FC1A00A007D2560 /* CreatePostFloatingButton.swift */,
 				62CDC6472FAC3AD000E9368A /* PendingPostUploadView.swift */,
 			);
 			path = Feed;
@@ -1900,8 +1897,6 @@
 				ED30CE562D696BD2001FB213 /* ImageDisplaySource.swift in Sources */,
 				EDAECA4D2DDC9DF500D1A938 /* MyCommunitiesView.swift in Sources */,
 				ED2F1A6B2B9048DC001F4300 /* IndepCommentScreen.swift in Sources */,
-				624CDB1A2FAFA5F1007D2560 /* PremiumMapButton.swift in Sources */,
-				624CDB412FB40002007D2560 /* ExploreMapHintBubble.swift in Sources */,
 				ED598C4F2B7C59D700B6C23D /* SettingsScreen.swift in Sources */,
 				ED755F132BB4D625004BC6C3 /* ChatListScreen.swift in Sources */,
 				ED74E8132BF446C600371334 /* NSPredicate+helper.swift in Sources */,
@@ -1967,7 +1962,6 @@
 				ED0314372D37FD2C001B917A /* UserDiscoverInfo.swift in Sources */,
 				ED0B4AF02D5CE773000A21F6 /* Constants.swift in Sources */,
 				ED755F212BB52C35004BC6C3 /* FormattedMessage.swift in Sources */,
-				EDE8B3762BC3301900DFF750 /* NewPostView.swift in Sources */,
 				624CDB1C2FAFA7EC007D2560 /* ExploreMapScreen.swift in Sources */,
 				ED06525F2B817A32005B6413 /* EditProfileScreen.swift in Sources */,
 				EDA30DFC2B804BE6003EB22D /* Report.swift in Sources */,
@@ -1994,6 +1988,8 @@
 				ED57D24A2B95880800FC7351 /* SheetView.swift in Sources */,
 				EDD40C5D2D74BA5700E33663 /* PublishBusinessScreen.swift in Sources */,
 				EDDC9E062BD86D9D00000EA4 /* MessageIntermediary.swift in Sources */,
+				624CDB512FC1A00A007D2560 /* ExploreMapCard.swift in Sources */,
+				624CDB532FC1A00A007D2560 /* CreatePostFloatingButton.swift in Sources */,
 				624CDB242FB11228007D2560 /* PostMapMarker.swift in Sources */,
 				ED5329172D82498800AEED74 /* AYPhoneNumberTextField.swift in Sources */,
 				ED4D7C3A2D4D32AD007FC1FF /* BlurView.swift in Sources */,
@@ -2263,7 +2259,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.3.0;
+				MARKETING_VERSION = 3.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby;
 				PRODUCT_MODULE_NAME = WhatsGoingNearby;
 				PRODUCT_NAME = "Around You";
@@ -2309,7 +2305,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.3.0;
+				MARKETING_VERSION = 3.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby;
 				PRODUCT_MODULE_NAME = WhatsGoingNearby;
 				PRODUCT_NAME = "Around You";
@@ -2340,7 +2336,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3.0;
+				MARKETING_VERSION = 3.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2366,7 +2362,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3.0;
+				MARKETING_VERSION = 3.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ordozgoite.WhatsGoingNearby.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
