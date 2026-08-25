@@ -75,7 +75,6 @@ struct MapPostCluster: Identifiable, Decodable {
     let bounds: MapClusterBounds
     let isPlaceCluster: Bool
     let containsPrivatePosts: Bool
-    let isPrivateSinglePostCluster: Bool
     let previewUserProfilePics: [String?]
     let postIds: [String]
     
@@ -88,7 +87,6 @@ struct MapPostCluster: Identifiable, Decodable {
         case bounds
         case isPlaceCluster
         case containsPrivatePosts
-        case isPrivateSinglePostCluster
         case previewUserProfilePics
         case postIds
     }
@@ -105,13 +103,8 @@ struct MapPostCluster: Identifiable, Decodable {
         
         isPlaceCluster = try container.decodeIfPresent(Bool.self, forKey: .isPlaceCluster) ?? false
         containsPrivatePosts = try container.decodeIfPresent(Bool.self, forKey: .containsPrivatePosts) ?? false
-        isPrivateSinglePostCluster = try container.decodeIfPresent(Bool.self, forKey: .isPrivateSinglePostCluster) ?? false
         previewUserProfilePics = try container.decodeIfPresent([String?].self, forKey: .previewUserProfilePics) ?? []
         postIds = try container.decodeIfPresent([String].self, forKey: .postIds) ?? []
-    }
-    
-    var shouldShowPrivateSinglePostMarker: Bool {
-        isPrivateSinglePostCluster
     }
 }
 

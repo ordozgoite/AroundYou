@@ -21,6 +21,8 @@ struct ClusterPostsScreen: View {
             } else {
                 PostsView()
             }
+
+            AYErrorAlert(message: viewModel.overlayError.1, isErrorAlertPresented: $viewModel.overlayError.0)
         }
         .onAppear {
             loadScreen()
@@ -82,11 +84,13 @@ extension ClusterPostsScreen {
                 let location = try getCurrentLocation()
                 await viewModel.fetchPosts(forBounds: bounds, withLocation: location, withToken: token)
             } catch {
-                // TODO: display error
+                if viewModel.overlayError.0 == false {
+                    viewModel.overlayError = (true, ErrorMessage.defaultErrorMessage)
+                }
             }
         }
     }
-    
+
     private func getCurrentLocation() throws -> Location {
         locationManager.requestLocation()
         if let location = locationManager.location {
@@ -94,6 +98,7 @@ extension ClusterPostsScreen {
             let longitude = location.coordinate.longitude
             return Location(latitude: latitude, longitude: longitude)
         } else {
+            viewModel.overlayError = (true, ErrorMessage.locationDisabledErrorMessage)
             throw LocationError.unableToGetCurrentLocation
         }
     }

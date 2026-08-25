@@ -11,6 +11,7 @@ struct URLTapableImageView: View {
     
     let imageURL: String
     @State private var image: UIImage? = nil
+    @State private var opacity: Double = 1.0
     @State private var isZoomableImageDisplayed: Bool = false
     
     var body: some View {
@@ -26,10 +27,15 @@ struct URLTapableImageView: View {
                         FullScreenUIImage(image: image)
                     }
             } else {
-                Rectangle().fill(.gray)
+                Rectangle()
+                    .fill(.gray)
+                    .opacity(opacity)
             }
         }
         .onAppear {
+            withAnimation(Animation.easeInOut(duration: 1).repeatForever()) {
+                opacity = 0.5
+            }
             Task {
                 await loadImage()
             }

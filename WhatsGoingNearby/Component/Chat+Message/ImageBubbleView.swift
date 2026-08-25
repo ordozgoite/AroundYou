@@ -39,12 +39,13 @@ struct ImageBubbleView: View {
     @ViewBuilder
     private func ImageFromUrl() -> some View {
         if let url = self.imageUrl {
-            PostImageView(imageURL: url)
+            PostImageView(imageURL: url, handlesTapToFullScreen: false)
                 .scaledToFill()
                 .frame(width: 200, height: 256)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 200, height: 256)
+                .contentShape(RoundedRectangle(cornerRadius: 10))
                 .reportsBubbleFrame(to: bubbleFrame)
                 .frame(maxWidth: .infinity, alignment: isCurrentUser ? .trailing : .leading)
                 .padding(.bottom, ChatBubbleLayout.bottomSpacing(isLastInGroup: isFirst))
@@ -52,7 +53,7 @@ struct ImageBubbleView: View {
                     isUrlImageFullScreen = true
                 }
                 .fullScreenCover(isPresented: $isUrlImageFullScreen) {
-                    URLTapableImageView(imageURL: url)
+                    FullScreenURLImage(imageURL: url)
                 }
         }
     }

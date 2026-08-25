@@ -121,7 +121,12 @@ struct ExploreMapScreen: View {
                 showsUserLocation: true,
                 annotationItems: orderedMapItems
             ) { item in
-                MapAnnotation(coordinate: item.coordinate) {
+                // Os marcadores terminam na ponta do pin, então ela — e não o centro do
+                // marcador — é o que precisa cair sobre a coordenada.
+                MapAnnotation(
+                    coordinate: item.coordinate,
+                    anchorPoint: CGPoint(x: 0.5, y: 1)
+                ) {
                     switch item {
                     case .post(let post):
                         MapPostAnnotationView(

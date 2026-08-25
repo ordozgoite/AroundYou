@@ -34,6 +34,7 @@ struct ErrorMessage {
     static let getUserBanExpirarationDateErrorMessage: LocalizedStringKey = "Failed to retrieve ban expiration date."
 
     static let getPostsErrorMessage: LocalizedStringKey = "Failed to load nearby posts. Please try again."
+    static let getClusterPostsErrorMessage: LocalizedStringKey = "Failed to load posts from this spot. Please try again."
     static let deletePostErrorMessage: LocalizedStringKey = "Failed to delete post. Please try again."
 
     static let postIncidentReportErrorMessage: LocalizedStringKey = "Failed to submit report. Please try again."

@@ -15,6 +15,10 @@ struct PostImageView: View {
     
     let imageURL: String
     var usesFeedLayout = false
+    /// Quando `false`, a view não instala gesto de toque nenhum: quem embrulha essa
+    /// view fica responsável por abrir a tela cheia. Evita que o gesto interno
+    /// (que só existe depois que a imagem carrega) concorra com o gesto do pai.
+    var handlesTapToFullScreen = true
     @State private var image: UIImage? = nil
     @State private var opacity: Double = 1.0
     @State private var isZoomableImageDisplayed: Bool = false
@@ -56,27 +60,47 @@ struct PostImageView: View {
                 }
                 .clipped()
                 .contentShape(Rectangle())
-                .onTapGesture {
-                    isZoomableImageDisplayed = true
-                }
-                .fullScreenCover(isPresented: $isZoomableImageDisplayed) {
-                    FullScreenUIImage(image: image)
-                }
+                .presentsFullScreenImage(
+                    isEnabled: handlesTapToFullScreen,
+                    isPresented: $isZoomableImageDisplayed,
+                    image: image
+                )
         } else {
             Image(uiImage: image)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .onTapGesture {
-                    isZoomableImageDisplayed = true
-                }
-                .fullScreenCover(isPresented: $isZoomableImageDisplayed) {
-                    FullScreenUIImage(image: image)
-                }
+                .presentsFullScreenImage(
+                    isEnabled: handlesTapToFullScreen,
+                    isPresented: $isZoomableImageDisplayed,
+                    image: image
+                )
         }
     }
 
     private func feedAspectRatio(for image: UIImage) -> CGFloat {
         guard image.size.height > 0 else { return 16 / 9 }
         return PostMediaLayout.constrainedAspectRatio(image.size.width / image.size.height)
+    }
+}
+
+private extension View {
+
+    @ViewBuilder
+    func presentsFullScreenImage(
+        isEnabled: Bool,
+        isPresented: Binding<Bool>,
+        image: UIImage
+    ) -> some View {
+        if isEnabled {
+            self
+                .onTapGesture {
+                    isPresented.wrappedValue = true
+                }
+                .fullScreenCover(isPresented: isPresented) {
+                    FullScreenUIImage(image: image)
+                }
+        } else {
+            self
+        }
     }
 }

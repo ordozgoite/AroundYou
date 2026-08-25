@@ -28,6 +28,15 @@ struct MapMarkedPost: Identifiable, Decodable {
 }
 
 extension MapMarkedPost {
+
+    /// A API devolve uma coordenada com jitter quando o autor optou por não revelar a localização,
+    /// então o marcador precisa avisar que o ponto no mapa é aproximado.
+    var hasApproximateLocation: Bool {
+        !isLocationVisible
+    }
+}
+
+extension MapMarkedPost {
     static let mock = MapMarkedPost(
         id: "post_001",
         userUid: "user_12345",

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Kingfisher
+import UserNotifications
 
 struct MainTabView: View {
 
@@ -18,6 +19,7 @@ struct MainTabView: View {
     @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var router: AppRouter
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.scenePhase) private var scenePhase
 
     let pub = NotificationCenter.default
         .publisher(for: .updateBadge)
@@ -70,6 +72,11 @@ struct MainTabView: View {
         .onChange(of: authVM.profilePic) { _ in
             Task {
                 await loadProfileImage()
+            }
+        }
+        .onChange(of: scenePhase) { phase in
+            if phase == .active {
+                updateBadge()
             }
         }
         .fullScreenCover(isPresented: $notificationManager.isPublicationDisplayed) {
@@ -157,7 +164,13 @@ extension MainTabView {
     
     private func updateBadge() {
         Task {
-            self.unreadChats = try await getChatBadge()
+            guard let unreadChats = try await getChatBadge() else { return }
+            self.unreadChats = unreadChats
+            UNUserNotificationCenter.current().setBadgeCount(unreadChats) { error in
+                if let error {
+                    print("❌ Unable to update app icon badge: \(error.localizedDescription)")
+                }
+            }
         }
     }
     

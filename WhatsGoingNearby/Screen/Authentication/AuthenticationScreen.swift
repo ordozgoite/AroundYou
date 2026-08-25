@@ -20,6 +20,8 @@ struct AuthenticationScreen: View {
     var body: some View {
         NavigationStack(path: $navCoordinator.path) {
             ZStack {
+                BackgroundArtwork()
+
                 VStack {
                     Header()
                     
@@ -44,6 +46,27 @@ struct AuthenticationScreen: View {
         }
     }
     
+    // MARK: - Background Artwork
+
+    /// Decoração puramente visual: as duas artes ficam ancoradas ao topo e à base em tamanho
+    /// proporcional, sem corte, e não participam da hierarquia de toque da tela.
+    @ViewBuilder
+    private func BackgroundArtwork() -> some View {
+        ZStack {
+            Image(colorScheme == .dark ? "login-top-dark" : "login-top-light")
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+
+            Image(colorScheme == .dark ? "login-bottom-dark" : "login-bottom-light")
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        }
+        .ignoresSafeArea()
+        .allowsHitTesting(false)
+    }
+
     // MARK: - Header
     
     @ViewBuilder
@@ -51,10 +74,30 @@ struct AuthenticationScreen: View {
         VStack {
             LogoView()
             
+            WelcomeView()
+            
             AuthFlowSegmentedControl(selectedFilter: $authVM.flow)
                 .padding([.top, .bottom], 16)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+    }
+
+    //MARK: - Welcome View
+
+    @ViewBuilder
+    private func WelcomeView() -> some View {
+        VStack(spacing: 8) {
+            Text("Welcome!")
+                .font(.title)
+                .fontWeight(.bold)
+
+            Text("Sign in to discover what's going on around you.")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: 280)
+        }
     }
     
     //MARK: - Logo View

@@ -8,133 +8,118 @@
 import SwiftUI
 
 struct ClusterMapMarker: View {
-    
+
     let cluster: MapPostCluster
-    
-    private let markerSize: CGFloat = 52
-    private let mainAvatarSize: CGFloat = 34
+
+    // Um pouco maior que o marcador individual, para que o agrupamento se destaque no mapa.
+    private let markerSize: CGFloat = 56
     private let avatarSize: CGFloat = 24
-    
+
     var body: some View {
-        Group {
-            if cluster.shouldShowPrivateSinglePostMarker {
-                privateSinglePostMarker
-            } else {
-                regularClusterMarker
-            }
-        }
-    }
-    
-    private var regularClusterMarker: some View {
-        ZStack(alignment: .bottomTrailing) {
-            Circle()
-                .fill(.ultraThinMaterial)
-                .frame(width: markerSize, height: markerSize)
-                .shadow(color: .black.opacity(0.16), radius: 8, x: 0, y: 4)
-                .overlay {
-                    Circle()
-                        .stroke(.white.opacity(0.95), lineWidth: 2)
-                }
-            
-            avatarComposition
-                .frame(width: markerSize, height: markerSize)
-                .clipShape(Circle())
-            
+        MapMarkerPin(diameter: markerSize) {
             countBadge
-                .offset(x: 5, y: 4)
+        } content: { diameter in
+            avatarComposition(diameter: diameter)
+                .frame(width: diameter, height: diameter)
+                .background(.ultraThinMaterial)
         }
     }
-    
-    private var privateSinglePostMarker: some View {
-        ZStack(alignment: .bottomTrailing) {
+
+    @ViewBuilder
+    private func avatarComposition(diameter: CGFloat) -> some View {
+        // Cada entrada da amostra é um autor, e `nil` quer dizer "sem foto de perfil", não "sem
+        // autor" — quem não tem foto entra no mosaico com o avatar padrão. Contar só as fotos
+        // apagaria do marcador justamente esses autores.
+        let authors = Array(cluster.previewUserProfilePics.prefix(4))
+
+        if authors.count <= 1 {
+            singleAuthorAvatar(
+                profilePic: authors.first ?? nil,
+                diameter: diameter
+            )
+        } else {
+            avatarMosaic(authors: authors)
+        }
+    }
+
+    /// Autor único: o avatar ocupa o marcador inteiro, como no marcador de publicação individual.
+    /// Quem diz que ali há mais de uma publicação é o badge com o contador.
+    @ViewBuilder
+    private func singleAuthorAvatar(
+        profilePic: String?,
+        diameter: CGFloat
+    ) -> some View {
+        if let profilePic {
+            ProfilePicView(profilePic: profilePic, size: diameter)
+                .frame(width: diameter, height: diameter)
+                .clipShape(Circle())
+                .id(profilePic)
+        } else {
             Circle()
-                .fill(.ultraThinMaterial)
-                .frame(width: markerSize, height: markerSize)
-                .shadow(color: .black.opacity(0.16), radius: 8, x: 0, y: 4)
+                .fill(.gray.opacity(0.25))
+                .frame(width: diameter, height: diameter)
                 .overlay {
-                    Circle()
-                        .stroke(.white.opacity(0.95), lineWidth: 2)
-                }
-                .overlay {
-                    Image(systemName: "mappin.slash")
-                        .font(.system(size: 22, weight: .semibold))
+                    Image(systemName: "person.fill")
+                        .font(.system(size: diameter * 0.42))
                         .foregroundStyle(.secondary)
                 }
-            
-            countBadge
-                .offset(x: 5, y: 4)
         }
     }
-    
-    private var avatarComposition: some View {
-        let avatars = Array(cluster.previewUserProfilePics.prefix(4))
-        
-        return ZStack {
-            switch avatars.count {
-            case 0:
-                placeholderAvatar(size: mainAvatarSize)
-                
-            case 1:
-                clusterAvatar(profilePic: avatars[0], size: mainAvatarSize)
-                
+
+    private func avatarMosaic(authors: [String?]) -> some View {
+        ZStack {
+            switch authors.count {
             case 2:
                 ZStack {
-                    clusterAvatar(profilePic: avatars[0], size: 30)
+                    clusterAvatar(profilePic: authors[0], size: 30)
                         .offset(x: -8, y: 0)
                         .zIndex(1)
-                    
-                    clusterAvatar(profilePic: avatars[1], size: 30)
+
+                    clusterAvatar(profilePic: authors[1], size: 30)
                         .offset(x: 8, y: 0)
                         .zIndex(0)
                 }
-                
+
             case 3:
                 ZStack {
-                    clusterAvatar(profilePic: avatars[0], size: 27)
+                    clusterAvatar(profilePic: authors[0], size: 27)
                         .offset(x: 0, y: -11)
                         .zIndex(2)
-                    
-                    clusterAvatar(profilePic: avatars[1], size: 25)
+
+                    clusterAvatar(profilePic: authors[1], size: 25)
                         .offset(x: -12, y: 11)
                         .zIndex(1)
-                    
-                    clusterAvatar(profilePic: avatars[2], size: 25)
+
+                    clusterAvatar(profilePic: authors[2], size: 25)
                         .offset(x: 12, y: 11)
                         .zIndex(0)
                 }
-                
+
             default:
                 ZStack {
-                    clusterAvatar(profilePic: avatars[0], size: avatarSize)
+                    clusterAvatar(profilePic: authors[0], size: avatarSize)
                         .offset(x: -10, y: -10)
-                    
-                    clusterAvatar(profilePic: avatars[1], size: avatarSize)
+
+                    clusterAvatar(profilePic: authors[1], size: avatarSize)
                         .offset(x: 10, y: -10)
-                    
-                    clusterAvatar(profilePic: avatars[2], size: avatarSize)
+
+                    clusterAvatar(profilePic: authors[2], size: avatarSize)
                         .offset(x: -10, y: 10)
-                    
-                    clusterAvatar(profilePic: avatars[3], size: avatarSize)
+
+                    clusterAvatar(profilePic: authors[3], size: avatarSize)
                         .offset(x: 10, y: 10)
                 }
             }
         }
     }
-    
+
     private var countBadge: some View {
-        Text(cluster.countText)
-            .font(.system(size: 11, weight: .bold))
-            .foregroundStyle(.white)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 3)
-            .background(.black.opacity(0.8))
-            .clipShape(Capsule())
-            .overlay {
-                Capsule()
-                    .stroke(.white.opacity(0.95), lineWidth: 1)
-            }
+        MapMarkerBadge {
+            Text(cluster.countText)
+                .font(.system(size: 11, weight: .bold))
+        }
     }
-    
+
     @ViewBuilder
     private func clusterAvatar(profilePic: String?, size: CGFloat) -> some View {
         if let profilePic {
@@ -150,7 +135,7 @@ struct ClusterMapMarker: View {
             placeholderAvatar(size: size)
         }
     }
-    
+
     private func placeholderAvatar(size: CGFloat) -> some View {
         Circle()
             .fill(.gray.opacity(0.25))
@@ -168,12 +153,12 @@ struct ClusterMapMarker: View {
 }
 
 private extension MapPostCluster {
-    
+
     var countText: String {
         if count > 99 {
             return "99+"
         }
-        
+
         return "\(count)"
     }
 }
