@@ -8,6 +8,16 @@
 import Foundation
 import CoreData
 
+/// O que o usuário escreveu numa conversa e ainda não enviou.
+struct ChatDraft: Equatable {
+    var text: String?
+    var repliedMessageId: String?
+
+    var isEmpty: Bool {
+        return text == nil && repliedMessageId == nil
+    }
+}
+
 /// Cache local das conversas.
 ///
 /// O servidor segue sendo a fonte autoritativa; isto aqui é a fonte *imediata*, para a tela
@@ -62,6 +72,8 @@ final class ChatStore {
             context.delete(orphan)
         }
 
+        pruneDrafts(keeping: Set(chats.map { $0.id }), in: context)
+
         persistence.save()
     }
 
@@ -83,7 +95,62 @@ final class ChatStore {
         persistence.save()
     }
 
+    //MARK: - Rascunho
+
+    /// O que o usuário estava escrevendo numa conversa e ainda não enviou.
+    ///
+    /// Vive em entidade própria, e não como atributo de `CDChat`, porque a conversa pode ser aberta
+    /// antes de existir no cache: quem chega pelo Discover ou por uma notificação abre a tela sem a
+    /// lista de conversas ter sincronizado, e o rascunho não teria onde ser gravado.
+    func loadDraft(chatId: String) -> ChatDraft? {
+        guard let entity = fetchDraft(chatId: chatId, in: persistence.viewContext) else { return nil }
+
+        return ChatDraft(text: entity.text, repliedMessageId: entity.repliedMessageId)
+    }
+
+    /// Grava o rascunho, ou apaga o registro quando não sobrou nada para guardar.
+    func saveDraft(_ draft: ChatDraft, chatId: String) {
+        let context = persistence.viewContext
+        let existing = fetchDraft(chatId: chatId, in: context)
+
+        guard !draft.isEmpty else {
+            guard let existing else { return }
+            context.delete(existing)
+            persistence.save()
+            return
+        }
+
+        let entity = existing ?? CDDraft(context: context)
+        entity.chatId = chatId
+        entity.text = draft.text
+        entity.repliedMessageId = draft.repliedMessageId
+        entity.updatedAt = Int64(Date().timeIntervalSince1970 * 1000)
+
+        persistence.save()
+    }
+
+    func deleteDraft(chatId: String) {
+        let context = persistence.viewContext
+        guard let entity = fetchDraft(chatId: chatId, in: context) else { return }
+
+        context.delete(entity)
+        persistence.save()
+    }
+
     //MARK: - Private
+
+    /// Descarta rascunhos de conversas que o servidor não devolveu mais.
+    ///
+    /// O `Cascade` de `CDChat` não alcança o rascunho, que é uma entidade solta de propósito — sem
+    /// esta varredura, apagar uma conversa deixaria o rascunho dela para trás para sempre.
+    private func pruneDrafts(keeping chatIds: Set<String>, in context: NSManagedObjectContext) {
+        let request = CDDraft.fetchRequest()
+        let drafts = (try? context.fetch(request)) ?? []
+
+        for draft in drafts where !chatIds.contains(draft.chatId ?? "") {
+            context.delete(draft)
+        }
+    }
 
     private func fetchAll(in context: NSManagedObjectContext) -> [CDChat] {
         (try? context.fetch(CDChat.fetchRequest())) ?? []
@@ -92,6 +159,14 @@ final class ChatStore {
     private func fetch(chatId: String, in context: NSManagedObjectContext) -> CDChat? {
         let request = CDChat.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", chatId)
+        request.fetchLimit = 1
+
+        return (try? context.fetch(request))?.first
+    }
+
+    private func fetchDraft(chatId: String, in context: NSManagedObjectContext) -> CDDraft? {
+        let request = CDDraft.fetchRequest()
+        request.predicate = NSPredicate(format: "chatId == %@", chatId)
         request.fetchLimit = 1
 
         return (try? context.fetch(request))?.first

@@ -51,9 +51,11 @@ class MessageViewModel: ObservableObject {
     let listenerOwner = "chat-\(UUID().uuidString)"
 
     private let messageStore: MessageStore
+    private let chatStore: ChatStore
 
-    init(messageStore: MessageStore = .shared) {
+    init(messageStore: MessageStore = .shared, chatStore: ChatStore = .shared) {
         self.messageStore = messageStore
+        self.chatStore = chatStore
     }
 
     /// Coloca na tela o que já está em cache, antes de qualquer requisição.
@@ -93,6 +95,68 @@ class MessageViewModel: ObservableObject {
     func removeImage(fromIndex index: Int) {
         guard index < images.count else { return }
         self.images.remove(at: index)
+    }
+
+    //MARK: - Draft
+
+    /// Uma gravação pendente por conversa: cada tecla cancela a anterior.
+    private var draftSaveTask: Task<Void, Never>?
+
+    /// Devolve ao composer o que ficou escrito e não foi enviado.
+    ///
+    /// Roda depois de `loadCachedMessages` de propósito: a citação é restaurada procurando a
+    /// mensagem original entre as que já estão em tela. Se ela não estiver mais ali — apagada, ou
+    /// antiga demais para o cache —, o texto volta sozinho e a citação é descartada, em vez de
+    /// exibir uma prévia que aponta para o nada.
+    func loadDraft(chatId: String) {
+        guard messageText.isEmpty, repliedMessage == nil else { return }
+        guard let draft = chatStore.loadDraft(chatId: chatId) else { return }
+
+        if let text = draft.text {
+            messageText = text
+        }
+        if let repliedMessageId = draft.repliedMessageId {
+            repliedMessage = formattedMessages.first { $0.id == repliedMessageId }
+        }
+    }
+
+    /// Agenda a gravação do rascunho, adiando enquanto o usuário ainda estiver digitando.
+    ///
+    /// Gravar a cada tecla seria um `save` do Core Data por caractere, na main thread. O atraso é
+    /// curto o bastante para que sair da tela logo depois de digitar ainda encontre o `flushDraft`
+    /// do `onDisappear`, que grava sem esperar.
+    func scheduleDraftSave(chatId: String) {
+        draftSaveTask?.cancel()
+        draftSaveTask = Task { [weak self] in
+            try? await Task.sleep(nanoseconds: 400_000_000)
+            guard !Task.isCancelled else { return }
+            self?.persistDraft(chatId: chatId)
+        }
+    }
+
+    /// Grava o rascunho agora, sem esperar o debounce.
+    ///
+    /// `composedText` chega preenchido quando havia ditado em andamento: o `@Published` pode estar
+    /// atrás do campo, e o texto real vem do próprio `UITextInput`.
+    func flushDraft(chatId: String, composedText: String? = nil) {
+        draftSaveTask?.cancel()
+        if let composedText {
+            messageText = composedText
+        }
+        persistDraft(chatId: chatId)
+    }
+
+    private func persistDraft(chatId: String) {
+        let draft = ChatDraft(
+            text: messageText.nonEmptyOrNil(),
+            repliedMessageId: repliedMessage?.id
+        )
+        chatStore.saveDraft(draft, chatId: chatId)
+    }
+
+    private func discardDraft(chatId: String) {
+        draftSaveTask?.cancel()
+        chatStore.deleteDraft(chatId: chatId)
     }
     
     //MARK: - Fetch Messages
@@ -218,6 +282,9 @@ class MessageViewModel: ObservableObject {
     
     func sendMessage(forChat chatId: String, text: String?, images: [UIImage], repliedMessage: FormattedMessage?, token: String) async throws {
         resetInputs()
+        // O que saiu do composer deixa de ser rascunho, mesmo que o envio ainda venha a falhar: a
+        // mensagem já está na conversa, e restaurá-la no campo depois a mostraria duas vezes.
+        discardDraft(chatId: chatId)
         let messagesToBeSent = getMessagesToBeSent(chatId: chatId, text: text, images: images, repliedMessage: repliedMessage)
         displayMessages(fromArray: messagesToBeSent)
         for message in messagesToBeSent {

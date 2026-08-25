@@ -22,6 +22,9 @@ struct MessageScreen: View {
     @EnvironmentObject var socket: SocketService
     @EnvironmentObject var navCoordinator: NavigationCoordinator
     @EnvironmentObject var router: AppRouter
+    /// O rascunho precisa estar gravado antes de o app sair do ar: encerrar pelo app switcher, ou
+    /// ser derrubado por memória, não roda `onDisappear`.
+    @Environment(\.scenePhase) private var scenePhase
     @StateObject private var messageVM = MessageViewModel()
     @StateObject private var swipeDriver = ChatSwipeDriver()
     @StateObject private var historyAnchor = ChatHistoryScrollAnchor()
@@ -144,6 +147,8 @@ struct MessageScreen: View {
             // O que já está em cache aparece antes de tudo; a requisição abaixo só
             // reconcilia o que mudou.
             messageVM.loadCachedMessages(chatId: chatId)
+            // Depois das mensagens: a citação do rascunho é resolvida contra o que está em tela.
+            messageVM.loadDraft(chatId: chatId)
             // Os listeners entram antes da requisição: se uma mensagem chegar enquanto o
             // histórico carrega, ela é mesclada em vez de se perder na janela entre as duas.
             listenToMessages()
@@ -155,8 +160,24 @@ struct MessageScreen: View {
             NotificationManager.removeDeliveredNotifications(forChatId: chatId)
         }
         .onDisappear {
+            flushDraft()
             stopListeningMessages()
             updateBadge()
+        }
+        .onChange(of: messageVM.messageText) { _ in
+            messageVM.scheduleDraftSave(chatId: chatId)
+        }
+        // Citar e desfazer a citação são ações pontuais, não digitação: não há o que adiar.
+        .onChange(of: messageVM.repliedMessage) { _ in
+            messageVM.flushDraft(chatId: chatId)
+        }
+        // Só `.background`, e não todo estado fora de `.active`: `.inactive` é transitório — central
+        // de controle, banner de notificação, uma ligação — e ali o `flushDraft` confirmaria uma
+        // composição de ditado ainda em andamento por causa de uma interrupção que não vai matar o
+        // app. Todo encerramento passa por `.background` antes, então nada se perde.
+        .onChange(of: scenePhase) { phase in
+            guard phase == .background else { return }
+            flushDraft()
         }
         .onChange(of: socket.resyncSignal) { _ in
             // Conexão nova, novo registro do usuário ou volta do background: reconcilia a
@@ -514,6 +535,13 @@ struct MessageScreen: View {
         isFocused = true
     }
 
+
+    /// Grava o rascunho imediatamente, com o mesmo cuidado que o botão de enviar tem com o ditado:
+    /// se o campo está em foco, o texto verdadeiro é o do `UITextInput`, não o do `@Published`.
+    private func flushDraft() {
+        let composedText = isFocused ? TextInputComposition.finishComposition() : nil
+        messageVM.flushDraft(chatId: chatId, composedText: composedText)
+    }
 
     private func listenToMessages() {
         socket.addListener(for: "message", owner: messageVM.listenerOwner) { data, ack in

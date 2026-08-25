@@ -58,7 +58,7 @@ struct PersistenceController {
     /// `isCurrentUser` já resolvido, então o cache de um usuário não serve para outro.
     func wipe() {
         let context = container.viewContext
-        for entity in ["CDMessage", "CDChat"] {
+        for entity in ["CDMessage", "CDChat", "CDDraft"] {
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
             let delete = NSBatchDeleteRequest(fetchRequest: request)
             delete.resultType = .resultTypeObjectIDs
