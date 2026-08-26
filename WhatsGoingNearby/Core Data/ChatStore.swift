@@ -7,14 +7,20 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 /// O que o usuário escreveu numa conversa e ainda não enviou.
 struct ChatDraft: Equatable {
     var text: String?
     var repliedMessageId: String?
+    /// Nomes dos arquivos das imagens anexadas, na ordem em que aparecem no composer.
+    ///
+    /// Só os nomes: os bytes ficam em disco, fora do Core Data. Guardá-los na mesma base das
+    /// mensagens incharia o store e obrigaria a converter `Data` na main thread a cada leitura.
+    var imageFileNames: [String] = []
 
     var isEmpty: Bool {
-        return text == nil && repliedMessageId == nil
+        return text == nil && repliedMessageId == nil && imageFileNames.isEmpty
     }
 }
 
@@ -105,7 +111,23 @@ final class ChatStore {
     func loadDraft(chatId: String) -> ChatDraft? {
         guard let entity = fetchDraft(chatId: chatId, in: persistence.viewContext) else { return nil }
 
-        return ChatDraft(text: entity.text, repliedMessageId: entity.repliedMessageId)
+        return entity.toDraft()
+    }
+
+    /// Todos os rascunhos, indexados por conversa.
+    ///
+    /// Uma consulta só: a lista de conversas precisa deles de uma vez, e perguntar por conversa
+    /// custaria uma ida ao Core Data por linha desenhada.
+    func loadDrafts() -> [String: ChatDraft] {
+        let drafts = (try? persistence.viewContext.fetch(CDDraft.fetchRequest())) ?? []
+
+        return Dictionary(
+            drafts.compactMap { entity -> (String, ChatDraft)? in
+                guard let chatId = entity.chatId else { return nil }
+                return (chatId, entity.toDraft())
+            },
+            uniquingKeysWith: { first, _ in first }
+        )
     }
 
     /// Grava o rascunho, ou apaga o registro quando não sobrou nada para guardar.
@@ -124,17 +146,63 @@ final class ChatStore {
         entity.chatId = chatId
         entity.text = draft.text
         entity.repliedMessageId = draft.repliedMessageId
+        entity.imageFileNames = draft.imageFileNames.isEmpty ? nil : draft.imageFileNames.joined(separator: Self.imageNameSeparator)
         entity.updatedAt = Int64(Date().timeIntervalSince1970 * 1000)
 
         persistence.save()
     }
 
     func deleteDraft(chatId: String) {
+        deleteDraftImages(chatId: chatId)
+
         let context = persistence.viewContext
         guard let entity = fetchDraft(chatId: chatId, in: context) else { return }
 
         context.delete(entity)
         persistence.save()
+    }
+
+    //MARK: - Imagens do rascunho
+
+    /// Separador dos nomes de arquivo. Os nomes são UUIDs, então nunca contêm este caractere.
+    fileprivate static let imageNameSeparator = ","
+
+    /// Grava a imagem e devolve o nome do arquivo, ou `nil` se não foi possível escrever.
+    ///
+    /// A mesma compressão usada no envio: o rascunho não deve guardar uma imagem melhor do que a
+    /// que seria enviada a partir dele.
+    func writeDraftImage(_ image: UIImage, chatId: String) -> String? {
+        guard let data = image.jpegData(compressionQuality: 0.8),
+              let directory = draftImageDirectory(chatId: chatId, creatingIfNeeded: true)
+        else { return nil }
+
+        let fileName = "\(UUID().uuidString).jpg"
+
+        do {
+            try data.write(to: directory.appendingPathComponent(fileName), options: .completeFileProtectionUntilFirstUserAuthentication)
+            return fileName
+        } catch {
+            print("❌ Não foi possível gravar a imagem do rascunho: \(error)")
+            return nil
+        }
+    }
+
+    func loadDraftImage(named fileName: String, chatId: String) -> UIImage? {
+        guard let directory = draftImageDirectory(chatId: chatId, creatingIfNeeded: false),
+              let data = try? Data(contentsOf: directory.appendingPathComponent(fileName))
+        else { return nil }
+
+        return UIImage(data: data)
+    }
+
+    func deleteDraftImage(named fileName: String, chatId: String) {
+        guard let directory = draftImageDirectory(chatId: chatId, creatingIfNeeded: false) else { return }
+        try? FileManager.default.removeItem(at: directory.appendingPathComponent(fileName))
+    }
+
+    func deleteDraftImages(chatId: String) {
+        guard let directory = draftImageDirectory(chatId: chatId, creatingIfNeeded: false) else { return }
+        try? FileManager.default.removeItem(at: directory)
     }
 
     //MARK: - Private
@@ -148,7 +216,39 @@ final class ChatStore {
         let drafts = (try? context.fetch(request)) ?? []
 
         for draft in drafts where !chatIds.contains(draft.chatId ?? "") {
+            if let chatId = draft.chatId {
+                deleteDraftImages(chatId: chatId)
+            }
             context.delete(draft)
+        }
+    }
+
+    /// Pasta das imagens do rascunho desta conversa.
+    ///
+    /// Fica em Application Support, e não em Caches, que o sistema pode esvaziar a qualquer
+    /// momento — um rascunho que some sozinho é pior do que rascunho nenhum. Como o conteúdo é
+    /// transitório e reproduzível pelo usuário, é excluído do backup do iCloud.
+    private func draftImageDirectory(chatId: String, creatingIfNeeded: Bool) -> URL? {
+        guard let support = try? FileManager.default.url(
+            for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true
+        ) else { return nil }
+
+        var directory = support.appendingPathComponent("ChatDrafts", isDirectory: true)
+            .appendingPathComponent(chatId, isDirectory: true)
+
+        guard creatingIfNeeded else {
+            return FileManager.default.fileExists(atPath: directory.path) ? directory : nil
+        }
+
+        do {
+            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+            var resourceValues = URLResourceValues()
+            resourceValues.isExcludedFromBackup = true
+            try? directory.setResourceValues(resourceValues)
+            return directory
+        } catch {
+            print("❌ Não foi possível criar a pasta do rascunho: \(error)")
+            return nil
         }
     }
 
@@ -174,6 +274,19 @@ final class ChatStore {
 }
 
 //MARK: - Conversão
+
+extension CDDraft {
+
+    func toDraft() -> ChatDraft {
+        ChatDraft(
+            text: self.text,
+            repliedMessageId: self.repliedMessageId,
+            imageFileNames: self.imageFileNames?
+                .components(separatedBy: ChatStore.imageNameSeparator)
+                .filter { !$0.isEmpty } ?? []
+        )
+    }
+}
 
 extension CDChat {
 

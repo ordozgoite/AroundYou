@@ -32,6 +32,41 @@ class ChatListViewModel: ObservableObject {
         // esperar a rede para ter o que desenhar.
         self.chats = chatStore.loadChats()
         self.isInitialChatsFetched = !self.chats.isEmpty
+        refreshDrafts()
+    }
+
+    //MARK: - Rascunhos
+
+    /// Reaplica os rascunhos sobre a lista já em tela.
+    ///
+    /// Chamado quando a lista reaparece, porque a conversa que acabou de ser fechada pode ter
+    /// deixado — ou consumido — um rascunho, e essa mudança não passa por nenhuma requisição.
+    func refreshDrafts() {
+        let updated = applyingDrafts(to: chats)
+        guard updated != chats else { return }
+        chats = updated
+    }
+
+    /// Decora as conversas com o rascunho de cada uma.
+    ///
+    /// A ordem não muda: a lista continua ordenada pela última mensagem, que é do servidor.
+    /// Deixar um rascunho reordenar a conversa criaria uma ordenação local disputando com a
+    /// que vem da API a cada sincronização.
+    private func applyingDrafts(to chats: [FormattedChat]) -> [FormattedChat] {
+        let drafts = chatStore.loadDrafts()
+        guard !drafts.isEmpty else {
+            return chats.map { chat in
+                var chat = chat
+                chat.draftText = nil
+                return chat
+            }
+        }
+
+        return chats.map { chat in
+            var chat = chat
+            chat.draftText = drafts[chat.id]?.text
+            return chat
+        }
     }
 
     /// Atualiza a lista coalescendo os gatilhos.
@@ -71,8 +106,9 @@ class ChatListViewModel: ObservableObject {
             chatStore.reconcile(with: chats)
             // Só reatribui se algo mudou de fato: substituir por uma lista igual faria a
             // List refazer as linhas à toa a cada evento de socket.
-            if self.chats != chats {
-                self.chats = chats
+            let decorated = applyingDrafts(to: chats)
+            if self.chats != decorated {
+                self.chats = decorated
             }
             isInitialChatsFetched = true
         case .failure:

@@ -24,6 +24,15 @@ struct ChatListScreen: View {
             .onAppear {
                 listenToMessages()
                 updateChats()
+                chatListVM.refreshDrafts()
+            }
+            // A conversa que acabou de ser fechada pode ter deixado ou consumido um rascunho, e
+            // isso não chega por requisição nenhuma. O gatilho é o fechamento da conversa, e não
+            // o `onAppear`: a raiz de um `NavigationStack` continua montada enquanto algo está
+            // empilhado sobre ela, então desempilhar não a faz aparecer de novo.
+            .onChange(of: isConversationOpen) { isOpen in
+                guard !isOpen else { return }
+                chatListVM.refreshDrafts()
             }
             .onChange(of: socket.resyncSignal) { _ in
                 updateChats()

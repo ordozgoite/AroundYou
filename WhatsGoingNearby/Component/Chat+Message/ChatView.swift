@@ -83,12 +83,24 @@ struct ChatView: View {
     
     @ViewBuilder
     private func LastMessage() -> some View {
-        Text(chat.lastMessage ?? "📷 Photo")
-            .foregroundStyle(.secondary)
-            .font(.subheadline)
-            .fixedSize(horizontal: false, vertical: true)
-            .lineLimit(2)
-            .frame(maxWidth: .infinity, minHeight: 40, alignment: .topLeading)
+        Group {
+            if let draftText = chat.draftText {
+                // O rascunho toma o lugar da última mensagem: o que importa nessa linha passa a
+                // ser o que a conversa está esperando do usuário, não o que já aconteceu nela.
+                // `foregroundColor` e não `foregroundStyle`: a sobrecarga que devolve `Text`, e
+                // portanto a única que pode ser concatenada, só existe a partir do iOS 17.
+                Text("Draft:").foregroundColor(.blue)
+                + Text(" ")
+                + Text(draftText).foregroundColor(.secondary)
+            } else {
+                Text(chat.lastMessage ?? "📷 Photo")
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .font(.subheadline)
+        .fixedSize(horizontal: false, vertical: true)
+        .lineLimit(2)
+        .frame(maxWidth: .infinity, minHeight: 40, alignment: .topLeading)
     }
     
     // MARK: - Last Message Time

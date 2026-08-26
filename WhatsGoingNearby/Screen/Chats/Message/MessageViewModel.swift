@@ -102,6 +102,14 @@ class MessageViewModel: ObservableObject {
     /// Uma gravação pendente por conversa: cada tecla cancela a anterior.
     private var draftSaveTask: Task<Void, Never>?
 
+    /// Vínculo entre a imagem em memória e o arquivo já gravado para ela.
+    ///
+    /// É o que impede o debounce do texto de reescrever os JPEGs a cada tecla: a imagem que já tem
+    /// arquivo é reaproveitada, e só entra em disco a que acabou de ser escolhida. `UIImage` é
+    /// classe, então a identidade do objeto serve de chave — as instâncias que o picker cria
+    /// sobrevivem intactas às operações no array.
+    private var draftImageFiles: [ObjectIdentifier: String] = [:]
+
     /// Devolve ao composer o que ficou escrito e não foi enviado.
     ///
     /// Roda depois de `loadCachedMessages` de propósito: a citação é restaurada procurando a
@@ -118,6 +126,27 @@ class MessageViewModel: ObservableObject {
         if let repliedMessageId = draft.repliedMessageId {
             repliedMessage = formattedMessages.first { $0.id == repliedMessageId }
         }
+        restoreDraftImages(draft.imageFileNames, chatId: chatId)
+    }
+
+    /// Devolve ao composer os anexos do rascunho, ignorando arquivo que não abriu.
+    ///
+    /// O vínculo imagem↔arquivo é refeito aqui: sem ele, a primeira gravação depois de restaurar
+    /// trataria toda imagem como nova e reescreveria tudo.
+    private func restoreDraftImages(_ fileNames: [String], chatId: String) {
+        guard images.isEmpty, !fileNames.isEmpty else { return }
+
+        var restored: [UIImage] = []
+        var files: [ObjectIdentifier: String] = [:]
+
+        for fileName in fileNames {
+            guard let image = chatStore.loadDraftImage(named: fileName, chatId: chatId) else { continue }
+            restored.append(image)
+            files[ObjectIdentifier(image)] = fileName
+        }
+
+        images = restored
+        draftImageFiles = files
     }
 
     /// Agenda a gravação do rascunho, adiando enquanto o usuário ainda estiver digitando.
@@ -149,13 +178,38 @@ class MessageViewModel: ObservableObject {
     private func persistDraft(chatId: String) {
         let draft = ChatDraft(
             text: messageText.nonEmptyOrNil(),
-            repliedMessageId: repliedMessage?.id
+            repliedMessageId: repliedMessage?.id,
+            imageFileNames: syncDraftImages(chatId: chatId)
         )
         chatStore.saveDraft(draft, chatId: chatId)
     }
 
+    /// Alinha os arquivos em disco com as imagens que estão no composer agora.
+    ///
+    /// Grava só o que ainda não tem arquivo e apaga o que saiu do composer, devolvendo os nomes na
+    /// ordem em que as imagens aparecem — é essa ordem que o rascunho precisa reproduzir.
+    private func syncDraftImages(chatId: String) -> [String] {
+        var fileNames: [String] = []
+        var files: [ObjectIdentifier: String] = [:]
+
+        for image in images {
+            let key = ObjectIdentifier(image)
+            guard let fileName = draftImageFiles[key] ?? chatStore.writeDraftImage(image, chatId: chatId) else { continue }
+            fileNames.append(fileName)
+            files[key] = fileName
+        }
+
+        for (key, fileName) in draftImageFiles where files[key] == nil {
+            chatStore.deleteDraftImage(named: fileName, chatId: chatId)
+        }
+
+        draftImageFiles = files
+        return fileNames
+    }
+
     private func discardDraft(chatId: String) {
         draftSaveTask?.cancel()
+        draftImageFiles = [:]
         chatStore.deleteDraft(chatId: chatId)
     }
     

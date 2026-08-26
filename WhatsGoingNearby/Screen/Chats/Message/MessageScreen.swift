@@ -171,6 +171,11 @@ struct MessageScreen: View {
         .onChange(of: messageVM.repliedMessage) { _ in
             messageVM.flushDraft(chatId: chatId)
         }
+        // Escolher e remover foto também são pontuais. E é aqui que os JPEGs entram e saem do
+        // disco: fora deste gatilho, o debounce do texto só reaproveita os arquivos que já existem.
+        .onChange(of: messageVM.images) { _ in
+            messageVM.flushDraft(chatId: chatId)
+        }
         // Só `.background`, e não todo estado fora de `.active`: `.inactive` é transitório — central
         // de controle, banner de notificação, uma ligação — e ali o `flushDraft` confirmaria uma
         // composição de ditado ainda em andamento por causa de uma interrupção que não vai matar o
