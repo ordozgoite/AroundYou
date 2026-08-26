@@ -7,12 +7,14 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 /// Cache local das mensagens.
 ///
-/// Só persiste mensagens já confirmadas pelo servidor. Envios em andamento e falhos vivem
-/// apenas em memória: guardá-los seria o começo de uma fila de envio offline, que está
-/// fora deste escopo, e traria de volta ids temporários no cache.
+/// Guarda também o que ainda não foi confirmado pelo servidor: a mensagem que falhou continua na
+/// conversa depois de fechar o app, com a opção de reenviar, em vez de desaparecer sem aviso.
+/// Mensagem não confirmada carrega id temporário — quem reconcilia precisa saber disso, porque o
+/// servidor nunca vai devolver esse id.
 @MainActor
 final class MessageStore {
 
@@ -47,22 +49,41 @@ final class MessageStore {
     /// Serve a todos os caminhos — histórico, paginação, socket e confirmação de envio —
     /// porque é chamado de dentro do funil único do view model.
     func upsert(_ messages: [MessageIntermediary], chatId: String) {
-        let confirmed = messages.filter { $0.status == nil || $0.status == .sent }
-        guard !confirmed.isEmpty else { return }
+        guard !messages.isEmpty else { return }
 
         let context = persistence.viewContext
         let chat = fetchChat(chatId: chatId, in: context)
-        var byId = existingMessages(withIds: confirmed.map { $0.id }, in: context)
+        var byId = existingMessages(withIds: messages.map { $0.id }, in: context)
 
-        for message in confirmed {
+        for message in messages {
             let entity = byId[message.id] ?? CDMessage(context: context)
             entity.apply(message)
+            entity.pendingImageFileName = persistedImageName(for: message, existing: entity.pendingImageFileName, chatId: chatId)
             // O relacionamento é o que faz apagar a conversa levar as mensagens junto.
             entity.chat = chat
             byId[message.id] = entity
         }
 
         persistence.save()
+    }
+
+    /// Nome do arquivo da foto de uma mensagem que ainda não foi enviada.
+    ///
+    /// Só mensagem não confirmada precisa dos bytes: assim que o servidor devolve a `imageUrl`, a
+    /// foto passa a vir da rede com o cache de disco do Kingfisher, e o arquivo local vira peso
+    /// morto. Gravar é feito uma vez só — a mensagem já guardada reaproveita o arquivo, senão cada
+    /// mudança de status reescreveria o JPEG.
+    private func persistedImageName(for message: MessageIntermediary, existing: String?, chatId: String) -> String? {
+        let isConfirmed = message.status == nil || message.status == .sent
+
+        guard !isConfirmed, let image = message.image else {
+            if let existing {
+                LocalImageStore.pendingMessages.delete(named: existing, chatId: chatId)
+            }
+            return nil
+        }
+
+        return existing ?? LocalImageStore.pendingMessages.write(image, chatId: chatId)
     }
 
     /// Reconcilia as exclusões feitas no servidor enquanto o app estava fora.
@@ -81,8 +102,11 @@ final class MessageStore {
 
         let context = persistence.viewContext
         let request = CDMessage.fetchRequest()
+        // `status == nil` é a mensagem confirmada: só ela pode ser comparada com a página. As não
+        // confirmadas têm id temporário, que o servidor nunca devolve — sem este filtro, toda
+        // mensagem por enviar seria tomada por apagada e varrida na primeira sincronização.
         request.predicate = NSPredicate(
-            format: "chatId == %@ AND createdAt >= %lld AND createdAt <= %lld",
+            format: "chatId == %@ AND createdAt >= %lld AND createdAt <= %lld AND status == nil",
             chatId, Int64(oldest), Int64(newest)
         )
 
@@ -108,9 +132,14 @@ final class MessageStore {
 
         guard let entity = (try? context.fetch(request))?.first else { return }
 
+        if let fileName = entity.pendingImageFileName, let chatId = entity.chatId {
+            LocalImageStore.pendingMessages.delete(named: fileName, chatId: chatId)
+        }
+
         context.delete(entity)
         persistence.save()
     }
+
 
     //MARK: - Private
 
@@ -148,6 +177,10 @@ extension CDMessage {
         self.repliedMessageId = message.repliedMessageId
         self.repliedMessageText = message.repliedMessageText
         self.isCurrentUser = message.isCurrentUser
+        // Confirmada não guarda status: é o valor ausente que a distingue no filtro da
+        // reconciliação de exclusões, e o que mantém compatível a mensagem já em cache.
+        let isConfirmed = message.status == nil || message.status == .sent
+        self.status = isConfirmed ? nil : message.status?.rawValue
     }
 
     func toIntermediary() -> MessageIntermediary {
@@ -160,10 +193,18 @@ extension CDMessage {
             createdAt: Int(self.createdAt),
             repliedMessageId: self.repliedMessageId,
             repliedMessageText: self.repliedMessageText,
-            // Vindo do cache, a mensagem já está confirmada pelo servidor.
-            status: .sent,
-            image: nil,
+            // Sem status guardado, a mensagem veio confirmada do servidor. Com status, ela ficou
+            // pelo caminho — e volta como falha, nunca como `sending`: o envio que a acompanhava
+            // morreu junto com o processo, então mostrar um progresso que ninguém está tocando
+            // deixaria o usuário esperando por algo que não vai acontecer.
+            status: self.status == nil ? .sent : .failed,
+            image: pendingImage(),
             isCurrentUser: self.isCurrentUser
         )
+    }
+
+    private func pendingImage() -> UIImage? {
+        guard let fileName = self.pendingImageFileName, let chatId = self.chatId else { return nil }
+        return LocalImageStore.pendingMessages.load(named: fileName, chatId: chatId)
     }
 }

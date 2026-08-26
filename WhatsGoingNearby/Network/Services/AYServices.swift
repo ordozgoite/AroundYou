@@ -49,7 +49,7 @@ protocol AYServiceable {
     func getUnreadChatsNumber(token: String) async -> Result<GetUnreadChatsNumberResponse, RequestError>
     
     // Message
-    func postNewMessage(chatId: String, text: String?, imageUrl: String?, repliedMessageId: String?, token: String) async -> Result<Message, RequestError>
+    func postNewMessage(chatId: String, text: String?, imageUrl: String?, repliedMessageId: String?, clientMessageId: String?, token: String) async -> Result<Message, RequestError>
     func getMessages(chatId: String, timestamp: Int?, limit: Int, token: String) async -> Result<[Message], RequestError>
     func deleteMessage(messageId: String, token: String) async -> Result<DeleteMessageResponse, RequestError>
     
@@ -265,8 +265,8 @@ struct AYServices: HTTPClient, AYServiceable {
     
     //MARK: - Message
     
-    func postNewMessage(chatId: String, text: String?, imageUrl: String?, repliedMessageId: String?, token: String) async -> Result<Message, RequestError> {
-        return await sendRequest(endpoint: AYEndpoints.postNewMessage(chatId: chatId, text: text, imageUrl: imageUrl, repliedMessageId: repliedMessageId, token: token), responseModel: Message.self)
+    func postNewMessage(chatId: String, text: String?, imageUrl: String?, repliedMessageId: String?, clientMessageId: String?, token: String) async -> Result<Message, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.postNewMessage(chatId: chatId, text: text, imageUrl: imageUrl, repliedMessageId: repliedMessageId, clientMessageId: clientMessageId, token: token), responseModel: Message.self)
     }
     
     func getMessages(chatId: String, timestamp: Int?, limit: Int = Constants.MESSAGES_PAGE_SIZE, token: String) async -> Result<[Message], RequestError> {

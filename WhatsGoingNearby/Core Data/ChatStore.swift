@@ -167,42 +167,20 @@ final class ChatStore {
     /// Separador dos nomes de arquivo. Os nomes são UUIDs, então nunca contêm este caractere.
     fileprivate static let imageNameSeparator = ","
 
-    /// Grava a imagem e devolve o nome do arquivo, ou `nil` se não foi possível escrever.
-    ///
-    /// A mesma compressão usada no envio: o rascunho não deve guardar uma imagem melhor do que a
-    /// que seria enviada a partir dele.
     func writeDraftImage(_ image: UIImage, chatId: String) -> String? {
-        guard let data = image.jpegData(compressionQuality: 0.8),
-              let directory = draftImageDirectory(chatId: chatId, creatingIfNeeded: true)
-        else { return nil }
-
-        let fileName = "\(UUID().uuidString).jpg"
-
-        do {
-            try data.write(to: directory.appendingPathComponent(fileName), options: .completeFileProtectionUntilFirstUserAuthentication)
-            return fileName
-        } catch {
-            print("❌ Não foi possível gravar a imagem do rascunho: \(error)")
-            return nil
-        }
+        return LocalImageStore.drafts.write(image, chatId: chatId)
     }
 
     func loadDraftImage(named fileName: String, chatId: String) -> UIImage? {
-        guard let directory = draftImageDirectory(chatId: chatId, creatingIfNeeded: false),
-              let data = try? Data(contentsOf: directory.appendingPathComponent(fileName))
-        else { return nil }
-
-        return UIImage(data: data)
+        return LocalImageStore.drafts.load(named: fileName, chatId: chatId)
     }
 
     func deleteDraftImage(named fileName: String, chatId: String) {
-        guard let directory = draftImageDirectory(chatId: chatId, creatingIfNeeded: false) else { return }
-        try? FileManager.default.removeItem(at: directory.appendingPathComponent(fileName))
+        LocalImageStore.drafts.delete(named: fileName, chatId: chatId)
     }
 
     func deleteDraftImages(chatId: String) {
-        guard let directory = draftImageDirectory(chatId: chatId, creatingIfNeeded: false) else { return }
-        try? FileManager.default.removeItem(at: directory)
+        LocalImageStore.drafts.deleteAll(chatId: chatId)
     }
 
     //MARK: - Private
@@ -220,35 +198,6 @@ final class ChatStore {
                 deleteDraftImages(chatId: chatId)
             }
             context.delete(draft)
-        }
-    }
-
-    /// Pasta das imagens do rascunho desta conversa.
-    ///
-    /// Fica em Application Support, e não em Caches, que o sistema pode esvaziar a qualquer
-    /// momento — um rascunho que some sozinho é pior do que rascunho nenhum. Como o conteúdo é
-    /// transitório e reproduzível pelo usuário, é excluído do backup do iCloud.
-    private func draftImageDirectory(chatId: String, creatingIfNeeded: Bool) -> URL? {
-        guard let support = try? FileManager.default.url(
-            for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true
-        ) else { return nil }
-
-        var directory = support.appendingPathComponent("ChatDrafts", isDirectory: true)
-            .appendingPathComponent(chatId, isDirectory: true)
-
-        guard creatingIfNeeded else {
-            return FileManager.default.fileExists(atPath: directory.path) ? directory : nil
-        }
-
-        do {
-            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
-            var resourceValues = URLResourceValues()
-            resourceValues.isExcludedFromBackup = true
-            try? directory.setResourceValues(resourceValues)
-            return directory
-        } catch {
-            print("❌ Não foi possível criar a pasta do rascunho: \(error)")
-            return nil
         }
     }
 

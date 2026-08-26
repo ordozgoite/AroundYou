@@ -275,11 +275,21 @@ struct MessageScreen: View {
             }
         }
         
-        if message.message != nil && message.isCurrentUser {
+        if message.isCurrentUser && (message.message != nil || message.status == .failed) {
             Divider()
         }
         
-        if message.isCurrentUser && getElapsedTimeSinceMessage(message) < Constants.MAX_ELAPSED_TIME_DELETE_MESSAGE_SECONDS {
+        // A mensagem que falhou nunca chegou ao servidor, e o id que ela carrega é local: pedir a
+        // exclusão pela API não encontraria nada. Some daqui mesmo — e sem prazo, porque o limite
+        // de "Undo Send" existe para o que a outra pessoa já pode ter lido.
+        if message.isCurrentUser && message.status == .failed {
+            Button(role: .destructive) {
+                messageVM.removeMessage(withId: message.id)
+            } label: {
+                Image(systemName: "trash")
+                Text("Delete")
+            }
+        } else if message.isCurrentUser && getElapsedTimeSinceMessage(message) < Constants.MAX_ELAPSED_TIME_DELETE_MESSAGE_SECONDS {
             Button(role: .destructive) {
                 Task {
                     let token = try await authVM.getFirebaseToken()

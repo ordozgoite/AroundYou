@@ -410,6 +410,16 @@ class MessageViewModel: ObservableObject {
     }
 
     private func send(_ message: MessageIntermediary, token: String) async {
+        await deliver(message, token: token)
+        await holdPipeline(ifFailed: message.id)
+    }
+
+    /// Sobe a foto, se houver, e entrega a mensagem à API.
+    ///
+    /// Separado de `send` porque o reenvio precisa exatamente disto e nada mais: ele não pode
+    /// passar por `holdPipeline`, que guardaria uma segunda continuação para a mesma mensagem e
+    /// deixaria a corrente presa para sempre na primeira, que ninguém mais retomaria.
+    private func deliver(_ message: MessageIntermediary, token: String) async {
         do {
             let imageUrl = try await getUrl(forImage: message.image)
             await postNewMessage(withTemporaryId: message.id, chatId: message.chatId, text: message.text, imageUrl: imageUrl, repliedMessageId: message.repliedMessageId, repliedMessageText: message.repliedMessageText, token: token)
@@ -417,8 +427,6 @@ class MessageViewModel: ObservableObject {
             updateMessage(withId: message.id, toStatus: .failed)
             overlayError = (true, ErrorMessage.sendMessage)
         }
-
-        await holdPipeline(ifFailed: message.id)
     }
 
     /// Segura a corrente enquanto a mensagem estiver falha, para que as seguintes não
@@ -458,7 +466,10 @@ class MessageViewModel: ObservableObject {
     }
     
     private func postNewMessage(withTemporaryId tempId: String, chatId: String, text: String?, imageUrl: String?, repliedMessageId: String?, repliedMessageText: String?, token: String) async {
-        let result = await AYServices.shared.postNewMessage(chatId: chatId, text: text, imageUrl: imageUrl, repliedMessageId: repliedMessageId, token: token)
+        // O id temporário é a chave de idempotência: ele nasce um UUID por mensagem e sobrevive ao
+        // reenvio, então a API reconhece a segunda tentativa como a mesma mensagem e devolve a que
+        // já existe, em vez de criar uma cópia.
+        let result = await AYServices.shared.postNewMessage(chatId: chatId, text: text, imageUrl: imageUrl, repliedMessageId: repliedMessageId, clientMessageId: tempId, token: token)
         
         switch result {
         case .success(let message):
@@ -486,6 +497,9 @@ class MessageViewModel: ObservableObject {
     private func updateMessage(withId messageId: String, toStatus newStatus: MessageStatus) {
         if let index = intermediaryMessages.firstIndex(where: { $0.id == messageId }) {
             intermediaryMessages[index].status = newStatus
+            // Este caminho não passa pelo `merge`, que é quem normalmente persiste. Sem gravar
+            // aqui, a mensagem que falhou voltaria do cache como se ainda estivesse saindo.
+            messageStore.upsert([intermediaryMessages[index]], chatId: intermediaryMessages[index].chatId)
         } else {
             print("⚠️ Message with ID \(messageId) was not found (provavelmente já reconciliada).")
         }
@@ -495,10 +509,16 @@ class MessageViewModel: ObservableObject {
         playSound(withName: "sent-message-sound")
     }
     
+    /// Tenta de novo uma mensagem que falhou.
+    ///
+    /// Refaz o envio inteiro, e não só o POST: uma mensagem com foto que falhou não tem `imageUrl`
+    /// nenhuma para reaproveitar — o que ela tem são os bytes, e eles precisam subir antes. O id
+    /// temporário é mantido, e é ele que a API reconhece como a mesma mensagem.
     func resendMessage(withTempId tempId: String, token: String) async {
-        if let message = getMessage(withId: tempId) {
-            await postNewMessage(withTemporaryId: tempId, chatId: message.chatId, text: message.message, imageUrl: message.imageUrl, repliedMessageId: message.repliedMessageId, repliedMessageText: message.repliedMessageText, token: token)
-        }
+        guard let message = intermediaryMessages.first(where: { $0.id == tempId }) else { return }
+
+        updateMessage(withId: tempId, toStatus: .sending)
+        await deliver(message, token: token)
     }
     
     func getMessage(withId messageId: String) -> FormattedMessage? {
