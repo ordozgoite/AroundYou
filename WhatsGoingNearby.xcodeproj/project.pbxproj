@@ -50,6 +50,7 @@
 		ED1FFB692D865CD50091E5B5 /* EmptyBusinessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1FFB682D865CD50091E5B5 /* EmptyBusinessView.swift */; };
 		ED22678D2B8FCB93006FE9D3 /* CropScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22678C2B8FCB93006FE9D3 /* CropScreen.swift */; };
 		ED22678F2B9026C1006FE9D3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22678E2B9026C1006FE9D3 /* NotificationManager.swift */; };
+		ED9A11022C0100010000AA02 /* MessageOutbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED9A11012C0100010000AA01 /* MessageOutbox.swift */; };
 		ED24FAEE2B9E64F4002F7A11 /* EditProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED24FAED2B9E64F4002F7A11 /* EditProfileResponse.swift */; };
 		ED24FAF42B9E6530002F7A11 /* CommentDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED24FAF32B9E6530002F7A11 /* CommentDTO.swift */; };
 		ED24FAF62B9E6533002F7A11 /* UserProfileDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED24FAF52B9E6533002F7A11 /* UserProfileDTO.swift */; };
@@ -407,6 +408,7 @@
 		ED1FFB682D865CD50091E5B5 /* EmptyBusinessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBusinessView.swift; sourceTree = "<group>"; };
 		ED22678C2B8FCB93006FE9D3 /* CropScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropScreen.swift; sourceTree = "<group>"; };
 		ED22678E2B9026C1006FE9D3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		ED9A11012C0100010000AA01 /* MessageOutbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageOutbox.swift; sourceTree = "<group>"; };
 		ED24FAED2B9E64F4002F7A11 /* EditProfileResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileResponse.swift; sourceTree = "<group>"; };
 		ED24FAF32B9E6530002F7A11 /* CommentDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDTO.swift; sourceTree = "<group>"; };
 		ED24FAF52B9E6533002F7A11 /* UserProfileDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileDTO.swift; sourceTree = "<group>"; };
@@ -1268,6 +1270,7 @@
 			children = (
 				ED598C522B7C81CA00B6C23D /* LocationManager.swift */,
 				ED22678E2B9026C1006FE9D3 /* NotificationManager.swift */,
+				ED9A11012C0100010000AA01 /* MessageOutbox.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1895,6 +1898,7 @@
 				ED5CC5222B97CA15009B17E3 /* LocalizedStringKey.swift in Sources */,
 				ED6E84F42B89C82C00B94F5C /* PostLocationScreen.swift in Sources */,
 				ED22678F2B9026C1006FE9D3 /* NotificationManager.swift in Sources */,
+				ED9A11022C0100010000AA02 /* MessageOutbox.swift in Sources */,
 				ED598BFA2B7C217400B6C23D /* AYProgressView.swift in Sources */,
 				ED82CD0E2D8CA8170075EFB8 /* HomeScreen.swift in Sources */,
 				ED3B54DC2CCCAD39007AA1D0 /* FloatingHeartsButtonView.swift in Sources */,

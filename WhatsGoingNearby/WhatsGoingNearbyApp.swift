@@ -259,6 +259,12 @@ struct WhatsGoingNearbyApp: App {
                 .onChange(of: scenePhase) { phase in
                     if phase == .active {
                         socket.handleAppDidBecomeActive()
+                        // Retoma o que não chegou a sair. Os segundos que o sistema concede depois
+                        // de o app ir para o segundo plano cobrem o caso comum, mas não quem
+                        // encerra pelo app switcher ou fica sem rede — para esses, voltar ao app é
+                        // a próxima oportunidade. Reenviar em lote é seguro porque cada mensagem
+                        // leva a chave de idempotência que a API usa para reconhecer a repetição.
+                        MessageOutbox.shared.retryFailedMessages()
                     }
                 }
                 // O app desliga o proxy de AppDelegate do Firebase, então o retorno do fluxo do

@@ -67,7 +67,7 @@ struct MessageScreen: View {
                                         }
                                     } resendMessage: {
                                         Task {
-                                            try await resendMessage(withId: message.id)
+                                            await resendMessage(withId: message.id)
                                         }
                                     }
                                     .background(messageVM.highlightedMessageId == message.id ? Color.gray.opacity(0.5) : Color.clear)
@@ -190,6 +190,16 @@ struct MessageScreen: View {
             Task {
                 try await getMessages(.resync)
             }
+            // A conexão de volta é também a hora de tentar de novo o que não saiu. É seguro
+            // reenviar automaticamente porque cada mensagem carrega a chave de idempotência
+            // que a API usa para reconhecer a repetição.
+            messageVM.retryFailedMessages(chatId: chatId)
+        }
+        // A fila de envio vive fora desta tela: ela grava no cache sozinha, e o que chega aqui é
+        // só o reflexo, para a conversa aberta não precisar ser reaberta para mostrar o resultado.
+        .onReceive(MessageOutbox.shared.$lastEvent.compactMap { $0 }) { event in
+            messageVM.apply(event, forChat: chatId)
+            updateChatLockedStatus()
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
@@ -202,10 +212,7 @@ struct MessageScreen: View {
         }
         .fullScreenCover(isPresented: $messageVM.isCameraDisplayed) {
             CameraView { image in
-                Task {
-                    let token = try await authVM.getFirebaseToken()
-                    try await messageVM.sendImage(forChat: self.chatId, image: image, token: token)
-                }
+                messageVM.sendImage(forChat: self.chatId, image: image)
             }
         }
         .sheet(isPresented: $messageVM.isPhotosDisplayed) {
@@ -346,21 +353,17 @@ struct MessageScreen: View {
                             let images = messageVM.images
                             let repliedMessage = messageVM.repliedMessage
 
-                            Task {
-                                let token = try await authVM.getFirebaseToken()
-                                try await messageVM.sendMessage(
-                                    forChat: chatId,
-                                    text: text,
-                                    images: images,
-                                    repliedMessage: repliedMessage,
-                                    token: token
-                                )
-                                // `sendMessage` zera o estado; isto garante que o conteúdo
-                                // real do campo também sumiu, sem depender de o UIKit
-                                // aceitar a escrita vinda do binding.
-                                TextInputComposition.clearActiveInput()
-                                updateChatLockedStatus()
-                            }
+                            messageVM.sendMessage(
+                                forChat: chatId,
+                                text: text,
+                                images: images,
+                                repliedMessage: repliedMessage
+                            )
+                            // `sendMessage` zera o estado; isto garante que o conteúdo
+                            // real do campo também sumiu, sem depender de o UIKit
+                            // aceitar a escrita vinda do binding.
+                            TextInputComposition.clearActiveInput()
+                            updateChatLockedStatus()
                         } label: {
                             Image(systemName: "paperplane.fill")
                                 .resizable()
@@ -633,9 +636,8 @@ struct MessageScreen: View {
         }
     }
     
-    private func resendMessage(withId messageId: String) async throws {
-        let token = try await authVM.getFirebaseToken()
-        await messageVM.resendMessage(withTempId: messageId, token: token)
+    private func resendMessage(withId messageId: String) async {
+        await messageVM.resendMessage(withTempId: messageId)
         updateChatLockedStatus()
     }
     

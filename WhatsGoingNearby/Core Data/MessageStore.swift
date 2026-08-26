@@ -42,6 +42,29 @@ final class MessageStore {
         }
     }
 
+    /// Mensagens que não chegaram ao servidor, em ordem cronológica.
+    ///
+    /// Sem `chatId`, varre todas as conversas — é assim que a retomada encontra o que ficou para
+    /// trás sem precisar que a tela de cada conversa tenha sido aberta.
+    func loadFailedMessages(chatId: String? = nil) -> [MessageIntermediary] {
+        let request = CDMessage.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \CDMessage.createdAt, ascending: true)]
+        request.predicate = chatId.map {
+            NSPredicate(format: "chatId == %@ AND status == %@", $0, MessageStatus.failed.rawValue)
+        } ?? NSPredicate(format: "status == %@", MessageStatus.failed.rawValue)
+
+        return ((try? persistence.viewContext.fetch(request)) ?? []).map { $0.toIntermediary() }
+    }
+
+    func status(ofMessageWithId messageId: String) -> MessageStatus? {
+        let request = CDMessage.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", messageId)
+        request.fetchLimit = 1
+
+        guard let entity = (try? persistence.viewContext.fetch(request))?.first else { return nil }
+        return entity.status.flatMap { MessageStatus(rawValue: $0) }
+    }
+
     //MARK: - Escrita
 
     /// Insere ou atualiza mensagens, deduplicando pelo id.

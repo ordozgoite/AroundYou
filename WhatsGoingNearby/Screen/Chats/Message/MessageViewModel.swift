@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 import PhotosUI
-import FirebaseStorage
 import AVFoundation
 
 /// Origem de uma mesclagem, usada apenas para log e para decidir o auto-scroll.
@@ -52,10 +51,12 @@ class MessageViewModel: ObservableObject {
 
     private let messageStore: MessageStore
     private let chatStore: ChatStore
+    private let outbox: MessageOutbox
 
-    init(messageStore: MessageStore = .shared, chatStore: ChatStore = .shared) {
+    init(messageStore: MessageStore = .shared, chatStore: ChatStore = .shared, outbox: MessageOutbox = .shared) {
         self.messageStore = messageStore
         self.chatStore = chatStore
+        self.outbox = outbox
     }
 
     /// Coloca na tela o que já está em cache, antes de qualquer requisição.
@@ -333,36 +334,37 @@ class MessageViewModel: ObservableObject {
     }
 
     //MARK: - Send Message
-    
-    func sendMessage(forChat chatId: String, text: String?, images: [UIImage], repliedMessage: FormattedMessage?, token: String) async throws {
+
+    func sendMessage(forChat chatId: String, text: String?, images: [UIImage], repliedMessage: FormattedMessage?) {
         resetInputs()
         // O que saiu do composer deixa de ser rascunho, mesmo que o envio ainda venha a falhar: a
         // mensagem já está na conversa, e restaurá-la no campo depois a mostraria duas vezes.
         discardDraft(chatId: chatId)
+
         let messagesToBeSent = getMessagesToBeSent(chatId: chatId, text: text, images: images, repliedMessage: repliedMessage)
         displayMessages(fromArray: messagesToBeSent)
         for message in messagesToBeSent {
-            enqueueSend(message, token: token)
+            outbox.enqueue(message)
         }
     }
-    
+
     private func resetInputs() {
         self.repliedMessage = nil
         self.messageText = ""
         self.images = []
     }
-    
-    func sendImage(forChat chatId: String, image: UIImage, token: String) async throws {
+
+    func sendImage(forChat chatId: String, image: UIImage) {
         let messagesToBeSent = getMessagesToBeSent(chatId: chatId, text: nil, images: [image], repliedMessage: nil)
         displayMessages(fromArray: messagesToBeSent)
         if let message = messagesToBeSent.first {
-            enqueueSend(message, token: token)
+            outbox.enqueue(message)
         }
     }
-    
+
     private func getMessagesToBeSent(chatId: String, text: String?, images: [UIImage], repliedMessage: FormattedMessage?) -> [MessageIntermediary] {
         var messages: [MessageIntermediary] = []
-        
+
         // O servidor devolve `createdAt` em milissegundos (ver `Int.timeIntervalSince1970InSeconds`).
         // A mensagem local precisa usar a mesma unidade, senão ela cai fora de ordem na
         // cronologia e distorce divisores de horário e o prazo de "Undo Send".
@@ -389,138 +391,57 @@ class MessageViewModel: ObservableObject {
         self.lastMessageAdded = messages.last?.id
     }
 
-    /// Corrente de envio da conversa: cada mensagem espera a anterior terminar antes de sair.
+    //MARK: - Outbox
+
+    /// Traz para a conversa aberta o que a fila de envio fez com uma mensagem.
     ///
-    /// Antes, cada toque no botão de enviar abria uma task independente (e imagem e texto do
-    /// mesmo toque iam num `TaskGroup`), então tudo corria em paralelo. Como o upload da imagem
-    /// demora mais que um POST de texto, o texto chegava primeiro ao servidor e a conversa
-    /// aparecia fora de ordem. Enfileirar aqui vale para qualquer tipo de mensagem, porque o
-    /// upload da mídia acontece dentro do elo da corrente, não antes dele.
-    private var sendPipeline: Task<Void, Never>?
-
-    /// Mensagens que falharam e estão segurando a corrente até serem reenviadas ou removidas.
-    private var blockedSends: [String: CheckedContinuation<Void, Never>] = [:]
-
-    private func enqueueSend(_ message: MessageIntermediary, token: String) {
-        let previous = sendPipeline
-        sendPipeline = Task { [weak self] in
-            await previous?.value
-            await self?.send(message, token: token)
-        }
-    }
-
-    private func send(_ message: MessageIntermediary, token: String) async {
-        await deliver(message, token: token)
-        await holdPipeline(ifFailed: message.id)
-    }
-
-    /// Sobe a foto, se houver, e entrega a mensagem à API.
-    ///
-    /// Separado de `send` porque o reenvio precisa exatamente disto e nada mais: ele não pode
-    /// passar por `holdPipeline`, que guardaria uma segunda continuação para a mesma mensagem e
-    /// deixaria a corrente presa para sempre na primeira, que ninguém mais retomaria.
-    private func deliver(_ message: MessageIntermediary, token: String) async {
-        do {
-            let imageUrl = try await getUrl(forImage: message.image)
-            await postNewMessage(withTemporaryId: message.id, chatId: message.chatId, text: message.text, imageUrl: imageUrl, repliedMessageId: message.repliedMessageId, repliedMessageText: message.repliedMessageText, token: token)
-        } catch {
-            updateMessage(withId: message.id, toStatus: .failed)
-            overlayError = (true, ErrorMessage.sendMessage)
-        }
-    }
-
-    /// Segura a corrente enquanto a mensagem estiver falha, para que as seguintes não
-    /// ultrapassem uma mensagem que o usuário ainda pode reenviar. O retry continua sendo o
-    /// mesmo de sempre (`resendMessage`): quando ele confirma a mensagem — ou quando ela é
-    /// removida — a corrente é liberada e as próximas saem na ordem original.
-    private func holdPipeline(ifFailed messageId: String) async {
-        guard intermediaryMessages.contains(where: { $0.id == messageId && $0.status == .failed }) else { return }
-
-        await withCheckedContinuation { continuation in
-            blockedSends[messageId] = continuation
-        }
-    }
-
-    private func releasePipeline(holdingMessageId messageId: String) {
-        blockedSends.removeValue(forKey: messageId)?.resume()
-    }
-
-    private func getUrl(forImage image: UIImage?) async throws -> String? {
-        if let img = image {
-            do {
-                return try await storeImage(img)
-            } catch {
-                overlayError = (true, ErrorMessage.postImageErrorMessage)
-            }
-        }
-        return nil
-    }
-    
-    private func storeImage(_ image: UIImage) async throws -> String? {
-        let storageRef = Storage.storage().reference()
-        let fileRef = storageRef.child("post-image/\(UUID().uuidString).jpg")
-        let imageData = image.jpegData(compressionQuality: 0.8)
-        _ = try await fileRef.putDataAsync(imageData!)
-        let imageUrl = try await fileRef.downloadURL()
-        return imageUrl.absoluteString
-    }
-    
-    private func postNewMessage(withTemporaryId tempId: String, chatId: String, text: String?, imageUrl: String?, repliedMessageId: String?, repliedMessageText: String?, token: String) async {
-        // O id temporário é a chave de idempotência: ele nasce um UUID por mensagem e sobrevive ao
-        // reenvio, então a API reconhece a segunda tentativa como a mesma mensagem e devolve a que
-        // já existe, em vez de criar uma cópia.
-        let result = await AYServices.shared.postNewMessage(chatId: chatId, text: text, imageUrl: imageUrl, repliedMessageId: repliedMessageId, clientMessageId: tempId, token: token)
-        
-        switch result {
-        case .success(let message):
+    /// A fila não conhece a tela: ela grava no cache e anuncia. Quando a conversa está fechada
+    /// ninguém escuta, e o cache é o único destino — é o que faz o envio sobreviver a sair do
+    /// chat. Com a conversa aberta, este método é a ponte entre os dois.
+    func apply(_ event: OutboxEvent, forChat chatId: String) {
+        switch event {
+        case .confirmed(let temporaryId, let message):
+            guard message.chatId == chatId else { return }
+            var confirmed = message.convertMessageToIntermediary(forCurrentUserUid: LocalState.currentUserUid)
+            confirmed.status = .sent
+            merge([confirmed], source: .local, replacingTemporaryId: temporaryId)
             playSendMessageSound()
-            confirmSentMessage(withTemporaryId: tempId, as: message)
-        case .failure:
-            updateMessage(withId: tempId, toStatus: .failed)
+
+        case .failed(let temporaryId):
+            guard applyStatus(.failed, toMessageWithId: temporaryId) else { return }
             overlayError = (true, ErrorMessage.sendMessage)
+
+        case .sending(let temporaryId):
+            _ = applyStatus(.sending, toMessageWithId: temporaryId)
         }
     }
 
-    /// Troca a mensagem temporária pela versão confirmada pelo servidor.
+    /// Reflete o status na lista em memória. Não persiste: a fila de envio já gravou, e é ela a
+    /// dona desse estado — gravar de novo aqui só duplicaria a escrita.
     ///
-    /// Se o socket já tiver entregue essa mesma mensagem antes da resposta HTTP, o id
-    /// temporário já não existe e o merge apenas atualiza a entrada existente — em nenhum
-    /// dos caminhos a mensagem aparece duplicada.
-    private func confirmSentMessage(withTemporaryId tempId: String, as message: Message) {
-        var confirmed = message.convertMessageToIntermediary(forCurrentUserUid: LocalState.currentUserUid)
-        confirmed.status = .sent
-        merge([confirmed], source: .local, replacingTemporaryId: tempId)
-        // Um reenvio bem-sucedido é o que libera a corrente de envio parada nesta mensagem.
-        releasePipeline(holdingMessageId: tempId)
-    }
-
-    private func updateMessage(withId messageId: String, toStatus newStatus: MessageStatus) {
-        if let index = intermediaryMessages.firstIndex(where: { $0.id == messageId }) {
-            intermediaryMessages[index].status = newStatus
-            // Este caminho não passa pelo `merge`, que é quem normalmente persiste. Sem gravar
-            // aqui, a mensagem que falhou voltaria do cache como se ainda estivesse saindo.
-            messageStore.upsert([intermediaryMessages[index]], chatId: intermediaryMessages[index].chatId)
-        } else {
-            print("⚠️ Message with ID \(messageId) was not found (provavelmente já reconciliada).")
-        }
+    /// Devolve se a mensagem estava mesmo nesta conversa, o que também filtra os eventos de outras.
+    @discardableResult
+    private func applyStatus(_ status: MessageStatus, toMessageWithId messageId: String) -> Bool {
+        guard let index = intermediaryMessages.firstIndex(where: { $0.id == messageId }) else { return false }
+        intermediaryMessages[index].status = status
+        return true
     }
 
     private func playSendMessageSound() {
         playSound(withName: "sent-message-sound")
     }
-    
-    /// Tenta de novo uma mensagem que falhou.
-    ///
-    /// Refaz o envio inteiro, e não só o POST: uma mensagem com foto que falhou não tem `imageUrl`
-    /// nenhuma para reaproveitar — o que ela tem são os bytes, e eles precisam subir antes. O id
-    /// temporário é mantido, e é ele que a API reconhece como a mesma mensagem.
-    func resendMessage(withTempId tempId: String, token: String) async {
-        guard let message = intermediaryMessages.first(where: { $0.id == tempId }) else { return }
 
-        updateMessage(withId: tempId, toStatus: .sending)
-        await deliver(message, token: token)
+    /// Tenta de novo uma mensagem que falhou, a pedido do usuário.
+    func resendMessage(withTempId tempId: String) async {
+        guard let message = intermediaryMessages.first(where: { $0.id == tempId }) else { return }
+        await outbox.retry(message)
     }
-    
+
+    /// Reenvia o que ficou pelo caminho nesta conversa. Chamado quando a conexão volta.
+    func retryFailedMessages(chatId: String) {
+        outbox.retryFailedMessages(chatId: chatId)
+    }
+
     func getMessage(withId messageId: String) -> FormattedMessage? {
         if let index = formattedMessages.firstIndex(where: { $0.id == messageId }) {
             return formattedMessages[index]
@@ -528,7 +449,8 @@ class MessageViewModel: ObservableObject {
             return nil
         }
     }
-    
+
+
     //MARK: - Receive Message
 
     /// Trata um evento `message` vindo do socket.
@@ -641,7 +563,7 @@ class MessageViewModel: ObservableObject {
                 indexById[pendingId] = nil
                 indexById[message.id] = twinIndex
                 result.reconciled += 1
-                releasePipeline(holdingMessageId: pendingId)
+                outbox.releasePipeline(holdingMessageId: pendingId)
                 continue
             }
 
@@ -770,8 +692,8 @@ class MessageViewModel: ObservableObject {
     
     func removeMessage(withId messageId: String) {
         intermediaryMessages.removeAll { $0.id == messageId }
-        messageStore.delete(messageId: messageId)
-        releasePipeline(holdingMessageId: messageId)
+        // A fila cuida do cache e de soltar a corrente que esta mensagem possa estar segurando.
+        outbox.discard(messageId: messageId)
     }
     
     //MARK: - Format Messages
