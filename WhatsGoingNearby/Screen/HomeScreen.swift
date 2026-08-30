@@ -42,6 +42,18 @@ struct HomeScreen: View {
                 
                 Spacer()
             }
+            .toolbar {
+                if #available(iOS 26.0, *) {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        AppTitle()
+                    }
+                    .sharedBackgroundVisibility(.hidden)
+                } else {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        AppTitle()
+                    }
+                }
+            }
             .navigationDestination(for: AppRoute.self) { destination in
                 switch destination {
                 case .createPost:
@@ -99,6 +111,18 @@ struct HomeScreen: View {
             }
         }
         
+    }
+    
+    // MARK: - App Title
+    
+    @ViewBuilder
+    private func AppTitle() -> some View {
+        Text("AroundYou")
+            .font(.title2)
+            .fontWeight(.bold)
+            .foregroundStyle(LinearGradient.ayBrand)
+            // Sem isso a barra de navegação comprime o item líder e o título vira "A...".
+            .fixedSize()
     }
 }
 
