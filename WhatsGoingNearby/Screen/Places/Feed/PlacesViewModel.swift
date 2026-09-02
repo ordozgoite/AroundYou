@@ -74,6 +74,11 @@ class PlacesViewModel: ObservableObject {
         return eligibility
     }
 
+    func invalidatePublicationCreationEligibility() {
+        publicationCreationEligibility = nil
+        publicationEligibilityUpdatedAt = nil
+    }
+
     func finishActivePublicationForReplacement(publicationId: String, token: String) async -> Bool {
         let result = await AYServices.shared.finishPublication(publicationId: publicationId, token: token)
         guard case .success = result else { return false }
@@ -239,8 +244,7 @@ class PlacesViewModel: ObservableObject {
     private func handlePostDeletionResult(withId postId: String, _ result: Result<DeletePublicationResponse, RequestError>) {
         switch result {
         case .success:
-            publicationCreationEligibility = nil
-            publicationEligibilityUpdatedAt = nil
+            invalidatePublicationCreationEligibility()
             removePost(withId: postId)
         case .failure:
             overlayError = (true, ErrorMessage.deletePostErrorMessage)

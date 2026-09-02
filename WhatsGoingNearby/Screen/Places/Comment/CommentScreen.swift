@@ -18,6 +18,7 @@ struct CommentScreen: View, PostViewActionHandler {
     @EnvironmentObject var navCoordinator: NavigationCoordinator
     @EnvironmentObject var socket: SocketService
     @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var placesVM: PlacesViewModel
     
     @StateObject private var commentVM = CommentViewModel()
     
@@ -332,6 +333,7 @@ extension CommentScreen {
     func postViewDidDeletePublication(
         _ content: FormattedPost
     ) {
+        placesVM.invalidatePublicationCreationEligibility()
         navCoordinator.goBack()
     }
     

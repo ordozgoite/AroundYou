@@ -12,6 +12,7 @@ struct AccountScreen: View, PostViewActionHandler {
     @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var socket: SocketService
     @EnvironmentObject var navCoordinator: NavigationCoordinator
+    @EnvironmentObject var placesVM: PlacesViewModel
     @StateObject private var accountVM = AccountViewModel()
     
     @State private var refreshObserver = NotificationCenter.default
@@ -186,6 +187,7 @@ extension AccountScreen {
     }
     
     func postViewDidDeletePublication(_ content: FormattedPost) {
+        placesVM.invalidatePublicationCreationEligibility()
         accountVM.removePost(withId: content.id)
     }
     

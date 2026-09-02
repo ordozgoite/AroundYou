@@ -477,6 +477,7 @@ extension PlacesScreen {
     }
     
     func postViewDidDeletePublication(_ content: FormattedPost) {
+        placesVM.invalidatePublicationCreationEligibility()
         placesVM.removePost(withId: content.id)
     }
     

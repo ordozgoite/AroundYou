@@ -17,6 +17,7 @@ struct PostDetailScreen: View, PostViewActionHandler {
     @EnvironmentObject private var navCoordinator: NavigationCoordinator
     @EnvironmentObject private var socket: SocketService
     @EnvironmentObject private var locationManager: LocationManager
+    @EnvironmentObject private var placesVM: PlacesViewModel
     
     @StateObject private var postDetailVM = PostDetailViewModel()
     
@@ -390,6 +391,7 @@ extension PostDetailScreen {
     func postViewDidDeletePublication(
         _ content: FormattedPost
     ) {
+        placesVM.invalidatePublicationCreationEligibility()
         navCoordinator.goBack()
     }
     
