@@ -13,6 +13,7 @@ enum PendingPostStatus: Equatable {
     case uploadingVideo
     case creatingPost
     case completed
+    case limitReached
     case failed(message: String)
     case cancelled
 }
@@ -32,6 +33,8 @@ struct PendingPostUploadView: View {
 
     let onRetry: () -> Void
     let onCancel: () -> Void
+    let onViewActivePublication: () -> Void
+    let canRetryAfterLimit: Bool
 
     @State private var smoothingTimer: Timer? = nil
 
@@ -45,7 +48,7 @@ struct PendingPostUploadView: View {
             return (0.6, 0.95)
         case .completed:
             return (0.95, 1.0)
-        case .failed, .cancelled:
+        case .limitReached, .failed, .cancelled:
             return (post.progress, post.progress)
         }
     }
@@ -87,10 +90,10 @@ struct PendingPostUploadView: View {
 
             VStack(alignment: .leading, spacing: 6) {
                 HStack {
-                    Text(isFailed ? "Failed" : "Sending...")
+                    Text(statusTitle)
                         .font(.subheadline)
                         .fontWeight(.semibold)
-                        .foregroundStyle(isFailed ? .red : .primary)
+                        .foregroundStyle(hasStoppedWithError ? .red : .primary)
 
                     Spacer()
                 }
@@ -98,7 +101,34 @@ struct PendingPostUploadView: View {
                 ProgressView(value: post.progress)
                     .progressViewStyle(.linear)
 
-                if case .failed(let message) = post.status {
+                if case .limitReached = post.status {
+                    Text("Finish an active publication or wait until it expires before publishing this draft.")
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                        .lineLimit(3)
+
+                    HStack(spacing: 16) {
+                        if canRetryAfterLimit {
+                            Button("Publish draft") {
+                                onRetry()
+                            }
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                        } else {
+                            Button("View active publication") {
+                                onViewActivePublication()
+                            }
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                        }
+
+                        Button("Discard") {
+                            onCancel()
+                        }
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                    }
+                } else if case .failed(let message) = post.status {
                     Text(message)
                         .font(.caption)
                         .foregroundStyle(.red)
@@ -125,7 +155,7 @@ struct PendingPostUploadView: View {
                 }
             }
 
-            if !isFailed {
+            if !hasStoppedWithError {
                 Button {
                     onCancel()
                 } label: {
@@ -152,7 +182,7 @@ struct PendingPostUploadView: View {
                 withAnimation(.easeInOut(duration: 0.3)) {
                     post.progress = 1.0
                 }
-            case .failed, .cancelled:
+            case .limitReached, .failed, .cancelled:
                 stopSmoothing()
             default:
                 snapToPhaseStartIfNeeded(newStatus: newStatus)
@@ -198,6 +228,9 @@ struct PendingPostUploadView: View {
         case .completed:
             return "Completed"
 
+        case .limitReached:
+            return "Publication limit reached"
+
         case .failed:
             return "Failed"
 
@@ -206,12 +239,27 @@ struct PendingPostUploadView: View {
         }
     }
 
-    private var isFailed: Bool {
+    private var hasStoppedWithError: Bool {
+        if case .limitReached = post.status {
+            return true
+        }
+
         if case .failed = post.status {
             return true
         }
 
         return false
+    }
+
+    private var statusTitle: LocalizedStringKey {
+        switch post.status {
+        case .limitReached:
+            return "Publication limit reached"
+        case .failed:
+            return "Failed"
+        default:
+            return "Sending..."
+        }
     }
 }
 //

@@ -70,6 +70,7 @@ struct EditPostScreen: View {
             selectedVideo: .constant(nil),
             isProcessingVideo: false,
             onCaptureMedia: { _ in },
+            onSelectFromLibrary: {},
             onRemoveVideo: {}
         ).environmentObject(authVM)
     }

@@ -7,6 +7,24 @@
 
 import Foundation
 
+struct PublicationCreationEligibility: Codable, Equatable {
+    let canPublish: Bool
+    let activeCount: Int
+    let publicationLimit: Int
+    let activePublicationId: String?
+    let expiresAt: Int?
+
+    var isLimitReached: Bool {
+        guard !canPublish else { return false }
+        guard let expiresAt else { return true }
+        return expiresAt > Int(Date().timeIntervalSince1970 * 1000)
+    }
+
+    var expirationDate: Date? {
+        expiresAt.map { Date(timeIntervalSince1970: TimeInterval($0) / 1000) }
+    }
+}
+
 protocol AYServiceable {
     
     // User
@@ -19,6 +37,7 @@ protocol AYServiceable {
     
     // Publication
     func postNewPublication(text: String?, tag: String, imageUrl: String?, videoUrl: String?, videoThumbnailUrl: String?, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError>
+    func getPublicationCreationEligibility(token: String) async -> Result<PublicationCreationEligibility, RequestError>
     func editPublication(publicationId: String, text: String?, tag: String, isLocationVisible: Bool, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError>
     func finishPublication(publicationId: String, token: String) async -> Result<Post, RequestError>
     func deletePublication(publicationId: String, token: String) async -> Result<DeletePublicationResponse, RequestError>
@@ -157,6 +176,10 @@ struct AYServices: HTTPClient, AYServiceable {
     
     func postNewPublication(text: String?, tag: String, imageUrl: String?, videoUrl: String?, videoThumbnailUrl: String?, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String) async -> Result<Post, RequestError> {
         return await sendRequest(endpoint: AYEndpoints.postNewPublication(text: text, tag: tag, imageUrl: imageUrl, videoUrl: videoUrl, videoThumbnailUrl: videoThumbnailUrl, latitude: latitude, longitude: longitude, isLocationVisible: isLocationVisible, token: token), responseModel: Post.self)
+    }
+
+    func getPublicationCreationEligibility(token: String) async -> Result<PublicationCreationEligibility, RequestError> {
+        return await sendRequest(endpoint: AYEndpoints.getPublicationCreationEligibility(token: token), responseModel: PublicationCreationEligibility.self)
     }
     
     func editPublication(publicationId: String, text: String?, tag: String, isLocationVisible: Bool, latitude: Double, longitude: Double, token: String) async -> Result<Post, RequestError> {

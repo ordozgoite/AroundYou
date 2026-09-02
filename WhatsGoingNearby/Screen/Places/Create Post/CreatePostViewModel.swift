@@ -35,12 +35,18 @@ class CreatePostViewModel: ObservableObject {
     @Published var image: UIImage?
     @Published var selectedVideo: SelectedPostVideo?
     @Published var isMediaPickerDisplayed = false
+    @Published var isLibraryPickerDisplayed = false
     @Published var mediaPickerKind: MediaPickerView.MediaKind = .image
     @Published var isProcessingVideo = false
 
     func selectImage(_ image: UIImage) {
         removeSelectedVideo()
         self.image = image
+    }
+
+    func selectImageFromLibrary(_ image: UIImage) {
+        isLibraryPickerDisplayed = false
+        selectImage(image)
     }
 
     func selectVideo(at url: URL) {

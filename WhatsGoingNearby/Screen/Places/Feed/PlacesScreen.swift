@@ -31,6 +31,9 @@ struct PlacesScreen: View, PostViewActionHandler {
     @EnvironmentObject var placesVM: PlacesViewModel
     @State private var refreshObserver = NotificationCenter.default
         .publisher(for: .refreshLocationSensitiveData)
+    @State private var isPublicationLimitAlertDisplayed = false
+    @State private var isReplacePublicationConfirmationDisplayed = false
+    @State private var isReplacingActivePublication = false
     
     var body: some View {
         ZStack {
@@ -54,7 +57,7 @@ struct PlacesScreen: View, PostViewActionHandler {
             
             if isFeedDisplayed {
                 CreatePostFloatingButton {
-                    navCoordinator.navigate(to: .createPost)
+                    handleCreatePostTap()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                 .padding(.trailing, 20)
@@ -62,6 +65,13 @@ struct PlacesScreen: View, PostViewActionHandler {
             }
 
             AYErrorAlert(message: placesVM.overlayError.1 , isErrorAlertPresented: $placesVM.overlayError.0)
+
+            if isReplacingActivePublication {
+                ProgressView("Ending active publication...")
+                    .padding()
+                    .background(.regularMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            }
         }
         .toolbar {
             ToolbarItem { Urgent() }
@@ -85,6 +95,31 @@ struct PlacesScreen: View, PostViewActionHandler {
             ReportIncidentView(isViewDisplayed: $placesVM.isReportScreenDisplayed)
                 .environmentObject(authVM)
                 .interactiveDismissDisabled(true)
+        }
+        .alert("Publication limit reached", isPresented: $isPublicationLimitAlertDisplayed) {
+            if let publicationId = placesVM.publicationCreationEligibility?.activePublicationId {
+                Button("View active publication") {
+                    navCoordinator.navigate(to: .postDetail(publicationId))
+                }
+                Button("End and create another", role: .destructive) {
+                    isReplacePublicationConfirmationDisplayed = true
+                }
+            }
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(placesVM.publicationLimitMessage)
+        }
+        .confirmationDialog(
+            "End active publication?",
+            isPresented: $isReplacePublicationConfirmationDisplayed,
+            titleVisibility: .visible
+        ) {
+            Button("End and create another", role: .destructive) {
+                Task { await replaceActivePublication() }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Your current publication will stop appearing to nearby people.")
         }
         
         .onAppear {
@@ -220,7 +255,13 @@ struct PlacesScreen: View, PostViewActionHandler {
                 },
                 onCancel: {
                     placesVM.cancelCreatingPendingPost()
-                }
+                },
+                onViewActivePublication: {
+                    if let publicationId = placesVM.publicationCreationEligibility?.activePublicationId {
+                        navCoordinator.navigate(to: .postDetail(publicationId))
+                    }
+                },
+                canRetryAfterLimit: !placesVM.isPublicationLimitReached
             )
             .padding()
             .onAppear {
@@ -355,9 +396,37 @@ struct PlacesScreen: View, PostViewActionHandler {
     private func attemptToGetPosts() async throws {
         let currentLocation = try getCurrentLocation()
         let token = try await authVM.getFirebaseToken()
-        await placesVM.getPosts(location: currentLocation, token: token)
+        async let posts: Void = placesVM.getPosts(location: currentLocation, token: token)
+        async let eligibility = placesVM.refreshPublicationCreationEligibility(token: token)
+        _ = await (posts, eligibility)
     }
-    
+
+    private func handleCreatePostTap() {
+        if placesVM.isPublicationLimitReached {
+            isPublicationLimitAlertDisplayed = true
+        } else {
+            navCoordinator.navigate(to: .createPost)
+        }
+    }
+
+    private func replaceActivePublication() async {
+        guard let publicationId = placesVM.publicationCreationEligibility?.activePublicationId else { return }
+
+        isReplacingActivePublication = true
+        defer { isReplacingActivePublication = false }
+
+        do {
+            let token = try await authVM.getFirebaseToken()
+            if await placesVM.finishActivePublicationForReplacement(publicationId: publicationId, token: token) {
+                navCoordinator.navigate(to: .createPost)
+            } else {
+                placesVM.overlayError = (true, "The active publication could not be ended. Please try again.")
+            }
+        } catch {
+            placesVM.overlayError = (true, "The active publication could not be ended. Please try again.")
+        }
+    }
+
     private func getCurrentLocation() throws -> Location {
         locationManager.requestLocation()
         if let location = locationManager.location {

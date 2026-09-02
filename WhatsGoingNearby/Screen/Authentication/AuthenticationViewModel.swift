@@ -56,7 +56,14 @@ class AuthenticationViewModel: ObservableObject {
     @Published var profilePic: String?
     @Published var biography: String?
     @Published var showProfileInPublicationViews: Bool = true
+    @Published var role: UserRole = .user
     @Published var isGettingUserInfo: Bool = false
+    
+    // Resolvido antes da MainTabView, junto do restante do perfil, para que nenhuma tela precise
+    // consultar o papel do usuário depois de já estar visível.
+    var isAdmin: Bool {
+        role == .admin || role == .superadmin
+    }
     
     // User Discover Preferences
     @Published var isUserDiscoverable: Bool = false
@@ -433,6 +440,7 @@ extension AuthenticationViewModel {
         self.profilePic = user.profilePic
         self.biography = user.biography
         self.showProfileInPublicationViews = user.showProfileInPublicationViews ?? true
+        self.role = UserRole(rawValue: user.role ?? "") ?? .user
         self.isUserInfoFetched = true
         
         persistNewProfile(forUser: user)
@@ -443,6 +451,7 @@ extension AuthenticationViewModel {
         self.name = LocalState.name
         self.profilePic = LocalState.profilePic
         self.biography = LocalState.biography
+        self.role = UserRole(rawValue: LocalState.userRole) ?? .user
         self.isUserInfoFetched = true
     }
     
@@ -452,6 +461,7 @@ extension AuthenticationViewModel {
         if let name = user.name { LocalState.name = name }
         if let profilePic = user.profilePic { LocalState.profilePic = profilePic }
         if let biography = user.biography { LocalState.biography = biography }
+        LocalState.userRole = user.role ?? UserRole.user.rawValue
         LocalState.isUserInfoFetched = true
 
         // O socket conecta no lançamento do app, possivelmente antes de existir um uid.
@@ -505,6 +515,7 @@ extension AuthenticationViewModel {
         name = nil
         profilePic = nil
         biography = nil
+        role = .user
         isUserInfoFetched = false
         
         forgetUserProfile()
@@ -516,6 +527,7 @@ extension AuthenticationViewModel {
         LocalState.name = ""
         LocalState.profilePic = ""
         LocalState.biography = ""
+        LocalState.userRole = ""
         LocalState.isUserInfoFetched = false
 
         // Derruba a conexão para que a sessão anterior deixe de receber eventos.

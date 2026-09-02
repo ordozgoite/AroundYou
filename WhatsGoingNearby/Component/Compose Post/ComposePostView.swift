@@ -19,6 +19,7 @@ struct ComposePostView: View {
     @Binding var selectedVideo: SelectedPostVideo?
     let isProcessingVideo: Bool
     let onCaptureMedia: (MediaPickerView.MediaKind) -> Void
+    let onSelectFromLibrary: () -> Void
     let onRemoveVideo: () -> Void
     
     @EnvironmentObject var authVM: AuthenticationViewModel
@@ -205,6 +206,11 @@ struct ComposePostView: View {
             }
             Button("Record Video", systemImage: "video.badge.plus") {
                 onCaptureMedia(.video)
+            }
+            if authVM.isAdmin {
+                Button("Choose from Library", systemImage: "photo.on.rectangle") {
+                    onSelectFromLibrary()
+                }
             }
         } label: {
             Image(systemName: "plus.circle.fill")

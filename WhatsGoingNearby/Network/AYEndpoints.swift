@@ -10,6 +10,7 @@ import Foundation
 enum AYEndpoints {
     case postNewUser(username: String, name: String?, userRegistrationToken: String, token: String)
     case postNewPublication(text: String?, tag: String, imageUrl: String?, videoUrl: String?, videoThumbnailUrl: String?, latitude: Double, longitude: Double, isLocationVisible: Bool, token: String)
+    case getPublicationCreationEligibility(token: String)
     case getActivePublicationsNearBy(latitude: Double, longitude: Double, token: String)
     case getUserInfo(userRegistrationToken: String?, preferredLanguage: String?, token: String)
     case likePublication(publicationId: String, token: String)
@@ -98,6 +99,8 @@ extension AYEndpoints: Endpoint {
         switch self{
         case .postNewPublication:
             return "/api/Publication/PostNewPublication"
+        case .getPublicationCreationEligibility:
+            return "/api/Publication/GetPublicationCreationEligibility"
         case .getActivePublicationsNearBy:
             return "/api/Publication/GetActivePublicationsNearBy"
         case .postNewUser:
@@ -265,7 +268,7 @@ extension AYEndpoints: Endpoint {
         switch self {
         case .postNewPublication, .postNewUser, .likePublication, .unlikePublication, .postNewComment, .deleteComment, .deletePublication, .editProfile, .postNewReport, .postNewBugReport, .blockUser, .unblockUser, .likeComment, .unlikeComment, .deleteProfilePic, .subscribeUserToPublication, .unsubscribeUser, .deleteNotification, .deleteUser, .postNewChat, .muteChat, .unmuteChat, .postNewMessage, .deleteMessage, .editPublication, .finishPublication, .deleteChat,.activateUserDiscoverability, .updateUserPreferences, .deactivateUserDiscoverability, .postNewCommunity, .joinCommunity, .askToJoinCommunity, .approveUserToCommunity, .deleteCommunity, .exitCommunity, .removeUserFromCommunity, .editCommunity, .editCommunityDescription, .postCommunityMessage, .deleteCommunityMessage, .postNewBusiness, .deleteBusiness, .postLostItem, .postReportIncident, .deleteLostItem, .deleteReportIncident, .setItemAsFound, .updateCommunityPrivacy, .editBusiness:
             return .post
-        case .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .getPublication, .getUserNotifications, .getUserBanExpireDate, .getAllPublicationsNearBy, .getChatsByUser, .getMessages, .getUnreadChatsNumber, .verifyUserDiscoverability, .discoverUsersByPreferences, .getCommunitiesNearBy, .getCommunityInfo, .getCommunityMessages, .getBusinessesNearBy, .getBusinessByUser, .getReport, .getLostItem, .getMyCommunities, .getRelevantCommunities, .getCommunity, .getMapPosts, .getAllPublicationsInRegion:
+        case .getPublicationCreationEligibility, .getActivePublicationsNearBy, .getUserInfo, .getAllCommentsByPublication, .getUserProfile, .getAllPublicationsByUser, .getBlockedUsers, .checkNearByPublications, .getPublicationLikes, .getCommentLikes, .getPublication, .getUserNotifications, .getUserBanExpireDate, .getAllPublicationsNearBy, .getChatsByUser, .getMessages, .getUnreadChatsNumber, .verifyUserDiscoverability, .discoverUsersByPreferences, .getCommunitiesNearBy, .getCommunityInfo, .getCommunityMessages, .getBusinessesNearBy, .getBusinessByUser, .getReport, .getLostItem, .getMyCommunities, .getRelevantCommunities, .getCommunity, .getMapPosts, .getAllPublicationsInRegion:
             return .get
         }
     }
@@ -416,6 +419,12 @@ extension AYEndpoints: Endpoint {
     
     var header: [String : String]? {
         switch self {
+        case .getPublicationCreationEligibility(let token):
+            return [
+                "Authorization": "Bearer \(token)",
+                "Accept": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json"
+            ]
         case .postNewPublication(_, _, _, _, _, _, _, _, let token), .getActivePublicationsNearBy(_, _, let token), .postNewUser(_, _, _, let token), .getUserInfo(_, _, let token), .likePublication(_, let token), .unlikePublication(_, let token), .getAllCommentsByPublication(_, let token), .postNewComment(_, _, _, let token), .deleteComment(_, let token), .deletePublication(_, let token), .getUserProfile(_, let token), .editProfile(_, let token), .getAllPublicationsByUser(_, _, let token), .postNewReport(_, let token), .postNewBugReport(_, let token), .blockUser(_, let token), .getBlockedUsers(let token), .unblockUser(_, let token), .likeComment(_, _, _, let token), .unlikeComment(_, _, _, let token), .getPublicationLikes(_, let token), .getCommentLikes(_, let token), .deleteProfilePic(let token), .getPublication(_, _, _, let token), .getUserNotifications(let token), .subscribeUserToPublication(_, let token), .unsubscribeUser(_, let token), .deleteNotification(_, let token), .deleteUser(let token), .getUserBanExpireDate(let token), .getAllPublicationsNearBy(_, _, let token), .postNewChat(_, let token), .getChatsByUser(let token), .muteChat(_, let token), .unmuteChat(_, let token), .postNewMessage(_, _, _, _, _, let token), .getMessages(_, _, _, let token), .deleteMessage(_, let token), .editPublication(_, _, _, _, _, _, let token), .finishPublication(_, let token), .deleteChat(_, let token), .getUnreadChatsNumber(let token), .verifyUserDiscoverability(let token), .activateUserDiscoverability(let token), .updateUserPreferences(_, _, _, _, _, _, let token), .deactivateUserDiscoverability(let token),.discoverUsersByPreferences(_, _, let token), .postNewCommunity(_, _, _, _, _, _, _, let token), .getCommunitiesNearBy(_, _, let token), .joinCommunity(_, _, _, let token), .askToJoinCommunity(_, _, _, let token), .getCommunityInfo(_, let token), .approveUserToCommunity(_, _, let token), .deleteCommunity(_, let token), .exitCommunity(_, let token), .removeUserFromCommunity(_, _, let token), .editCommunity(_, _, _, let token), .editCommunityDescription(_, _, let token), .postCommunityMessage(_, _, _, _, _, let token), .getCommunityMessages(_, _, let token), .deleteCommunityMessage(_, let token), .postNewBusiness(_, let token), .getBusinessesNearBy(_, let token), .deleteBusiness(_, let token), .getBusinessByUser(_, let token), .postLostItem(_, let token), .postReportIncident(_, let token), .deleteLostItem(_, let token), .deleteReportIncident(_, let token), .getReport(_, let token), .getLostItem(_, let token), .setItemAsFound(_, let token), .getMyCommunities(let token), .getRelevantCommunities(_, let token), .getCommunity(_, _, let token), .updateCommunityPrivacy(_, _, let token), .editBusiness(_, let token), .getMapPosts(_, _, _, _, let token), .getAllPublicationsInRegion(_, _, let token), .checkNearByPublications(_, _, let token):
             return [
                 "Authorization": "Bearer \(token)",
@@ -434,6 +443,8 @@ extension AYEndpoints: Endpoint {
     
     var body: [String : Any]? {
         switch self {
+        case .getPublicationCreationEligibility:
+            return nil
         case .postNewPublication(let text, let tag, let imageUrl, let videoUrl, let videoThumbnailUrl, let latitude, let longitude, let isLocationVisible, _):
             var params: [String: Any] = [
                 "tag": tag,

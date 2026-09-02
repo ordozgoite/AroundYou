@@ -32,6 +32,7 @@ public class LocalState {
         case name
         case profilePic
         case biography
+        case userRole
         case isUserInfoFetched
     }
     
@@ -211,6 +212,15 @@ public class LocalState {
         }
         set(newValue) {
             UserDefaults.standard.set(newValue, forKey: Keys.biography.rawValue)
+        }
+    }
+    
+    public static var userRole: String {
+        get {
+            return UserDefaults.standard.string(forKey: Keys.userRole.rawValue) ?? ""
+        }
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: Keys.userRole.rawValue)
         }
     }
     

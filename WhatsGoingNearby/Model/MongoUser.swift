@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum UserRole: String, Codable {
+    case user
+    case admin
+    case superadmin
+}
+
 struct MongoUser: Codable, Hashable {
     let userUid: String
     let username: String
@@ -14,4 +20,6 @@ struct MongoUser: Codable, Hashable {
     let profilePic: String?
     let biography: String?
     var showProfileInPublicationViews: Bool? = nil
+    // Texto, e não `UserRole`: um papel novo na API não pode fazer a decodificação do usuário falhar.
+    var role: String? = nil
 }

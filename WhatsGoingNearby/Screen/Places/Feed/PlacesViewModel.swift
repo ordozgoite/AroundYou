@@ -22,8 +22,32 @@ class PlacesViewModel: ObservableObject {
     @Published var isReportScreenDisplayed: Bool = false
     @Published var isHelpViewDisplayed: Bool = false
     @Published var postToBePublished: PendingPost? = nil
+    @Published private(set) var publicationCreationEligibility: PublicationCreationEligibility? = nil
     
     private var createPostTask: Task<Void, Never>?
+    private var publicationEligibilityUpdatedAt: Date? = nil
+
+    var isPublicationEligibilityFresh: Bool {
+        guard let publicationEligibilityUpdatedAt else { return false }
+        return Date().timeIntervalSince(publicationEligibilityUpdatedAt) < 60
+    }
+
+    var isPublicationLimitReached: Bool {
+        publicationCreationEligibility?.isLimitReached == true
+    }
+
+    var publicationLimitMessage: String {
+        guard let eligibility = publicationCreationEligibility else {
+            return "You’ve reached the maximum number of active publications allowed."
+        }
+
+        let limitDescription = "You have \(eligibility.activeCount) of \(eligibility.publicationLimit) active publications."
+        guard let expirationDate = eligibility.expirationDate else {
+            return "\(limitDescription) Finish an active publication before creating another one."
+        }
+
+        return "\(limitDescription) You can publish again after \(expirationDate.formatted(date: .abbreviated, time: .shortened))."
+    }
     
     func getPosts(location: Location, token: String) async {
         if !initialPostsFetched { isLoading = true }
@@ -38,6 +62,25 @@ class PlacesViewModel: ObservableObject {
             }
         }
         initialPostsFetched = true
+    }
+
+    @discardableResult
+    func refreshPublicationCreationEligibility(token: String) async -> PublicationCreationEligibility? {
+        let result = await AYServices.shared.getPublicationCreationEligibility(token: token)
+        guard case .success(let eligibility) = result else { return nil }
+
+        publicationCreationEligibility = eligibility
+        publicationEligibilityUpdatedAt = Date()
+        return eligibility
+    }
+
+    func finishActivePublicationForReplacement(publicationId: String, token: String) async -> Bool {
+        let result = await AYServices.shared.finishPublication(publicationId: publicationId, token: token)
+        guard case .success = result else { return false }
+
+        finishPost(withId: publicationId)
+        _ = await refreshPublicationCreationEligibility(token: token)
+        return true
     }
     
     func startCreatingPendingPost(
@@ -147,13 +190,15 @@ class PlacesViewModel: ObservableObject {
 
         try Task.checkCancellation()
 
-        try handleCreateNewPostResult(result)
+        try await handleCreateNewPostResult(result, token: token)
     }
     
-    private func handleCreateNewPostResult(_ result: Result<Post, RequestError>) throws {
+    private func handleCreateNewPostResult(_ result: Result<Post, RequestError>, token: String) async throws {
         switch result {
         case .success:
             print("✅ Post successfully created.")
+            publicationCreationEligibility = nil
+            publicationEligibilityUpdatedAt = nil
             removeTemporaryVideo(at: postToBePublished?.video?.url)
             postToBePublished?.progress = 1
             postToBePublished?.status = .completed
@@ -163,8 +208,9 @@ class PlacesViewModel: ObservableObject {
             }
         case .failure(let error):
             if error == .forbidden {
+                _ = await refreshPublicationCreationEligibility(token: token)
                 postToBePublished?.progress = 0
-                postToBePublished?.status = .failed(message: "Limite de publicação")
+                postToBePublished?.status = .limitReached
             } else {
                 postToBePublished?.progress = 0
                 postToBePublished?.status = .failed(message: "Erro ao publicar")
@@ -193,6 +239,8 @@ class PlacesViewModel: ObservableObject {
     private func handlePostDeletionResult(withId postId: String, _ result: Result<DeletePublicationResponse, RequestError>) {
         switch result {
         case .success:
+            publicationCreationEligibility = nil
+            publicationEligibilityUpdatedAt = nil
             removePost(withId: postId)
         case .failure:
             overlayError = (true, ErrorMessage.deletePostErrorMessage)
@@ -225,6 +273,8 @@ class PlacesViewModel: ObservableObject {
         if let index = posts.firstIndex(where: { $0.id == postId }) {
             posts[index].isFinished = true
         }
+        publicationCreationEligibility = nil
+        publicationEligibilityUpdatedAt = nil
     }
     
     func followPost(withId postId: String) {
